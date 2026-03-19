@@ -9,16 +9,19 @@ const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
 const path = require('path');
 
-async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null) {
+async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null) {
     console.log(`🔍 Checking layout extraction for: ${htmlFilePath}`);
 
     // Determine output file path first
     // Handle both .html and .htm extensions
     const ext = htmlFilePath.endsWith('.htm') && !htmlFilePath.endsWith('.html') ? '.htm' : '.html';
     const baseName = path.basename(htmlFilePath, ext);
-    // Write directly to flat reference directory (combined structure)
+    // WPT categories store references under reference/wpt/ to avoid name collisions
+    const isWpt = category && category.startsWith('wpt-');
+    const outputDir = isWpt
+        ? path.join(__dirname, 'reference', 'wpt')
+        : path.join(__dirname, 'reference');
     // If platform is specified, add platform suffix to filename (e.g., test_name.linux.json)
-    const outputDir = path.join(__dirname, 'reference');
     const outputFile = platform
         ? path.join(outputDir, `${baseName}.${platform}.json`)
         : path.join(outputDir, `${baseName}.json`);
@@ -778,7 +781,7 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
         console.log(`\n📄 Processing: ${fileInfo.category}/${fileInfo.file}`);
 
         try {
-            const result = await extractLayoutFromFile(fileInfo.path, forceRegenerate, platform);
+            const result = await extractLayoutFromFile(fileInfo.path, forceRegenerate, platform, fileInfo.category);
             const wasSkipped = result._wasSkipped || false;
             delete result._wasSkipped; // Clean up the flag
 
@@ -955,8 +958,18 @@ Note: By default, existing reference files are skipped. Use --force to regenerat
             if (platform) {
                 console.log(`📦 Platform-specific reference: ${platform}`);
             }
+            // Detect category from file path for correct reference directory
+            const singleCategory = category || (() => {
+                const dataIdx = resolvedPath.indexOf('/data/');
+                if (dataIdx >= 0) {
+                    const afterData = resolvedPath.substring(dataIdx + 6);
+                    const cat = afterData.split('/')[0];
+                    return cat;
+                }
+                return null;
+            })();
             await fs.access(resolvedPath);
-            const result = await extractLayoutFromFile(resolvedPath, forceRegenerate, platform);
+            const result = await extractLayoutFromFile(resolvedPath, forceRegenerate, platform, singleCategory);
 
             // Count all nodes in tree structure (elements and text nodes)
             const countTreeNodes = (node) => {

@@ -230,8 +230,12 @@ class RadiantLayoutTester {
      * then falls back to generic reference (test_name.json)
      */
     async loadBrowserReference(testName, category) {
+        // WPT categories use reference/wpt/ subdirectory to avoid name collisions
+        const isWpt = category && category.startsWith('wpt-');
+        const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
+
         // Try platform-specific reference first (e.g., test_name.linux.json)
-        const platformRefFile = path.join(this.referenceDir, `${testName}.${CURRENT_PLATFORM}.json`);
+        const platformRefFile = path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`);
         try {
             const content = await fs.readFile(platformRefFile, 'utf8');
             if (this.verbose) {
@@ -245,10 +249,10 @@ class RadiantLayoutTester {
             // Platform-specific reference not found, try generic reference
         }
 
-        // Try flat directory structure (merged references)
-        const flatRefFile = path.join(this.referenceDir, `${testName}.json`);
+        // Try reference directory (wpt/ subdir for WPT, flat for others)
+        const refFile = path.join(baseRefDir, `${testName}.json`);
         try {
-            const content = await fs.readFile(flatRefFile, 'utf8');
+            const content = await fs.readFile(refFile, 'utf8');
             return JSON.parse(content);
         } catch (error) {
             if (error.code !== 'ENOENT') {
@@ -273,9 +277,12 @@ class RadiantLayoutTester {
      * Mirrors the lookup order in loadBrowserReference.
      */
     async hasBrowserReference(testName, category) {
+        // WPT categories use reference/wpt/ subdirectory
+        const isWpt = category && category.startsWith('wpt-');
+        const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
         const candidates = [
-            path.join(this.referenceDir, `${testName}.${CURRENT_PLATFORM}.json`),
-            path.join(this.referenceDir, `${testName}.json`),
+            path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`),
+            path.join(baseRefDir, `${testName}.json`),
             path.join(this.referenceDir, category, `${testName}.json`)
         ];
         for (const file of candidates) {
