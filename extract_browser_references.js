@@ -114,12 +114,18 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         if (needsAhem) {
             // Find the Ahem font file relative to the HTML file's support/ directory
+            // Searches local support/, parent support/, and grandparent support/ for WPT nested dirs
             const htmlDir = path.dirname(htmlFilePath);
             const possiblePaths = [
                 path.join(htmlDir, 'support', 'ahem3.ttf'),
                 path.join(htmlDir, '..', 'support', 'ahem3.ttf'),
+                path.join(htmlDir, '..', '..', 'support', 'ahem3.ttf'),
+                path.join(htmlDir, 'support', 'Ahem.ttf'),
+                path.join(htmlDir, '..', 'support', 'Ahem.ttf'),
+                path.join(htmlDir, '..', '..', 'support', 'Ahem.ttf'),
                 path.join(htmlDir, 'support', 'AHEM_default.TTF'),
                 path.join(htmlDir, '..', 'support', 'AHEM_default.TTF'),
+                path.join(htmlDir, '..', '..', 'support', 'AHEM_default.TTF'),
             ];
             let ahemPath = null;
             for (const p of possiblePaths) {
@@ -717,28 +723,35 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                     };
                 });
 
-            // For suites with nested subdirectories (e.g., css2.1 has html4/, xhtml1/, etc.),
-            // also scan subdirectories for HTML files
-            const subDirs = files.filter(entry => typeof entry !== 'string' && entry.isDirectory() && !entry.name.startsWith('.'));
-            for (const subDir of subDirs) {
-                const subDirPath = path.join(categoryDir, subDir.name);
-                try {
-                    const subFiles = await fs.readdir(subDirPath);
-                    const subHtmlFiles = subFiles
-                        .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
-                        .map(file => ({
-                            category: cat,
-                            file: file,
-                            path: path.join(subDirPath, file)
-                        }));
-                    htmlFiles.push(...subHtmlFiles);
-                    if (subHtmlFiles.length > 0) {
-                        console.log(`   📁 Found ${subHtmlFiles.length} HTML files in ${cat}/${subDir.name}/`);
+            // Recursively scan subdirectories for HTML files (supports WPT nested layouts
+            // like css-text/word-break/auto-phrase/*.html)
+            async function scanSubDirs(dir, relPath) {
+                const entries = await fs.readdir(dir, { withFileTypes: true });
+                for (const entry of entries) {
+                    if (!entry.isDirectory() || entry.name.startsWith('.') || entry.name === 'support') continue;
+                    const subDirPath = path.join(dir, entry.name);
+                    const subRelPath = relPath ? `${relPath}/${entry.name}` : entry.name;
+                    try {
+                        const subFiles = await fs.readdir(subDirPath);
+                        const subHtmlFiles = subFiles
+                            .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
+                            .map(file => ({
+                                category: cat,
+                                file: file,
+                                path: path.join(subDirPath, file)
+                            }));
+                        htmlFiles.push(...subHtmlFiles);
+                        if (subHtmlFiles.length > 0) {
+                            console.log(`   📁 Found ${subHtmlFiles.length} HTML files in ${cat}/${subRelPath}/`);
+                        }
+                        // Recurse deeper
+                        await scanSubDirs(subDirPath, subRelPath);
+                    } catch (error) {
+                        // Skip unreadable subdirectories
                     }
-                } catch (error) {
-                    // Skip unreadable subdirectories
                 }
             }
+            await scanSubDirs(categoryDir, '');
 
             allFiles = allFiles.concat(htmlFiles);
             totalFiles += htmlFiles.length;
