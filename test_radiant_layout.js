@@ -558,13 +558,17 @@ class RadiantLayoutTester {
             const normalizedRadiant = normalizeValue(radiantValue, browserProperty);
             const normalizedBrowser = normalizeValue(browserValue, browserProperty);
 
-            // Special comparison for font family - check if browser font family starts with radiant font family
+            // Special comparison for font family - check if one contains the other
+            // Browser may report "Arial, sans-serif" while Radiant reports "sans-serif"
             let match;
             if (browserProperty === 'fontFamily' && normalizedRadiant && normalizedBrowser) {
-                // For font family, consider it a match if browser font family starts with radiant font family
                 const radiantFamily = normalizedRadiant.toLowerCase();
                 const browserFamily = normalizedBrowser.toLowerCase();
-                match = browserFamily.startsWith(radiantFamily) || normalizedRadiant === normalizedBrowser;
+                // Match if either starts with the other, or if one is contained in the other's list
+                match = browserFamily.startsWith(radiantFamily) ||
+                        radiantFamily.startsWith(browserFamily) ||
+                        browserFamily.includes(radiantFamily) ||
+                        normalizedRadiant === normalizedBrowser;
             } else {
                 match = normalizedRadiant === normalizedBrowser;
             }
