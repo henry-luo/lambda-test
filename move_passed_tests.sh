@@ -141,26 +141,23 @@ MOVED_COUNT=0
 SKIPPED_COUNT=0
 
 for test in "${PASSED_TESTS[@]}"; do
-    # Try both .htm and .html extensions
-    HTML_FILE=""
-    if [ -f "$DATA_SOURCE_DIR/$test.htm" ]; then
-        HTML_FILE="$test.htm"
-    elif [ -f "$DATA_SOURCE_DIR/$test.html" ]; then
-        HTML_FILE="$test.html"
-    fi
+    # Try both .htm and .html extensions, searching recursively in subdirectories
+    HTML_PATH=""
+    HTML_PATH=$(find "$DATA_SOURCE_DIR" -name "$test.htm" -o -name "$test.html" 2>/dev/null | head -1)
 
     # Check if HTML file exists
-    if [ -z "$HTML_FILE" ]; then
+    if [ -z "$HTML_PATH" ]; then
         echo -e "${RED}  ⚠️  HTML file not found for: $test${NC}"
         ((SKIPPED_COUNT++))
         continue
     fi
 
+    # Extract just the filename for the target
+    HTML_FILE=$(basename "$HTML_PATH")
+
     # Move HTML file
-    if [ -f "$DATA_SOURCE_DIR/$HTML_FILE" ]; then
-        mv "$DATA_SOURCE_DIR/$HTML_FILE" "$DATA_TARGET_DIR/$HTML_FILE"
-        echo -e "${GREEN}  ✓ Moved: $HTML_FILE${NC}"
-    fi
+    mv "$HTML_PATH" "$DATA_TARGET_DIR/$HTML_FILE"
+    echo -e "${GREEN}  ✓ Moved: $HTML_FILE${NC}"
 
     ((MOVED_COUNT++))
 done
