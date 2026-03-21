@@ -229,9 +229,11 @@ class RadiantLayoutTester {
      * First tries platform-specific reference (e.g., test_name.linux.json),
      * then falls back to generic reference (test_name.json)
      */
-    async loadBrowserReference(testName, category) {
+    async loadBrowserReference(testName, category, htmlFile = null) {
         // WPT categories use reference/wpt/ subdirectory to avoid name collisions
-        const isWpt = category && category.startsWith('wpt-');
+        // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
+        const isWpt = (category && category.startsWith('wpt-')) ||
+                      (htmlFile && htmlFile.includes('/wpt/'));
         const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
 
         // Try platform-specific reference first (e.g., test_name.linux.json)
@@ -276,9 +278,11 @@ class RadiantLayoutTester {
      * Check if a browser reference file exists for a given test (without loading it)
      * Mirrors the lookup order in loadBrowserReference.
      */
-    async hasBrowserReference(testName, category) {
+    async hasBrowserReference(testName, category, htmlFile = null) {
         // WPT categories use reference/wpt/ subdirectory
-        const isWpt = category && category.startsWith('wpt-');
+        // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
+        const isWpt = (category && category.startsWith('wpt-')) ||
+                      (htmlFile && htmlFile.includes('/wpt/'));
         const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
         const candidates = [
             path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`),
@@ -372,7 +376,7 @@ class RadiantLayoutTester {
             }
 
             // Check browser reference existence
-            const hasRef = await this.hasBrowserReference(testName, task.category);
+            const hasRef = await this.hasBrowserReference(testName, task.category, task.htmlFile);
             if (!hasRef) {
                 return { task, skip: 'no-ref' };
             }
@@ -1616,7 +1620,7 @@ class RadiantLayoutTester {
             }
 
             // Load browser reference
-            const browserData = await this.loadBrowserReference(testName, category);
+            const browserData = await this.loadBrowserReference(testName, category, htmlFile);
             if (!browserData) {
                 console.log(`   ⚠️  No browser reference found for ${testName}`);
                 return null;
@@ -1727,7 +1731,7 @@ class RadiantLayoutTester {
             const radiantData = await this.loadRadiantOutput(testFileName, outputFile);
 
             // Load browser reference
-            const browserData = await this.loadBrowserReference(testName, category);
+            const browserData = await this.loadBrowserReference(testName, category, htmlFile);
             if (!browserData) {
                 console.log(`   ⚠️  No browser reference found for ${testName}`);
                 return null;
