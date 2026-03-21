@@ -1783,64 +1783,91 @@ class RadiantLayoutTester {
     }
 
     /**
-     * Run tests using batch layout mode.
-     * Runs layout on multiple files at once, then compares results.
+     * Run tests using batch layout mode with parallel batch dispatch.
+     * Splits testTasks into batches and runs up to maxConcurrency batches in
+     * parallel, each as a separate lambda.exe process with shared UiContext.
      * @param {Array} testTasks - Array of {htmlFile, category} objects
      * @returns {Array} - Array of test results
      */
     async runTestsInBatchMode(testTasks) {
-        const results = [];
         const batchSize = this.batchSize;
+        const maxConcurrency = this.maxConcurrency;
 
-        // Ensure batch output directory exists (once per test job)
+        // Ensure batch output directory exists once before spawning anything
         try {
             await fs.mkdir(this.batchOutputDir, { recursive: true });
         } catch (e) {
             // Directory may already exist
         }
 
-        if (this.verbose) {
-            console.log(`\n🚀 Batch mode: processing ${testTasks.length} files in batches of ${batchSize}`);
+        // Split all tasks into batch chunks upfront
+        const batches = [];
+        for (let i = 0; i < testTasks.length; i += batchSize) {
+            batches.push(testTasks.slice(i, i + batchSize));
         }
 
-        // Process in batches
-        for (let i = 0; i < testTasks.length; i += batchSize) {
-            const batch = testTasks.slice(i, i + batchSize);
-            const htmlFiles = batch.map(task => task.htmlFile);
+        if (this.verbose) {
+            console.log(`\n🚀 Batch mode: ${testTasks.length} files in ${batches.length} batches of ${batchSize}, concurrency=${maxConcurrency}`);
+        }
 
+        /**
+         * Process a single batch: run layout, then compare all results in parallel.
+         * Returns an array of test results for this batch.
+         */
+        const processBatch = async (batch, batchIndex) => {
+            const htmlFiles = batch.map(task => task.htmlFile);
             if (this.verbose) {
-                console.log(`\n📦 Batch ${Math.floor(i / batchSize) + 1}: ${batch.length} files`);
+                console.log(`\n📦 Batch ${batchIndex + 1}/${batches.length}: ${batch.length} files`);
             }
 
-            // Run batch layout
             let outputMap;
             try {
                 outputMap = await this.runBatchLayout(htmlFiles);
             } catch (err) {
-                // Batch timeout or error — skip this batch, continue with next
-                console.log(`   ⚠️  Batch error: ${err.message} — skipping ${batch.length} tests`);
-                for (const task of batch) {
-                    results.push({
-                        testName: path.basename(task.htmlFile).replace(/\.(html|htm)$/i, ''),
-                        passed: false,
-                        htmlFile: task.htmlFile,
-                        failureDetails: [`Batch error: ${err.message}`]
-                    });
-                }
-                continue;
+                console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
+                return batch.map(task => ({
+                    testName: path.basename(task.htmlFile).replace(/\.(html|htm)$/i, ''),
+                    passed: false,
+                    htmlFile: task.htmlFile,
+                    failureDetails: [`Batch error: ${err.message}`]
+                }));
             }
 
-            // Compare each result against reference (in parallel)
+            // Compare each result against reference in parallel within the batch
             const comparePromises = batch.map(async (task) => {
                 const outputFile = outputMap.get(task.htmlFile);
                 return this.compareTestResult(task.htmlFile, task.category, outputFile);
             });
-
             const batchResults = await Promise.all(comparePromises);
-            results.push(...batchResults.filter(r => r !== null));
+            return batchResults.filter(r => r !== null);
+        };
+
+        // Run batches with a concurrency pool (at most maxConcurrency batches in flight)
+        const allResults = [];
+        let batchIndex = 0;
+        const inFlight = new Map(); // batchIndex -> Promise<results[]>
+
+        const startNextBatch = () => {
+            if (batchIndex >= batches.length) return;
+            const idx = batchIndex++;
+            const p = processBatch(batches[idx], idx).then(results => ({ idx, results }));
+            inFlight.set(idx, p);
+        };
+
+        // Fill the initial pool
+        while (inFlight.size < maxConcurrency && batchIndex < batches.length) {
+            startNextBatch();
         }
 
-        return results;
+        // Drain: whenever one completes, start the next
+        while (inFlight.size > 0) {
+            const { idx, results } = await Promise.race(inFlight.values());
+            inFlight.delete(idx);
+            allResults.push(...results);
+            startNextBatch();
+        }
+
+        return allResults;
     }
 
     /**
@@ -2263,7 +2290,7 @@ async function main() {
         engine: 'radiant', // default to radiant engine
         json: false, // JSON output mode
         maxConcurrency: DEFAULT_CONCURRENCY, // Max parallel tests (auto-detect: cores - 1)
-        batchSize: 20 // Default batch size for layout (20 files at once)
+        batchSize: 100 // Default batch size for layout (100 files at once)
     };
 
     let category = null;
