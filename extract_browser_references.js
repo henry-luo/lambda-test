@@ -17,7 +17,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
     const ext = htmlFilePath.endsWith('.htm') && !htmlFilePath.endsWith('.html') ? '.htm' : '.html';
     const baseName = path.basename(htmlFilePath, ext);
     // WPT categories store references under reference/wpt/ to avoid name collisions
-    const isWpt = category && category.startsWith('wpt-');
+    // Also detect wpt context from file path (e.g., baseline/wpt/test.html)
+    const isWpt = (category && category.startsWith('wpt-')) ||
+                  (htmlFilePath && htmlFilePath.includes('/wpt/'));
     const outputDir = isWpt
         ? path.join(__dirname, 'reference', 'wpt')
         : path.join(__dirname, 'reference');
