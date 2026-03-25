@@ -2441,7 +2441,29 @@ Note: Run this script from the project root directory.
                     foundCategory = cat;
                     break;
                 } catch (error) {
-                    // File not found in this category, continue
+                    // File not found at top level, search subdirectories
+                }
+
+                // Search one level of subdirectories within the category
+                try {
+                    const catDir = path.join(tester.testDataDir, cat);
+                    const items = await fs.readdir(catDir, { withFileTypes: true });
+                    for (const item of items) {
+                        if (item.isDirectory()) {
+                            const subPath = path.join(catDir, item.name, testFile);
+                            try {
+                                await fs.access(subPath);
+                                foundFile = subPath;
+                                foundCategory = cat;
+                                break;
+                            } catch (e) {
+                                // Not in this subdirectory
+                            }
+                        }
+                    }
+                    if (foundFile) break;
+                } catch (e) {
+                    // Error reading category dir
                 }
             }
 

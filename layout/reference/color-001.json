@@ -1,5 +1,5 @@
 {
-  "test_file": "color-001.htm",
+  "test_file": "color-001.html",
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,8 +188,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/jane/Projects/Lambda/test/layout/data/css2.1/html4/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
-                "length": 401,
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "length": 392,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -761,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n            div\n            {\n                color: green;\n                height: 1in;\n                width: 1in;\n            }\n            #test\n            {\n                color: #00000;\n                font: 1in ahem;\n            }\n            #reference\n            {\n                background-color: green;\n                margin-top: 10px;\n            }\n        ",
-                "length": 375,
+                "text": "\n        @font-face {\n            font-family: 'ahem';\n            src: url('../font/Ahem.ttf') format('truetype');\n        }\n                    div\n            {\n                color: green;\n                height: 1in;\n                width: 1in;\n            }\n            #test\n            {\n                color: #00000;\n                font: 1in ahem;\n            }\n            #reference\n            {\n                background-color: green;\n                margin-top: 10px;\n            }\n        ",
+                "length": 508,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],

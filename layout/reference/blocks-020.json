@@ -188,8 +188,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/jane/Projects/Lambda/test/layout/data/css2.1/html4/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
-                "length": 401,
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "length": 392,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -607,8 +607,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n   .control { display: inline; font: 1em/1 Ahem, sans-serif; background: red; color: white; }\n   .outer { position: relative; width: 300px; height: 100px; background: red; }\n   .inner { width: 200%; height: 200%; font: 100px/1 Ahem; color: green; }\n  ",
-                "length": 252,
+                "text": "\n        @font-face {\n            font-family: 'ahem';\n            src: url('../font/Ahem.ttf') format('truetype');\n        }\n   .control { display: inline; font: 1em/1 Ahem, sans-serif; background: red; color: white; }\n   .outer { position: relative; width: 300px; height: 100px; background: red; }\n   .inner { width: 200%; height: 200%; font: 100px/1 Ahem; color: green; }\n  ",
+                "length": 377,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],

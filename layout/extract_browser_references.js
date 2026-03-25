@@ -85,6 +85,20 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
         }
 
+        // On macOS, fall back to system Chrome if bundled Chrome is not available
+        if (os.platform() === 'darwin' && !launchOptions.executablePath) {
+            const systemChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+            try {
+                const fs_sync = require('fs');
+                if (fs_sync.existsSync(systemChrome)) {
+                    console.log(`📦 Using system Chrome: ${systemChrome}`);
+                    launchOptions.executablePath = systemChrome;
+                }
+            } catch (e) {
+                // Fall back to bundled Chrome
+            }
+        }
+
         browser = await puppeteer.launch(launchOptions);
 
         const page = await browser.newPage();
