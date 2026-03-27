@@ -21,7 +21,7 @@ const CPU_CORES = os.cpus().length;
 const DEFAULT_CONCURRENCY = Math.max(1, CPU_CORES - 1);
 
 // Maximum HTML test file size (100KB) - larger files are skipped
-const MAX_TEST_FILE_SIZE = 100 * 1024;
+const MAX_TEST_FILE_SIZE = 350 * 1024;
 
 class RadiantLayoutTester {
     constructor(options = {}) {

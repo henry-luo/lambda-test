@@ -129,6 +129,11 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // to be installed as a system font. Without it, Chrome falls back to a
         // proportional font, producing incorrect reference measurements.
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
+        const htmlFileSize = Buffer.byteLength(htmlContent, 'utf8');
+        const skipComputed = htmlFileSize > 40 * 1024;
+        if (skipComputed) {
+            console.log(`📏 Large file (${(htmlFileSize / 1024).toFixed(0)}KB > 40KB): omitting computed properties from reference`);
+        }
         const needsAhem = /\bahem\b/i.test(htmlContent);
 
         if (needsAhem) {
@@ -185,7 +190,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Extract layout data
         console.log('📊 Extracting layout data...');
-        const layoutData = await page.evaluate(() => {
+        const layoutData = await page.evaluate((skipComputed) => {
             // Helper to get className as string (handles SVGAnimatedString for SVG elements)
             const getClassNameString = (element) => {
                 if (!element.className) return '';
@@ -378,7 +383,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             // Helper function to extract element data
             const extractElementData = (element, elementIndex) => {
                 const rect = element.getBoundingClientRect();
-                const computed = window.getComputedStyle(element);
+                // Only call getComputedStyle when we need to capture CSS properties
+                const computed = skipComputed ? null : window.getComputedStyle(element);
 
                 // Generate enhanced selector
                 const selector = generateSelector(element);
@@ -408,8 +414,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         scrollHeight: element.scrollHeight
                     },
 
-                    // Comprehensive CSS properties
-                    computed: {
+                    // Comprehensive CSS properties (omitted for large files to keep JSON size small)
+                    ...(skipComputed ? {} : { computed: {
                         display: computed.display,
                         position: computed.position,
 
@@ -461,7 +467,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         overflow: computed.overflow,
                         overflowX: computed.overflowX,
                         overflowY: computed.overflowY
-                    },
+                    }}),
 
                     // Hierarchy information
                     depth: 0,  // Will be calculated during tree building
@@ -569,7 +575,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
 
             return elementTree;
-        });
+        }, skipComputed);
 
         // Helper function to count nodes in tree (elements and text nodes)
         const countNodes = (node) => {
@@ -615,6 +621,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // Create enhanced reference JSON with tree structure (minimal browser info)
         const reference = {
             test_file: path.basename(htmlFilePath),
+            has_computed_properties: !skipComputed,
             browser_info: {
                 viewport: {
                     width: viewport.width,
