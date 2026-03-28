@@ -234,7 +234,18 @@ class RadiantLayoutTester {
         // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
         const isWpt = (category && category.startsWith('wpt-')) ||
                       (htmlFile && htmlFile.includes('/wpt/'));
-        const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
+        // web-tmpl templates use reference/web-tmpl/ subdirectory
+        const isWebTmpl = category === 'web-tmpl' ||
+                          (htmlFile && htmlFile.includes('/web-tmpl/'));
+        // web-tmpl: all files are index.html; derive test name from parent directory
+        if (isWebTmpl && testName === 'index' && htmlFile) {
+            testName = path.basename(path.dirname(htmlFile));
+        }
+        const baseRefDir = isWpt
+            ? path.join(this.referenceDir, 'wpt')
+            : isWebTmpl
+                ? path.join(this.referenceDir, 'web-tmpl')
+                : this.referenceDir;
 
         // Try platform-specific reference first (e.g., test_name.linux.json)
         const platformRefFile = path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`);
@@ -283,7 +294,18 @@ class RadiantLayoutTester {
         // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
         const isWpt = (category && category.startsWith('wpt-')) ||
                       (htmlFile && htmlFile.includes('/wpt/'));
-        const baseRefDir = isWpt ? path.join(this.referenceDir, 'wpt') : this.referenceDir;
+        // web-tmpl templates use reference/web-tmpl/ subdirectory
+        const isWebTmpl = category === 'web-tmpl' ||
+                          (htmlFile && htmlFile.includes('/web-tmpl/'));
+        // web-tmpl: all files are index.html; derive test name from parent directory
+        if (isWebTmpl && testName === 'index' && htmlFile) {
+            testName = path.basename(path.dirname(htmlFile));
+        }
+        const baseRefDir = isWpt
+            ? path.join(this.referenceDir, 'wpt')
+            : isWebTmpl
+                ? path.join(this.referenceDir, 'web-tmpl')
+                : this.referenceDir;
         const candidates = [
             path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`),
             path.join(baseRefDir, `${testName}.json`),
@@ -1600,7 +1622,11 @@ class RadiantLayoutTester {
     async testSingleFile(htmlFile, category, outputFile = null) {
         // Handle both .html and .htm extensions
         const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
-        const testName = path.basename(htmlFile, ext);
+        let testName = path.basename(htmlFile, ext);
+        // web-tmpl templates all use index.html; derive test name from parent directory
+        if (testName === 'index' && (category === 'web-tmpl' || htmlFile.includes('/web-tmpl/'))) {
+            testName = path.basename(path.dirname(htmlFile));
+        }
         const testFileName = path.basename(htmlFile);
         // console.log(`\n🧪 Testing: ${testName}`);
 
@@ -1723,7 +1749,11 @@ class RadiantLayoutTester {
      */
     async compareTestResult(htmlFile, category, outputFile) {
         const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
-        const testName = path.basename(htmlFile, ext);
+        let testName = path.basename(htmlFile, ext);
+        // web-tmpl templates all use index.html; derive test name from parent directory
+        if (testName === 'index' && (category === 'web-tmpl' || htmlFile.includes('/web-tmpl/'))) {
+            testName = path.basename(path.dirname(htmlFile));
+        }
         const testFileName = path.basename(htmlFile);
 
         try {
@@ -1825,12 +1855,18 @@ class RadiantLayoutTester {
                 outputMap = await this.runBatchLayout(htmlFiles);
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
-                return batch.map(task => ({
-                    testName: path.basename(task.htmlFile).replace(/\.(html|htm)$/i, ''),
-                    passed: false,
-                    htmlFile: task.htmlFile,
-                    failureDetails: [`Batch error: ${err.message}`]
-                }));
+                return batch.map(task => {
+                    let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
+                    if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
+                        batchTestName = path.basename(path.dirname(task.htmlFile));
+                    }
+                    return {
+                        testName: batchTestName,
+                        passed: false,
+                        htmlFile: task.htmlFile,
+                        failureDetails: [`Batch error: ${err.message}`]
+                    };
+                });
             }
 
             // Compare each result against reference in parallel within the batch
@@ -1954,7 +1990,10 @@ class RadiantLayoutTester {
                 const subDirPath = path.join(categoryDir, subDir.name);
                 try {
                     const subFiles = await fs.readdir(subDirPath);
-                    const subHtmlFiles = subFiles.filter(file => file.endsWith('.html') || file.endsWith('.htm'));
+                    const subHtmlFiles = subFiles
+                        .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
+                        // web-tmpl: only test index.html from each template directory
+                        .filter(file => category !== 'web-tmpl' || file === 'index.html');
                     // Include subdirectory HTML files with relative path for proper resolution
                     htmlFiles = htmlFiles.concat(subHtmlFiles.map(f => path.join(subDir.name, f)));
                 } catch (error) {
@@ -2119,7 +2158,9 @@ class RadiantLayoutTester {
                     try {
                         const subFiles = await fs.readdir(subDirPath);
                         const subMatching = subFiles
-                            .filter(file => (file.endsWith('.html') || file.endsWith('.htm')) && file.includes(pattern));
+                            .filter(file => (file.endsWith('.html') || file.endsWith('.htm')) && file.includes(pattern))
+                            // web-tmpl: only test index.html from each template directory
+                            .filter(file => category !== 'web-tmpl' || file === 'index.html');
                         matchingFiles = matchingFiles.concat(subMatching.map(f => path.join(subDir.name, f)));
                     } catch (error) {
                         // Skip unreadable subdirectories

@@ -15,14 +15,22 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
     // Determine output file path first
     // Handle both .html and .htm extensions
     const ext = htmlFilePath.endsWith('.htm') && !htmlFilePath.endsWith('.html') ? '.htm' : '.html';
-    const baseName = path.basename(htmlFilePath, ext);
+    let baseName = path.basename(htmlFilePath, ext);
     // WPT categories store references under reference/wpt/ to avoid name collisions
     // Also detect wpt context from file path (e.g., baseline/wpt/test.html)
     const isWpt = (category && category.startsWith('wpt-')) ||
                   (htmlFilePath && htmlFilePath.includes('/wpt/'));
+    // web-tmpl templates: each is a subdirectory with index.html; use dir name as test name
+    const isWebTmpl = category === 'web-tmpl' ||
+                      (htmlFilePath && htmlFilePath.includes('/web-tmpl/'));
+    if (isWebTmpl && baseName === 'index') {
+        baseName = path.basename(path.dirname(htmlFilePath));
+    }
     const outputDir = isWpt
         ? path.join(__dirname, 'reference', 'wpt')
-        : path.join(__dirname, 'reference');
+        : isWebTmpl
+            ? path.join(__dirname, 'reference', 'web-tmpl')
+            : path.join(__dirname, 'reference');
     // If platform is specified, add platform suffix to filename (e.g., test_name.linux.json)
     const outputFile = platform
         ? path.join(outputDir, `${baseName}.${platform}.json`)
@@ -130,9 +138,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // proportional font, producing incorrect reference measurements.
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
         const htmlFileSize = Buffer.byteLength(htmlContent, 'utf8');
-        const skipComputed = htmlFileSize > 40 * 1024;
+        const skipComputed = htmlFileSize > 350 * 1024;
         if (skipComputed) {
-            console.log(`📏 Large file (${(htmlFileSize / 1024).toFixed(0)}KB > 40KB): omitting computed properties from reference`);
+            console.log(`📏 Large file (${(htmlFileSize / 1024).toFixed(0)}KB > 350KB): omitting computed properties from reference`);
         }
         const needsAhem = /\bahem\b/i.test(htmlContent);
 
@@ -761,6 +769,8 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                         const subFiles = await fs.readdir(subDirPath);
                         const subHtmlFiles = subFiles
                             .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
+                            // web-tmpl: only capture index.html from each template directory
+                            .filter(file => cat !== 'web-tmpl' || file === 'index.html')
                             .map(file => ({
                                 category: cat,
                                 file: file,
@@ -770,8 +780,10 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                         if (subHtmlFiles.length > 0) {
                             console.log(`   📁 Found ${subHtmlFiles.length} HTML files in ${cat}/${subRelPath}/`);
                         }
-                        // Recurse deeper
-                        await scanSubDirs(subDirPath, subRelPath);
+                        // Recurse deeper (skip for web-tmpl: only top-level template dirs matter)
+                        if (cat !== 'web-tmpl') {
+                            await scanSubDirs(subDirPath, subRelPath);
+                        }
                     } catch (error) {
                         // Skip unreadable subdirectories
                     }
