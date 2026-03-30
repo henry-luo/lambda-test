@@ -1,0 +1,15 @@
+{
+    "name": "radiant-render-tests",
+    "version": "1.0.0",
+    "description": "Pixel-level visual regression tests for Radiant rendering engine",
+    "private": true,
+    "scripts": {
+        "capture": "node capture_render_references.js",
+        "test": "node test_radiant_render.js"
+    },
+    "dependencies": {
+        "pixelmatch": "^6.0.0",
+        "pngjs": "^7.0.0",
+        "puppeteer": "^24.34.0"
+    }
+}

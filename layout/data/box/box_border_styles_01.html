@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--
+  Phase 3: Border style variants — raster (ThorVG) + SVG output.
+  Tests: double, groove, ridge, inset, outset, mixed per-side styles.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<title>Border Style Variants</title>
+<style>
+  body { background: #e8e8e8; padding: 20px; font-family: sans-serif; }
+  .grid  { display: grid; grid-template-columns: repeat(3, 160px); gap: 16px; }
+  .box   { width: 140px; height: 60px; line-height: 60px; text-align: center;
+           background: #fff; font-size: 12px; color: #333; box-sizing: border-box; }
+  .label { font-size: 11px; color: #555; margin-top: 4px; text-align: center; }
+
+  /* Uniform-color border styles */
+  .b-solid  { border: 8px solid  #607080; }
+  .b-double { border: 12px double #607080; }
+  .b-groove { border: 10px groove #607080; }
+  .b-ridge  { border: 10px ridge  #607080; }
+  .b-inset  { border: 8px  inset  #607080; }
+  .b-outset { border: 8px  outset #607080; }
+
+  /* Dotted / dashed */
+  .b-dotted { border: 6px dotted #c03030; }
+  .b-dashed { border: 6px dashed #30a030; }
+
+  /* Per-side different styles/colors */
+  .b-mixed {
+    border-top:    8px solid  #607080;
+    border-right:  8px dashed #c03030;
+    border-bottom: 8px groove #4080c0;
+    border-left:   8px ridge  #a060c0;
+  }
+  .b-mixed2 {
+    border-top:    12px double #607080;
+    border-right:  10px inset  #c06020;
+    border-bottom: 10px outset #c06020;
+    border-left:   12px double #607080;
+  }
+
+  /* Border-radius with groove/ridge */
+  .b-groove-r { border: 10px groove #607080; border-radius: 16px; }
+  .b-inset-r  { border:  8px inset  #607080; border-radius: 12px; }
+
+  /* Thin and thick double */
+  .b-double-thin  { border: 4px double #607080; }
+  .b-double-thick { border: 18px double #607080; }
+
+  /* Color-specific inset/outset (light color shows contrast well) */
+  .b-inset-light  { border: 8px inset  #a0b8cc; background: #d0e4f0; }
+  .b-outset-light { border: 8px outset #a0b8cc; background: #d0e4f0; }
+</style>
+</head>
+<body>
+<h3 style="font-size:14px;margin:0 0 12px">Border Style Variants (Phase 3)</h3>
+<div class="grid">
+
+  <div>
+    <div class="box b-solid" >solid</div>
+    <div class="label">solid</div>
+  </div>
+  <div>
+    <div class="box b-double">double</div>
+    <div class="label">double 12px</div>
+  </div>
+  <div>
+    <div class="box b-groove">groove</div>
+    <div class="label">groove</div>
+  </div>
+
+  <div>
+    <div class="box b-ridge" >ridge</div>
+    <div class="label">ridge</div>
+  </div>
+  <div>
+    <div class="box b-inset" >inset</div>
+    <div class="label">inset</div>
+  </div>
+  <div>
+    <div class="box b-outset">outset</div>
+    <div class="label">outset</div>
+  </div>
+
+  <div>
+    <div class="box b-dotted">dotted</div>
+    <div class="label">dotted</div>
+  </div>
+  <div>
+    <div class="box b-dashed">dashed</div>
+    <div class="label">dashed</div>
+  </div>
+  <div>
+    <div class="box b-mixed">per-side</div>
+    <div class="label">mixed styles</div>
+  </div>
+
+  <div>
+    <div class="box b-mixed2">per-side2</div>
+    <div class="label">double+inset mix</div>
+  </div>
+  <div>
+    <div class="box b-groove-r">groove+r</div>
+    <div class="label">groove + radius</div>
+  </div>
+  <div>
+    <div class="box b-inset-r">inset+r</div>
+    <div class="label">inset + radius</div>
+  </div>
+
+  <div>
+    <div class="box b-double-thin">double</div>
+    <div class="label">double 4px</div>
+  </div>
+  <div>
+    <div class="box b-double-thick">double</div>
+    <div class="label">double 18px</div>
+  </div>
+  <div>
+    <div class="box b-inset-light">inset</div>
+    <div class="label">inset (light)</div>
+  </div>
+
+</div>
+</body>
+</html>
