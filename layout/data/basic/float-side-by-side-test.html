@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; font-size: 14px; }
+.wrap { width: 1170px; }
+.float-left { float: left; }
+
+/* clearfix */
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+.box { background: #eee; padding: 10px; height: 50px; }
+</style>
+</head>
+<body>
+
+<!-- Test A: explicit widths 390+780=1170 -->
+<div class="wrap clearfix">
+  <div class="float-left" style="width: 390px;"><div class="box">A1 390px</div></div>
+  <div class="float-left" style="width: 780px;"><div class="box">A2 780px</div></div>
+</div>
+
+<!-- Test B: percentage 33.33333%+66.66667%=100% -->
+<div class="wrap clearfix">
+  <div class="float-left" style="width: 33.33333%;"><div class="box">B1 33%</div></div>
+  <div class="float-left" style="width: 66.66667%;"><div class="box">B2 66%</div></div>
+</div>
+
+<!-- Test C: no clearfix, explicit widths -->
+<div style="width: 1170px;">
+  <div class="float-left" style="width: 390px;"><div class="box">C1 390px</div></div>
+  <div class="float-left" style="width: 780px;"><div class="box">C2 780px</div></div>
+</div>
+
+<!-- Test D: no clearfix, percentages -->
+<div style="width: 1170px;">
+  <div class="float-left" style="width: 33.33333%;"><div class="box">D1 33%</div></div>
+  <div class="float-left" style="width: 66.66667%;"><div class="box">D2 66%</div></div>
+</div>
+
+</body>
+</html>

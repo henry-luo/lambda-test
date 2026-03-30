@@ -15,14 +15,22 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
     // Determine output file path first
     // Handle both .html and .htm extensions
     const ext = htmlFilePath.endsWith('.htm') && !htmlFilePath.endsWith('.html') ? '.htm' : '.html';
-    const baseName = path.basename(htmlFilePath, ext);
+    let baseName = path.basename(htmlFilePath, ext);
     // WPT categories store references under reference/wpt/ to avoid name collisions
     // Also detect wpt context from file path (e.g., baseline/wpt/test.html)
     const isWpt = (category && category.startsWith('wpt-')) ||
                   (htmlFilePath && htmlFilePath.includes('/wpt/'));
+    // web-tmpl templates: each is a subdirectory with index.html; use dir name as test name
+    const isWebTmpl = category === 'web-tmpl' ||
+                      (htmlFilePath && htmlFilePath.includes('/web-tmpl/'));
+    if (isWebTmpl && baseName === 'index') {
+        baseName = path.basename(path.dirname(htmlFilePath));
+    }
     const outputDir = isWpt
         ? path.join(__dirname, 'reference', 'wpt')
-        : path.join(__dirname, 'reference');
+        : isWebTmpl
+            ? path.join(__dirname, 'reference', 'web-tmpl')
+            : path.join(__dirname, 'reference');
     // If platform is specified, add platform suffix to filename (e.g., test_name.linux.json)
     const outputFile = platform
         ? path.join(outputDir, `${baseName}.${platform}.json`)
@@ -85,6 +93,20 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
         }
 
+        // On macOS, fall back to system Chrome if bundled Chrome is not available
+        if (os.platform() === 'darwin' && !launchOptions.executablePath) {
+            const systemChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+            try {
+                const fs_sync = require('fs');
+                if (fs_sync.existsSync(systemChrome)) {
+                    console.log(`📦 Using system Chrome: ${systemChrome}`);
+                    launchOptions.executablePath = systemChrome;
+                }
+            } catch (e) {
+                // Fall back to bundled Chrome
+            }
+        }
+
         browser = await puppeteer.launch(launchOptions);
 
         const page = await browser.newPage();
@@ -115,6 +137,11 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // to be installed as a system font. Without it, Chrome falls back to a
         // proportional font, producing incorrect reference measurements.
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
+        const htmlFileSize = Buffer.byteLength(htmlContent, 'utf8');
+        const skipComputed = htmlFileSize > 350 * 1024;
+        if (skipComputed) {
+            console.log(`📏 Large file (${(htmlFileSize / 1024).toFixed(0)}KB > 350KB): omitting computed properties from reference`);
+        }
         const needsAhem = /\bahem\b/i.test(htmlContent);
 
         if (needsAhem) {
@@ -171,7 +198,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Extract layout data
         console.log('📊 Extracting layout data...');
-        const layoutData = await page.evaluate(() => {
+        const layoutData = await page.evaluate((skipComputed) => {
             // Helper to get className as string (handles SVGAnimatedString for SVG elements)
             const getClassNameString = (element) => {
                 if (!element.className) return '';
@@ -364,7 +391,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             // Helper function to extract element data
             const extractElementData = (element, elementIndex) => {
                 const rect = element.getBoundingClientRect();
-                const computed = window.getComputedStyle(element);
+                // Only call getComputedStyle when we need to capture CSS properties
+                const computed = skipComputed ? null : window.getComputedStyle(element);
 
                 // Generate enhanced selector
                 const selector = generateSelector(element);
@@ -394,8 +422,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         scrollHeight: element.scrollHeight
                     },
 
-                    // Comprehensive CSS properties
-                    computed: {
+                    // Comprehensive CSS properties (omitted for large files to keep JSON size small)
+                    ...(skipComputed ? {} : { computed: {
                         display: computed.display,
                         position: computed.position,
 
@@ -447,7 +475,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         overflow: computed.overflow,
                         overflowX: computed.overflowX,
                         overflowY: computed.overflowY
-                    },
+                    }}),
 
                     // Hierarchy information
                     depth: 0,  // Will be calculated during tree building
@@ -555,7 +583,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
 
             return elementTree;
-        });
+        }, skipComputed);
 
         // Helper function to count nodes in tree (elements and text nodes)
         const countNodes = (node) => {
@@ -601,6 +629,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // Create enhanced reference JSON with tree structure (minimal browser info)
         const reference = {
             test_file: path.basename(htmlFilePath),
+            has_computed_properties: !skipComputed,
             browser_info: {
                 viewport: {
                     width: viewport.width,
@@ -740,6 +769,8 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                         const subFiles = await fs.readdir(subDirPath);
                         const subHtmlFiles = subFiles
                             .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
+                            // web-tmpl: only capture index.html from each template directory
+                            .filter(file => cat !== 'web-tmpl' || file === 'index.html')
                             .map(file => ({
                                 category: cat,
                                 file: file,
@@ -749,8 +780,10 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                         if (subHtmlFiles.length > 0) {
                             console.log(`   📁 Found ${subHtmlFiles.length} HTML files in ${cat}/${subRelPath}/`);
                         }
-                        // Recurse deeper
-                        await scanSubDirs(subDirPath, subRelPath);
+                        // Recurse deeper (skip for web-tmpl: only top-level template dirs matter)
+                        if (cat !== 'web-tmpl') {
+                            await scanSubDirs(subDirPath, subRelPath);
+                        }
                     } catch (error) {
                         // Skip unreadable subdirectories
                     }
