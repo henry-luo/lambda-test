@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Minimal Bootstrap 3 grid reset */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: sans-serif; font-size: 14px; line-height: 1.42857; }
+
+/* Container */
+.container { width: 1170px; margin-right: auto; margin-left: auto; padding-left: 15px; padding-right: 15px; }
+
+/* Row with clearfix */
+.row { margin-left: -15px; margin-right: -15px; }
+.row:before, .row:after { content: " "; display: table; }
+.row:after { clear: both; }
+
+/* Columns */
+.col-md-4, .col-md-6, .col-md-8, .col-md-12 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+}
+.col-md-4 { width: 33.33333%; }
+.col-md-6 { width: 50%; }
+.col-md-8 { width: 66.66667%; }
+.col-md-12 { width: 100%; }
+
+/* Test styling */
+.box { background: #eee; padding: 20px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<!-- Test 1: Two equal columns -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box">Column 1 (50%)</div>
+    </div>
+    <div class="col-md-6">
+      <div class="box">Column 2 (50%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Test 2: Three columns -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="box">Col A (33%)</div>
+    </div>
+    <div class="col-md-4">
+      <div class="box">Col B (33%)</div>
+    </div>
+    <div class="col-md-4">
+      <div class="box">Col C (33%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Test 3: Sidebar + content -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="box">Sidebar (33%)</div>
+    </div>
+    <div class="col-md-8">
+      <div class="box">Content (66%)</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

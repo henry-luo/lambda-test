@@ -145,10 +145,13 @@ class RadiantLayoutTester {
             proc.on('close', (code) => {
                 clearTimeout(timeout);
                 // Build map of input file -> output file
+                // Use parentdir__basename naming to match C++ generate_output_path
                 const outputMap = new Map();
                 for (const htmlFile of htmlFiles) {
                     const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
-                    const outputFile = path.join(this.batchOutputDir, `${basename}.json`);
+                    const parentDir = path.basename(path.dirname(htmlFile));
+                    const outputName = parentDir ? `${parentDir}__${basename}` : basename;
+                    const outputFile = path.join(this.batchOutputDir, `${outputName}.json`);
                     outputMap.set(htmlFile, outputFile);
                 }
                 // We continue even on non-zero exit code since --continue-on-error was used

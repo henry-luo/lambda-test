@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Broken Image Fallback Size Test</title>
+<style>
+body { font-family: sans-serif; margin: 20px; }
+.test { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+img { border: 1px solid red; background: #fee; }
+.label { font-weight: bold; margin-bottom: 5px; }
+.size { color: #666; font-size: 12px; }
+</style>
+</head>
+<body>
+<h2>Broken Image Fallback Size Test</h2>
+<p>Each img has a red border to show its actual rendered box size.</p>
+
+<div class="test">
+  <div class="label">1. Broken src, no attributes</div>
+  <img id="img1" src="nonexistent.png">
+  <div class="size" id="size1"></div>
+</div>
+
+<div class="test">
+  <div class="label">2. Broken src, alt text</div>
+  <img id="img2" src="nonexistent.png" alt="Alt text here">
+  <div class="size" id="size2"></div>
+</div>
+
+<div class="test">
+  <div class="label">3. Broken src, width=200 height=100 attributes</div>
+  <img id="img3" src="nonexistent.png" width="200" height="100">
+  <div class="size" id="size3"></div>
+</div>
+
+<div class="test">
+  <div class="label">4. Broken src, CSS width:300px</div>
+  <img id="img4" src="nonexistent.png" style="width:300px">
+  <div class="size" id="size4"></div>
+</div>
+
+<div class="test">
+  <div class="label">5. Broken src, display:block</div>
+  <img id="img5" src="nonexistent.png" style="display:block">
+  <div class="size" id="size5"></div>
+</div>
+
+<div class="test">
+  <div class="label">6. Broken src, inside flex container</div>
+  <div style="display:flex; border:1px solid blue;">
+    <img id="img6" src="nonexistent.png">
+  </div>
+  <div class="size" id="size6"></div>
+</div>
+
+<div class="test">
+  <div class="label">7. Empty src</div>
+  <img id="img7" src="">
+  <div class="size" id="size7"></div>
+</div>
+
+<div class="test">
+  <div class="label">8. No src attribute at all</div>
+  <img id="img8">
+  <div class="size" id="size8"></div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+  for (var i = 1; i <= 8; i++) {
+    var img = document.getElementById('img' + i);
+    var rect = img.getBoundingClientRect();
+    var cs = getComputedStyle(img);
+    document.getElementById('size' + i).textContent =
+      'offsetWidth=' + img.offsetWidth + ' offsetHeight=' + img.offsetHeight +
+      ' | getBoundingClientRect: ' + Math.round(rect.width) + 'x' + Math.round(rect.height) +
+      ' | computed: ' + cs.width + ' x ' + cs.height;
+  }
+});
+</script>
+</body>
+</html>

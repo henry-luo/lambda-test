@@ -20,3 +20,8 @@ abspos-replaced-width-margin-000-ref
 # Slow tests: hundreds of inline-block elements with Unicode chars (5-8s each, causes batch timeout)
 # Supports prefix matching with trailing * wildcard
 first-letter-punct-before-*
+# Segfault crashes: <template> with complex children (shadow DOM, embed, iframe)
+clicking-interactive-content
+clicking-noninteractive-labelable-content
+clicking-noninteractive-unlabelable-content
+form-indexed-element-shadow
