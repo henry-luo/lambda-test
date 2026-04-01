@@ -1,0 +1,4 @@
+{
+  "maxMismatchPercent": 20.0,
+  "note": "Nested opacity requires off-screen group compositing (not yet implemented). Current implementation multiplies alpha in-place, which produces incorrect blending for nested opacity layers."
+}
