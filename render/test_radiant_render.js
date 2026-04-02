@@ -247,11 +247,6 @@ async function runSingleTest(testName, opts) {
         };
     }
 
-    // clean up diff if passing
-    if (fs.existsSync(diffPng)) {
-        fs.unlinkSync(diffPng);
-    }
-
     return { testName, status: 'pass', ...result };
 }
 
