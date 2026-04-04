@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: jQuery CSS Styling</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; font-size: 16px; }
+
+        .test-container {
+            width: 600px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f9f9f9;
+        }
+
+        .item {
+            width: 250px;
+            height: 50px;
+            margin: 8px;
+            padding: 10px;
+            background-color: #ddd;
+            font-size: 14px;
+            line-height: 30px;
+        }
+    </style>
+    <script src="../support/jquery-2.1.1.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <div id="item1" class="item">Item 1 - bg change</div>
+        <div id="item2" class="item">Item 2 - font change</div>
+        <div id="item3" class="item">Item 3 - border + padding</div>
+        <div id="item4" class="item">Item 4 - multiple css</div>
+        <div id="item5" class="item">Item 5 - dimensions</div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Single CSS property
+            $('#item1').css('background-color', '#ff9999');
+
+            // Font styling
+            $('#item2').css({
+                'font-weight': 'bold',
+                'font-size': '18px',
+                'color': '#0000cc'
+            });
+
+            // Border and padding
+            $('#item3').css({
+                'border': '2px solid #cc0000',
+                'padding': '15px',
+                'border-radius': '8px'
+            });
+
+            // Multiple properties
+            $('#item4').css({
+                'background-color': '#99ccff',
+                'color': '#003366',
+                'text-align': 'center',
+                'font-style': 'italic'
+            });
+
+            // Width and height
+            $('#item5').css({
+                'width': '300px',
+                'height': '80px',
+                'background-color': '#99ff99',
+                'line-height': '60px',
+                'text-align': 'center'
+            });
+        });
+    </script>
+</body>
+</html>

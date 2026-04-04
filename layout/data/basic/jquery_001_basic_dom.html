@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: jQuery Basic DOM Manipulation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; font-size: 16px; }
+
+        .test-container {
+            width: 600px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f9f9f9;
+        }
+
+        .box {
+            width: 200px;
+            height: 60px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 14px;
+        }
+
+        .red { background-color: #ff4444; color: white; }
+        .green { background-color: #44cc44; color: white; }
+        .blue { background-color: #4444ff; color: white; }
+        .yellow { background-color: #ffdd44; color: #333; }
+        .hidden { display: none; }
+    </style>
+    <script src="../support/jquery-2.1.1.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <div id="box1" class="box red">Box 1</div>
+        <div id="box2" class="box green hidden">Box 2 (was hidden)</div>
+        <div id="box3" class="box blue">Box 3</div>
+        <div id="target"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Show hidden element
+            $('#box2').show();
+
+            // Append new element
+            $('#target').append('<div class="box yellow">Appended Box</div>');
+
+            // Change text content
+            $('#box1').text('Modified Box 1');
+
+            // Add CSS class
+            $('#box3').css('border', '3px solid #000');
+        });
+    </script>
+</body>
+</html>
