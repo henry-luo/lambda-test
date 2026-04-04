@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    width: 80px;
+    margin: 10px;
+    font-size: 10px;
+    font-family: serif;
+    color: #2c3e50;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+  <div class="clamp">
+    This is a long paragraph of text that should be truncated after exactly two lines with an ellipsis at the end.
+  </div>
+</body>
+</html>

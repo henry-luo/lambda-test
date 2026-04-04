@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .backdrop-container {
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    background: linear-gradient(135deg, #e74c3c, #3498db);
+    position: relative;
+  }
+  .overlay {
+    position: absolute;
+    top: 15px; left: 15px;
+    width: 50px; height: 50px;
+    backdrop-filter: blur(5px);
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+</style>
+</head>
+<body>
+  <div class="backdrop-container">
+    <div class="overlay"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .box {
+    height: 20px;
+    margin: 5px;
+    background: #3498db;
+  }
+  .clamp { width: clamp(20px, 80%, 70px); }
+  .min   { width: min(90px, 50%); }
+  .max   { width: max(10px, 60%); }
+</style>
+</head>
+<body>
+  <div class="box clamp"></div>
+  <div class="box min"></div>
+  <div class="box max"></div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; font-family: sans-serif; font-size: 12px; padding: 4px; }
+  .ellipsis {
+    width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+    border: 1px solid #ccc;
+  }
+</style>
+</head>
+<body>
+  <div class="ellipsis">This text is too long to fit</div>
+  <div class="ellipsis">Short</div>
+  <div class="ellipsis">Another very long piece of text here</div>
+</body>
+</html>
