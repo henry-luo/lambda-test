@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>* { margin: 0; padding: 0; } body { font-family: Arial; font-size: 12px; }</style>
+</head>
+<body>
+<div id="result"></div>
+<script>
+var _debug_lines = [];
+_debug_lines.push('before jQuery load');
+</script>
+<script src="../support/jquery-2.1.1.js"></script>
+<script>
+_debug_lines.push('after jQuery load');
+_debug_lines.push('window.jQuery type: ' + typeof window.jQuery);
+_debug_lines.push('jQuery type: ' + typeof jQuery);
+
+if (typeof jQuery === 'function') {
+  _debug_lines.push('jQuery is available as function');
+}
+
+document.getElementById('result').innerHTML = _debug_lines.join('<br>');
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: jQuery DOM Structure</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; font-size: 16px; }
+
+        .test-container {
+            width: 600px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f9f9f9;
+        }
+
+        .section {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+
+        .section h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            margin: 4px;
+            font-size: 12px;
+            border-radius: 4px;
+            background-color: #e0e0e0;
+        }
+
+        .tag.blue { background-color: #bbddff; }
+        .tag.green { background-color: #bbffbb; }
+        .tag.red { background-color: #ffbbbb; }
+
+        .wrapper {
+            border: 2px dashed #9999cc;
+            padding: 8px;
+            margin: 4px 0;
+        }
+
+        .list-item {
+            padding: 6px 12px;
+            margin: 4px 0;
+            background-color: #f0f0f0;
+            font-size: 13px;
+        }
+    </style>
+    <script src="../support/jquery-2.1.1.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <!-- append / prepend -->
+        <div id="section1" class="section">
+            <h3>Append &amp; Prepend</h3>
+            <div class="tag">Original</div>
+        </div>
+
+        <!-- before / after -->
+        <div id="section2" class="section">
+            <h3>Before &amp; After</h3>
+            <div id="anchor" class="tag blue">Anchor</div>
+        </div>
+
+        <!-- wrap -->
+        <div id="section3" class="section">
+            <h3>Wrap</h3>
+            <div id="to-wrap" class="tag green">Wrapped Content</div>
+        </div>
+
+        <!-- html() -->
+        <div id="section4" class="section">
+            <h3>HTML Replace</h3>
+            <div id="html-target">Old content here</div>
+        </div>
+
+        <!-- List building with append -->
+        <div id="section5" class="section">
+            <h3>Built List</h3>
+            <div id="list-container"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // append and prepend
+            $('#section1').append('<div class="tag blue">Appended</div>');
+            $('#section1').prepend('<div class="tag red">Prepended</div>');
+
+            // before and after
+            $('<div class="tag green">Before</div>').insertBefore('#anchor');
+            $('<div class="tag red">After</div>').insertAfter('#anchor');
+
+            // wrap
+            $('#to-wrap').wrap('<div class="wrapper"></div>');
+
+            // html replace
+            $('#html-target').html('<span class="tag blue">New</span> <span class="tag green">Content</span>');
+
+            // build list via loop
+            var items = ['Alpha', 'Beta', 'Gamma', 'Delta'];
+            $.each(items, function(i, val) {
+                $('#list-container').append('<div class="list-item">' + (i + 1) + '. ' + val + '</div>');
+            });
+        });
+    </script>
+</body>
+</html>

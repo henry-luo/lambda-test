@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: jQuery addClass/removeClass</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; font-size: 16px; }
+
+        .test-container {
+            width: 600px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #f9f9f9;
+        }
+
+        .card {
+            width: 250px;
+            margin: 10px;
+            padding: 15px;
+            background-color: #eee;
+            font-size: 14px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .highlight {
+            background-color: #ffffaa;
+            border: 2px solid #cc9900;
+        }
+
+        .active {
+            background-color: #aaffaa;
+            font-weight: bold;
+        }
+
+        .error {
+            background-color: #ffaaaa;
+            border: 2px solid #cc0000;
+            color: #660000;
+        }
+
+        .large-text {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        .rounded {
+            border-radius: 12px;
+        }
+
+        .shadow {
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .initial-class {
+            border: 1px dashed #999;
+        }
+    </style>
+    <script src="../support/jquery-2.1.1.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <div id="card1" class="card">Card 1 - addClass</div>
+        <div id="card2" class="card">Card 2 - addClass multiple</div>
+        <div id="card3" class="card initial-class">Card 3 - removeClass</div>
+        <div id="card4" class="card">Card 4 - toggleClass</div>
+        <div id="card5" class="card error">Card 5 - removeClass + addClass</div>
+        <div id="card6" class="card">Card 6 - multiple toggles</div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // addClass single
+            $('#card1').addClass('highlight');
+
+            // addClass multiple
+            $('#card2').addClass('active rounded shadow');
+
+            // removeClass
+            $('#card3').removeClass('initial-class').addClass('active');
+
+            // toggleClass
+            $('#card4').toggleClass('large-text highlight');
+
+            // removeClass then addClass
+            $('#card5').removeClass('error').addClass('highlight rounded');
+
+            // Multiple chained operations
+            $('#card6').addClass('shadow').addClass('active').addClass('rounded');
+        });
+    </script>
+</body>
+</html>

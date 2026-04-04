@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>* { margin: 0; padding: 0; } body { font-family: Arial; font-size: 14px; }</style>
+<script src="../support/jquery-2.1.1.js"></script>
+</head>
+<body>
+<div id="result"></div>
+<div id="target">Original text</div>
+<script>
+var lines = [];
+
+// Check jQuery exists
+lines.push('jQuery defined: ' + (typeof jQuery));
+lines.push('$ defined: ' + (typeof $));
+
+if (typeof jQuery === 'function' || typeof window.jQuery === 'function') {
+  var jq = jQuery || window.jQuery;
+
+  // Test selector
+  try {
+    var el = jq('#target');
+    lines.push('$("#target") length: ' + el.length);
+    lines.push('$("#target").text(): ' + el.text());
+  } catch(e) {
+    lines.push('selector error: ' + e.message);
+  }
+
+  // Test document.ready
+  var readyFired = false;
+  try {
+    jq(document).ready(function() {
+      readyFired = true;
+    });
+    lines.push('ready fired: ' + readyFired);
+  } catch(e) {
+    lines.push('ready error: ' + e.message);
+  }
+
+  // Test DOM manipulation
+  try {
+    jq('#target').text('Changed');
+    var newText = jq('#target').text();
+    lines.push('after .text("Changed"): ' + newText);
+  } catch(e) {
+    lines.push('text() error: ' + e.message);
+  }
+
+  // Test .css()
+  try {
+    jq('#target').css('color', 'red');
+    lines.push('css() set: ok');
+  } catch(e) {
+    lines.push('css() error: ' + e.message);
+  }
+
+  // Test .append()
+  try {
+    jq('#target').append('<span>appended</span>');
+    lines.push('append: ok');
+  } catch(e) {
+    lines.push('append error: ' + e.message);
+  }
+} else {
+  lines.push('jQuery not loaded');
+  lines.push('window.jQuery type: ' + typeof window.jQuery);
+}
+
+document.getElementById('result').innerHTML = lines.join('<br>');
+</script>
+</body>
+</html>
