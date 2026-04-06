@@ -1,0 +1,44 @@
+title: Markdown Test Suite
+description: >
+  GitHub-style HTML pages generated from markdown test files for Lambda/Radiant
+  layout engine testing.
+
+# ── Paths ──────────────────────────────────────────────────────────────────
+source:      .
+destination: ../../layout/data/markdown
+
+# ── Markdown engine ────────────────────────────────────────────────────────
+# Use kramdown with GFM input (closest to GitHub without cmark-gfm)
+markdown:   kramdown
+highlighter: none   # Disable Rouge — client-side highlight.js used instead
+
+kramdown:
+  input:          GFM
+  hard_wrap:      false
+  auto_ids:       true        # Add id= anchors to headings
+  footnote_nr:    1
+  entity_output:  as_input
+  toc_levels:     "1..6"
+  # Preserve $...$ and $$...$$ for client-side KaTeX auto-render
+  math_engine:    ~
+
+# ── Collections ────────────────────────────────────────────────────────────
+collections:
+  docs:
+    output:    true
+    permalink: /:name.html
+
+defaults:
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: page
+
+# ── Build ─────────────────────────────────────────────────────────────────
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - convert.sh
+  - "*.sh"
+  - vendor      # local gem path (never commit vendor/)

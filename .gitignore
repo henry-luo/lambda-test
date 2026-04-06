@@ -7,6 +7,21 @@ layout/view_tree.txt
 render/output/
 render/diff/
 
+# ── markdown/template — generated artefacts ───────────────────────────────
+# Gem dependencies (restored by: cd markdown/template && bundle install --path vendor/bundle)
+markdown/template/vendor/
+markdown/template/Gemfile.lock
+# Jekyll working directory (recreated by convert.sh on every run)
+markdown/template/_docs/
+# Jekyll's own cache
+markdown/template/.jekyll-cache/
+markdown/template/.jekyll-metadata
+
+# ── layout/data/markdown — generated HTML output ─────────────────────────
+# Rebuilt by: markdown/template/convert.sh
+layout/data/markdown/
+
+
 # Large reference files (>1MB) and their HTML counterparts
 layout/data/css2.1
 layout/data/css_block

@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+gem "jekyll",                "~> 4.2"   # 4.2.x is compatible with Ruby >= 2.5
+gem "jekyll-sass-converter", "~> 2.0"   # 2.x uses sassc (not sass-embedded) — Ruby 2.6 OK
+gem "ffi",                   "~> 1.15.0" # 1.17+ requires Ruby >= 3.0; ~> 1.15.0 pins to 1.15.x
+gem "kramdown-parser-gfm"               # GitHub-Flavored Markdown parser for kramdown
+gem "rouge"                             # Syntax highlighter (used as fallback only)
+gem "webrick"                           # Built-in HTTP server (optional, for jekyll serve)
