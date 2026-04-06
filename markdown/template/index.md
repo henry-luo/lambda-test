@@ -1,5 +1,5 @@
 ---
 layout: index
 title: Markdown Test Suite
-permalink: /index.html
+permalink: /md_index.html
 ---

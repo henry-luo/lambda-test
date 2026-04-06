@@ -126,24 +126,46 @@ class RadiantLayoutTester {
 
             let stdout = '';
             let stderr = '';
+            let filesCompleted = 0;
 
             proc.stdout.on('data', (data) => {
-                stdout += data.toString();
+                const chunk = data.toString();
+                stdout += chunk;
+                // Count per-file completions from layout summary lines
+                const matches = chunk.match(/Completed layout for:/g);
+                if (matches) {
+                    filesCompleted += matches.length;
+                }
             });
 
             proc.stderr.on('data', (data) => {
                 stderr += data.toString();
             });
 
+            // Print periodic progress for long-running batches
+            const startTime = Date.now();
+            const progressInterval = setInterval(() => {
+                const elapsed = Math.round((Date.now() - startTime) / 1000);
+                if (!this.json) {
+                    process.stdout.write(`   ⏳ Batch processing... ${elapsed}s elapsed\r`);
+                }
+            }, 5000);
+
             // Longer timeout for batch processing — scale with file count
             const batchTimeout = Math.max(120000, htmlFiles.length * 15000);  // min 120s, or 15s per file
             const timeout = setTimeout(() => {
+                clearInterval(progressInterval);
                 proc.kill();
                 reject(new Error(`Batch layout timeout (${htmlFiles.length} files, ${Math.round(batchTimeout / 1000)}s limit)`));
             }, batchTimeout);
 
             proc.on('close', (code) => {
                 clearTimeout(timeout);
+                clearInterval(progressInterval);
+                if (!this.json) {
+                    // Clear the progress line
+                    process.stdout.write('   \r');
+                }
                 // Build map of input file -> output file
                 // Use parentdir__basename naming to match C++ generate_output_path
                 const outputMap = new Map();
@@ -1839,8 +1861,8 @@ class RadiantLayoutTester {
             batches.push(testTasks.slice(i, i + batchSize));
         }
 
-        if (this.verbose) {
-            console.log(`\n🚀 Batch mode: ${testTasks.length} files in ${batches.length} batches of ${batchSize}, concurrency=${maxConcurrency}`);
+        if (!this.json) {
+            console.log(`\n🚀 Batch mode: ${testTasks.length} files in ${batches.length} batch(es) of up to ${batchSize}, concurrency=${maxConcurrency}`);
         }
 
         /**

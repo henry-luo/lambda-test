@@ -26,7 +26,7 @@ kramdown:
 collections:
   docs:
     output:    true
-    permalink: /:name.html
+    permalink: /md_:name.html
 
 defaults:
   - scope:
@@ -40,5 +40,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - convert.sh
+  - localize_images.py
   - "*.sh"
+  - "*.py"
   - vendor      # local gem path (never commit vendor/)
