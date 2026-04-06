@@ -555,7 +555,7 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://www.netlify.com">Netlify</a><br><br>
   <!--OC has a sharper image-->
-  <a href="https://www.netlify.com"><img src="https://images.opencollective.com/netlify/4087de2/logo/256.png" width="128"></a>
+  <a href="https://www.netlify.com"><img src="../support/images/images-opencollectiv_256.png" width="128"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://www.coinbase.com">Coinbase</a><br><br>
@@ -571,11 +571,11 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 </td>
 <td width="10%" align="center">
   <a href="https://boostnote.io">Boost Note</a><br><br>
-  <a href="https://boostnote.io"><img src="https://images.opencollective.com/boosthub/6318083/logo/128.png" width="64"></a>
+  <a href="https://boostnote.io"><img src="../support/images/images-opencollectiv_128.png" width="64"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://markdown.space">Markdown Space</a><br><br>
-  <a href="https://markdown.space"><img src="https://images.opencollective.com/markdown-space/e1038ed/logo/128.png" width="64"></a>
+  <a href="https://markdown.space"><img src="../support/images/images-opencollectiv_128.png" width="64"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://www.holloway.com">Holloway</a><br><br>
@@ -619,7 +619,7 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 
 [file-list-of-plugins]: doc/plugins.md#list-of-plugins
 
-[file-logo]: https://raw.githubusercontent.com/remarkjs/remark/1f338e72/logo.svg?sanitize=true
+[file-logo]: ../support/images/gh_remark-logo.svg?sanitize=true
 
 [github-awesome-remark]: https://github.com/remarkjs/awesome-remark
 

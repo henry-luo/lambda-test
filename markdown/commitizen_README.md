@@ -2,7 +2,7 @@
 
 When you commit with Commitizen, you'll be prompted to fill out any required commit fields at commit time. No more waiting until later for a git commit hook to run and reject your commit (though [that](https://github.com/kentcdodds/validate-commit-msg) can still be helpful). No more digging through [CONTRIBUTING.md](CONTRIBUTING.md) to find what the preferred format is. Get instant feedback on your commit message formatting and be prompted for required fields.
 
-[![Backers on Open Collective](https://opencollective.com/commitizen/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/commitizen/sponsors/badge.svg)](#sponsors) [![travis.ci](https://img.shields.io/travis/commitizen/cz-cli.svg?branch=master)](https://travis-ci.org/commitizen/cz-cli) [![Azure Build Status](https://dev.azure.com/commitizen/cz-cli/_apis/build/status/commitizen.cz-cli?branchName=master)](https://dev.azure.com/commitizen/cz-cli/_build/latest?definitionId=2)
+[![Backers on Open Collective](../support/images/opencollective_badge.svg)](#backers) [![Sponsors on Open Collective](../support/images/opencollective_badge.svg)](#sponsors) [![travis.ci](https://img.shields.io/travis/commitizen/cz-cli.svg?branch=master)](https://travis-ci.org/commitizen/cz-cli) [![Azure Build Status](https://dev.azure.com/commitizen/cz-cli/_apis/build/status/commitizen.cz-cli?branchName=master)](https://dev.azure.com/commitizen/cz-cli/_build/latest?definitionId=2)
 [![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg)](https://codecov.io/github/commitizen/cz-cli?branch=master) [![npm monthly downloads](https://img.shields.io/npm/dm/commitizen.svg)](https://www.npmjs.com/package/commitizen) [![current version](https://img.shields.io/npm/v/commitizen.svg)](https://www.npmjs.com/package/commitizen) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![commitizen on stackoverflow](https://img.shields.io/badge/stackoverflow-community-orange.svg?longCache=true&logo=stackoverflow)](https://stackoverflow.com/tags/commitizen)
 
 ## Installing the command line tool
@@ -39,7 +39,7 @@ or as an npm script:
 
 When you're working in a Commitizen-friendly repository, you'll be prompted to fill in any required fields, and your commit messages will be formatted according to the standards defined by project maintainers.
 
-[![Add and commit with Commitizen](https://github.com/commitizen/cz-cli/raw/master/meta/screenshots/add-commit.png)](https://github.com/commitizen/cz-cli/raw/master/meta/screenshots/add-commit.png)
+[![Add and commit with Commitizen](../support/images/github_add-commit.png)](../support/images/github_add-commit.png)
 
 ### If your repo is NOT Commitizen friendly:
 
@@ -334,27 +334,27 @@ Special thanks to @stevelacy, whose [gulp-git](https://www.npmjs.com/package/gul
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://opencollective.com/commitizen#section-contributors"><img src="https://opencollective.com/commitizen/contributors.svg?width=890&button=false" /></a>
+<a href="https://opencollective.com/commitizen#section-contributors"><img src="../support/images/opencollective_contributors.svg" /></a>
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/commitizen#backer)]
 
-<a href="https://opencollective.com/commitizen#category-BUDGET" target="_blank"><img src="https://opencollective.com/commitizen/backers.svg?width=890"></a>
+<a href="https://opencollective.com/commitizen#category-BUDGET" target="_blank"><img src="../support/images/opencollective_backers.svg"></a>
 
 ## Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/commitizen#sponsor)]
 
-<a href="https://opencollective.com/commitizen/sponsor/0/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/1/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/2/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/3/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/4/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/5/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/6/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/7/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/8/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/commitizen/sponsor/9/website" target="_blank"><img src="https://opencollective.com/commitizen/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/0/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/1/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/2/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/3/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/4/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/5/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/6/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/7/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/8/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
+<a href="https://opencollective.com/commitizen/sponsor/9/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
 
 [commitizen-friendly]: #making-your-repo-commitizen-friendly

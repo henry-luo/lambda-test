@@ -9,7 +9,7 @@
 
 > Terminal string styling done right
 
-[![Coverage Status](https://codecov.io/gh/chalk/chalk/branch/main/graph/badge.svg)](https://codecov.io/gh/chalk/chalk)
+[![Coverage Status](../support/images/codecov_badge.svg)](https://codecov.io/gh/chalk/chalk)
 [![npm dependents](https://badgen.net/npm/dependents/chalk)](https://www.npmjs.com/package/chalk?activeTab=dependents)
 [![Downloads](https://badgen.net/npm/dt/chalk)](https://www.npmjs.com/package/chalk)
 

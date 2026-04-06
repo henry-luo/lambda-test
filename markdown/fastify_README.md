@@ -1,6 +1,6 @@
 <div align="center"> <a href="https://fastify.dev/">
     <img
-      src="https://github.com/fastify/graphics/raw/HEAD/fastify-landscape-outlined.svg"
+      src="../support/images/github_fastify-landscape-outlined.svg"
       width="650"
       height="auto"
     />
@@ -9,11 +9,11 @@
 
 <div align="center">
 
-[![CI](https://github.com/fastify/fastify/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/ci.yml)
+[![CI](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/ci.yml)
 [![Package Manager
-CI](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml)
+CI](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml)
 [![Web
-site](https://github.com/fastify/fastify/actions/workflows/website.yml/badge.svg?branch=main)](https://github.com/fastify/fastify/actions/workflows/website.yml)
+site](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/website.yml)
 [![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/7585/badge)](https://bestpractices.coreinfrastructure.org/projects/7585)
 
@@ -383,7 +383,7 @@ active contributor's group.
 ## Hosted by
 
 [<img
-src="https://github.com/openjs-foundation/artwork/blob/main/openjs_foundation/openjs_foundation-logo-horizontal-color.png?raw=true"
+src="../support/images/gh_openjs_foundation-logo-horizontal-color.png"
 width="250px;"/>](https://openjsf.org/projects)
 
 We are an [At-Large

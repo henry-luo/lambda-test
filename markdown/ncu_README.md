@@ -81,11 +81,11 @@ ncu --interactive
 ncu -i
 ```
 
-![ncu --interactive](https://user-images.githubusercontent.com/750276/175337598-cdbb2c46-64f8-44f5-b54e-4ad74d7b52b4.png)
+![ncu --interactive](../support/images/user-images-githubus_175337598-cdbb2c46-64f8-44f5-b54e-4ad74d7b52b4.png)
 
 Combine with `--format group` for a truly _luxe_ experience:
 
-![ncu --interactive --format group](https://user-images.githubusercontent.com/750276/175336533-539261e4-5cf1-458f-9fbb-a7be2b477ebb.png)
+![ncu --interactive --format group](../support/images/user-images-githubus_175336533-539261e4-5cf1-458f-9fbb-a7be2b477ebb.png)
 
 ### Keys
 

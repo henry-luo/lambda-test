@@ -1,6 +1,6 @@
 # i18next: learn once - translate everywhere [![Post](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/intent/tweet?text=Awesome%20i18next:%20learn%20once%20-%20translate%20everywhere%20-%20the%20internationalization%20ecosystem%20&url=https://github.com/i18next/i18next&via=jamuhl&hashtags=i18n,javascript,dev)
 
-[![CI](https://github.com/i18next/i18next/actions/workflows/CI.yml/badge.svg)](https://github.com/i18next/i18next/actions/workflows/CI.yml)
+[![CI](../support/images/github_badge.svg)](https://github.com/i18next/i18next/actions/workflows/CI.yml)
 [![Coveralls](https://img.shields.io/coveralls/i18next/i18next/master.svg?style=flat-square)](https://coveralls.io/github/i18next/i18next)
 [![Package Quality](https://packagequality.com/shield/i18next.svg)](https://packagequality.com/#?package=i18next)
 [![cdnjs version](https://img.shields.io/cdnjs/v/i18next.svg?style=flat-square)](https://cdnjs.com/libraries/i18next)
@@ -10,7 +10,7 @@
 
 i18next is a very popular internationalization framework for browser or any other javascript environment (eg. Node.js, Deno).
 
-![ecosystem](https://raw.githubusercontent.com/i18next/i18next/master/assets/i18next-ecosystem.jpg)
+![ecosystem](../support/images/gh_i18next-ecosystem.jpg)
 
 i18next provides:
 
@@ -45,7 +45,7 @@ The react specific documentation is published on [react.i18next.com](https://rea
 
 <p align="center">
   <a href="https://locize.com/" target="_blank">
-    <img src="https://raw.githubusercontent.com/i18next/i18next/master/assets/locize_sponsor_240.gif" width="240px">
+    <img src="../support/images/gh_locize_sponsor_240.gif" width="240px">
   </a>
 </p>
 
@@ -57,7 +57,7 @@ A translation management system built around the i18next ecosystem - [Locize](ht
 
 **Now with a [Free plan](https://locize.com/pricing) for small projects!** Perfect for hobbyists or getting started.
 
-![Locize](https://www.locize.com/img/ads/github_locize.png)
+![Locize](../support/images/locize_github_locize.png)
 
 With using [Locize](https://www.locize.com/?utm_source=i18next_readme&utm_medium=github) you directly support the future of i18next.
 

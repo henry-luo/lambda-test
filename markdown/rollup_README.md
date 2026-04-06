@@ -1,5 +1,5 @@
 <p align="center">
-	<a href="https://rollupjs.org/"><img src="https://rollupjs.org/rollup-logo.svg" width="150" /></a>
+	<a href="https://rollupjs.org/"><img src="../support/images/rollupjs_rollup-logo.svg" width="150" /></a>
 </p>
 
 <p align="center">
@@ -13,13 +13,13 @@
     <img src="https://packagephobia.com/badge?p=rollup" alt="install size" >
   </a>
   <a href="https://codecov.io/gh/rollup/rollup">
-    <img src="https://codecov.io/gh/rollup/rollup/graph/badge.svg" alt="code coverage" >
+    <img src="../support/images/codecov_badge.svg" alt="code coverage" >
   </a>
   <a href="#backers" alt="sponsors on Open Collective">
-    <img src="https://opencollective.com/rollup/backers/badge.svg" alt="backers" >
+    <img src="../support/images/opencollective_badge.svg" alt="backers" >
   </a> 
   <a href="#sponsors" alt="Sponsors on Open Collective">
-    <img src="https://opencollective.com/rollup/sponsors/badge.svg" alt="sponsors" >
+    <img src="../support/images/opencollective_badge.svg" alt="sponsors" >
   </a> 
   <a href="https://github.com/rollup/rollup/blob/master/LICENSE.md">
     <img src="https://img.shields.io/npm/l/rollup.svg" alt="license">
@@ -109,19 +109,19 @@ To make sure your ES modules are immediately usable by tools that work with Comm
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/rollup/rollup/graphs/contributors"><img src="https://opencollective.com/rollup/contributors.svg?width=890" /></a>. If you want to contribute yourself, head over to the [contribution guidelines](CONTRIBUTING.md).
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/rollup/rollup/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a>. If you want to contribute yourself, head over to the [contribution guidelines](CONTRIBUTING.md).
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/rollup#backer)]
 
-<a href="https://opencollective.com/rollup#backers" target="_blank"><img src="https://opencollective.com/rollup/backers.svg?width=890"></a>
+<a href="https://opencollective.com/rollup#backers" target="_blank"><img src="../support/images/opencollective_backers.svg"></a>
 
 ## Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/rollup#sponsor)]
 
-<a href="https://opencollective.com/rollup/sponsor/0/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/1/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/1/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/2/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/2/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/3/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/3/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/4/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/4/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/5/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/5/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/6/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/6/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/7/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/7/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/8/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/8/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/9/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/9/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/10/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/10/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/11/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/11/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/12/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/12/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/13/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/13/avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/14/website" target="_blank"><img src="https://opencollective.com/rollup/sponsor/14/avatar.svg"></a>
+<a href="https://opencollective.com/rollup/sponsor/0/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/1/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/2/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/3/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/4/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/5/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/6/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/7/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/8/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/9/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/10/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/11/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/12/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/13/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/rollup/sponsor/14/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
 
 ## Special Sponsor
 

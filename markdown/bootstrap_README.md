@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://getbootstrap.com/">
-    <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png" alt="Bootstrap logo" width="200" height="165">
+    <img src="../support/images/getbootstrap_bootstrap-logo-shadow.png" alt="Bootstrap logo" width="200" height="165">
   </a>
 </p>
 
@@ -206,14 +206,12 @@ See [the Releases section of our GitHub project](https://github.com/twbs/bootstr
 ## Thanks
 
 <a href="https://www.browserstack.com/">
-  <img src="https://live.browserstack.com/images/opensource/browserstack-logo.svg" alt="BrowserStack" width="192" height="42">
+  <img src="../support/images/live-browserstack_browserstack-logo.svg" alt="BrowserStack" width="192" height="42">
 </a>
 
 Thanks to [BrowserStack](https://www.browserstack.com/) for providing the infrastructure that allows us to test in real browsers!
 
-<a href="https://www.netlify.com/">
-  <img src="https://www.netlify.com/v3/img/components/full-logo-light.svg" alt="Netlify" width="147" height="40">
-</a>
+**[Netlify](https://www.netlify.com/)**
 
 Thanks to [Netlify](https://www.netlify.com/) for providing us with Deploy Previews!
 
@@ -222,23 +220,23 @@ Thanks to [Netlify](https://www.netlify.com/) for providing us with Deploy Previ
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/bootstrap#sponsor)]
 
-[![OC sponsor 0](https://opencollective.com/bootstrap/sponsor/0/avatar.svg)](https://opencollective.com/bootstrap/sponsor/0/website)
-[![OC sponsor 1](https://opencollective.com/bootstrap/sponsor/1/avatar.svg)](https://opencollective.com/bootstrap/sponsor/1/website)
-[![OC sponsor 2](https://opencollective.com/bootstrap/sponsor/2/avatar.svg)](https://opencollective.com/bootstrap/sponsor/2/website)
-[![OC sponsor 3](https://opencollective.com/bootstrap/sponsor/3/avatar.svg)](https://opencollective.com/bootstrap/sponsor/3/website)
-[![OC sponsor 4](https://opencollective.com/bootstrap/sponsor/4/avatar.svg)](https://opencollective.com/bootstrap/sponsor/4/website)
-[![OC sponsor 5](https://opencollective.com/bootstrap/sponsor/5/avatar.svg)](https://opencollective.com/bootstrap/sponsor/5/website)
-[![OC sponsor 6](https://opencollective.com/bootstrap/sponsor/6/avatar.svg)](https://opencollective.com/bootstrap/sponsor/6/website)
-[![OC sponsor 7](https://opencollective.com/bootstrap/sponsor/7/avatar.svg)](https://opencollective.com/bootstrap/sponsor/7/website)
-[![OC sponsor 8](https://opencollective.com/bootstrap/sponsor/8/avatar.svg)](https://opencollective.com/bootstrap/sponsor/8/website)
-[![OC sponsor 9](https://opencollective.com/bootstrap/sponsor/9/avatar.svg)](https://opencollective.com/bootstrap/sponsor/9/website)
+[![OC sponsor 0](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/0/website)
+[![OC sponsor 1](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/1/website)
+[![OC sponsor 2](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/2/website)
+[![OC sponsor 3](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/3/website)
+[![OC sponsor 4](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/4/website)
+[![OC sponsor 5](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/5/website)
+[![OC sponsor 6](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/6/website)
+[![OC sponsor 7](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/7/website)
+[![OC sponsor 8](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/8/website)
+[![OC sponsor 9](../support/images/opencollective_avatar.svg)](https://opencollective.com/bootstrap/sponsor/9/website)
 
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/bootstrap#backer)]
 
-[![Backers](https://opencollective.com/bootstrap/backers.svg?width=890)](https://opencollective.com/bootstrap#backers)
+[![Backers](../support/images/opencollective_backers.svg)](https://opencollective.com/bootstrap#backers)
 
 
 ## Copyright and license

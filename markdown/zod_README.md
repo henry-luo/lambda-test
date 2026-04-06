@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/colinhacks/zod/main/logo.svg" width="200px" align="center" alt="Zod logo" />
+  <img src="../support/images/gh_logo.svg" width="200px" align="center" alt="Zod logo" />
   <h1 align="center">Zod</h1>
   <p align="center">
   <a href="https://zod.dev">zod.dev</a>
@@ -8,7 +8,7 @@
   </p>
 </p>
 <p align="center">
-<a href="https://github.com/colinhacks/zod/actions?query=branch%3Amain"><img src="https://github.com/colinhacks/zod/actions/workflows/test.yml/badge.svg?event=push&branch=main" alt="Zod CI status" /></a>
+<a href="https://github.com/colinhacks/zod/actions?query=branch%3Amain"><img src="../support/images/github_badge.svg" alt="Zod CI status" /></a>
 <a href="https://twitter.com/colinhacks" rel="nofollow"><img src="https://img.shields.io/badge/created%20by-@colinhacks-4BBAAB.svg" alt="Created by Colin McDonnell"></a>
 <a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/github/license/colinhacks/zod" alt="License"></a>
 <a href="https://www.npmjs.com/package/zod" rel="nofollow"><img src="https://img.shields.io/npm/dw/zod.svg" alt="npm"></a>
@@ -42,8 +42,8 @@
 <div align="center">
   <a href="https://jazz.tools/?utm_source=zod">
     <picture width="95%" >
-      <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/w1GE8ao.png">
-      <img alt="jazz logo" src="https://i.imgur.com/w1GE8ao.png" width="95%">
+      <source media="(prefers-color-scheme: dark)" srcset="../support/images/i-imgur_w1GE8ao.png">
+      <img alt="jazz logo" src="../support/images/i-imgur_w1GE8ao.png" width="95%">
     </picture>
   </a>
   <br/>
@@ -449,7 +449,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
   <tr>
     <td align="center">
       <a href="https://www.numeric.io">
-        <img src="https://i.imgur.com/kTiLtZt.png" height="40px;" alt="Numeric logo" />
+        <img src="../support/images/i-imgur_kTiLtZt.png" height="40px;" alt="Numeric logo" />
       </a>
     </td>
     <td align="center">

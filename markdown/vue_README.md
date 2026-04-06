@@ -6,7 +6,7 @@ Vue has reached End of Life on December 31st, 2023. It no longer receives new fe
 
 If you are starting a new project, please start with the latest version of Vue (3.x). We also strongly recommend current Vue 2 users to upgrade ([guide](https://v3-migration.vuejs.org/)), but we also acknowledge that not all users have the bandwidth or incentive to do so. If you have to stay on Vue 2 but also have compliance or security requirements about unmaintained software, check out [Vue 2 NES](https://www.herodevs.com/support/nes-vue?utm_source=vuejs-github&utm_medium=vue2-readme).
 
-<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a></p>
+<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="../support/images/vuejs_logo.png" alt="Vue logo"></a></p>
 
 <p align="center">
   <a href="https://circleci.com/gh/vuejs/vue/tree/dev"><img src="https://img.shields.io/circleci/project/github/vuejs/vue/dev.svg?sanitize=true" alt="Build Status"></a>
@@ -27,13 +27,13 @@ Vue.js is an MIT-licensed open source project with its ongoing development made 
 
 <p align="center">
   <a target="_blank" href="https://github.com/appwrite/appwrite">
-  <img alt="special sponsor appwrite" src="https://sponsors.vuejs.org/images/appwrite.svg" width="300">
+  <img alt="special sponsor appwrite" src="../support/images/sponsors-vuejs_appwrite.svg" width="300">
   </a>
 </p>
 
 <p align="center">
   <a target="_blank" href="https://vuejs.org/sponsor/">
-    <img alt="sponsors" src="https://sponsors.vuejs.org/sponsors.svg?v3">
+    <img alt="sponsors" src="../support/images/sponsors-vuejs_sponsors.svg">
   </a>
 </p>
 
@@ -113,7 +113,7 @@ Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/b
 
 Thank you to all the people who already contributed to Vue!
 
-<a href="https://github.com/vuejs/vue/graphs/contributors"><img src="https://opencollective.com/vuejs/contributors.svg?width=890" /></a>
+<a href="https://github.com/vuejs/vue/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a>
 
 ## License
 

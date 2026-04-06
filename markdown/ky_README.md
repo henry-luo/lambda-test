@@ -14,7 +14,7 @@
 		<br>
 		<a href="https://circleback.ai?utm_source=sindresorhus&utm_medium=sponsorship&utm_campaign=awesome-list&utm_id=ky">
 			<div>
-				<img width="280" src="https://sindresorhus.com/assets/thanks/circleback-logo.png?x" alt="Circleback logo">
+				<img width="280" src="../support/images/sindresorhus_circleback-logo.png" alt="Circleback logo">
 			</div>
 			<b>Get the most out of every conversation.</b>
 			<div>
@@ -33,7 +33,7 @@
 
 > Ky is a tiny and elegant HTTP client based on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)
 
-[![Coverage Status](https://codecov.io/gh/sindresorhus/ky/branch/main/graph/badge.svg)](https://codecov.io/gh/sindresorhus/ky)
+[![Coverage Status](../support/images/codecov_badge.svg)](https://codecov.io/gh/sindresorhus/ky)
 [![](https://badgen.net/bundlephobia/minzip/ky)](https://bundlephobia.com/result?p=ky)
 
 Ky targets [modern browsers](#browser-support), Node.js, Bun, and Deno.

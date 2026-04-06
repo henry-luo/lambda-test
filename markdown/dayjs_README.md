@@ -1,7 +1,7 @@
 English | [简体中文](./docs/zh-cn/README.zh-CN.md) | [日本語](./docs/ja/README-ja.md) | [Português Brasileiro](./docs/pt-br/README-pt-br.md) | [한국어](./docs/ko/README-ko.md) | [Español (España)](./docs/es-es/README-es-es.md) | [Русский](./docs/ru/README-ru.md) | [Türkçe](./docs/tr/README-tr.md) | [සිංහල](./docs/si/README-si.md) | [עברית](./docs/he/README-he.md)
 
 <p align="center"><a href="https://day.js.org/" target="_blank" rel="noopener noreferrer"><img width="550"
-                                                                             src="https://user-images.githubusercontent.com/17680888/39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png"
+                                                                             src="../support/images/user-images-githubus_39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png"
                                                                              alt="Day.js" /></a></p>
 <p align="center">Fast <b>2kB</b> alternative to Moment.js with the same modern API</p>
 <p align="center">
@@ -18,7 +18,7 @@ English | [简体中文](./docs/zh-cn/README.zh-CN.md) | [日本語](./docs/ja/R
             src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="License"></a>
     <br>
     <a href="https://saucelabs.com/u/dayjs">
-        <img width="750" src="https://user-images.githubusercontent.com/17680888/40040137-8e3323a6-584b-11e8-9dba-bbe577ee8a7b.png" alt="Sauce Test Status">
+        <img width="750" src="../support/images/user-images-githubus_40040137-8e3323a6-584b-11e8-9dba-bbe577ee8a7b.png" alt="Sauce Test Status">
     </a>
 </p>
 
@@ -110,15 +110,15 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://opencollective.com/sight-sound" target="_blank">
-  <img width="70" src="https://images.opencollective.com/sight-sound/54f7220/logo/256.png?height=256">
+  <img width="70" src="../support/images/images-opencollectiv_256.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://opencollective.com/filerev" target="_blank">
-  <img width="70" src="https://images.opencollective.com/filerev/93a8f05/logo/256.png?height=256" />
+  <img width="70" src="../support/images/images-opencollectiv_256.png" />
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://opencollective.com/carboneio" target="_blank">
-  <img width="70" src="https://images.opencollective.com/carboneio/fe2066c/logo/256.png?height=256">
+  <img width="70" src="../support/images/images-opencollectiv_256.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/radioplusexperts" target="_blank">
@@ -170,7 +170,7 @@ Please give us a 💖 star 💖 to support us. Thank you.
 
 And thank you to all our backers! 🙏
 
-<a href="https://opencollective.com/dayjs#backers" target="_blank"><img src="https://opencollective.com/dayjs/contributors.svg?width=890" /></a>
+<a href="https://opencollective.com/dayjs#backers" target="_blank"><img src="../support/images/opencollective_contributors.svg" /></a>
 
 ## License
 

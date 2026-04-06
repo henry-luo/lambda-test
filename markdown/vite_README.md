@@ -3,9 +3,9 @@
   <br>
   <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://vite.dev/vite-light.svg">
-      <source media="(prefers-color-scheme: light)" srcset="https://vite.dev/vite-dark.svg">
-      <img alt="vite logo" src="https://vite.dev/vite-dark.svg" height="60">
+      <source media="(prefers-color-scheme: dark)" srcset="../support/images/vite-dev_vite-light.svg">
+      <source media="(prefers-color-scheme: light)" srcset="../support/images/vite-dev_vite-dark.svg">
+      <img alt="vite logo" src="../support/images/vite-dev_vite-dark.svg" height="60">
     </picture>
   </a>
   <br>
@@ -15,7 +15,7 @@
 <p align="center">
   <a href="https://npmjs.com/package/vite"><img src="https://img.shields.io/npm/v/vite.svg" alt="npm package"></a>
   <a href="https://nodejs.org/en/about/previous-releases"><img src="https://img.shields.io/node/v/vite.svg" alt="node compatibility"></a>
-  <a href="https://github.com/vitejs/vite/actions/workflows/ci.yml"><img src="https://github.com/vitejs/vite/actions/workflows/ci.yml/badge.svg?branch=main" alt="build status"></a>
+  <a href="https://github.com/vitejs/vite/actions/workflows/ci.yml"><img src="../support/images/github_badge.svg" alt="build status"></a>
   <a href="https://docs.warp.dev/support-and-community/community/open-source-partnership"><img src="https://img.shields.io/badge/Oz%20agents-triaging%20issues-white?logo=warp" alt="issue triage powered by Oz"></a>
   <a href="https://chat.vite.dev"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
 </p>
@@ -62,6 +62,6 @@ See [Contributing Guide](CONTRIBUTING.md).
 
 <p align="center">
   <a target="_blank" href="https://github.com/sponsors/yyx990803">
-    <img alt="sponsors" src="https://sponsors.vuejs.org/vite.svg?v2">
+    <img alt="sponsors" src="../support/images/sponsors-vuejs_vite.svg">
   </a>
 </p>

@@ -225,13 +225,13 @@ Learn more about using [Jest on the official site!](https://jestjs.io)
 
 ## Badge
 
-Show the world you're using _Jest_ `→` [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/jestjs/jest) [![jest tested](https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&labelColor=99424f)](https://github.com/jestjs/jest) [![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/jestjs/jest)
+Show the world you're using _Jest_ `→` [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/jestjs/jest) [![jest tested](https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&labelColor=99424f)](https://github.com/jestjs/jest) [![jest](../support/images/jestjs_jest-badge.svg)](https://github.com/jestjs/jest)
 
 <!-- prettier-ignore -->
 ```md
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg?logo=jest)](https://github.com/jestjs/jest)
 [![jest tested](https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&labelColor=99424f)](https://github.com/jestjs/jest)
-[![jest](https://jestjs.io/img/jest-badge.svg)](https://github.com/jestjs/jest)
+[![jest](../support/images/jestjs_jest-badge.svg)](https://github.com/jestjs/jest)
 ```
 
 ## Contributing
@@ -254,19 +254,19 @@ To help you get your feet wet and get you familiar with our contribution process
 
 This project exists thanks to all the people who [contribute](CONTRIBUTING.md).
 
-<a href="https://github.com/jestjs/jest/graphs/contributors"><img src="https://opencollective.com/jest/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/jestjs/jest/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a>
 
 ### [Backers](https://opencollective.com/jest#backer)
 
 Thank you to all our backers! 🙏
 
-<a href="https://opencollective.com/jest#backers" target="_blank"><img src="https://opencollective.com/jest/backers.svg?width=890"></a>
+<a href="https://opencollective.com/jest#backers" target="_blank"><img src="../support/images/opencollective_backers.svg"></a>
 
 ### [Sponsors](https://opencollective.com/jest#sponsor)
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
 
-<a href="https://opencollective.com/jest/sponsor/0/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/1/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/1/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/2/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/2/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/3/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/3/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/4/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/4/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/5/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/5/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/6/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/6/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/7/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/7/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/8/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/8/avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/9/website" target="_blank"><img src="https://opencollective.com/jest/sponsor/9/avatar.svg"></a>
+<a href="https://opencollective.com/jest/sponsor/0/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/1/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/2/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/3/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/4/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/5/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/6/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/7/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/8/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a> <a href="https://opencollective.com/jest/sponsor/9/website" target="_blank"><img src="../support/images/opencollective_avatar.svg"></a>
 
 ## License
 

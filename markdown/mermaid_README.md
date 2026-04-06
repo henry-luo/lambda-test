@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/mermaid-js/mermaid/develop/docs/public/favicon.svg" height="150">
+<img src="../support/images/gh_favicon.svg" height="150">
 </p>
 <h1 align="center">
 Mermaid
@@ -28,14 +28,14 @@ Try Live Editor previews of future releases: <a href="https://develop.git.mermai
 <br>
 
 [![NPM](https://img.shields.io/npm/v/mermaid)](https://www.npmjs.com/package/mermaid)
-[![Build CI Status](https://github.com/mermaid-js/mermaid/actions/workflows/build.yml/badge.svg)](https://github.com/mermaid-js/mermaid/actions/workflows/build.yml)
+[![Build CI Status](../support/images/github_badge.svg)](https://github.com/mermaid-js/mermaid/actions/workflows/build.yml)
 [![npm minified gzipped bundle size](https://img.shields.io/bundlephobia/minzip/mermaid)](https://bundlephobia.com/package/mermaid)
-[![Coverage Status](https://codecov.io/github/mermaid-js/mermaid/branch/develop/graph/badge.svg)](https://app.codecov.io/github/mermaid-js/mermaid/tree/develop)
+[![Coverage Status](../support/images/codecov_badge.svg)](https://app.codecov.io/github/mermaid-js/mermaid/tree/develop)
 [![CDN Status](https://img.shields.io/jsdelivr/npm/hm/mermaid)](https://www.jsdelivr.com/package/npm/mermaid)
 [![NPM Downloads](https://img.shields.io/npm/dm/mermaid)](https://www.npmjs.com/package/mermaid)
 [![Join our Discord!](https://img.shields.io/static/v1?message=join%20chat&color=9cf&logo=discord&label=discord)](https://discord.gg/sKeNQX4Wtj)
 [![Twitter Follow](https://img.shields.io/badge/Social-mermaidjs__-blue?style=social&logo=X)](https://twitter.com/mermaidjs_)
-[![Covered by Argos Visual Testing](https://argos-ci.com/badge.svg)](https://argos-ci.com?utm_source=mermaid&utm_campaign=oss)
+[![Covered by Argos Visual Testing](../support/images/argos-ci_badge.svg)](https://argos-ci.com?utm_source=mermaid&utm_campaign=oss)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/mermaid-js/mermaid/badge)](https://securityscorecards.dev/viewer/?uri=github.com/mermaid-js/mermaid)
 
 <img src="./img/header.png" alt="" />
@@ -44,7 +44,7 @@ Try Live Editor previews of future releases: <a href="https://develop.git.mermai
 
 **Thanks to all involved, people committing pull requests, people answering questions! 🙏**
 
-<a href="https://mermaid.js.org/landing/"><img src="https://github.com/mermaid-js/mermaid/blob/master/docs/intro/img/book-banner-post-release.jpg" alt='Banner for "The Official Guide to Mermaid.js" book'></a>
+<a href="https://mermaid.js.org/landing/"><img src="../support/images/gh_book-banner-post-release.jpg" alt='Banner for "The Official Guide to Mermaid.js" book'></a>
 
 ## Table of content
 
@@ -85,7 +85,7 @@ For a more detailed introduction to Mermaid and some of its more basic uses, loo
 
 Our PR Visual Regression Testing is powered by [Argos](https://argos-ci.com/?utm_source=mermaid&utm_campaign=oss) with their generous Open Source plan. It makes the process of reviewing PRs with visual changes a breeze.
 
-[![Covered by Argos Visual Testing](https://argos-ci.com/badge-large.svg)](https://argos-ci.com?utm_source=mermaid&utm_campaign=oss)
+[![Covered by Argos Visual Testing](../support/images/argos-ci_badge-large.svg)](https://argos-ci.com?utm_source=mermaid&utm_campaign=oss)
 
 In our release process we rely heavily on visual regression tests using [applitools](https://applitools.com/). Applitools is a great service which has been easy to use and integrate with our tests.
 
