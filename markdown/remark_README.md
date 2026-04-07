@@ -619,7 +619,7 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 
 [file-list-of-plugins]: doc/plugins.md#list-of-plugins
 
-[file-logo]: ../support/images/gh_remark-logo.svg?sanitize=true
+[file-logo]: ../support/images/gh_remark-logo.svg
 
 [github-awesome-remark]: https://github.com/remarkjs/awesome-remark
 
