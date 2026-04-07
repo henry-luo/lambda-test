@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chalk README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>chalk README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        chalk README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 align="center">
+	<br />
+	<br />
+	<img width="320" src="media/logo.svg" alt="Chalk" />
+	<br />
+	<br />
+	<br />
+</h1>
+
+<blockquote>
+  <p>Terminal string styling done right</p>
+</blockquote>
+
+<p><a href="https://codecov.io/gh/chalk/chalk"><img src="../support/images/codecov_badge.svg" alt="Coverage Status" /></a>
+<a href="https://www.npmjs.com/package/chalk?activeTab=dependents"><img src="../support/images/badgen.net_npm_dependents_chalk.svg" alt="npm dependents" /></a>
+<a href="https://www.npmjs.com/package/chalk"><img src="../support/images/badgen.net_npm_dt_chalk.svg" alt="Downloads" /></a></p>
+
+<p><img src="media/screenshot.png" alt="" /></p>
+
+<h2 id="info">Info</h2>
+
+<ul>
+  <li><a href="https://github.com/chalk/chalk?tab=readme-ov-file#why-not-switch-to-a-smaller-coloring-package">Why not switch to a smaller coloring package?</a></li>
+  <li>See <a href="https://github.com/sindresorhus/yoctocolors">yoctocolors</a> for a smaller alternative</li>
+</ul>
+
+<h2 id="highlights">Highlights</h2>
+
+<ul>
+  <li>Expressive API</li>
+  <li>Highly performant</li>
+  <li>No dependencies</li>
+  <li>Ability to nest styles</li>
+  <li><a href="#256-and-truecolor-color-support">256/Truecolor color support</a></li>
+  <li>Auto-detects color support</li>
+  <li>Doesn&#8217;t extend <code>String.prototype</code></li>
+  <li>Clean and focused</li>
+  <li>Actively maintained</li>
+  <li><a href="https://www.npmjs.com/browse/depended/chalk">Used by ~115,000 packages</a> as of July 4, 2024</li>
+</ul>
+
+<h2 id="install">Install</h2>
+
+<pre><code class="language-sh">npm install chalk
+</code></pre>
+
+<p><strong>IMPORTANT:</strong> Chalk 5 is ESM. If you want to use Chalk with TypeScript or a build tool, you will probably want to use Chalk 4 for now. <a href="https://github.com/chalk/chalk/releases/tag/v5.0.0">Read more.</a></p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-js">import chalk from 'chalk';
+
+console.log(chalk.blue('Hello world!'));
+</code></pre>
+
+<p>Chalk comes with an easy to use composable API where you just chain and nest the styles you want.</p>
+
+<pre><code class="language-js">import chalk from 'chalk';
+
+const log = console.log;
+
+// Combine styled and normal strings
+log(chalk.blue('Hello') + ' World' + chalk.red('!'));
+
+// Compose multiple styles using the chainable API
+log(chalk.blue.bgRed.bold('Hello world!'));
+
+// Pass in multiple arguments
+log(chalk.blue('Hello', 'World!', 'Foo', 'bar', 'biz', 'baz'));
+
+// Nest styles
+log(chalk.red('Hello', chalk.underline.bgBlue('world') + '!'));
+
+// Nest styles of the same type even (color, underline, background)
+log(chalk.green(
+	'I am a green line ' +
+	chalk.blue.underline.bold('with a blue substring') +
+	' that becomes green again!'
+));
+
+// ES2015 template literal
+log(`
+CPU: ${chalk.red('90%')}
+RAM: ${chalk.green('40%')}
+DISK: ${chalk.yellow('70%')}
+`);
+
+// Use RGB colors in terminal emulators that support it.
+log(chalk.rgb(123, 45, 67).underline('Underlined reddish color'));
+log(chalk.hex('#DEADED').bold('Bold gray!'));
+</code></pre>
+
+<p>Easily define your own themes:</p>
+
+<pre><code class="language-js">import chalk from 'chalk';
+
+const error = chalk.bold.red;
+const warning = chalk.hex('#FFA500'); // Orange color
+
+console.log(error('Error!'));
+console.log(warning('Warning!'));
+</code></pre>
+
+<p>Take advantage of console.log <a href="https://nodejs.org/docs/latest/api/console.html#console_console_log_data_args">string substitution</a>:</p>
+
+<pre><code class="language-js">import chalk from 'chalk';
+
+const name = 'Sindre';
+console.log(chalk.green('Hello %s'), name);
+//=&gt; 'Hello Sindre'
+</code></pre>
+
+<h2 id="api">API</h2>
+
+<h3 id="chalkstylestylestring-string">chalk.<code>&lt;style&gt;[.&lt;style&gt;...](string, [string...])</code></h3>
+
+<p>Example: <code>chalk.red.bold.underline('Hello', 'world');</code></p>
+
+<p>Chain <a href="#styles">styles</a> and call the last one as a method with a string argument. Order doesn&#8217;t matter, and later styles take precedent in case of a conflict. This simply means that <code>chalk.red.yellow.green</code> is equivalent to <code>chalk.green</code>.</p>
+
+<p>Multiple arguments will be separated by space.</p>
+
+<h3 id="chalklevel">chalk.level</h3>
+
+<p>Specifies the level of color support.</p>
+
+<p>Color support is automatically detected, but you can override it by setting the <code>level</code> property. You should however only do this in your own code as it applies globally to all Chalk consumers.</p>
+
+<p>If you need to change this in a reusable module, create a new instance:</p>
+
+<pre><code class="language-js">import {Chalk} from 'chalk';
+
+const customChalk = new Chalk({level: 0});
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Level</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code>0</code></td>
+      <td style="text-align: left">All colors disabled</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code>1</code></td>
+      <td style="text-align: left">Basic color support (16 colors)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code>2</code></td>
+      <td style="text-align: left">256 color support</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code>3</code></td>
+      <td style="text-align: left">Truecolor support (16 million colors)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="supportscolor">supportsColor</h3>
+
+<p>Detect whether the terminal <a href="https://github.com/chalk/supports-color">supports color</a>. Used internally and handled for you, but exposed for convenience.</p>
+
+<p>Can be overridden by the user with the flags <code>--color</code> and <code>--no-color</code>. For situations where using <code>--color</code> is not possible, use the environment variable <code>FORCE_COLOR=1</code> (level 1), <code>FORCE_COLOR=2</code> (level 2), or <code>FORCE_COLOR=3</code> (level 3) to forcefully enable color, or <code>FORCE_COLOR=0</code> to forcefully disable. The use of <code>FORCE_COLOR</code> overrides all other color support checks.</p>
+
+<p>Explicit 256/Truecolor mode can be enabled using the <code>--color=256</code> and <code>--color=16m</code> flags, respectively.</p>
+
+<h3 id="chalkstderr-and-supportscolorstderr">chalkStderr and supportsColorStderr</h3>
+
+<p><code>chalkStderr</code> contains a separate instance configured with color support detected for <code>stderr</code> stream instead of <code>stdout</code>. Override rules from <code>supportsColor</code> apply to this too. <code>supportsColorStderr</code> is exposed for convenience.</p>
+
+<h3 id="modifiernames-foregroundcolornames-backgroundcolornames-and-colornames">modifierNames, foregroundColorNames, backgroundColorNames, and colorNames</h3>
+
+<p>All supported style strings are exposed as an array of strings for convenience. <code>colorNames</code> is the combination of <code>foregroundColorNames</code> and <code>backgroundColorNames</code>.</p>
+
+<p>This can be useful if you wrap Chalk and need to validate input:</p>
+
+<pre><code class="language-js">import {modifierNames, foregroundColorNames} from 'chalk';
+
+console.log(modifierNames.includes('bold'));
+//=&gt; true
+
+console.log(foregroundColorNames.includes('pink'));
+//=&gt; false
+</code></pre>
+
+<h2 id="styles">Styles</h2>
+
+<h3 id="modifiers">Modifiers</h3>
+
+<ul>
+  <li><code>reset</code> - Reset the current style.</li>
+  <li><code>bold</code> - Make the text bold.</li>
+  <li><code>dim</code> - Make the text have lower opacity.</li>
+  <li><code>italic</code> - Make the text italic. <em>(Not widely supported)</em></li>
+  <li><code>underline</code> - Put a horizontal line below the text. <em>(Not widely supported)</em></li>
+  <li><code>overline</code> - Put a horizontal line above the text. <em>(Not widely supported)</em></li>
+  <li><code>inverse</code> - Invert background and foreground colors.</li>
+  <li><code>hidden</code> - Print the text but make it invisible.</li>
+  <li><code>strikethrough</code> - Puts a horizontal line through the center of the text. <em>(Not widely supported)</em></li>
+  <li><code>visible</code> - Print the text only when Chalk has a color level above zero. Can be useful for things that are purely cosmetic.</li>
+</ul>
+
+<h3 id="colors">Colors</h3>
+
+<ul>
+  <li><code>black</code></li>
+  <li><code>red</code></li>
+  <li><code>green</code></li>
+  <li><code>yellow</code></li>
+  <li><code>blue</code></li>
+  <li><code>magenta</code></li>
+  <li><code>cyan</code></li>
+  <li><code>white</code></li>
+  <li><code>blackBright</code> (alias: <code>gray</code>, <code>grey</code>)</li>
+  <li><code>redBright</code></li>
+  <li><code>greenBright</code></li>
+  <li><code>yellowBright</code></li>
+  <li><code>blueBright</code></li>
+  <li><code>magentaBright</code></li>
+  <li><code>cyanBright</code></li>
+  <li><code>whiteBright</code></li>
+</ul>
+
+<h3 id="background-colors">Background colors</h3>
+
+<ul>
+  <li><code>bgBlack</code></li>
+  <li><code>bgRed</code></li>
+  <li><code>bgGreen</code></li>
+  <li><code>bgYellow</code></li>
+  <li><code>bgBlue</code></li>
+  <li><code>bgMagenta</code></li>
+  <li><code>bgCyan</code></li>
+  <li><code>bgWhite</code></li>
+  <li><code>bgBlackBright</code> (alias: <code>bgGray</code>, <code>bgGrey</code>)</li>
+  <li><code>bgRedBright</code></li>
+  <li><code>bgGreenBright</code></li>
+  <li><code>bgYellowBright</code></li>
+  <li><code>bgBlueBright</code></li>
+  <li><code>bgMagentaBright</code></li>
+  <li><code>bgCyanBright</code></li>
+  <li><code>bgWhiteBright</code></li>
+</ul>
+
+<h2 id="256-and-truecolor-color-support">256 and Truecolor color support</h2>
+
+<p>Chalk supports 256 colors and <a href="https://github.com/termstandard/colors">Truecolor</a> (16 million colors) on supported terminal apps.</p>
+
+<p>Colors are downsampled from 16 million RGB values to an ANSI color format that is supported by the terminal emulator (or by specifying <code>{level: n}</code> as a Chalk option). For example, Chalk configured to run at level 1 (basic color support) will downsample an RGB value of #FF0000 (red) to 31 (ANSI escape for red).</p>
+
+<p>Examples:</p>
+
+<ul>
+  <li><code>chalk.hex('#DEADED').underline('Hello, world!')</code></li>
+  <li><code>chalk.rgb(15, 100, 204).inverse('Hello!')</code></li>
+</ul>
+
+<p>Background versions of these models are prefixed with <code>bg</code> and the first level of the module capitalized (e.g. <code>hex</code> for foreground colors and <code>bgHex</code> for background colors).</p>
+
+<ul>
+  <li><code>chalk.bgHex('#DEADED').underline('Hello, world!')</code></li>
+  <li><code>chalk.bgRgb(15, 100, 204).inverse('Hello!')</code></li>
+</ul>
+
+<p>The following color models can be used:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/RGB_color_model"><code>rgb</code></a> - Example: <code>chalk.rgb(255, 136, 0).bold('Orange!')</code></li>
+  <li><a href="https://en.wikipedia.org/wiki/Web_colors#Hex_triplet"><code>hex</code></a> - Example: <code>chalk.hex('#FF8800').bold('Orange!')</code></li>
+  <li><a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit"><code>ansi256</code></a> - Example: <code>chalk.bgAnsi256(194)('Honeydew, more or less')</code></li>
+</ul>
+
+<h2 id="browser-support">Browser support</h2>
+
+<p>Since Chrome 69, ANSI escape codes are natively supported in the developer console.</p>
+
+<h2 id="windows">Windows</h2>
+
+<p>If you&#8217;re on Windows, do yourself a favor and use <a href="https://github.com/microsoft/terminal">Windows Terminal</a> instead of <code>cmd.exe</code>.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="why-not-switch-to-a-smaller-coloring-package">Why not switch to a smaller coloring package?</h3>
+
+<p>Chalk may be larger, but there is a reason for that. It offers a more user-friendly API, well-documented types, supports millions of colors, and covers edge cases that smaller alternatives miss. Chalk is mature, reliable, and built to last.</p>
+
+<p>But beyond the technical aspects, there&#8217;s something more critical: trust and long-term maintenance. I have been active in open source for over a decade, and I&#8217;m committed to keeping Chalk maintained. Smaller packages might seem appealing now, but there&#8217;s no guarantee they will be around for the long term, or that they won&#8217;t become malicious over time.</p>
+
+<p>Chalk is also likely already in your dependency tree (since 100K+ packages depend on it), so switching won’t save space—in fact, it might increase it. npm deduplicates dependencies, so multiple Chalk instances turn into one, but adding another package alongside it will increase your overall size.</p>
+
+<p>If the goal is to clean up the ecosystem, switching away from Chalk won’t even make a dent. The real problem lies with packages that have very deep dependency trees (for example, those including a lot of polyfills). Chalk has no dependencies. It&#8217;s better to focus on impactful changes rather than minor optimizations.</p>
+
+<p>If absolute package size is important to you, I also maintain <a href="https://github.com/sindresorhus/yoctocolors">yoctocolors</a>, one of the smallest color packages out there.</p>
+
+<p><em>- <a href="https://github.com/sindresorhus">Sindre</a></em></p>
+
+<h3 id="but-the-smaller-coloring-package-has-benchmarks-showing-it-is-faster">But the smaller coloring package has benchmarks showing it is faster</h3>
+
+<p><a href="https://sindresorhus.com/blog/micro-benchmark-fallacy">Micro-benchmarks are flawed</a> because they measure performance in unrealistic, isolated scenarios, often giving a distorted view of real-world performance. Don&#8217;t believe marketing fluff. All the coloring packages are more than fast enough.</p>
+
+<h2 id="related">Related</h2>
+
+<ul>
+  <li><a href="https://github.com/chalk/chalk-template">chalk-template</a> - <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates">Tagged template literals</a> support for this module</li>
+  <li><a href="https://github.com/chalk/chalk-cli">chalk-cli</a> - CLI for this module</li>
+  <li><a href="https://github.com/chalk/ansi-styles">ansi-styles</a> - ANSI escape codes for styling strings in the terminal</li>
+  <li><a href="https://github.com/chalk/supports-color">supports-color</a> - Detect whether a terminal supports color</li>
+  <li><a href="https://github.com/chalk/strip-ansi">strip-ansi</a> - Strip ANSI escape codes</li>
+  <li><a href="https://github.com/chalk/strip-ansi-stream">strip-ansi-stream</a> - Strip ANSI escape codes from a stream</li>
+  <li><a href="https://github.com/chalk/has-ansi">has-ansi</a> - Check if a string has ANSI escape codes</li>
+  <li><a href="https://github.com/chalk/ansi-regex">ansi-regex</a> - Regular expression for matching ANSI escape codes</li>
+  <li><a href="https://github.com/chalk/wrap-ansi">wrap-ansi</a> - Wordwrap a string with ANSI escape codes</li>
+  <li><a href="https://github.com/chalk/slice-ansi">slice-ansi</a> - Slice a string with ANSI escape codes</li>
+  <li><a href="https://github.com/qix-/color-convert">color-convert</a> - Converts colors between different models</li>
+  <li><a href="https://github.com/bokub/chalk-animation">chalk-animation</a> - Animate strings in the terminal</li>
+  <li><a href="https://github.com/bokub/gradient-string">gradient-string</a> - Apply color gradients to strings</li>
+  <li><a href="https://github.com/LitoMore/chalk-pipe">chalk-pipe</a> - Create chalk style schemes with simpler style strings</li>
+  <li><a href="https://github.com/sindresorhus/terminal-link">terminal-link</a> - Create clickable links in the terminal</li>
+</ul>
+
+<p><em>(Not accepting additional entries)</em></p>
+
+<h2 id="maintainers">Maintainers</h2>
+
+<ul>
+  <li><a href="https://github.com/sindresorhus">Sindre Sorhus</a></li>
+  <li><a href="https://github.com/qix-">Josh Junon</a></li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

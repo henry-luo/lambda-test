@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bootstrap README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>bootstrap README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        bootstrap README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p align="center">
+  <a href="https://getbootstrap.com/">
+    <img src="../support/images/getbootstrap_bootstrap-logo-shadow.png" alt="Bootstrap logo" width="200" height="165" />
+  </a>
+</p>
+
+<h3 align="center">Bootstrap</h3>
+
+<p align="center">
+  Sleek, intuitive, and powerful front-end framework for faster and easier web development.
+  <br />
+  <a href="https://getbootstrap.com/docs/5.3/"><strong>Explore Bootstrap docs »</strong></a>
+  <br />
+  <br />
+  <a href="https://github.com/twbs/bootstrap/issues/new?assignees=-&amp;labels=bug&amp;template=bug_report.yml">Report bug</a>
+  ·
+  <a href="https://github.com/twbs/bootstrap/issues/new?assignees=&amp;labels=feature&amp;template=feature_request.yml">Request feature</a>
+  ·
+  <a href="https://blog.getbootstrap.com/">Blog</a>
+</p>
+
+<h2 id="bootstrap-5">Bootstrap 5</h2>
+
+<p>Our default branch is for development of our Bootstrap 5 release. Head to the <a href="https://github.com/twbs/bootstrap/tree/v4-dev"><code>v4-dev</code> branch</a> to view the readme, documentation, and source code for Bootstrap 4.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#quick-start">Quick start</a></li>
+  <li><a href="#status">Status</a></li>
+  <li><a href="#whats-included">What’s included</a></li>
+  <li><a href="#bugs-and-feature-requests">Bugs and feature requests</a></li>
+  <li><a href="#documentation">Documentation</a></li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#community">Community</a></li>
+  <li><a href="#versioning">Versioning</a></li>
+  <li><a href="#creators">Creators</a></li>
+  <li><a href="#thanks">Thanks</a></li>
+  <li><a href="#copyright-and-license">Copyright and license</a></li>
+</ul>
+
+<h2 id="quick-start">Quick start</h2>
+
+<p>Several quick start options are available:</p>
+
+<ul>
+  <li><a href="https://github.com/twbs/bootstrap/archive/v5.3.8.zip">Download the latest release</a></li>
+  <li>Clone the repo: <code>git clone https://github.com/twbs/bootstrap.git</code></li>
+  <li>Install with <a href="https://www.npmjs.com/">npm</a>: <code>npm install bootstrap@v5.3.8</code></li>
+  <li>Install with <a href="https://yarnpkg.com/">yarn</a>: <code>yarn add bootstrap@v5.3.8</code></li>
+  <li>Install with <a href="https://bun.sh/">Bun</a>: <code>bun add bootstrap@v5.3.8</code></li>
+  <li>Install with <a href="https://getcomposer.org/">Composer</a>: <code>composer require twbs/bootstrap:5.3.8</code></li>
+  <li>Install with <a href="https://www.nuget.org/">NuGet</a>: CSS: <code>Install-Package bootstrap</code> Sass: <code>Install-Package bootstrap.sass</code></li>
+</ul>
+
+<p>Read the <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">Getting started page</a> for information on the framework contents, templates, examples, and more.</p>
+
+<h2 id="status">Status</h2>
+
+<p><a href="https://github.com/twbs/bootstrap/actions/workflows/js.yml?query=workflow%3AJS+branch%3Amain"><img src="../support/images/img.shields.io_github_actions_workflow_status_twbs_bootstrap_js.yml.svg" alt="Build Status" /></a>
+<a href="https://www.npmjs.com/package/bootstrap"><img src="../support/images/img.shields.io_npm_v_bootstrap.svg" alt="npm version" /></a>
+<a href="https://rubygems.org/gems/bootstrap"><img src="../support/images/img.shields.io_gem_v_bootstrap.svg" alt="Gem version" /></a>
+<a href="https://atmospherejs.com/twbs/bootstrap"><img src="../support/images/img.shields.io_badge_meteor-twbs_3Abootstrap-blue.svg" alt="Meteor Atmosphere" /></a>
+<a href="https://packagist.org/packages/twbs/bootstrap"><img src="../support/images/img.shields.io_packagist_vpre_twbs_bootstrap.svg" alt="Packagist Prerelease" /></a>
+<a href="https://www.nuget.org/packages/bootstrap/absoluteLatest"><img src="../support/images/img.shields.io_nuget_vpre_bootstrap.svg" alt="NuGet" /></a>
+<a href="https://coveralls.io/github/twbs/bootstrap?branch=main"><img src="../support/images/img.shields.io_coveralls_github_twbs_bootstrap_main.svg" alt="Coverage Status" /></a>
+<a href="https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css"><img src="../support/images/img.badgesize.io_twbs_bootstrap_main_dist_css_bootstrap.min.css.svg" alt="CSS gzip size" /></a>
+<a href="https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css"><img src="../support/images/img.badgesize.io_twbs_bootstrap_main_dist_css_bootstrap.min.css.svg" alt="CSS Brotli size" /></a>
+<a href="https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js"><img src="../support/images/img.badgesize.io_twbs_bootstrap_main_dist_js_bootstrap.min.js.svg" alt="JS gzip size" /></a>
+<a href="https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js"><img src="../support/images/img.badgesize.io_twbs_bootstrap_main_dist_js_bootstrap.min.js.svg" alt="JS Brotli size" /></a>
+<img src="../support/images/img.shields.io_ossf-scorecard_github.com_twbs_bootstrap.svg" alt="Open Source Security Foundation Scorecard" />
+<a href="#backers"><img src="../support/images/img.shields.io_opencollective_backers_bootstrap.svg" alt="Backers on Open Collective" /></a>
+<a href="#sponsors"><img src="../support/images/img.shields.io_opencollective_sponsors_bootstrap.svg" alt="Sponsors on Open Collective" /></a></p>
+
+<h2 id="whats-included">What’s included</h2>
+
+<p>Within the download you’ll find the following directories and files, logically grouping common assets and providing both compiled and minified variations.</p>
+
+<details>
+  <summary>Download contents</summary>
+
+  ```text
+  bootstrap/
+  ├── css/
+  │   ├── bootstrap-grid.css
+  │   ├── bootstrap-grid.css.map
+  │   ├── bootstrap-grid.min.css
+  │   ├── bootstrap-grid.min.css.map
+  │   ├── bootstrap-grid.rtl.css
+  │   ├── bootstrap-grid.rtl.css.map
+  │   ├── bootstrap-grid.rtl.min.css
+  │   ├── bootstrap-grid.rtl.min.css.map
+  │   ├── bootstrap-reboot.css
+  │   ├── bootstrap-reboot.css.map
+  │   ├── bootstrap-reboot.min.css
+  │   ├── bootstrap-reboot.min.css.map
+  │   ├── bootstrap-reboot.rtl.css
+  │   ├── bootstrap-reboot.rtl.css.map
+  │   ├── bootstrap-reboot.rtl.min.css
+  │   ├── bootstrap-reboot.rtl.min.css.map
+  │   ├── bootstrap-utilities.css
+  │   ├── bootstrap-utilities.css.map
+  │   ├── bootstrap-utilities.min.css
+  │   ├── bootstrap-utilities.min.css.map
+  │   ├── bootstrap-utilities.rtl.css
+  │   ├── bootstrap-utilities.rtl.css.map
+  │   ├── bootstrap-utilities.rtl.min.css
+  │   ├── bootstrap-utilities.rtl.min.css.map
+  │   ├── bootstrap.css
+  │   ├── bootstrap.css.map
+  │   ├── bootstrap.min.css
+  │   ├── bootstrap.min.css.map
+  │   ├── bootstrap.rtl.css
+  │   ├── bootstrap.rtl.css.map
+  │   ├── bootstrap.rtl.min.css
+  │   └── bootstrap.rtl.min.css.map
+  └── js/
+      ├── bootstrap.bundle.js
+      ├── bootstrap.bundle.js.map
+      ├── bootstrap.bundle.min.js
+      ├── bootstrap.bundle.min.js.map
+      ├── bootstrap.esm.js
+      ├── bootstrap.esm.js.map
+      ├── bootstrap.esm.min.js
+      ├── bootstrap.esm.min.js.map
+      ├── bootstrap.js
+      ├── bootstrap.js.map
+      ├── bootstrap.min.js
+      └── bootstrap.min.js.map
+  ```
+</details>
+
+<p>We provide compiled CSS and JS (<code>bootstrap.*</code>), as well as compiled and minified CSS and JS (<code>bootstrap.min.*</code>). <a href="https://web.dev/articles/source-maps">Source maps</a> (<code>bootstrap.*.map</code>) are available for use with certain browsers’ developer tools. Bundled JS files (<code>bootstrap.bundle.js</code> and minified <code>bootstrap.bundle.min.js</code>) include <a href="https://popper.js.org/docs/v2/">Popper</a>.</p>
+
+<h2 id="bugs-and-feature-requests">Bugs and feature requests</h2>
+
+<p>Have a bug or a feature request? Please first read the <a href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md#using-the-issue-tracker">issue guidelines</a> and search for existing and closed issues. If your problem or idea is not addressed yet, <a href="https://github.com/twbs/bootstrap/issues/new/choose">please open a new issue</a>.</p>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>Bootstrap’s documentation, included in this repo in the root directory, is built with <a href="https://astro.build/">Astro</a> and publicly hosted on GitHub Pages at <a href="https://getbootstrap.com/">https://getbootstrap.com/</a>. The docs may also be run locally.</p>
+
+<p>Documentation search is powered by <a href="https://docsearch.algolia.com/">Algolia&#8217;s DocSearch</a>.</p>
+
+<h3 id="running-documentation-locally">Running documentation locally</h3>
+
+<ol>
+  <li>Run <code>npm install</code> to install the Node.js dependencies, including Astro (the site builder).</li>
+  <li>Run <code>npm run test</code> (or a specific npm script) to rebuild distributed CSS and JavaScript files, as well as our docs assets.</li>
+  <li>From the root <code>/bootstrap</code> directory, run <code>npm run docs-serve</code> in the command line.</li>
+  <li>Open <a href="http://localhost:9001">http://localhost:9001</a> in your browser, and voilà.</li>
+</ol>
+
+<p>Learn more about using Astro by reading its <a href="https://docs.astro.build/en/getting-started/">documentation</a>.</p>
+
+<h3 id="documentation-for-previous-releases">Documentation for previous releases</h3>
+
+<p>You can find all our previous releases docs on <a href="https://getbootstrap.com/docs/versions/">https://getbootstrap.com/docs/versions/</a>.</p>
+
+<p><a href="https://github.com/twbs/bootstrap/releases">Previous releases</a> and their documentation are also available for download.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Please read through our <a href="https://github.com/twbs/bootstrap/blob/main/.github/CONTRIBUTING.md">contributing guidelines</a>. Included are directions for opening issues, coding standards, and notes on development.</p>
+
+<p>Moreover, if your pull request contains JavaScript patches or features, you must include <a href="https://github.com/twbs/bootstrap/tree/main/js/tests">relevant unit tests</a>. All HTML and CSS should conform to the <a href="https://github.com/mdo/code-guide">Code Guide</a>, maintained by <a href="https://github.com/mdo">Mark Otto</a>.</p>
+
+<p>Editor preferences are available in the <a href="https://github.com/twbs/bootstrap/blob/main/.editorconfig">editor config</a> for easy use in common text editors. Read more and download plugins at <a href="https://editorconfig.org/">https://editorconfig.org/</a>.</p>
+
+<h2 id="community">Community</h2>
+
+<p>Get updates on Bootstrap’s development and chat with the project maintainers and community members.</p>
+
+<ul>
+  <li>Follow <a href="https://x.com/getbootstrap">@getbootstrap on X</a>.</li>
+  <li>Read and subscribe to <a href="https://blog.getbootstrap.com/">The Official Bootstrap Blog</a>.</li>
+  <li>Ask questions and explore <a href="https://github.com/twbs/bootstrap/discussions">our GitHub Discussions</a>.</li>
+  <li>Discuss, ask questions, and more on <a href="https://discord.gg/bZUvakRU3M">the community Discord</a> or <a href="https://www.reddit.com/r/bootstrap/">Bootstrap subreddit</a>.</li>
+  <li>Chat with fellow Bootstrappers in IRC. On the <code>irc.libera.chat</code> server, in the <code>#bootstrap</code> channel.</li>
+  <li>Implementation help may be found at Stack Overflow (tagged <a href="https://stackoverflow.com/questions/tagged/bootstrap-5"><code>bootstrap-5</code></a>).</li>
+  <li>Developers should use the keyword <code>bootstrap</code> on packages which modify or add to the functionality of Bootstrap when distributing through <a href="https://www.npmjs.com/browse/keyword/bootstrap">npm</a> or similar delivery mechanisms for maximum discoverability.</li>
+</ul>
+
+<h2 id="versioning">Versioning</h2>
+
+<p>For transparency into our release cycle and in striving to maintain backward compatibility, Bootstrap is maintained under <a href="https://semver.org/">the Semantic Versioning guidelines</a>. Sometimes we screw up, but we adhere to those rules whenever possible.</p>
+
+<p>See <a href="https://github.com/twbs/bootstrap/releases">the Releases section of our GitHub project</a> for changelogs for each release version of Bootstrap. Release announcement posts on <a href="https://blog.getbootstrap.com/">the official Bootstrap blog</a> contain summaries of the most noteworthy changes made in each release.</p>
+
+<h2 id="creators">Creators</h2>
+
+<p><strong>Mark Otto</strong></p>
+
+<ul>
+  <li><a href="https://x.com/mdo">https://x.com/mdo</a></li>
+  <li><a href="https://github.com/mdo">https://github.com/mdo</a></li>
+</ul>
+
+<p><strong>Jacob Thornton</strong></p>
+
+<ul>
+  <li><a href="https://x.com/fat">https://x.com/fat</a></li>
+  <li><a href="https://github.com/fat">https://github.com/fat</a></li>
+</ul>
+
+<h2 id="thanks">Thanks</h2>
+
+<p><a href="https://www.browserstack.com/">
+  <img src="../support/images/live-browserstack_browserstack-logo.svg" alt="BrowserStack" width="192" height="42" />
+</a></p>
+
+<p>Thanks to <a href="https://www.browserstack.com/">BrowserStack</a> for providing the infrastructure that allows us to test in real browsers!</p>
+
+<p><strong><a href="https://www.netlify.com/">Netlify</a></strong></p>
+
+<p>Thanks to <a href="https://www.netlify.com/">Netlify</a> for providing us with Deploy Previews!</p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [<a href="https://opencollective.com/bootstrap#sponsor">Become a sponsor</a>]</p>
+
+<p><a href="https://opencollective.com/bootstrap/sponsor/0/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 0" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/1/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 1" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/2/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 2" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/3/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 3" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/4/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 4" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/5/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 5" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/6/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 6" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/7/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 7" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/8/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 8" /></a>
+<a href="https://opencollective.com/bootstrap/sponsor/9/website"><img src="../support/images/opencollective_avatar.svg" alt="OC sponsor 9" /></a></p>
+
+<h2 id="backers">Backers</h2>
+
+<p>Thank you to all our backers! 🙏 [<a href="https://opencollective.com/bootstrap#backer">Become a backer</a>]</p>
+
+<p><a href="https://opencollective.com/bootstrap#backers"><img src="../support/images/opencollective_backers.svg" alt="Backers" /></a></p>
+
+<h2 id="copyright-and-license">Copyright and license</h2>
+
+<p>Code and documentation copyright 2011-2026 the <a href="https://github.com/twbs/bootstrap/graphs/contributors">Bootstrap Authors</a>. Code released under the <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE">MIT License</a>. Docs released under <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons</a>.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vite README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>vite README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        vite README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p align="center">
+  <br />
+  <br />
+  <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../support/images/vite-dev_vite-light.svg" />
+      <source media="(prefers-color-scheme: light)" srcset="../support/images/vite-dev_vite-dark.svg" />
+      <img alt="vite logo" src="../support/images/vite-dev_vite-dark.svg" height="60" />
+    </picture>
+  </a>
+  <br />
+  <br />
+</p>
+<p><br /></p>
+<p align="center">
+  <a href="https://npmjs.com/package/vite"><img src="../support/images/img.shields.io_npm_v_vite.svg" alt="npm package" /></a>
+  <a href="https://nodejs.org/en/about/previous-releases"><img src="../support/images/img.shields.io_node_v_vite.svg" alt="node compatibility" /></a>
+  <a href="https://github.com/vitejs/vite/actions/workflows/ci.yml"><img src="../support/images/github_badge.svg" alt="build status" /></a>
+  <a href="https://docs.warp.dev/support-and-community/community/open-source-partnership"><img src="../support/images/img.shields.io_badge_Oz_20agents-triaging_20issues-white.svg" alt="issue triage powered by Oz" /></a>
+  <a href="https://chat.vite.dev"><img src="../support/images/img.shields.io_badge_chat-discord-blue.svg" alt="discord chat" /></a>
+</p>
+<p><br /></p>
+
+<h1 id="vite-">Vite ⚡</h1>
+
+<blockquote>
+  <p>Next Generation Frontend Tooling</p>
+</blockquote>
+
+<ul>
+  <li>💡 Instant Server Start</li>
+  <li>⚡️ Lightning Fast HMR</li>
+  <li>🛠️ Rich Features</li>
+  <li>📦 Optimized Build</li>
+  <li>🔩 Universal Plugin Interface</li>
+  <li>🔑 Fully Typed APIs</li>
+</ul>
+
+<p>Vite (French word for &#8220;quick&#8221;, pronounced <a href="https://cdn.jsdelivr.net/gh/vitejs/vite@main/docs/public/vite.mp3"><code>/viːt/</code></a>, like &#8220;veet&#8221;) is a new breed of frontend build tooling that significantly improves the frontend development experience. It consists of two major parts:</p>
+
+<ul>
+  <li>
+    <p>A dev server that serves your source files over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">native ES modules</a>, with <a href="https://vite.dev/guide/features.html">rich built-in features</a> and astonishingly fast <a href="https://vite.dev/guide/features.html#hot-module-replacement">Hot Module Replacement (HMR)</a>.</p>
+  </li>
+  <li>
+    <p>A <a href="https://vite.dev/guide/build.html">build command</a> that bundles your code with <a href="https://rollupjs.org">Rollup</a>, pre-configured to output highly optimized static assets for production.</p>
+  </li>
+</ul>
+
+<p>In addition, Vite is highly extensible via its <a href="https://vite.dev/guide/api-plugin.html">Plugin API</a> and <a href="https://vite.dev/guide/api-javascript.html">JavaScript API</a> with full typing support.</p>
+
+<p><a href="https://vite.dev">Read the Docs to Learn More</a>.</p>
+
+<h2 id="packages">Packages</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Package</th>
+      <th style="text-align: left">Version (click for changelogs)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="packages/vite">vite</a></td>
+      <td style="text-align: left"><a href="packages/vite/CHANGELOG.md"><img src="../support/images/img.shields.io_npm_v_vite.svg" alt="vite version" /></a></td>
+    </tr>
+    <tr>
+      <td><a href="packages/plugin-legacy">@vitejs/plugin-legacy</a></td>
+      <td style="text-align: left"><a href="packages/plugin-legacy/CHANGELOG.md"><img src="../support/images/img.shields.io_npm_v_vitejs_plugin-legacy.svg" alt="plugin-legacy version" /></a></td>
+    </tr>
+    <tr>
+      <td><a href="packages/create-vite">create-vite</a></td>
+      <td style="text-align: left"><a href="packages/create-vite/CHANGELOG.md"><img src="../support/images/img.shields.io_npm_v_create-vite.svg" alt="create-vite version" /></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="contribution">Contribution</h2>
+
+<p>See <a href="CONTRIBUTING.md">Contributing Guide</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p><a href="LICENSE">MIT</a>.</p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p align="center">
+  <a target="_blank" href="https://github.com/sponsors/yyx990803">
+    <img alt="sponsors" src="../support/images/sponsors-vuejs_vite.svg" />
+  </a>
+</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

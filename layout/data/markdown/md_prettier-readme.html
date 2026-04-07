@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>prettier README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>prettier README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        prettier README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p><a href="https://prettier.io"><img src="../support/images/unpkg_prettier-banner-light.svg" alt="Prettier Banner" /></a></p>
+
+<h2 align="center">Opinionated Code Formatter</h2>
+
+<p align="center">
+  <em>
+    JavaScript
+    · TypeScript
+    · Flow
+    · JSX
+    · JSON
+  </em>
+  <br />
+  <em>
+    CSS
+    · SCSS
+    · Less
+  </em>
+  <br />
+  <em>
+    HTML
+    · Vue
+    · Angular
+  </em>
+  <br />
+  <em>
+    GraphQL
+    · Markdown
+    · YAML
+  </em>
+  <br />
+  <em>
+    <a href="https://prettier.io/docs/plugins">
+      Your favorite language?
+    </a>
+  </em>
+</p>
+
+<p align="center">
+  <a href="https://github.com/prettier/prettier/actions?query=branch%3Amain">
+    <img alt="CI Status" src="../support/images/img.shields.io_github_check-runs_prettier_prettier_main.svg" /></a>
+  <a href="https://codecov.io/gh/prettier/prettier">
+    <img alt="Coverage Status" src="../support/images/img.shields.io_codecov_c_github_prettier_prettier.svg" /></a>
+  <a href="https://x.com/acdlite/status/974390255393505280">
+    <img alt="Blazing Fast" src="../support/images/img.shields.io_badge_speed-blazing_20_F0_9F_94_A5-brightgreen.svg" /></a>
+  <br />
+  <a href="https://www.npmjs.com/package/prettier">
+    <img alt="npm version" src="../support/images/img.shields.io_npm_v_prettier.svg" /></a>
+  <a href="https://www.npmjs.com/package/prettier">
+    <img alt="weekly downloads from npm" src="../support/images/img.shields.io_npm_dw_prettier.svg" /></a>
+  <a href="https://github.com/prettier/prettier#badge">
+    <img alt="code style: prettier" src="../support/images/img.shields.io_badge_code_style-prettier-ff69b4.svg" /></a>
+  <a href="https://x.com/intent/follow?screen_name=PrettierCode">
+    <img alt="Follow Prettier on X" src="../support/images/img.shields.io_badge_40PrettierCode-9f9f9f.svg" /></a>
+</p>
+
+<h2 id="intro">Intro</h2>
+
+<p>Prettier is an opinionated code formatter. It enforces a consistent style by parsing your code and re-printing it with its own rules that take the maximum line length into account, wrapping code when necessary.</p>
+
+<h3 id="input">Input</h3>
+
+<!-- prettier-ignore -->
+<pre><code class="language-js">foo(reallyLongArg(), omgSoManyParameters(), IShouldRefactorThis(), isThereSeriouslyAnotherOne());
+</code></pre>
+
+<h3 id="output">Output</h3>
+
+<pre><code class="language-js">foo(
+  reallyLongArg(),
+  omgSoManyParameters(),
+  IShouldRefactorThis(),
+  isThereSeriouslyAnotherOne(),
+);
+</code></pre>
+
+<p>Prettier can be run <a href="https://prettier.io/docs/editors">in your editor</a> on-save, in a <a href="https://prettier.io/docs/precommit">pre-commit hook</a>, or in <a href="https://prettier.io/docs/cli#list-different">CI environments</a> to ensure your codebase has a consistent style without devs ever having to post a nit-picky comment on a code review ever again!</p>
+
+<hr />
+
+<p><strong><a href="https://prettier.io/docs/">Documentation</a></strong></p>
+
+<p><a href="https://prettier.io/docs/install">Install</a> ·
+<a href="https://prettier.io/docs/options">Options</a> ·
+<a href="https://prettier.io/docs/cli">CLI</a> ·
+<a href="https://prettier.io/docs/api">API</a></p>
+
+<p><strong><a href="https://prettier.io/playground/">Playground</a></strong></p>
+
+<hr />
+
+<h2 id="badge">Badge</h2>
+
+<p>Show the world you&#8217;re using <em>Prettier</em> → <a href="https://github.com/prettier/prettier"><img src="../support/images/img.shields.io_badge_code_style-prettier-ff69b4.svg" alt="code style: prettier" /></a></p>
+
+<pre><code class="language-md">[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+</code></pre>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

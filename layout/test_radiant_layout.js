@@ -32,7 +32,7 @@ class RadiantLayoutTester {
         this.textThreshold = options.textThreshold || 100.0; // 100% overall text match threshold
         this.testDataDir = path.join(__dirname, 'data');
         this.referenceDir = path.join(__dirname, 'reference');
-        this.outputFile = '/tmp/view_tree.json';
+        this.outputFile = path.join(options.projectRoot || process.cwd(), 'temp', 'view_tree.json');
         this.verbose = options.verbose || false;
         this.json = options.json || false; // JSON output mode
         this.projectRoot = options.projectRoot || process.cwd();

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>commitizen README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>commitizen README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        commitizen README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h2 id="commitizen-for-contributors">Commitizen for contributors</h2>
+
+<p>When you commit with Commitizen, you&#8217;ll be prompted to fill out any required commit fields at commit time. No more waiting until later for a git commit hook to run and reject your commit (though <a href="https://github.com/kentcdodds/validate-commit-msg">that</a> can still be helpful). No more digging through <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> to find what the preferred format is. Get instant feedback on your commit message formatting and be prompted for required fields.</p>
+
+<p><a href="#backers"><img src="../support/images/opencollective_badge.svg" alt="Backers on Open Collective" /></a> <a href="#sponsors"><img src="../support/images/opencollective_badge.svg" alt="Sponsors on Open Collective" /></a> <a href="https://travis-ci.org/commitizen/cz-cli"><img src="../support/images/img.shields.io_travis_commitizen_cz-cli.svg" alt="travis.ci" /></a> <a href="https://dev.azure.com/commitizen/cz-cli/_build/latest?definitionId=2"><img src="../support/images/dev.azure.com_commitizen_cz-cli_apis_build_status_commitizen.cz-cli.svg" alt="Azure Build Status" /></a>
+<a href="https://codecov.io/github/commitizen/cz-cli?branch=master"><img src="../support/images/img.shields.io_codecov_c_github_commitizen_cz-cli.svg" alt="codecov.io" /></a> <a href="https://www.npmjs.com/package/commitizen"><img src="../support/images/img.shields.io_npm_dm_commitizen.svg" alt="npm monthly downloads" /></a> <a href="https://www.npmjs.com/package/commitizen"><img src="../support/images/img.shields.io_npm_v_commitizen.svg" alt="current version" /></a> <a href="https://github.com/semantic-release/semantic-release"><img src="../support/images/img.shields.io_badge_20_20_F0_9F_93_A6_F0_9F_9A_80-semantic--release-e10079.svg" alt="semantic-release" /></a> <a href="https://stackoverflow.com/tags/commitizen"><img src="../support/images/img.shields.io_badge_stackoverflow-community-orange.svg" alt="commitizen on stackoverflow" /></a></p>
+
+<h2 id="installing-the-command-line-tool">Installing the command line tool</h2>
+
+<p>Commitizen is currently tested against Node.js 12, 14, &amp; 16, although it may work in
+older versions of Node.js. You should also have npm 6 or greater.</p>
+
+<p>Installation is as simple as running the following command (if you see <code>EACCES</code> error, reading <a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions">fixing npm permissions</a> may help):</p>
+
+<pre><code class="language-sh">npm install -g commitizen
+</code></pre>
+
+<h2 id="using-the-command-line-tool">Using the command line tool</h2>
+
+<h3 id="if-your-repo-is-commitizen-friendly">If your repo is <a href="#making-your-repo-commitizen-friendly">Commitizen friendly</a>:</h3>
+
+<p>Simply use <code>git cz</code> or just <code>cz</code> instead of <code>git commit</code> when committing. You can also use <code>git-cz</code>, which is an alias for <code>cz</code>.</p>
+
+<p><em>Alternatively</em>, if you are using <strong>npm 5.2+</strong> you can <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">use <code>npx</code></a> instead of installing globally:</p>
+
+<pre><code class="language-sh">npx cz
+</code></pre>
+
+<p>or as an npm script:</p>
+
+<pre><code class="language-json">  ...
+  "scripts": {
+    "commit": "cz"
+  }
+</code></pre>
+
+<p>When you&#8217;re working in a Commitizen-friendly repository, you&#8217;ll be prompted to fill in any required fields, and your commit messages will be formatted according to the standards defined by project maintainers.</p>
+
+<p><a href="../support/images/github_add-commit.png"><img src="../support/images/github_add-commit.png" alt="Add and commit with Commitizen" /></a></p>
+
+<h3 id="if-your-repo-is-not-commitizen-friendly">If your repo is NOT Commitizen friendly:</h3>
+
+<p>If you&#8217;re <strong>not</strong> working in a Commitizen-friendly repository, then <code>git cz</code> will work just the same as <code>git commit</code>, but <code>npx cz</code> will use the <a href="https://github.com/streamich/git-cz">streamich/git-cz</a> adapter. To fix this, you need to first <a href="#making-your-repo-commitizen-friendly">make your repo Commitizen friendly</a></p>
+
+<h2 id="making-your-repo-commitizen-friendly">Making your repo Commitizen friendly</h2>
+
+<p>For this example, we&#8217;ll be setting up our repo to use <a href="https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines">AngularJS&#8217;s commit message convention</a>, also known as <a href="https://github.com/ajoslin/conventional-changelog">conventional-changelog</a>.</p>
+
+<p>First, install the Commitizen CLI tools:</p>
+
+<pre><code class="language-sh">npm install commitizen -g
+</code></pre>
+
+<p>Next, initialize your project to use the cz-conventional-changelog adapter by typing:</p>
+
+<pre><code class="language-sh"># npm
+commitizen init cz-conventional-changelog --save-dev --save-exact
+
+# yarn
+commitizen init cz-conventional-changelog --yarn --dev --exact
+
+# pnpm
+commitizen init cz-conventional-changelog --pnpm --save-dev --save-exact
+</code></pre>
+
+<p>Note that if you want to force install over the top of an old adapter, you can apply the <code>--force</code> argument. For more information on this, just run <code>commitizen help</code>.</p>
+
+<p>The above command does three things for you:</p>
+
+<ol>
+  <li>Installs the cz-conventional-changelog adapter npm module</li>
+  <li>Saves it to <code>package.json</code>&#8217;s <code>dependencies</code> or <code>devDependencies</code></li>
+  <li>Adds the <code>config.commitizen</code> key to the root of your <code>package.json</code> file as shown here:</li>
+</ol>
+
+<pre><code class="language-json">...
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+</code></pre>
+
+<p>Alternatively, Commitizen configs may be added to a <code>.czrc</code> file:</p>
+
+<pre><code class="language-json">{
+  "path": "cz-conventional-changelog"
+}
+</code></pre>
+
+<p>This just tells Commitizen which adapter we actually want our contributors to use when they try to commit to this repo.</p>
+
+<p><code>commitizen.path</code> is resolved via <a href="https://nodejs.org/api/globals.html#globals_require_resolve">require.resolve</a> and supports:</p>
+
+<ul>
+  <li>npm modules</li>
+  <li>directories relative to <code>process.cwd()</code> containing an <code>index.js</code> file</li>
+  <li>file base names relative to <code>process.cwd()</code> with <code>.js</code> extension</li>
+  <li>full relative file names</li>
+  <li>absolute paths</li>
+</ul>
+
+<p>Please note that in the previous version of Commitizen we used czConfig. <strong>czConfig has been deprecated</strong>, and you should migrate to the new format before Commitizen 3.0.0.</p>
+
+<h3 id="optional-install-and-run-commitizen-locally">Optional: Install and run Commitizen locally</h3>
+
+<p>Installing and running Commitizen locally allows you to make sure that developers are running the exact same version of Commitizen on every machine.</p>
+
+<p>Install Commitizen with <code>npm install --save-dev commitizen</code>.</p>
+
+<p>On <strong>npm 5.2+</strong> you can <a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b">use <code>npx</code></a> to initialize the conventional changelog adapter:</p>
+
+<pre><code>npx commitizen init cz-conventional-changelog --save-dev --save-exact
+</code></pre>
+
+<p>For <strong>previous versions of npm (&lt; 5.2)</strong> you can execute <code>./node_modules/.bin/commitizen</code> or <code>./node_modules/.bin/cz</code> in order to actually use the commands.</p>
+
+<p>You can then initialize the conventional changelog adapter using: <code>./node_modules/.bin/commitizen init cz-conventional-changelog --save-dev --save-exact</code></p>
+
+<p>And you can then add some nice npm scripts in your <code>package.json</code> file pointing to the local version of Commitizen:</p>
+
+<pre><code class="language-json">  ...
+  "scripts": {
+    "commit": "cz"
+  }
+</code></pre>
+
+<p>This will be more convenient for your users because then if they want to do a commit, all they need to do is run <code>npm run commit</code> and they will get the prompts needed to start a commit!</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> If you are using <code>precommit</code> hooks thanks to something like <a href="https://www.npmjs.com/package/husky"><code>husky</code></a>, you will need to name your script something other than <code>"commit"</code>
+(e.g. <code>"cm": "cz"</code>). The reason is because npm scripts has a &#8220;feature&#8221; where it automatically runs scripts with the name <em>prexxx</em> where <em>xxx</em> is the name of another script. In essence,
+npm and husky will run <code>"precommit"</code> scripts twice if you name the script <code>"commit"</code>, and the workaround is to prevent the npm-triggered <em>precommit</em> script.</p>
+</blockquote>
+
+<h4 id="optional-running-commitizen-on-git-commit">Optional: Running Commitizen on <code>git commit</code></h4>
+
+<p>This example shows how to incorporate Commitizen into the existing <code>git commit</code> workflow by using git hooks and the <code>--hook</code> command-line option. This is useful for project maintainers
+who wish to ensure the proper commit format is enforced on contributions from those unfamiliar with Commitizen.</p>
+
+<p>Once either of these methods is implemented, users running <code>git commit</code> will be presented with an interactive Commitizen session that helps them write useful commit messages.</p>
+
+<blockquote>
+  <p><strong>NOTE:</strong> This example assumes that the project has been set up to <a href="https://github.com/commitizen/cz-cli#optional-install-and-run-commitizen-locally">use Commitizen locally</a>.</p>
+</blockquote>
+
+<h5 id="traditional-git-hooks">Traditional git hooks</h5>
+
+<p>Update <code>.git/hooks/prepare-commit-msg</code> with the following code:</p>
+
+<pre><code class="language-sh">#!/bin/bash
+exec &lt; /dev/tty &amp;&amp; node_modules/.bin/cz --hook || true
+</code></pre>
+
+<h5 id="husky">Husky</h5>
+
+<p>For <code>husky</code> users, add the following configuration to the project&#8217;s <code>package.json</code> file:</p>
+
+<pre><code class="language-json">"husky": {
+  "hooks": {
+    "prepare-commit-msg": "exec &lt; /dev/tty &amp;&amp; npx cz --hook || true"
+  }
+}
+</code></pre>
+
+<blockquote>
+  <p><strong>Why <code>exec &lt; /dev/tty</code>?</strong> By default, git hooks are not interactive. This command allows the user to use their terminal to interact with Commitizen during the hook.</p>
+</blockquote>
+
+<h4 id="congratulations-your-repo-is-commitizen-friendly-time-to-flaunt-it">Congratulations! Your repo is Commitizen friendly. Time to flaunt it!</h4>
+
+<p>Add the &#8220;Commitizen friendly&#8221; badge to your README using the following markdown:</p>
+
+<pre><code>[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+</code></pre>
+
+<p>Your badge will look like this:</p>
+
+<p><a href="http://commitizen.github.io/cz-cli/"><img src="../support/images/img.shields.io_badge_commitizen-friendly-brightgreen.svg" alt="Commitizen friendly" /></a></p>
+
+<p>It may also make sense to change your <code>README.md</code> or <code>CONTRIBUTING.md</code> files to include or link to the Commitizen project so that your new contributors may learn more about installing and using Commitizen.</p>
+
+<h2 id="conventional-commit-messages-as-a-global-utility">Conventional commit messages as a global utility</h2>
+
+<p>Install <code>commitizen</code> globally, if you have not already.</p>
+
+<pre><code class="language-sh">npm install -g commitizen
+</code></pre>
+
+<p>Install your preferred <code>commitizen</code> adapter globally (for example <a href="https://www.npmjs.com/package/cz-conventional-changelog"><code>cz-conventional-changelog</code></a>).</p>
+
+<pre><code class="language-sh">npm install -g cz-conventional-changelog
+</code></pre>
+
+<p>Create a <code>.czrc</code> file in your <code>home</code> directory, with <code>path</code> referring to the preferred, globally-installed, <code>commitizen</code> adapter</p>
+
+<pre><code class="language-sh">echo '{ "path": "cz-conventional-changelog" }' &gt; ~/.czrc
+</code></pre>
+
+<p>You are all set! Now <code>cd</code> into any <code>git</code> repository and use <code>git cz</code> instead of <code>git commit</code>, and you will find the <code>commitizen</code> prompt.</p>
+
+<p>Pro tip: You can use all the <code>git commit</code> <code>options</code> with <code>git cz</code>. For example: <code>git cz -a</code>.</p>
+
+<blockquote>
+  <p>If your repository is a <a href="https://nodejs.org/en/">Node.js</a> project, making it <a href="#making-your-repo-commitizen-friendly">Commitizen friendly</a> is super easy.</p>
+</blockquote>
+
+<p>If your repository is already <a href="#making-your-repo-commitizen-friendly">Commitizen friendly</a>, the local <code>commitizen</code> adapter will be used, instead of globally installed one.</p>
+
+<h2 id="commitizen-for-multi-repo-projects">Commitizen for multi-repo projects</h2>
+
+<p>As a project maintainer of many projects, you may want to standardize on a single commit message format for all of them. You can create your own node module which acts as a front-end for Commitizen.</p>
+
+<h3 id="1-create-your-own-entry-point-script">1. Create your own entry point script</h3>
+
+<pre><code class="language-js">// my-cli.js
+
+#!/usr/bin/env node
+"use strict";
+
+const path = require('path');
+const bootstrap = require('commitizen/dist/cli/git-cz').bootstrap;
+
+bootstrap({
+  cliPath: path.join(__dirname, '../../node_modules/commitizen'),
+  // this is new
+  config: {
+    "path": "cz-conventional-changelog"
+  }
+});
+</code></pre>
+
+<h3 id="2-add-the-script-to-your-packagejson-file">2. Add the script to your <code>package.json</code> file</h3>
+
+<pre><code class="language-json">// package.json
+
+{
+  "name": "company-commit",
+  "bin": "./my-cli.js",
+  "dependencies": {
+    "commitizen": "^2.7.6",
+    "cz-conventional-changelog": "^1.1.5"
+  }
+}
+</code></pre>
+
+<h3 id="3-publish-it-to-npm-and-use-it">3. Publish it to npm and use it!</h3>
+
+<pre><code class="language-sh">npm install --save-dev company-commit
+
+./node_modules/.bin/company-commit
+</code></pre>
+
+<h2 id="adapters">Adapters</h2>
+
+<p>We know that every project and build process has different requirements, so we&#8217;ve tried to keep Commitizen open for extension. You can do this by choosing from any of the pre-built adapters or even by building your own. Here are some of the great adapters available to you:</p>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/cz-conventional-changelog">cz-conventional-changelog</a></li>
+  <li><a href="https://www.npmjs.com/package/@digitalroute/cz-conventional-changelog-for-jira">cz-conventional-changelog-for-jira</a></li>
+  <li><a href="https://www.npmjs.com/package/cz-conventional-changelog-with-jiraid-detection">cz-conventional-changelog-with-jiraid-detection</a></li>
+  <li><a href="https://www.npmjs.com/package/cz-jira-smart-commit">cz-jira-smart-commit</a></li>
+  <li><a href="https://github.com/EndemolShineGroup/cz-jira-smart-commit">@endemolshinegroup/cz-jira-smart-commit</a></li>
+  <li><a href="https://github.com/EndemolShineGroup/cz-github">@endemolshinegroup/cz-github</a></li>
+  <li><a href="https://www.npmjs.com/package/rb-conventional-changelog">rb-conventional-changelog</a></li>
+  <li><a href="https://www.npmjs.com/package/@mapbox/cz-mapbox-changelog">@mapbox/cz-mapbox-changelog</a></li>
+  <li><a href="https://github.com/leonardoanalista/cz-customizable">cz-customizable</a></li>
+  <li><a href="https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/cz-commitlint">cz-commitlint</a></li>
+  <li><a href="https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/prompt">commitlint</a></li>
+  <li><a href="https://github.com/KnisterPeter/vscode-commitizen">vscode-commitizen</a></li>
+  <li><a href="https://github.com/ngryman/cz-emoji">cz-emoji</a></li>
+  <li><a href="https://www.npmjs.com/package/cz-adapter-eslint">cz-adapter-eslint</a></li>
+  <li><a href="https://github.com/martinmcwhorter/commitiquette">commitiquette</a></li>
+  <li><a href="https://github.com/tyankatsu0105/cz-format-extension">cz-format-extension</a></li>
+  <li><a href="https://www.npmjs.com/package/cz-emoji-conventional">cz-emoji-conventional</a></li>
+  <li><a href="https://github.com/Zhengqbbb/cz-git">cz-git</a></li>
+  <li><a href="https://github.com/Exlint/cz-vinyl">cz-vinyl</a></li>
+</ul>
+
+<p>To create an adapter, just fork one of these great adapters and modify it to suit your needs. We pass you an instance of <a href="https://github.com/SBoudrias/Inquirer.js/">Inquirer.js</a>, but you can capture input using whatever means necessary. Just call the <code>commit</code> callback with a string and we&#8217;ll be happy. Publish it to npm, and you&#8217;ll be all set!</p>
+
+<h2 id="retrying-failed-commits">Retrying failed commits</h2>
+
+<p>As of version 2.7.1, you may attempt to retry the last commit using the <code>git cz --retry</code> command. This can be helpful when you have tests set up to run via a git precommit hook. In this scenario, you may have attempted a Commitizen commit, painstakingly filled out all of the commitizen fields, but your tests fail. In previous Commitizen versions, after fixing your tests, you would be forced to fill out all of the fields again. Enter the retry command. Commitizen will retry the last commit that you attempted in this repo without you needing to fill out the fields again.</p>
+
+<p>Please note that the retry cache may be cleared when upgrading Commitizen versions, upgrading adapters, or if you delete the <code>commitizen.json</code> file in your home or temp directory. Additionally, the commit cache uses the filesystem path of the repo, so if you move a repo or change its path, you will not be able to retry a commit. This is an edge case but might be confusing if you have scenarios where you are moving folders that contain repos.</p>
+
+<p>It is important to note that if you are running <code>cz</code> from an npm script (let&#8217;s say it is called <code>commit</code>) you will need to do one of the following:</p>
+
+<ul>
+  <li>Pass <code>-- --retry</code> as an argument for your script. i.e: <code>npm run commit -- --retry</code></li>
+  <li>Use <a href="https://www.npmjs.com/package/npx">npx</a> to find and call the <code>cz</code> executable directly. i.e: <code>npx cz --retry</code></li>
+</ul>
+
+<p>Note that the last two options <strong>do not</strong> require you to pass <code>--</code> before the args but the first <strong>does</strong>.</p>
+
+<h2 id="commitizen-for-project-maintainers">Commitizen for project maintainers</h2>
+
+<p>As a project maintainer, making your repo Commitizen friendly allows you to select pre-existing commit message conventions or to create your own custom commit message convention. When a contributor to your repo uses Commitizen, they will be prompted for the correct fields at commit time.</p>
+
+<h2 id="go-further">Go further</h2>
+
+<p>Commitizen is great on its own, but it shines when you use it with some other amazing open source tools. Kent C. Dodds shows you how to accomplish this in his Egghead.io series, <a href="https://app.egghead.io/playlists/how-to-write-an-open-source-javascript-library">How to Write an Open Source JavaScript Library</a>. Many of the concepts can be applied to non-JavaScript projects as well.</p>
+
+<h2 id="philosophy">Philosophy</h2>
+
+<h3 id="about-commitizen">About Commitizen</h3>
+
+<p>Commitizen is an open source project that helps contributors be good open source citizens. It accomplishes this by prompting them to follow commit message conventions at commit time. It also empowers project maintainers to create or use predefined commit message conventions in their repos to better communicate their expectations to potential contributors.</p>
+
+<h3 id="commitizen-or-commit-hooks">Commitizen or Commit Hooks</h3>
+
+<p>Both! Commitizen is not meant to be a replacement for git commit hooks. Rather, it is meant to work side-by-side with them to ensure a consistent and positive experience for your contributors. Commitizen treats the commit command as a declarative action. The contributor is declaring that they wish to contribute to your project. It is up to you as the maintainer to define what rules they should be following.</p>
+
+<p>We accomplish this by letting you define which adapter you&#8217;d like to use in your project. Adapters just allow multiple projects to share the same commit message conventions. A good example of an adapter is the cz-conventional-changelog adapter.</p>
+
+<h2 id="related-projects">Related projects</h2>
+
+<ul>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog">conventional-changelog</a> – Generate a changelog from conventional commit history</li>
+  <li><a href="https://github.com/conventional-changelog/commitlint">commitlint</a> - Lint commit messages</li>
+</ul>
+
+<h2 id="authors-and-contributors">Authors and Contributors</h2>
+
+<p>@JimTheDev (Jim Cummins, author)
+@kentcdodds
+@accraze
+@kytwb
+@Den-dp</p>
+
+<p>Special thanks to @stevelacy, whose <a href="https://www.npmjs.com/package/gulp-git">gulp-git</a> project makes commitizen possible.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<p>This project exists thanks to all the people who contribute. [<a href="CONTRIBUTING.md">Contribute</a>].
+<a href="https://opencollective.com/commitizen#section-contributors"><img src="../support/images/opencollective_contributors.svg" /></a></p>
+
+<h2 id="backers">Backers</h2>
+
+<p>Thank you to all our backers! 🙏 [<a href="https://opencollective.com/commitizen#backer">Become a backer</a>]</p>
+
+<p><a href="https://opencollective.com/commitizen#category-BUDGET" target="_blank"><img src="../support/images/opencollective_backers.svg" /></a></p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [<a href="https://opencollective.com/commitizen#sponsor">Become a sponsor</a>]</p>
+
+<p><a href="https://opencollective.com/commitizen/sponsor/0/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/1/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/2/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/3/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/4/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/5/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/6/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/7/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/8/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/commitizen/sponsor/9/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a></p>
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

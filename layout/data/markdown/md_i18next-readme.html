@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i18next README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>i18next README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        i18next README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="i18next-learn-once---translate-everywhere-">i18next: learn once - translate everywhere <a href="https://x.com/intent/tweet?text=Awesome%20i18next:%20learn%20once%20-%20translate%20everywhere%20-%20the%20internationalization%20ecosystem%20&amp;url=https://github.com/i18next/i18next&amp;via=jamuhl&amp;hashtags=i18n,javascript,dev"><img src="../support/images/img.shields.io_twitter_url_http_shields.io.svg" alt="Post" /></a></h1>
+
+<p><a href="https://github.com/i18next/i18next/actions/workflows/CI.yml"><img src="../support/images/github_badge.svg" alt="CI" /></a>
+<a href="https://coveralls.io/github/i18next/i18next"><img src="../support/images/img.shields.io_coveralls_i18next_i18next_master.svg" alt="Coveralls" /></a>
+<a href="https://packagequality.com/#?package=i18next"><img src="../support/images/packagequality.com_shield_i18next.svg" alt="Package Quality" /></a>
+<a href="https://cdnjs.com/libraries/i18next"><img src="../support/images/img.shields.io_cdnjs_v_i18next.svg" alt="cdnjs version" /></a>
+<a href="https://www.npmjs.com/package/i18next"><img src="../support/images/img.shields.io_npm_v_i18next.svg" alt="npm version" /></a>
+<img src="../support/images/img.shields.io_npm_dw_i18next.svg" alt="npm" />
+<a href="https://gurubase.io/g/i18next"><img src="../support/images/img.shields.io_badge_Gurubase-Ask_20i18next_20Guru-006BFF.svg" alt="Gurubase" /></a></p>
+
+<p>i18next is a very popular internationalization framework for browser or any other javascript environment (eg. Node.js, Deno).</p>
+
+<p><img src="../support/images/gh_i18next-ecosystem.jpg" alt="ecosystem" /></p>
+
+<p>i18next provides:</p>
+
+<ul>
+  <li>Flexible connection to <a href="https://www.i18next.com/overview/plugins-and-utils#backends">backend</a> (loading translations via xhr, &#8230;)</li>
+  <li>Optional <a href="https://www.i18next.com/how-to/caching">caching</a>, user <a href="https://www.i18next.com/overview/plugins-and-utils#language-detector">language detection</a>, &#8230;</li>
+  <li>Proper <a href="https://www.i18next.com/translation-function/plurals">pluralizations</a></li>
+  <li>Translation <a href="https://www.i18next.com/translation-function/context">context</a></li>
+  <li><a href="https://www.i18next.com/translation-function/nesting">Nesting</a>, <a href="https://www.i18next.com/translation-function/interpolation">Variable replacement</a></li>
+  <li>Flexibility: <a href="https://www.i18next.com/overview/supported-frameworks">Use it everywhere</a></li>
+  <li>Extensibility: eg. <a href="https://www.i18next.com/overview/plugins-and-utils#post-processors">sprintf</a></li>
+  <li>&#8230;</li>
+</ul>
+
+<blockquote>
+  <p><strong>Pro Tip:</strong> Looking for a way to manage your translations? Locize is the official service by i18next&#8217;s creators and now offers a <strong><a href="https://www.locize.com/pricing">Free plan</a></strong> for small projects.</p>
+</blockquote>
+
+<p>For more information visit the website:</p>
+
+<ul>
+  <li><a href="https://www.i18next.com/overview/getting-started">Getting started</a></li>
+  <li><a href="https://www.i18next.com/translation-function/essentials">Translation Functionality</a></li>
+  <li><a href="https://www.i18next.com/overview/api">API</a></li>
+</ul>
+
+<p>Our focus is providing the core to building a booming ecosystem. Independent of the building blocks you choose, be it react, angular or even good old jquery proper translation capabilities are just <a href="https://www.i18next.com/overview/supported-frameworks">one step away</a>.</p>
+
+<h3 id="documentation">Documentation</h3>
+
+<p>The general i18next documentation is published on <a href="https://www.i18next.com">www.i18next.com</a> and PR changes can be supplied <a href="https://github.com/i18next/i18next-gitbook">here</a>.</p>
+
+<p>The react specific documentation is published on <a href="https://react.i18next.com">react.i18next.com</a> and PR changes can be supplied <a href="https://github.com/i18next/react-i18next-gitbook">here</a>.</p>
+
+<hr />
+
+<h3 align="center">Gold Sponsors</h3>
+
+<p align="center">
+  <a href="https://locize.com/" target="_blank">
+    <img src="../support/images/gh_locize_sponsor_240.gif" width="240px" />
+  </a>
+</p>
+
+<hr />
+
+<p><strong>From the creators of i18next: localization as a service - <a href="https://locize.com">Locize</a></strong></p>
+
+<p>A translation management system built around the i18next ecosystem - <a href="https://locize.com">Locize</a>.</p>
+
+<p><strong>Now with a <a href="https://locize.com/pricing">Free plan</a> for small projects!</strong> Perfect for hobbyists or getting started.</p>
+
+<p><img src="../support/images/locize_github_locize.png" alt="Locize" /></p>
+
+<p>With using <a href="https://www.locize.com/?utm_source=i18next_readme&amp;utm_medium=github">Locize</a> you directly support the future of i18next.</p>
+
+<hr />
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>
