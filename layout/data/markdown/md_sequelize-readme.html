@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sequelize README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>sequelize README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        sequelize README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p align="center"><img src="logo.svg" width="100" alt="Sequelize logo" /></p>
+<h1 align="center" style="margin-top: 0;"><a href="https://sequelize.org">Sequelize</a></h1>
+
+<p><a href="https://www.npmjs.com/package/@sequelize/core"><img src="../support/images/badgen.net_npm_v_sequelize_core.svg" alt="npm version" /></a>
+<a href="https://www.npmjs.com/package/@sequelize/core"><img src="../support/images/badgen.net_npm_dm_sequelize_core.svg" alt="npm downloads" /></a>
+<a href="https://github.com/sequelize/sequelize/graphs/contributors"><img src="../support/images/img.shields.io_github_contributors_sequelize_sequelize.svg" alt="contributors" /></a>
+<a href="https://opencollective.com/sequelize#section-contributors"><img src="../support/images/img.shields.io_opencollective_backers_sequelize.svg" alt="Open Collective" /></a>
+<a href="https://opencollective.com/sequelize"><img src="../support/images/img.shields.io_opencollective_all_sequelize.svg" alt="sponsor" /></a>
+<a href="https://github.com/sequelize/sequelize"><img src="../support/images/badgen.net_github_merged-prs_sequelize_sequelize.svg" alt="Merged PRs" /></a>
+<a href="https://github.com/semantic-release/semantic-release"><img src="../support/images/img.shields.io_badge_20_20_F0_9F_93_A6_F0_9F_9A_80-semantic--release-e10079.svg" alt="semantic-release" /></a>
+<a href="https://opensource.org/licenses/MIT"><img src="../support/images/img.shields.io_badge_License-MIT-yellow.svg" alt="License: MIT" /></a></p>
+
+<p>Sequelize is an easy-to-use and promise-based <a href="https://nodejs.org/en/about/">Node.js</a> <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM tool</a> for <a href="https://en.wikipedia.org/wiki/PostgreSQL">Postgres</a>, <a href="https://en.wikipedia.org/wiki/MySQL">MySQL</a>, <a href="https://en.wikipedia.org/wiki/MariaDB">MariaDB</a>, <a href="https://en.wikipedia.org/wiki/SQLite">SQLite</a>, <a href="https://en.wikipedia.org/wiki/IBM_Db2_Family">DB2</a>, <a href="https://en.wikipedia.org/wiki/Microsoft_SQL_Server">Microsoft SQL Server</a>, <a href="https://www.snowflake.com/">Snowflake</a>, <a href="https://www.oracle.com/database/">Oracle DB</a> and <a href="https://www.ibm.com/support/pages/db2-ibm-i">Db2 for IBM i</a>. It features solid transaction support, relations, eager and lazy loading, read replication and more.</p>
+
+<p>Would you like to contribute? Read <a href="./CONTRIBUTING.md">our contribution guidelines</a> to know more. There are many ways to help! 😃</p>
+
+<h2 id="-seeking-new-maintainers-for-sequelize-">🚀 Seeking New Maintainers for Sequelize! 🚀</h2>
+
+<p>We&#8217;re looking for new maintainers to help finalize and release the next major version of Sequelize! If you&#8217;re passionate about open-source and database ORMs, we&#8217;d love to have you onboard.</p>
+
+<h3 id="-funding-available">💰 Funding Available</h3>
+
+<p>We distribute <strong>$2,500 per quarter</strong> among maintainers and have additional funds for full-time contributions.</p>
+
+<h3 id="️-what-youll-work-on">🛠️ What You’ll Work On</h3>
+
+<ul>
+  <li>Finalizing and releasing Sequelize’s next major version</li>
+  <li>Improving TypeScript support and database integrations</li>
+  <li>Fixing critical issues and shaping the ORM’s future</li>
+</ul>
+
+<h3 id="-how-to-get-involved">🤝 How to Get Involved</h3>
+
+<p>Interested? Join our Slack and reach out to <strong>@WikiRik</strong> or <strong>@sdepold</strong>:<br />
+➡️ <strong><a href="https://sequelize.org/slack">sequelize.org/slack</a></strong></p>
+
+<p>We’d love to have you on board! 🚀</p>
+
+<h2 id="computer-getting-started">:computer: Getting Started</h2>
+
+<p>Ready to start using Sequelize? Head to <a href="https://sequelize.org">sequelize.org</a> to begin!</p>
+
+<ul>
+  <li><a href="https://sequelize.org/docs/v6/getting-started">Our Getting Started guide for Sequelize 6 (stable)</a></li>
+  <li><a href="https://sequelize.org/docs/v7/getting-started">Our Getting Started guide for Sequelize 7 (alpha)</a></li>
+</ul>
+
+<h2 id="money_with_wings-supporting-the-project">:money_with_wings: Supporting the project</h2>
+
+<p>Do you like Sequelize and would like to give back to the engineering team behind it?</p>
+
+<p>We have recently created an <a href="https://opencollective.com/sequelize">OpenCollective based money pool</a> which is shared amongst all core maintainers based on their contributions. Every support is wholeheartedly welcome. ❤️</p>
+
+<h2 id="pencil-major-version-changelog">:pencil: Major version changelog</h2>
+
+<p>Please find upgrade information to major versions here:</p>
+
+<ul>
+  <li><a href="https://sequelize.org/docs/v6/other-topics/upgrade-to-v6">Upgrade from v5 to v6</a></li>
+  <li><a href="https://sequelize.org/docs/v7/other-topics/upgrade-to-v7">Upgrade from v6 to v7</a></li>
+</ul>
+
+<h2 id="book-resources">:book: Resources</h2>
+
+<ul>
+  <li><a href="https://sequelize.org">Documentation</a></li>
+  <li><a href="https://sequelize.org/releases/">Databases Compatibility Table</a></li>
+  <li><a href="https://github.com/sequelize/sequelize/releases">Changelog</a></li>
+  <li><a href="https://github.com/sequelize/sequelize/discussions">Discussions</a></li>
+  <li><a href="https://sequelize.org/slack">Slack</a></li>
+  <li><a href="https://stackoverflow.com/questions/tagged/sequelize.js">Stack Overflow</a></li>
+</ul>
+
+<h3 id="wrench-tools">:wrench: Tools</h3>
+
+<ul>
+  <li><a href="https://github.com/sequelize/cli">CLI</a></li>
+  <li><a href="https://github.com/mickhansen/graphql-sequelize">For GraphQL</a></li>
+  <li><a href="https://github.com/cockroachdb/sequelize-cockroachdb">For CockroachDB</a></li>
+  <li><a href="https://sequelize.org/docs/v7/other-topics/resources/">Awesome Sequelize</a></li>
+  <li><a href="https://github.com/yugabyte/sequelize-yugabytedb">For YugabyteDB</a></li>
+</ul>
+
+<h3 id="speech_balloon-translations">:speech_balloon: Translations</h3>
+
+<ul>
+  <li><a href="https://sequelize.org">English</a> (Official)</li>
+  <li><a href="https://github.com/demopark/sequelize-docs-Zh-CN">中文文档</a> (Unofficial)</li>
+</ul>
+
+<h2 id="warning-responsible-disclosure">:warning: Responsible disclosure</h2>
+
+<p>If you have security issues to report, please refer to our
+<a href="./SECURITY.md">Responsible Disclosure Policy</a> for more details.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

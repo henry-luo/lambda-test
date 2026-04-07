@@ -530,23 +530,23 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 <tr valign="middle">
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://vercel.com">Vercel</a><br><br>
-  <a href="https://vercel.com"><img src="https://avatars1.githubusercontent.com/u/14985020?s=256&v=4" width="128"></a>
+  <a href="https://vercel.com"><img src="../support/images/avatars1.githubusercontent.com_u_14985020.png" width="128"></a>
 </td>
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://motif.land">Motif</a><br><br>
-  <a href="https://motif.land"><img src="https://avatars1.githubusercontent.com/u/74457950?s=256&v=4" width="128"></a>
+  <a href="https://motif.land"><img src="../support/images/avatars1.githubusercontent.com_u_74457950.png" width="128"></a>
 </td>
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://www.hashicorp.com">HashiCorp</a><br><br>
-  <a href="https://www.hashicorp.com"><img src="https://avatars1.githubusercontent.com/u/761456?s=256&v=4" width="128"></a>
+  <a href="https://www.hashicorp.com"><img src="../support/images/avatars1.githubusercontent.com_u_761456.png" width="128"></a>
 </td>
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://www.gitbook.com">GitBook</a><br><br>
-  <a href="https://www.gitbook.com"><img src="https://avatars1.githubusercontent.com/u/7111340?s=256&v=4" width="128"></a>
+  <a href="https://www.gitbook.com"><img src="../support/images/avatars1.githubusercontent.com_u_7111340.png" width="128"></a>
 </td>
 <td width="20%" align="center" rowspan="2" colspan="2">
   <a href="https://www.gatsbyjs.org">Gatsby</a><br><br>
-  <a href="https://www.gatsbyjs.org"><img src="https://avatars1.githubusercontent.com/u/12551863?s=256&v=4" width="128"></a>
+  <a href="https://www.gatsbyjs.org"><img src="../support/images/avatars1.githubusercontent.com_u_12551863.png" width="128"></a>
 </td>
 </tr>
 <tr valign="middle">
@@ -559,15 +559,15 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 </td>
 <td width="10%" align="center">
   <a href="https://www.coinbase.com">Coinbase</a><br><br>
-  <a href="https://www.coinbase.com"><img src="https://avatars1.githubusercontent.com/u/1885080?s=256&v=4" width="64"></a>
+  <a href="https://www.coinbase.com"><img src="../support/images/avatars1.githubusercontent.com_u_1885080.png" width="64"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://themeisle.com">ThemeIsle</a><br><br>
-  <a href="https://themeisle.com"><img src="https://avatars1.githubusercontent.com/u/58979018?s=128&v=4" width="64"></a>
+  <a href="https://themeisle.com"><img src="../support/images/avatars1.githubusercontent.com_u_58979018.png" width="64"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://expo.io">Expo</a><br><br>
-  <a href="https://expo.io"><img src="https://avatars1.githubusercontent.com/u/12504344?s=128&v=4" width="64"></a>
+  <a href="https://expo.io"><img src="../support/images/avatars1.githubusercontent.com_u_12504344.png" width="64"></a>
 </td>
 <td width="10%" align="center">
   <a href="https://boostnote.io">Boost Note</a><br><br>
@@ -579,7 +579,7 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 </td>
 <td width="10%" align="center">
   <a href="https://www.holloway.com">Holloway</a><br><br>
-  <a href="https://www.holloway.com"><img src="https://avatars1.githubusercontent.com/u/35904294?s=128&v=4" width="64"></a>
+  <a href="https://www.holloway.com"><img src="../support/images/avatars1.githubusercontent.com_u_35904294.jpg" width="64"></a>
 </td>
 <td width="10%"></td>
 <td width="10%"></td>
@@ -599,19 +599,19 @@ Support this effort and give back by sponsoring on [OpenCollective][]!
 
 <!-- Definitions -->
 
-[badge-build-image]: https://github.com/remarkjs/remark/workflows/main/badge.svg
+[badge-build-image]: ../support/images/github.com_remarkjs_remark_workflows_main_badge.svg
 
 [badge-build-url]: https://github.com/remarkjs/remark/actions
 
-[badge-coverage-image]: https://img.shields.io/codecov/c/github/remarkjs/remark.svg
+[badge-coverage-image]: ../support/images/img.shields.io_codecov_c_github_remarkjs_remark.svg
 
 [badge-coverage-url]: https://codecov.io/github/remarkjs/remark
 
-[badge-downloads-image]: https://img.shields.io/npm/dm/remark.svg
+[badge-downloads-image]: ../support/images/img.shields.io_npm_dm_remark.svg
 
 [badge-downloads-url]: https://www.npmjs.com/package/remark
 
-[badge-size-image]: https://img.shields.io/bundlejs/size/remark
+[badge-size-image]: ../support/images/img.shields.io_bundlejs_size_remark.svg
 
 [badge-size-url]: https://bundlejs.com/?q=remark
 

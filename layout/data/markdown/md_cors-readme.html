@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cors README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>cors README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        cors README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="cors">cors</h1>
+
+<p><a href="https://npmjs.com/package/cors"><img src="../support/images/img.shields.io_npm_v_cors.svg" alt="NPM Version" /></a>
+<a href="https://npmjs.com/package/cors"><img src="../support/images/img.shields.io_npm_dm_cors.svg" alt="NPM Downloads" /></a>
+<a href="https://github.com/expressjs/cors?query=workflow%3Aci"><img src="../support/images/img.shields.io_github_actions_workflow_status_expressjs_cors_ci.yml.svg" alt="Build Status" /></a>
+<a href="https://coveralls.io/r/expressjs/cors?branch=master"><img src="../support/images/img.shields.io_coveralls_expressjs_cors_master.svg" alt="Test Coverage" /></a></p>
+
+<p>CORS is a <a href="https://nodejs.org/en/">Node.js</a> middleware for <a href="https://expressjs.com/">Express</a>/<a href="https://github.com/senchalabs/connect">Connect</a> that sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">CORS</a> response headers. These headers tell browsers which origins can read responses from your server.</p>
+
+<blockquote>
+  <p>[!IMPORTANT]
+<strong>How CORS Works:</strong> This package sets response headers—it doesn&#8217;t block requests. CORS is enforced by browsers: they check the headers and decide if JavaScript can read the response. Non-browser clients (curl, Postman, other servers) ignore CORS entirely. See the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS">MDN CORS guide</a> for details.</p>
+</blockquote>
+
+<ul>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#usage">Usage</a>
+    <ul>
+      <li><a href="#simple-usage-enable-all-cors-requests">Simple Usage</a></li>
+      <li><a href="#enable-cors-for-a-single-route">Enable CORS for a Single Route</a></li>
+      <li><a href="#configuring-cors">Configuring CORS</a></li>
+      <li><a href="#configuring-cors-w-dynamic-origin">Configuring CORS w/ Dynamic Origin</a></li>
+      <li><a href="#enabling-cors-pre-flight">Enabling CORS Pre-Flight</a></li>
+      <li><a href="#customizing-cors-settings-dynamically-per-request">Customizing CORS Settings Dynamically per Request</a></li>
+    </ul>
+  </li>
+  <li><a href="#configuration-options">Configuration Options</a></li>
+  <li><a href="#common-misconceptions">Common Misconceptions</a></li>
+  <li><a href="#license">License</a></li>
+  <li><a href="#original-author">Original Author</a></li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<p>This is a <a href="https://nodejs.org/en/">Node.js</a> module available through the
+<a href="https://www.npmjs.com/">npm registry</a>. Installation is done using the
+<a href="https://docs.npmjs.com/downloading-and-installing-packages-locally"><code>npm install</code> command</a>:</p>
+
+<pre><code class="language-sh">$ npm install cors
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="simple-usage-enable-all-cors-requests">Simple Usage (Enable <em>All</em> CORS Requests)</h3>
+
+<pre><code class="language-javascript">var express = require('express')
+var cors = require('cors')
+var app = express()
+
+// Adds headers: Access-Control-Allow-Origin: *
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'Hello'})
+})
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<h3 id="enable-cors-for-a-single-route">Enable CORS for a Single Route</h3>
+
+<pre><code class="language-javascript">var express = require('express')
+var cors = require('cors')
+var app = express()
+
+// Adds headers: Access-Control-Allow-Origin: *
+app.get('/products/:id', cors(), function (req, res, next) {
+  res.json({msg: 'Hello'})
+})
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<h3 id="configuring-cors">Configuring CORS</h3>
+
+<p>See the <a href="#configuration-options">configuration options</a> for details.</p>
+
+<pre><code class="language-javascript">var express = require('express')
+var cors = require('cors')
+var app = express()
+
+var corsOptions = {
+  origin: 'http://example.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+// Adds headers: Access-Control-Allow-Origin: http://example.com, Vary: Origin
+app.get('/products/:id', cors(corsOptions), function (req, res, next) {
+  res.json({msg: 'Hello'})
+})
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<h3 id="configuring-cors-w-dynamic-origin">Configuring CORS w/ Dynamic Origin</h3>
+
+<p>This module supports validating the origin dynamically using a function provided
+to the <code>origin</code> option. This function will be passed a string that is the origin
+(or <code>undefined</code> if the request has no origin), and a <code>callback</code> with the signature
+<code>callback(error, origin)</code>.</p>
+
+<p>The <code>origin</code> argument to the callback can be any value allowed for the <code>origin</code>
+option of the middleware, except a function. See the
+<a href="#configuration-options">configuration options</a> section for more information on all
+the possible value types.</p>
+
+<p>This function is designed to allow the dynamic loading of allowed origin(s) from
+a backing datasource, like a database.</p>
+
+<pre><code class="language-javascript">var express = require('express')
+var cors = require('cors')
+var app = express()
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    // db.loadOrigins is an example call to load
+    // a list of origins from a backing database
+    db.loadOrigins(function (error, origins) {
+      callback(error, origins)
+    })
+  }
+}
+
+// Adds headers: Access-Control-Allow-Origin: &lt;matched origin&gt;, Vary: Origin
+app.get('/products/:id', cors(corsOptions), function (req, res, next) {
+  res.json({msg: 'Hello'})
+})
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<h3 id="enabling-cors-pre-flight">Enabling CORS Pre-Flight</h3>
+
+<p>Certain CORS requests are considered &#8216;complex&#8217; and require an initial
+<code>OPTIONS</code> request (called the &#8220;pre-flight request&#8221;). An example of a
+&#8216;complex&#8217; CORS request is one that uses an HTTP verb other than
+GET/HEAD/POST (such as DELETE) or that uses custom headers. To enable
+pre-flighting, you must add a new OPTIONS handler for the route you want
+to support:</p>
+
+<pre><code class="language-javascript">var express = require('express')
+var cors = require('cors')
+var app = express()
+
+app.options('/products/:id', cors()) // preflight for DELETE
+app.delete('/products/:id', cors(), function (req, res, next) {
+  res.json({msg: 'Hello'})
+})
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<p>You can also enable pre-flight across-the-board like so:</p>
+
+<pre><code class="language-javascript">app.options('*', cors()) // include before other routes
+</code></pre>
+
+<p>NOTE: When using this middleware as an application level middleware (for
+example, <code>app.use(cors())</code>), pre-flight requests are already handled for all
+routes.</p>
+
+<h3 id="customizing-cors-settings-dynamically-per-request">Customizing CORS Settings Dynamically per Request</h3>
+
+<p>For APIs that require different CORS configurations for specific routes or requests, you can dynamically generate CORS options based on the incoming request. The <code>cors</code> middleware allows you to achieve this by passing a function instead of static options. This function is called for each incoming request and must use the callback pattern to return the appropriate CORS options.</p>
+
+<p>The function accepts:</p>
+<ol>
+  <li><strong><code>req</code></strong>:
+    <ul>
+      <li>The incoming request object.</li>
+    </ul>
+  </li>
+  <li><strong><code>callback(error, corsOptions)</code></strong>:
+    <ul>
+      <li>A function used to return the computed CORS options.</li>
+      <li><strong>Arguments</strong>:
+        <ul>
+          <li><strong><code>error</code></strong>: Pass <code>null</code> if there’s no error, or an error object to indicate a failure.</li>
+          <li><strong><code>corsOptions</code></strong>: An object specifying the CORS policy for the current request.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>Here’s an example that handles both public routes and restricted, credential-sensitive routes:</p>
+
+<pre><code class="language-javascript">var dynamicCorsOptions = function(req, callback) {
+  var corsOptions;
+  if (req.path.startsWith('/auth/connect/')) {
+    // Access-Control-Allow-Origin: http://mydomain.com, Access-Control-Allow-Credentials: true, Vary: Origin
+    corsOptions = {
+      origin: 'http://mydomain.com',
+      credentials: true
+    };
+  } else {
+    // Access-Control-Allow-Origin: *
+    corsOptions = { origin: '*' };
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(dynamicCorsOptions));
+
+app.get('/auth/connect/twitter', function (req, res) {
+  res.send('Hello');
+});
+
+app.get('/public', function (req, res) {
+  res.send('Hello');
+});
+
+app.listen(80, function () {
+  console.log('web server listening on port 80')
+})
+</code></pre>
+
+<h2 id="configuration-options">Configuration Options</h2>
+
+<ul>
+  <li><code>origin</code>: Configures the <strong>Access-Control-Allow-Origin</strong> CORS header. Possible values:
+    <ul>
+      <li><code>Boolean</code> - set <code>origin</code> to <code>true</code> to reflect the <a href="https://datatracker.ietf.org/doc/html/draft-abarth-origin-09">request origin</a>, as defined by <code>req.header('Origin')</code>, or set it to <code>false</code> to disable CORS.</li>
+      <li><code>String</code> - set <code>origin</code> to a specific origin. For example, if you set it to
+        <ul>
+          <li><code>"http://example.com"</code> only requests from &#8220;http://example.com&#8221; will be allowed.</li>
+          <li><code>"*"</code> for all domains to be allowed.</li>
+        </ul>
+      </li>
+      <li><code>RegExp</code> - set <code>origin</code> to a regular expression pattern which will be used to test the request origin. If it&#8217;s a match, the request origin will be reflected. For example the pattern <code>/example\.com$/</code> will reflect any request that is coming from an origin ending with &#8220;example.com&#8221;.</li>
+      <li><code>Array</code> - set <code>origin</code> to an array of valid origins. Each origin can be a <code>String</code> or a <code>RegExp</code>. For example <code>["http://example1.com", /\.example2\.com$/]</code> will accept any request from &#8220;http://example1.com&#8221; or from a subdomain of &#8220;example2.com&#8221;.</li>
+      <li><code>Function</code> - set <code>origin</code> to a function implementing some custom logic. The function takes the request origin as the first parameter and a callback (called as <code>callback(err, origin)</code>, where <code>origin</code> is a non-function value of the <code>origin</code> option) as the second.</li>
+    </ul>
+  </li>
+  <li><code>methods</code>: Configures the <strong>Access-Control-Allow-Methods</strong> CORS header. Expects a comma-delimited string (ex: &#8216;GET,PUT,POST&#8217;) or an array (ex: <code>['GET', 'PUT', 'POST']</code>).</li>
+  <li><code>allowedHeaders</code>: Configures the <strong>Access-Control-Allow-Headers</strong> CORS header. Expects a comma-delimited string (ex: &#8216;Content-Type,Authorization&#8217;) or an array (ex: <code>['Content-Type', 'Authorization']</code>). If not specified, defaults to reflecting the headers specified in the request&#8217;s <strong>Access-Control-Request-Headers</strong> header.</li>
+  <li><code>exposedHeaders</code>: Configures the <strong>Access-Control-Expose-Headers</strong> CORS header. Expects a comma-delimited string (ex: &#8216;Content-Range,X-Content-Range&#8217;) or an array (ex: <code>['Content-Range', 'X-Content-Range']</code>). If not specified, no custom headers are exposed.</li>
+  <li><code>credentials</code>: Configures the <strong>Access-Control-Allow-Credentials</strong> CORS header. Set to <code>true</code> to pass the header, otherwise it is omitted.</li>
+  <li><code>maxAge</code>: Configures the <strong>Access-Control-Max-Age</strong> CORS header. Set to an integer to pass the header, otherwise it is omitted.</li>
+  <li><code>preflightContinue</code>: Pass the CORS preflight response to the next handler.</li>
+  <li><code>optionsSuccessStatus</code>: Provides a status code to use for successful <code>OPTIONS</code> requests, since some legacy browsers (IE11, various SmartTVs) choke on <code>204</code>.</li>
+</ul>
+
+<p>The default configuration is the equivalent of:</p>
+
+<pre><code class="language-json">{
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+</code></pre>
+
+<h2 id="common-misconceptions">Common Misconceptions</h2>
+
+<h3 id="cors-blocks-requests-from-disallowed-origins">&#8220;CORS blocks requests from disallowed origins&#8221;</h3>
+
+<p><strong>No.</strong> Your server receives and processes every request. CORS headers tell the browser whether JavaScript can read the response—not whether the request is allowed.</p>
+
+<h3 id="cors-protects-my-api-from-unauthorized-access">&#8220;CORS protects my API from unauthorized access&#8221;</h3>
+
+<p><strong>No.</strong> CORS is not access control. Any HTTP client (curl, Postman, another server) can call your API regardless of CORS settings. Use authentication and authorization to protect your API.</p>
+
+<h3 id="setting-origin-httpexamplecom-means-only-that-domain-can-access-my-server">&#8220;Setting <code>origin: 'http://example.com'</code> means only that domain can access my server&#8221;</h3>
+
+<p><strong>No.</strong> It means browsers will only let JavaScript from that origin read responses. The server still responds to all requests.</p>
+
+<h2 id="license">License</h2>
+
+<p><a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p>
+
+<h2 id="original-author">Original Author</h2>
+
+<p><a href="https://github.com/TroyGoode">Troy Goode</a> (<a href="mailto:troygoode@gmail.com">troygoode@gmail.com</a>)</p>
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

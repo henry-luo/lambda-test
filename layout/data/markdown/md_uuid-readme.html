@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>uuid README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>uuid README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        uuid README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <!--
+  -- This file is auto-generated from README_js.md. Changes should be made there.
+  -->
+
+<h1 id="uuid--">uuid <a href="https://github.com/uuidjs/uuid/actions?query=workflow%3ACI"><img src="../support/images/github_badge.svg" alt="CI" /></a> <a href="https://github.com/uuidjs/uuid/actions/workflows/browser.yml"><img src="../support/images/github_badge.svg" alt="Browser" /></a></h1>
+
+<p>For the creation of <a href="https://www.rfc-editor.org/rfc/rfc9562.html">RFC9562</a> (formerly <a href="https://www.rfc-editor.org/rfc/rfc4122.html">RFC4122</a>) UUIDs</p>
+
+<ul>
+  <li><strong>Complete</strong> - Support for all RFC9562 UUID versions</li>
+  <li><strong>Cross-platform</strong> - Support for&#8230;
+    <ul>
+      <li><a href="#support">Typescript</a></li>
+      <li><a href="#support">Chrome, Safari, Firefox, and Edge</a></li>
+      <li><a href="#support">NodeJS</a></li>
+      <li><a href="#react-native--expo">React Native / Expo</a></li>
+    </ul>
+  </li>
+  <li><strong>Secure</strong> - Uses modern <code>crypto</code> API for random values</li>
+  <li><strong>Compact</strong> - Zero-dependency, <a href="https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking">tree-shakable</a></li>
+  <li><strong>CLI</strong> - <a href="#command-line"><code>uuid</code> command line</a> utility</li>
+</ul>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]</p>
+
+  <p>Starting with <code>uuid@12</code> CommonJS is no longer supported.  See <a href="https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c">implications</a> and <a href="https://github.com/uuidjs/uuid/issues/881">motivation</a> for details.</p>
+</blockquote>
+
+<h2 id="quickstart">Quickstart</h2>
+
+<p><strong>1. Install</strong></p>
+
+<pre><code class="language-shell">npm install uuid
+</code></pre>
+
+<p><strong>2. Create a UUID</strong></p>
+
+<pre><code class="language-javascript">import { v4 as uuidv4 } from "uuid";
+
+uuidv4(); // ⇨ 'd02fd2bc-0baa-4a06-ae2f-fde2bbaff694'
+</code></pre>
+
+<p>For timestamp UUIDs, namespace UUIDs, and other options read on &#8230;</p>
+
+<h2 id="api-summary">API Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#uuidnil"><code>uuid.NIL</code></a></td>
+      <td>The nil UUID string (all zeros)</td>
+      <td>New in <code>uuid@8.3</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidmax"><code>uuid.MAX</code></a></td>
+      <td>The max UUID string (all ones)</td>
+      <td>New in <code>uuid@9.1</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidparsestr"><code>uuid.parse()</code></a></td>
+      <td>Convert UUID string to array of bytes</td>
+      <td>New in <code>uuid@8.3</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidstringifyarr-offset"><code>uuid.stringify()</code></a></td>
+      <td>Convert array of bytes to UUID string</td>
+      <td>New in <code>uuid@8.3</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv1options-buffer-offset"><code>uuid.v1()</code></a></td>
+      <td>Create a version 1 (timestamp) UUID</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv1tov6uuid"><code>uuid.v1ToV6()</code></a></td>
+      <td>Create a version 6 UUID from a version 1 UUID</td>
+      <td>New in <code>uuid@10</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv3name-namespace-buffer-offset"><code>uuid.v3()</code></a></td>
+      <td>Create a version 3 (namespace w/ MD5) UUID</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv4options-buffer-offset"><code>uuid.v4()</code></a></td>
+      <td>Create a version 4 (random) UUID</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv5name-namespace-buffer-offset"><code>uuid.v5()</code></a></td>
+      <td>Create a version 5 (namespace w/ SHA-1) UUID</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv6options-buffer-offset"><code>uuid.v6()</code></a></td>
+      <td>Create a version 6 (timestamp, reordered) UUID</td>
+      <td>New in <code>uuid@10</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv6tov1uuid"><code>uuid.v6ToV1()</code></a></td>
+      <td>Create a version 1 UUID from a version 6 UUID</td>
+      <td>New in <code>uuid@10</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidv7options-buffer-offset"><code>uuid.v7()</code></a></td>
+      <td>Create a version 7 (Unix Epoch time-based) UUID</td>
+      <td>New in <code>uuid@10</code></td>
+    </tr>
+    <tr>
+      <td><del><a href="#uuidv8"><code>uuid.v8()</code></a></del></td>
+      <td>&#8220;Intentionally left blank&#8221;</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td><a href="#uuidvalidatestr"><code>uuid.validate()</code></a></td>
+      <td>Test a string to see if it is a valid UUID</td>
+      <td>New in <code>uuid@8.3</code></td>
+    </tr>
+    <tr>
+      <td><a href="#uuidversionstr"><code>uuid.version()</code></a></td>
+      <td>Detect RFC version of a UUID</td>
+      <td>New in <code>uuid@8.3</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">API</h2>
+
+<h3 id="uuidnil">uuid.NIL</h3>
+
+<p>The nil UUID string (all zeros).</p>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { NIL as NIL_UUID } from "uuid";
+
+NIL_UUID; // ⇨ '00000000-0000-0000-0000-000000000000'
+</code></pre>
+
+<h3 id="uuidmax">uuid.MAX</h3>
+
+<p>The max UUID string (all ones).</p>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { MAX as MAX_UUID } from "uuid";
+
+MAX_UUID; // ⇨ 'ffffffff-ffff-ffff-ffff-ffffffffffff'
+</code></pre>
+
+<h3 id="uuidparsestr">uuid.parse(str)</h3>
+
+<p>Convert UUID string to array of bytes</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td>A valid UUID <code>String</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td><code>Uint8Array[16]</code></td>
+    </tr>
+    <tr>
+      <td><em>throws</em></td>
+      <td><code>TypeError</code> if <code>str</code> is not a valid UUID</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]
+Ordering of values in the byte arrays used by <code>parse()</code> and <code>stringify()</code> follows the left &amp;Rarr; right order of hex-pairs in UUID strings. As shown in the example below.</p>
+</blockquote>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { parse as uuidParse } from "uuid";
+
+// Parse a UUID
+uuidParse("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨
+// Uint8Array(16) [
+//   110, 192, 189, 127,  17,
+//   192,  67, 218, 151,  94,
+//    42, 138, 217, 235, 174,
+//    11
+// ]
+</code></pre>
+
+<h3 id="uuidstringifyarr-offset">uuid.stringify(arr[, offset])</h3>
+
+<p>Convert array of bytes to UUID string</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>arr</code></td>
+      <td><code>Array</code>-like collection of 16 values (starting from <code>offset</code>) between 0-255.</td>
+    </tr>
+    <tr>
+      <td>[<code>offset</code> = 0]</td>
+      <td><code>Number</code> Starting index in the Array</td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td><code>String</code></td>
+    </tr>
+    <tr>
+      <td><em>throws</em></td>
+      <td><code>TypeError</code> if a valid UUID string cannot be generated</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]
+Ordering of values in the byte arrays used by <code>parse()</code> and <code>stringify()</code> follows the left &amp;Rarr; right order of hex-pairs in UUID strings. As shown in the example below.</p>
+</blockquote>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { stringify as uuidStringify } from "uuid";
+
+const uuidBytes = Uint8Array.of(
+  0x6e,
+  0xc0,
+  0xbd,
+  0x7f,
+  0x11,
+  0xc0,
+  0x43,
+  0xda,
+  0x97,
+  0x5e,
+  0x2a,
+  0x8a,
+  0xd9,
+  0xeb,
+  0xae,
+  0x0b,
+);
+
+uuidStringify(uuidBytes); // ⇨ '6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b'
+</code></pre>
+
+<h3 id="uuidv1options-buffer-offset">uuid.v1([options[, buffer[, offset]]])</h3>
+
+<p>Create an RFC version 1 (timestamp) UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[<code>options</code>]</td>
+      <td><code>Object</code> with one or more of the following properties:</td>
+    </tr>
+    <tr>
+      <td>[<code>options.node = (random)</code> ]</td>
+      <td>RFC &#8220;node&#8221; field as an <code>Array[6]</code> of byte values (per 4.1.6)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.clockseq = (random)</code>]</td>
+      <td>RFC &#8220;clock sequence&#8221; as a <code>Number</code> between 0 - 0x3fff</td>
+    </tr>
+    <tr>
+      <td>[<code>options.msecs = (current time)</code>]</td>
+      <td>RFC &#8220;timestamp&#8221; field (<code>Number</code> of milliseconds, unix epoch)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.nsecs = 0</code>]</td>
+      <td>RFC &#8220;timestamp&#8221; field (<code>Number</code> of nanoseconds to add to <code>msecs</code>, should be 0-10,000)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.random = (random)</code>]</td>
+      <td><code>Array</code> of 16 random bytes (0-255) used to generate other fields, above</td>
+    </tr>
+    <tr>
+      <td>[<code>options.rng</code>]</td>
+      <td>Alternative to <code>options.random</code>, a <code>Function</code> that returns an <code>Array</code> of 16 random bytes (0-255)</td>
+    </tr>
+    <tr>
+      <td>[<code>buffer</code>]</td>
+      <td><code>Uint8Array</code> or <code>Uint8Array</code> subtype (e.g. Node.js <code>Buffer</code>). If provided, binary UUID is written into the array, starting at <code>offset</code></td>
+    </tr>
+    <tr>
+      <td>[<code>offset</code> = 0]</td>
+      <td><code>Number</code> Index to start writing UUID bytes in <code>buffer</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td>UUID <code>String</code> if no <code>buffer</code> is specified, otherwise returns <code>buffer</code></td>
+    </tr>
+    <tr>
+      <td><em>throws</em></td>
+      <td><code>Error</code> if more than 10M UUIDs/sec are requested</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { v1 as uuidv1 } from "uuid";
+
+uuidv1(); // ⇨ '56eaf9f0-310a-11f1-8b06-cf0bf06de9bb'
+</code></pre>
+
+<p>Example using <code>options</code>:</p>
+
+<pre><code class="language-javascript">import { v1 as uuidv1 } from "uuid";
+
+const options = {
+  node: Uint8Array.of(0x01, 0x23, 0x45, 0x67, 0x89, 0xab),
+  clockseq: 0x1234,
+  msecs: new Date("2011-11-01").getTime(),
+  nsecs: 5678,
+};
+uuidv1(options); // ⇨ '710b962e-041c-11e1-9234-0123456789ab'
+</code></pre>
+
+<h3 id="uuidv1tov6uuid">uuid.v1ToV6(uuid)</h3>
+
+<p>Convert a UUID from version 1 to version 6</p>
+
+<pre><code class="language-javascript">import { v1ToV6 } from "uuid";
+
+v1ToV6("92f62d9e-22c4-11ef-97e9-325096b39f47"); // ⇨ '1ef22c49-2f62-6d9e-97e9-325096b39f47'
+</code></pre>
+
+<h3 id="uuidv3name-namespace-buffer-offset">uuid.v3(name, namespace[, buffer[, offset]])</h3>
+
+<p>Create an RFC version 3 (namespace w/ MD5) UUID</p>
+
+<p>API is identical to <code>v5()</code>, but uses &#8220;v3&#8221; instead.</p>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!IMPORTANT]
+Per the RFC, &#8220;<em>If backward compatibility is not an issue, SHA-1 [Version 5] is preferred</em>.&#8221;</p>
+</blockquote>
+
+<h3 id="uuidv4options-buffer-offset">uuid.v4([options[, buffer[, offset]]])</h3>
+
+<p>Create an RFC version 4 (random) UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[<code>options</code>]</td>
+      <td><code>Object</code> with one or more of the following properties:</td>
+    </tr>
+    <tr>
+      <td>[<code>options.random</code>]</td>
+      <td><code>Array</code> of 16 random bytes (0-255)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.rng</code>]</td>
+      <td>Alternative to <code>options.random</code>, a <code>Function</code> that returns an <code>Array</code> of 16 random bytes (0-255)</td>
+    </tr>
+    <tr>
+      <td>[<code>buffer</code>]</td>
+      <td><code>Uint8Array</code> or <code>Uint8Array</code> subtype (e.g. Node.js <code>Buffer</code>). If provided, binary UUID is written into the array, starting at <code>offset</code></td>
+    </tr>
+    <tr>
+      <td>[<code>offset</code> = 0]</td>
+      <td><code>Number</code> Index to start writing UUID bytes in <code>buffer</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td>UUID <code>String</code> if no <code>buffer</code> is specified, otherwise returns <code>buffer</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { v4 as uuidv4 } from "uuid";
+
+uuidv4(); // ⇨ 'c3d46383-7242-4b80-973b-eb3c66ad8d9e'
+</code></pre>
+
+<p>Example using predefined <code>random</code> values:</p>
+
+<pre><code class="language-javascript">import { v4 as uuidv4 } from "uuid";
+
+const v4options = {
+  random: Uint8Array.of(
+    0x10,
+    0x91,
+    0x56,
+    0xbe,
+    0xc4,
+    0xfb,
+    0xc1,
+    0xea,
+    0x71,
+    0xb4,
+    0xef,
+    0xe1,
+    0x67,
+    0x1c,
+    0x58,
+    0x36,
+  ),
+};
+uuidv4(v4options); // ⇨ '109156be-c4fb-41ea-b1b4-efe1671c5836'
+</code></pre>
+
+<h3 id="uuidv5name-namespace-buffer-offset">uuid.v5(name, namespace[, buffer[, offset]])</h3>
+
+<p>Create an RFC version 5 (namespace w/ SHA-1) UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>String \| Array</code></td>
+    </tr>
+    <tr>
+      <td><code>namespace</code></td>
+      <td><code>String \| Array[16]</code> Namespace UUID</td>
+    </tr>
+    <tr>
+      <td>[<code>buffer</code>]</td>
+      <td><code>Uint8Array</code> or <code>Uint8Array</code> subtype (e.g. Node.js <code>Buffer</code>). If provided, binary UUID is written into the array, starting at <code>offset</code></td>
+    </tr>
+    <tr>
+      <td>[<code>offset</code> = 0]</td>
+      <td><code>Number</code> Index to start writing UUID bytes in <code>buffer</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td>UUID <code>String</code> if no <code>buffer</code> is specified, otherwise returns <code>buffer</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]
+The RFC <code>DNS</code> and <code>URL</code> namespaces are available as <code>v5.DNS</code> and <code>v5.URL</code>.</p>
+</blockquote>
+
+<p>Example with custom namespace:</p>
+
+<pre><code class="language-javascript">import { v5 as uuidv5 } from "uuid";
+
+// Define a custom namespace.  Readers, create your own using something like
+// https://www.uuidgenerator.net/
+const MY_NAMESPACE = "1b671a64-40d5-491e-99b0-da01ff1f3341";
+
+uuidv5("Hello, World!", MY_NAMESPACE); // ⇨ '630eb68f-e0fa-5ecc-887a-7c7a62614681'
+</code></pre>
+
+<p>Example with RFC <code>URL</code> namespace:</p>
+
+<pre><code class="language-javascript">import { v5 as uuidv5 } from "uuid";
+
+uuidv5("https://www.w3.org/", uuidv5.URL); // ⇨ 'c106a26a-21bb-5538-8bf2-57095d1976c1'
+</code></pre>
+
+<h3 id="uuidv6options-buffer-offset">uuid.v6([options[, buffer[, offset]]])</h3>
+
+<p>Create an RFC version 6 (timestamp, reordered) UUID</p>
+
+<p>This method takes the same arguments as uuid.v1().</p>
+
+<pre><code class="language-javascript">import { v6 as uuidv6 } from "uuid";
+
+uuidv6(); // ⇨ '1f1310a5-6eb9-6630-bf43-2b49087aab53'
+</code></pre>
+
+<p>Example using <code>options</code>:</p>
+
+<pre><code class="language-javascript">import { v6 as uuidv6 } from "uuid";
+
+const options = {
+  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  clockseq: 0x1234,
+  msecs: new Date("2011-11-01").getTime(),
+  nsecs: 5678,
+};
+uuidv6(options); // ⇨ '1e1041c7-10b9-662e-9234-0123456789ab'
+</code></pre>
+
+<h3 id="uuidv6tov1uuid">uuid.v6ToV1(uuid)</h3>
+
+<p>Convert a UUID from version 6 to version 1</p>
+
+<pre><code class="language-javascript">import { v6ToV1 } from "uuid";
+
+v6ToV1("1ef22c49-2f62-6d9e-97e9-325096b39f47"); // ⇨ '92f62d9e-22c4-11ef-97e9-325096b39f47'
+</code></pre>
+
+<h3 id="uuidv7options-buffer-offset">uuid.v7([options[, buffer[, offset]]])</h3>
+
+<p>Create an RFC version 7 (random) UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[<code>options</code>]</td>
+      <td><code>Object</code> with one or more of the following properties:</td>
+    </tr>
+    <tr>
+      <td>[<code>options.msecs = (current time)</code>]</td>
+      <td>RFC &#8220;timestamp&#8221; field (<code>Number</code> of milliseconds, unix epoch)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.random = (random)</code>]</td>
+      <td><code>Array</code> of 16 random bytes (0-255) used to generate other fields, above</td>
+    </tr>
+    <tr>
+      <td>[<code>options.rng</code>]</td>
+      <td>Alternative to <code>options.random</code>, a <code>Function</code> that returns an <code>Array</code> of 16 random bytes (0-255)</td>
+    </tr>
+    <tr>
+      <td>[<code>options.seq = (random)</code>]</td>
+      <td>32-bit sequence <code>Number</code> between 0 - 0xffffffff. This may be provided to help ensure uniqueness for UUIDs generated within the same millisecond time interval. Default = random value.</td>
+    </tr>
+    <tr>
+      <td>[<code>buffer</code>]</td>
+      <td><code>Uint8Array</code> or <code>Uint8Array</code> subtype (e.g. Node.js <code>Buffer</code>). If provided, binary UUID is written into the array, starting at <code>offset</code></td>
+    </tr>
+    <tr>
+      <td>[<code>offset</code> = 0]</td>
+      <td><code>Number</code> Index to start writing UUID bytes in <code>buffer</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td>UUID <code>String</code> if no <code>buffer</code> is specified, otherwise returns <code>buffer</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { v7 as uuidv7 } from "uuid";
+
+uuidv7(); // ⇨ '019d5e6b-6713-7339-951f-6e19a533527d'
+</code></pre>
+
+<h3 id="uuidv8"><del>uuid.v8()</del></h3>
+
+<p><strong><em>&#8220;Intentionally left blank&#8221;</em></strong></p>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]
+Version 8 (experimental) UUIDs are &#8220;<a href="https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-8">for experimental or vendor-specific use cases</a>&#8221;.  The RFC does not define a creation algorithm for them, which is why this package does not offer a <code>v8()</code> method.  The <code>validate()</code> and <code>version()</code> methods do work with such UUIDs, however.</p>
+</blockquote>
+
+<h3 id="uuidvalidatestr">uuid.validate(str)</h3>
+
+<p>Test a string to see if it is a valid UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><code>String</code> to validate</td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td><code>true</code> if string is a valid UUID, <code>false</code> otherwise</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { validate as uuidValidate } from "uuid";
+
+uuidValidate("not a UUID"); // ⇨ false
+uuidValidate("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨ true
+</code></pre>
+
+<p>Using <code>validate</code> and <code>version</code> together it is possible to do per-version validation, e.g. validate for only v4 UUIds.</p>
+
+<pre><code class="language-javascript">import { version as uuidVersion } from "uuid";
+import { validate as uuidValidate } from "uuid";
+
+function uuidValidateV4(uuid) {
+  return uuidValidate(uuid) &amp;&amp; uuidVersion(uuid) === 4;
+}
+
+const v1Uuid = "d9428888-122b-11e1-b85c-61cd3cbb3210";
+const v4Uuid = "109156be-c4fb-41ea-b1b4-efe1671c5836";
+
+uuidValidateV4(v4Uuid); // ⇨ true
+uuidValidateV4(v1Uuid); // ⇨ false
+</code></pre>
+
+<h3 id="uuidversionstr">uuid.version(str)</h3>
+
+<p>Detect RFC version of a UUID</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>&#160;</th>
+      <th>&#160;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td>A valid UUID <code>String</code></td>
+    </tr>
+    <tr>
+      <td><em>returns</em></td>
+      <td><code>Number</code> The RFC version of the UUID</td>
+    </tr>
+    <tr>
+      <td><em>throws</em></td>
+      <td><code>TypeError</code> if <code>str</code> is not a valid UUID</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Example:</p>
+
+<pre><code class="language-javascript">import { version as uuidVersion } from "uuid";
+
+uuidVersion("45637ec4-c85f-11ea-87d0-0242ac130003"); // ⇨ 1
+uuidVersion("6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"); // ⇨ 4
+</code></pre>
+
+<!-- prettier-ignore -->
+<blockquote>
+  <p>[!NOTE]
+This method returns <code>0</code> for the <code>NIL</code> UUID, and <code>15</code> for the <code>MAX</code> UUID.</p>
+</blockquote>
+
+<h2 id="command-line">Command Line</h2>
+
+<p>UUIDs can be generated from the command line using <code>uuid</code>.</p>
+
+<pre><code class="language-shell">$ npx uuid
+ddeb27fb-d9a0-4624-be4d-4615062daed4
+</code></pre>
+
+<p>The default is to generate version 4 UUIDS, however the other versions are supported. Type <code>uuid --help</code> for details:</p>
+
+<pre><code class="language-shell">$ npx uuid --help
+
+Usage:
+  uuid
+  uuid v1
+  uuid v3 &lt;name&gt; &lt;namespace uuid&gt;
+  uuid v4
+  uuid v5 &lt;name&gt; &lt;namespace uuid&gt;
+  uuid v7
+  uuid --help
+
+Note: &lt;namespace uuid&gt; may be "URL" or "DNS" to use the corresponding UUIDs
+defined by RFC9562
+</code></pre>
+
+<h2 id="options-handling-for-timestamp-uuids"><code>options</code> Handling for Timestamp UUIDs</h2>
+
+<p>Prior to <code>uuid@11</code>, it was possible for <code>options</code> state to interfere with the internal state used to ensure uniqueness of timestamp-based UUIDs (the <code>v1()</code>, <code>v6()</code>, and <code>v7()</code> methods). Starting with <code>uuid@11</code>, this issue has been addressed by using the presence of the <code>options</code> argument as a flag to select between two possible behaviors:</p>
+
+<ul>
+  <li>Without <code>options</code>: Internal state is utilized to improve UUID uniqueness.</li>
+  <li>With <code>options</code>: Internal state is <strong>NOT</strong> used and, instead, appropriate defaults are applied as needed.</li>
+</ul>
+
+<h2 id="support">Support</h2>
+
+<p><strong>Browsers</strong>: <code>uuid</code> <a href="/uuidjs/uuid/blob/main/wdio.conf.js">builds are tested</a> against the latest version of desktop Chrome, Safari, Firefox, and Edge. Mobile versions of these same browsers are expected to work but aren&#8217;t currently tested.</p>
+
+<p><strong>Node</strong>: <code>uuid</code> <a href="https://github.com/uuidjs/uuid/blob/main/.github/workflows/ci.yml#L26-L27">builds are tested</a> against node (<a href="https://github.com/nodejs/Release">LTS releases</a>), plus one prior. E.g. At the time of this writing <code>node@20</code> is the &#8220;maintenance&#8221; release and <code>node@24</code> is the &#8220;current&#8221; release, so <code>uuid</code> supports <code>node@20</code>-<code>node@24</code>.</p>
+
+<p><strong>Typescript</strong>: TS versions released within the past two years are supported. <a href="https://github.com/microsoft/TypeScript/issues/49088#issuecomment-2468723715">source</a></p>
+
+<h2 id="known-issues">Known issues</h2>
+
+<!-- This header is referenced as an anchor in src/rng-browser.ts -->
+
+<h3 id="getrandomvalues-not-supported">&#8220;getRandomValues() not supported&#8221;</h3>
+
+<p>This error occurs in environments where the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues"><code>crypto.getRandomValues()</code></a> API is not supported. This issue can be resolved by adding an appropriate polyfill:</p>
+
+<h4 id="react-native--expo">React Native / Expo</h4>
+
+<ol>
+  <li>Install <a href="https://github.com/LinusU/react-native-get-random-values#readme"><code>react-native-get-random-values</code></a></li>
+  <li>Import it <em>before</em> <code>uuid</code>. Since <code>uuid</code> might also appear as a transitive dependency of some other imports it&#8217;s safest to just import <code>react-native-get-random-values</code> as the very first thing in your entry point:</li>
+</ol>
+
+<pre><code class="language-javascript">import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+</code></pre>
+
+<hr />
+
+<p>Markdown generated from <a href="README_js.md">README_js.md</a> by <a href="https://github.com/broofa/runmd"><image height="13" src="https://camo.githubusercontent.com/5c7c603cd1e6a43370b0a5063d457e0dabb74cf317adc7baba183acb686ee8d0/687474703a2f2f692e696d6775722e636f6d2f634a4b6f3662552e706e67"></image></a></p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

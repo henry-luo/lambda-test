@@ -10,8 +10,8 @@
 > Terminal string styling done right
 
 [![Coverage Status](../support/images/codecov_badge.svg)](https://codecov.io/gh/chalk/chalk)
-[![npm dependents](https://badgen.net/npm/dependents/chalk)](https://www.npmjs.com/package/chalk?activeTab=dependents)
-[![Downloads](https://badgen.net/npm/dt/chalk)](https://www.npmjs.com/package/chalk)
+[![npm dependents](../support/images/badgen.net_npm_dependents_chalk.svg)](https://www.npmjs.com/package/chalk?activeTab=dependents)
+[![Downloads](../support/images/badgen.net_npm_dt_chalk.svg)](https://www.npmjs.com/package/chalk)
 
 ![](media/screenshot.png)
 

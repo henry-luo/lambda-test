@@ -13,11 +13,11 @@
 </p>
 <br/>
 <p align="center">
-  <a href="https://npmjs.com/package/vite"><img src="https://img.shields.io/npm/v/vite.svg" alt="npm package"></a>
-  <a href="https://nodejs.org/en/about/previous-releases"><img src="https://img.shields.io/node/v/vite.svg" alt="node compatibility"></a>
+  <a href="https://npmjs.com/package/vite"><img src="../support/images/img.shields.io_npm_v_vite.svg" alt="npm package"></a>
+  <a href="https://nodejs.org/en/about/previous-releases"><img src="../support/images/img.shields.io_node_v_vite.svg" alt="node compatibility"></a>
   <a href="https://github.com/vitejs/vite/actions/workflows/ci.yml"><img src="../support/images/github_badge.svg" alt="build status"></a>
-  <a href="https://docs.warp.dev/support-and-community/community/open-source-partnership"><img src="https://img.shields.io/badge/Oz%20agents-triaging%20issues-white?logo=warp" alt="issue triage powered by Oz"></a>
-  <a href="https://chat.vite.dev"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+  <a href="https://docs.warp.dev/support-and-community/community/open-source-partnership"><img src="../support/images/img.shields.io_badge_Oz_20agents-triaging_20issues-white.svg" alt="issue triage powered by Oz"></a>
+  <a href="https://chat.vite.dev"><img src="../support/images/img.shields.io_badge_chat-discord-blue.svg" alt="discord chat"></a>
 </p>
 <br/>
 
@@ -46,9 +46,9 @@ In addition, Vite is highly extensible via its [Plugin API](https://vite.dev/gui
 
 | Package                                         | Version (click for changelogs)                                                                                                    |
 | ----------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-| [vite](packages/vite)                           | [![vite version](https://img.shields.io/npm/v/vite.svg?label=%20)](packages/vite/CHANGELOG.md)                                    |
-| [@vitejs/plugin-legacy](packages/plugin-legacy) | [![plugin-legacy version](https://img.shields.io/npm/v/@vitejs/plugin-legacy.svg?label=%20)](packages/plugin-legacy/CHANGELOG.md) |
-| [create-vite](packages/create-vite)             | [![create-vite version](https://img.shields.io/npm/v/create-vite.svg?label=%20)](packages/create-vite/CHANGELOG.md)               |
+| [vite](packages/vite)                           | [![vite version](../support/images/img.shields.io_npm_v_vite.svg)](packages/vite/CHANGELOG.md)                                    |
+| [@vitejs/plugin-legacy](packages/plugin-legacy) | [![plugin-legacy version](../support/images/img.shields.io_npm_v_vitejs_plugin-legacy.svg)](packages/plugin-legacy/CHANGELOG.md) |
+| [create-vite](packages/create-vite)             | [![create-vite version](../support/images/img.shields.io_npm_v_create-vite.svg)](packages/create-vite/CHANGELOG.md)               |
 
 ## Contribution
 

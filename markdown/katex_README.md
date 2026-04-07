@@ -5,14 +5,14 @@
   </picture>
 </a></h1>
 
-[![npm](https://img.shields.io/npm/v/katex.svg)](https://www.npmjs.com/package/katex)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![npm](../support/images/img.shields.io_npm_v_katex.svg)](https://www.npmjs.com/package/katex)
+[![semantic-release](../support/images/img.shields.io_badge_20_20_F0_9F_93_A6_F0_9F_9A_80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![CI](../support/images/github_badge.svg)](https://github.com/KaTeX/KaTeX/actions?query=workflow%3ACI)
 [![codecov](../support/images/codecov_badge.svg)](https://codecov.io/gh/KaTeX/KaTeX)
-[![Discussions](https://img.shields.io/badge/Discussions-join-brightgreen)](https://github.com/KaTeX/KaTeX/discussions)
-[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/katex/badge?style=rounded)](https://www.jsdelivr.com/package/npm/katex)
-![katex.min.js size](https://img.badgesize.io/https://unpkg.com/katex/dist/katex.min.js?compression=gzip)
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/KaTeX/KaTeX)
+[![Discussions](../support/images/img.shields.io_badge_Discussions-join-brightgreen.svg)](https://github.com/KaTeX/KaTeX/discussions)
+[![jsDelivr](../support/images/data.jsdelivr.com_v1_package_npm_katex_badge.svg)](https://www.jsdelivr.com/package/npm/katex)
+![katex.min.js size](../support/images/img.badgesize.io_https_unpkg.com_katex_dist_katex.min.js.svg)
+[![Gitpod ready-to-code](../support/images/img.shields.io_badge_Gitpod-ready--to--code-blue.svg)](https://gitpod.io/#https://github.com/KaTeX/KaTeX)
 [![Financial Contributors on Open Collective](../support/images/opencollective_badge.svg)](https://opencollective.com/katex)
 
 KaTeX is a fast, easy-to-use JavaScript library for TeX math rendering on the web.

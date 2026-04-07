@@ -6,16 +6,16 @@ English | [简体中文](./docs/zh-cn/README.zh-CN.md) | [日本語](./docs/ja/R
 <p align="center">Fast <b>2kB</b> alternative to Moment.js with the same modern API</p>
 <p align="center">
     <a href="https://bundlephobia.com/package/dayjs"><img
-            src="https://img.shields.io/bundlephobia/minzip/dayjs?style=flat-square&color=%2345cc11"
+            src="../support/images/img.shields.io_bundlephobia_minzip_dayjs.svg"
             alt="Gzip Size"></a>
-    <a href="https://www.npmjs.com/package/dayjs"><img src="https://img.shields.io/npm/v/dayjs.svg?style=flat-square&colorB=51C838"
+    <a href="https://www.npmjs.com/package/dayjs"><img src="../support/images/img.shields.io_npm_v_dayjs.svg"
                                                        alt="NPM Version"></a>
     <a href="https://github.com/iamkun/dayjs/actions/workflows/check.yml"><img
-            src="https://img.shields.io/github/actions/workflow/status/iamkun/dayjs/check.yml?style=flat-square" alt="Build Status"></a>
+            src="../support/images/img.shields.io_github_actions_workflow_status_iamkun_dayjs_check.yml.svg" alt="Build Status"></a>
     <a href="https://codecov.io/gh/iamkun/dayjs"><img
-            src="https://img.shields.io/codecov/c/github/iamkun/dayjs/master.svg?style=flat-square" alt="Codecov"></a>
+            src="../support/images/img.shields.io_codecov_c_github_iamkun_dayjs_master.svg" alt="Codecov"></a>
     <a href="https://github.com/iamkun/dayjs/blob/master/LICENSE"><img
-            src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="License"></a>
+            src="../support/images/img.shields.io_badge_license-MIT-brightgreen.svg" alt="License"></a>
     <br>
     <a href="https://saucelabs.com/u/dayjs">
         <img width="750" src="../support/images/user-images-githubus_40040137-8e3323a6-584b-11e8-9dba-bbe577ee8a7b.png" alt="Sauce Test Status">
@@ -106,7 +106,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 [[Become a sponsor via Github](https://github.com/sponsors/iamkun/)] [[Become a sponsor via OpenCollective](https://opencollective.com/dayjs#sponsor)]
 
 <a href="https://github.com/ken-swyfft" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/65305317?v=4">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_65305317.jpg">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://opencollective.com/sight-sound" target="_blank">
@@ -122,43 +122,43 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/radioplusexperts" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/188567998?v=4">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_188567998.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://anonstories.com" target="_blank">
-  <img alt="Instagram Story Viewer" width="70" src="https://avatars.githubusercontent.com/u/240702364?v=4">
+  <img alt="Instagram Story Viewer" width="70" src="../support/images/avatars.githubusercontent.com_u_240702364.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.sayfone.com/call-rates " target="_blank">
-  <img alt="Sayfone Cheap international calls" width="70" src="https://github.com/user-attachments/assets/68f91139-b190-421b-bcd7-43a8e3d84fe7">
+  <img alt="Sayfone Cheap international calls" width="70" src="../support/images/github.com_user-attachments_assets_68f91139-b190-421b-bcd7-43a8e3d84fe7.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://automatio.ai" target="_blank" alt="Automatio AI">
-  <img width="70" src="https://avatars.githubusercontent.com/u/1984909?v=4" />
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_1984909.png" />
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://bestkru.com/" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/159320286" alt="BestKru">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_159320286.png" alt="BestKru">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://handsontable.com/docs/react-data-grid/?utm_source=Dayjs_GH&utm_medium=sponsorship&utm_campaign=library_sponsorship" target="_blank">
-  <img width="70" src="https://github.com/user-attachments/assets/426c3476-dc34-44d1-a904-ed58dbd20dd6">
+  <img width="70" src="../support/images/github.com_user-attachments_assets_426c3476-dc34-44d1-a904-ed58dbd20dd6.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://route4me.com/" target="_blank">
-  <img width="70" src="https://github.com/user-attachments/assets/3fbc86c5-98a9-49c2-beae-1969026fcd76" alt="Route Optimizer and Route Planner Software">
+  <img width="70" src="../support/images/github.com_user-attachments_assets_3fbc86c5-98a9-49c2-beae-1969026fcd76.png" alt="Route Optimizer and Route Planner Software">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/sentdm" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/153308555?s=200&v=4">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_153308555.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/blacksandsmedia" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/116517387?v=4">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_116517387.png">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/mvpsnet" target="_blank">
-  <img width="70" src="https://avatars.githubusercontent.com/u/89784111?s=96&v=4">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_89784111.png">
 </a>
 
 

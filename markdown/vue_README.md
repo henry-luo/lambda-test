@@ -9,12 +9,12 @@ If you are starting a new project, please start with the latest version of Vue (
 <p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="../support/images/vuejs_logo.png" alt="Vue logo"></a></p>
 
 <p align="center">
-  <a href="https://circleci.com/gh/vuejs/vue/tree/dev"><img src="https://img.shields.io/circleci/project/github/vuejs/vue/dev.svg?sanitize=true" alt="Build Status"></a>
-  <a href="https://codecov.io/github/vuejs/vue?branch=dev"><img src="https://img.shields.io/codecov/c/github/vuejs/vue/dev.svg?sanitize=true" alt="Coverage Status"></a>
-  <a href="https://npmcharts.com/compare/vue?minimal=true"><img src="https://img.shields.io/npm/dm/vue.svg?sanitize=true" alt="Downloads"></a>
-  <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/v/vue.svg?sanitize=true" alt="Version"></a>
-  <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/l/vue.svg?sanitize=true" alt="License"></a>
-  <a href="https://chat.vuejs.org/"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true" alt="Chat"></a>
+  <a href="https://circleci.com/gh/vuejs/vue/tree/dev"><img src="../support/images/img.shields.io_circleci_project_github_vuejs_vue_dev.svg" alt="Build Status"></a>
+  <a href="https://codecov.io/github/vuejs/vue?branch=dev"><img src="../support/images/img.shields.io_codecov_c_github_vuejs_vue_dev.svg" alt="Coverage Status"></a>
+  <a href="https://npmcharts.com/compare/vue?minimal=true"><img src="../support/images/img.shields.io_npm_dm_vue.svg" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/vue"><img src="../support/images/img.shields.io_npm_v_vue.svg" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/vue"><img src="../support/images/img.shields.io_npm_l_vue.svg" alt="License"></a>
+  <a href="https://chat.vuejs.org/"><img src="../support/images/img.shields.io_badge_chat-on_20discord-7289da.svg" alt="Chat"></a>
 </p>
 
 ## Sponsors
@@ -68,14 +68,14 @@ Vue.js supports all browsers that are [ES5-compliant](https://compat-table.githu
 [vue-class-component]: https://github.com/vuejs/vue-class-component
 [vue-rx]: https://github.com/vuejs/vue-rx
 [vue-devtools]: https://github.com/vuejs/vue-devtools
-[vue-router-status]: https://img.shields.io/npm/v/vue-router.svg
-[vuex-status]: https://img.shields.io/npm/v/vuex.svg
-[vue-cli-status]: https://img.shields.io/npm/v/@vue/cli.svg
-[vue-loader-status]: https://img.shields.io/npm/v/vue-loader.svg
-[vue-server-renderer-status]: https://img.shields.io/npm/v/vue-server-renderer.svg
-[vue-class-component-status]: https://img.shields.io/npm/v/vue-class-component.svg
-[vue-rx-status]: https://img.shields.io/npm/v/vue-rx.svg
-[vue-devtools-status]: https://img.shields.io/chrome-web-store/v/nhdogjmejiglipccpnnnanhbledajbpd.svg
+[vue-router-status]: ../support/images/img.shields.io_npm_v_vue-router.svg
+[vuex-status]: ../support/images/img.shields.io_npm_v_vuex.svg
+[vue-cli-status]: ../support/images/img.shields.io_npm_v_vue_cli.svg
+[vue-loader-status]: ../support/images/img.shields.io_npm_v_vue-loader.svg
+[vue-server-renderer-status]: ../support/images/img.shields.io_npm_v_vue-server-renderer.svg
+[vue-class-component-status]: ../support/images/img.shields.io_npm_v_vue-class-component.svg
+[vue-rx-status]: ../support/images/img.shields.io_npm_v_vue-rx.svg
+[vue-devtools-status]: ../support/images/img.shields.io_chrome-web-store_v_nhdogjmejiglipccpnnnanhbledajbpd.svg
 [vue-router-package]: https://npmjs.com/package/vue-router
 [vuex-package]: https://npmjs.com/package/vuex
 [vue-cli-package]: https://npmjs.com/package/@vue/cli

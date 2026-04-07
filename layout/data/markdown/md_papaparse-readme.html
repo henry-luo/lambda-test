@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>papaparse README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>papaparse README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        papaparse README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="parse-csv-with-javascript">Parse CSV with JavaScript</h1>
+
+<p>Papa Parse is the fastest in-browser CSV (or delimited text) parser for JavaScript. It is reliable and correct according to <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a>, and it comes with these features:</p>
+
+<ul>
+  <li>Easy to use</li>
+  <li>Parse CSV files directly (local or over the network)</li>
+  <li>Fast mode</li>
+  <li>Stream large files (even via HTTP)</li>
+  <li>Reverse parsing (converts JSON to CSV)</li>
+  <li>Auto-detect delimiter</li>
+  <li>Worker threads to keep your web page reactive</li>
+  <li>Header row support</li>
+  <li>Pause, resume, abort</li>
+  <li>Can convert numbers and booleans to their types</li>
+  <li>Optional jQuery integration to get files from <code>&lt;input type="file"&gt;</code> elements</li>
+  <li>One of the only parsers that correctly handles line-breaks and quotations</li>
+</ul>
+
+<p>Papa Parse has <strong>no dependencies</strong> - not even jQuery.</p>
+
+<h2 id="install">Install</h2>
+
+<p>papaparse is available on <a href="https://www.npmjs.com/package/papaparse">npm</a>. It
+can be installed with the following command:</p>
+<pre><code class="language-shell">npm install papaparse
+</code></pre>
+
+<p>If you don&#8217;t want to use npm, <a href="https://unpkg.com/papaparse@latest/papaparse.min.js">papaparse.min.js</a> can be downloaded to your project source.</p>
+
+<h2 id="usage">Usage</h2>
+<pre><code class="language-js">import Papa from 'papaparse';
+
+Papa.parse(file, config);
+    
+const csv = Papa.unparse(data[, config]);
+</code></pre>
+
+<h2 id="homepage--demo">Homepage &amp; Demo</h2>
+
+<ul>
+  <li><a href="https://www.papaparse.com">Homepage</a></li>
+  <li><a href="https://www.papaparse.com/demo">Demo</a></li>
+</ul>
+
+<p>To learn how to use Papa Parse:</p>
+
+<ul>
+  <li><a href="https://www.papaparse.com/docs">Documentation</a></li>
+</ul>
+
+<p>The website is hosted on <a href="https://pages.github.com/">Github Pages</a>. Its content is also included in the docs folder of this repository. If you want to contribute on it just clone the master of this repository and open a pull request.</p>
+
+<h2 id="papa-parse-for-node">Papa Parse for Node</h2>
+
+<p>Papa Parse can parse a <a href="https://nodejs.org/api/stream.html#stream_readable_streams">Readable Stream</a> instead of a <a href="https://www.w3.org/TR/FileAPI/">File</a> when used in Node.js environments (in addition to plain strings). In this mode, <code>encoding</code> must, if specified, be a Node-supported character encoding. The <code>Papa.LocalChunkSize</code>, <code>Papa.RemoteChunkSize</code> , <code>download</code>, <code>withCredentials</code> and <code>worker</code> config options are unavailable.</p>
+
+<p>Papa Parse can also parse in a node streaming style which makes <code>.pipe</code> available.  Simply pipe the <a href="https://nodejs.org/api/stream.html#stream_readable_streams">Readable Stream</a> to the stream returned from <code>Papa.parse(Papa.NODE_STREAM_INPUT, options)</code>.  The <code>Papa.LocalChunkSize</code>, <code>Papa.RemoteChunkSize</code> , <code>download</code>, <code>withCredentials</code>, <code>worker</code>, <code>step</code>, and <code>complete</code> config options are unavailable.  To register a callback with the stream to process data, use the <code>data</code> event like so: <code>stream.on('data', callback)</code> and to signal the end of stream, use the &#8216;end&#8217; event like so: <code>stream.on('end', callback)</code>.</p>
+
+<h2 id="get-started">Get Started</h2>
+
+<p>For usage instructions, see the <a href="https://www.papaparse.com">homepage</a> and, for more detail, the <a href="https://www.papaparse.com/docs">documentation</a>.</p>
+
+<h2 id="tests">Tests</h2>
+
+<p>Papa Parse is under test. Download this repository, run <code>npm install</code>, then <code>npm test</code> to run the tests.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>To discuss a new feature or ask a question, open an issue. To fix a bug, submit a pull request to be credited with the <a href="https://github.com/mholt/PapaParse/graphs/contributors">contributors</a>! Remember, a pull request, <em>with test</em>, is best. You may also discuss on Twitter with <a href="https://twitter.com/search?q=%23PapaParse&amp;src=typd&amp;f=realtime">#PapaParse</a> or directly to me, <a href="https://twitter.com/mholt6">@mholt6</a>.</p>
+
+<p>If you contribute a patch, ensure the tests suite is running correctly. We run continuous integration on each pull request and will not accept a patch that breaks the tests.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

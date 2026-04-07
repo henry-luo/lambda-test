@@ -3,9 +3,9 @@
 Mongoose is a [MongoDB](https://www.mongodb.org/) object modeling tool designed to work in an asynchronous environment. Mongoose supports [Node.js](https://nodejs.org/en/) and [Deno](https://deno.land/) (alpha).
 
 [![Build Status](../support/images/github_badge.svg)](https://github.com/Automattic/mongoose)
-[![NPM version](https://badge.fury.io/js/mongoose.svg)](http://badge.fury.io/js/mongoose)
-[![Deno version](https://deno.land/badge/mongoose/version)](https://deno.land/x/mongoose)
-[![Deno popularity](https://deno.land/badge/mongoose/popularity)](https://deno.land/x/mongoose)
+[![NPM version](../support/images/badge.fury.io_js_mongoose.svg)](http://badge.fury.io/js/mongoose)
+[![Deno version](../support/images/deno.land_badge_mongoose_version.svg)](https://deno.land/x/mongoose)
+[![Deno popularity](../support/images/deno.land_badge_mongoose_popularity.svg)](https://deno.land/x/mongoose)
 
 [![npm](../support/images/nodei-co_mongoose.png)](https://www.npmjs.com/package/mongoose)
 

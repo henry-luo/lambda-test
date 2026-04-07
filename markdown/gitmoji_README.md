@@ -5,11 +5,11 @@
 </p>
 <p align="center">
 	<a href="https://github.com/carloscuesta/gitmoji/actions?query=workflow%3ACI+branch%3Amaster">
-		<img src="https://img.shields.io/github/actions/workflow/status/carloscuesta/gitmoji/ci.yml?branch=master&style=flat-square"
+		<img src="../support/images/img.shields.io_github_actions_workflow_status_carloscuesta_gitmoji_ci.yml.svg"
 			 alt="Build Status">
 	</a>
 	<a href="https://gitmoji.dev">
-		<img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
+		<img src="../support/images/img.shields.io_badge_gitmoji-_20😜_20😍-FFDD67.svg"
 			 alt="Gitmoji">
 	</a>
 </p>

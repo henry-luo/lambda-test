@@ -4,10 +4,10 @@ Ramda
 A practical functional library for JavaScript programmers.
 
 [![Build Status](../support/images/github_badge.svg)](https://github.com/ramda/ramda/actions?query=workflow%3ABuild)
-[![npm module](https://badge.fury.io/js/ramda.svg)](https://www.npmjs.org/package/ramda)
-[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno&labelColor=black)](https://deno.land/x/ramda@v0.27.2)
+[![npm module](../support/images/badge.fury.io_js_ramda.svg)](https://www.npmjs.org/package/ramda)
+[![deno land](../support/images/img.shields.io_badge_available_20on-deno.land_x-lightgrey.svg)](https://deno.land/x/ramda@v0.27.2)
 [![nest badge](../support/images/nest-land_badge.svg)](https://nest.land/package/ramda)
-[![Gitter](https://badges.gitter.im/Join_Chat.svg)](https://gitter.im/ramda/ramda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](../support/images/badges.gitter.im_Join_Chat.svg)](https://gitter.im/ramda/ramda?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 

@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="https://www.npmjs.com/package/mocha"><img src="https://img.shields.io/npm/v/mocha.svg" alt="NPM Version"></a>
-<a href="https://github.com/mochajs/mocha"><img src="https://img.shields.io/node/v/mocha.svg" alt="Node Version"></a>
+<a href="https://www.npmjs.com/package/mocha"><img src="../support/images/img.shields.io_npm_v_mocha.svg" alt="NPM Version"></a>
+<a href="https://github.com/mochajs/mocha"><img src="../support/images/img.shields.io_node_v_mocha.svg" alt="Node Version"></a>
 [![GitHub Actions Build Status](../support/images/github_badge.svg)](https://github.com/mochajs/mocha/actions/workflows/mocha.yml)
 <a href="https://codecov.io/gh/mochajs/mocha"><img src="../support/images/codecov_badge.svg" alt="Codecov Coverage Status"></a>
 
@@ -15,10 +15,10 @@
 
 <div align="center">
 
-<a href="https://discord.gg/KeDn2uXhER"><img alt="Chat - Discord" src="https://img.shields.io/badge/Chat-Discord-5765F2.svg" /></a>
+<a href="https://discord.gg/KeDn2uXhER"><img alt="Chat - Discord" src="../support/images/img.shields.io_badge_Chat-Discord-5765F2.svg" /></a>
 <a href="https://github.com/mochajs/mocha#sponsors"><img src="../support/images/opencollective_badge.svg" alt="OpenCollective Sponsors"></a>
 <a href="https://github.com/mochajs/mocha#backers"><img src="../support/images/opencollective_badge.svg" alt="OpenCollective Backers"></a>
-[![Collective Funds Guidelines v0.1](https://img.shields.io/badge/collective_funds_guidelines-v0.1-D8E8D4?style=flat&labelColor=3A6457)](https://github.com/collective-funds/guidelines)
+[![Collective Funds Guidelines v0.1](../support/images/img.shields.io_badge_collective_funds_guidelines-v0.1-D8E8D4.svg)](https://github.com/collective-funds/guidelines)
 
 </div>
 
@@ -45,10 +45,10 @@ Support will allow the maintainers to dedicate more time for maintenance and new
 Also, your company's logo will show [on GitHub](https://github.com/mochajs/mocha#readme) and on [our site](https://mochajs.org#sponsors) - who doesn't want a little extra exposure?
 [Here's the info](https://opencollective.com/mochajs).
 
-[![MochaJS Sponsor](https://opencollective.com/mochajs/tiers/sponsors/0/avatar)](https://opencollective.com/mochajs/tiers/sponsors/0/website)
-[![MochaJS Sponsor](https://opencollective.com/mochajs/tiers/sponsors/1/avatar)](https://opencollective.com/mochajs/tiers/sponsors/1/website)
-[![MochaJS Sponsor](https://opencollective.com/mochajs/tiers/sponsors/2/avatar)](https://opencollective.com/mochajs/tiers/sponsors/2/website)
-[![MochaJS Sponsor](https://opencollective.com/mochajs/tiers/sponsors/3/avatar)](https://opencollective.com/mochajs/tiers/sponsors/3/website)
+[![MochaJS Sponsor](../support/images/opencollective.com_mochajs_tiers_sponsors_0_avatar.svg)](https://opencollective.com/mochajs/tiers/sponsors/0/website)
+[![MochaJS Sponsor](../support/images/opencollective.com_mochajs_tiers_sponsors_1_avatar.svg)](https://opencollective.com/mochajs/tiers/sponsors/1/website)
+[![MochaJS Sponsor](../support/images/opencollective.com_mochajs_tiers_sponsors_2_avatar.png)](https://opencollective.com/mochajs/tiers/sponsors/2/website)
+[![MochaJS Sponsor](../support/images/opencollective.com_mochajs_tiers_sponsors_3_avatar.png)](https://opencollective.com/mochajs/tiers/sponsors/3/website)
 
 ## Development
 

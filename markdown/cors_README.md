@@ -267,11 +267,11 @@ The default configuration is the equivalent of:
 
 [Troy Goode](https://github.com/TroyGoode) ([troygoode@gmail.com](mailto:troygoode@gmail.com))
 
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/cors/master.svg
+[coveralls-image]: ../support/images/img.shields.io_coveralls_expressjs_cors_master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/cors?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/cors.svg
+[downloads-image]: ../support/images/img.shields.io_npm_dm_cors.svg
 [downloads-url]: https://npmjs.com/package/cors
-[github-actions-ci-image]: https://img.shields.io/github/actions/workflow/status/expressjs/cors/ci.yml?branch=master&label=ci
+[github-actions-ci-image]: ../support/images/img.shields.io_github_actions_workflow_status_expressjs_cors_ci.yml.svg
 [github-actions-ci-url]: https://github.com/expressjs/cors?query=workflow%3Aci
-[npm-image]: https://img.shields.io/npm/v/cors.svg
+[npm-image]: ../support/images/img.shields.io_npm_v_cors.svg
 [npm-url]: https://npmjs.com/package/cors

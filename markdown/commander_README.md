@@ -1,8 +1,8 @@
 # Commander.js
 
 [![Build Status](../support/images/github_badge.svg)](https://github.com/tj/commander.js/actions?query=workflow%3A%22build%22)
-[![NPM Version](http://img.shields.io/npm/v/commander.svg?style=flat)](https://www.npmjs.org/package/commander)
-[![NPM Downloads](https://img.shields.io/npm/dm/commander.svg?style=flat)](https://npmcharts.com/compare/commander?minimal=true)
+[![NPM Version](../support/images/img.shields.io_npm_v_commander.svg)](https://www.npmjs.org/package/commander)
+[![NPM Downloads](../support/images/img.shields.io_npm_dm_commander.svg)](https://npmcharts.com/compare/commander?minimal=true)
 [![Install Size](https://packagephobia.now.sh/badge?p=commander)](https://packagephobia.now.sh/result?p=commander)
 
 The complete solution for [node.js](http://nodejs.org) command-line interfaces.

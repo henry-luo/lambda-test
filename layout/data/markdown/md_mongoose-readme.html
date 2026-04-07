@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mongoose README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>mongoose README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        mongoose README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="mongoose">Mongoose</h1>
+
+<p>Mongoose is a <a href="https://www.mongodb.org/">MongoDB</a> object modeling tool designed to work in an asynchronous environment. Mongoose supports <a href="https://nodejs.org/en/">Node.js</a> and <a href="https://deno.land/">Deno</a> (alpha).</p>
+
+<p><a href="https://github.com/Automattic/mongoose"><img src="../support/images/github_badge.svg" alt="Build Status" /></a>
+<a href="http://badge.fury.io/js/mongoose"><img src="../support/images/badge.fury.io_js_mongoose.svg" alt="NPM version" /></a>
+<a href="https://deno.land/x/mongoose"><img src="../support/images/deno.land_badge_mongoose_version.svg" alt="Deno version" /></a>
+<a href="https://deno.land/x/mongoose"><img src="../support/images/deno.land_badge_mongoose_popularity.svg" alt="Deno popularity" /></a></p>
+
+<p><a href="https://www.npmjs.com/package/mongoose"><img src="../support/images/nodei-co_mongoose.png" alt="npm" /></a></p>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>The official documentation website is <a href="https://mongoosejs.com/">mongoosejs.com</a>.</p>
+
+<p>Mongoose 9.0.0 was released on November 21, 2025. You can find more details on <a href="https://mongoosejs.com/docs/migrating_to_9.html">backwards breaking changes in 9.0.0 on our docs site</a>.</p>
+
+<h2 id="support">Support</h2>
+
+<ul>
+  <li><a href="http://stackoverflow.com/questions/tagged/mongoose">Stack Overflow</a></li>
+  <li><a href="https://github.com/Automattic/mongoose/issues/">Bug Reports</a></li>
+  <li><a href="http://slack.mongoosejs.io/">Mongoose Slack Channel</a></li>
+  <li><a href="http://groups.google.com/group/mongoose-orm">Help Forum</a></li>
+  <li><a href="https://www.mongodb.com/docs/manual/support/">MongoDB Support</a></li>
+</ul>
+
+<h2 id="plugins">Plugins</h2>
+
+<p>Check out the <a href="https://plugins.mongoosejs.io/">plugins search site</a> to see hundreds of related modules from the community. Next, learn how to write your own plugin from the <a href="https://mongoosejs.com/docs/plugins.html">docs</a> or <a href="http://thecodebarbarian.com/2015/03/06/guide-to-mongoose-plugins">this blog post</a>.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<p>Pull requests are always welcome! Please base pull requests against the <code>master</code>
+branch and follow the <a href="https://github.com/Automattic/mongoose/blob/master/CONTRIBUTING.md">contributing guide</a>.</p>
+
+<p>If your pull requests makes documentation changes, please do <strong>not</strong>
+modify any <code>.html</code> files. The <code>.html</code> files are compiled code, so please make
+your changes in <code>docs/*.pug</code>, <code>lib/*.js</code>, or <code>test/docs/*.js</code>.</p>
+
+<p>View all 400+ <a href="https://github.com/Automattic/mongoose/graphs/contributors">contributors</a>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>First install <a href="https://nodejs.org/">Node.js</a> and <a href="https://www.mongodb.org/downloads">MongoDB</a>, then install the <code>mongoose</code> package using your preferred package manager:</p>
+
+<h3 id="using-npm">Using npm</h3>
+
+<pre><code class="language-sh">npm install mongoose
+</code></pre>
+
+<h3 id="using-pnpm">Using pnpm</h3>
+
+<pre><code class="language-sh">pnpm add mongoose
+</code></pre>
+
+<h3 id="using-yarn">Using Yarn</h3>
+
+<pre><code class="language-sh">yarn add mongoose
+</code></pre>
+
+<h3 id="using-bun">Using Bun</h3>
+
+<pre><code class="language-sh">bun add mongoose
+</code></pre>
+
+<p>Mongoose 6.8.0 also includes alpha support for <a href="https://deno.land/">Deno</a>.</p>
+
+<h2 id="importing">Importing</h2>
+
+<pre><code class="language-javascript">// Using Node.js `require()`
+const mongoose = require('mongoose');
+
+// Using ES6 imports
+import mongoose from 'mongoose';
+</code></pre>
+
+<p>Or, using <a href="https://deno.land/std@0.113.0/node/README.md?source=#commonjs-modules-loading">Deno&#8217;s <code>createRequire()</code> for CommonJS support</a> as follows.</p>
+
+<pre><code class="language-javascript">import { createRequire } from 'https://deno.land/std@0.177.0/node/module.ts';
+const require = createRequire(import.meta.url);
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://127.0.0.1:27017/test')
+  .then(() =&gt; console.log('Connected!'));
+</code></pre>
+
+<p>You can then run the above script using the following.</p>
+
+<pre><code class="language-sh">deno run --allow-net --allow-read --allow-sys --allow-env mongoose-test.js
+</code></pre>
+
+<h2 id="mongoose-for-enterprise">Mongoose for Enterprise</h2>
+
+<p>Available as part of the Tidelift Subscription</p>
+
+<p>The maintainers of mongoose and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. <a href="https://tidelift.com/subscription/pkg/npm-mongoose?utm_source=npm-mongoose&amp;utm_medium=referral&amp;utm_campaign=enterprise&amp;utm_term=repo">Learn more.</a></p>
+
+<h2 id="overview">Overview</h2>
+
+<h3 id="connecting-to-mongodb">Connecting to MongoDB</h3>
+
+<p>First, we need to define a connection. If your app uses only one database, you should use <code>mongoose.connect</code>. If you need to create additional connections, use <code>mongoose.createConnection</code>.</p>
+
+<p>Both <code>connect</code> and <code>createConnection</code> take a <code>mongodb://</code> URI, or the parameters <code>host, database, port, options</code>.</p>
+
+<pre><code class="language-js">await mongoose.connect('mongodb://127.0.0.1/my_database');
+</code></pre>
+
+<p>Once connected, the <code>open</code> event is fired on the <code>Connection</code> instance. If you&#8217;re using <code>mongoose.connect</code>, the <code>Connection</code> is <code>mongoose.connection</code>. Otherwise, <code>mongoose.createConnection</code> return value is a <code>Connection</code>.</p>
+
+<p><strong>Note:</strong> <em>If the local connection fails then try using 127.0.0.1 instead of localhost. Sometimes issues may arise when the local hostname has been changed.</em></p>
+
+<p><strong>Important!</strong> Mongoose buffers all the commands until it&#8217;s connected to the database. This means that you don&#8217;t have to wait until it connects to MongoDB in order to define models, run queries, etc.</p>
+
+<h3 id="defining-a-model">Defining a Model</h3>
+
+<p>Models are defined through the <code>Schema</code> interface.</p>
+
+<pre><code class="language-js">const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+const BlogPost = new Schema({
+  author: ObjectId,
+  title: String,
+  body: String,
+  date: Date
+});
+</code></pre>
+
+<p>Aside from defining the structure of your documents and the types of data you&#8217;re storing, a Schema handles the definition of:</p>
+
+<ul>
+  <li><a href="https://mongoosejs.com/docs/validation.html">Validators</a> (async and sync)</li>
+  <li><a href="https://mongoosejs.com/docs/api/schematype.html#schematype_SchemaType-default">Defaults</a></li>
+  <li><a href="https://mongoosejs.com/docs/api/schematype.html#schematype_SchemaType-get">Getters</a></li>
+  <li><a href="https://mongoosejs.com/docs/api/schematype.html#schematype_SchemaType-set">Setters</a></li>
+  <li><a href="https://mongoosejs.com/docs/guide.html#indexes">Indexes</a></li>
+  <li><a href="https://mongoosejs.com/docs/middleware.html">Middleware</a></li>
+  <li><a href="https://mongoosejs.com/docs/guide.html#methods">Methods</a> definition</li>
+  <li><a href="https://mongoosejs.com/docs/guide.html#statics">Statics</a> definition</li>
+  <li><a href="https://mongoosejs.com/docs/plugins.html">Plugins</a></li>
+  <li><a href="https://mongoosejs.com/docs/populate.html">pseudo-JOINs</a></li>
+</ul>
+
+<p>The following example shows some of these features:</p>
+
+<pre><code class="language-js">const Comment = new Schema({
+  name: { type: String, default: 'hahaha' },
+  age: { type: Number, min: 18, index: true },
+  bio: { type: String, match: /[a-z]/ },
+  date: { type: Date, default: Date.now },
+  buff: Buffer
+});
+
+// a setter
+Comment.path('name').set(function(v) {
+  return capitalize(v);
+});
+
+// middleware
+Comment.pre('save', function(next) {
+  notify(this.get('email'));
+  next();
+});
+</code></pre>
+
+<p>Take a look at the example in <a href="https://github.com/Automattic/mongoose/blob/master/examples/schema/schema.js"><code>examples/schema/schema.js</code></a> for an end-to-end example of a typical setup.</p>
+
+<h3 id="accessing-a-model">Accessing a Model</h3>
+
+<p>Once we define a model through <code>mongoose.model('ModelName', mySchema)</code>, we can access it through the same function</p>
+
+<pre><code class="language-js">const MyModel = mongoose.model('ModelName');
+</code></pre>
+
+<p>Or just do it all at once</p>
+
+<pre><code class="language-js">const MyModel = mongoose.model('ModelName', mySchema);
+</code></pre>
+
+<p>The first argument is the <em>singular</em> name of the collection your model is for. <strong>Mongoose automatically looks for the <em>plural</em> version of your model name.</strong> For example, if you use</p>
+
+<pre><code class="language-js">const MyModel = mongoose.model('Ticket', mySchema);
+</code></pre>
+
+<p>Then <code>MyModel</code> will use the <strong>tickets</strong> collection, not the <strong>ticket</strong> collection. For more details read the <a href="https://mongoosejs.com/docs/api/mongoose.html#mongoose_Mongoose-model">model docs</a>.</p>
+
+<p>Once we have our model, we can then instantiate it, and save it:</p>
+
+<pre><code class="language-js">const instance = new MyModel();
+instance.my.key = 'hello';
+await instance.save();
+</code></pre>
+
+<p>Or we can find documents from the same collection</p>
+
+<pre><code class="language-js">await MyModel.find({});
+</code></pre>
+
+<p>You can also <code>findOne</code>, <code>findById</code>, <code>update</code>, etc.</p>
+
+<pre><code class="language-js">const instance = await MyModel.findOne({ /* ... */ });
+console.log(instance.my.key); // 'hello'
+</code></pre>
+
+<p>For more details check out <a href="https://mongoosejs.com/docs/queries.html">the docs</a>.</p>
+
+<p><strong>Important!</strong> If you opened a separate connection using <code>mongoose.createConnection()</code> but attempt to access the model through <code>mongoose.model('ModelName')</code> it will not work as expected since it is not hooked up to an active db connection. In this case access your model through the connection you created:</p>
+
+<pre><code class="language-js">const conn = mongoose.createConnection('your connection string');
+const MyModel = conn.model('ModelName', schema);
+const m = new MyModel();
+await m.save(); // works
+</code></pre>
+
+<p>vs</p>
+
+<pre><code class="language-js">const conn = mongoose.createConnection('your connection string');
+const MyModel = mongoose.model('ModelName', schema);
+const m = new MyModel();
+await m.save(); // does not work b/c the default connection object was never connected
+</code></pre>
+
+<h3 id="embedded-documents">Embedded Documents</h3>
+
+<p>In the first example snippet, we defined a key in the Schema that looks like:</p>
+
+<pre><code class="language-txt">comments: [Comment]
+</code></pre>
+
+<p>Where <code>Comment</code> is a <code>Schema</code> we created. This means that creating embedded documents is as simple as:</p>
+
+<pre><code class="language-js">// retrieve my model
+const BlogPost = mongoose.model('BlogPost');
+
+// create a blog post
+const post = new BlogPost();
+
+// create a comment
+post.comments.push({ title: 'My comment' });
+
+await post.save();
+</code></pre>
+
+<p>The same goes for removing them:</p>
+
+<pre><code class="language-js">const post = await BlogPost.findById(myId);
+post.comments[0].deleteOne();
+await post.save();
+</code></pre>
+
+<p>Embedded documents enjoy all the same features as your models. Defaults, validators, middleware.</p>
+
+<h3 id="middleware">Middleware</h3>
+
+<p>See the <a href="https://mongoosejs.com/docs/middleware.html">docs</a> page.</p>
+
+<h4 id="intercepting-and-mutating-method-arguments">Intercepting and mutating method arguments</h4>
+
+<p>You can intercept method arguments via middleware.</p>
+
+<p>For example, this would allow you to broadcast changes about your Documents every time someone <code>set</code>s a path in your Document to a new value:</p>
+
+<pre><code class="language-js">schema.pre('set', function(next, path, val, typel) {
+  // `this` is the current Document
+  this.emit('set', path, val);
+
+  // Pass control to the next pre
+  next();
+});
+</code></pre>
+
+<p>Moreover, you can mutate the incoming <code>method</code> arguments so that subsequent middleware see different values for those arguments. To do so, just pass the new values to <code>next</code>:</p>
+
+<pre><code class="language-js">schema.pre(method, function firstPre(next, methodArg1, methodArg2) {
+  // Mutate methodArg1
+  next('altered-' + methodArg1.toString(), methodArg2);
+});
+
+// pre declaration is chainable
+schema.pre(method, function secondPre(next, methodArg1, methodArg2) {
+  console.log(methodArg1);
+  // =&gt; 'altered-originalValOfMethodArg1'
+
+  console.log(methodArg2);
+  // =&gt; 'originalValOfMethodArg2'
+
+  // Passing no arguments to `next` automatically passes along the current argument values
+  // i.e., the following `next()` is equivalent to `next(methodArg1, methodArg2)`
+  // and also equivalent to, with the example method arg
+  // values, `next('altered-originalValOfMethodArg1', 'originalValOfMethodArg2')`
+  next();
+});
+</code></pre>
+
+<h4 id="schema-gotcha">Schema gotcha</h4>
+
+<p><code>type</code>, when used in a schema has special meaning within Mongoose. If your schema requires using <code>type</code> as a nested property you must use object notation:</p>
+
+<pre><code class="language-js">new Schema({
+  broken: { type: Boolean },
+  asset: {
+    name: String,
+    type: String // uh oh, it broke. asset will be interpreted as String
+  }
+});
+
+new Schema({
+  works: { type: Boolean },
+  asset: {
+    name: String,
+    type: { type: String } // works. asset is an object with a type property
+  }
+});
+</code></pre>
+
+<h3 id="driver-access">Driver Access</h3>
+
+<p>Mongoose is built on top of the <a href="https://github.com/mongodb/node-mongodb-native">official MongoDB Node.js driver</a>. Each mongoose model keeps a reference to a <a href="http://mongodb.github.io/node-mongodb-native/2.1/api/Collection.html">native MongoDB driver collection</a>. The collection object can be accessed using <code>YourModel.collection</code>. However, using the collection object directly bypasses all mongoose features, including hooks, validation, etc. The one
+notable exception that <code>YourModel.collection</code> still buffers
+commands. As such, <code>YourModel.collection.find()</code> will <strong>not</strong>
+return a cursor.</p>
+
+<h2 id="api-docs">API Docs</h2>
+
+<p><a href="https://mongoosejs.com/docs/api/mongoose.html">Mongoose API documentation</a>, generated using <a href="https://github.com/tj/dox">dox</a>
+and <a href="https://github.com/vkarpov15/acquit">acquit</a>.</p>
+
+<h2 id="related-projects">Related Projects</h2>
+
+<h3 id="mongodb-runners">MongoDB Runners</h3>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/run-rs">run-rs</a></li>
+  <li><a href="https://www.npmjs.com/package/mongodb-memory-server">mongodb-memory-server</a></li>
+  <li><a href="https://www.npmjs.com/package/mongodb-topology-manager">mongodb-topology-manager</a></li>
+</ul>
+
+<h3 id="unofficial-clis">Unofficial CLIs</h3>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/mongoosejs-cli">mongoosejs-cli</a></li>
+</ul>
+
+<h3 id="data-seeding">Data Seeding</h3>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/dookie">dookie</a></li>
+  <li><a href="https://www.npmjs.com/package/seedgoose">seedgoose</a></li>
+  <li><a href="https://www.npmjs.com/package/mongoose-data-seed">mongoose-data-seed</a></li>
+</ul>
+
+<h3 id="express-session-stores">Express Session Stores</h3>
+
+<ul>
+  <li><a href="https://www.npmjs.com/package/connect-mongodb-session">connect-mongodb-session</a></li>
+  <li><a href="https://www.npmjs.com/package/connect-mongo">connect-mongo</a></li>
+</ul>
+
+<h2 id="license">License</h2>
+
+<p>Copyright (c) 2010 LearnBoost &lt;dev@learnboost.com&gt;</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&#8216;Software&#8217;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &#8216;AS IS&#8217;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

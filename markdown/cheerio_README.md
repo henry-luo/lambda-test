@@ -7,13 +7,13 @@
     <img src="../support/images/github_badge.svg" alt="Build Status">
   </a>
   <a href="https://coveralls.io/github/cheeriojs/cheerio">
-    <img src="https://img.shields.io/coveralls/github/cheeriojs/cheerio/main" alt="Coverage">
+    <img src="../support/images/img.shields.io_coveralls_github_cheeriojs_cheerio_main.svg" alt="Coverage">
   </a>
   <a href="#backers">
-    <img src="https://img.shields.io/opencollective/backers/cheerio" alt="OpenCollective backers">
+    <img src="../support/images/img.shields.io_opencollective_backers_cheerio.svg" alt="OpenCollective backers">
   </a>
   <a href="#sponsors">
-    <img src="https://img.shields.io/opencollective/sponsors/cheerio" alt="OpenCollective sponsors">
+    <img src="../support/images/img.shields.io_opencollective_sponsors_cheerio.svg" alt="OpenCollective sponsors">
   </a>
 </div>
 

@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>winston README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>winston README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        winston README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="winston">winston</h1>
+
+<p>A logger for just about everything.</p>
+
+<p><a href="https://www.npmjs.com/package/winston"><img src="../support/images/img.shields.io_npm_v_winston.svg" alt="Version npm" /></a>
+<a href="https://npmcharts.com/compare/winston?minimal=true"><img src="../support/images/img.shields.io_npm_dm_winston.svg" alt="npm Downloads" /></a>
+<a href="https://github.com/winstonjs/winston/actions/workflows/ci.yml"><img src="../support/images/github_badge.svg" alt="build status" /></a>
+<a href="https://coveralls.io/github/winstonjs/winston?branch=master"><img src="../support/images/coveralls.io_repos_github_winstonjs_winston_badge.svg" alt="coverage status" /></a></p>
+
+<p><a href="https://nodei.co/npm/winston/"><img src="../support/images/nodei-co_winston.png" alt="NPM" /></a></p>
+
+<h2 id="winston3">winston@3</h2>
+
+<p>See the <a href="UPGRADE-3.0.md">Upgrade Guide</a> for more information. Bug reports and
+PRs welcome!</p>
+
+<h2 id="looking-for-winston2x-documentation">Looking for <code>winston@2.x</code> documentation?</h2>
+
+<p>Please note that the documentation below is for <code>winston@3</code>.
+<a href="https://github.com/winstonjs/winston/tree/2.x">Read the <code>winston@2.x</code> documentation</a>.</p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p><code>winston</code> is designed to be a simple and universal logging library with
+support for multiple transports. A transport is essentially a storage device
+for your logs. Each <code>winston</code> logger can have multiple transports (see:
+<a href="#transports">Transports</a>) configured at different levels (see: <a href="#logging-levels">Logging levels</a>). For
+example, one may want error logs to be stored in a persistent remote location
+(like a database), but all logs output to the console or a local file.</p>
+
+<p><code>winston</code> aims to decouple parts of the logging process to make it more
+flexible and extensible. Attention is given to supporting flexibility in log
+formatting (see: <a href="#formats">Formats</a>) &amp; levels (see: <a href="#using-custom-logging-levels">Using custom logging levels</a>), and
+ensuring those APIs decoupled from the implementation of transport logging
+(i.e. how the logs are stored / indexed, see: <a href="#adding-custom-transports">Adding Custom Transports</a>) to
+the API that they exposed to the programmer.</p>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<p>TL;DR? Check out the <a href="https://github.com/winstonjs/winston/blob/master/examples/quick-start.js">quick start example</a> in <code>./examples/</code>.
+There are a number of other examples in <a href="https://github.com/winstonjs/winston/tree/master/examples"><code>./examples/*.js</code></a>.
+Don&#8217;t see an example you think should be there? Submit a pull request
+to add it!</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>The recommended way to use <code>winston</code> is to create your own logger. The
+simplest way to do this is using <code>winston.createLogger</code>:</p>
+
+<pre><code class="language-js">const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or higher to `error.log`
+    //   (i.e., error, fatal, but not other levels)
+    //
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    //
+    // - Write all logs with importance level of `info` or higher to `combined.log`
+    //   (i.e., fatal, error, warn, and info, but not trace)
+    //
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+  }));
+}
+</code></pre>
+
+<p>You may also log directly via the default logger exposed by
+<code>require('winston')</code>, but this merely intended to be a convenient shared
+logger to use throughout your application if you so choose.
+Note that the default logger doesn&#8217;t have any transports by default.
+You need add transports by yourself, and leaving the default logger without any
+transports may produce a high memory usage issue.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#motivation">Motivation</a></li>
+  <li><a href="#quick-start">Quick Start</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#table-of-contents">Table of Contents</a></li>
+  <li><a href="#logging">Logging</a>
+    <ul>
+      <li><a href="#creating-your-own-logger">Creating your logger</a></li>
+      <li><a href="#streams-objectmode-and-info-objects">Streams, <code>objectMode</code>, and <code>info</code> objects</a></li>
+    </ul>
+  </li>
+  <li><a href="#formats">Formats</a>
+    <ul>
+      <li><a href="#combining-formats">Combining formats</a></li>
+      <li><a href="#string-interpolation">String interpolation</a></li>
+      <li><a href="#filtering-info-objects">Filtering <code>info</code> Objects</a></li>
+      <li><a href="#creating-custom-formats">Creating custom formats</a></li>
+    </ul>
+  </li>
+  <li><a href="#logging-levels">Logging levels</a>
+    <ul>
+      <li><a href="#using-logging-levels">Using logging levels</a></li>
+      <li><a href="#using-custom-logging-levels">Using custom logging levels</a></li>
+    </ul>
+  </li>
+  <li><a href="#transports">Transports</a>
+    <ul>
+      <li><a href="#multiple-transports-of-the-same-type">Multiple transports of the same type</a></li>
+      <li><a href="#adding-custom-transports">Adding Custom Transports</a></li>
+      <li><a href="#common-transport-options">Common Transport options</a></li>
+    </ul>
+  </li>
+  <li><a href="#exceptions">Exceptions</a>
+    <ul>
+      <li><a href="#handling-uncaught-exceptions-with-winston">Handling Uncaught Exceptions with winston</a></li>
+      <li><a href="#to-exit-or-not-to-exit">To Exit or Not to Exit</a></li>
+    </ul>
+  </li>
+  <li><a href="#rejections">Rejections</a>
+    <ul>
+      <li><a href="#handling-uncaught-promise-rejections-with-winston">Handling Uncaught Promise Rejections with winston</a></li>
+    </ul>
+  </li>
+  <li><a href="#profiling">Profiling</a></li>
+  <li><a href="#streaming-logs">Streaming Logs</a></li>
+  <li><a href="#querying-logs">Querying Logs</a></li>
+  <li><a href="#further-reading">Further Reading</a>
+    <ul>
+      <li><a href="#using-the-default-logger">Using the default logger</a></li>
+      <li><a href="#awaiting-logs-to-be-written-in-winston">Awaiting logs to be written in <code>winston</code></a></li>
+      <li><a href="#working-with-multiple-loggers-in-winston">Working with multiple Loggers in <code>winston</code></a></li>
+      <li><a href="#routing-console-transport-messages-to-the-console-instead-of-stdout-and-stderr">Routing Console transport messages to the console instead of stdout and stderr</a></li>
+    </ul>
+  </li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#run-tests">Run Tests</a></li>
+</ul>
+
+<h2 id="logging">Logging</h2>
+
+<p>Logging levels in <code>winston</code> conform to the severity ordering specified by
+<a href="https://tools.ietf.org/html/rfc5424">RFC5424</a>: <em>severity of all levels is assumed to be numerically <strong>ascending</strong>
+from most important to least important.</em></p>
+
+<pre><code class="language-js">const levels = {
+  error: 0,
+  warn: 1,
+  info: 2,
+  http: 3,
+  verbose: 4,
+  debug: 5,
+  silly: 6
+};
+</code></pre>
+
+<h3 id="creating-your-own-logger">Creating your own Logger</h3>
+<p>You get started by creating a logger using <code>winston.createLogger</code>:</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+</code></pre>
+
+<p>A logger accepts the following parameters:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>level</code></td>
+      <td><code>'info'</code></td>
+      <td>Log only if <a href="#streams-objectmode-and-info-objects"><code>info.level</code></a> is less than or equal to this level</td>
+    </tr>
+    <tr>
+      <td><code>levels</code></td>
+      <td><code>winston.config.npm.levels</code></td>
+      <td>Levels (and colors) representing log priorities</td>
+    </tr>
+    <tr>
+      <td><code>format</code></td>
+      <td><code>winston.format.json</code></td>
+      <td>Formatting for <code>info</code> messages  (see: <a href="#formats">Formats</a>)</td>
+    </tr>
+    <tr>
+      <td><code>transports</code></td>
+      <td><code>[]</code> <em>(No transports)</em></td>
+      <td>Set of logging targets for <code>info</code> messages</td>
+    </tr>
+    <tr>
+      <td><code>exitOnError</code></td>
+      <td><code>true</code></td>
+      <td>If false, handled exceptions will not cause <code>process.exit</code></td>
+    </tr>
+    <tr>
+      <td><code>silent</code></td>
+      <td><code>false</code></td>
+      <td>If true, all logs are suppressed</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The levels provided to <code>createLogger</code> will be defined as convenience methods
+on the <code>logger</code> returned.</p>
+
+<pre><code class="language-js">//
+// Logging
+//
+logger.log({
+  level: 'info',
+  message: 'Hello distributed log files!'
+});
+
+logger.info('Hello again distributed logs');
+</code></pre>
+
+<p>You can add or remove transports from the <code>logger</code> once it has been provided
+to you from <code>winston.createLogger</code>:</p>
+
+<pre><code class="language-js">const files = new winston.transports.File({ filename: 'combined.log' });
+const console = new winston.transports.Console();
+
+logger
+  .clear()          // Remove all transports
+  .add(console)     // Add console transport
+  .add(files)       // Add file transport
+  .remove(console); // Remove console transport
+</code></pre>
+
+<p>You can also wholesale reconfigure a <code>winston.Logger</code> instance using the
+<code>configure</code> method:</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  level: 'info',
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+//
+// Replaces the previous transports with those in the
+// new configuration wholesale.
+//
+const DailyRotateFile = require('winston-daily-rotate-file');
+logger.configure({
+  level: 'verbose',
+  transports: [
+    new DailyRotateFile(opts)
+  ]
+});
+</code></pre>
+
+<h3 id="creating-child-loggers">Creating child loggers</h3>
+
+<p>You can create child loggers from existing loggers to pass metadata overrides:</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+  ]
+});
+
+const childLogger = logger.child({ requestId: '451' });
+</code></pre>
+<blockquote>
+  <p><code>.child</code> is likely to be bugged if you&#8217;re also extending the <code>Logger</code> class, due to some implementation details that make <code>this</code> keyword to point to unexpected things. Use with caution.</p>
+</blockquote>
+
+<h3 id="streams-objectmode-and-info-objects">Streams, <code>objectMode</code>, and <code>info</code> objects</h3>
+
+<p>In <code>winston</code>, both <code>Logger</code> and <code>Transport</code> instances are treated as
+<a href="https://nodejs.org/api/stream.html#stream_object_mode"><code>objectMode</code></a>
+streams that accept an <code>info</code> object.</p>
+
+<p>The <code>info</code> parameter provided to a given format represents a single log
+message. The object itself is mutable. Every <code>info</code> must have at least the
+<code>level</code> and <code>message</code> properties:</p>
+
+<pre><code class="language-js">const info = {
+  level: 'info',                 // Level of the logging message
+  message: 'Hey! Log something?' // Descriptive message being logged.
+};
+</code></pre>
+
+<p>Properties <strong>besides level and message</strong> are considered as &#8220;<code>meta</code>&#8221;. i.e.:</p>
+
+<pre><code class="language-js">const { level, message, ...meta } = info;
+</code></pre>
+
+<p>Several of the formats in <code>logform</code> itself add additional properties:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Format added by</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>splat</code></td>
+      <td><code>splat()</code></td>
+      <td>String interpolation splat for <code>%d %s</code>-style messages.</td>
+    </tr>
+    <tr>
+      <td><code>timestamp</code></td>
+      <td><code>timestamp()</code></td>
+      <td>timestamp the message was received.</td>
+    </tr>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>label()</code></td>
+      <td>Custom label associated with each message.</td>
+    </tr>
+    <tr>
+      <td><code>ms</code></td>
+      <td><code>ms()</code></td>
+      <td>Number of milliseconds since the previous log message.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As a consumer you may add whatever properties you wish – <em>internal state is
+maintained by <code>Symbol</code> properties:</em></p>
+
+<ul>
+  <li><code>Symbol.for('level')</code> <em><strong>(READ-ONLY)</strong>:</em> equal to <code>level</code> property.
+<strong>Is treated as immutable by all code.</strong></li>
+  <li><code>Symbol.for('message'):</code> complete string message set by &#8220;finalizing formats&#8221;:
+    <ul>
+      <li><code>json</code></li>
+      <li><code>logstash</code></li>
+      <li><code>printf</code></li>
+      <li><code>prettyPrint</code></li>
+      <li><code>simple</code></li>
+    </ul>
+  </li>
+  <li><code>Symbol.for('splat')</code>: additional string interpolation arguments. <em>Used
+exclusively by <code>splat()</code> format.</em></li>
+</ul>
+
+<p>These Symbols are stored in another package: <code>triple-beam</code> so that all
+consumers of <code>logform</code> can have the same Symbol reference. i.e.:</p>
+
+<pre><code class="language-js">const { LEVEL, MESSAGE, SPLAT } = require('triple-beam');
+
+console.log(LEVEL === Symbol.for('level'));
+// true
+
+console.log(MESSAGE === Symbol.for('message'));
+// true
+
+console.log(SPLAT === Symbol.for('splat'));
+// true
+</code></pre>
+
+<blockquote>
+  <p><strong>NOTE:</strong> any <code>{ message }</code> property in a <code>meta</code> object provided will
+automatically be concatenated to any <code>msg</code> already provided: For
+example the below will concatenate &#8216;world&#8217; onto &#8216;hello&#8217;:</p>
+
+  <pre><code class="language-js">logger.log('error', 'hello', { message: 'world' });
+logger.info('hello', { message: 'world' });
+</code></pre>
+</blockquote>
+
+<h2 id="formats">Formats</h2>
+
+<p>Formats in <code>winston</code> can be accessed from <code>winston.format</code>. They are
+implemented in <a href="https://github.com/winstonjs/logform"><code>logform</code></a>, a separate
+module from <code>winston</code>. This allows flexibility when writing your own transports
+in case you wish to include a default format with your transport.</p>
+
+<p>In modern versions of <code>node</code> template strings are very performant and are the
+recommended way for doing most end-user formatting. If you want to bespoke
+format your logs, <code>winston.format.printf</code> is for you:</p>
+
+<pre><code class="language-js">const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, printf } = format;
+
+const myFormat = printf(({ level, message, label, timestamp }) =&gt; {
+  return `${timestamp} [${label}] ${level}: ${message}`;
+});
+
+const logger = createLogger({
+  format: combine(
+    label({ label: 'right meow!' }),
+    timestamp(),
+    myFormat
+  ),
+  transports: [new transports.Console()]
+});
+</code></pre>
+
+<p>To see what built-in formats are available and learn more about creating your
+own custom logging formats, see <a href="https://github.com/winstonjs/logform#readme"><code>logform</code></a>.</p>
+
+<h3 id="combining-formats">Combining formats</h3>
+
+<p>Any number of formats may be combined into a single format using
+<code>format.combine</code>. Since <code>format.combine</code> takes no <code>opts</code>, as a convenience it
+returns pre-created instance of the combined format.</p>
+
+<pre><code class="language-js">const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, prettyPrint } = format;
+
+const logger = createLogger({
+  format: combine(
+    label({ label: 'right meow!' }),
+    timestamp(),
+    prettyPrint()
+  ),
+  transports: [new transports.Console()]
+})
+
+logger.log({
+  level: 'info',
+  message: 'What time is the testing at?'
+});
+// Outputs:
+// { level: 'info',
+//   message: 'What time is the testing at?',
+//   label: 'right meow!',
+//   timestamp: '2017-09-30T03:57:26.875Z' }
+</code></pre>
+
+<h3 id="string-interpolation">String interpolation</h3>
+
+<p>The <code>log</code> method provides the string interpolation using <a href="https://nodejs.org/dist/latest/docs/api/util.html#util_util_format_format_args">util.format</a>. <strong>It
+must be enabled using <code>format.splat()</code>.</strong></p>
+
+<p>Below is an example that defines a format with string interpolation of
+messages using <code>format.splat</code> and then serializes the entire <code>info</code> message
+using <code>format.simple</code>.</p>
+
+<pre><code class="language-js">const { createLogger, format, transports } = require('winston');
+const logger = createLogger({
+  format: format.combine(
+    format.splat(),
+    format.simple()
+  ),
+  transports: [new transports.Console()]
+});
+
+// info: test message my string {}
+logger.log('info', 'test message %s', 'my string');
+
+// info: test message 123 {}
+logger.log('info', 'test message %d', 123);
+
+// info: test message first second {number: 123}
+logger.log('info', 'test message %s, %s', 'first', 'second', { number: 123 });
+</code></pre>
+
+<h3 id="filtering-info-objects">Filtering <code>info</code> Objects</h3>
+
+<p>If you wish to filter out a given <code>info</code> Object completely when logging then
+simply return a falsey value.</p>
+
+<pre><code class="language-js">const { createLogger, format, transports } = require('winston');
+
+// Ignore log messages if they have { private: true }
+const ignorePrivate = format((info, opts) =&gt; {
+  if (info.private) { return false; }
+  return info;
+});
+
+const logger = createLogger({
+  format: format.combine(
+    ignorePrivate(),
+    format.json()
+  ),
+  transports: [new transports.Console()]
+});
+
+// Outputs: {"level":"error","message":"Public error to share"}
+logger.log({
+  level: 'error',
+  message: 'Public error to share'
+});
+
+// Messages with { private: true } will not be written when logged.
+logger.log({
+  private: true,
+  level: 'error',
+  message: 'This is super secret - hide it.'
+});
+</code></pre>
+
+<p>Use of <code>format.combine</code> will respect any falsey values return and stop
+evaluation of later formats in the series. For example:</p>
+
+<pre><code class="language-js">const { format } = require('winston');
+const { combine, timestamp, label } = format;
+
+const willNeverThrow = format.combine(
+  format(info =&gt; { return false })(), // Ignores everything
+  format(info =&gt; { throw new Error('Never reached') })()
+);
+</code></pre>
+
+<h3 id="creating-custom-formats">Creating custom formats</h3>
+
+<p>Formats are prototypal objects (i.e. class instances) that define a single
+method: <code>transform(info, opts)</code> and return the mutated <code>info</code>:</p>
+
+<ul>
+  <li><code>info</code>: an object representing the log message.</li>
+  <li><code>opts</code>: setting specific to the current instance of the format.</li>
+</ul>
+
+<p>They are expected to return one of two things:</p>
+
+<ul>
+  <li><strong>An <code>info</code> Object</strong> representing the modified <code>info</code> argument. Object
+references need not be preserved if immutability is preferred. All current
+built-in formats consider <code>info</code> mutable, but [immutablejs] is being
+considered for future releases.</li>
+  <li><strong>A falsey value</strong> indicating that the <code>info</code> argument should be ignored by the
+caller. (See: <a href="#filtering-info-objects">Filtering <code>info</code> Objects</a>) below.</li>
+</ul>
+
+<p><code>winston.format</code> is designed to be as simple as possible. To define a new
+format, simply pass it a <code>transform(info, opts)</code> function to get a new
+<code>Format</code>.</p>
+
+<p>The named <code>Format</code> returned can be used to create as many copies of the given
+<code>Format</code> as desired:</p>
+
+<pre><code class="language-js">const { format } = require('winston');
+
+const volume = format((info, opts) =&gt; {
+  if (opts.yell) {
+    info.message = info.message.toUpperCase();
+  } else if (opts.whisper) {
+    info.message = info.message.toLowerCase();
+  }
+
+  return info;
+});
+
+// `volume` is now a function that returns instances of the format.
+const scream = volume({ yell: true });
+console.dir(scream.transform({
+  level: 'info',
+  message: `sorry for making you YELL in your head!`
+}, scream.options));
+// {
+//   level: 'info'
+//   message: 'SORRY FOR MAKING YOU YELL IN YOUR HEAD!'
+// }
+
+// `volume` can be used multiple times to create different formats.
+const whisper = volume({ whisper: true });
+console.dir(whisper.transform({
+  level: 'info',
+  message: `WHY ARE THEY MAKING US YELL SO MUCH!`
+}, whisper.options));
+// {
+//   level: 'info'
+//   message: 'why are they making us yell so much!'
+// }
+</code></pre>
+
+<h2 id="logging-levels">Logging Levels</h2>
+
+<p>Logging levels in <code>winston</code> conform to the severity ordering specified by
+<a href="https://tools.ietf.org/html/rfc5424">RFC5424</a>: <em>severity of all levels is assumed to be numerically <strong>ascending</strong>
+from most important to least important.</em></p>
+
+<p>Each <code>level</code> is given a specific integer priority. The higher the priority the
+more important the message is considered to be, and the lower the
+corresponding integer priority.  For example, as specified exactly in RFC5424
+the <code>syslog</code> levels are prioritized from 0 to 7 (highest to lowest).</p>
+
+<pre><code class="language-js">{
+  emerg: 0,
+  alert: 1,
+  crit: 2,
+  error: 3,
+  warning: 4,
+  notice: 5,
+  info: 6,
+  debug: 7
+}
+</code></pre>
+
+<p>Similarly, <code>npm</code> logging levels are prioritized from 0 to 6 (highest to
+lowest):</p>
+
+<pre><code class="language-js">{
+  error: 0,
+  warn: 1,
+  info: 2,
+  http: 3,
+  verbose: 4,
+  debug: 5,
+  silly: 6
+}
+</code></pre>
+
+<p>If you do not explicitly define the levels that <code>winston</code> should use, the
+<code>npm</code> levels above will be used.</p>
+
+<h3 id="using-logging-levels">Using Logging Levels</h3>
+
+<p>Setting the level for your logging message can be accomplished in one of two
+ways. You can pass a string representing the logging level to the log() method
+or use the level specified methods defined on every winston Logger.</p>
+
+<pre><code class="language-js">//
+// Any logger instance
+//
+logger.log('silly', "127.0.0.1 - there's no place like home");
+logger.log('debug', "127.0.0.1 - there's no place like home");
+logger.log('verbose', "127.0.0.1 - there's no place like home");
+logger.log('info', "127.0.0.1 - there's no place like home");
+logger.log('warn', "127.0.0.1 - there's no place like home");
+logger.log('error', "127.0.0.1 - there's no place like home");
+logger.info("127.0.0.1 - there's no place like home");
+logger.warn("127.0.0.1 - there's no place like home");
+logger.error("127.0.0.1 - there's no place like home");
+
+//
+// Default logger
+//
+winston.log('info', "127.0.0.1 - there's no place like home");
+winston.info("127.0.0.1 - there's no place like home");
+</code></pre>
+
+<p><code>winston</code> allows you to define a <code>level</code> property on each transport which
+specifies the <strong>maximum</strong> level of messages that a transport should log. For
+example, using the <code>syslog</code> levels you could log only <code>error</code> messages to the
+console and everything <code>info</code> and below to a file (which includes <code>error</code>
+messages):</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  levels: winston.config.syslog.levels,
+  transports: [
+    new winston.transports.Console({ level: 'error' }),
+    new winston.transports.File({
+      filename: 'combined.log',
+      level: 'info'
+    })
+  ]
+});
+</code></pre>
+
+<p>You may also dynamically change the log level of a transport:</p>
+
+<pre><code class="language-js">const transports = {
+  console: new winston.transports.Console({ level: 'warn' }),
+  file: new winston.transports.File({ filename: 'combined.log', level: 'error' })
+};
+
+const logger = winston.createLogger({
+  transports: [
+    transports.console,
+    transports.file
+  ]
+});
+
+logger.info('Will not be logged in either transport!');
+transports.console.level = 'info';
+transports.file.level = 'info';
+logger.info('Will be logged in both transports!');
+</code></pre>
+
+<p><code>winston</code> supports customizable logging levels, defaulting to npm style
+logging levels. Levels must be specified at the time of creating your logger.</p>
+
+<h3 id="using-custom-logging-levels">Using Custom Logging Levels</h3>
+
+<p>In addition to the predefined <code>npm</code>, <code>syslog</code>, and <code>cli</code> levels available in
+<code>winston</code>, you can also choose to define your own:</p>
+
+<pre><code class="language-js">const myCustomLevels = {
+  levels: {
+    foo: 0,
+    bar: 1,
+    baz: 2,
+    foobar: 3
+  },
+  colors: {
+    foo: 'blue',
+    bar: 'green',
+    baz: 'yellow',
+    foobar: 'red'
+  }
+};
+
+const customLevelLogger = winston.createLogger({
+  levels: myCustomLevels.levels
+});
+
+customLevelLogger.foobar('some foobar level-ed message');
+</code></pre>
+
+<p>Although there is slight repetition in this data structure, it enables simple
+encapsulation if you do not want to have colors. If you do wish to have
+colors, in addition to passing the levels to the Logger itself, you must make
+winston aware of them:</p>
+
+<pre><code class="language-js">winston.addColors(myCustomLevels.colors);
+</code></pre>
+
+<p>This enables loggers using the <code>colorize</code> formatter to appropriately color and style
+the output of custom levels.</p>
+
+<p>Additionally, you can also change background color and font style.
+For example,</p>
+<pre><code class="language-js">baz: 'italic yellow',
+foobar: 'bold red cyanBG'
+</code></pre>
+
+<p>Possible options are below.</p>
+
+<ul>
+  <li>
+    <p>Font styles: <code>bold</code>, <code>dim</code>, <code>italic</code>, <code>underline</code>, <code>inverse</code>, <code>hidden</code>,
+<code>strikethrough</code>.</p>
+  </li>
+  <li>
+    <p>Font foreground colors: <code>black</code>, <code>red</code>, <code>green</code>, <code>yellow</code>, <code>blue</code>, <code>magenta</code>,
+<code>cyan</code>, <code>white</code>, <code>gray</code>, <code>grey</code>.</p>
+  </li>
+  <li>
+    <p>Background colors: <code>blackBG</code>, <code>redBG</code>, <code>greenBG</code>, <code>yellowBG</code>, <code>blueBG</code>
+<code>magentaBG</code>, <code>cyanBG</code>, <code>whiteBG</code></p>
+  </li>
+</ul>
+
+<h3 id="colorizing-standard-logging-levels">Colorizing Standard logging levels</h3>
+
+<p>To colorize the standard logging level add</p>
+<pre><code class="language-js">winston.format.combine(
+  winston.format.colorize(),
+  winston.format.simple()
+);
+</code></pre>
+<p>where <code>winston.format.simple()</code> is whatever other formatter you want to use.  The <code>colorize</code> formatter must come before any formatters adding text you wish to color.</p>
+
+<h3 id="colorizing-full-log-line-when-json-formatting-logs">Colorizing full log line when json formatting logs</h3>
+
+<p>To colorize the full log line with the json formatter you can apply the following</p>
+
+<pre><code class="language-js">winston.format.combine(
+  winston.format.json(),
+  winston.format.colorize({ all: true })
+);
+</code></pre>
+
+<h2 id="transports">Transports</h2>
+
+<p>There are several <a href="docs/transports.md#winston-core">core transports</a> included in  <code>winston</code>, which leverage the
+built-in networking and file I/O offered by Node.js core. In addition, there
+are <a href="docs/transports.md#additional-transports">additional transports</a> written by members of the community.</p>
+
+<h2 id="multiple-transports-of-the-same-type">Multiple transports of the same type</h2>
+
+<p>It is possible to use multiple transports of the same type e.g.
+<code>winston.transports.File</code> when you construct the transport.</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({
+      filename: 'combined.log',
+      level: 'info'
+    }),
+    new winston.transports.File({
+      filename: 'errors.log',
+      level: 'error'
+    })
+  ]
+});
+</code></pre>
+
+<p>If you later want to remove one of these transports you can do so by using the
+transport itself. e.g.:</p>
+
+<pre><code class="language-js">const combinedLogs = logger.transports.find(transport =&gt; {
+  return transport.filename === 'combined.log'
+});
+
+logger.remove(combinedLogs);
+</code></pre>
+
+<h2 id="adding-custom-transports">Adding Custom Transports</h2>
+
+<p>Adding a custom transport is easy. All you need to do is accept any options
+you need, implement a log() method, and consume it with <code>winston</code>.</p>
+
+<pre><code class="language-js">const Transport = require('winston-transport');
+const util = require('util');
+
+//
+// Inherit from `winston-transport` so you can take advantage
+// of the base functionality and `.exceptions.handle()`.
+//
+module.exports = class YourCustomTransport extends Transport {
+  constructor(opts) {
+    super(opts);
+    //
+    // Consume any custom options here. e.g.:
+    // - Connection information for databases
+    // - Authentication information for APIs (e.g. loggly, papertrail,
+    //   logentries, etc.).
+    //
+  }
+
+  log(info, callback) {
+    setImmediate(() =&gt; {
+      this.emit('logged', info);
+    });
+
+    // Perform the writing to the remote service
+    callback();
+  }
+};
+</code></pre>
+
+<h2 id="common-transport-options">Common Transport options</h2>
+
+<p>As every transport inherits from <a href="https://github.com/winstonjs/winston-transport">winston-transport</a>, it&#8217;s possible to set
+a custom format and a custom log level on each transport separately:</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({
+      filename: 'error.log',
+      level: 'error',
+      format: winston.format.json()
+    }),
+    new winston.transports.Http({
+      level: 'warn',
+      format: winston.format.json()
+    }),
+    new winston.transports.Console({
+      level: 'info',
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    })
+  ]
+});
+</code></pre>
+
+<h2 id="exceptions">Exceptions</h2>
+
+<h3 id="handling-uncaught-exceptions-with-winston">Handling Uncaught Exceptions with winston</h3>
+
+<p>With <code>winston</code>, it is possible to catch and log <code>uncaughtException</code> events
+from your process. With your own logger instance you can enable this behavior
+when it&#8217;s created or later on in your applications lifecycle:</p>
+
+<pre><code class="language-js">const { createLogger, transports } = require('winston');
+
+// Enable exception handling when you create your logger.
+const logger = createLogger({
+  transports: [
+    new transports.File({ filename: 'combined.log' })
+  ],
+  exceptionHandlers: [
+    new transports.File({ filename: 'exceptions.log' })
+  ]
+});
+
+// Or enable it later on by adding a transport or using `.exceptions.handle`
+const logger = createLogger({
+  transports: [
+    new transports.File({ filename: 'combined.log' })
+  ]
+});
+
+// Call exceptions.handle with a transport to handle exceptions
+logger.exceptions.handle(
+  new transports.File({ filename: 'exceptions.log' })
+);
+</code></pre>
+
+<p>If you want to use this feature with the default logger, simply call
+<code>.exceptions.handle()</code> with a transport instance.</p>
+
+<pre><code class="language-js">//
+// You can add a separate exception logger by passing it to `.exceptions.handle`
+//
+winston.exceptions.handle(
+  new winston.transports.File({ filename: 'path/to/exceptions.log' })
+);
+
+//
+// Alternatively you can set `handleExceptions` to true when adding transports
+// to winston.
+//
+winston.add(new winston.transports.File({
+  filename: 'path/to/combined.log',
+  handleExceptions: true
+}));
+</code></pre>
+
+<h3 id="to-exit-or-not-to-exit">To Exit or Not to Exit</h3>
+
+<p>By default, winston will exit after logging an uncaughtException. If this is
+not the behavior you want, set <code>exitOnError = false</code></p>
+
+<pre><code class="language-js">const logger = winston.createLogger({ exitOnError: false });
+
+//
+// or, like this:
+//
+logger.exitOnError = false;
+</code></pre>
+
+<p>When working with custom logger instances, you can pass in separate transports
+to the <code>exceptionHandlers</code> property or set <code>handleExceptions</code> on any
+transport.</p>
+
+<h5 id="example-1">Example 1</h5>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({ filename: 'path/to/combined.log' })
+  ],
+  exceptionHandlers: [
+    new winston.transports.File({ filename: 'path/to/exceptions.log' })
+  ]
+});
+</code></pre>
+
+<h5 id="example-2">Example 2</h5>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console({
+      handleExceptions: true
+    })
+  ],
+  exitOnError: false
+});
+</code></pre>
+
+<p>The <code>exitOnError</code> option can also be a function to prevent exit on only
+certain types of errors:</p>
+
+<pre><code class="language-js">function ignoreEpipe(err) {
+  return err.code !== 'EPIPE';
+}
+
+const logger = winston.createLogger({ exitOnError: ignoreEpipe });
+
+//
+// or, like this:
+//
+logger.exitOnError = ignoreEpipe;
+</code></pre>
+
+<h2 id="rejections">Rejections</h2>
+
+<h3 id="handling-uncaught-promise-rejections-with-winston">Handling Uncaught Promise Rejections with winston</h3>
+
+<p>With <code>winston</code>, it is possible to catch and log <code>unhandledRejection</code> events
+from your process. With your own logger instance you can enable this behavior
+when it&#8217;s created or later on in your applications lifecycle:</p>
+
+<pre><code class="language-js">const { createLogger, transports } = require('winston');
+
+// Enable rejection handling when you create your logger.
+const logger = createLogger({
+  transports: [
+    new transports.File({ filename: 'combined.log' })
+  ],
+  rejectionHandlers: [
+    new transports.File({ filename: 'rejections.log' })
+  ]
+});
+
+// Or enable it later on by adding a transport or using `.rejections.handle`
+const logger = createLogger({
+  transports: [
+    new transports.File({ filename: 'combined.log' })
+  ]
+});
+
+// Call rejections.handle with a transport to handle rejections
+logger.rejections.handle(
+  new transports.File({ filename: 'rejections.log' })
+);
+</code></pre>
+
+<p>If you want to use this feature with the default logger, simply call
+<code>.rejections.handle()</code> with a transport instance.</p>
+
+<pre><code class="language-js">//
+// You can add a separate rejection logger by passing it to `.rejections.handle`
+//
+winston.rejections.handle(
+  new winston.transports.File({ filename: 'path/to/rejections.log' })
+);
+
+//
+// Alternatively you can set `handleRejections` to true when adding transports
+// to winston.
+//
+winston.add(new winston.transports.File({
+  filename: 'path/to/combined.log',
+  handleRejections: true
+}));
+</code></pre>
+
+<h2 id="profiling">Profiling</h2>
+
+<p>In addition to logging messages and metadata, <code>winston</code> also has a simple
+profiling mechanism implemented for any logger:</p>
+
+<pre><code class="language-js">//
+// Start profile of 'test'
+//
+logger.profile('test');
+
+setTimeout(function () {
+  //
+  // Stop profile of 'test'. Logging will now take place:
+  //   '17 Jan 21:00:00 - info: test duration=1000ms'
+  //
+  logger.profile('test');
+}, 1000);
+</code></pre>
+
+<p>Also you can start a timer and keep a reference that you can call <code>.done()</code>
+on:</p>
+
+<pre><code class="language-js"> // Returns an object corresponding to a specific timing. When done
+ // is called the timer will finish and log the duration. e.g.:
+ //
+ const profiler = logger.startTimer();
+ setTimeout(function () {
+   profiler.done({ message: 'Logging message' });
+ }, 1000);
+</code></pre>
+
+<p>All profile messages are set to &#8216;info&#8217; level by default, and both message and
+metadata are optional.  For individual profile messages, you can override the default log level by supplying a metadata object with a <code>level</code> property:</p>
+
+<pre><code class="language-js">logger.profile('test', { level: 'debug' });
+</code></pre>
+
+<h2 id="querying-logs">Querying Logs</h2>
+
+<p><code>winston</code> supports querying of logs with Loggly-like options. <a href="https://www.loggly.com/docs/api-retrieving-data/">See Loggly
+Search API</a>. Specifically:
+<code>File</code>, <code>Couchdb</code>, <code>Redis</code>, <code>Loggly</code>, <code>Nssocket</code>, and <code>Http</code>.</p>
+
+<pre><code class="language-js">const options = {
+  from: new Date() - (24 * 60 * 60 * 1000),
+  until: new Date(),
+  limit: 10,
+  start: 0,
+  order: 'desc',
+  fields: ['message']
+};
+
+//
+// Find items logged between today and yesterday.
+//
+logger.query(options, function (err, results) {
+  if (err) {
+    /* TODO: handle me */
+    throw err;
+  }
+
+  console.log(results);
+});
+</code></pre>
+
+<h2 id="streaming-logs">Streaming Logs</h2>
+<p>Streaming allows you to stream your logs back from your chosen transport.</p>
+
+<pre><code class="language-js">//
+// Start at the end.
+//
+winston.stream({ start: -1 }).on('log', function(log) {
+  console.log(log);
+});
+</code></pre>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<h3 id="using-the-default-logger">Using the Default Logger</h3>
+
+<p>The default logger is accessible through the <code>winston</code> module directly. Any
+method that you could call on an instance of a logger is available on the
+default logger:</p>
+
+<pre><code class="language-js">const winston = require('winston');
+
+winston.log('info', 'Hello distributed log files!');
+winston.info('Hello again distributed logs');
+
+winston.level = 'debug';
+winston.log('debug', 'Now my debug messages are written to console!');
+</code></pre>
+
+<p>By default, no transports are set on the default logger. You must
+add or remove transports via the <code>add()</code> and <code>remove()</code> methods:</p>
+
+<pre><code class="language-js">const files = new winston.transports.File({ filename: 'combined.log' });
+const console = new winston.transports.Console();
+
+winston.add(console);
+winston.add(files);
+winston.remove(console);
+</code></pre>
+
+<p>Or do it with one call to configure():</p>
+
+<pre><code class="language-js">winston.configure({
+  transports: [
+    new winston.transports.File({ filename: 'somefile.log' })
+  ]
+});
+</code></pre>
+
+<p>For more documentation about working with each individual transport supported
+by <code>winston</code> see the <a href="docs/transports.md"><code>winston</code> Transports</a> document.</p>
+
+<h3 id="awaiting-logs-to-be-written-in-winston">Awaiting logs to be written in <code>winston</code></h3>
+
+<p>Often it is useful to wait for your logs to be written before exiting the
+process. Each instance of <code>winston.Logger</code> is also a [Node.js stream]. A
+<code>finish</code> event will be raised when all logs have flushed to all transports
+after the stream has been ended.</p>
+
+<pre><code class="language-js">const transport = new winston.transports.Console();
+const logger = winston.createLogger({
+  transports: [transport]
+});
+
+logger.on('finish', function (info) {
+  // All `info` log messages has now been logged
+});
+
+logger.info('CHILL WINSTON!', { seriously: true });
+logger.end();
+</code></pre>
+
+<p>It is also worth mentioning that the logger also emits an &#8216;error&#8217; event
+if an error occurs within the logger itself which
+you should handle or suppress if you don&#8217;t want unhandled exceptions:</p>
+
+<pre><code class="language-js">//
+// Handle errors originating in the logger itself
+//
+logger.on('error', function (err) { /* Do Something */ });
+</code></pre>
+
+<h3 id="working-with-multiple-loggers-in-winston">Working with multiple Loggers in winston</h3>
+
+<p>Often in larger, more complex, applications it is necessary to have multiple
+logger instances with different settings. Each logger is responsible for a
+different feature area (or category). This is exposed in <code>winston</code> in two
+ways: through <code>winston.loggers</code> and instances of <code>winston.Container</code>. In fact,
+<code>winston.loggers</code> is just a predefined instance of <code>winston.Container</code>:</p>
+
+<pre><code class="language-js">const winston = require('winston');
+const { format } = winston;
+const { combine, label, json } = format;
+
+//
+// Configure the logger for `category1`
+//
+winston.loggers.add('category1', {
+  format: combine(
+    label({ label: 'category one' }),
+    json()
+  ),
+  transports: [
+    new winston.transports.Console({ level: 'silly' }),
+    new winston.transports.File({ filename: 'somefile.log' })
+  ]
+});
+
+//
+// Configure the logger for `category2`
+//
+winston.loggers.add('category2', {
+  format: combine(
+    label({ label: 'category two' }),
+    json()
+  ),
+  transports: [
+    new winston.transports.Http({ host: 'localhost', port:8080 })
+  ]
+});
+</code></pre>
+
+<p>Now that your loggers are setup, you can require winston <em>in any file in your
+application</em> and access these pre-configured loggers:</p>
+
+<pre><code class="language-js">const winston = require('winston');
+
+//
+// Grab your preconfigured loggers
+//
+const category1 = winston.loggers.get('category1');
+const category2 = winston.loggers.get('category2');
+
+category1.info('logging to file and console transports');
+category2.info('logging to http transport');
+</code></pre>
+
+<p>If you prefer to manage the <code>Container</code> yourself, you can simply instantiate one:</p>
+
+<pre><code class="language-js">const winston = require('winston');
+const { format } = winston;
+const { combine, label, json } = format;
+
+const container = new winston.Container();
+
+container.add('category1', {
+  format: combine(
+    label({ label: 'category one' }),
+    json()
+  ),
+  transports: [
+    new winston.transports.Console({ level: 'silly' }),
+    new winston.transports.File({ filename: 'somefile.log' })
+  ]
+});
+
+const category1 = container.get('category1');
+category1.info('logging to file and console transports');
+</code></pre>
+
+<h3 id="routing-console-transport-messages-to-the-console-instead-of-stdout-and-stderr">Routing Console transport messages to the console instead of stdout and stderr</h3>
+
+<p>By default the <code>winston.transports.Console</code> transport sends messages to <code>stdout</code> and <code>stderr</code>. This
+is fine in most situations; however, there are some cases where this isn&#8217;t desirable, including:</p>
+
+<ul>
+  <li>Debugging using VSCode and attaching to, rather than launching, a Node.js process</li>
+  <li>Writing JSON format messages in AWS Lambda</li>
+  <li>Logging during Jest tests with the <code>--silent</code> option</li>
+</ul>
+
+<p>To make the transport log use <code>console.log()</code>, <code>console.warn()</code> and <code>console.error()</code>
+instead, set the <code>forceConsole</code> option to <code>true</code>:</p>
+
+<pre><code class="language-js">const logger = winston.createLogger({
+  level: 'info',
+  transports: [new winston.transports.Console({ forceConsole: true })]
+});
+</code></pre>
+
+<h2 id="installation">Installation</h2>
+
+<pre><code class="language-bash">npm install winston
+</code></pre>
+
+<pre><code class="language-bash">yarn add winston
+</code></pre>
+
+<h2 id="run-tests">Run Tests</h2>
+
+<pre><code class="language-bash">npm test # Runs all tests
+npm run test:unit # Runs all Unit tests with coverage
+npm run test:integration # Runs all integration tests
+npm run test:typescript # Runs tests verifying Typescript types
+</code></pre>
+
+<p>All of the winston tests are written with <a href="https://jestjs.io/">jest</a>. Assertions use a mix of <a href="https://github.com/bigpipe/assume">assume</a> and the built-in jest assertion library.</p>
+
+<h4 id="author-charlie-robbins">Author: <a href="http://github.com/indexzero">Charlie Robbins</a></h4>
+<h4 id="contributors-jarrett-cruger-david-hyde-chris-alderson-jonathon-terry">Contributors: <a href="https://github.com/jcrugzz">Jarrett Cruger</a>, <a href="https://github.com/dabh">David Hyde</a>, <a href="https://github.com/chrisalderson">Chris Alderson</a>, <a href="https://github.com/maverick1872">Jonathon Terry</a></h4>
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

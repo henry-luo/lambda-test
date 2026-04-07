@@ -57,20 +57,20 @@ Read the [Getting started page](https://getbootstrap.com/docs/5.3/getting-starte
 
 ## Status
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/twbs/bootstrap/js.yml?branch=main&label=JS%20Tests&logo=github)](https://github.com/twbs/bootstrap/actions/workflows/js.yml?query=workflow%3AJS+branch%3Amain)
-[![npm version](https://img.shields.io/npm/v/bootstrap?logo=npm&logoColor=fff)](https://www.npmjs.com/package/bootstrap)
-[![Gem version](https://img.shields.io/gem/v/bootstrap?logo=rubygems&logoColor=fff)](https://rubygems.org/gems/bootstrap)
-[![Meteor Atmosphere](https://img.shields.io/badge/meteor-twbs%3Abootstrap-blue?logo=meteor&logoColor=fff)](https://atmospherejs.com/twbs/bootstrap)
-[![Packagist Prerelease](https://img.shields.io/packagist/vpre/twbs/bootstrap?logo=packagist&logoColor=fff)](https://packagist.org/packages/twbs/bootstrap)
-[![NuGet](https://img.shields.io/nuget/vpre/bootstrap?logo=nuget&logoColor=fff)](https://www.nuget.org/packages/bootstrap/absoluteLatest)
-[![Coverage Status](https://img.shields.io/coveralls/github/twbs/bootstrap/main?logo=coveralls&logoColor=fff)](https://coveralls.io/github/twbs/bootstrap?branch=main)
-[![CSS gzip size](https://img.badgesize.io/twbs/bootstrap/main/dist/css/bootstrap.min.css?compression=gzip&label=CSS%20gzip%20size)](https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css)
-[![CSS Brotli size](https://img.badgesize.io/twbs/bootstrap/main/dist/css/bootstrap.min.css?compression=brotli&label=CSS%20Brotli%20size)](https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css)
-[![JS gzip size](https://img.badgesize.io/twbs/bootstrap/main/dist/js/bootstrap.min.js?compression=gzip&label=JS%20gzip%20size)](https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js)
-[![JS Brotli size](https://img.badgesize.io/twbs/bootstrap/main/dist/js/bootstrap.min.js?compression=brotli&label=JS%20Brotli%20size)](https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js)
-![Open Source Security Foundation Scorecard](https://img.shields.io/ossf-scorecard/github.com/twbs/bootstrap)
-[![Backers on Open Collective](https://img.shields.io/opencollective/backers/bootstrap?logo=opencollective&logoColor=fff)](#backers)
-[![Sponsors on Open Collective](https://img.shields.io/opencollective/sponsors/bootstrap?logo=opencollective&logoColor=fff)](#sponsors)
+[![Build Status](../support/images/img.shields.io_github_actions_workflow_status_twbs_bootstrap_js.yml.svg)](https://github.com/twbs/bootstrap/actions/workflows/js.yml?query=workflow%3AJS+branch%3Amain)
+[![npm version](../support/images/img.shields.io_npm_v_bootstrap.svg)](https://www.npmjs.com/package/bootstrap)
+[![Gem version](../support/images/img.shields.io_gem_v_bootstrap.svg)](https://rubygems.org/gems/bootstrap)
+[![Meteor Atmosphere](../support/images/img.shields.io_badge_meteor-twbs_3Abootstrap-blue.svg)](https://atmospherejs.com/twbs/bootstrap)
+[![Packagist Prerelease](../support/images/img.shields.io_packagist_vpre_twbs_bootstrap.svg)](https://packagist.org/packages/twbs/bootstrap)
+[![NuGet](../support/images/img.shields.io_nuget_vpre_bootstrap.svg)](https://www.nuget.org/packages/bootstrap/absoluteLatest)
+[![Coverage Status](../support/images/img.shields.io_coveralls_github_twbs_bootstrap_main.svg)](https://coveralls.io/github/twbs/bootstrap?branch=main)
+[![CSS gzip size](../support/images/img.badgesize.io_twbs_bootstrap_main_dist_css_bootstrap.min.css.svg)](https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css)
+[![CSS Brotli size](../support/images/img.badgesize.io_twbs_bootstrap_main_dist_css_bootstrap.min.css.svg)](https://github.com/twbs/bootstrap/blob/main/dist/css/bootstrap.min.css)
+[![JS gzip size](../support/images/img.badgesize.io_twbs_bootstrap_main_dist_js_bootstrap.min.js.svg)](https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js)
+[![JS Brotli size](../support/images/img.badgesize.io_twbs_bootstrap_main_dist_js_bootstrap.min.js.svg)](https://github.com/twbs/bootstrap/blob/main/dist/js/bootstrap.min.js)
+![Open Source Security Foundation Scorecard](../support/images/img.shields.io_ossf-scorecard_github.com_twbs_bootstrap.svg)
+[![Backers on Open Collective](../support/images/img.shields.io_opencollective_backers_bootstrap.svg)](#backers)
+[![Sponsors on Open Collective](../support/images/img.shields.io_opencollective_sponsors_bootstrap.svg)](#sponsors)
 
 
 ## What’s included

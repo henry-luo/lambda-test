@@ -34,7 +34,7 @@
 > Ky is a tiny and elegant HTTP client based on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)
 
 [![Coverage Status](../support/images/codecov_badge.svg)](https://codecov.io/gh/sindresorhus/ky)
-[![](https://badgen.net/bundlephobia/minzip/ky)](https://bundlephobia.com/result?p=ky)
+[![](../support/images/badgen.net_bundlephobia_minzip_ky.svg)](https://bundlephobia.com/result?p=ky)
 
 Ky targets [modern browsers](#browser-support), Node.js, Bun, and Deno.
 

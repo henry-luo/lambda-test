@@ -30,6 +30,10 @@ if [[ ! -f Gemfile.lock ]] || [[ Gemfile -nt Gemfile.lock ]]; then
   bundle install --path vendor/bundle --quiet
 fi
 
+# ── Localize images ───────────────────────────────────────────────────────
+step "Localizing remote images..."
+python3 "$SCRIPT_DIR/localize_images.py"
+
 # ── Prepare _docs/ collection ─────────────────────────────────────────────
 step "Preparing docs..."
 rm -rf "$DOCS_DIR"

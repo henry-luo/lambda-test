@@ -1,9 +1,9 @@
 # markdown-it <!-- omit in toc -->
 
 [![CI](../support/images/github_badge.svg)](https://github.com/markdown-it/markdown-it/actions/workflows/ci.yml)
-[![NPM version](https://img.shields.io/npm/v/markdown-it.svg?style=flat)](https://www.npmjs.org/package/markdown-it)
-[![Coverage Status](https://coveralls.io/repos/markdown-it/markdown-it/badge.svg?branch=master&service=github)](https://coveralls.io/github/markdown-it/markdown-it?branch=master)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/markdown-it/markdown-it)
+[![NPM version](../support/images/img.shields.io_npm_v_markdown-it.svg)](https://www.npmjs.org/package/markdown-it)
+[![Coverage Status](../support/images/coveralls.io_repos_markdown-it_markdown-it_badge.svg)](https://coveralls.io/github/markdown-it/markdown-it?branch=master)
+[![Gitter](../support/images/badges.gitter.im_Join_20Chat.svg)](https://gitter.im/markdown-it/markdown-it)
 
 > Markdown parser done right. Fast and easy to extend.
 

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>execa README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>execa README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        execa README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <picture>
+	<source media="(prefers-color-scheme: dark)" srcset="media/logo_dark.svg" />
+	<img alt="execa logo" src="media/logo.svg" width="400" />
+</picture>
+<p><br /></p>
+
+<p><a href="https://codecov.io/gh/sindresorhus/execa"><img src="../support/images/codecov_badge.svg" alt="Coverage Status" /></a></p>
+
+<blockquote>
+  <p>Process execution for humans</p>
+</blockquote>
+
+<p><br /></p>
+
+<hr />
+
+<div align="center">
+	<p>
+		<p>
+			<sup>
+				<a href="https://github.com/sponsors/sindresorhus">Sindre's open source work is supported by the community</a>
+			</sup>
+		</p>
+		<sup>Special thanks to:</sup>
+		<br />
+		<br />
+		<br />
+		<a href="https://coderabbit.ai?utm_source=sindre&amp;utm_medium=execa">
+			<img width="300" src="../support/images/sindresorhus_coderabbit-logo.png" alt="CodeRabbit logo" />
+		</a>
+		<br />
+		<br />
+		<br />
+		<a href="https://kruu.com">
+			<picture>
+				<source srcset="../support/images/sindresorhus_kruu-logo-dark.svg" media="(prefers-color-scheme: dark)" width="260" />
+				<source srcset="../support/images/sindresorhus_kruu-logo-light.svg" media="(prefers-color-scheme: light)" width="260" />
+				&lt;img src="../support/images/sindresorhus_kruu-logo-light.svg" width="260"alt="KRUU logo"&gt;
+			</picture>
+		</a>
+		<br />
+		<br />
+		<br />
+		<a href="https://depot.dev?utm_source=github&amp;utm_medium=sindresorhus">
+			<div>
+				<picture>
+					<source width="180" media="(prefers-color-scheme: dark)" srcset="../support/images/sindresorhus_depot-logo-dark.svg" />
+					<source width="180" media="(prefers-color-scheme: light)" srcset="../support/images/sindresorhus_depot-logo-light.svg" />
+					<img width="180" src="../support/images/sindresorhus_depot-logo-light.svg" alt="Depot logo" />
+				</picture>
+			</div>
+			<b>Fast remote container builds and GitHub Actions runners.</b>
+		</a>
+		<br />
+		<br />
+		<br />
+	</p>
+</div>
+
+<hr />
+
+<p><br /></p>
+
+<p>Execa runs commands in your script, application or library. Unlike shells, it is <a href="docs/bash.md">optimized</a> for programmatic usage. Built on top of the <a href="https://nodejs.org/api/child_process.html"><code>child_process</code></a> core module.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><a href="#simple-syntax">Simple syntax</a>: promises and <a href="docs/execution.md#template-string-syntax">template strings</a>, like <a href="docs/bash.md"><code>zx</code></a>.</li>
+  <li><a href="#script">Script</a> interface.</li>
+  <li><a href="docs/escaping.md">No escaping</a> nor quoting needed. No risk of shell injection.</li>
+  <li>Execute <a href="#local-binaries">locally installed binaries</a> without <code>npx</code>.</li>
+  <li>Improved <a href="docs/windows.md">Windows support</a>: <a href="docs/windows.md#shebang">shebangs</a>, <a href="https://ss64.com/nt/path.html#pathext"><code>PATHEXT</code></a>, <a href="#graceful-termination">graceful termination</a>, <a href="https://github.com/moxystudio/node-cross-spawn?tab=readme-ov-file#why">and more</a>.</li>
+  <li><a href="#detailed-error">Detailed errors</a>, <a href="#verbose-mode">verbose mode</a> and <a href="#custom-logging">custom logging</a>, for <a href="docs/debugging.md">debugging</a>.</li>
+  <li><a href="#pipe-multiple-subprocesses">Pipe multiple subprocesses</a> better than in shells: retrieve <a href="docs/pipe.md#result">intermediate results</a>, use multiple <a href="docs/pipe.md#multiple-sources-1-destination">sources</a>/<a href="docs/pipe.md#1-source-multiple-destinations">destinations</a>, <a href="docs/pipe.md#unpipe">unpipe</a>.</li>
+  <li><a href="#split-into-text-lines">Split</a> the output into text lines, or <a href="#iterate-over-text-lines">iterate</a> progressively over them.</li>
+  <li>Strip <a href="docs/lines.md#newlines">unnecessary newlines</a>.</li>
+  <li>Pass any <a href="docs/input.md">input</a> to the subprocess: <a href="#file-input">files</a>, <a href="#simple-input">strings</a>, <a href="docs/binary.md#binary-input"><code>Uint8Array</code>s</a>, <a href="docs/streams.md#iterables-as-input">iterables</a>, <a href="docs/transform.md#object-mode">objects</a> and almost any <a href="#any-input-type">other type</a>.</li>
+  <li>Return <a href="#any-output-type">almost any type</a> from the subprocess, or redirect it to <a href="#file-output">files</a>.</li>
+  <li>Get <a href="#interleaved-output">interleaved output</a> from <code>stdout</code> and <code>stderr</code> similar to what is printed on the terminal.</li>
+  <li>Retrieve the output <a href="#programmatic--terminal-output">programmatically and print it</a> on the console at the same time.</li>
+  <li><a href="#transformfilter-output">Transform or filter</a> the input and output with <a href="docs/transform.md">simple functions</a>.</li>
+  <li>Pass <a href="docs/streams.md#nodejs-streams">Node.js streams</a> or <a href="#web-streams">web streams</a> to subprocesses, or <a href="#convert-to-duplex-stream">convert</a> subprocesses to <a href="docs/streams.md#converting-a-subprocess-to-a-stream">a stream</a>.</li>
+  <li><a href="#exchange-messages">Exchange messages</a> with the subprocess.</li>
+  <li>Ensure subprocesses exit even when they <a href="docs/termination.md#forceful-termination">intercept termination signals</a>, or when the current process <a href="docs/termination.md#current-process-exit">ends abruptly</a>.</li>
+</ul>
+
+<h2 id="install">Install</h2>
+
+<pre><code class="language-sh">npm install execa
+</code></pre>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>Execution:</p>
+<ul>
+  <li>▶️ <a href="docs/execution.md">Basic execution</a></li>
+  <li>💬 <a href="docs/escaping.md">Escaping/quoting</a></li>
+  <li>💻 <a href="docs/shell.md">Shell</a></li>
+  <li>📜 <a href="docs/scripts.md">Scripts</a></li>
+  <li>🐢 <a href="docs/node.md">Node.js files</a></li>
+  <li>🌐 <a href="docs/environment.md">Environment</a></li>
+  <li>❌ <a href="docs/errors.md">Errors</a></li>
+  <li>🏁 <a href="docs/termination.md">Termination</a></li>
+</ul>
+
+<p>Input/output:</p>
+<ul>
+  <li>🎹 <a href="docs/input.md">Input</a></li>
+  <li>📢 <a href="docs/output.md">Output</a></li>
+  <li>📃 <a href="docs/lines.md">Text lines</a></li>
+  <li>🤖 <a href="docs/binary.md">Binary data</a></li>
+  <li>🧙 <a href="docs/transform.md">Transforms</a></li>
+</ul>
+
+<p>Advanced usage:</p>
+<ul>
+  <li>🔀 <a href="docs/pipe.md">Piping multiple subprocesses</a></li>
+  <li>⏳️ <a href="docs/streams.md">Streams</a></li>
+  <li>📞 <a href="docs/ipc.md">Inter-process communication</a></li>
+  <li>🐛 <a href="docs/debugging.md">Debugging</a></li>
+  <li>📎 <a href="docs/windows.md">Windows</a></li>
+  <li>🔍 <a href="docs/bash.md">Difference with Bash and zx</a></li>
+  <li>🐭 <a href="docs/small.md">Small packages</a></li>
+  <li>🤓 <a href="docs/typescript.md">TypeScript</a></li>
+  <li>📔 <a href="docs/api.md">API reference</a></li>
+</ul>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="execution">Execution</h3>
+
+<h4 id="simple-syntax">Simple syntax</h4>
+
+<pre><code class="language-js">import {execa} from 'execa';
+
+const {stdout} = await execa`npm run build`;
+// Print command's output
+console.log(stdout);
+</code></pre>
+
+<h4 id="script">Script</h4>
+
+<pre><code class="language-js">import {$} from 'execa';
+
+const {stdout: name} = await $`cat package.json`.pipe`grep name`;
+console.log(name);
+
+const branch = await $`git branch --show-current`;
+await $`dep deploy --branch=${branch}`;
+
+await Promise.all([
+	$`sleep 1`,
+	$`sleep 2`,
+	$`sleep 3`,
+]);
+
+const directoryName = 'foo bar';
+await $`mkdir /tmp/${directoryName}`;
+</code></pre>
+
+<h4 id="local-binaries">Local binaries</h4>
+
+<pre><code class="language-sh">$ npm install -D eslint
+</code></pre>
+
+<pre><code class="language-js">await execa({preferLocal: true})`eslint`;
+</code></pre>
+
+<h4 id="pipe-multiple-subprocesses">Pipe multiple subprocesses</h4>
+
+<pre><code class="language-js">const {stdout, pipedFrom} = await execa`npm run build`
+	.pipe`sort`
+	.pipe`head -n 2`;
+
+// Output of `npm run build | sort | head -n 2`
+console.log(stdout);
+// Output of `npm run build | sort`
+console.log(pipedFrom[0].stdout);
+// Output of `npm run build`
+console.log(pipedFrom[0].pipedFrom[0].stdout);
+</code></pre>
+
+<h3 id="inputoutput">Input/output</h3>
+
+<h4 id="interleaved-output">Interleaved output</h4>
+
+<pre><code class="language-js">const {all} = await execa({all: true})`npm run build`;
+// stdout + stderr, interleaved
+console.log(all);
+</code></pre>
+
+<h4 id="programmatic--terminal-output">Programmatic + terminal output</h4>
+
+<pre><code class="language-js">const {stdout} = await execa({stdout: ['pipe', 'inherit']})`npm run build`;
+// stdout is also printed to the terminal
+console.log(stdout);
+</code></pre>
+
+<h4 id="simple-input">Simple input</h4>
+
+<pre><code class="language-js">const getInputString = () =&gt; { /* ... */ };
+const {stdout} = await execa({input: getInputString()})`sort`;
+console.log(stdout);
+</code></pre>
+
+<h4 id="file-input">File input</h4>
+
+<pre><code class="language-js">// Similar to: npm run build &lt; input.txt
+await execa({stdin: {file: 'input.txt'}})`npm run build`;
+</code></pre>
+
+<h4 id="file-output">File output</h4>
+
+<pre><code class="language-js">// Similar to: npm run build &gt; output.txt
+await execa({stdout: {file: 'output.txt'}})`npm run build`;
+</code></pre>
+
+<h4 id="split-into-text-lines">Split into text lines</h4>
+
+<pre><code class="language-js">const {stdout} = await execa({lines: true})`npm run build`;
+// Print first 10 lines
+console.log(stdout.slice(0, 10).join('\n'));
+</code></pre>
+
+<h3 id="streaming">Streaming</h3>
+
+<h4 id="iterate-over-text-lines">Iterate over text lines</h4>
+
+<pre><code class="language-js">for await (const line of execa`npm run build`) {
+	if (line.includes('WARN')) {
+		console.warn(line);
+	}
+}
+</code></pre>
+
+<h4 id="transformfilter-output">Transform/filter output</h4>
+
+<pre><code class="language-js">let count = 0;
+
+// Filter out secret lines, then prepend the line number
+const transform = function * (line) {
+	if (!line.includes('secret')) {
+		yield `[${count++}] ${line}`;
+	}
+};
+
+await execa({stdout: transform})`npm run build`;
+</code></pre>
+
+<h4 id="web-streams">Web streams</h4>
+
+<pre><code class="language-js">const response = await fetch('https://example.com');
+await execa({stdin: response.body})`sort`;
+</code></pre>
+
+<h4 id="convert-to-duplex-stream">Convert to Duplex stream</h4>
+
+<pre><code class="language-js">import {execa} from 'execa';
+import {pipeline} from 'node:stream/promises';
+import {createReadStream, createWriteStream} from 'node:fs';
+
+await pipeline(
+	createReadStream('./input.txt'),
+	execa`node ./transform.js`.duplex(),
+	createWriteStream('./output.txt'),
+);
+</code></pre>
+
+<h3 id="ipc">IPC</h3>
+
+<h4 id="exchange-messages">Exchange messages</h4>
+
+<pre><code class="language-js">// parent.js
+import {execaNode} from 'execa';
+
+const subprocess = execaNode`child.js`;
+await subprocess.sendMessage('Hello from parent');
+const message = await subprocess.getOneMessage();
+console.log(message); // 'Hello from child'
+</code></pre>
+
+<pre><code class="language-js">// child.js
+import {getOneMessage, sendMessage} from 'execa';
+
+const message = await getOneMessage(); // 'Hello from parent'
+const newMessage = message.replace('parent', 'child'); // 'Hello from child'
+await sendMessage(newMessage);
+</code></pre>
+
+<h4 id="any-input-type">Any input type</h4>
+
+<pre><code class="language-js">// main.js
+import {execaNode} from 'execa';
+
+const ipcInput = [
+	{task: 'lint', ignore: /test\.js/},
+	{task: 'copy', files: new Set(['main.js', 'index.js']),
+}];
+await execaNode({ipcInput})`build.js`;
+</code></pre>
+
+<pre><code class="language-js">// build.js
+import {getOneMessage} from 'execa';
+
+const ipcInput = await getOneMessage();
+</code></pre>
+
+<h4 id="any-output-type">Any output type</h4>
+
+<pre><code class="language-js">// main.js
+import {execaNode} from 'execa';
+
+const {ipcOutput} = await execaNode`build.js`;
+console.log(ipcOutput[0]); // {kind: 'start', timestamp: date}
+console.log(ipcOutput[1]); // {kind: 'stop', timestamp: date}
+</code></pre>
+
+<pre><code class="language-js">// build.js
+import {sendMessage} from 'execa';
+
+const runBuild = () =&gt; { /* ... */ };
+
+await sendMessage({kind: 'start', timestamp: new Date()});
+await runBuild();
+await sendMessage({kind: 'stop', timestamp: new Date()});
+</code></pre>
+
+<h4 id="graceful-termination">Graceful termination</h4>
+
+<pre><code class="language-js">// main.js
+import {execaNode} from 'execa';
+
+const controller = new AbortController();
+setTimeout(() =&gt; {
+	controller.abort();
+}, 5000);
+
+await execaNode({
+	cancelSignal: controller.signal,
+	gracefulCancel: true,
+})`build.js`;
+</code></pre>
+
+<pre><code class="language-js">// build.js
+import {getCancelSignal} from 'execa';
+
+const cancelSignal = await getCancelSignal();
+const url = 'https://example.com/build/info';
+const response = await fetch(url, {signal: cancelSignal});
+</code></pre>
+
+<h3 id="debugging">Debugging</h3>
+
+<h4 id="detailed-error">Detailed error</h4>
+
+<pre><code class="language-js">import {execa, ExecaError} from 'execa';
+
+try {
+	await execa`unknown command`;
+} catch (error) {
+	if (error instanceof ExecaError) {
+		console.log(error);
+	}
+	/*
+	ExecaError: Command failed with ENOENT: unknown command
+	spawn unknown ENOENT
+			at ...
+			at ... {
+		shortMessage: 'Command failed with ENOENT: unknown command\nspawn unknown ENOENT',
+		originalMessage: 'spawn unknown ENOENT',
+		command: 'unknown command',
+		escapedCommand: 'unknown command',
+		cwd: '/path/to/cwd',
+		durationMs: 28.217566,
+		failed: true,
+		timedOut: false,
+		isCanceled: false,
+		isTerminated: false,
+		isMaxBuffer: false,
+		code: 'ENOENT',
+		stdout: '',
+		stderr: '',
+		stdio: [undefined, '', ''],
+		pipedFrom: []
+		[cause]: Error: spawn unknown ENOENT
+				at ...
+				at ... {
+			errno: -2,
+			code: 'ENOENT',
+			syscall: 'spawn unknown',
+			path: 'unknown',
+			spawnargs: [ 'command' ]
+		}
+	}
+	*/
+}
+</code></pre>
+
+<h4 id="verbose-mode">Verbose mode</h4>
+
+<pre><code class="language-js">await execa`npm run build`;
+await execa`npm run test`;
+</code></pre>
+
+<p><img alt="execa verbose output" src="media/verbose.png" width="603" /></p>
+
+<h4 id="custom-logging">Custom logging</h4>
+
+<pre><code class="language-js">import {execa as execa_} from 'execa';
+import {createLogger, transports} from 'winston';
+
+// Log to a file using Winston
+const transport = new transports.File({filename: 'logs.txt'});
+const logger = createLogger({transports: [transport]});
+const LOG_LEVELS = {
+	command: 'info',
+	output: 'verbose',
+	ipc: 'verbose',
+	error: 'error',
+	duration: 'info',
+};
+
+const execa = execa_({
+	verbose(verboseLine, {message, ...verboseObject}) {
+		const level = LOG_LEVELS[verboseObject.type];
+		logger[level](message, verboseObject);
+	},
+});
+
+await execa`npm run build`;
+await execa`npm run test`;
+</code></pre>
+
+<h2 id="related">Related</h2>
+
+<ul>
+  <li><a href="https://github.com/sindresorhus/nano-spawn">nano-spawn</a> - Like Execa but <a href="docs/small.md">smaller</a></li>
+  <li><a href="https://github.com/ehmicky/gulp-execa">gulp-execa</a> - Gulp plugin for Execa</li>
+  <li><a href="https://github.com/ehmicky/nvexeca">nvexeca</a> - Run Execa using any Node.js version</li>
+</ul>
+
+<h2 id="maintainers">Maintainers</h2>
+
+<ul>
+  <li><a href="https://github.com/sindresorhus">Sindre Sorhus</a></li>
+  <li><a href="https://github.com/ehmicky">@ehmicky</a></li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

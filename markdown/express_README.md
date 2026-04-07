@@ -264,15 +264,15 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 
   [MIT](LICENSE)
 
-[coveralls-image]: https://img.shields.io/coverallsCoverage/github/expressjs/express?branch=master
+[coveralls-image]: ../support/images/img.shields.io_coverallsCoverage_github_expressjs_express.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/express?branch=master
-[github-actions-ci-image]: https://img.shields.io/github/actions/workflow/status/expressjs/express/ci.yml?branch=master&label=ci
+[github-actions-ci-image]: ../support/images/img.shields.io_github_actions_workflow_status_expressjs_express_ci.yml.svg
 [github-actions-ci-url]: https://github.com/expressjs/express/actions/workflows/ci.yml
-[npm-downloads-image]: https://img.shields.io/npm/dm/express
+[npm-downloads-image]: ../support/images/img.shields.io_npm_dm_express.svg
 [npm-downloads-url]: https://npmcharts.com/compare/express?minimal=true
 [npm-url]: https://npmjs.org/package/express
-[npm-version-image]: https://img.shields.io/npm/v/express
-[ossf-scorecard-badge]: https://api.scorecard.dev/projects/github.com/expressjs/express/badge
+[npm-version-image]: ../support/images/img.shields.io_npm_v_express.svg
+[ossf-scorecard-badge]: ../support/images/api.scorecard.dev_projects_github.com_expressjs_express_badge.svg
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md
 [Contributing Guide]: https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md

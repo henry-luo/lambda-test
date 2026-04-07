@@ -29,18 +29,18 @@
 
 <div align="center">
 
-[![npm version](https://img.shields.io/npm/v/axios.svg?style=flat-square)](https://www.npmjs.org/package/axios)
-[![CDNJS](https://img.shields.io/cdnjs/v/axios.svg?style=flat-square)](https://cdnjs.com/libraries/axios)
-[![Build status](https://img.shields.io/github/actions/workflow/status/axios/axios/ci.yml?branch=v1.x&label=CI&logo=github&style=flat-square)](https://github.com/axios/axios/actions/workflows/ci.yml)
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=flat-square)](https://gitpod.io/#https://github.com/axios/axios)
-[![code coverage](https://img.shields.io/coveralls/mzabriskie/axios.svg?style=flat-square)](https://coveralls.io/r/mzabriskie/axios)
-[![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=axios&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=axios)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/axios?style=flat-square)](https://bundlephobia.com/package/axios@latest)
-[![npm downloads](https://img.shields.io/npm/dm/axios.svg?style=flat-square)](https://npm-stat.com/charts.html?package=axios)
-[![gitter chat](https://img.shields.io/gitter/room/mzabriskie/axios.svg?style=flat-square)](https://gitter.im/mzabriskie/axios)
-[![code helpers](https://www.codetriage.com/axios/axios/badges/users.svg)](https://www.codetriage.com/axios/axios)
-[![Known Vulnerabilities](https://snyk.io/test/npm/axios/badge.svg)](https://snyk.io/test/npm/axios)
-[![Contributors](https://img.shields.io/github/contributors/axios/axios.svg?style=flat-square)](CONTRIBUTORS.md)
+[![npm version](../support/images/img.shields.io_npm_v_axios.svg)](https://www.npmjs.org/package/axios)
+[![CDNJS](../support/images/img.shields.io_cdnjs_v_axios.svg)](https://cdnjs.com/libraries/axios)
+[![Build status](../support/images/img.shields.io_github_actions_workflow_status_axios_axios_ci.yml.svg)](https://github.com/axios/axios/actions/workflows/ci.yml)
+[![Gitpod Ready-to-Code](../support/images/img.shields.io_badge_Gitpod-Ready--to--Code-blue.svg)](https://gitpod.io/#https://github.com/axios/axios)
+[![code coverage](../support/images/img.shields.io_coveralls_mzabriskie_axios.svg)](https://coveralls.io/r/mzabriskie/axios)
+[![install size](../support/images/img.shields.io_badge_dynamic_json.svg)](https://packagephobia.now.sh/result?p=axios)
+[![npm bundle size](../support/images/img.shields.io_bundlephobia_minzip_axios.svg)](https://bundlephobia.com/package/axios@latest)
+[![npm downloads](../support/images/img.shields.io_npm_dm_axios.svg)](https://npm-stat.com/charts.html?package=axios)
+[![gitter chat](../support/images/img.shields.io_gitter_room_mzabriskie_axios.svg)](https://gitter.im/mzabriskie/axios)
+[![code helpers](../support/images/www.codetriage.com_axios_axios_badges_users.svg)](https://www.codetriage.com/axios/axios)
+[![Known Vulnerabilities](../support/images/snyk.io_test_npm_axios_badge.svg)](https://snyk.io/test/npm/axios)
+[![Contributors](../support/images/img.shields.io_github_contributors_axios_axios.svg)](CONTRIBUTORS.md)
 
 </div>
 
@@ -2002,4 +2002,4 @@ axios is heavily inspired by the [$http service](https://docs.angularjs.org/api/
 
 ## License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](../support/images/img.shields.io_badge_License-MIT-blue.svg)](LICENSE)

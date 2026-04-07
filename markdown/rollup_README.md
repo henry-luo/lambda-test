@@ -4,13 +4,13 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/rollup">
-    <img src="https://img.shields.io/npm/v/rollup.svg" alt="npm version" >
+    <img src="../support/images/img.shields.io_npm_v_rollup.svg" alt="npm version" >
   </a>
   <a href="https://nodejs.org/en/about/previous-releases">
-    <img src="https://img.shields.io/node/v/rollup.svg" alt="node compatibility">
+    <img src="../support/images/img.shields.io_node_v_rollup.svg" alt="node compatibility">
   </a>
   <a href="https://packagephobia.com/result?p=rollup">
-    <img src="https://packagephobia.com/badge?p=rollup" alt="install size" >
+    <img src="../support/images/packagephobia.com_badge_p_rollup.svg" alt="install size" >
   </a>
   <a href="https://codecov.io/gh/rollup/rollup">
     <img src="../support/images/codecov_badge.svg" alt="code coverage" >
@@ -22,10 +22,10 @@
     <img src="../support/images/opencollective_badge.svg" alt="sponsors" >
   </a> 
   <a href="https://github.com/rollup/rollup/blob/master/LICENSE.md">
-    <img src="https://img.shields.io/npm/l/rollup.svg" alt="license">
+    <img src="../support/images/img.shields.io_npm_l_rollup.svg" alt="license">
   </a>
   <a href='https://is.gd/rollup_chat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge'>
-    <img src='https://img.shields.io/discord/466787075518365708?color=778cd1&label=chat' alt='Join the chat at https://is.gd/rollup_chat'>
+    <img src='../support/images/img.shields.io_discord_466787075518365708.svg' alt='Join the chat at https://is.gd/rollup_chat'>
   </a>
 </p>
 
@@ -125,7 +125,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ## Special Sponsor
 
-<a href="https://www.tngtech.com/en/index.html" target="_blank"><img src="https://avatars.githubusercontent.com/u/432256?s=200&v=4" alt="TNG Logo"/></a>
+<a href="https://www.tngtech.com/en/index.html" target="_blank"><img src="../support/images/avatars.githubusercontent.com_u_432256.png" alt="TNG Logo"/></a>
 
 TNG has been supporting the work of [Lukas Taegert-Atkinson](https://github.com/lukastaegert) on Rollup since 2017.
 

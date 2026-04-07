@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ora README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>ora README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        ora README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="ora">ora</h1>
+
+<blockquote>
+  <p>Elegant terminal spinner</p>
+</blockquote>
+
+<p align="center">
+	<br />
+	<img src="screenshot.svg" width="500" />
+	<br />
+</p>
+
+<h2 id="install">Install</h2>
+
+<pre><code class="language-sh">npm install ora
+</code></pre>
+
+<p><em>Check out <a href="https://github.com/sindresorhus/yocto-spinner"><code>yocto-spinner</code></a> for a smaller alternative.</em></p>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-js">import ora from 'ora';
+
+const spinner = ora('Loading unicorns').start();
+
+setTimeout(() =&gt; {
+	spinner.color = 'yellow';
+	spinner.text = 'Loading rainbows';
+}, 1000);
+</code></pre>
+
+<h2 id="api">API</h2>
+
+<h3 id="oratext">ora(text)</h3>
+<h3 id="oraoptions">ora(options)</h3>
+
+<p>If a string is provided, it is treated as a shortcut for <a href="#text"><code>options.text</code></a>.</p>
+
+<h4 id="options">options</h4>
+
+<p>Type: <code>object</code></p>
+
+<h5 id="text">text</h5>
+
+<p>Type: <code>string</code></p>
+
+<p>The text to display next to the spinner.</p>
+
+<h5 id="prefixtext">prefixText</h5>
+
+<p>Type: <code>string | () =&gt; string</code></p>
+
+<p>Text or a function that returns text to display before the spinner. No prefix text will be displayed if set to an empty string.</p>
+
+<h5 id="suffixtext">suffixText</h5>
+
+<p>Type: <code>string | () =&gt; string</code></p>
+
+<p>Text or a function that returns text to display after the spinner text. No suffix text will be displayed if set to an empty string.</p>
+
+<h5 id="spinner">spinner</h5>
+
+<p>Type: <code>string | object</code><br />
+Default: <code>'dots'</code> <img src="screenshot-spinner.gif" width="14" /></p>
+
+<p>The name of one of the <a href="#spinners">provided spinners</a>. See <code>example.js</code> in this repo if you want to test out different spinners. On Windows (except for Windows Terminal), it will always use the <code>line</code> spinner as the Windows command-line doesn&#8217;t have proper Unicode support.</p>
+
+<p>Or an object like:</p>
+
+<pre><code class="language-js">{
+	frames: ['-', '+', '-'],
+	interval: 80 // Optional
+}
+</code></pre>
+
+<h5 id="color">color</h5>
+
+<p>Type: <code>string | boolean</code><br />
+Default: <code>'cyan'</code><br />
+Values: <code>'black' | 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'gray' | boolean</code></p>
+
+<p>The color of the spinner. Set to <code>false</code> to disable coloring.</p>
+
+<h5 id="hidecursor">hideCursor</h5>
+
+<p>Type: <code>boolean</code><br />
+Default: <code>true</code></p>
+
+<p>Set to <code>false</code> to stop Ora from hiding the cursor.</p>
+
+<h5 id="indent">indent</h5>
+
+<p>Type: <code>number</code><br />
+Default: <code>0</code></p>
+
+<p>Indent the spinner with the given number of spaces.</p>
+
+<h5 id="interval">interval</h5>
+
+<p>Type: <code>number</code><br />
+Default: Provided by the spinner or <code>100</code></p>
+
+<p>Interval between each frame.</p>
+
+<p>Spinners provide their own recommended interval, so you don&#8217;t really need to specify this.</p>
+
+<h5 id="stream">stream</h5>
+
+<p>Type: <code>stream.Writable</code><br />
+Default: <code>process.stderr</code></p>
+
+<p>Stream to write the output.</p>
+
+<p>You could for example set this to <code>process.stdout</code> instead.</p>
+
+<h5 id="isenabled">isEnabled</h5>
+
+<p>Type: <code>boolean</code></p>
+
+<p>Force enable/disable the spinner. If not specified, the spinner will be enabled if the <code>stream</code> is being run inside a TTY context (not spawned or piped) and/or not in a CI environment.</p>
+
+<p>Note that <code>{isEnabled: false}</code> doesn&#8217;t mean it won&#8217;t output anything. It just means it won&#8217;t output the spinner, colors, and other ansi escape codes. It will still log text.</p>
+
+<h5 id="issilent">isSilent</h5>
+
+<p>Type: <code>boolean</code><br />
+Default: <code>false</code></p>
+
+<p>Disable the spinner and all log text. All output is suppressed and <code>isEnabled</code> will be considered <code>false</code>.</p>
+
+<h5 id="discardstdin">discardStdin</h5>
+
+<p>Type: <code>boolean</code><br />
+Default: <code>true</code></p>
+
+<p>Discard stdin input (except Ctrl+C) while running if it&#8217;s TTY. This prevents the spinner from twitching on input, outputting broken lines on <kbd>Enter</kbd> key presses, and prevents buffering of input while the spinner is running.</p>
+
+<p>This has no effect on Windows as there is no good way to implement discarding stdin properly there.</p>
+
+<p>Note: <code>discardStdin</code> puts stdin into raw mode. In raw mode, <code>Ctrl+C</code> no longer generates <code>SIGINT</code> from the terminal. Ora re-emits <code>Ctrl+C</code> from stdin input, but if your code blocks the event loop with synchronous work, <code>Ctrl+C</code> handling is delayed until the blocking work ends. Use async APIs, a worker thread, or a child process to keep <code>Ctrl+C</code> responsive, or set <code>discardStdin</code> to <code>false</code>.</p>
+
+<h3 id="instance">Instance</h3>
+
+<h4 id="text-getset">.text <sup>get/set</sup></h4>
+
+<p>Change the text displayed after the spinner.</p>
+
+<h4 id="prefixtext-getset">.prefixText <sup>get/set</sup></h4>
+
+<p>Change the text before the spinner.</p>
+
+<p>No prefix text will be displayed if set to an empty string.</p>
+
+<h4 id="suffixtext-getset">.suffixText <sup>get/set</sup></h4>
+
+<p>Change the text after the spinner text.</p>
+
+<p>No suffix text will be displayed if set to an empty string.</p>
+
+<h4 id="color-getset">.color <sup>get/set</sup></h4>
+
+<p>Change the spinner color.</p>
+
+<h4 id="spinner-getset">.spinner <sup>get/set</sup></h4>
+
+<p>Change the spinner.</p>
+
+<h4 id="indent-getset">.indent <sup>get/set</sup></h4>
+
+<p>Change the spinner indent.</p>
+
+<h4 id="isspinning-get">.isSpinning <sup>get</sup></h4>
+
+<p>A boolean indicating whether the instance is currently spinning.</p>
+
+<h4 id="interval-get">.interval <sup>get</sup></h4>
+
+<p>The interval between each frame.</p>
+
+<p>The interval is decided by the chosen spinner.</p>
+
+<h4 id="starttext">.start(text?)</h4>
+
+<p>Start the spinner. Returns the instance. Set the current text if <code>text</code> is provided.</p>
+
+<h4 id="stop">.stop()</h4>
+
+<p>Stop and clear the spinner. Returns the instance.</p>
+
+<h4 id="succeedtext">.succeed(text?)</h4>
+
+<p>Stop the spinner, change it to a green <code>✔</code> and persist the current text, or <code>text</code> if provided. Returns the instance. See the GIF below.</p>
+
+<h4 id="failtext">.fail(text?)</h4>
+
+<p>Stop the spinner, change it to a red <code>✖</code> and persist the current text, or <code>text</code> if provided. Returns the instance. See the GIF below.</p>
+
+<h4 id="warntext">.warn(text?)</h4>
+
+<p>Stop the spinner, change it to a yellow <code>⚠</code> and persist the current text, or <code>text</code> if provided. Returns the instance.</p>
+
+<h4 id="infotext">.info(text?)</h4>
+
+<p>Stop the spinner, change it to a blue <code>ℹ</code> and persist the current text, or <code>text</code> if provided. Returns the instance.</p>
+
+<h4 id="stopandpersistoptions">.stopAndPersist(options?)</h4>
+
+<p>Stop the spinner and change the symbol or text. Returns the instance. See the GIF below.</p>
+
+<h5 id="options-1">options</h5>
+
+<p>Type: <code>object</code></p>
+
+<h6 id="symbol">symbol</h6>
+
+<p>Type: <code>string</code><br />
+Default: <code>' '</code></p>
+
+<p>Symbol to replace the spinner with.</p>
+
+<h6 id="text-1">text</h6>
+
+<p>Type: <code>string</code><br />
+Default: Current <code>'text'</code></p>
+
+<p>Text to be persisted after the symbol.</p>
+
+<h6 id="prefixtext-1">prefixText</h6>
+
+<p>Type: <code>string | () =&gt; string</code><br />
+Default: Current <code>prefixText</code></p>
+
+<p>Text or a function that returns text to be persisted before the symbol. No prefix text will be displayed if set to an empty string.</p>
+
+<h6 id="suffixtext-1">suffixText</h6>
+
+<p>Type: <code>string | () =&gt; string</code><br />
+Default: Current <code>suffixText</code></p>
+
+<p>Text or a function that returns text to be persisted after the text after the symbol. No suffix text will be displayed if set to an empty string.</p>
+
+<p><img src="screenshot-2.gif" width="480" /></p>
+
+<h4 id="clear">.clear()</h4>
+
+<p>Clear the spinner. Returns the instance.</p>
+
+<h4 id="render">.render()</h4>
+
+<p>Manually render a new frame. Returns the instance.</p>
+
+<h4 id="frame">.frame()</h4>
+
+<p>Get a new frame.</p>
+
+<h3 id="orapromiseaction-text">oraPromise(action, text)</h3>
+<h3 id="orapromiseaction-options">oraPromise(action, options)</h3>
+
+<p>Starts a spinner for a promise or promise-returning function. The spinner is stopped with <code>.succeed()</code> if the promise fulfills or with <code>.fail()</code> if it rejects. Returns the promise.</p>
+
+<pre><code class="language-js">import {oraPromise} from 'ora';
+
+await oraPromise(somePromise);
+</code></pre>
+
+<h4 id="action">action</h4>
+
+<p>Type: <code>Promise | ((spinner: ora.Ora) =&gt; Promise)</code></p>
+
+<h4 id="options-2">options</h4>
+
+<p>Type: <code>object</code></p>
+
+<p>All of the <a href="#options">options</a> plus the following:</p>
+
+<h5 id="successtext">successText</h5>
+
+<p>Type: <code>string | ((result: T) =&gt; string) | undefined</code></p>
+
+<p>The new text of the spinner when the promise is resolved.</p>
+
+<p>Keeps the existing text if <code>undefined</code>.</p>
+
+<h5 id="failtext-1">failText</h5>
+
+<p>Type: <code>string | ((error: Error) =&gt; string) | undefined</code></p>
+
+<p>The new text of the spinner when the promise is rejected.</p>
+
+<p>Keeps the existing text if <code>undefined</code>.</p>
+
+<h3 id="spinners">spinners</h3>
+
+<p>Type: <code>Record&lt;string, Spinner&gt;</code></p>
+
+<p>All <a href="https://github.com/sindresorhus/cli-spinners/blob/main/spinners.json">provided spinners</a>.</p>
+
+<h2 id="faq">FAQ</h2>
+
+<h3 id="how-do-i-change-the-color-of-the-text">How do I change the color of the text?</h3>
+
+<p>Use <a href="https://github.com/chalk/chalk"><code>chalk</code></a> or <a href="https://github.com/sindresorhus/yoctocolors"><code>yoctocolors</code></a>:</p>
+
+<pre><code class="language-js">import ora from 'ora';
+import chalk from 'chalk';
+
+const spinner = ora(`Loading ${chalk.red('unicorns')}`).start();
+</code></pre>
+
+<h3 id="why-does-the-spinner-freeze">Why does the spinner freeze?</h3>
+
+<p>JavaScript is single-threaded, so any synchronous operations will block the spinner&#8217;s animation. To avoid this, prefer using asynchronous operations.</p>
+
+<h3 id="why-do-i-get-the-line-spinner-on-windows-terminal-or-wsl">Why do I get the line spinner on Windows Terminal or WSL?</h3>
+
+<p>Windows Terminal does <a href="https://github.com/microsoft/terminal/issues/1040">not expose</a> a reliable, stable way to detect itself or Unicode support from Node, and <code>WT_SESSION</code> is explicitly informative, not a detection API and can be inherited by other terminals. That makes environment-based detection best-effort. If you are in a Unicode-capable terminal, set <code>spinner</code> explicitly, for example <code>ora({spinner: 'dots'})</code>.</p>
+
+<h3 id="can-i-log-messages-while-the-spinner-is-running">Can I log messages while the spinner is running?</h3>
+
+<p>Yes! Ora automatically handles writes to the same stream. The spinner will temporarily clear itself, output your message, and re-render below:</p>
+
+<pre><code class="language-js">const spinner = ora('Processing...').start();
+
+console.log('Step 1 complete');
+console.log('Step 2 complete');
+
+spinner.succeed('Done!');
+</code></pre>
+
+<p>The output will be clean with each log appearing above the spinner. This works seamlessly without requiring any special logging methods. Both <code>console.log()</code> (stdout) and <code>console.error()</code>/<code>console.warn()</code> (stderr) are supported.</p>
+
+<blockquote>
+  <p>[!NOTE]
+Don&#8217;t run multiple spinners concurrently. Use one spinner at a time.</p>
+</blockquote>
+
+<h3 id="can-i-display-multiple-spinners-simultaneously">Can I display multiple spinners simultaneously?</h3>
+
+<p>No. Ora is designed to display a single spinner at a time. For multiple concurrent progress indicators, consider alternatives like <a href="https://github.com/listr2/listr2">listr2</a> or <a href="https://github.com/jcarpanelli/spinnies">spinnies</a>.</p>
+
+<h3 id="can-i-use-ora-with-log-update">Can I use Ora with <a href="https://github.com/sindresorhus/log-update">log-update</a>?</h3>
+
+<p>Yes, use the <code>.frame()</code> method to get the current spinner frame and include it in your log-update output.</p>
+
+<h3 id="does-ora-work-in-nodejs-worker-threads">Does Ora work in Node.js Worker threads?</h3>
+
+<p>No. Ora requires an interactive terminal environment and Worker threads are not considered interactive, so the spinner will not animate. Run the spinner in the main thread and control it via worker messages:</p>
+
+<pre><code class="language-js">// main.js
+import {Worker} from 'node:worker_threads';
+import ora from 'ora';
+
+const spinner = ora().start();
+const worker = new Worker('./worker.js');
+
+worker.on('message', message =&gt; {
+	switch (message.type) {
+		case 'ora:text':
+			spinner.text = message.text;
+			break;
+		case 'ora:succeed':
+			spinner.succeed(message.text);
+			break;
+		case 'ora:fail':
+			spinner.fail(message.text);
+			break;
+	}
+});
+</code></pre>
+
+<pre><code class="language-js">// worker.js
+import {parentPort} from 'node:worker_threads';
+
+parentPort.postMessage({type: 'ora:text', text: 'Working...'});
+
+// Do work...
+
+parentPort.postMessage({type: 'ora:succeed', text: 'Done!'});
+</code></pre>
+
+<h2 id="related">Related</h2>
+
+<ul>
+  <li><a href="https://github.com/sindresorhus/yocto-spinner">yocto-spinner</a> - Tiny terminal spinner</li>
+  <li><a href="https://github.com/sindresorhus/cli-spinners">cli-spinners</a> - Spinners for use in the terminal</li>
+</ul>
+
+<p><strong>Ports</strong></p>
+
+<ul>
+  <li><a href="https://github.com/kiliankoe/CLISpinner">CLISpinner</a> - Terminal spinner library for Swift</li>
+  <li><a href="https://github.com/ManrajGrover/halo">halo</a> - Python port</li>
+  <li><a href="https://github.com/FGRibreau/spinners">spinners</a> - Terminal spinners for Rust</li>
+  <li><a href="https://github.com/joeycozza/marquee-ora">marquee-ora</a> - Scrolling marquee spinner for Ora</li>
+  <li><a href="https://github.com/briandowns/spinner">briandowns/spinner</a> - Terminal spinner/progress indicator for Go</li>
+  <li><a href="https://github.com/tj/go-spin">tj/go-spin</a> - Terminal spinner package for Go</li>
+  <li><a href="https://observablehq.com/@victordidenko/ora">observablehq.com/@victordidenko/ora</a> - Ora port to Observable notebooks</li>
+  <li><a href="https://github.com/HarryPeach/kia">kia</a> - Simple terminal spinners for Deno 🦕</li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

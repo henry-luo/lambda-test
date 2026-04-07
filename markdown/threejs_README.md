@@ -73,13 +73,13 @@ git clone --depth=1 https://github.com/mrdoob/three.js.git
 [Releases](https://github.com/mrdoob/three.js/releases)
 
 
-[npm]: https://img.shields.io/npm/v/three
+[npm]: ../support/images/img.shields.io_npm_v_three.svg
 [npm-url]: https://www.npmjs.com/package/three
-[build-size]: https://badgen.net/bundlephobia/minzip/three
+[build-size]: ../support/images/badgen.net_bundlephobia_minzip_three.svg
 [build-size-url]: https://bundlephobia.com/result?p=three
-[npm-downloads]: https://img.shields.io/npm/dw/three
+[npm-downloads]: ../support/images/img.shields.io_npm_dw_three.svg
 [npmtrends-url]: https://www.npmtrends.com/three
-[jsdelivr-downloads]: https://data.jsdelivr.com/v1/package/npm/three/badge?style=rounded
+[jsdelivr-downloads]: ../support/images/data.jsdelivr.com_v1_package_npm_three_badge.svg
 [jsdelivr-url]: https://www.jsdelivr.com/package/npm/three
-[discord]: https://img.shields.io/discord/685241246557667386
+[discord]: ../support/images/img.shields.io_discord_685241246557667386.svg
 [discord-url]: https://discord.gg/56GBJwAnUS
