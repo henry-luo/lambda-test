@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test emoji</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>test emoji</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        test emoji
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="emoji-test--unicode-emoji--github-shortcodes">Emoji Test — Unicode Emoji &amp; GitHub Shortcodes</h1>
+
+<p>This file tests emoji rendering in markdown: both Unicode emoji characters (🎉)
+and GitHub/GitLab shortcode syntax (<code>:tada:</code>).</p>
+
+<h2 id="unicode-emoji-characters-inline">Unicode Emoji Characters (inline)</h2>
+
+<h3 id="smileys--people">Smileys &amp; People</h3>
+<p>😀 😁 😂 🤣 😃 😄 😅 😆 😇 😈 😉 😊 😋 😌 😍 😎 😏 😐 😑 😒 😓 😔 😕 😖 😗 😘 😙 😚 😛 😜 😝 😞 😟 😠 😡 😢 😣 😤 😥 😦 😧 😨 😩 😪 😫 😬 😭 😮 😯 😰 😱 😲 😳 😴 😵 😶 😷 🙁 🙂 🙃 🙄</p>
+
+<h3 id="hand-gestures">Hand Gestures</h3>
+<p>👋 🤚 🖐️ ✋ 🖖 👌 🤌 🤏 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝️ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🤝 🙏</p>
+
+<h3 id="animals--nature">Animals &amp; Nature</h3>
+<p>🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🙈 🙉 🙊 🐔 🐧 🐦 🐤 🦅 🦆 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🪱 🐛 🦋 🐌 🐞 🐜 🦟 🦗 🕷️ 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦐 🦞 🦀 🐡 🐠 🐟 🐬 🐳 🐋 🦈 🦭 🐊 🐅 🐆 🦓 🦍 🦧 🦣 🐘 🦛 🦏 🐪 🐫 🦒 🦘 🦬 🐃 🐂 🐄 🐎 🐖 🐏 🐑 🦙 🐐 🦌 🐕 🐩 🦮 🐕‍🦺 🐈 🐈‍⬛ 🐓 🦃 🦤 🦚 🦜 🦢 🦩 🕊️ 🐇 🦝 🦨 🦡 🦫 🦦 🦥 🐁 🐀 🐿️ 🦔</p>
+
+<h3 id="food--drink">Food &amp; Drink</h3>
+<p>🍎 🍊 🍋 🍇 🍓 🫐 🍈 🍒 🍑 🥭 🍍 🥥 🥝 🍅 🫒 🍆 🥑 🫑 🥦 🧄 🧅 🌽 🫛 🥕 🫚 🥙 🧆 🥚 🍳 🥘 🍲 🫕 🥗 🥪 🫔 🌮 🌯 🥓 🥩 🍗 🍖 🦴 🍔 🍟 🍕 🌭 🥨 🧀 🥞 🧇 🍰 🎂 🧁 🥧 🍮 🍭 🍬 🍫 🍿 🍩 🍪 🌰 🥜 🍯 🧂 🥫 🍱 🍘 🍙 🍚 🍛 🍜 🍝 🍠 🍢 🍣 🍤 🍥 🥮 🍡 🥟 🥠 🥡 🦪 🍦 🍧 🍨 🍦 🧋 ☕ 🍵 🧃 🥤 🍶 🍺 🍻 🥂 🍷 🥃 🍸 🍹 🍾 🧊 🫗</p>
+
+<h3 id="travel--places">Travel &amp; Places</h3>
+<p>🚀 🛸 🚁 🛺 🚗 🚕 🚙 🛻 🚌 🚎 🏎️ 🚓 🚑 🚒 🚐 🛵 🏍️ 🚲 🛴 🛹 🛼 🚏 🛣️ 🚦 🚥 🚧 ⚓ ⛽ 🚢 ✈️ 🛩️ 🛫 🛬 💺 🚟 🚠 🚡 🚃 🚋 🚞 🚝 🚄 🚅 🚈 🚂 🚆 🚇 🚊 🚉 🏔️ 🗻 🏕️ 🏖️ 🏜️ 🏝️ 🏞️ 🏟️ 🗺️ 🗼 🗽 🗿 🏛️ 🕌 🏰 🏯</p>
+
+<h3 id="objects--symbols">Objects &amp; Symbols</h3>
+<p>📱 💻 🖥️ 🖨️ ⌨️ 🖱️ 🖲️ 💾 💿 📀 📷 📸 📹 🎞️ 📞 ☎️ 📟 📠 📺 📻 🎙️ 🎚️ 🎛️ ⏱️ ⏲️ ⏰ 🕰️ ⌛ ⏳ 📡 🔋 🔌 💡 🔦 🕯️ 🪔 🧯 🛢️ 💰 💴 💵 💶 💷 💸 💳 💹 ✉️ 📧 📨 📩 📤 📥 📦 📫 📪 📬 📭 📮 🗳️ ✏️ ✒️ 🖋️ 🖊️ 📝 📁 📂 🗂️ 📅 📆 🗒️ 🗓️ 📇 📈 📉 📊 📋 📌 📍 🗺️ 📎 🖇️ 📏 📐 ✂️ 🗃️ 🗄️ 🗑️</p>
+
+<h2 id="github-style-shortcode-emoji">GitHub-style Shortcode Emoji</h2>
+
+<p>Common development shortcodes:</p>
+
+<p>:tada: :rocket: :fire: :bug: :white_check_mark: :x: :warning: :information_source:
+:bulb: :memo: :hammer: :wrench: :construction: :art: :sparkles: :zap: :boom:
+:pencil: :clipboard: :bookmark: :label: :package: :shield: :lock: :key:
+:star: :star2: :dizzy: :eyes: :hear_no_evil: :see_no_evil: :speak_no_evil:
+:thumbsup: :thumbsdown: :clap: :raised_hands: :pray: :muscle: :100: :ok_hand:
+:heart: :orange_heart: :yellow_heart: :green_heart: :blue_heart: :purple_heart: :broken_heart:
+:skull: :ghost: :alien: :robot: :zombie: :ninja: :mage: :fairy:
+:apple: :pear: :banana: :grapes: :strawberry: :watermelon: :pizza: :hamburger:
+:coffee: :tea: :beer: :cocktail: :champagne: :wine_glass: :tropical_drink:
+:sunny: :cloud: :snow_cloud: :rainbow: :umbrella: :zap: :snowflake: :fire:
+:dog: :cat: :mouse: :rabbit: :fox_face: :bear: :panda_face: :koala: :tiger: :lion: :dragon:</p>
+
+<h2 id="emoji-in-prose">Emoji in Prose</h2>
+
+<p>Pull requests merged: ✅<br />
+Tests failing: ❌<br />
+New feature: ✨<br />
+Bug fix: 🐛<br />
+Breaking change: 💥<br />
+Documentation: 📝<br />
+Performance: ⚡<br />
+Security fix: 🔒<br />
+Dependency bump: ⬆️<br />
+Deprecation: 🗑️<br />
+Revert: ⏪<br />
+Work in progress: 🚧</p>
+
+<h2 id="emoji-in-a-table">Emoji in a Table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Emoji</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pass</td>
+      <td>✅</td>
+      <td>All checks passed</td>
+    </tr>
+    <tr>
+      <td>Fail</td>
+      <td>❌</td>
+      <td>One or more checks failed</td>
+    </tr>
+    <tr>
+      <td>Pending</td>
+      <td>⏳</td>
+      <td>Checks are running</td>
+    </tr>
+    <tr>
+      <td>Skipped</td>
+      <td>⏭️</td>
+      <td>Checks were skipped</td>
+    </tr>
+    <tr>
+      <td>Warning</td>
+      <td>⚠️</td>
+      <td>Passed with warnings</td>
+    </tr>
+    <tr>
+      <td>Blocked</td>
+      <td>🚫</td>
+      <td>Blocked by another check</td>
+    </tr>
+    <tr>
+      <td>New</td>
+      <td>🆕</td>
+      <td>Newly added</td>
+    </tr>
+    <tr>
+      <td>Breaking</td>
+      <td>💥</td>
+      <td>Breaking change</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="emoji-in-headings">Emoji in Headings</h2>
+
+<h3 id="-getting-started">🚀 Getting Started</h3>
+
+<p>Install the package:</p>
+
+<pre><code class="language-bash">npm install my-package
+</code></pre>
+
+<h3 id="-configuration">🔧 Configuration</h3>
+
+<p>Set the following environment variables:</p>
+
+<pre><code class="language-env">API_KEY=your_key_here
+DEBUG=true
+</code></pre>
+
+<h3 id="-api-documentation">📖 API Documentation</h3>
+
+<p>See the <a href="https://example.com">docs</a> for full details.</p>
+
+<h3 id="️-known-issues">⚠️ Known Issues</h3>
+
+<ul>
+  <li><del>Issue #123 — resolved in v2.0</del> ✅</li>
+  <li>Issue #456 — pending investigation 🔍</li>
+  <li>Issue #789 — help wanted 🙋</li>
+</ul>
+
+<h3 id="-contributing">🤝 Contributing</h3>
+
+<p>We welcome contributions! Please read our <a href="CONTRIBUTING.md">contributing guide</a> 💪</p>
+
+<h3 id="-license">📄 License</h3>
+
+<p>MIT © 2024 🎉</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

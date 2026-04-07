@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test math latex</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>test math latex</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        test math latex
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="math--latex-notation-test">Math &amp; LaTeX Notation Test</h1>
+
+<p>This file tests LaTeX / KaTeX math rendering in markdown.</p>
+
+<h2 id="inline-math">Inline Math</h2>
+
+<p>The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.</p>
+
+<p>Euler&#8217;s identity: $e^{i\pi} + 1 = 0$.</p>
+
+<p>The binomial coefficient: $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.</p>
+
+<p>A partial derivative: $\frac{\partial f}{\partial x} = 2x + y$.</p>
+
+<p>Greek letters: $\alpha$, $\beta$, $\gamma$, $\delta$, $\epsilon$, $\zeta$, $\eta$, $\theta$, $\lambda$, $\mu$, $\nu$, $\xi$, $\pi$, $\rho$, $\sigma$, $\tau$, $\phi$, $\chi$, $\psi$, $\omega$.</p>
+
+<h2 id="block-math">Block Math</h2>
+
+<p>The Gaussian integral:</p>
+
+<div class="kdmath">$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$</div>
+
+<p>Maxwell&#8217;s equations (Gauss&#8217;s law):</p>
+
+<div class="kdmath">$$
+\nabla \cdot \mathbf{E} = \frac{\rho}{\varepsilon_0}
+$$</div>
+
+<p>The Schrödinger equation:</p>
+
+<div class="kdmath">$$
+i\hbar\frac{\partial}{\partial t}\Psi(\mathbf{r},t) = \left[-\frac{\hbar^2}{2m}\nabla^2 + V(\mathbf{r},t)\right]\Psi(\mathbf{r},t)
+$$</div>
+
+<p>General relativity (Einstein field equations):</p>
+
+<div class="kdmath">$$
+G_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4} T_{\mu\nu}
+$$</div>
+
+<p>Fourier transform:</p>
+
+<div class="kdmath">$$
+\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)\, e^{-2\pi i x\xi}\, dx
+$$</div>
+
+<h2 id="summations-and-products">Summations and Products</h2>
+
+<p>Sum of squares: $\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}$</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Infinite geometric series: $\sum_{n=0}^{\infty} r^n = \frac{1}{1-r}$ for $</td>
+      <td>r</td>
+      <td>&lt; 1$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Product notation: $\prod_{i=1}^{n} x_i = x_1 \cdot x_2 \cdots x_n$</p>
+
+<div class="kdmath">$$
+\sum_{k=0}^{\infty} \frac{(-1)^k}{2k+1} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + \cdots = \frac{\pi}{4}
+$$</div>
+
+<h2 id="matrices">Matrices</h2>
+
+<div class="kdmath">$$
+A = \begin{pmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{pmatrix}
+$$</div>
+
+<p>A 2×2 determinant: $\det\begin{vmatrix} a &amp; b \ c &amp; d \end{vmatrix} = ad - bc$</p>
+
+<h2 id="limits-and-calculus">Limits and Calculus</h2>
+
+<div class="kdmath">$$
+\lim_{x \to 0} \frac{\sin x}{x} = 1
+$$</div>
+
+<p>The fundamental theorem of calculus:</p>
+
+<div class="kdmath">$$
+\int_a^b f'(x)\,dx = f(b) - f(a)
+$$</div>
+
+<h2 id="logic-and-set-notation">Logic and Set Notation</h2>
+
+<p>Universal quantification: $\forall x \in \mathbb{R},\; x^2 \geq 0$</p>
+
+<p>Existence: $\exists x \in \mathbb{N}: x &gt; 100$</p>
+
+<p>Set operations: $A \cup B$, $A \cap B$, $A \subseteq B$, $x \in S$, $S \setminus T$</p>
+
+<p>Number sets: $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C}$</p>
+
+<h2 id="probability-and-statistics">Probability and Statistics</h2>
+
+<p>Bayes&#8217; theorem:</p>
+
+<div class="kdmath">$$
+P(A \mid B) = \frac{P(B \mid A)\, P(A)}{P(B)}
+$$</div>
+
+<p>Normal distribution PDF:</p>
+
+<div class="kdmath">$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$</div>
+
+<p>Expected value: $\mathbb{E}[X] = \sum_{x} x\, P(X = x)$</p>
+
+<p>Variance: $\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$</p>
+
+<h2 id="mixed-prose">Mixed Prose</h2>
+
+<p>When computing the <strong>Big-O</strong> complexity, note that $O(n \log n)$ is asymptotically faster than $O(n^2)$ but slower than $O(n)$.</p>
+
+<p>The Taylor expansion of $e^x$ around $x=0$ is:</p>
+
+<div class="kdmath">$$
+e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!} = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+$$</div>
+
+<p>This converges for all $x \in \mathbb{R}$.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

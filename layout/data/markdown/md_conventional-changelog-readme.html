@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>conventional changelog README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>conventional changelog README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        conventional changelog README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="conventional-changelog">conventional-changelog</h1>
+
+<p><a href="https://nodejs.org/api/esm.html"><img src="../support/images/img.shields.io_badge_package-ESM--only-ffe536.svg" alt="ESM-only package" /></a>
+<a href="https://npmjs.com/package/conventional-changelog"><img src="../support/images/img.shields.io_npm_v_conventional-changelog.svg" alt="NPM version" /></a>
+<a href="https://nodejs.org"><img src="../support/images/img.shields.io_node_v_conventional-changelog.svg" alt="Node version" /></a>
+<a href="https://libraries.io/npm/conventional-changelog"><img src="../support/images/img.shields.io_librariesio_release_npm_conventional-changelog.svg" alt="Dependencies status" /></a>
+<a href="https://packagephobia.com/result?p=conventional-changelog"><img src="../support/images/packagephobia.com_badge_p_conventional-changelog.svg" alt="Install size" /></a>
+<a href="https://github.com/conventional-changelog/conventional-changelog/actions"><img src="../support/images/img.shields.io_github_actions_workflow_status_conventional-changelog_conventional-changelog_tests.yaml.svg" alt="Build status" /></a>
+<a href="https://coveralls.io/github/conventional-changelog/conventional-changelog?branch=master"><img src="../support/images/coveralls.io_repos_github_conventional-changelog_conventional-changelog_badge.svg" alt="Coverage status" /></a></p>
+
+<p>Generate a changelog from git metadata.</p>
+
+<p><em><a href="https://speakerdeck.com/stevemao/compose-a-changelog">Changelog?</a></em></p>
+
+<blockquote>
+  <p>[!NOTE]
+You don&#8217;t have to use the angular commit convention. For the best result of the tool to tokenize your commit and produce flexible output, it&#8217;s recommended to use a commit convention.</p>
+</blockquote>
+
+<hr />
+
+<p><a href="#install">Install</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#usage">Usage</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#recommended-workflow">Recommended workflow</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#why">Why</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#presets">Presets</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="#js-api">JS API</a>
+<br /></p>
+<hr />
+
+<h2 id="install">Install</h2>
+
+<pre><code class="language-bash"># pnpm
+pnpm add conventional-changelog
+# yarn
+yarn add conventional-changelog
+# npm
+npm i conventional-changelog
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<pre><code class="language-sh">conventional-changelog -p angular
+</code></pre>
+
+<p>This will <em>not</em> overwrite any previous changelogs. The above generates a changelog based on commits since the last semver tag that matches the pattern of &#8220;Feature&#8221;, &#8220;Fix&#8221;, &#8220;Performance Improvement&#8221; or &#8220;Breaking Changes&#8221;.</p>
+
+<p>If this is your first time using this tool and you want to generate all previous changelogs, you could do</p>
+
+<pre><code class="language-sh">conventional-changelog -p angular -r 0
+</code></pre>
+
+<p>This <em>will</em> overwrite any previous changelogs if they exist.</p>
+
+<p>All available command line parameters can be listed using CLI: <code>conventional-changelog --help</code>.</p>
+
+<blockquote>
+  <p>[!TIP]
+You can alias your command or add it to your package.json. EG: <code>"changelog": "conventional-changelog -p angular -r 0"</code>.</p>
+</blockquote>
+
+<h2 id="recommended-workflow">Recommended workflow</h2>
+
+<ol>
+  <li>Make changes</li>
+  <li>Commit those changes</li>
+  <li>Make sure Travis turns green</li>
+  <li>Bump version in <code>package.json</code></li>
+  <li><code>conventional-changelog</code></li>
+  <li>Commit <code>package.json</code> and <code>CHANGELOG.md</code> files</li>
+  <li>Tag</li>
+  <li>Push</li>
+</ol>
+
+<p>The reason why you should commit and tag after <code>conventional-changelog</code> is that the CHANGELOG should be included in the new release, hence <code>commits.from</code> defaults to the latest semver tag.</p>
+
+<h3 id="with-npm-version">With <code>npm version</code></h3>
+
+<p>Using the npm scripts to our advantage with the following hooks:</p>
+
+<pre><code class="language-json">{
+  "scripts": {
+    "version": "conventional-changelog -p angular &amp;&amp; git add CHANGELOG.md"
+  }
+}
+</code></pre>
+
+<p>You could follow the following workflow</p>
+
+<ol>
+  <li>Make changes</li>
+  <li>Commit those changes</li>
+  <li>Pull all the tags</li>
+  <li>Run the <a href="https://docs.npmjs.com/cli/version"><code>npm version [patch|minor|major]</code></a> command</li>
+  <li>Push</li>
+</ol>
+
+<p>You could optionally add a <code>preversion</code> script to package your project or running a full suit of test.
+And a <code>postversion</code> script to clean your system and push your release and tags.</p>
+
+<p>By adding a <code>.npmrc</code> you could also automate your commit message and set your tag prefix as such:</p>
+
+<pre><code>tag-version-prefix=""
+message="chore(release): %s :tada:"
+</code></pre>
+
+<h2 id="why">Why</h2>
+
+<ul>
+  <li>Easy fully automate changelog generation. You could still add more points on top of it.</li>
+  <li>Ignoring reverted commits, templating with <a href="https://github.com/handlebars-lang/handlebars.js">handlebars.js</a> and links to references, etc.</li>
+  <li>Intelligently setup defaults but yet fully configurable with presets of <a href="#presets">popular projects</a>.</li>
+  <li>Everything internally or externally is pluggable.</li>
+  <li>A lot of tests and actively maintained.</li>
+</ul>
+
+<h2 id="presets">Presets</h2>
+
+<ul>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular">angular</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-atom">atom</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-codemirror">codemirror</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-conventionalcommits">conventionalcommits</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-ember">ember</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-eslint">eslint</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-express">express</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-jquery">jquery</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-jshint">jshint</a></li>
+</ul>
+
+<h2 id="js-api">JS API</h2>
+
+<pre><code class="language-js">import { ConventionalChangelog } from 'conventional-changelog'
+
+const generator = new ConventionalChangelog()
+  .readPackage()
+  .loadPreset('angular')
+
+generator
+  .writeStream()
+  .pipe(process.stdout)
+
+// or
+
+for await (const chunk of generator.write()) {
+  console.log(chunk)
+}
+</code></pre>
+
+<h3 id="new-conventionalchangelogcwdorgitclient-string--conventionalgitclient--processcwd"><code>new ConventionalChangelog(cwdOrGitClient: string | ConventionalGitClient = process.cwd())</code></h3>
+
+<p>Create a new instance of conventional-changelog generator. <code>cwdOrGitClient</code> is the current working directory or a <code>ConventionalGitClient</code> instance.</p>
+
+<h4 id="generatorloadpresetpreset-presetparams-this"><code>generator.loadPreset(preset: PresetParams): this</code></h4>
+
+<p>Load and set necessary params from a preset.</p>
+
+<h4 id="generatorconfigconfig-preset--promisepreset-this"><code>generator.config(config: Preset | Promise&lt;Preset&gt;): this</code></h4>
+
+<p>Set the config directly.</p>
+
+<h4 id="generatorreadpackagetransform-packagetransform-this"><code>generator.readPackage(transform?: PackageTransform): this</code></h4>
+
+<p>Find <code>package.json</code> up the directory tree and read it. Optionally transform the package data.</p>
+
+<h4 id="generatorreadpackagepath-string-transform-packagetransform-this"><code>generator.readPackage(path: string, transform?: PackageTransform): this</code></h4>
+
+<p>Read a <code>package.json</code> file from a specific path. Optionally transform the package data.</p>
+
+<h4 id="generatorpackagepkg-recordstring-unknown-this"><code>generator.package(pkg: Record&lt;string, unknown&gt;): this</code></h4>
+
+<p>Set the package data directly.</p>
+
+<h4 id="generatorreadrepository-this"><code>generator.readRepository(): this</code></h4>
+
+<p>Read and parse the repository URL from current git repository.</p>
+
+<h4 id="generatorrepositoryinfoorgiturl-string--partialhostedgitinfo-this"><code>generator.repository(infoOrGitUrl: string | Partial&lt;HostedGitInfo&gt;): this</code></h4>
+
+<p>Set the repository info directly.</p>
+
+<h4 id="generatoroptionsoptions-options-this"><code>generator.options(options: Options): this</code></h4>
+
+<p>Set conventional-changelog options.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>reset</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Whether to reset the changelog or not.</td>
+    </tr>
+    <tr>
+      <td>append</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Should the log be appended to existing data.</td>
+    </tr>
+    <tr>
+      <td>releaseCount</td>
+      <td><code>number</code></td>
+      <td>1</td>
+      <td>How many releases of changelog you want to generate. It counts from the upcoming release. Useful when you forgot to generate any previous changelog. Set to <code>0</code> to regenerate all.</td>
+    </tr>
+    <tr>
+      <td>outputUnreleased</td>
+      <td><code>boolean</code></td>
+      <td><code>true</code> if a different version than last release is given. Otherwise <code>false</code></td>
+      <td>If this value is <code>true</code> and <code>context.version</code> equals last release then <code>context.version</code> will be changed to <code>'Unreleased'</code>.</td>
+    </tr>
+    <tr>
+      <td>transformCommit</td>
+      <td><code>(commit: Commit, params: Params) =&gt; Partial&lt;Commit&gt; \| Promise&lt;Partial&lt;Commit&gt; \| null&gt; \| null</code></td>
+      <td>&#160;</td>
+      <td>A transform function that applies after the parser and before the writer.</td>
+    </tr>
+    <tr>
+      <td>warn</td>
+      <td><code>function</code></td>
+      <td>&#160;</td>
+      <td>Logger for warnings</td>
+    </tr>
+    <tr>
+      <td>debug</td>
+      <td><code>function</code></td>
+      <td>&#160;</td>
+      <td>Logger for debug messages</td>
+    </tr>
+    <tr>
+      <td>formatDate</td>
+      <td><code>(date: Date) =&gt; string</code></td>
+      <td>&#160;</td>
+      <td>Custom date formatter function.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="generatorcontextcontext-context-this"><code>generator.context(context: Context): this</code></h4>
+
+<p>Set the <a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-writer#context">writer context</a>.</p>
+
+<h4 id="generatortagsparams-getsemvertagsparams-this"><code>generator.tags(params: GetSemverTagsParams): this</code></h4>
+
+<p>Set params to get semver tags.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>prefix</td>
+      <td><code>string \| RegExp</code></td>
+      <td>&#160;</td>
+      <td>Specify a prefix for the git tag that will be taken into account during the comparison.</td>
+    </tr>
+    <tr>
+      <td>skipUnstable</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>If set, unstable release tags will be skipped, e.g. x.x.x-rc.</td>
+    </tr>
+    <tr>
+      <td>clean</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Clean version from prefix and trash.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If you want to take package-prefixed tags, for example lerna-style tags, you should use <code>packagePrefix</code> utility function:</p>
+
+<pre><code class="language-js">import {
+  ConventionalChangelog,
+  packagePrefix
+} from 'conventional-changelog'
+
+const generator = new ConventionalChangelog()
+  .readPackage()
+  .loadPreset('angular')
+  .tags({
+    prefix: packagePrefix('foo-package')
+  })
+</code></pre>
+
+<h4 id="generatorcommitsparams-getcommitsparams-parseroptions-parserstreamoptions-this"><code>generator.commits(params: GetCommitsParams, parserOptions?: ParserStreamOptions): this</code></h4>
+
+<p>Set params to get commits.</p>
+
+<ul>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/blob/master/packages/git-client/src/types.ts#L1-L41">GetCommitsParams</a></li>
+  <li><a href="https://github.com/conventional-changelog/conventional-changelog/blob/master/packages/conventional-commits-parser/src/types.ts#L1-L68">ParserStreamOptions</a></li>
+</ul>
+
+<h4 id="generatorwriterparams-writeroptions-this"><code>generator.writer(params: WriterOptions): this</code></h4>
+
+<p>Set <a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-writer#options">writer options</a>.</p>
+
+<h4 id="generatorwriteincludedetails-boolean-asyncgeneratorstring--detailscommit-void"><code>generator.write(includeDetails?: boolean): AsyncGenerator&lt;string | Details&lt;Commit&gt;, void&gt;</code></h4>
+
+<p>Generate changelog.</p>
+
+<h4 id="generatorwritestreamincludedetails-boolean-readable"><code>generator.writeStream(includeDetails?: boolean): Readable</code></h4>
+
+<p>Generate changelog stream.</p>
+
+<h2 id="license">License</h2>
+
+<p>MIT</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

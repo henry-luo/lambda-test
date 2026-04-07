@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jest CHANGELOG</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>jest CHANGELOG</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        jest CHANGELOG
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h2 id="main">main</h2>
+
+<h2 id="3030">30.3.0</h2>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li><code>[jest-config]</code> Add <code>defineConfig</code> and <code>mergeConfig</code> helpers for type-safe Jest config (<a href="https://github.com/jestjs/jest/pull/15844">#15844</a>)</li>
+  <li><code>[jest-fake-timers]</code> Add <code>setTimerTickMode</code> to configure how timers advance</li>
+  <li><code>[*]</code> Reduce token usage when run through LLMs (<a href="https://github.com/jestjs/jest/commit/3f17932061c0203999451e5852664093de876709"><code>3f17932</code></a>)</li>
+</ul>
+
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+  <li><code>[jest-config]</code> Keep CLI coverage output when using <code>--json</code> with <code>--outputFile</code> (<a href="https://github.com/jestjs/jest/pull/15918">#15918</a>)</li>
+  <li><code>[jest-mock]</code> Use <code>Symbol</code> from test environment (<a href="https://github.com/jestjs/jest/pull/15858">#15858</a>)</li>
+  <li><code>[jest-reporters]</code> Fix issue where console output not displayed for GHA reporter even with <code>silent: false</code> option (<a href="https://github.com/jestjs/jest/pull/15864">#15864</a>)</li>
+  <li><code>[jest-runtime]</code> Fix issue where user cannot utilize dynamic import despite specifying <code>--experimental-vm-modules</code> Node option (<a href="https://github.com/jestjs/jest/pull/15842">#15842</a>)</li>
+  <li><code>[jest-test-sequencer]</code> Fix issue where failed tests due to compilation errors not getting re-executed even with <code>--onlyFailures</code> CLI option (<a href="https://github.com/jestjs/jest/pull/15851">#15851</a>)</li>
+  <li><code>[jest-util]</code> Make sure <code>process.features.require_module</code> is <code>false</code> (<a href="https://github.com/jestjs/jest/pull/15867">#15867</a>)</li>
+</ul>
+
+<h3 id="chore--maintenance">Chore &amp; Maintenance</h3>
+
+<ul>
+  <li><code>[*]</code> Replace remaining micromatch uses with picomatch</li>
+  <li><code>[deps]</code> Update to sinon/fake-timers v15</li>
+  <li><code>[docs]</code> Update V30 migration guide to notify users on <code>jest.mock()</code> work with case-sensitive path (<a href="https://github.com/jestjs/jest/pull/15849">#15849</a>)</li>
+  <li>Updated Twitter icon to match the latest brand guidelines (<a href="https://github.com/jestjs/jest/pull/15869">#15869</a>)</li>
+</ul>
+
+<h2 id="3020">30.2.0</h2>
+
+<h3 id="chore--maintenance-1">Chore &amp; Maintenance</h3>
+
+<ul>
+  <li><code>[*]</code> Update example repo for testing React Native projects (<a href="https://github.com/jestjs/jest/pull/15832">#15832</a>)</li>
+  <li><code>[*]</code> Update <code>jest-watch-typeahead</code> to v3 (<a href="https://github.com/jestjs/jest/pull/15830">#15830</a>)</li>
+</ul>
+
+<h2 id="features-1">Features</h2>
+
+<ul>
+  <li><code>[jest-environment-jsdom-abstract]</code> Add support for JSDOM v27 (<a href="https://github.com/jestjs/jest/pull/15834">#15834</a>)</li>
+</ul>
+
+<h3 id="fixes-1">Fixes</h3>
+
+<ul>
+  <li><code>[jest-matcher-utils]</code> Fix infinite recursion with self-referential getters in <code>deepCyclicCopyReplaceable</code> (<a href="https://github.com/jestjs/jest/pull/15831">#15831</a>)</li>
+  <li><code>[babel-jest]</code> Export the <code>TransformerConfig</code> interface (<a href="https://github.com/jestjs/jest/pull/15820">#15820</a>)</li>
+  <li><code>[jest-config]</code> Fix <code>jest.config.ts</code> with TS loader specified in docblock pragma (<a href="https://github.com/jestjs/jest/pull/15839">#15839</a>)</li>
+</ul>
+
+<h2 id="3013">30.1.3</h2>
+
+<h3 id="fixes-2">Fixes</h3>
+
+<ul>
+  <li>Fix <code>unstable_mockModule</code> with <code>node:</code> prefixed core modules.</li>
+</ul>
+
+<h2 id="3012">30.1.2</h2>
+
+<h3 id="fixes-3">Fixes</h3>
+
+<ul>
+  <li><code>[jest-snapshot-utils]</code> Correct snapshot header regexp to work with newline across OSes (<a href="https://github.com/jestjs/jest/pull/15803">#15803</a>)</li>
+</ul>
+
+<h2 id="3011">30.1.1</h2>
+
+<h3 id="fixes-4">Fixes</h3>
+
+<ul>
+  <li><code>[jest-snapshot-utils]</code> Fix deprecated goo.gl snapshot warning not handling Windows end-of-line sequences (<a href="https://github.com/jestjs/jest/pull/15800">#15800</a>)</li>
+  <li><code>[jest-snapshot-utils]</code> Improve messaging about goo.gl snapshot link change (<a href="https://github.com/jestjs/jest/pull/15821">#15821</a>)</li>
+</ul>
+
+<h2 id="3010">30.1.0</h2>
+
+<h2 id="features-2">Features</h2>
+
+<ul>
+  <li><code>[jest-leak-detector]</code> Configurable GC aggressiveness regarding to V8 heap snapshot generation (<a href="https://github.com/jestjs/jest/pull/15793/">#15793</a>)</li>
+  <li><code>[jest-runtime]</code> Reduce redundant ReferenceError messages</li>
+  <li><code>[jest-core]</code> Include test modules that failed to load when &#8211;onlyFailures is active</li>
+</ul>
+
+<h3 id="fixes-5">Fixes</h3>
+
+<ul>
+  <li><code>[jest-snapshot-utils]</code> Fix deprecated goo.gl snapshot guide link not getting replaced with fully canonical URL (<a href="https://github.com/jestjs/jest/pull/15787">#15787</a>)</li>
+  <li><code>[jest-circus]</code> Fix <code>it.concurrent</code> not working with <code>describe.skip</code> (<a href="https://github.com/jestjs/jest/pull/15765">#15765</a>)</li>
+  <li><code>[jest-snapshot]</code> Fix mangled inline snapshot updates when used with Prettier 3 and CRLF line endings</li>
+  <li><code>[jest-runtime]</code> Importing from <code>@jest/globals</code> in more than one file no longer breaks relative paths (<a href="https://github.com/jestjs/jest/issues/15772">#15772</a>)</li>
+</ul>
+
+<h1 id="chore">Chore</h1>
+
+<ul>
+  <li><code>[expect]</code> Update docblock for <code>toContain()</code> to display info on substring check (<a href="https://github.com/jestjs/jest/pull/15789">#15789</a>)</li>
+</ul>
+
+<h2 id="3005">30.0.5</h2>
+
+<h3 id="features-3">Features</h3>
+
+<ul>
+  <li><code>[jest-config]</code> Allow <code>testMatch</code> to take a string value</li>
+  <li><code>[jest-worker]</code> Let <code>workerIdleMemoryLimit</code> accept 0 to always restart worker child processes</li>
+</ul>
+
+<h3 id="fixes-6">Fixes</h3>
+
+<ul>
+  <li><code>[expect]</code> Fix <code>bigint</code> error (<a href="https://github.com/jestjs/jest/pull/15702">#15702</a>)</li>
+</ul>
+
+<h2 id="3004">30.0.4</h2>
+
+<h3 id="features-4">Features</h3>
+
+<ul>
+  <li><code>[expect]</code> The <code>Inverse</code> type is now exported (<a href="https://github.com/jestjs/jest/pull/15714">#15714</a>)</li>
+  <li><code>[expect]</code> feat: support <code>async functions</code> in <code>toBe</code> (<a href="https://github.com/jestjs/jest/pull/15704">#15704</a>)</li>
+</ul>
+
+<h3 id="fixes-7">Fixes</h3>
+
+<ul>
+  <li><code>[jest]</code> jest &#8211;onlyFailures &#8211;listTests now correctly lists only failed tests (#15700)</li>
+  <li><code>[jest-snapshot]</code> Handle line endings in snapshots (<a href="https://github.com/jestjs/jest/pull/15708">#15708</a>)</li>
+</ul>
+
+<h2 id="3003">30.0.3</h2>
+
+<h3 id="fixes-8">Fixes</h3>
+
+<ul>
+  <li><code>[jest-config]</code> Fix ESM TS config loading in a CJS project (<a href="https://github.com/jestjs/jest/pull/15694">#15694</a>)</li>
+  <li><code>[jest-core]</code> jest &#8211;onlyFailures &#8211;listTests now correctly lists only failed tests(<a href="https://github.com/jestjs/jest/pull/15700">#15700</a>)</li>
+</ul>
+
+<h3 id="features-5">Features</h3>
+
+<ul>
+  <li><code>[jest-diff]</code> Show non-printable control characters to diffs (<a href="https://github.com/facebook/jest/pull/15696">#15696</a>)</li>
+</ul>
+
+<h2 id="3002">30.0.2</h2>
+
+<h3 id="fixes-9">Fixes</h3>
+
+<ul>
+  <li><code>[jest-matcher-utils]</code> Make &#8216;deepCyclicCopyObject&#8217; safer by setting descriptors to a null-prototype object (<a href="https://github.com/jestjs/jest/pull/15689">#15689</a>)</li>
+  <li><code>[jest-util]</code> Make garbage collection protection property writable (<a href="https://github.com/jestjs/jest/pull/15689">#15689</a>)</li>
+</ul>
+
+<h2 id="3001">30.0.1</h2>
+
+<h3 id="features-6">Features</h3>
+
+<ul>
+  <li><code>[jest-resolver]</code> Implement the <code>defaultAsyncResolver</code> (<a href="https://github.com/jestjs/jest/pull/15679">#15679</a>)</li>
+</ul>
+
+<h3 id="fixes-10">Fixes</h3>
+
+<ul>
+  <li><code>[jest-resolver]</code> Resolve builtin modules correctly (<a href="https://github.com/jestjs/jest/pull/15683">#15683</a>)</li>
+  <li><code>[jest-environment-node, jest-util]</code> Avoid setting globals cleanup protection symbol when feature is off (<a href="https://github.com/jestjs/jest/pull/15684">#15684</a>)</li>
+</ul>
+
+<h3 id="chore--maintenance-2">Chore &amp; Maintenance</h3>
+
+<ul>
+  <li><code>[*]</code> Remove and deprecate <code>jest-repl</code> package (<a href="https://github.com/jestjs/jest/pull/15673">#15673</a>)</li>
+  <li><code>[jest-resolver]</code> Replace custom <code>isBuiltinModule</code> with node&#8217;s <code>isBuiltin</code> (<a href="https://github.com/jestjs/jest/pull/15685">#15685</a>)</li>
+</ul>
+
+<h2 id="3000">30.0.0</h2>
+
+<h3 id="features-7">Features</h3>
+
+<ul>
+  <li><code>[*]</code> Renamed <code>globalsCleanupMode</code> to <code>globalsCleanup</code> and <code>--waitNextEventLoopTurnForUnhandledRejectionEvents</code> to <code>--waitForUnhandledRejections</code></li>
+  <li><code>[expect]</code> Add <code>ArrayOf</code> asymmetric matcher for validating array elements. (<a href="https://github.com/jestjs/jest/pull/15567">#15567</a>)</li>
+  <li><code>[babel-jest]</code> Add option <code>excludeJestPreset</code> to allow opting out of <code>babel-preset-jest</code> (<a href="https://github.com/jestjs/jest/pull/15164">#15164</a>)</li>
+  <li><code>[expect]</code> Revert <a href="https://github.com/jestjs/jest/pull/15038">#15038</a> to fix <code>expect(fn).toHaveBeenCalledWith(expect.objectContaining(...))</code> when there are multiple calls (<a href="https://github.com/jestjs/jest/pull/15508">#15508</a>)</li>
+  <li><code>[jest-circus, jest-cli, jest-config]</code> Add <code>waitNextEventLoopTurnForUnhandledRejectionEvents</code> flag to minimise performance impact of correct detection of unhandled promise rejections introduced in <a href="https://github.com/jestjs/jest/pull/14315">#14315</a> (<a href="https://github.com/jestjs/jest/pull/14681">#14681</a>)</li>
+  <li><code>[jest-circus]</code> Add a <code>waitBeforeRetry</code> option to <code>jest.retryTimes</code> (<a href="https://github.com/jestjs/jest/pull/14738">#14738</a>)</li>
+  <li><code>[jest-circus]</code> Add a <code>retryImmediately</code> option to <code>jest.retryTimes</code> (<a href="https://github.com/jestjs/jest/pull/14696">#14696</a>)</li>
+  <li><code>[jest-circus, jest-jasmine2]</code> Allow <code>setupFilesAfterEnv</code> to export an async function (<a href="https://github.com/jestjs/jest/issues/10962">#10962</a>)</li>
+  <li><code>[jest-circus, jest-test-result]</code> Add <code>startedAt</code> timestamp in <code>TestCaseResultObject</code> within <code>onTestCaseResult</code> (<a href="https://github.com/jestjs/jest/pull/15145">#15145</a>)</li>
+  <li><code>[jest-cli]</code> Export <code>buildArgv</code> (<a href="https://github.com/facebook/jest/pull/15310">#15310</a>)</li>
+  <li><code>[jest-config]</code> [<strong>BREAKING</strong>] Add <code>mts</code> and <code>cts</code> to default <code>moduleFileExtensions</code> config (<a href="https://github.com/facebook/jest/pull/14369">#14369</a>)</li>
+  <li><code>[jest-config]</code> [<strong>BREAKING</strong>] Update <code>testMatch</code> and <code>testRegex</code> default option for supporting <code>mjs</code>, <code>cjs</code>, <code>mts</code>, and <code>cts</code> (<a href="https://github.com/jestjs/jest/pull/14584">#14584</a>)</li>
+  <li><code>[jest-config]</code> Loads config file from provided path in <code>package.json</code> (<a href="https://github.com/facebook/jest/pull/14044">#14044</a>)</li>
+  <li><code>[jest-config]</code> Allow loading <code>jest.config.cts</code> files (<a href="https://github.com/facebook/jest/pull/14070">#14070</a>)</li>
+  <li><code>[jest-config]</code> Show <code>rootDir</code> in error message when a <code>preset</code> fails to load (<a href="https://github.com/jestjs/jest/pull/15194">#15194</a>)</li>
+  <li><code>[jest-config]</code> Support loading TS config files using <code>esbuild-register</code> via docblock loader (<a href="https://github.com/jestjs/jest/pull/15190">#15190</a>)</li>
+  <li><code>[jest-config]</code> Allow passing TS config loader options via docblock comment (<a href="https://github.com/jestjs/jest/pull/15234">#15234</a>)</li>
+  <li><code>[jest-config]</code> If Node is running with type stripping enabled, do not require a TS loader (<a href="https://github.com/jestjs/jest/pull/15480">#15480</a>)</li>
+  <li><code>[@jest/core]</code> Group together open handles with the same stack trace (<a href="https://github.com/jestjs/jest/pull/13417">#13417</a>, &amp; <a href="https://github.com/jestjs/jest/pull/14789">#14789</a>)</li>
+  <li><code>[@jest/core]</code> Add <code>perfStats</code> to surface test setup overhead (<a href="https://github.com/jestjs/jest/pull/14622">#14622</a>)</li>
+  <li><code>[@jest/core]</code> [<strong>BREAKING</strong>] Changed <code>--filter</code> to accept an object with shape <code>{ filtered: Array&lt;string&gt; }</code> to match <a href="https://jestjs.io/docs/cli#--filterfile">documentation</a> (<a href="https://github.com/jestjs/jest/pull/13319">#13319</a>)</li>
+  <li><code>[@jest/core]</code> Support <code>--outputFile</code> option for <a href="https://jestjs.io/docs/cli#--listtests"><code>--listTests</code></a> (<a href="https://github.com/jestjs/jest/pull/14980">#14980</a>)</li>
+  <li><code>[@jest/core]</code> Stringify Errors properly with <code>--json</code> flag (<a href="https://github.com/jestjs/jest/pull/15329">#15329</a>)</li>
+  <li><code>[@jest/core, @jest/test-sequencer]</code> [<strong>BREAKING</strong>] Exposes <code>globalConfig</code> &amp; <code>contexts</code> to <code>TestSequencer</code> (<a href="https://github.com/jestjs/jest/pull/14535">#14535</a>, &amp; <a href="https://github.com/jestjs/jest/pull/14543">#14543</a>)</li>
+  <li><code>[jest-each]</code> Introduce <code>%$</code> option to add number of the test to its title (<a href="https://github.com/jestjs/jest/pull/14710">#14710</a>)</li>
+  <li><code>[@jest/environment]</code> [<strong>BREAKING</strong>] Remove deprecated <code>jest.genMockFromModule()</code> (<a href="https://github.com/jestjs/jest/pull/15042">#15042</a>)</li>
+  <li><code>[@jest/environment]</code> [<strong>BREAKING</strong>] Remove unnecessary defensive code (<a href="https://github.com/jestjs/jest/pull/15045">#15045</a>)</li>
+  <li><code>[jest-environment-jsdom]</code> [<strong>BREAKING</strong>] Upgrade JSDOM to v22 (<a href="https://github.com/jestjs/jest/pull/13825">#13825</a>)</li>
+  <li><code>[@jest/environment-jsdom-abstract]</code> Introduce new package which abstracts over the <code>jsdom</code> environment, allowing usage of custom versions of JSDOM (<a href="https://github.com/jestjs/jest/pull/14717">#14717</a>)</li>
+  <li><code>[jest-environment-node]</code> Update jest environment with dispose symbols <code>Symbol</code> (<a href="https://github.com/jestjs/jest/pull/14888">#14888</a> &amp; <a href="https://github.com/jestjs/jest/pull/14909">#14909</a>)</li>
+  <li><code>[expect, @jest/expect]</code> [<strong>BREAKING</strong>] Add type inference for function parameters in <code>CalledWith</code> assertions (<a href="https://github.com/facebook/jest/pull/15129">#15129</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Properly compare all types of <code>TypedArray</code>s (<a href="https://github.com/facebook/jest/pull/15178">#15178</a>)</li>
+  <li><code>[@jest/fake-timers]</code> [<strong>BREAKING</strong>] Upgrade <code>@sinonjs/fake-timers</code> to v13 (<a href="https://github.com/jestjs/jest/pull/14544">#14544</a> &amp; <a href="https://github.com/jestjs/jest/pull/15470">#15470</a>)</li>
+  <li><code>[@jest/fake-timers]</code> Exposing new modern timers function <code>advanceTimersToFrame()</code> which advances all timers by the needed milliseconds to execute callbacks currently scheduled with <code>requestAnimationFrame</code> (<a href="https://github.com/jestjs/jest/pull/14598">#14598</a>)</li>
+  <li><code>[jest-matcher-utils]</code> Add <code>SERIALIZABLE_PROPERTIES</code> to allow custom serialization of objects (<a href="https://github.com/jestjs/jest/pull/14893">#14893</a>)</li>
+  <li><code>[jest-mock]</code> Add support for the Explicit Resource Management proposal to use the <code>using</code> keyword with <code>jest.spyOn(object, methodName)</code> (<a href="https://github.com/jestjs/jest/pull/14895">#14895</a>)</li>
+  <li><code>[jest-reporters]</code> Add support for <a href="https://gist.github.com/christianparpart/d8a62cc1ab659194337d73e399004036">DEC mode 2026</a> (<a href="https://github.com/jestjs/jest/pull/15008">#15008</a>)</li>
+  <li><code>[jest-resolver]</code> Support <code>file://</code> URLs as paths (<a href="https://github.com/jestjs/jest/pull/15154">#15154</a>)</li>
+  <li><code>[jest-resolve,jest-runtime,jest-resolve-dependencies]</code> Pass the conditions when resolving stub modules (<a href="https://github.com/jestjs/jest/pull/15489">#15489</a>)</li>
+  <li><code>[jest-runtime]</code> Exposing new modern timers function <code>jest.advanceTimersToFrame()</code> from <code>@jest/fake-timers</code> (<a href="https://github.com/jestjs/jest/pull/14598">#14598</a>)</li>
+  <li><code>[jest-runtime]</code> Support <code>import.meta.filename</code> and <code>import.meta.dirname</code> (available from <a href="https://nodejs.org/en/blog/release/v20.11.0">Node 20.11</a>) (<a href="https://github.com/jestjs/jest/pull/14854">#14854</a>)</li>
+  <li><code>[jest-runtime]</code> Support <code>import.meta.resolve</code> (<a href="https://github.com/jestjs/jest/pull/14930">#14930</a>)</li>
+  <li><code>[jest-runtime]</code> [<strong>BREAKING</strong>] Make it mandatory to pass <code>globalConfig</code> to the <code>Runtime</code> constructor (<a href="https://github.com/jestjs/jest/pull/15044">#15044</a>)</li>
+  <li><code>[jest-runtime]</code> Add <code>unstable_unmockModule</code> (<a href="https://github.com/jestjs/jest/pull/15080">#15080</a>)</li>
+  <li><code>[jest-runtime]</code> Add <code>onGenerateMock</code> transformer callback for auto generated callbacks (<a href="https://github.com/jestjs/jest/pull/15433">#15433</a> &amp; <a href="https://github.com/jestjs/jest/pull/15482">#15482</a>)</li>
+  <li><code>[jest-runtime]</code> [<strong>BREAKING</strong>] Use <code>vm.compileFunction</code> over <code>vm.Script</code> (<a href="https://github.com/jestjs/jest/pull/15461">#15461</a>)</li>
+  <li><code>[@jest/schemas]</code> Upgrade <code>@sinclair/typebox</code> to v0.34 (<a href="https://github.com/jestjs/jest/pull/15450">#15450</a>)</li>
+  <li><code>[@jest/types]</code> <code>test.each()</code>: Accept a readonly (<code>as const</code>) table properly (<a href="https://github.com/jestjs/jest/pull/14565">#14565</a>)</li>
+  <li><code>[@jest/types]</code> Improve argument type inference passed to <code>test</code> and <code>describe</code> callback functions from <code>each</code> tables (<a href="https://github.com/jestjs/jest/pull/14920">#14920</a>)</li>
+  <li><code>[jest-snapshot]</code> [<strong>BREAKING</strong>] Add support for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause">Error causes</a> in snapshots (<a href="https://github.com/facebook/jest/pull/13965">#13965</a>)</li>
+  <li><code>[jest-snapshot]</code> Support Prettier 3 (<a href="https://github.com/facebook/jest/pull/14566">#14566</a>)</li>
+  <li><code>[@jest/util-snapshot]</code> Extract utils used by tooling from <code>jest-snapshot</code> into its own package (<a href="https://github.com/facebook/jest/pull/15095">#15095</a>)</li>
+  <li><code>[pretty-format]</code> [<strong>BREAKING</strong>] Do not render empty string children (<code>''</code>) in React plugin (<a href="https://github.com/facebook/jest/pull/14470">#14470</a>)</li>
+</ul>
+
+<h3 id="fixes-11">Fixes</h3>
+
+<ul>
+  <li><code>[expect]</code> Show <code>AggregateError</code> to display (<a href="https://github.com/facebook/jest/pull/15346">#15346</a>)</li>
+  <li><code>[*]</code> Replace <code>exit</code> with <code>exit-x</code> (<a href="https://github.com/jestjs/jest/pull/15399">#15399</a>)</li>
+  <li><code>[babel-plugin-jest-hoist]</code> Use <code>denylist</code> instead of the deprecated <code>blacklist</code> for Babel 8 support (<a href="https://github.com/jestjs/jest/pull/14109">#14109</a>)</li>
+  <li><code>[babel-plugin-jest-hoist]</code> Do not rely on buggy Babel behaviour (<a href="https://github.com/jestjs/jest/pull/15415">#15415</a>)</li>
+  <li><code>[expect]</code> Check error instance type for <code>toThrow/toThrowError</code> (<a href="https://github.com/jestjs/jest/pull/14576">#14576</a>)</li>
+  <li><code>[expect]</code> Improve diff for failing <code>expect.objectContaining</code> (<a href="https://github.com/jestjs/jest/pull/15038">#15038</a>)</li>
+  <li><code>[expect]</code> Use <code>Array.isArray</code> to check if an array is an <code>Array</code> (<a href="https://github.com/jestjs/jest/pull/15101">#15101</a>)</li>
+  <li><code>[expect]</code> Fix Error <code>cause</code> assertion errors (<a href="https://github.com/jestjs/jest/pull/15339">#15339</a>)</li>
+  <li><code>[jest-changed-files]</code> Print underlying errors when VCS commands fail (<a href="https://github.com/jestjs/jest/pull/15052">#15052</a>)</li>
+  <li><code>[jest-changed-files]</code> Abort <code>sl root</code> call if output resembles a steam locomotive (<a href="https://github.com/jestjs/jest/pull/15053">#15053</a>)</li>
+  <li><code>[jest-circus]</code> [<strong>BREAKING</strong>] Prevent false test failures caused by promise rejections handled asynchronously (<a href="https://github.com/jestjs/jest/pull/14315">#14315</a>)</li>
+  <li><code>[jest-circus]</code> Replace recursive <code>makeTestResults</code> implementation with iterative one (<a href="https://github.com/jestjs/jest/pull/14760">#14760</a>)</li>
+  <li><code>[jest-circus]</code> Omit <code>expect.hasAssertions()</code> errors if a test already has errors (<a href="https://github.com/jestjs/jest/pull/14866">#14866</a>)</li>
+  <li><code>[jest-circus, jest-expect, jest-snapshot]</code> Pass <code>test.failing</code> tests when containing failing snapshot matchers (<a href="https://github.com/jestjs/jest/pull/14313">#14313</a>)</li>
+  <li><code>[jest-circus]</code> Concurrent tests now emit jest circus events at the correct point and in the expected order. (<a href="https://github.com/jestjs/jest/pull/15381">#15381</a>)</li>
+  <li><code>[jest-cli]</code> [<strong>BREAKING</strong>] Validate CLI flags that require arguments receives them (<a href="https://github.com/jestjs/jest/pull/14783">#14783</a>)</li>
+  <li><code>[jest-config]</code> Make sure to respect <code>runInBand</code> option (<a href="https://github.com/jestjs/jest/pull/14578">#14578</a>)</li>
+  <li><code>[jest-config]</code> Support <code>testTimeout</code> in project config (<a href="https://github.com/jestjs/jest/pull/14697">#14697</a>)</li>
+  <li><code>[jest-config]</code> Support <code>coverageReporters</code> in project config (<a href="https://github.com/jestjs/jest/pull/14830">#14697</a>)</li>
+  <li><code>[jest-config]</code> Allow <code>reporters</code> in project config (<a href="https://github.com/jestjs/jest/pull/14768">#14768</a>)</li>
+  <li><code>[jest-config]</code> Allow Node16/NodeNext/Bundler <code>moduleResolution</code> in project&#8217;s tsconfig (<a href="https://github.com/jestjs/jest/pull/14739">#14739</a>)</li>
+  <li><code>[@jest/create-cache-key-function]</code> Correct the return type of <code>createCacheKey</code> (<a href="https://github.com/jestjs/jest/pull/15159">#15159</a>)</li>
+  <li><code>[jest-each]</code> Allow <code>$keypath</code> templates with <code>null</code> or <code>undefined</code> values (<a href="https://github.com/jestjs/jest/pull/14831">#14831</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Fix comparison of <code>DataView</code> (<a href="https://github.com/jestjs/jest/pull/14408">#14408</a>)</li>
+  <li><code>[@jest/expect-utils]</code> [<strong>BREAKING</strong>] exclude non-enumerable in object matching (<a href="https://github.com/jestjs/jest/pull/14670">#14670</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Fix comparison of <code>URL</code> (<a href="https://github.com/jestjs/jest/pull/14672">#14672</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Check <code>Symbol</code> properties in equality (<a href="https://github.com/jestjs/jest/pull/14688">#14688</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Catch circular references within arrays when matching objects (<a href="https://github.com/jestjs/jest/pull/14894">#14894</a>)</li>
+  <li><code>[@jest/expect-utils]</code> Fix not addressing to Sets and Maps as objects without keys (<a href="https://github.com/jestjs/jest/pull/14873">#14873</a>)</li>
+  <li><code>[jest-haste-map]</code> Fix errors or clobbering with multiple <code>hasteImplModulePath</code>s (<a href="https://github.com/jestjs/jest/pull/15522">#15522</a>)</li>
+  <li><code>[jest-leak-detector]</code> Make leak-detector more aggressive when running GC (<a href="https://github.com/jestjs/jest/pull/14526">#14526</a>)</li>
+  <li><code>[jest-runtime]</code> Properly handle re-exported native modules in ESM via CJS (<a href="https://github.com/jestjs/jest/pull/14589">#14589</a>)</li>
+  <li><code>[jest-runtime]</code> Refactor <code>_importCoreModel</code> so required core module is consistent if modified while loading (<a href="https://github.com/jestjs/jest/issues/15077">#15077</a>)</li>
+  <li><code>[jest-schemas, jest-types]</code> [<strong>BREAKING</strong>] Fix type of <code>testFailureExitCode</code> config option(<a href="https://github.com/jestjs/jest/pull/15232">#15232</a>)</li>
+  <li><code>[jest-util]</code> Make sure <code>isInteractive</code> works in a browser (<a href="https://github.com/jestjs/jest/pull/14552">#14552</a>)</li>
+  <li><code>[pretty-format]</code> [<strong>BREAKING</strong>] Print <code>ArrayBuffer</code> and <code>DataView</code> correctly (<a href="https://github.com/jestjs/jest/pull/14290">#14290</a>)</li>
+  <li><code>[pretty-format]</code> Fixed a bug where &#8220;anonymous custom elements&#8221; were not being printed as expected. (<a href="https://github.com/jestjs/jest/pull/15138">#15138</a>)</li>
+  <li><code>[jest-cli]</code> When specifying paths on the command line, only match against the relative paths of the test files (<a href="https://github.com/jestjs/jest/pull/12519">#12519</a>)
+    <ul>
+      <li>[<strong>BREAKING</strong>] Changes <code>testPathPattern</code> configuration option to <code>testPathPatterns</code>, which now takes a list of patterns instead of the regex.</li>
+      <li>[<strong>BREAKING</strong>] <code>--testPathPattern</code> is now <code>--testPathPatterns</code></li>
+      <li>[<strong>BREAKING</strong>] Specifying <code>testPathPatterns</code> when programmatically calling <code>watch</code> must be specified as <code>new TestPathPatterns(patterns)</code>, where <code>TestPathPatterns</code> can be imported from <code>@jest/pattern</code></li>
+    </ul>
+  </li>
+  <li><code>[jest-reporters, jest-runner]</code> Unhandled errors without stack get correctly logged to console (<a href="https://github.com/jestjs/jest/pull/14619">#14619</a>)</li>
+  <li><code>[jest-util]</code> Always load <code>mjs</code> files with <code>import</code> (<a href="https://github.com/jestjs/jest/pull/15447">#15447</a>)</li>
+  <li><code>[jest-worker]</code> Properly handle a circular reference error when worker tries to send an assertion fails where either the expected or actual value is circular (<a href="https://github.com/jestjs/jest/pull/15191">#15191</a>)</li>
+  <li><code>[jest-worker]</code> Properly handle a BigInt when worker tries to send an assertion fails where either the expected or actual value is BigInt (<a href="https://github.com/jestjs/jest/pull/15191">#15191</a>)</li>
+  <li><code>[expect]</code> Resolve issue where <code>ObjectContaining</code> matched non-object values. <a href="https://github.com/jestjs/jest/pull/15463">#15463</a>.
+    <ul>
+      <li>Adds a <code>conditional/check</code> to ensure the argument passed to <code>expect</code> is an object.</li>
+      <li>Add unit tests for new <code>ObjectContaining</code> behavior.</li>
+      <li>Remove <code>invalid/wrong</code> test case assertions for <code>ObjectContaining</code>.</li>
+    </ul>
+  </li>
+  <li><code>[jest-worker]</code> Addresses incorrect state on exit (<a href="https://github.com/jestjs/jest/pull/15610">#15610</a>)</li>
+</ul>
+
+<h3 id="performance">Performance</h3>
+
+<ul>
+  <li><code>[*]</code> [<strong>BREAKING</strong>] Bundle all of Jest&#8217;s modules into <code>index.js</code> (<a href="https://github.com/jestjs/jest/pull/12348">#12348</a>, <a href="https://github.com/jestjs/jest/pull/14550">#14550</a> &amp; <a href="https://github.com/jestjs/jest/pull/14661">#14661</a>)</li>
+  <li><code>[jest-haste-map]</code> Only spawn one process to check for <code>watchman</code> installation (<a href="https://github.com/jestjs/jest/pull/14826">#14826</a>)</li>
+  <li><code>[jest-runner]</code> Better cleanup <code>source-map-support</code> after test to resolve (minor) memory leak (<a href="https://github.com/jestjs/jest/pull/15233">#15233</a>)</li>
+  <li><code>[jest-resolver]</code> Migrate <code>resolve</code> and <code>resolve.exports</code> to <code>unrs-resolver</code> (<a href="https://github.com/jestjs/jest/pull/15619">#15619</a>)</li>
+  <li><code>[jest-circus, jest-environment-node, jest-repl, jest-runner, jest-util]</code> Cleanup global variables on environment teardown to reduce memory leaks (<a href="https://github.com/jestjs/jest/pull/15215">#15215</a> &amp; <a href="https://github.com/jestjs/jest/pull/15636">#15636</a> &amp; <a href="https://github.com/jestjs/jest/pull/15643">#15643</a>)</li>
+</ul>
+
+<h3 id="chore--maintenance-3">Chore &amp; Maintenance</h3>
+
+<ul>
+  <li><code>[jest-environment-jsdom, jest-environment-jsdom-abstract]</code> Increased version of jsdom to <code>^26.0.0</code> (<a href="https://github.com/jestjs/jest/issues/15325">#15325</a><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-37890">CVE-2024-37890</a>)</li>
+  <li><code>[*]</code> Increase version of <code>micromatch</code> to <code>^4.0.7</code> (<a href="https://github.com/jestjs/jest/pull/15082">#15082</a>)</li>
+  <li><code>[*]</code> [<strong>BREAKING</strong>] Drop support for Node.js versions 14, 16, 19, 21 and 23 (<a href="https://github.com/jestjs/jest/pull/14460">#14460</a>, <a href="https://github.com/jestjs/jest/pull/15118">#15118</a>, <a href="https://github.com/jestjs/jest/pull/15623">#15623</a>, <a href="https://github.com/jestjs/jest/pull/15640">#15640</a>)</li>
+  <li><code>[*]</code> [<strong>BREAKING</strong>] Drop support for <code>typescript@4.3</code>, minimum version is now <code>5.4</code> (<a href="https://github.com/jestjs/jest/pull/14542">#14542</a>, <a href="https://github.com/jestjs/jest/pull/15621">#15621</a>)</li>
+  <li><code>[*]</code> Depend on exact versions of monorepo dependencies instead of <code>^</code> range (<a href="https://github.com/jestjs/jest/pull/14553">#14553</a>)</li>
+  <li><code>[*]</code> [<strong>BREAKING</strong>] Add ESM wrapper for all of Jest&#8217;s modules (<a href="https://github.com/jestjs/jest/pull/14661">#14661</a>)</li>
+  <li><code>[*]</code> [<strong>BREAKING</strong>] Upgrade to <code>glob@10</code> (<a href="https://github.com/jestjs/jest/pull/14509">#14509</a>)</li>
+  <li><code>[*]</code> Use <code>TypeError</code> over <code>Error</code> where appropriate (<a href="https://github.com/jestjs/jest/pull/14799">#14799</a>)</li>
+  <li><code>[docs]</code> Fix typos in <code>CHANGELOG.md</code> and <code>packages/jest-validate/README.md</code> (<a href="https://github.com/jestjs/jest/pull/14640">#14640</a>)</li>
+  <li><code>[docs]</code> Don&#8217;t use alias matchers in docs (<a href="https://github.com/jestjs/jest/pull/14631">#14631</a>)</li>
+  <li><code>[babel-jest, babel-preset-jest]</code> [<strong>BREAKING</strong>] Increase peer dependency of <code>@babel/core</code> to <code>^7.11</code> (<a href="https://github.com/jestjs/jest/pull/14109">#14109</a>)</li>
+  <li><code>[babel-jest, @jest/transform]</code> Update <code>babel-plugin-istanbul</code> to v6 (<a href="https://github.com/jestjs/jest/pull/15156">#15156</a>)</li>
+  <li><code>[babel-plugin-jest-hoist]</code> Move unnecessary <code>dependencies</code> to <code>devDependencies</code> (<a href="https://github.com/jestjs/jest/pull/15010">#15010</a>)</li>
+  <li><code>[expect]</code> [<strong>BREAKING</strong>] Remove <code>.toBeCalled()</code>, <code>.toBeCalledTimes()</code>, <code>.toBeCalledWith()</code>, <code>.lastCalledWith()</code>, <code>.nthCalledWith()</code>, <code>.toReturn()</code>, <code>.toReturnTimes()</code>, <code>.toReturnWith()</code>, <code>.lastReturnedWith()</code>, <code>.nthReturnedWith()</code> and <code>.toThrowError()</code> matcher aliases (<a href="https://github.com/jestjs/jest/pull/14632">#14632</a>)</li>
+  <li><code>[jest-cli, jest-config, @jest/types]</code> [<strong>BREAKING</strong>] Remove deprecated <code>--init</code> argument (<a href="https://github.com/jestjs/jest/pull/14490">#14490</a>)</li>
+  <li><code>[jest-config, @jest/core, jest-util]</code> Upgrade <code>ci-info</code> (<a href="https://github.com/jestjs/jest/pull/14655">#14655</a>)</li>
+  <li><code>[jest-mock]</code> [<strong>BREAKING</strong>] Remove <code>MockFunctionMetadataType</code>, <code>MockFunctionMetadata</code> and <code>SpyInstance</code> types (<a href="https://github.com/jestjs/jest/pull/14621">#14621</a>)</li>
+  <li><code>[@jest/reporters]</code> Upgrade <code>istanbul-lib-source-maps</code> (<a href="https://github.com/jestjs/jest/pull/14924">#14924</a>)</li>
+  <li><code>[jest-schemas]</code> Upgrade <code>@sinclair/typebox</code> (<a href="https://github.com/jestjs/jest/pull/14775">#14775</a>)</li>
+  <li><code>[jest-transform]</code> Upgrade <code>write-file-atomic</code> (<a href="https://github.com/jestjs/jest/pull/14274">#14274</a>)</li>
+  <li><code>[jest-util]</code> Upgrade <code>picomatch</code> to v4 (<a href="https://github.com/jestjs/jest/pull/14653">#14653</a> &amp; <a href="https://github.com/jestjs/jest/pull/14885">#14885</a>)</li>
+  <li><code>[docs] Append to NODE_OPTIONS, not overwrite ([#14730](https://github.com/jestjs/jest/pull/14730))</code></li>
+  <li><code>[docs]</code> Updated <code>.toHaveBeenCalled()</code> documentation to correctly reflect its functionality (<a href="https://github.com/jestjs/jest/pull/14842">#14842</a>)</li>
+  <li><code>[docs]</code> Link NestJS documentation on testing with Jest (<a href="https://github.com/jestjs/jest/pull/14940">#14940</a>)</li>
+  <li><code>[docs]</code> <code>Revised documentation for .toHaveBeenCalled()</code> to accurately depict its functionality. (<a href="https://github.com/jestjs/jest/pull/14853">#14853</a>)</li>
+  <li><code>[docs]</code> Removed ExpressJS reference link from documentation due to dead link (<a href="https://github.com/jestjs/jest/pull/15270">#15270</a>)</li>
+  <li><code>[docs]</code> Correct broken links in docs (<a href="https://github.com/jestjs/jest/pull/15359">#15359</a>)</li>
+</ul>
+
+<h2 id="older-changelog-entries">Older Changelog Entries</h2>
+
+<p>For newer CHANGELOG entries see <a href="CHANGELOG_PRE_v30.md"><code>CHANGELOG_PRE_v30.md</code></a>.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

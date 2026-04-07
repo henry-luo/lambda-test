@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nuxt README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>nuxt README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        nuxt README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p><a href="https://nuxt.com"><img width="830" height="213" src="./.github/assets/banner.svg" alt="Nuxt banner" /></a></p>
+
+<h1 id="nuxt">Nuxt</h1>
+
+<p>
+  <a href="https://npmx.dev/package/nuxt"><img src="../support/images/npmx.dev_api_registry_badge_version_nuxt.svg" alt="Version" /></a>
+  <a href="https://npmx.dev/package/nuxt"><img src="../support/images/npmx.dev_api_registry_badge_downloads_nuxt.svg" alt="Downloads" /></a>
+  <a href="https://github.com/nuxt/nuxt/blob/main/LICENSE"><img src="../support/images/img.shields.io_github_license_nuxt_nuxt.svg" alt="License" /></a>
+  <a href="https://nuxt.com/modules"><img src="../support/images/img.shields.io_badge_dynamic_json.svg" alt="Modules" /></a>
+  <a href="https://nuxt.com"><img src="../support/images/img.shields.io_badge_Nuxt_20Docs-18181B.svg" alt="Website" /></a>
+  <a href="https://chat.nuxt.dev"><img src="../support/images/img.shields.io_badge_Nuxt_20Discord-18181B.svg" alt="Discord" /></a>
+  <a href="https://securityscorecards.dev/viewer/?uri=github.com/nuxt/nuxt"><img src="../support/images/api.securityscorecards.dev_projects_github.com_nuxt_nuxt_badge.svg" alt="Nuxt openssf scorecard score" /></a>
+  <a href="https://deepwiki.com/nuxt/nuxt"><img src="../support/images/deepwiki.com_badge.svg" alt="Ask DeepWiki" /></a>
+</p>
+
+<p>Nuxt is a free and open-source framework with an intuitive and extendable way to create type-safe, performant and production-grade full-stack web applications and websites with Vue.js.</p>
+
+<p>It provides a number of features that make it easy to build fast, SEO-friendly, and scalable web applications, including:</p>
+<ul>
+  <li>Server-side rendering, static site generation, hybrid rendering and edge-side rendering</li>
+  <li>Automatic routing with code-splitting and pre-fetching</li>
+  <li>Data fetching and state management</li>
+  <li>Search engine optimization and defining meta tags</li>
+  <li>Auto imports of components, composables and utils</li>
+  <li>TypeScript with zero configuration</li>
+  <li>Go full-stack with our server/ directory</li>
+  <li>Extensible with <a href="https://nuxt.com/modules">300+ modules</a></li>
+  <li>Deployment to a variety of <a href="https://nuxt.com/deploy">hosting platforms</a></li>
+  <li>&#8230;<a href="https://nuxt.com">and much more</a> 🚀</li>
+</ul>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+  <li>🚀 <a href="#getting-started">Getting Started</a></li>
+  <li>💻 <a href="#vue-development">Vue Development</a></li>
+  <li>📖 <a href="#documentation">Documentation</a></li>
+  <li>🧩 <a href="#modules">Modules</a></li>
+  <li>❤️ <a href="#contribute">Contribute</a></li>
+  <li>🏠 <a href="#local-development">Local Development</a></li>
+  <li>🛟 <a href="#professional-support">Professional Support</a></li>
+  <li>🔗 <a href="#follow-us">Follow Us</a></li>
+  <li>⚖️ <a href="#license">License</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-getting-started"><a name="getting-started">🚀 Getting Started</a></h2>
+
+<p>Use the following command to create a new starter project. This will create a starter project with all the necessary files and dependencies:</p>
+
+<pre><code class="language-bash">npm create nuxt@latest &lt;my-project&gt;
+</code></pre>
+
+<blockquote>
+  <p>[!TIP]
+Discover also <a href="https://nuxt.new">nuxt.new</a>: Open a Nuxt starter on CodeSandbox, StackBlitz or locally to get up and running in a few seconds.</p>
+</blockquote>
+
+<h2 id="-vue-development"><a name="vue-development">💻 Vue Development</a></h2>
+
+<p>Simple, intuitive and powerful, Nuxt lets you write Vue components in a way that makes sense. Every repetitive task is automated, so you can focus on writing your full-stack Vue application with confidence.</p>
+
+<p>Example of an <code>app.vue</code>:</p>
+
+<pre><code class="language-vue">&lt;script setup lang="ts"&gt;
+useSeoMeta({
+  title: 'Meet Nuxt',
+  description: 'The Intuitive Vue Framework.',
+})
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div id="app"&gt;
+    &lt;AppHeader /&gt;
+    &lt;NuxtPage /&gt;
+    &lt;AppFooter /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+#app {
+  background-color: #020420;
+  color: #00DC82;
+}
+&lt;/style&gt;
+</code></pre>
+
+<h2 id="-documentation"><a name="documentation">📖 Documentation</a></h2>
+
+<p>We highly recommend you take a look at the <a href="https://nuxt.com/docs">Nuxt documentation</a> to level up. It’s a great resource for learning more about the framework. It covers everything from getting started to advanced topics.</p>
+
+<h2 id="-modules"><a name="modules">🧩 Modules</a></h2>
+
+<p>Discover our <a href="https://nuxt.com/modules">list of modules</a> to supercharge your Nuxt project, created by the Nuxt team and community.</p>
+
+<h2 id="️-contribute"><a name="contribute">❤️ Contribute</a></h2>
+
+<p>We invite you to contribute and help improve Nuxt 💚</p>
+
+<p>Here are a few ways you can get involved:</p>
+<ul>
+  <li><strong>Reporting Bugs:</strong> If you come across any bugs or issues, please check out the <a href="https://nuxt.com/docs/4.x/community/reporting-bugs">reporting bugs guide</a> to learn how to submit a bug report.</li>
+  <li><strong>Suggestions:</strong> Have ideas to enhance Nuxt? We&#8217;d love to hear them! Check out the <a href="https://nuxt.com/docs/4.x/community/contribution">contribution guide</a> to share your suggestions.</li>
+  <li><strong>Questions:</strong> If you have questions or need assistance, the <a href="https://nuxt.com/docs/4.x/community/getting-help">getting help guide</a> provides resources to help you out.</li>
+</ul>
+
+<h2 id="-local-development"><a name="local-development">🏠 Local Development</a></h2>
+
+<p>Follow the docs to <a href="https://nuxt.com/docs/4.x/community/framework-contribution#setup">Set Up Your Local Development Environment</a> to contribute to the framework and documentation.</p>
+
+<h2 id="-professional-support"><a name="professional-support">🛟 Professional Support</a></h2>
+
+<ul>
+  <li>Technical audit &amp; consulting: <a href="https://nuxt.com/enterprise/support">Nuxt Experts</a></li>
+  <li>Custom development &amp; more: <a href="https://nuxt.com/enterprise/agencies">Nuxt Agencies Partners</a></li>
+</ul>
+
+<h2 id="-follow-us"><a name="follow-us">🔗 Follow Us</a></h2>
+
+<p valign="center">
+  <a href="https://go.nuxt.com/discord"><img width="20" src="./.github/assets/discord.svg" alt="Discord" /></a>&nbsp;&nbsp;<a href="https://go.nuxt.com/x"><img width="20" src="./.github/assets/twitter.svg" alt="Twitter" /></a>&nbsp;&nbsp;<a href="https://go.nuxt.com/github"><img width="20" src="./.github/assets/github.svg" alt="GitHub" /></a>&nbsp;&nbsp;<a href="https://go.nuxt.com/bluesky"><img width="20" src="./.github/assets/bluesky.svg" alt="Bluesky" /></a>
+</p>
+
+<h2 id="️-license"><a name="license">⚖️ License</a></h2>
+
+<p><a href="https://github.com/nuxt/nuxt/blob/main/LICENSE">MIT</a></p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

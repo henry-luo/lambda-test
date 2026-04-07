@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test unicode</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>test unicode</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        test unicode
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="unicode--multilingual-text-test">Unicode &amp; Multilingual Text Test</h1>
+
+<p>This file tests Unicode rendering across scripts, directionality, and special characters.</p>
+
+<h2 id="latin-extended--diacritics">Latin Extended &amp; Diacritics</h2>
+
+<p>Café, naïve, résumé, façade, coöperate, fiancée, über, Ångström.</p>
+
+<p>Spanish: El niño tiene veinte años. La señora Martínez habla español.</p>
+
+<p>French: Être ou ne pas être, c&#8217;est là la question. Noël, cœur, œuvre.</p>
+
+<p>German: Über den Wolken. Das Mädchen trägt Hüte. Straße, weiß, müde.</p>
+
+<p>Norwegian: Jeg er glad i fjøs og fjell. Blå øyne, grønt hår.</p>
+
+<p>Portuguese: Ação, coração, leão, nação, limão. Você é muito gentil.</p>
+
+<p>Polish: Zażółć gęślą jaźń (pangram using all Polish diacritics).</p>
+
+<p>Croatian: Ljepotica i zvijer. Čovjek, žena, djeca.</p>
+
+<h2 id="greek-script">Greek Script</h2>
+
+<p>Ancient Greek: Πάντα ῥεῖ καὶ οὐδὲν μένει. (Heraclitus)</p>
+
+<p>Modern Greek: Καλημέρα, κόσμε! Πώς είσαι σήμερα; Η Αθήνα είναι ωραία πόλη.</p>
+
+<p>Mathematical use: α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω</p>
+
+<p>Uppercase: Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω</p>
+
+<h2 id="cyrillic-script">Cyrillic Script</h2>
+
+<p>Russian: Привет, мир! Это тест Unicode в Markdown.</p>
+
+<p>Russian pangram: В чащах юга жил бы цитрус? Да, но фальшивый экземпляр!</p>
+
+<p>Ukrainian: Привіт, світ! Як справи? Я добре, дякую.</p>
+
+<p>Serbian: Живот је леп. Волим ову земљу.</p>
+
+<p>Bulgarian: Здравей, свят! Как си?</p>
+
+<h2 id="cjk--chinese-simplified">CJK — Chinese (Simplified)</h2>
+
+<p>简体中文：你好，世界！这是一个 Unicode 测试文件。</p>
+
+<p>中文段落：中文是世界上使用人数最多的语言之一。汉字有着数千年的历史，是世界上最古老的文字系统之一。现代汉语标准语以北京话为基础，通行于中国大陆、台湾、香港和澳门。</p>
+
+<p>技术术语：数据库、算法、编程语言、人工智能、机器学习、深度学习、神经网络。</p>
+
+<h2 id="cjk--chinese-traditional">CJK — Chinese (Traditional)</h2>
+
+<p>繁體中文：你好，世界！這是一個 Unicode 測試文件。</p>
+
+<p>繁體段落：中文是世界上使用人數最多的語言之一。漢字有著數千年的歷史，是世界上最古老的文字系統之一。</p>
+
+<p>技術術語：資料庫、演算法、程式語言、人工智能、機器學習、深度學習、神經網路。</p>
+
+<h2 id="cjk--japanese">CJK — Japanese</h2>
+
+<p>日本語：こんにちは、世界！これは Unicode のテストファイルです。</p>
+
+<p>ひらがな：あいうえお かきくけこ さしすせそ たちつてと なにぬねの はひふへほ まみむめも やゆよ らりるれろ わをん</p>
+
+<p>カタカナ：アイウエオ カキクケコ サシスセソ タチツテト ナニヌネノ ハヒフヘホ マミムメモ ヤユヨ ラリルレロ ワヲン</p>
+
+<p>漢字の例：日本語、漢字、平仮名、片仮名、技術、科学、数学、物理、化学。</p>
+
+<p>日本語の段落：日本語はおよそ1億2500万人に話されており、そのほとんどが日本に住んでいます。</p>
+
+<h2 id="cjk--korean">CJK — Korean</h2>
+
+<p>한국어: 안녕하세요, 세계! 이것은 유니코드 테스트 파일입니다.</p>
+
+<p>한글 자음: ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ ㅇ ㅈ ㅊ ㅋ ㅌ ㅍ ㅎ</p>
+
+<p>한글 모음: ㅏ ㅑ ㅓ ㅕ ㅗ ㅛ ㅜ ㅠ ㅡ ㅣ</p>
+
+<p>한국어 단락: 한국어는 대한민국과 조선민주주의인민공화국의 공용어입니다.</p>
+
+<h2 id="arabic-script-right-to-left">Arabic Script (Right-to-Left)</h2>
+
+<p>Arabic: مرحبا بالعالم! هذا اختبار لـ Unicode في Markdown.</p>
+
+<p>Arabic paragraph: اللغة العربية هي إحدى أكثر اللغات انتشاراً في العالم، ويتحدث بها أكثر من 400 مليون شخص.</p>
+
+<p>Arabic numerals (Eastern): ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩</p>
+
+<p>Persian/Farsi: سلام دنیا! این یک فایل تست یونیکد است.</p>
+
+<h2 id="hebrew-script-right-to-left">Hebrew Script (Right-to-Left)</h2>
+
+<p>Hebrew: שלום עולם! זהו קובץ בדיקה של Unicode.</p>
+
+<p>Hebrew paragraph: עברית היא שפה שמית, שייכת למשפחת השפות האפרו-אסייתיות. היא נכתבת מימין לשמאל.</p>
+
+<h2 id="thai-script">Thai Script</h2>
+
+<p>Thai: สวัสดีชาวโลก! นี่คือไฟล์ทดสอบ Unicode</p>
+
+<p>Thai paragraph: ภาษาไทยเป็นภาษาราชการของประเทศไทย มีผู้พูดประมาณ 60 ล้านคน</p>
+
+<h2 id="devanagari-hindisanskrit">Devanagari (Hindi/Sanskrit)</h2>
+
+<p>Hindi: नमस्ते दुनिया! यह एक Unicode परीक्षण फ़ाइल है।</p>
+
+<p>Hindi paragraph: हिन्दी भारत की राजभाषा है। यह दुनिया की चौथी सबसे अधिक बोली जाने वाली भाषा है।</p>
+
+<p>Sanskrit: अहम् ब्रह्मास्मि। (I am Brahman)</p>
+
+<h2 id="other-scripts">Other Scripts</h2>
+
+<p>Georgian: გამარჯობა სამყარო! ეს არის Unicode სატესტო ფაილი.</p>
+
+<p>Armenian: Բարեւ Ձեզ, Աշխարհ! Սա Unicode-ի թեստ ֆայլ է:</p>
+
+<p>Ethiopic (Amharic): ሰላም ዓለም! ይህ የ Unicode ፈተና ፋይል ነው።</p>
+
+<p>Mongolian: Сайн байна уу, дэлхий! Энэ бол Unicode-ийн тест файл юм.</p>
+
+<h2 id="symbols--special-characters">Symbols &amp; Special Characters</h2>
+
+<h3 id="currency-symbols">Currency Symbols</h3>
+<p>$ £ € ¥ ₹ ₿ ₩ ₽ ₺ ₫ ₴ ₦ ฿ ₲ ₡ ₵ ₸ ₼ ₾ ₿</p>
+
+<h3 id="mathematical-symbols">Mathematical Symbols</h3>
+<p>∀ ∂ ∃ ∄ ∅ ∆ ∇ ∈ ∉ ∊ ∋ ∌ ∍ ∎ ∏ ∐ ∑ − ∓ ∔ ∕ ∖ ∗ ∘ ∙ √ ∛ ∜ ∝ ∞ ∟ ∠ ∡ ∢ ∣ ∤ ∥ ∦ ∧ ∨ ∩ ∪ ∫ ∬ ∭ ∮ ∯ ∰ ∱ ∲ ∳ ∴ ∵ ∶ ∷ ∸ ∹ ∺ ∻ ∼ ∽ ∾ ∿ ≀ ≁ ≂ ≃ ≄ ≅ ≆ ≇ ≈ ≉ ≊ ≋ ≌ ≍ ≎ ≏ ≐ ≑ ≒ ≓ ≔ ≕ ≖ ≗ ≘ ≙ ≚ ≛ ≜ ≝ ≞ ≟ ≠ ≡ ≢ ≣ ≤ ≥ ≦ ≧ ≨ ≩ ≪ ≫ ≬ ≭ ≮ ≯ ≰ ≱ ≲ ≳ ≴ ≵ ≶ ≷ ≸ ≹ ≺ ≻ ≼ ≽ ≾ ≿</p>
+
+<h3 id="arrows">Arrows</h3>
+<p>← → ↑ ↓ ↔ ↕ ↖ ↗ ↘ ↙ ↚ ↛ ↜ ↝ ↞ ↟ ↠ ↡ ↢ ↣ ↤ ↥ ↦ ↧ ↨ ↩ ↪ ↫ ↬ ↭ ↮ ↯ ↰ ↱ ↲ ↳ ↴ ↵ ↶ ↷ ↸ ↹ ↺ ↻ ⇐ ⇒ ⇑ ⇓ ⇔ ⇕ ⇖ ⇗ ⇘ ⇙</p>
+
+<h3 id="box-drawing">Box Drawing</h3>
+<p>┌─┬─┐  ╔═╦═╗  ╭─┬─╮
+│ │ │  ║ ║ ║  │ │ │
+├─┼─┤  ╠═╬═╣  ├─┼─┤
+│ │ │  ║ ║ ║  │ │ │
+└─┴─┘  ╚═╩═╝  ╰─┴─╯</p>
+
+<h3 id="braille">Braille</h3>
+<p>⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿</p>
+
+<h2 id="combining-characters--diacritics">Combining Characters &amp; Diacritics</h2>
+
+<p>Combining acute: á é í ó ú ý<br />
+Combining grave: à è ì ò ù<br />
+Combining circumflex: â ê î ô û ŷ<br />
+Combining tilde: ã ẽ ĩ õ ũ ỹ<br />
+Combining umlaut: ä ë ï ö ü ÿ<br />
+Combining ring: å ů<br />
+Combining cedilla: ç ş ţ<br />
+Combining caron: č ě ň ř š ž<br />
+Combining macron: ā ē ī ō ū<br />
+Combining ogonek: ą ę<br />
+Combining dot above: ċ ġ ż<br />
+Combining dot below: ạ ẹ ị ọ ụ</p>
+
+<p>Stacked combinings: ḗ (e with macron and acute) ṩ (s with dot below and dot above)</p>
+
+<h2 id="unicode-in-code">Unicode in Code</h2>
+
+<pre><code class="language-python"># Unicode string literals
+greeting = "こんにちは"
+arabic_text = "مرحبا"
+emoji_msg = "Hello 🌍🌎🌏"
+
+# Unicode identifiers
+名前 = "太郎"
+print(f"{名前}さん、{greeting}！")
+
+# Unicode normalization
+import unicodedata
+nfc = unicodedata.normalize("NFC", "é")
+nfd = unicodedata.normalize("NFD", "é")
+print(len(nfc), len(nfd))  # 1, 2
+</code></pre>
+
+<pre><code class="language-javascript">// JavaScript handles Unicode natively
+const π = Math.PI;
+const 변수 = "한국어 변수명";
+const emoji = "🎉".codePointAt(0).toString(16); // "1f389"
+
+// Regex with Unicode property escapes
+const isLetter = /\p{Letter}/u;
+console.log(isLetter.test("α"));  // true
+console.log(isLetter.test("1"));  // false
+</code></pre>
+
+<h2 id="bidirectional-text-bidi">Bidirectional Text (BiDi)</h2>
+
+<p>Mixed LTR and RTL: The word مرحبا means &#8220;hello&#8221; in Arabic.</p>
+
+<p>The Unicode specification (Unicode® Standard) was first published in 1991.</p>
+
+<p>HTML entity references: &lt; &gt; &amp; &quot; &apos; &nbsp; &copy; &reg; &trade;</p>
+
+<p>Code points: U+0041 (LATIN CAPITAL LETTER A), U+4E2D (CJK UNIFIED IDEOGRAPH), U+1F600 (GRINNING FACE).</p>
+
+<h2 id="zero-width--invisible-characters">Zero-Width &amp; Invisible Characters</h2>
+
+<p>Zero-width space: &#8220;​&#8221; (U+200B between the quotes)
+Zero-width non-joiner: ‌ (U+200C)
+Zero-width joiner: ‍ (U+200D) — used in emoji sequences like 👨‍💻 (man technologist)</p>
+
+<p>Emoji with ZWJ sequences: 👨‍👩‍👧‍👦 (family) 🏳️‍🌈 (rainbow flag) 👩‍🔬 (woman scientist)</p>
+
+<h2 id="unicode-punctuation">Unicode Punctuation</h2>
+
+<p>Left/right quotes: &#8220;Hello&#8221; &#8216;world&#8217; «guillemets» ‹›</p>
+
+<p>Dashes: hyphen-minus (-), en dash (–), em dash (—), horizontal bar (―), figure dash (‒)</p>
+
+<p>Ellipsis: … vs three dots &#8230;</p>
+
+<p>Spaces: regular space, non-breaking space ( ), thin space ( ), hair space ( ), em space ( ), en space ( )</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Miscellaneous: § ¶ © ® ™ ° ± × ÷ ¬</td>
+      <td>¦ ¿ ¡ ‽ ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="long-unicode-lines-stress-test">Long Unicode Lines Stress Test</h2>
+
+<p>CJKV: 一二三四五六七八九十百千萬億兆京垓秭穰溝澗正載極恒河沙阿僧祇那由他不可思議無量大數</p>
+
+<p>Thai: กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ</p>
+
+<p>Hangul: 가나다라마바사아자차카타파하 각각각나나</p>
+
+<p>Devanagari: अआइईउऊऋएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

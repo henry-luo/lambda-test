@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>typeorm README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>typeorm README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        typeorm README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <div align="center">
+  <a href="http://typeorm.io/">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="../support/images/github_typeorm-logo-colored-light.png" />
+        <source media="(prefers-color-scheme: light)" srcset="../support/images/github_typeorm-logo-colored-dark.png" />
+        <img height="80" width="auto" alt="TypeORM Logo" src="../support/images/github_typeorm-logo-colored-dark.png" />
+    </picture>
+  </a>
+  <br />
+  <br />
+    <a href="https://www.npmjs.com/package/typeorm"><img src="../support/images/img.shields.io_npm_v_typeorm.svg" alt="NPM Version" /></a>
+    <a href="https://www.npmjs.com/package/typeorm"><img src="../support/images/img.shields.io_npm_dm_typeorm.svg" alt="NPM Downloads" /></a>
+    <a href="https://github.com/typeorm/typeorm/actions/workflows/tests.yml?query=branch%3Amaster"><img src="../support/images/github_badge.svg" alt="Commit Validation" /></a>
+    <a href="https://coveralls.io/github/typeorm/typeorm?branch=master"><img src="../support/images/coveralls.io_repos_github_typeorm_typeorm_badge.svg" alt="Coverage Status" /></a>
+    <a href="https://dashboard.stryker-mutator.io/reports/github.com/typeorm/typeorm/master"><img src="../support/images/img.shields.io_endpoint.svg" alt="Mutation testing badge" /></a>
+    <a href=""><img src="../support/images/img.shields.io_badge_License-MIT-teal.svg" alt="MIT License" /></a>
+  <br />
+  <br />
+</div>
+
+<p>TypeORM is an <a href="https://en.wikipedia.org/wiki/Object-relational_mapping">ORM</a> that can run in Node.js, Browser, Cordova, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript (ES2023). Its goal is to always support the latest JavaScript features and provide additional features that help you to develop any kind of application that uses databases - from small applications with a few tables to large-scale enterprise applications with multiple databases.</p>
+
+<p>TypeORM supports more databases than any other JS/TS ORM: <a href="./docs/docs/drivers/google-spanner.md">Google Spanner</a>, <a href="./docs/docs/drivers/microsoft-sqlserver.md">Microsoft SqlServer</a>, <a href="./docs/docs/drivers/mysql.md">MySQL/MariaDB</a>, <a href="./docs/docs/drivers/mongodb.md">MongoDB</a>, <a href="./docs/docs/drivers/oracle.md">Oracle</a>, <a href="./docs/docs/drivers/postgres.md">Postgres</a>, <a href="./docs/docs/drivers/sap.md">SAP HANA</a> and <a href="./docs/docs/drivers/sqlite.md">SQLite</a>, as well as derived databases and different drivers.</p>
+
+<p>TypeORM supports both <a href="./docs/docs/guides/1-active-record-data-mapper.md#what-is-the-active-record-pattern">Active Record</a> and <a href="./docs/docs/guides/1-active-record-data-mapper.md#what-is-the-data-mapper-pattern">Data Mapper</a> patterns, unlike all other JavaScript ORMs currently in existence, which means you can write high-quality, loosely coupled, scalable, maintainable applications in the most productive way.</p>
+
+<p>TypeORM is highly influenced by other ORMs, such as <a href="http://hibernate.org/orm/">Hibernate</a>,
+<a href="http://www.doctrine-project.org/">Doctrine</a> and <a href="https://www.asp.net/entity-framework">Entity Framework</a>.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Supports both <a href="./docs/docs/guides/1-active-record-data-mapper.md#what-is-the-data-mapper-pattern">DataMapper</a> and <a href="./docs/docs/guides/1-active-record-data-mapper.md#what-is-the-active-record-pattern">ActiveRecord</a> (your choice).</li>
+  <li>Entities and columns.</li>
+  <li>Database-specific column types.</li>
+  <li>Entity manager.</li>
+  <li>Repositories and custom repositories.</li>
+  <li>Clean object-relational model.</li>
+  <li>Associations (relations).</li>
+  <li>Eager and lazy relations.</li>
+  <li>Unidirectional, bidirectional, and self-referenced relations.</li>
+  <li>Supports multiple inheritance patterns.</li>
+  <li>Cascades.</li>
+  <li>Indices.</li>
+  <li>Transactions.</li>
+  <li>Migrations and automatic migrations generation.</li>
+  <li>Connection pooling.</li>
+  <li>Replication.</li>
+  <li>Using multiple database instances.</li>
+  <li>Working with multiple database types.</li>
+  <li>Cross-database and cross-schema queries.</li>
+  <li>Elegant-syntax, flexible and powerful QueryBuilder.</li>
+  <li>Left and inner joins.</li>
+  <li>Proper pagination for queries using joins.</li>
+  <li>Query caching.</li>
+  <li>Streaming raw results.</li>
+  <li>Logging.</li>
+  <li>Listeners and subscribers (hooks).</li>
+  <li>Supports closure table pattern.</li>
+  <li>Schema declaration in models or separate configuration files.</li>
+  <li>Supports MySQL / MariaDB / Postgres / CockroachDB / SQLite / Microsoft SQL Server / Oracle / SAP Hana / sql.js.</li>
+  <li>Supports MongoDB NoSQL database.</li>
+  <li>Works in Node.js / Browser / Ionic / Cordova / React Native / NativeScript / Expo / Electron platforms.</li>
+  <li>TypeScript and JavaScript support.</li>
+  <li>ESM and CommonJS support.</li>
+  <li>Produced code is performant, flexible, clean, and maintainable.</li>
+  <li>Follows all possible best practices.</li>
+  <li>CLI.</li>
+</ul>
+
+<p>And more&#8230;</p>
+
+<p>With TypeORM, your models look like this:</p>
+
+<pre><code class="language-typescript">import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+
+@Entity()
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    firstName: string
+
+    @Column()
+    lastName: string
+
+    @Column()
+    age: number
+}
+</code></pre>
+
+<p>And your domain logic looks like this:</p>
+
+<pre><code class="language-typescript">const userRepository = MyDataSource.getRepository(User)
+
+const user = new User()
+user.firstName = "Timber"
+user.lastName = "Saw"
+user.age = 25
+await userRepository.save(user)
+
+const allUsers = await userRepository.find()
+const firstUser = await userRepository.findOneBy({
+    id: 1,
+}) // find by id
+const timber = await userRepository.findOneBy({
+    firstName: "Timber",
+    lastName: "Saw",
+}) // find by firstName and lastName
+
+await userRepository.remove(timber)
+</code></pre>
+
+<p>Alternatively, if you prefer to use the <code>ActiveRecord</code> implementation, you can use it as well:</p>
+
+<pre><code class="language-typescript">import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm"
+
+@Entity()
+export class User extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column()
+    firstName: string
+
+    @Column()
+    lastName: string
+
+    @Column()
+    age: number
+}
+</code></pre>
+
+<p>And your domain logic will look this way:</p>
+
+<pre><code class="language-typescript">const user = new User()
+user.firstName = "Timber"
+user.lastName = "Saw"
+user.age = 25
+await user.save()
+
+const allUsers = await User.find()
+const firstUser = await User.findOneBy({
+    id: 1,
+})
+const timber = await User.findOneBy({
+    firstName: "Timber",
+    lastName: "Saw",
+})
+
+await timber.remove()
+</code></pre>
+
+<h2 id="samples">Samples</h2>
+
+<p>Take a look at the samples in <a href="https://github.com/typeorm/typeorm/tree/master/sample">sample</a> for examples of usage.</p>
+
+<p>There are a few repositories that you can clone and start with:</p>
+
+<ul>
+  <li><a href="https://github.com/typeorm/typescript-example">Example how to use TypeORM with TypeScript</a></li>
+  <li><a href="https://github.com/typeorm/javascript-example">Example how to use TypeORM with JavaScript</a></li>
+  <li><a href="https://github.com/typeorm/babel-example">Example how to use TypeORM with JavaScript and Babel</a></li>
+  <li><a href="https://github.com/typeorm/browser-example">Example how to use TypeORM with TypeScript and SystemJS in Browser</a></li>
+  <li><a href="https://github.com/ItayGarin/typeorm-react-swc">Example how to use TypeORM with TypeScript and React in Browser</a></li>
+  <li><a href="https://github.com/typeorm/typescript-express-example">Example how to use Express and TypeORM</a></li>
+  <li><a href="https://github.com/typeorm/typescript-koa-example">Example how to use Koa and TypeORM</a></li>
+  <li><a href="https://github.com/typeorm/mongo-typescript-example">Example how to use TypeORM with MongoDB</a></li>
+  <li><a href="https://github.com/typeorm/cordova-example">Example how to use TypeORM in a Cordova app</a></li>
+  <li><a href="https://github.com/typeorm/ionic-example">Example how to use TypeORM with an Ionic app</a></li>
+  <li><a href="https://github.com/typeorm/react-native-example">Example how to use TypeORM with React Native</a></li>
+  <li><a href="https://github.com/typeorm/nativescript-vue-typeorm-sample">Example how to use TypeORM with Nativescript-Vue</a></li>
+  <li><a href="https://github.com/betov18x/nativescript-angular-typeorm-example">Example how to use TypeORM with Nativescript-Angular</a></li>
+  <li><a href="https://github.com/typeorm/electron-javascript-example">Example how to use TypeORM with Electron using JavaScript</a></li>
+  <li><a href="https://github.com/typeorm/electron-typescript-example">Example how to use TypeORM with Electron using TypeScript</a></li>
+</ul>
+
+<h2 id="extensions">Extensions</h2>
+
+<p>There are several extensions that simplify working with TypeORM and integrating it with other modules:</p>
+
+<ul>
+  <li>Models generation from the existing database - <a href="https://github.com/Kononnable/typeorm-model-generator">typeorm-model-generator</a></li>
+  <li>Fixtures loader - <a href="https://github.com/RobinCK/typeorm-fixtures">typeorm-fixtures-cli</a></li>
+  <li>ER Diagram generator - <a href="https://github.com/eugene-manuilov/typeorm-uml/">typeorm-uml</a></li>
+  <li>another ER Diagram generator - <a href="https://www.npmjs.com/package/erdia/">erdia</a></li>
+  <li>Create, drop and seed database - <a href="https://github.com/tada5hi/typeorm-extension">typeorm-extension</a></li>
+  <li>Automatically update <code>data-source.ts</code> after generating migrations/entities - <a href="https://www.npmjs.com/package/typeorm-codebase-sync">typeorm-codebase-sync</a></li>
+  <li>Easy manipulation of <code>relations</code> objects - <a href="https://npmjs.com/package/typeorm-relations">typeorm-relations</a></li>
+  <li>Automatically generate <code>relations</code> based on a GraphQL query - <a href="https://npmjs.com/package/typeorm-relations-graphql">typeorm-relations-graphql</a></li>
+  <li>Generate TypeORM entities from Valibot schemas - <a href="https://github.com/piying-org/piying-orm">piying-orm</a></li>
+</ul>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Learn about contribution <a href="https://github.com/typeorm/typeorm/blob/master/CONTRIBUTING.md">here</a> and how to set up your development environment <a href="https://github.com/typeorm/typeorm/blob/master/DEVELOPER.md">here</a>.</p>
+
+<p>This project exists thanks to all the people who contribute:</p>
+
+<p><a href="https://github.com/typeorm/typeorm/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a></p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Open source is hard and time-consuming. If you want to invest in TypeORM&#8217;s future, you can become a sponsor and allow our core team to spend more time on TypeORM&#8217;s improvements and new features.</p>
+
+<h3 id="champion">Champion</h3>
+
+<p>Become a champion sponsor and get premium technical support from our core contributors. <a href="https://opencollective.com/typeorm">Become a champion</a></p>
+
+<p><a href="https://opencollective.com/typeorm" target="_blank"><img src="../support/images/opencollective_gold-sponsor.svg" /></a></p>
+
+<h3 id="supporter">Supporter</h3>
+
+<p>Support TypeORM&#8217;s development with a monthly contribution. <a href="https://opencollective.com/typeorm">Become a supporter</a></p>
+
+<p><a href="https://opencollective.com/typeorm" target="_blank"><img src="../support/images/opencollective_love.svg" /></a></p>
+
+<h3 id="community">Community</h3>
+
+<p>Join our community of supporters and help sustain TypeORM. <a href="https://opencollective.com/typeorm">Become a community supporter</a></p>
+
+<p><a href="https://opencollective.com/typeorm" target="_blank"><img src="../support/images/opencollective_like.svg" /></a></p>
+
+<h3 id="sponsor">Sponsor</h3>
+
+<p>Make a one-time or recurring contribution of your choice. <a href="https://opencollective.com/typeorm">Become a sponsor</a></p>
+
+<p><a href="https://opencollective.com/typeorm" target="_blank"><img src="../support/images/opencollective_sponsor.svg" /></a></p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

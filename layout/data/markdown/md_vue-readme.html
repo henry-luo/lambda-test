@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>vue README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        vue README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h2 id="vue-2-has-reached-end-of-life">Vue 2 has reached End of Life</h2>
+
+<p><strong>You are looking at the now inactive repository for Vue 2. The actively maintained repository for the latest version of Vue is <a href="https://github.com/vuejs/core">vuejs/core</a>.</strong></p>
+
+<p>Vue has reached End of Life on December 31st, 2023. It no longer receives new features, updates, or fixes. However, it is still available on all existing distribution channels (CDNs, package managers, Github, etc).</p>
+
+<p>If you are starting a new project, please start with the latest version of Vue (3.x). We also strongly recommend current Vue 2 users to upgrade (<a href="https://v3-migration.vuejs.org/">guide</a>), but we also acknowledge that not all users have the bandwidth or incentive to do so. If you have to stay on Vue 2 but also have compliance or security requirements about unmaintained software, check out <a href="https://www.herodevs.com/support/nes-vue?utm_source=vuejs-github&amp;utm_medium=vue2-readme">Vue 2 NES</a>.</p>
+
+<p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="../support/images/vuejs_logo.png" alt="Vue logo" /></a></p>
+
+<p align="center">
+  <a href="https://circleci.com/gh/vuejs/vue/tree/dev"><img src="../support/images/img.shields.io_circleci_project_github_vuejs_vue_dev.svg" alt="Build Status" /></a>
+  <a href="https://codecov.io/github/vuejs/vue?branch=dev"><img src="../support/images/img.shields.io_codecov_c_github_vuejs_vue_dev.svg" alt="Coverage Status" /></a>
+  <a href="https://npmcharts.com/compare/vue?minimal=true"><img src="../support/images/img.shields.io_npm_dm_vue.svg" alt="Downloads" /></a>
+  <a href="https://www.npmjs.com/package/vue"><img src="../support/images/img.shields.io_npm_v_vue.svg" alt="Version" /></a>
+  <a href="https://www.npmjs.com/package/vue"><img src="../support/images/img.shields.io_npm_l_vue.svg" alt="License" /></a>
+  <a href="https://chat.vuejs.org/"><img src="../support/images/img.shields.io_badge_chat-on_20discord-7289da.svg" alt="Chat" /></a>
+</p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Vue.js is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome <a href="https://github.com/vuejs/core/blob/main/BACKERS.md">backers</a>. If you&#8217;d like to join them, please consider <a href="https://vuejs.org/sponsor/"> sponsor Vue&#8217;s development</a>.</p>
+
+<p align="center">
+  <h3 align="center">Special Sponsor</h3>
+</p>
+
+<p align="center">
+  <a target="_blank" href="https://github.com/appwrite/appwrite">
+  <img alt="special sponsor appwrite" src="../support/images/sponsors-vuejs_appwrite.svg" width="300" />
+  </a>
+</p>
+
+<p align="center">
+  <a target="_blank" href="https://vuejs.org/sponsor/">
+    <img alt="sponsors" src="../support/images/sponsors-vuejs_sponsors.svg" />
+  </a>
+</p>
+
+<hr />
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Vue (pronounced <code>/vjuː/</code>, like view) is a <strong>progressive framework</strong> for building user interfaces. It is designed from the ground up to be incrementally adoptable, and can easily scale between a library and a framework depending on different use cases. It consists of an approachable core library that focuses on the view layer only, and an ecosystem of supporting libraries that helps you tackle complexity in large Single-Page Applications.</p>
+
+<h4 id="browser-compatibility">Browser Compatibility</h4>
+
+<p>Vue.js supports all browsers that are <a href="https://compat-table.github.io/compat-table/es5/">ES5-compliant</a> (IE8 and below are not supported).</p>
+
+<h2 id="ecosystem">Ecosystem</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Status</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-router">vue-router</a></td>
+      <td><a href="https://npmjs.com/package/vue-router"><img src="../support/images/img.shields.io_npm_v_vue-router.svg" alt="vue-router-status" /></a></td>
+      <td>Single-page application routing</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vuex">vuex</a></td>
+      <td><a href="https://npmjs.com/package/vuex"><img src="../support/images/img.shields.io_npm_v_vuex.svg" alt="vuex-status" /></a></td>
+      <td>Large-scale state management</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-cli">vue-cli</a></td>
+      <td><a href="https://npmjs.com/package/@vue/cli"><img src="../support/images/img.shields.io_npm_v_vue_cli.svg" alt="vue-cli-status" /></a></td>
+      <td>Project scaffolding</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-loader">vue-loader</a></td>
+      <td><a href="https://npmjs.com/package/vue-loader"><img src="../support/images/img.shields.io_npm_v_vue-loader.svg" alt="vue-loader-status" /></a></td>
+      <td>Single File Component (<code>*.vue</code> file) loader for webpack</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer">vue-server-renderer</a></td>
+      <td><a href="https://npmjs.com/package/vue-server-renderer"><img src="../support/images/img.shields.io_npm_v_vue-server-renderer.svg" alt="vue-server-renderer-status" /></a></td>
+      <td>Server-side rendering support</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-class-component">vue-class-component</a></td>
+      <td><a href="https://npmjs.com/package/vue-class-component"><img src="../support/images/img.shields.io_npm_v_vue-class-component.svg" alt="vue-class-component-status" /></a></td>
+      <td>TypeScript decorator for a class-based API</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-rx">vue-rx</a></td>
+      <td><a href="https://npmjs.com/package/vue-rx"><img src="../support/images/img.shields.io_npm_v_vue-rx.svg" alt="vue-rx-status" /></a></td>
+      <td>RxJS integration</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/vuejs/vue-devtools">vue-devtools</a></td>
+      <td><a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd"><img src="../support/images/img.shields.io_chrome-web-store_v_nhdogjmejiglipccpnnnanhbledajbpd.svg" alt="vue-devtools-status" /></a></td>
+      <td>Browser DevTools extension</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>To check out <a href="https://v2.vuejs.org/v2/examples/">live examples</a> and docs, visit <a href="https://v2.vuejs.org">vuejs.org</a>.</p>
+
+<h2 id="questions">Questions</h2>
+
+<p>For questions and support please use <a href="https://forum.vuejs.org">the official forum</a> or <a href="https://chat.vuejs.org/">community chat</a>. The issue list of this repo is <strong>exclusively</strong> for bug reports and feature requests.</p>
+
+<h2 id="issues">Issues</h2>
+
+<p>Please make sure to read the <a href="https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#issue-reporting-guidelines">Issue Reporting Checklist</a> before opening an issue. Issues not conforming to the guidelines may be closed immediately.</p>
+
+<h2 id="changelog">Changelog</h2>
+
+<p>Detailed changes for each release are documented in the <a href="https://github.com/vuejs/vue/releases">release notes</a>.</p>
+
+<h2 id="stay-in-touch">Stay In Touch</h2>
+
+<ul>
+  <li><a href="https://twitter.com/vuejs">Twitter</a></li>
+  <li><a href="https://medium.com/the-vue-point">Blog</a></li>
+  <li><a href="https://vuejobs.com/?ref=vuejs">Job Board</a></li>
+</ul>
+
+<h2 id="contribution">Contribution</h2>
+
+<p>Please make sure to read the <a href="https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md">Contributing Guide</a> before making a pull request. If you have a Vue-related project/component/tool, add it with a pull request to <a href="https://github.com/vuejs/awesome-vue">this curated list</a>!</p>
+
+<p>Thank you to all the people who already contributed to Vue!</p>
+
+<p><a href="https://github.com/vuejs/vue/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a></p>
+
+<h2 id="license">License</h2>
+
+<p><a href="https://opensource.org/licenses/MIT">MIT</a></p>
+
+<p>Copyright (c) 2013-present, Yuxi (Evan) You</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

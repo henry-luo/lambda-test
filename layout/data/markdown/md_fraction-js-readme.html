@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fraction js README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>fraction js README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        fraction js README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="fractionjs---ℚ-in-javascript">Fraction.js - ℚ in JavaScript</h1>
+
+<p><a href="https://npmjs.org/package/fraction.js" title="View this project on npm"><img src="../support/images/img.shields.io_npm_v_fraction.js.svg" alt="NPM Package" /></a>
+<a href="http://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license" /></a></p>
+
+<p>Do you find the limitations of floating-point arithmetic frustrating, especially when rational and irrational numbers like π or √2 are stored within the same finite precision? This can lead to avoidable inaccuracies such as:</p>
+
+<pre><code class="language-javascript">1 / 98 * 98 // Results in 0.9999999999999999
+</code></pre>
+
+<p>For applications requiring higher precision or where working with fractions is preferable, consider incorporating <em>Fraction.js</em> into your project.</p>
+
+<p>The library effectively addresses precision issues, as demonstrated below:</p>
+
+<pre><code class="language-javascript">Fraction(1).div(98).mul(98) // Returns 1
+</code></pre>
+
+<p><em>Fraction.js</em> uses a <code>BigInt</code> representation for both the numerator and denominator, ensuring minimal performance overhead while maximizing accuracy. Its design is optimized for precision, making it an ideal choice as a foundational library for other math tools, such as <a href="https://github.com/rawify/Polynomial.js">Polynomial.js</a> and <a href="https://github.com/josdejong/mathjs">Math.js</a>.</p>
+
+<h2 id="convert-decimal-to-fraction">Convert Decimal to Fraction</h2>
+
+<p>One of the core features of <em>Fraction.js</em> is its ability to seamlessly convert decimal numbers into fractions.</p>
+
+<pre><code class="language-javascript">let x = new Fraction(1.88);
+let res = x.toFraction(true); // Returns "1 22/25" as a string
+</code></pre>
+
+<p>This is particularly useful when you need precise fraction representations instead of dealing with the limitations of floating-point arithmetic. What if you allow some error tolerance?</p>
+
+<pre><code class="language-javascript">let x = new Fraction(0.33333);
+let res = x.simplify(0.001) // Error &lt; 0.001
+       .toFraction(); // Returns "1/3" as a string
+</code></pre>
+
+<h2 id="precision">Precision</h2>
+
+<p>As native <code>BigInt</code> support in JavaScript becomes more common, libraries like <em>Fraction.js</em> use it to handle calculations with higher precision. This improves the speed and accuracy of math operations with large numbers, providing a better solution for tasks that need more precision than floating-point numbers can offer.</p>
+
+<h2 id="examples--motivation">Examples / Motivation</h2>
+
+<p>A simple example of using <em>Fraction.js</em> might look like this:</p>
+
+<pre><code class="language-javascript">var f = new Fraction("9.4'31'"); // 9.4313131313131...
+f.mul([-4, 3]).mod("4.'8'"); // 4.88888888888888...
+</code></pre>
+
+<p>The result can then be displayed as:</p>
+
+<pre><code class="language-javascript">console.log(f.toFraction()); // -4154 / 1485
+</code></pre>
+
+<p>Additionally, you can access the internal attributes of the fraction, such as the sign (s), numerator (n), and denominator (d). Keep in mind that these values are stored as <code>BigInt</code>:</p>
+
+<pre><code class="language-javascript">Number(f.s) * Number(f.n) / Number(f.d) = -1 * 4154 / 1485 = -2.797306...
+</code></pre>
+
+<p>If you attempted to calculate this manually using floating-point arithmetic, you&#8217;d get something like:</p>
+
+<pre><code class="language-javascript">(9.4313131 * (-4 / 3)) % 4.888888 = -2.797308133...
+</code></pre>
+
+<p>While the result is reasonably close, it’s not as accurate as the fraction-based approach that <em>Fraction.js</em> provides, especially when dealing with repeating decimals or complex operations. This highlights the value of precision that the library brings.</p>
+
+<h3 id="laplace-probability">Laplace Probability</h3>
+
+<p>Here&#8217;s a straightforward example of using <em>Fraction.js</em> to calculate probabilities. Let&#8217;s determine the probability of rolling a specific outcome on a fair die:</p>
+
+<ul>
+  <li><strong>P({3})</strong>: The probability of rolling a 3.</li>
+  <li><strong>P({1, 4})</strong>: The probability of rolling either 1 or 4.</li>
+  <li><strong>P({2, 4, 6})</strong>: The probability of rolling 2, 4, or 6.</li>
+</ul>
+
+<h4 id="p3">P({3}):</h4>
+
+<pre><code class="language-javascript">var p = new Fraction([3].length, 6).toString(); // "0.1(6)"
+</code></pre>
+
+<h4 id="p1-4">P({1, 4}):</h4>
+
+<pre><code class="language-javascript">var p = new Fraction([1, 4].length, 6).toString(); // "0.(3)"
+</code></pre>
+
+<h4 id="p2-4-6">P({2, 4, 6}):</h4>
+
+<pre><code class="language-javascript">var p = new Fraction([2, 4, 6].length, 6).toString(); // "0.5"
+</code></pre>
+
+<h3 id="convert-degreesminutesseconds-to-precise-rational-representation">Convert degrees/minutes/seconds to precise rational representation:</h3>
+
+<p>57+45/60+17/3600</p>
+
+<pre><code class="language-javascript">var deg = 57; // 57°
+var min = 45; // 45 Minutes
+var sec = 17; // 17 Seconds
+
+new Fraction(deg).add(min, 60).add(sec, 3600).toString() // -&gt; 57.7547(2)
+</code></pre>
+
+<h3 id="rational-approximation-of-irrational-numbers">Rational approximation of irrational numbers</h3>
+
+<p>To approximate a number like <em>sqrt(5) - 2</em> with a numerator and denominator, you can reformat the equation as follows: <em>pow(n / d + 2, 2) = 5</em>.</p>
+
+<p>Then the following algorithm will generate the rational number besides the binary representation.</p>
+
+<pre><code class="language-javascript">var x = "/", s = "";
+
+var a = new Fraction(0),
+    b = new Fraction(1);
+for (var n = 0; n &lt;= 10; n++) {
+
+  var c = a.add(b).div(2);
+
+  console.log(n + "\t" + a + "\t" + b + "\t" + c + "\t" + x);
+
+  if (c.add(2).pow(2).valueOf() &lt; 5) {
+    a = c;
+    x = "1";
+  } else {
+    b = c;
+    x = "0";
+  }
+  s+= x;
+}
+console.log(s)
+</code></pre>
+
+<p>The result is</p>
+
+<pre><code>n   a[n]        b[n]        c[n]            x[n]
+0   0/1         1/1         1/2             /
+1   0/1         1/2         1/4             0
+2   0/1         1/4         1/8             0
+3   1/8         1/4         3/16            1
+4   3/16        1/4         7/32            1
+5   7/32        1/4         15/64           1
+6   15/64       1/4         31/128          1
+7   15/64       31/128      61/256          0
+8   15/64       61/256      121/512         0
+9   15/64       121/512     241/1024        0
+10  241/1024    121/512     483/2048        1
+</code></pre>
+
+<p>Thus the approximation after 11 iterations of the bisection method is <em>483 / 2048</em> and the binary representation is 0.00111100011 (see <a href="http://www.wolframalpha.com/input/?i=sqrt%285%29-2+binary">WolframAlpha</a>)</p>
+
+<p>I published another example on how to approximate PI with fraction.js on my <a href="https://raw.org/article/rational-numbers-in-javascript/">blog</a> (Still not the best idea to approximate irrational numbers, but it illustrates the capabilities of Fraction.js perfectly).</p>
+
+<h3 id="get-the-exact-fractional-part-of-a-number">Get the exact fractional part of a number</h3>
+
+<pre><code class="language-javascript">var f = new Fraction("-6.(3416)");
+console.log(f.mod(1).abs().toFraction()); // = 3416/9999
+</code></pre>
+
+<h3 id="mathematical-correct-modulo">Mathematical correct modulo</h3>
+
+<p>The behaviour on negative congruences is different to most modulo implementations in computer science. Even the <em>mod()</em> function of Fraction.js behaves in the typical way. To solve the problem of having the mathematical correct modulo with Fraction.js you could come up with this:</p>
+
+<pre><code class="language-javascript">var a = -1;
+var b = 10.99;
+
+console.log(new Fraction(a)
+  .mod(b)); // Not correct, usual Modulo
+
+console.log(new Fraction(a)
+  .mod(b).add(b).mod(b)); // Correct! Mathematical Modulo
+</code></pre>
+
+<h2 id="fmod-imprecision-circumvented">fmod() imprecision circumvented</h2>
+<p>It turns out that Fraction.js outperforms almost any fmod() implementation, including JavaScript itself, <a href="http://phpjs.org/functions/fmod/">php.js</a>, C++, Python, Java and even Wolframalpha due to the fact that numbers like 0.05, 0.1, &#8230; are infinite decimal in base 2.</p>
+
+<p>The equation <em>fmod(4.55, 0.05)</em> gives <em>0.04999999999999957</em>, wolframalpha says <em>1/20</em>. The correct answer should be <strong>zero</strong>, as 0.05 divides 4.55 without any remainder.</p>
+
+<h2 id="parser">Parser</h2>
+
+<p>Any function (see below) as well as the constructor of the <em>Fraction</em> class parses its input and reduce it to the smallest term.</p>
+
+<p>You can pass either Arrays, Objects, Integers, Doubles or Strings.</p>
+
+<h3 id="arrays--objects">Arrays / Objects</h3>
+
+<pre><code class="language-javascript">new Fraction(numerator, denominator);
+new Fraction([numerator, denominator]);
+new Fraction({n: numerator, d: denominator});
+</code></pre>
+
+<h3 id="integers">Integers</h3>
+
+<pre><code class="language-javascript">new Fraction(123);
+</code></pre>
+
+<h3 id="doubles">Doubles</h3>
+
+<pre><code class="language-javascript">new Fraction(55.4);
+</code></pre>
+
+<p><strong>Note:</strong> If you pass a double as it is, Fraction.js will perform a number analysis based on Farey Sequences. If you concern performance, cache Fraction.js objects and pass arrays/objects.</p>
+
+<p>The method is really precise, but too large exact numbers, like 1234567.9991829 will result in a wrong approximation. If you want to keep the number as it is, convert it to a string, as the string parser will not perform any further observations. If you have problems with the approximation, in the file <code>examples/approx.js</code> is a different approximation algorithm, which might work better in some more specific use-cases.</p>
+
+<h3 id="strings">Strings</h3>
+
+<pre><code class="language-javascript">new Fraction("123.45");
+new Fraction("123/45"); // A rational number represented as two decimals, separated by a slash
+new Fraction("123:45"); // A rational number represented as two decimals, separated by a colon
+new Fraction("4 123/45"); // A rational number represented as a whole number and a fraction
+new Fraction("123.'456'"); // Note the quotes, see below!
+new Fraction("123.(456)"); // Note the brackets, see below!
+new Fraction("123.45'6'"); // Note the quotes, see below!
+new Fraction("123.45(6)"); // Note the brackets, see below!
+</code></pre>
+
+<h3 id="two-arguments">Two arguments</h3>
+
+<pre><code class="language-javascript">new Fraction(3, 2); // 3/2 = 1.5
+</code></pre>
+
+<h3 id="repeating-decimal-places">Repeating decimal places</h3>
+
+<p><em>Fraction.js</em> can easily handle repeating decimal places. For example <em>1/3</em> is <em>0.3333&#8230;</em>. There is only one repeating digit. As you can see in the examples above, you can pass a number like <em>1/3</em> as &#8220;0.&#8217;3&#8217;&#8221; or &#8220;0.(3)&#8221;, which are synonym. There are no tests to parse something like 0.166666666 to 1/6! If you really want to handle this number, wrap around brackets on your own with the function below for example: 0.1(66666666)</p>
+
+<p>Assume you want to divide 123.32 / 33.6(567). <a href="http://www.wolframalpha.com/input/?i=123.32+%2F+%2812453%2F370%29">WolframAlpha</a> states that you&#8217;ll get a period of 1776 digits. <em>Fraction.js</em> comes to the same result. Give it a try:</p>
+
+<pre><code class="language-javascript">var f = new Fraction("123.32");
+console.log("Bam: " + f.div("33.6(567)"));
+</code></pre>
+
+<p>To automatically make a number like &#8220;0.123123123&#8221; to something more Fraction.js friendly like &#8220;0.(123)&#8221;, I hacked this little brute force algorithm in a 10 minutes. Improvements are welcome&#8230;</p>
+
+<pre><code class="language-javascript">function formatDecimal(str) {
+
+  var comma, pre, offset, pad, times, repeat;
+
+  if (-1 === (comma = str.indexOf(".")))
+    return str;
+
+  pre = str.substr(0, comma + 1);
+  str = str.substr(comma + 1);
+
+  for (var i = 0; i &lt; str.length; i++) {
+
+    offset = str.substr(0, i);
+
+    for (var j = 0; j &lt; 5; j++) {
+
+      pad = str.substr(i, j + 1);
+
+      times = Math.ceil((str.length - offset.length) / pad.length);
+
+      repeat = new Array(times + 1).join(pad); // Silly String.repeat hack
+
+      if (0 === (offset + repeat).indexOf(str)) {
+        return pre + offset + "(" + pad + ")";
+      }
+    }
+  }
+  return null;
+}
+
+var f, x = formatDecimal("13.0123123123"); // = 13.0(123)
+if (x !== null) {
+  f = new Fraction(x);
+}
+</code></pre>
+
+<h2 id="attributes">Attributes</h2>
+
+<p>The Fraction object allows direct access to the numerator, denominator and sign attributes. It is ensured that only the sign-attribute holds sign information so that a sign comparison is only necessary against this attribute.</p>
+
+<pre><code class="language-javascript">var f = new Fraction('-1/2');
+console.log(f.n); // Numerator: 1
+console.log(f.d); // Denominator: 2
+console.log(f.s); // Sign: -1
+</code></pre>
+
+<h2 id="functions">Functions</h2>
+
+<h3 id="fraction-abs">Fraction abs()</h3>
+
+<p>Returns the actual number without any sign information</p>
+
+<h3 id="fraction-neg">Fraction neg()</h3>
+
+<p>Returns the actual number with flipped sign in order to get the additive inverse</p>
+
+<h3 id="fraction-addn">Fraction add(n)</h3>
+
+<p>Returns the sum of the actual number and the parameter n</p>
+
+<h3 id="fraction-subn">Fraction sub(n)</h3>
+
+<p>Returns the difference of the actual number and the parameter n</p>
+
+<h3 id="fraction-muln">Fraction mul(n)</h3>
+
+<p>Returns the product of the actual number and the parameter n</p>
+
+<h3 id="fraction-divn">Fraction div(n)</h3>
+
+<p>Returns the quotient of the actual number and the parameter n</p>
+
+<h3 id="fraction-powexp">Fraction pow(exp)</h3>
+
+<p>Returns the power of the actual number, raised to an possible rational exponent. If the result becomes non-rational the function returns <code>null</code>.</p>
+
+<h3 id="fraction-logbase">Fraction log(base)</h3>
+
+<p>Returns the logarithm of the actual number to a given rational base. If the result becomes non-rational the function returns <code>null</code>.</p>
+
+<h3 id="fraction-modn">Fraction mod(n)</h3>
+
+<p>Returns the modulus (rest of the division) of the actual object and n (this % n). It&#8217;s a much more precise <a href="#fmod-impreciseness-circumvented">fmod()</a> if you like. Please note that <em>mod()</em> is just like the modulo operator of most programming languages. If you want a mathematical correct modulo, see <a href="#mathematical-correct-modulo">here</a>.</p>
+
+<h3 id="fraction-mod">Fraction mod()</h3>
+
+<p>Returns the modulus (rest of the division) of the actual object (numerator mod denominator)</p>
+
+<h3 id="fraction-gcdn">Fraction gcd(n)</h3>
+
+<p>Returns the fractional greatest common divisor</p>
+
+<h3 id="fraction-lcmn">Fraction lcm(n)</h3>
+
+<p>Returns the fractional least common multiple</p>
+
+<h3 id="fraction-ceilplaces0-16">Fraction ceil([places=0-16])</h3>
+
+<p>Returns the ceiling of a rational number with Math.ceil</p>
+
+<h3 id="fraction-floorplaces0-16">Fraction floor([places=0-16])</h3>
+
+<p>Returns the floor of a rational number with Math.floor</p>
+
+<h3 id="fraction-roundplaces0-16">Fraction round([places=0-16])</h3>
+
+<p>Returns the rational number rounded with Math.round</p>
+
+<h3 id="fraction-roundtomultiple">Fraction roundTo(multiple)</h3>
+
+<p>Rounds a fraction to the closest multiple of another fraction.</p>
+
+<h3 id="fraction-inverse">Fraction inverse()</h3>
+
+<p>Returns the multiplicative inverse of the actual number (n / d becomes d / n) in order to get the reciprocal</p>
+
+<h3 id="fraction-simplifyeps0001">Fraction simplify([eps=0.001])</h3>
+
+<p>Simplifies the rational number under a certain error threshold. Ex. <code>0.333</code> will be <code>1/3</code> with <code>eps=0.001</code></p>
+
+<h3 id="boolean-equalsn">boolean equals(n)</h3>
+
+<p>Check if two rational numbers are equal</p>
+
+<h3 id="boolean-ltn">boolean lt(n)</h3>
+
+<p>Check if this rational number is less than another</p>
+
+<h3 id="boolean-lten">boolean lte(n)</h3>
+
+<p>Check if this rational number is less than or equal another</p>
+
+<h3 id="boolean-gtn">boolean gt(n)</h3>
+
+<p>Check if this rational number is greater than another</p>
+
+<h3 id="boolean-gten">boolean gte(n)</h3>
+
+<p>Check if this rational number is greater than or equal another</p>
+
+<h3 id="int-comparen">int compare(n)</h3>
+
+<p>Compare two numbers.</p>
+<pre><code>result &lt; 0: n is greater than actual number
+result &gt; 0: n is smaller than actual number
+result = 0: n is equal to the actual number
+</code></pre>
+
+<h3 id="boolean-divisiblen">boolean divisible(n)</h3>
+
+<p>Check if two numbers are divisible (n divides this)</p>
+
+<h3 id="double-valueof">double valueOf()</h3>
+
+<p>Returns a decimal representation of the fraction</p>
+
+<h3 id="string-tostringdecimalplaces15">String toString([decimalPlaces=15])</h3>
+
+<p>Generates an exact string representation of the given object. For repeating decimal places, digits within repeating cycles are enclosed in parentheses, e.g., <code>1/3 = "0.(3)"</code>. For other numbers, the string will include up to the specified <code>decimalPlaces</code> significant digits, including any trailing zeros if truncation occurs. For example, <code>1/2</code> will be represented as <code>"0.5"</code>, without additional trailing zeros.</p>
+
+<p><strong>Note:</strong> Since both <code>valueOf()</code> and <code>toString()</code> are provided, <code>toString()</code> will only be invoked implicitly when the object is used in a string context. For instance, when using the plus operator like <code>"123" + new Fraction</code>, <code>valueOf()</code> will be called first, as JavaScript attempts to combine primitives before concatenating them, with the string type taking precedence. However, <code>alert(new Fraction)</code> or <code>String(new Fraction)</code> will behave as expected. To ensure specific behavior, explicitly call either <code>toString()</code> or <code>valueOf()</code>.</p>
+
+<h3 id="string-tolatexshowmixedfalse">String toLatex(showMixed=false)</h3>
+
+<p>Generates an exact LaTeX representation of the actual object. You can see a <a href="https://raw.org/article/rational-numbers-in-javascript/">live demo</a> on my blog.</p>
+
+<p>The optional boolean parameter indicates if you want to show the a mixed fraction. &#8220;1 1/3&#8221; instead of &#8220;4/3&#8221;</p>
+
+<h3 id="string-tofractionshowmixedfalse">String toFraction(showMixed=false)</h3>
+
+<p>Gets a string representation of the fraction</p>
+
+<p>The optional boolean parameter indicates if you want to showa mixed fraction. &#8220;1 1/3&#8221; instead of &#8220;4/3&#8221;</p>
+
+<h3 id="array-tocontinued">Array toContinued()</h3>
+
+<p>Gets an array of the fraction represented as a continued fraction. The first element always contains the whole part.</p>
+
+<pre><code class="language-javascript">var f = new Fraction('88/33');
+var c = f.toContinued(); // [2, 1, 2]
+</code></pre>
+
+<h3 id="fraction-clone">Fraction clone()</h3>
+
+<p>Creates a copy of the actual Fraction object</p>
+
+<h2 id="exceptions">Exceptions</h2>
+
+<p>If a really hard error occurs (parsing error, division by zero), <em>Fraction.js</em> throws exceptions! Please make sure you handle them correctly.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>You can install <code>Fraction.js</code> via npm:</p>
+
+<pre><code class="language-bash">npm install fraction.js
+</code></pre>
+
+<p>Or with yarn:</p>
+
+<pre><code class="language-bash">yarn add fraction.js
+</code></pre>
+
+<p>Alternatively, download or clone the repository:</p>
+
+<pre><code class="language-bash">git clone https://github.com/rawify/Fraction.js
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<p>Include the <code>fraction.min.js</code> file in your project:</p>
+
+<pre><code class="language-html">&lt;script src="path/to/fraction.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  var x = new Fraction("13/4");
+&lt;/script&gt;
+</code></pre>
+
+<p>Or in a Node.js project:</p>
+
+<pre><code class="language-javascript">const Fraction = require('fraction.js');
+</code></pre>
+
+<p>or</p>
+
+<pre><code class="language-javascript">import Fraction from 'fraction.js';
+</code></pre>
+
+<h2 id="coding-style">Coding Style</h2>
+
+<p>Like all my libraries, Fraction.js is written to minimize size after compression with Google Closure Compiler in advanced mode. The code style is optimized to maximize compressibility. If you extend the library, please preserve this style.</p>
+
+<h2 id="building-the-library">Building the library</h2>
+
+<p>After cloning the Git repository run:</p>
+
+<pre><code class="language-bash">npm install
+npm run build
+</code></pre>
+
+<h2 id="run-a-test">Run a test</h2>
+
+<p>Testing the source against the shipped test suite is as easy as</p>
+
+<pre><code class="language-bash">npm run test
+</code></pre>
+
+<h2 id="copyright-and-licensing">Copyright and Licensing</h2>
+
+<p>Copyright (c) 2025, <a href="https://raw.org/">Robert Eisele</a>
+Licensed under the MIT license.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

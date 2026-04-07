@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>react README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>react README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        react README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="react------"><a href="https://react.dev/">React</a> &middot; <a href="https://github.com/facebook/react/blob/main/LICENSE"><img src="../support/images/img.shields.io_badge_license-MIT-blue.svg" alt="GitHub license" /></a> <a href="https://www.npmjs.com/package/react"><img src="../support/images/img.shields.io_npm_v_react.svg" alt="npm version" /></a> <a href="https://github.com/facebook/react/actions/workflows/runtime_build_and_test.yml"><img src="../support/images/github_badge.svg" alt="(Runtime) Build and Test" /></a> <a href="https://github.com/facebook/react/actions/workflows/compiler_typescript.yml"><img src="../support/images/github_badge.svg" alt="(Compiler) TypeScript" /></a> <a href="https://legacy.reactjs.org/docs/how-to-contribute.html#your-first-pull-request"><img src="../support/images/img.shields.io_badge_PRs-welcome-brightgreen.svg" alt="PRs Welcome" /></a></h1>
+
+<p>React is a JavaScript library for building user interfaces.</p>
+
+<ul>
+  <li><strong>Declarative:</strong> React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.</li>
+  <li><strong>Component-Based:</strong> Build encapsulated components that manage their own state, then compose them to make complex UIs. Since component logic is written in JavaScript instead of templates, you can easily pass rich data through your app and keep the state out of the DOM.</li>
+  <li><strong>Learn Once, Write Anywhere:</strong> We don&#8217;t make assumptions about the rest of your technology stack, so you can develop new features in React without rewriting existing code. React can also render on the server using <a href="https://nodejs.org/en">Node</a> and power mobile apps using <a href="https://reactnative.dev/">React Native</a>.</li>
+</ul>
+
+<p><a href="https://react.dev/learn">Learn how to use React in your project</a>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>React has been designed for gradual adoption from the start, and <strong>you can use as little or as much React as you need</strong>:</p>
+
+<ul>
+  <li>Use <a href="https://react.dev/learn">Quick Start</a> to get a taste of React.</li>
+  <li><a href="https://react.dev/learn/add-react-to-an-existing-project">Add React to an Existing Project</a> to use as little or as much React as you need.</li>
+  <li><a href="https://react.dev/learn/start-a-new-react-project">Create a New React App</a> if you&#8217;re looking for a powerful JavaScript toolchain.</li>
+</ul>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>You can find the React documentation <a href="https://react.dev/">on the website</a>.</p>
+
+<p>Check out the <a href="https://react.dev/learn">Getting Started</a> page for a quick overview.</p>
+
+<p>The documentation is divided into several sections:</p>
+
+<ul>
+  <li><a href="https://react.dev/learn">Quick Start</a></li>
+  <li><a href="https://react.dev/learn/tutorial-tic-tac-toe">Tutorial</a></li>
+  <li><a href="https://react.dev/learn/thinking-in-react">Thinking in React</a></li>
+  <li><a href="https://react.dev/learn/installation">Installation</a></li>
+  <li><a href="https://react.dev/learn/describing-the-ui">Describing the UI</a></li>
+  <li><a href="https://react.dev/learn/adding-interactivity">Adding Interactivity</a></li>
+  <li><a href="https://react.dev/learn/managing-state">Managing State</a></li>
+  <li><a href="https://react.dev/learn/escape-hatches">Advanced Guides</a></li>
+  <li><a href="https://react.dev/reference/react">API Reference</a></li>
+  <li><a href="https://react.dev/community">Where to Get Support</a></li>
+  <li><a href="https://legacy.reactjs.org/docs/how-to-contribute.html">Contributing Guide</a></li>
+</ul>
+
+<p>You can improve it by sending pull requests to <a href="https://github.com/reactjs/react.dev">this repository</a>.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>We have several examples <a href="https://react.dev/">on the website</a>. Here is the first one to get you started:</p>
+
+<pre><code class="language-jsx">import { createRoot } from 'react-dom/client';
+
+function HelloMessage({ name }) {
+  return &lt;div&gt;Hello {name}&lt;/div&gt;;
+}
+
+const root = createRoot(document.getElementById('container'));
+root.render(&lt;HelloMessage name="Taylor" /&gt;);
+</code></pre>
+
+<p>This example will render &#8220;Hello Taylor&#8221; into a container on the page.</p>
+
+<p>You&#8217;ll notice that we used an HTML-like syntax; <a href="https://react.dev/learn#writing-markup-with-jsx">we call it JSX</a>. JSX is not required to use React, but it makes code more readable, and writing it feels like writing HTML.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>The main purpose of this repository is to continue evolving React core, making it faster and easier to use. Development of React happens in the open on GitHub, and we are grateful to the community for contributing bugfixes and improvements. Read below to learn how you can take part in improving React.</p>
+
+<h3 id="code-of-conduct"><a href="https://code.fb.com/codeofconduct">Code of Conduct</a></h3>
+
+<p>Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read <a href="https://code.fb.com/codeofconduct">the full text</a> so that you can understand what actions will and will not be tolerated.</p>
+
+<h3 id="contributing-guide"><a href="https://legacy.reactjs.org/docs/how-to-contribute.html">Contributing Guide</a></h3>
+
+<p>Read our <a href="https://legacy.reactjs.org/docs/how-to-contribute.html">contributing guide</a> to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to React.</p>
+
+<h3 id="good-first-issues"><a href="https://github.com/facebook/react/labels/good%20first%20issue">Good First Issues</a></h3>
+
+<p>To help you get your feet wet and get you familiar with our contribution process, we have a list of <a href="https://github.com/facebook/react/labels/good%20first%20issue">good first issues</a> that contain bugs that have a relatively limited scope. This is a great place to get started.</p>
+
+<h3 id="license">License</h3>
+
+<p>React is <a href="./LICENSE">MIT licensed</a>.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

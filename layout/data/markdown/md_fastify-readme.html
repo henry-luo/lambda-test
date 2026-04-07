@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fastify README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>fastify README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        fastify README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <div align="center"> <a href="https://fastify.dev/">
+    <img src="../support/images/github_fastify-landscape-outlined.svg" width="650" height="auto" />
+  </a>
+</div>
+
+<div align="center">
+
+[![CI](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/ci.yml)
+[![Package Manager
+CI](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml)
+[![Web
+site](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/website.yml)
+[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/7585/badge)](https://bestpractices.coreinfrastructure.org/projects/7585)
+
+</div>
+
+<div align="center">
+
+[![NPM
+version](https://img.shields.io/npm/v/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+[![NPM
+downloads](https://img.shields.io/npm/dm/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+[![Security Responsible
+Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/fastify/fastify/blob/main/SECURITY.md)
+[![Discord](https://img.shields.io/discord/725613461949906985)](https://discord.gg/fastify)
+[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod&amp;color=blue)](https://gitpod.io/#https://github.com/fastify/fastify)
+[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/fastify)](https://github.com/sponsors/fastify#sponsors)
+
+</div>
+
+<p><br /></p>
+
+<p>An efficient server implies a lower cost of the infrastructure, better
+responsiveness under load, and happy users. How can you efficiently handle the
+resources of your server, knowing that you are serving the highest number of
+requests possible, without sacrificing security validations and handy
+development?</p>
+
+<p>Enter Fastify. Fastify is a web framework highly focused on providing the best
+developer experience with the least overhead and a powerful plugin architecture.
+It is inspired by Hapi and Express and as far as we know, it is one of the
+fastest web frameworks in town.</p>
+
+<p>The <code>main</code> branch refers to the Fastify <code>v5</code> release.
+Check out the <a href="https://github.com/fastify/fastify/tree/4.x"><code>4.x</code> branch</a> for <code>v4</code>.</p>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+  <li><a href="#quick-start">Quick start</a></li>
+  <li><a href="#install">Install</a></li>
+  <li><a href="#example">Example</a></li>
+  <li><a href="#core-features">Core features</a></li>
+  <li><a href="#benchmarks">Benchmarks</a></li>
+  <li><a href="#documentation">Documentation</a></li>
+  <li><a href="#ecosystem">Ecosystem</a></li>
+  <li><a href="#support">Support</a></li>
+  <li><a href="#team">Team</a></li>
+  <li><a href="#hosted-by">Hosted by</a></li>
+  <li><a href="#license">License</a></li>
+</ul>
+
+<h3 id="quick-start">Quick start</h3>
+
+<p>Create a folder and make it your current working directory:</p>
+
+<pre><code class="language-sh">mkdir my-app
+cd my-app
+</code></pre>
+
+<p>Generate a fastify project with <code>npm init</code>:</p>
+
+<pre><code class="language-sh">npm init fastify
+</code></pre>
+
+<p>Install dependencies:</p>
+
+<pre><code class="language-sh">npm i
+</code></pre>
+
+<p>To start the app in dev mode:</p>
+
+<pre><code class="language-sh">npm run dev
+</code></pre>
+
+<p>For production mode:</p>
+
+<pre><code class="language-sh">npm start
+</code></pre>
+
+<p>Under the hood <code>npm init</code> downloads and runs <a href="https://github.com/fastify/create-fastify">Fastify
+Create</a>, which in turn uses the
+generate functionality of <a href="https://github.com/fastify/fastify-cli">Fastify CLI</a>.</p>
+
+<h3 id="install">Install</h3>
+
+<p>To install Fastify in an existing project as a dependency:</p>
+
+<pre><code class="language-sh">npm i fastify
+</code></pre>
+
+<h3 id="example">Example</h3>
+
+<pre><code class="language-js">// Require the framework and instantiate it
+
+// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+// Declare a route
+fastify.get('/', (request, reply) =&gt; {
+  reply.send({ hello: 'world' })
+})
+
+// Run the server!
+fastify.listen({ port: 3000 }, (err, address) =&gt; {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
+</code></pre>
+
+<p>With async-await:</p>
+
+<pre><code class="language-js">// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+fastify.get('/', async (request, reply) =&gt; {
+  reply.type('application/json').code(200)
+  return { hello: 'world' }
+})
+
+fastify.listen({ port: 3000 }, (err, address) =&gt; {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
+</code></pre>
+
+<p>Do you want to know more? Head to the <a href="./docs/Guides/Getting-Started.md"><code><b>Getting Started</b></code></a>.
+If you learn best by reading code, explore the official <a href="https://github.com/fastify/demo">demo</a>.</p>
+
+<blockquote>
+  <h2 id="note">Note</h2>
+  <p><code>.listen</code> binds to the local host, <code>localhost</code>, interface by default
+(<code>127.0.0.1</code> or <code>::1</code>, depending on the operating system configuration). If
+you are running Fastify in a container (Docker,
+<a href="https://cloud.google.com/">GCP</a>, etc.), you may need to bind to <code>0.0.0.0</code>. Be
+careful when listening on all interfaces; it comes with inherent
+<a href="https://web.archive.org/web/20170711105010/https://snyk.io/blog/mongodb-hack-and-secure-defaults/">security
+risks</a>.
+See <a href="./docs/Reference/Server.md#listen">the documentation</a> for more
+information.</p>
+</blockquote>
+
+<h3 id="core-features">Core features</h3>
+
+<ul>
+  <li><strong>Highly performant:</strong> as far as we know, Fastify is one of the fastest web
+frameworks in town, depending on the code complexity we can serve up to 76+
+thousand requests per second.</li>
+  <li><strong>Extensible:</strong> Fastify is fully extensible via its hooks, plugins, and
+decorators.</li>
+  <li><strong>Schema-based:</strong> even if it is not mandatory we recommend using <a href="https://json-schema.org/">JSON
+Schema</a> to validate your routes and serialize your
+outputs. Internally Fastify compiles the schema in a highly performant
+function.</li>
+  <li><strong>Logging:</strong> logs are extremely important but are costly; we chose the best
+logger to almost remove this cost, <a href="https://github.com/pinojs/pino">Pino</a>!</li>
+  <li><strong>Developer friendly:</strong> the framework is built to be very expressive and help
+developers in their daily use without sacrificing performance and
+security.</li>
+</ul>
+
+<h3 id="benchmarks">Benchmarks</h3>
+
+<p><strong>Machine:</strong> EX41S-SSD, Intel Core i7, 4Ghz, 64GB RAM, 4C/8T, SSD.</p>
+
+<p><strong>Method</strong>: <code>autocannon -c 100 -d 40 -p 10 localhost:3000</code> * 2, taking the
+second average</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Framework</th>
+      <th style="text-align: left">Version</th>
+      <th style="text-align: center">Router?</th>
+      <th style="text-align: right">Requests/sec</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Express</td>
+      <td style="text-align: left">4.17.3</td>
+      <td style="text-align: center">&#10003;</td>
+      <td style="text-align: right">14,200</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">hapi</td>
+      <td style="text-align: left">20.2.1</td>
+      <td style="text-align: center">&#10003;</td>
+      <td style="text-align: right">42,284</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Restify</td>
+      <td style="text-align: left">8.6.1</td>
+      <td style="text-align: center">&#10003;</td>
+      <td style="text-align: right">50,363</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Koa</td>
+      <td style="text-align: left">2.13.0</td>
+      <td style="text-align: center">&#10007;</td>
+      <td style="text-align: right">54,272</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Fastify</strong></td>
+      <td style="text-align: left"><strong>4.0.0</strong></td>
+      <td style="text-align: center"><strong>&#10003;</strong></td>
+      <td style="text-align: right"><strong>77,193</strong></td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code>http.Server</code></td>
+      <td style="text-align: left">16.14.2</td>
+      <td style="text-align: center">&#10007;</td>
+      <td style="text-align: right">74,513</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These benchmarks taken using https://github.com/fastify/benchmarks. This is a
+synthetic &#8220;hello world&#8221; benchmark that aims to evaluate the framework overhead.
+The overhead that each framework has on your application depends on your
+application. You should <strong>always</strong> benchmark if performance matters to you.</p>
+
+<h2 id="documentation">Documentation</h2>
+<ul>
+  <li><a href="./docs/Guides/Getting-Started.md"><strong><code>Getting Started</code></strong></a></li>
+  <li><a href="./docs/Guides/Index.md"><strong><code>Guides</code></strong></a></li>
+  <li><a href="./docs/Reference/Server.md"><strong><code>Server</code></strong></a></li>
+  <li><a href="./docs/Reference/Routes.md"><strong><code>Routes</code></strong></a></li>
+  <li><a href="./docs/Reference/Encapsulation.md"><strong><code>Encapsulation</code></strong></a></li>
+  <li><a href="./docs/Reference/Logging.md"><strong><code>Logging</code></strong></a></li>
+  <li><a href="./docs/Reference/Middleware.md"><strong><code>Middleware</code></strong></a></li>
+  <li><a href="./docs/Reference/Hooks.md"><strong><code>Hooks</code></strong></a></li>
+  <li><a href="./docs/Reference/Decorators.md"><strong><code>Decorators</code></strong></a></li>
+  <li><a href="./docs/Reference/Validation-and-Serialization.md"><strong><code>Validation and Serialization</code></strong></a></li>
+  <li><a href="./docs/Guides/Fluent-Schema.md"><strong><code>Fluent Schema</code></strong></a></li>
+  <li><a href="./docs/Reference/Lifecycle.md"><strong><code>Lifecycle</code></strong></a></li>
+  <li><a href="./docs/Reference/Reply.md"><strong><code>Reply</code></strong></a></li>
+  <li><a href="./docs/Reference/Request.md"><strong><code>Request</code></strong></a></li>
+  <li><a href="./docs/Reference/Errors.md"><strong><code>Errors</code></strong></a></li>
+  <li><a href="./docs/Reference/ContentTypeParser.md"><strong><code>Content Type Parser</code></strong></a></li>
+  <li><a href="./docs/Reference/Plugins.md"><strong><code>Plugins</code></strong></a></li>
+  <li><a href="./docs/Guides/Testing.md"><strong><code>Testing</code></strong></a></li>
+  <li><a href="./docs/Guides/Benchmarking.md"><strong><code>Benchmarking</code></strong></a></li>
+  <li><a href="./docs/Guides/Write-Plugin.md"><strong><code>How to write a good plugin</code></strong></a></li>
+  <li><a href="./docs/Guides/Plugins-Guide.md"><strong><code>Plugins Guide</code></strong></a></li>
+  <li><a href="./docs/Reference/HTTP2.md"><strong><code>HTTP2</code></strong></a></li>
+  <li><a href="./docs/Reference/LTS.md"><strong><code>Long Term Support</code></strong></a></li>
+  <li><a href="./docs/Reference/TypeScript.md"><strong><code>TypeScript and types support</code></strong></a></li>
+  <li><a href="./docs/Guides/Serverless.md"><strong><code>Serverless</code></strong></a></li>
+  <li><a href="./docs/Guides/Recommendations.md"><strong><code>Recommendations</code></strong></a></li>
+</ul>
+
+<h2 id="ecosystem">Ecosystem</h2>
+
+<ul>
+  <li><a href="./docs/Guides/Ecosystem.md#core">Core</a> - Core plugins maintained by the
+<em>Fastify</em> <a href="#team">team</a>.</li>
+  <li><a href="./docs/Guides/Ecosystem.md#community">Community</a> - Community-supported
+plugins.</li>
+  <li><a href="https://github.com/fastify/example">Live Examples</a> - Multirepo with a broad
+set of real working examples.</li>
+  <li><a href="https://discord.gg/D3FZYPy">Discord</a> - Join our discord server and chat with
+the maintainers.</li>
+</ul>
+
+<h2 id="support">Support</h2>
+<p>Please visit <a href="https://github.com/fastify/help">Fastify help</a> to view prior
+support issues and to ask new support questions.</p>
+
+<p>Version 3 of Fastify and lower are EOL and will not receive any security or bug
+fixes.</p>
+
+<p>Fastify&#8217;s partner, HeroDevs, provides commercial security fixes for all
+unsupported versions at <a href="https://www.herodevs.com/support/fastify-nes?utm_source=fastify&amp;utm_medium=link&amp;utm_campaign=github_readme">https://herodevs.com/support/fastify-nes</a>.
+Fastify&#8217;s supported version matrix is available in the
+<a href="https://fastify.dev/docs/latest/Reference/LTS/">Long Term Support</a> documentation.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Whether reporting bugs, discussing improvements and new ideas, or writing code,
+we welcome contributions from anyone and everyone. Please read the <a href="./CONTRIBUTING.md">CONTRIBUTING</a>
+guidelines before submitting pull requests.</p>
+
+<h2 id="team">Team</h2>
+
+<p><em>Fastify</em> is the result of the work of a great community. Team members are
+listed in alphabetical order.</p>
+
+<p><strong>Lead Maintainers:</strong></p>
+<ul>
+  <li><a href="https://github.com/mcollina"><strong>Matteo Collina</strong></a>,
+<a href="https://x.com/matteocollina">https://x.com/matteocollina</a>, <a href="https://www.npmjs.com/~matteo.collina">https://www.npmjs.com/~matteo.collina</a></li>
+  <li><a href="https://github.com/delvedor"><strong>Tomas Della Vedova</strong></a>,
+<a href="https://x.com/delvedor">https://x.com/delvedor</a>, <a href="https://www.npmjs.com/~delvedor">https://www.npmjs.com/~delvedor</a></li>
+  <li><a href="https://github.com/climba03003"><strong>KaKa Ng</strong></a>,
+<a href="https://www.npmjs.com/~climba03003">https://www.npmjs.com/~climba03003</a></li>
+  <li><a href="https://github.com/eomm"><strong>Manuel Spigolon</strong></a>,
+<a href="https://x.com/manueomm">https://x.com/manueomm</a>, <a href="https://www.npmjs.com/~eomm">https://www.npmjs.com/~eomm</a></li>
+  <li><a href="https://github.com/jsumners"><strong>James Sumners</strong></a>,
+<a href="https://x.com/jsumners79">https://x.com/jsumners79</a>, <a href="https://www.npmjs.com/~jsumners">https://www.npmjs.com/~jsumners</a></li>
+</ul>
+
+<h3 id="fastify-core-team">Fastify Core team</h3>
+<ul>
+  <li><a href="https://github.com/uzlopak"><strong>Aras Abbasi</strong></a>,
+<a href="https://www.npmjs.com/~uzlopak">https://www.npmjs.com/~uzlopak</a></li>
+  <li><a href="https://github.com/airhorns/"><strong>Harry Brundage</strong></a>,
+<a href="https://x.com/harrybrundage">https://x.com/harrybrundage</a>, <a href="https://www.npmjs.com/~airhorns">https://www.npmjs.com/~airhorns</a></li>
+  <li><a href="https://github.com/mcollina"><strong>Matteo Collina</strong></a>,
+<a href="https://x.com/matteocollina">https://x.com/matteocollina</a>, <a href="https://www.npmjs.com/~matteo.collina">https://www.npmjs.com/~matteo.collina</a></li>
+  <li><a href="https://github.com/gurgunday"><strong>Gürgün Dayıoğlu</strong></a>,
+<a href="https://www.npmjs.com/~gurgunday">https://www.npmjs.com/~gurgunday</a></li>
+  <li><a href="https://github.com/delvedor"><strong>Tomas Della Vedova</strong></a>,
+<a href="https://x.com/delvedor">https://x.com/delvedor</a>, <a href="https://www.npmjs.com/~delvedor">https://www.npmjs.com/~delvedor</a></li>
+  <li><a href="https://github.com/metcoder95"><strong>Carlos Fuentes</strong></a>,
+<a href="https://x.com/metcoder95">https://x.com/metcoder95</a>, <a href="https://www.npmjs.com/~metcoder95">https://www.npmjs.com/~metcoder95</a></li>
+  <li><a href="https://github.com/zekth"><strong>Vincent Le Goff</strong></a></li>
+  <li><a href="https://github.com/lmammino"><strong>Luciano Mammino</strong></a>,
+<a href="https://x.com/loige">https://x.com/loige</a>, <a href="https://www.npmjs.com/~lmammino">https://www.npmjs.com/~lmammino</a></li>
+  <li><a href="https://github.com/jean-michelet"><strong>Jean Michelet</strong></a>,
+<a href="https://www.npmjs.com/~jean-michelet">https://www.npmjs.com/~jean-michelet</a></li>
+  <li><a href="https://github.com/climba03003"><strong>KaKa Ng</strong></a>,
+<a href="https://www.npmjs.com/~climba03003">https://www.npmjs.com/~climba03003</a></li>
+  <li><a href="https://github.com/luisorbaiceta"><strong>Luis Orbaiceta</strong></a>,
+<a href="https://x.com/luisorbai">https://x.com/luisorbai</a>, <a href="https://www.npmjs.com/~luisorbaiceta">https://www.npmjs.com/~luisorbaiceta</a></li>
+  <li><a href="https://github.com/fox1t"><strong>Maksim Sinik</strong></a>,
+<a href="https://x.com/maksimsinik">https://x.com/maksimsinik</a>, <a href="https://www.npmjs.com/~fox1t">https://www.npmjs.com/~fox1t</a></li>
+  <li><a href="https://github.com/eomm"><strong>Manuel Spigolon</strong></a>,
+<a href="https://x.com/manueomm">https://x.com/manueomm</a>, <a href="https://www.npmjs.com/~eomm">https://www.npmjs.com/~eomm</a></li>
+  <li><a href="https://github.com/jsumners"><strong>James Sumners</strong></a>,
+<a href="https://x.com/jsumners79">https://x.com/jsumners79</a>, <a href="https://www.npmjs.com/~jsumners">https://www.npmjs.com/~jsumners</a></li>
+</ul>
+
+<h3 id="fastify-plugins-team">Fastify Plugins team</h3>
+<ul>
+  <li><a href="https://github.com/airhorns/"><strong>Harry Brundage</strong></a>,
+<a href="https://x.com/harrybrundage">https://x.com/harrybrundage</a>, <a href="https://www.npmjs.com/~airhorns">https://www.npmjs.com/~airhorns</a></li>
+  <li><a href="https://github.com/simoneb"><strong>Simone Busoli</strong></a>,
+<a href="https://x.com/simonebu">https://x.com/simonebu</a>, <a href="https://www.npmjs.com/~simoneb">https://www.npmjs.com/~simoneb</a></li>
+  <li><a href="https://github.com/dancastillo"><strong>Dan Castillo</strong></a>,
+<a href="https://www.npmjs.com/~dancastillo">https://www.npmjs.com/~dancastillo</a></li>
+  <li><a href="https://github.com/mcollina"><strong>Matteo Collina</strong></a>,
+<a href="https://x.com/matteocollina">https://x.com/matteocollina</a>, <a href="https://www.npmjs.com/~matteo.collina">https://www.npmjs.com/~matteo.collina</a></li>
+  <li><a href="https://github.com/gurgunday"><strong>Gürgün Dayıoğlu</strong></a>,
+<a href="https://www.npmjs.com/~gurgunday">https://www.npmjs.com/~gurgunday</a></li>
+  <li><a href="https://github.com/delvedor"><strong>Tomas Della Vedova</strong></a>,
+<a href="https://x.com/delvedor">https://x.com/delvedor</a>, <a href="https://www.npmjs.com/~delvedor">https://www.npmjs.com/~delvedor</a></li>
+  <li><a href="https://github.com/metcoder95"><strong>Carlos Fuentes</strong></a>,
+<a href="https://x.com/metcoder95">https://x.com/metcoder95</a>, <a href="https://www.npmjs.com/~metcoder95">https://www.npmjs.com/~metcoder95</a></li>
+  <li><a href="https://github.com/zekth"><strong>Vincent Le Goff</strong></a></li>
+  <li><a href="https://github.com/jean-michelet"><strong>Jean Michelet</strong></a>,
+<a href="https://www.npmjs.com/~jean-michelet">https://www.npmjs.com/~jean-michelet</a></li>
+  <li><a href="https://github.com/climba03003"><strong>KaKa Ng</strong></a>,
+<a href="https://www.npmjs.com/~climba03003">https://www.npmjs.com/~climba03003</a></li>
+  <li><a href="https://github.com/fox1t"><strong>Maksim Sinik</strong></a>,
+<a href="https://x.com/maksimsinik">https://x.com/maksimsinik</a>, <a href="https://www.npmjs.com/~fox1t">https://www.npmjs.com/~fox1t</a></li>
+  <li><a href="https://github.com/Fdawgs"><strong>Frazer Smith</strong></a>, <a href="https://www.npmjs.com/~fdawgs">https://www.npmjs.com/~fdawgs</a></li>
+  <li><a href="https://github.com/eomm"><strong>Manuel Spigolon</strong></a>,
+<a href="https://x.com/manueomm">https://x.com/manueomm</a>, <a href="https://www.npmjs.com/~eomm">https://www.npmjs.com/~eomm</a></li>
+  <li><a href="https://github.com/Tony133"><strong>Antonio Tripodi</strong></a>, <a href="https://www.npmjs.com/~tony133">https://www.npmjs.com/~tony133</a></li>
+</ul>
+
+<h3 id="emeritus-contributors">Emeritus Contributors</h3>
+<p>Great contributors to a specific area of the Fastify ecosystem will be invited
+to join this group by Lead Maintainers when they decide to step down from the
+active contributor&#8217;s group.</p>
+
+<ul>
+  <li><a href="https://github.com/allevo"><strong>Tommaso Allevi</strong></a>,
+<a href="https://x.com/allevitommaso">https://x.com/allevitommaso</a>, <a href="https://www.npmjs.com/~allevo">https://www.npmjs.com/~allevo</a></li>
+  <li><a href="https://github.com/Ethan-Arrowood/"><strong>Ethan Arrowood</strong></a>,
+<a href="https://x.com/arrowoodtech">https://x.com/arrowoodtech</a>, <a href="https://www.npmjs.com/~ethan_arrowood">https://www.npmjs.com/~ethan_arrowood</a></li>
+  <li><a href="https://github.com/cagataycali"><strong>Çağatay Çalı</strong></a>,
+<a href="https://x.com/cagataycali">https://x.com/cagataycali</a>, <a href="https://www.npmjs.com/~cagataycali">https://www.npmjs.com/~cagataycali</a></li>
+  <li><a href="https://github.com/davidmarkclements"><strong>David Mark Clements</strong></a>,
+<a href="https://x.com/davidmarkclem">https://x.com/davidmarkclem</a>,
+<a href="https://www.npmjs.com/~davidmarkclements">https://www.npmjs.com/~davidmarkclements</a></li>
+  <li><a href="https://github.com/dalisoft"><strong>dalisoft</strong></a>, <a href="https://x.com/dalisoft">https://x.com/dalisoft</a>,
+<a href="https://www.npmjs.com/~dalisoft">https://www.npmjs.com/~dalisoft</a></li>
+  <li><a href="https://github.com/StarpTech"><strong>Dustin Deus</strong></a>,
+<a href="https://x.com/dustindeus">https://x.com/dustindeus</a>, <a href="https://www.npmjs.com/~starptech">https://www.npmjs.com/~starptech</a></li>
+  <li><a href="https://github.com/SerayaEryn"><strong>Denis Fäcke</strong></a>,
+<a href="https://x.com/serayaeryn">https://x.com/serayaeryn</a>, <a href="https://www.npmjs.com/~serayaeryn">https://www.npmjs.com/~serayaeryn</a></li>
+  <li><a href="https://github.com/rafaelgss"><strong>Rafael Gonzaga</strong></a>,
+<a href="https://x.com/_rafaelgss">https://x.com/_rafaelgss</a>, <a href="https://www.npmjs.com/~rafaelgss">https://www.npmjs.com/~rafaelgss</a></li>
+  <li><a href="https://github.com/trivikr"><strong>Trivikram Kamat</strong></a>,
+<a href="https://x.com/trivikram">https://x.com/trivikram</a>, <a href="https://www.npmjs.com/~trivikr">https://www.npmjs.com/~trivikr</a></li>
+  <li><a href="https://github.com/AyoubElk"><strong>Ayoub El Khattabi</strong></a>,
+<a href="https://x.com/ayoubelkh">https://x.com/ayoubelkh</a>, <a href="https://www.npmjs.com/~ayoubelk">https://www.npmjs.com/~ayoubelk</a></li>
+  <li><a href="https://github.com/cemremengu"><strong>Cemre Mengu</strong></a>,
+<a href="https://x.com/cemremengu">https://x.com/cemremengu</a>, <a href="https://www.npmjs.com/~cemremengu">https://www.npmjs.com/~cemremengu</a></li>
+  <li><a href="https://github.com/salmanm"><strong>Salman Mitha</strong></a>,
+<a href="https://www.npmjs.com/~salmanm">https://www.npmjs.com/~salmanm</a></li>
+  <li><a href="https://github.com/nwoltman"><strong>Nathan Woltman</strong></a>,
+<a href="https://x.com/NathanWoltman">https://x.com/NathanWoltman</a>, <a href="https://www.npmjs.com/~nwoltman">https://www.npmjs.com/~nwoltman</a></li>
+</ul>
+
+<h2 id="hosted-by">Hosted by</h2>
+
+<p><a href="https://openjsf.org/projects"><img src="../support/images/gh_openjs_foundation-logo-horizontal-color.png" width="250px;" /></a></p>
+
+<p>We are an <a href="https://github.com/openjs-foundation/cross-project-council/blob/HEAD/PROJECT_PROGRESSION.md#at-large-projects">At-Large
+Project</a>
+in the <a href="https://openjsf.org/">OpenJS Foundation</a>.</p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a <a href="./SPONSORS.md">SPONSOR</a>!
+Fastify has an <a href="https://opencollective.com/fastify">Open Collective</a>
+page where we accept and manage financial contributions.</p>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>This project is kindly sponsored by:</p>
+<ul>
+  <li><a href="https://nearform.com">NearForm</a></li>
+  <li><a href="https://platformatic.dev">Platformatic</a></li>
+</ul>
+
+<p>Past Sponsors:</p>
+<ul>
+  <li><a href="https://www.letzdoitapp.com/">LetzDoIt</a></li>
+</ul>
+
+<p>This list includes all companies that support one or more team members
+in maintaining this project.</p>
+
+<h2 id="license">License</h2>
+
+<p>Licensed under <a href="./LICENSE">MIT</a>.</p>
+
+<p>For your convenience, here is a list of all the licenses of our production
+dependencies:</p>
+<ul>
+  <li>MIT</li>
+  <li>ISC</li>
+  <li>BSD-3-Clause</li>
+  <li>BSD-2-Clause</li>
+</ul>
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

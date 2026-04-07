@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ncu README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>ncu README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        ncu README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="npm-check-updates">npm-check-updates</h1>
+
+<p><a href="https://www.npmjs.com/package/npm-check-updates"><img src="../support/images/img.shields.io_npm_v_npm-check-updates.svg" alt="npm version" /></a>
+<a href="https://github.com/raineorshine/npm-check-updates/actions?query=workflow%3ATests+branch%3Amain"><img src="../support/images/img.shields.io_github_actions_workflow_status_raineorshine_npm-check-updates_test.yml.svg" alt="Build Status" /></a></p>
+
+<p><strong>npm-check-updates upgrades your package.json dependencies to the <em>latest</em> versions, ignoring specified versions.</strong></p>
+
+<ul>
+  <li>maintains existing semantic versioning <em>policies</em>, i.e. <code>"react": "^17.0.2"</code> to <code>"react": "^18.3.1"</code>.</li>
+  <li><em>only</em> modifies package.json file. Run <code>npm install</code> to update your installed packages and package-lock.json.</li>
+  <li>sensible defaults, but highly customizable</li>
+  <li>compatible with npm, yarn, pnpm, deno, and bun</li>
+  <li>CLI and module usage</li>
+</ul>
+
+<p><img width="500" alt="example output" src="../support/images/github.com_user-attachments_assets_4808618b-ac20-4fc0-92e0-a777de70a2b6.png" /></p>
+
+<p><span class="kdmath">${\color{red}Red}$</span> major upgrade (and all <a href="https://semver.org/#spec-item-4">major version zero</a>)<br />
+<span class="kdmath">${\color{cyan}Cyan}$</span> minor upgrade<br />
+<span class="kdmath">${\color{green}Green}$</span> patch upgrade<br /></p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Install globally to use <code>npm-check-updates</code> or the shorter <code>ncu</code>:</p>
+
+<pre><code class="language-sh">npm install -g npm-check-updates
+</code></pre>
+
+<p>Or run with <a href="https://docs.npmjs.com/cli/v7/commands/npx">npx</a> (only the long form is supported):</p>
+
+<pre><code class="language-sh">npx npm-check-updates
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<p>Check the latest versions of all project dependencies:</p>
+
+<pre><code class="language-sh">$ ncu
+Checking package.json
+[====================] 5/5 100%
+
+ eslint             7.32.0  →    8.0.0
+ prettier           ^2.7.1  →   ^3.0.0
+ svelte            ^3.48.0  →  ^3.51.0
+ typescript         &gt;3.0.0  →   &gt;4.0.0
+ untildify          &lt;4.0.0  →   ^4.0.0
+ webpack               4.x  →      5.x
+
+Run ncu -u to upgrade package.json
+</code></pre>
+
+<p>Upgrade a project&#8217;s package file:</p>
+
+<blockquote>
+  <p><strong>Make sure your package file is in version control and all changes have been committed. This <em>will</em> overwrite your package file.</strong></p>
+</blockquote>
+
+<pre><code class="language-sh">$ ncu -u
+Upgrading package.json
+[====================] 1/1 100%
+
+ express           4.12.x  →   4.13.x
+
+Run npm install to install new versions.
+
+$ npm install      # update installed packages and package-lock.json
+</code></pre>
+
+<p>Check global packages:</p>
+
+<pre><code class="language-sh">ncu -g
+</code></pre>
+
+<h2 id="interactive-mode">Interactive Mode</h2>
+
+<p>Choose which packages to update in interactive mode:</p>
+
+<pre><code class="language-sh">ncu --interactive
+ncu -i
+</code></pre>
+
+<p><img src="../support/images/user-images-githubus_175337598-cdbb2c46-64f8-44f5-b54e-4ad74d7b52b4.png" alt="ncu --interactive" /></p>
+
+<p>Combine with <code>--format group</code> for a truly <em>luxe</em> experience:</p>
+
+<p><img src="../support/images/user-images-githubus_175336533-539261e4-5cf1-458f-9fbb-a7be2b477ebb.png" alt="ncu --interactive --format group" /></p>
+
+<h3 id="keys">Keys</h3>
+
+<ul>
+  <li><kbd>↑</kbd><kbd>↓</kbd> Select a package</li>
+  <li><kbd>Space</kbd> Toggle selection</li>
+  <li><kbd>a</kbd> Toggle all</li>
+  <li><kbd>Enter</kbd> Upgrade</li>
+</ul>
+
+<h2 id="filter-packages">Filter packages</h2>
+
+<p>Filter packages using the <code>--filter</code> option or adding additional cli arguments:</p>
+
+<pre><code class="language-sh"># upgrade only mocha
+ncu mocha
+ncu -f mocha
+ncu --filter mocha
+
+# upgrade only chalk, mocha, and react
+ncu chalk mocha react
+ncu chalk, mocha, react
+ncu -f "chalk mocha react"
+</code></pre>
+
+<p>Filter with wildcards or regex:</p>
+
+<pre><code class="language-sh"># upgrade packages that start with "react-"
+ncu react-*
+ncu "/^react-.*$/"
+</code></pre>
+
+<p>Exclude specific packages with the <code>--reject</code> option or prefixing a filter with <code>!</code>. Supports strings, wildcards, globs, comma-or-space-delimited lists, and regex:</p>
+
+<pre><code class="language-sh"># upgrade everything except nodemon
+ncu \!nodemon
+ncu -x nodemon
+ncu --reject nodemon
+
+# upgrade packages that do not start with "react-".
+ncu \!react-*
+ncu '/^(?!react-).*$/' # mac/linux
+ncu "/^(?!react-).*$/" # windows
+</code></pre>
+
+<p>Advanced filters: <a href="https://github.com/raineorshine/npm-check-updates#filter">filter</a>, <a href="https://github.com/raineorshine/npm-check-updates#filterresults">filterResults</a>, <a href="https://github.com/raineorshine/npm-check-updates#filterversion">filterVersion</a></p>
+
+<h2 id="how-dependency-updates-are-determined">How dependency updates are determined</h2>
+
+<ul>
+  <li>Direct dependencies are updated to the latest stable version:
+    <ul>
+      <li><code>2.0.1</code> → <code>2.2.0</code></li>
+      <li><code>1.2</code> → <code>1.3</code></li>
+      <li><code>0.1.0</code> → <code>1.0.1</code></li>
+    </ul>
+  </li>
+  <li>Range operators are preserved and the version is updated:
+    <ul>
+      <li><code>^1.2.0</code> → <code>^2.0.0</code></li>
+      <li><code>1.x</code> → <code>2.x</code></li>
+      <li><code>&gt;0.2.0</code> → <code>&gt;0.3.0</code></li>
+    </ul>
+  </li>
+  <li>&#8220;Less than&#8221; is replaced with a wildcard:
+    <ul>
+      <li><code>&lt;2.0.0</code> → <code>^3.0.0</code></li>
+      <li><code>1.0.0 &lt; 2.0.0</code> → <code>^3.0.0</code></li>
+    </ul>
+  </li>
+  <li>&#8220;Any version&#8221; is preserved:
+    <ul>
+      <li><code>*</code> → <code>*</code></li>
+    </ul>
+  </li>
+  <li>Prerelease versions are ignored by default.
+    <ul>
+      <li>Use <code>--pre</code> to include prerelease versions (e.g. <code>alpha</code>, <code>beta</code>, <code>build1235</code>)</li>
+    </ul>
+  </li>
+  <li>Choose what level to upgrade to:
+    <ul>
+      <li>With <code>--target semver</code>, update according to your specified <a href="https://semver.org/">semver</a> version ranges:
+        <ul>
+          <li><code>^1.1.0</code> → <code>^1.9.99</code></li>
+        </ul>
+      </li>
+      <li>With <code>--target minor</code>, strictly update the patch and minor versions (including major version zero):
+        <ul>
+          <li><code>0.1.0</code> → <code>0.2.1</code></li>
+        </ul>
+      </li>
+      <li>With <code>--target patch</code>, strictly update the patch version (including major version zero):
+        <ul>
+          <li><code>0.1.0</code> → <code>0.1.2</code></li>
+        </ul>
+      </li>
+      <li>With <code>--target @next</code>, update to the version published on the <code>next</code> tag:
+        <ul>
+          <li><code>0.1.0</code> -&gt; <code>0.1.1-next.1</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="options">Options</h2>
+
+<p>Options are merged with the following precedence:</p>
+
+<ol>
+  <li>Command line options</li>
+  <li>Local <a href="#config-file">Config File</a> (current working directory)</li>
+  <li>Project Config File (next to package.json)</li>
+  <li>User Config File (<code>$HOME</code>)</li>
+</ol>
+
+<p>Options that take no arguments can be negated by prefixing them with <code>--no-</code>, e.g. <code>--no-peer</code>.</p>
+
+<!-- BEGIN Options -->
+<!-- Do not edit this section by hand. It is auto-generated in build-options.ts. Run "npm run build" or "npm run build:options" to build. -->
+
+<table>
+  <tr>
+    <td>--cache</td>
+    <td>Cache versions to a local cache file. Default <code>--cacheFile</code> is ~/.ncu-cache.json and default <code>--cacheExpiration</code> is 10 minutes.</td>
+  </tr>
+  <tr>
+    <td>--cacheClear</td>
+    <td>Clear the default cache, or the cache file specified by <code>--cacheFile</code>.</td>
+  </tr>
+  <tr>
+    <td>--cacheExpiration &lt;min&gt;</td>
+    <td>Cache expiration in minutes. Only works with <code>--cache</code>. (default: 10)</td>
+  </tr>
+  <tr>
+    <td>--cacheFile &lt;path&gt;</td>
+    <td>Filepath for the cache file. Only works with <code>--cache</code>. (default: "~/.ncu-cache.json")</td>
+  </tr>
+  <tr>
+    <td>--color</td>
+    <td>Force color in terminal.</td>
+  </tr>
+  <tr>
+    <td>--concurrency &lt;n&gt;</td>
+    <td>Max number of concurrent HTTP requests to registry. (default: 8)</td>
+  </tr>
+  <tr>
+    <td>--configFileName &lt;s&gt;</td>
+    <td>Config file name. (default: .ncurc.{json,yml,js,cjs})</td>
+  </tr>
+  <tr>
+    <td>--configFilePath &lt;path&gt;</td>
+    <td>Directory of .ncurc config file. (default: directory of <code>packageFile</code>)</td>
+  </tr>
+  <tr>
+    <td><a href="#cooldown">-c, --cooldown &lt;period&gt;</a></td>
+    <td>Sets a minimum age for package versions to be considered for upgrade. Accepts a number (days) or a string with a unit: "7d" (days), "12h" (hours), "30m" (minutes). Reduces the risk of installing newly published, potentially compromised packages.</td>
+  </tr>
+  <tr>
+    <td>--cwd &lt;path&gt;</td>
+    <td>Working directory in which npm will be executed.</td>
+  </tr>
+  <tr>
+    <td>--deep</td>
+    <td>Run recursively in current working directory. Alias of (<code>--packageFile '**/package.json'</code>).</td>
+  </tr>
+  <tr>
+    <td>--dep &lt;value&gt;</td>
+    <td>Check one or more sections of dependencies only: dev, optional, peer, prod, or packageManager (comma-delimited). (default: ["prod","dev","optional","packageManager"])</td>
+  </tr>
+  <tr>
+    <td>--deprecated</td>
+    <td>Include deprecated packages. Use <code>--no-deprecated</code> to exclude deprecated packages (20–25% slower). (default: true)</td>
+  </tr>
+  <tr>
+    <td><a href="#doctor">-d, --doctor</a></td>
+    <td>Iteratively installs upgrades and runs tests to identify breaking upgrades. Requires <code>-u</code> to execute.</td>
+  </tr>
+  <tr>
+    <td>--doctorInstall &lt;command&gt;</td>
+    <td>Specifies the install script to use in doctor mode. (default: <code>npm install</code> or the equivalent for your package manager)</td>
+  </tr>
+  <tr>
+    <td>--doctorTest &lt;command&gt;</td>
+    <td>Specifies the test script to use in doctor mode. (default: <code>npm test</code>)</td>
+  </tr>
+  <tr>
+    <td>--enginesNode</td>
+    <td>Include only packages that satisfy engines.node as specified in the package file.</td>
+  </tr>
+  <tr>
+    <td>-e, --errorLevel &lt;n&gt;</td>
+    <td>Set the error level. 1: exits with error code 0 if no errors occur. 2: exits with error code 0 if no packages need updating (useful for continuous integration). (default: 1)</td>
+  </tr>
+  <tr>
+    <td><a href="#filter">-f, --filter &lt;p&gt;</a></td>
+    <td>Include only package names matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function.</td>
+  </tr>
+  <tr>
+    <td><a href="#filterresults">filterResults &lt;fn&gt;</a></td>
+    <td>Filters results based on a user provided predicate function after fetching new versions.</td>
+  </tr>
+  <tr>
+    <td><a href="#filterversion">--filterVersion &lt;p&gt;</a></td>
+    <td>Filter on package version using comma-or-space-delimited list, /regex/, or predicate function.</td>
+  </tr>
+  <tr>
+    <td><a href="#format">--format &lt;value&gt;</a></td>
+    <td>Modify the output formatting or show additional information. Specify one or more comma-delimited values: dep, group, ownerChanged, repo, time, lines, installedVersion. (default: [])</td>
+  </tr>
+  <tr>
+    <td>-g, --global</td>
+    <td>Check global packages instead of in the current project.</td>
+  </tr>
+  <tr>
+    <td><a href="#groupfunction">groupFunction &lt;fn&gt;</a></td>
+    <td>Customize how packages are divided into groups when using <code>--format group</code>.</td>
+  </tr>
+  <tr>
+    <td><a href="#install">--install &lt;value&gt;</a></td>
+    <td>Control the auto-install behavior: always, never, prompt. (default: "prompt")</td>
+  </tr>
+  <tr>
+    <td>-i, --interactive</td>
+    <td>Enable interactive prompts for each dependency; implies <code>-u</code> unless one of the json options are set.</td>
+  </tr>
+  <tr>
+    <td>-j, --jsonAll</td>
+    <td>Output new package file instead of human-readable message.</td>
+  </tr>
+  <tr>
+    <td>--jsonDeps</td>
+    <td>Like <code>jsonAll</code> but only lists <code>dependencies</code>, <code>devDependencies</code>, <code>optionalDependencies</code>, etc of the new package data.</td>
+  </tr>
+  <tr>
+    <td>--jsonUpgraded</td>
+    <td>Output upgraded dependencies in json.</td>
+  </tr>
+  <tr>
+    <td>-l, --loglevel &lt;n&gt;</td>
+    <td>Amount to log: silent, error, minimal, warn, info, verbose, silly. (default: "warn")</td>
+  </tr>
+  <tr>
+    <td>--mergeConfig</td>
+    <td>Merges nested configs with the root config file for <code>--deep</code> or <code>--packageFile</code> options. (default: false)</td>
+  </tr>
+  <tr>
+    <td>-m, --minimal</td>
+    <td>Do not upgrade newer versions that are already satisfied by the version range according to semver.</td>
+  </tr>
+  <tr>
+    <td>--packageData &lt;value&gt;</td>
+    <td>Package file data (you can also use stdin).</td>
+  </tr>
+  <tr>
+    <td>--packageFile &lt;path|glob&gt;</td>
+    <td>Package file(s) location. (default: ./package.json)</td>
+  </tr>
+  <tr>
+    <td><a href="#packagemanager">-p, --packageManager &lt;s&gt;</a></td>
+    <td>npm, yarn, pnpm, deno, bun, staticRegistry (default: npm).</td>
+  </tr>
+  <tr>
+    <td><a href="#peer">--peer</a></td>
+    <td>Check peer dependencies of installed packages and filter updates to compatible versions.</td>
+  </tr>
+  <tr>
+    <td>--pre &lt;n&gt;</td>
+    <td>Include prerelease versions, e.g. -alpha.0, -beta.5, -rc.2. Automatically set to 1 when <code>--target</code> is newest or greatest, or when the current version is a prerelease. (default: 0)</td>
+  </tr>
+  <tr>
+    <td>--prefix &lt;path&gt;</td>
+    <td>Current working directory of npm.</td>
+  </tr>
+  <tr>
+    <td>-r, --registry &lt;uri&gt;</td>
+    <td>Specify the registry to use when looking up package versions.</td>
+  </tr>
+  <tr>
+    <td><a href="#registrytype">--registryType &lt;type&gt;</a></td>
+    <td>Specify whether --registry refers to a full npm registry or a simple JSON file or url: npm, json. (default: npm)</td>
+  </tr>
+  <tr>
+    <td><a href="#reject">-x, --reject &lt;p&gt;</a></td>
+    <td>Exclude packages matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function.</td>
+  </tr>
+  <tr>
+    <td><a href="#rejectversion">--rejectVersion &lt;p&gt;</a></td>
+    <td>Exclude package.json versions using comma-or-space-delimited list, /regex/, or predicate function.</td>
+  </tr>
+  <tr>
+    <td>--removeRange</td>
+    <td>Remove version ranges from the final package version.</td>
+  </tr>
+  <tr>
+    <td>--retry &lt;n&gt;</td>
+    <td>Number of times to retry failed requests for package info. (default: 3)</td>
+  </tr>
+  <tr>
+    <td>--root</td>
+    <td>Runs updates on the root project in addition to specified workspaces. Only allowed with <code>--workspace</code> or <code>--workspaces</code>. (default: true)</td>
+  </tr>
+  <tr>
+    <td>-s, --silent</td>
+    <td>Don't output anything. Alias for <code>--loglevel</code> silent.</td>
+  </tr>
+  <tr>
+    <td>--stdin</td>
+    <td>Read package.json from stdin.</td>
+  </tr>
+  <tr>
+    <td><a href="#target">-t, --target &lt;value&gt;</a></td>
+    <td>Determines the version to upgrade to: latest, newest, greatest, minor, patch, semver, <code>@[tag]</code>, or [function]. (default: latest)</td>
+  </tr>
+  <tr>
+    <td>--timeout &lt;ms&gt;</td>
+    <td>Global timeout in milliseconds. (default: no global timeout and 30 seconds per npm-registry-fetch)</td>
+  </tr>
+  <tr>
+    <td>-u, --upgrade</td>
+    <td>Overwrite package file with upgraded versions instead of just outputting to console.</td>
+  </tr>
+  <tr>
+    <td>--verbose</td>
+    <td>Log additional information for debugging. Alias for <code>--loglevel</code> verbose.</td>
+  </tr>
+  <tr>
+    <td>--workspace &lt;s&gt;</td>
+    <td>Run on one or more specified workspaces. Add <code>--no-root</code> to exclude the root project. (default: [])</td>
+  </tr>
+  <tr>
+    <td>-w, --workspaces</td>
+    <td>Run on all workspaces. Add <code>--no-root</code> to exclude the root project.</td>
+  </tr>
+</table>
+
+<!-- END Options -->
+
+<h2 id="advanced-options">Advanced Options</h2>
+
+<p>Some options have advanced usage, or allow per-package values by specifying a function in your .ncurc.js file.</p>
+
+<p>Run <code>ncu --help [OPTION]</code> to view advanced help for a specific option, or see below:</p>
+
+<!-- BEGIN Advanced Options -->
+<!-- Do not edit this section by hand. It is auto-generated in build-options.ts. Run "npm run build" or "npm run build:options" to build. -->
+
+<h2 id="cooldown">cooldown</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --cooldown [period]
+ncu -c [period]
+</code></pre>
+
+<p>The cooldown option helps protect against supply chain attacks by requiring package versions to be published at least the given amount of time before considering them for upgrade.</p>
+
+<p>The value can be a plain number (days) or a string with a unit suffix:</p>
+
+<pre><code>--cooldown 7       7 days
+--cooldown 7d      7 days (same as above)
+--cooldown 12h     12 hours
+--cooldown 30m     30 minutes
+</code></pre>
+
+<p>Note that previous stable versions will not be suggested. The package will be completely ignored if its latest published version is within the cooldown period. This is due to a limitation of the npm registry, which does not provide a way to query previous stable versions.</p>
+
+<p>Example:</p>
+
+<p>Let&#8217;s examine how cooldown works with a package that has these versions available:</p>
+
+<pre><code>1.0.0          Released 7 days ago    (initial version)
+1.1.0          Released 6 days ago    (minor update)
+1.1.1          Released 5 days ago    (patch update)
+1.2.0          Released 5 days ago    (minor update)
+2.0.0-beta.1   Released 5 days ago    (beta release)
+1.2.1          Released 4 days ago    (patch update)
+1.3.0          Released 4 days ago    (minor update) [latest]
+2.0.0-beta.2   Released 3 days ago    (beta release)
+2.0.0-beta.3   Released 2 days ago    (beta release) [beta]
+</code></pre>
+
+<p>With default target (latest):</p>
+
+<pre><code class="language-js">$ ncu --cooldown 5
+</code></pre>
+
+<p>No update will be suggested because:</p>
+
+<ul>
+  <li>Latest version (1.3.0) is only 4 days old.</li>
+  <li>Cooldown requires versions to be at least 5 days old</li>
+  <li>Use <code>--cooldown 4</code> or lower to allow this update</li>
+</ul>
+
+<p>With <code>@beta</code>/<code>@tag</code> target:</p>
+
+<pre><code class="language-js">$ ncu --cooldown 3 --target @beta
+</code></pre>
+
+<p>No update will be suggested because:</p>
+
+<ul>
+  <li>Current beta (2.0.0-beta.3) is only 2 days old</li>
+  <li>Cooldown requires versions to be at least 3 days old</li>
+  <li>Use <code>--cooldown 2</code> or lower to allow this update</li>
+</ul>
+
+<p>With other targets:</p>
+
+<pre><code class="language-js">$ ncu --cooldown 5 --target greatest|newest|minor|patch|semver
+</code></pre>
+
+<p>Each target will select the best version that is at least 5 days old:</p>
+
+<pre><code>greatest → 1.2.0        (highest version number outside cooldown)
+newest   → 2.0.0-beta.1 (most recently published version outside cooldown)
+minor    → 1.2.0        (highest minor version outside cooldown)
+patch    → 1.1.1        (highest patch version outside cooldown)
+</code></pre>
+
+<p>Note for latest/tag targets:</p>
+
+<blockquote>
+  <p>:warning: For packages that update frequently (e.g. daily releases), using a long cooldown period (7+ days) with the default <code>--target latest</code> or <code>--target @tag</code> may prevent all updates since new versions will be published before older ones meet the cooldown requirement. Please consider this when setting your cooldown period.</p>
+</blockquote>
+
+<p>You can also provide a custom function in your .ncurc.js file or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+</blockquote>
+
+<pre><code class="language-js">/** Set cooldown to 3 days but skip it for `@my-company` packages.
+  @param packageName     The name of the dependency.
+  @returns               Cooldown days restriction for given package.
+*/
+cooldown: packageName =&gt; (packageName.startsWith('@my-company') ? 0 : 3)
+</code></pre>
+
+<h2 id="doctor">doctor</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --doctor -u
+ncu --no-doctor
+ncu -du
+</code></pre>
+
+<p>Iteratively installs upgrades and runs your project&#8217;s tests to identify breaking upgrades. Reverts broken upgrades and updates package.json with working upgrades.</p>
+
+<p>Requires <code>-u</code> to execute (modifies your package file, lock file, and node_modules)</p>
+
+<p>To be more precise:</p>
+
+<ol>
+  <li>Runs <code>npm install</code> and <code>npm test</code> to ensure tests are currently passing.</li>
+  <li>Runs <code>ncu -u</code> to optimistically upgrade all dependencies.</li>
+  <li>If tests pass, hurray!</li>
+  <li>If tests fail, restores package file and lock file.</li>
+  <li>For each dependency, install upgrade and run tests.</li>
+  <li>Prints broken upgrades with test error.</li>
+  <li>Saves working upgrades to package.json.</li>
+</ol>
+
+<p>Additional options:</p>
+
+<table>
+  <tr><td>--doctorInstall</td><td>specify a custom install script (default: `npm install` or `yarn`)</td></tr>
+  <tr><td>--doctorTest</td><td>specify a custom test script (default: `npm test`)</td></tr>
+</table>
+
+<p>Example:</p>
+
+<pre><code>$ ncu --doctor -u
+Running tests before upgrading
+npm install
+npm run test
+Upgrading all dependencies and re-running tests
+ncu -u
+npm install
+npm run test
+Tests failed
+Identifying broken dependencies
+npm install
+npm install --no-save react@16.0.0
+npm run test
+  ✓ react 15.0.0 → 16.0.0
+npm install --no-save react-redux@7.0.0
+npm run test
+  ✗ react-redux 6.0.0 → 7.0.0
+
+/projects/myproject/test.js:13
+  throw new Error('Test failed!')
+  ^
+
+npm install --no-save react-dnd@11.1.3
+npm run test
+  ✓ react-dnd 10.0.0 → 11.1.3
+Saving partially upgraded package.json
+</code></pre>
+
+<h2 id="filter">filter</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --filter [p]
+ncu -f [p]
+</code></pre>
+
+<p>Include only package names matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function. Only included packages will be checked with <code>--peer</code>.</p>
+
+<p><code>--filter</code> runs <em>before</em> new versions are fetched, in contrast to <code>--filterResults</code> which runs <em>after</em>.</p>
+
+<p>You can also specify a custom function in your .ncurc.js file, or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+</blockquote>
+
+<pre><code class="language-js">/**
+  @param name     The name of the dependency.
+  @param semver   A parsed Semver array of the current version.
+    (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+  @returns        True if the package should be included, false if it should be excluded.
+*/
+filter: (name, semver) =&gt; {
+  if (name.startsWith('@myorg/')) {
+    return false
+  }
+  return true
+}
+</code></pre>
+
+<h2 id="filterresults">filterResults</h2>
+
+<p>Filters results based on a user provided predicate function after fetching new versions.</p>
+
+<p><code>filterResults</code> runs <em>after</em> new versions are fetched, in contrast to <code>filter</code>, <code>reject</code>, <code>filterVersion</code>, and <code>rejectVersion</code>, which run <em>before</em>. This allows you to exclude upgrades with <code>filterResults</code> based on how the version has changed (e.g. a major version change).</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+</blockquote>
+
+<pre><code class="language-js">/** Exclude major version updates. Note this could also be achieved with --target semver.
+  @param {string} packageName               The name of the dependency.
+  @param {string} current                   Current version declaration (may be a range).
+  @param {SemVer[]} currentVersionSemver    Current version declaration in semantic versioning format (may be a range).
+  @param {string} upgraded                  Upgraded version.
+  @param {SemVer} upgradedVersionSemver     Upgraded version in semantic versioning format.
+  @returns {boolean}                        Return true if the upgrade should be kept; otherwise, it will be ignored.
+*/
+filterResults: (packageName, { current, currentVersionSemver, upgraded, upgradedVersionSemver }) =&gt; {
+  const currentMajor = parseInt(currentVersionSemver[0]?.major, 10)
+  const upgradedMajor = parseInt(upgradedVersionSemver?.major, 10)
+  if (currentMajor &amp;&amp; upgradedMajor) {
+    return currentMajor &gt;= upgradedMajor
+  }
+  return true
+}
+</code></pre>
+
+<p>For the SemVer type definition, see: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring</p>
+
+<h2 id="filterversion">filterVersion</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --filterVersion [p]
+</code></pre>
+
+<p>Include only versions matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function.</p>
+
+<p><code>--filterVersion</code> runs <em>before</em> new versions are fetched, in contrast to <code>--filterResults</code> which runs <em>after</em>.</p>
+
+<p>You can also specify a custom function in your .ncurc.js file, or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions. This function is an alias for the <code>filter</code> option function.</p>
+</blockquote>
+
+<pre><code class="language-js">/**
+  @param name     The name of the dependency.
+  @param semver   A parsed Semver array of the current version.
+    (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+  @returns        True if the package should be included, false if it should be excluded.
+*/
+filterVersion: (name, semver) =&gt; {
+  if (name.startsWith('@myorg/') &amp;&amp; parseInt(semver[0]?.major) &gt; 5) {
+    return false
+  }
+  return true
+}
+</code></pre>
+
+<h2 id="format">format</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --format [value]
+</code></pre>
+
+<p>Modify the output formatting or show additional information. Specify one or more comma-delimited values.</p>
+
+<table>
+  <tr><td>dep</td><td>Prints the dependency type (dev, peer, optional) of each package.</td></tr>
+  <tr><td>group</td><td>Groups packages by major, minor, patch, and major version zero updates.</td></tr>
+  <tr><td>homepage</td><td>Displays links to the package's homepage if specified in its package.json.</td></tr>
+  <tr><td>installedVersion</td><td>Prints the exact current version number instead of a range.</td></tr>
+  <tr><td>lines</td><td>Prints name@version on separate lines. Useful for piping to npm install.</td></tr>
+  <tr><td>ownerChanged</td><td>Shows if the package owner has changed.</td></tr>
+  <tr><td>repo</td><td>Infers and displays links to the package's source code repository. Requires packages to be installed.</td></tr>
+  <tr><td>diff</td><td>Display link to compare the changes between package versions.</td></tr>
+  <tr><td>time</td><td>Shows the publish time of each upgrade.</td></tr>
+</table>
+
+<h2 id="groupfunction">groupFunction</h2>
+
+<p>Customize how packages are divided into groups when using <code>--format group</code>.</p>
+
+<p>Only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+
+<pre><code class="language-js">/**
+  @param name             The name of the dependency.
+  @param defaultGroup     The predefined group name which will be used by default.
+  @param currentSpec      The current version range in your package.json.
+  @param upgradedSpec     The upgraded version range that will be written to your package.json.
+  @param upgradedVersion  The upgraded version number returned by the registry.
+  @returns                A predefined group name ('major' | 'minor' | 'patch' | 'majorVersionZero' | 'none') or a custom string to create your own group.
+*/
+groupFunction: (name, defaultGroup, currentSpec, upgradedSpec, upgradedVersion) =&gt; {
+  if (name === 'typescript' &amp;&amp; defaultGroup === 'minor') {
+    return 'major'
+  }
+  if (name.startsWith('@myorg/')) {
+    return 'My Org'
+  }
+  return defaultGroup
+}
+</code></pre>
+
+<h2 id="install">install</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --install [value]
+</code></pre>
+
+<p>Default: prompt</p>
+
+<p>Control the auto-install behavior.</p>
+
+<table>
+  <tr><td>always</td><td>Runs your package manager's install command automatically after upgrading.</td></tr>
+  <tr><td>never</td><td>Does not install and does not prompt.</td></tr>
+  <tr><td>prompt</td><td>Shows a message after upgrading that recommends an install, but does not install. In interactive mode, prompts for install. (default)</td></tr>
+</table>
+
+<h2 id="packagemanager">packageManager</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --packageManager [s]
+ncu -p [s]
+</code></pre>
+
+<p>Specifies the package manager to use when looking up versions.</p>
+
+<table>
+  <tr><td>npm</td><td>System-installed npm. Default.</td></tr>
+  <tr><td>yarn</td><td>System-installed yarn. Automatically used if yarn.lock is present.</td></tr>
+  <tr><td>pnpm</td><td>System-installed pnpm. Automatically used if pnpm-lock.yaml is present.</td></tr>
+  <tr><td>bun</td><td>System-installed bun. Automatically used if bun.lock or bun.lockb is present.</td></tr>
+</table>
+
+<h2 id="peer">peer</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --peer
+ncu --no-peer
+</code></pre>
+
+<p>Check peer dependencies of installed packages and filter updates to compatible versions.</p>
+
+<p>Example:</p>
+
+<p>The following example demonstrates how <code>--peer</code> works, and how it uses peer dependencies from upgraded modules.</p>
+
+<p>The package ncu-test-peer-update has two versions published:</p>
+
+<ul>
+  <li>1.0.0 has peer dependency <code>"ncu-test-return-version": "1.0.x"</code></li>
+  <li>1.1.0 has peer dependency <code>"ncu-test-return-version": "1.1.x"</code></li>
+</ul>
+
+<p>Our test app has the following dependencies:</p>
+
+<pre><code>"ncu-test-peer-update": "1.0.0",
+"ncu-test-return-version": "1.0.0"
+</code></pre>
+
+<p>The latest versions of these packages are:</p>
+
+<pre><code>"ncu-test-peer-update": "1.1.0",
+"ncu-test-return-version": "2.0.0"
+</code></pre>
+
+<p>With <code>--peer</code>:</p>
+
+<p>ncu upgrades packages to the highest version that still adheres to the peer dependency constraints:</p>
+
+<pre><code>ncu-test-peer-update     1.0.0  →  1.1.0
+ncu-test-return-version  1.0.0  →  1.1.0
+</code></pre>
+
+<p>Without <code>--peer</code>:</p>
+
+<p>As a comparison: without using the <code>--peer</code> option, ncu will suggest the latest versions, ignoring peer dependencies:</p>
+
+<pre><code>ncu-test-peer-update     1.0.0  →  1.1.0
+ncu-test-return-version  1.0.0  →  2.0.0
+</code></pre>
+
+<h2 id="registrytype">registryType</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --registryType [type]
+</code></pre>
+
+<p>Specify whether <code>--registry</code> refers to a full npm registry or a simple JSON file.</p>
+
+<table>
+  <tr><td>npm</td><td>Default npm registry</td></tr>
+  <tr><td>json</td><td>Checks versions from a file or url to a simple JSON registry. Must include the `--registry` option.
+
+Example:
+
+    // local file
+    $ ncu --registryType json --registry ./registry.json
+
+    // url
+    $ ncu --registryType json --registry https://api.mydomain/registry.json
+
+    // you can omit --registryType when the registry ends in .json
+    $ ncu --registry ./registry.json
+    $ ncu --registry https://api.mydomain/registry.json
+
+registry.json:
+
+    {
+      "prettier": "2.7.1",
+      "typescript": "4.7.4"
+    }
+
+</td></tr>
+</table>
+
+<h2 id="reject">reject</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --reject [p]
+ncu -x [p]
+</code></pre>
+
+<p>The inverse of <code>--filter</code>. Exclude package names matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function. This will also exclude them from the <code>--peer</code> check.</p>
+
+<p><code>--reject</code> runs <em>before</em> new versions are fetched, in contrast to <code>--filterResults</code> which runs <em>after</em>.</p>
+
+<p>You can also specify a custom function in your .ncurc.js file, or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+</blockquote>
+
+<pre><code class="language-js">/**
+  @param name     The name of the dependency.
+  @param semver   A parsed Semver array of the current version.
+    (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+  @returns        True if the package should be excluded, false if it should be included.
+*/
+reject: (name, semver) =&gt; {
+  if (name.startsWith('@myorg/')) {
+    return true
+  }
+  return false
+}
+</code></pre>
+
+<h2 id="rejectversion">rejectVersion</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --rejectVersion [p]
+</code></pre>
+
+<p>The inverse of <code>--filterVersion</code>. Exclude versions matching the given string, wildcard, glob, comma-or-space-delimited list, /regex/, or predicate function.</p>
+
+<p><code>--rejectVersion</code> runs <em>before</em> new versions are fetched, in contrast to <code>--filterResults</code> which runs <em>after</em>.</p>
+
+<p>You can also specify a custom function in your .ncurc.js file, or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions. This function is an alias for the reject option function.</p>
+</blockquote>
+
+<pre><code class="language-js">/**
+  @param name     The name of the dependency.
+  @param semver   A parsed Semver array of the current version.
+    (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+  @returns        True if the package should be excluded, false if it should be included.
+*/
+rejectVersion: (name, semver) =&gt; {
+  if (name.startsWith('@myorg/') &amp;&amp; parseInt(semver[0]?.major) &gt; 5) {
+    return true
+  }
+  return false
+}
+</code></pre>
+
+<h2 id="target">target</h2>
+
+<p>Usage:</p>
+
+<pre><code>ncu --target [value]
+ncu -t [value]
+</code></pre>
+
+<p>Determines the version to upgrade to. (default: &#8220;latest&#8221;)</p>
+
+<table>
+  <tr><td>greatest</td><td>Upgrade to the highest version number published, regardless of release date or tag. Includes prereleases.</td></tr>
+  <tr><td>latest</td><td>Upgrade to whatever the package's "latest" git tag points to. Excludes prereleases unless --pre is specified.</td></tr>
+  <tr><td>minor</td><td>Upgrade to the highest minor version without bumping the major version.</td></tr>
+  <tr><td>newest</td><td>Upgrade to the version with the most recent publish date, even if there are other version numbers that are higher. Includes prereleases.</td></tr>
+  <tr><td>patch</td><td>Upgrade to the highest patch version without bumping the minor or major versions.</td></tr>
+  <tr><td>semver</td><td>Upgrade to the highest version within the semver range specified in your package.json.</td></tr>
+  <tr><td>@[tag]</td><td>Upgrade to the version published to a specific tag, e.g. 'next' or 'beta'.</td></tr>
+</table>
+
+<p>e.g.</p>
+
+<pre><code>ncu --target semver
+</code></pre>
+
+<p>You can also specify a custom function in your .ncurc.js file, or when importing npm-check-updates as a module.</p>
+
+<blockquote>
+  <p>:warning: The predicate function is only available in .ncurc.js or when importing npm-check-updates as a module, not on the command line. To convert a JSON config to a JS config, follow the instructions at https://github.com/raineorshine/npm-check-updates#config-functions.</p>
+</blockquote>
+
+<pre><code class="language-js">/** Upgrade major version zero to the next minor version, and everything else to latest.
+  @param name     The name of the dependency.
+  @param semver   A parsed Semver object of the upgraded version.
+    (See: https://git.coolaj86.com/coolaj86/semver-utils.js#semverutils-parse-semverstring)
+  @returns        One of the valid target values (specified in the table above).
+*/
+target: (name, semver) =&gt; {
+  if (parseInt(semver[0]?.major) === '0') return 'minor'
+  return 'latest'
+}
+</code></pre>
+
+<!-- END Advanced Options -->
+
+<h2 id="config-file">Config File</h2>
+
+<p>Add a <code>.ncurc.{json,yml,js,cjs}</code> file to your project directory to specify configuration information.</p>
+
+<p>For example, <code>.ncurc.json</code>:</p>
+
+<pre><code class="language-json">{
+  "upgrade": true,
+  "filter": "svelte",
+  "reject": ["@types/estree", "ts-node"]
+}
+</code></pre>
+
+<p>Options are merged with the following precedence:</p>
+
+<ol>
+  <li>Command line options</li>
+  <li>Local Config File (current working directory)</li>
+  <li>Project Config File (next to package.json)</li>
+  <li>User Config File (<code>$HOME</code>)</li>
+</ol>
+
+<p>You can also specify a custom config file name or path using the <code>--configFileName</code> or <code>--configFilePath</code> command line options.</p>
+
+<h3 id="config-functions">Config Functions</h3>
+
+<p>Some options offer more advanced configuration using a function definition. These include <a href="https://github.com/raineorshine/npm-check-updates#filter">filter</a>, <a href="https://github.com/raineorshine/npm-check-updates#filterversion">filterVersion</a>, <a href="https://github.com/raineorshine/npm-check-updates#filterresults">filterResults</a>, <a href="https://github.com/raineorshine/npm-check-updates#reject">reject</a>, <a href="https://github.com/raineorshine/npm-check-updates#rejectversion">rejectVersion</a>, and <a href="https://github.com/raineorshine/npm-check-updates#groupfunction">groupFunction</a>. To define an options function, convert the config file to a JS file by adding the <code>.js</code> extension and setting module.exports:</p>
+
+<p>For example, <code>.ncurc.js</code>:</p>
+
+<pre><code class="language-js">/** @type {import('npm-check-updates').RcOptions } */
+module.exports = {
+  upgrade: true,
+  filter: name =&gt; name.startsWith('@myorg/'),
+}
+</code></pre>
+
+<p>Alternatively, you can use the defineConfig helper which should provide intellisense without the need for jsdoc annotations:</p>
+
+<pre><code class="language-js">const { defineConfig } = require('npm-check-updates')
+
+module.exports = defineConfig({
+  upgrade: true,
+  filter: name =&gt; name.startsWith('@myorg/'),
+})
+</code></pre>
+
+<h3 id="json-schema">JSON Schema</h3>
+
+<p>If you write <code>.ncurc</code> config files using json or yaml, you can add the JSON Schema to your IDE settings for completions.</p>
+
+<p>e.g. for VS Code:</p>
+
+<pre><code class="language-json">  "json.schemas": [
+    {
+      "fileMatch": [
+        ".ncurc",
+        ".ncurc.json",
+      ],
+      "url": "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json"
+    }
+  ],
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/raineorshine/npm-check-updates/main/src/types/RunOptions.json": [
+        ".ncurc.yml",
+    ]
+  },
+</code></pre>
+
+<h2 id="moduleprogrammatic-usage">Module/Programmatic Usage</h2>
+
+<p>npm-check-updates can be imported as a module:</p>
+
+<pre><code class="language-js">import ncu from 'npm-check-updates'
+
+const upgraded = await ncu.run({
+  // Pass any cli option
+  packageFile: '../package.json',
+  upgrade: true,
+  // Defaults:
+  // jsonUpgraded: true,
+  // silent: true,
+})
+
+console.log(upgraded) // { "mypackage": "^2.0.0", ... }
+</code></pre>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>Contributions are happily accepted. I respond to all PR&#8217;s and can offer guidance on where to make changes. For contributing tips see <a href="https://github.com/raineorshine/npm-check-updates/blob/main/.github/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+
+<h2 id="problems">Problems?</h2>
+
+<p><a href="https://github.com/raineorshine/npm-check-updates/issues">File an issue</a>. Please <a href="https://github.com/raineorshine/npm-check-updates/issues?utf8=%E2%9C%93&amp;q=is%3Aissue">search existing issues</a> first.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

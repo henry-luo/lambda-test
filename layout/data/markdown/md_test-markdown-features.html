@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test markdown features</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>test markdown features</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        test markdown features
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="markdown-features-test--tables-extended-syntax--edge-cases">Markdown Features Test — Tables, Extended Syntax &amp; Edge Cases</h1>
+
+<p>This file tests GFM (GitHub Flavored Markdown) and CommonMark features that
+are often missing or broken in renderers.</p>
+
+<hr />
+
+<h2 id="1-tables">1. Tables</h2>
+
+<h3 id="simple-table">Simple Table</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>30</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>25</td>
+      <td>London</td>
+    </tr>
+    <tr>
+      <td>Charlie</td>
+      <td>35</td>
+      <td>Tokyo</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="alignment">Alignment</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Left</th>
+      <th style="text-align: center">Center</th>
+      <th style="text-align: right">Right</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Left-aligned</td>
+      <td style="text-align: center">Centered</td>
+      <td style="text-align: right">Right-aligned</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Short</td>
+      <td style="text-align: center">A much longer cell value</td>
+      <td style="text-align: right">42</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">x</td>
+      <td style="text-align: center">y</td>
+      <td style="text-align: right">z</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="wide-table-many-columns">Wide Table (many columns)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Library</th>
+      <th>Version</th>
+      <th>License</th>
+      <th>Stars</th>
+      <th>Issues</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>React</td>
+      <td>18.3.0</td>
+      <td>MIT</td>
+      <td>228k</td>
+      <td>1.2k</td>
+      <td>2024-04</td>
+    </tr>
+    <tr>
+      <td>Vue</td>
+      <td>3.4.0</td>
+      <td>MIT</td>
+      <td>207k</td>
+      <td>643</td>
+      <td>2024-03</td>
+    </tr>
+    <tr>
+      <td>Angular</td>
+      <td>17.0</td>
+      <td>MIT</td>
+      <td>91k</td>
+      <td>1.5k</td>
+      <td>2024-04</td>
+    </tr>
+    <tr>
+      <td>Svelte</td>
+      <td>4.2</td>
+      <td>MIT</td>
+      <td>77k</td>
+      <td>312</td>
+      <td>2024-03</td>
+    </tr>
+    <tr>
+      <td>Solid</td>
+      <td>1.8</td>
+      <td>MIT</td>
+      <td>31k</td>
+      <td>120</td>
+      <td>2024-04</td>
+    </tr>
+    <tr>
+      <td>Preact</td>
+      <td>10.19</td>
+      <td>MIT</td>
+      <td>36k</td>
+      <td>89</td>
+      <td>2024-02</td>
+    </tr>
+    <tr>
+      <td>Lit</td>
+      <td>3.1</td>
+      <td>BSD-3</td>
+      <td>17k</td>
+      <td>210</td>
+      <td>2024-03</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="table-with-inline-formatting">Table with Inline Formatting</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Status</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Bold text</strong></td>
+      <td>✅ Done</td>
+      <td>Core feature</td>
+    </tr>
+    <tr>
+      <td><em>Italic text</em></td>
+      <td>✅ Done</td>
+      <td>Core feature</td>
+    </tr>
+    <tr>
+      <td><del>Strikethrough</del></td>
+      <td>✅ Done</td>
+      <td>GFM extension</td>
+    </tr>
+    <tr>
+      <td><code>inline code</code></td>
+      <td>✅ Done</td>
+      <td>Core feature</td>
+    </tr>
+    <tr>
+      <td><a href="https://example.com">Links</a></td>
+      <td>✅ Done</td>
+      <td>Core feature</td>
+    </tr>
+    <tr>
+      <td><code>&lt;br&gt;</code> line breaks</td>
+      <td>⚠️ Partial</td>
+      <td>Renderer-specific</td>
+    </tr>
+    <tr>
+      <td><abbr title="HyperText Markup Language">HTML</abbr> entities</td>
+      <td>✅ Done</td>
+      <td>&copy; &reg; &trade;</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="table-with-long-content">Table with Long Content</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>maxRetries</code></td>
+      <td><code>number</code></td>
+      <td><code>3</code></td>
+      <td>Maximum number of retry attempts before giving up</td>
+    </tr>
+    <tr>
+      <td><code>timeout</code></td>
+      <td><code>number</code></td>
+      <td><code>5000</code></td>
+      <td>Request timeout in milliseconds (0 = no timeout)</td>
+    </tr>
+    <tr>
+      <td><code>baseURL</code></td>
+      <td><code>string</code></td>
+      <td><code>""</code></td>
+      <td>Base URL prepended to all relative request paths</td>
+    </tr>
+    <tr>
+      <td><code>headers</code></td>
+      <td><code>object</code></td>
+      <td><code>{}</code></td>
+      <td>Default headers merged with per-request headers</td>
+    </tr>
+    <tr>
+      <td><code>withCredentials</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Whether to include cookies/auth in cross-origin requests</td>
+    </tr>
+    <tr>
+      <td><code>responseType</code></td>
+      <td><code>string</code></td>
+      <td><code>"json"</code></td>
+      <td>Expected response format: json, text, blob, arraybuffer</td>
+    </tr>
+    <tr>
+      <td><code>validateStatus</code></td>
+      <td><code>function</code></td>
+      <td><code>null</code></td>
+      <td>Custom function to determine if HTTP status is success</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="minimal-table">Minimal Table</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>a</th>
+      <th>b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="table-with-empty-cells">Table with Empty Cells</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>&#160;</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+      <td>5</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8</td>
+      <td>&#160;</td>
+    </tr>
+    <tr>
+      <td>&#160;</td>
+      <td>&#160;</td>
+      <td>9</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="2-strikethrough">2. Strikethrough</h2>
+
+<p><del>This text is struck through</del></p>
+
+<p>This has <del>struck-through words</del> inside a sentence.</p>
+
+<p>Combined: <del><strong>Bold strikethrough</strong></del> and <del><em>italic strikethrough</em></del></p>
+
+<p><del>Multi-word strike with <code>inline code</code> inside and <a href="https://example.com">a link</a></del></p>
+
+<hr />
+
+<h2 id="3-task-lists-gfm">3. Task Lists (GFM)</h2>
+
+<h3 id="project-checklist">Project Checklist</h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Initialize repository</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Set up CI/CD pipeline</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Write unit tests</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add integration tests</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Set up staging environment</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Write documentation</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Security audit</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Performance benchmarks</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Release v1.0</li>
+</ul>
+
+<h3 id="nested-task-list">Nested Task List</h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Backend
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />REST API</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Database schema</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />GraphQL layer
+        <ul class="task-list">
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Queries</li>
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Mutations</li>
+          <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Subscriptions</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Frontend
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Component library</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Routing</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />State management</li>
+    </ul>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />DevOps
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Docker setup</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Kubernetes config</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Monitoring</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="4-footnotes">4. Footnotes</h2>
+
+<p>Here is a sentence with a footnote.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup></p>
+
+<p>Another sentence references a longer note.<sup id="fnref:longnote"><a href="#fn:longnote" class="footnote" rel="footnote" role="doc-noteref">2</a></sup></p>
+
+<p>Footnotes can also appear inline<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup> anywhere in the text.</p>
+
+<hr />
+
+<h2 id="5-definition-lists">5. Definition Lists</h2>
+
+<dl>
+  <dt>Term 1</dt>
+  <dd>Definition for Term 1. Can span multiple lines if you
+indent properly.</dd>
+  <dt>Term 2</dt>
+  <dd>First definition for Term 2.</dd>
+  <dd>Second definition for Term 2 (multiple allowed).</dd>
+  <dt><em>Emphasized Term</em></dt>
+  <dd>Definition with <strong>inline formatting</strong> and <code>code</code>.</dd>
+  <dt>Long Term With Multiple Words</dt>
+  <dd>This definition is quite verbose and explains a concept in detail.
+It continues on the next indented line.</dd>
+</dl>
+
+<hr />
+
+<h2 id="6-abbreviations">6. Abbreviations</h2>
+
+<p>The <abbr title="HyperText Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.</p>
+
+<hr />
+
+<h2 id="7-nested-blockquotes">7. Nested Blockquotes</h2>
+
+<blockquote>
+  <p>Simple blockquote.</p>
+</blockquote>
+
+<blockquote>
+  <p>Blockquote with <strong>bold</strong> and <em>italic</em> text.</p>
+</blockquote>
+
+<blockquote>
+  <p>Multiline blockquote.
+This continues on the next line.
+And this is the third line.</p>
+</blockquote>
+
+<blockquote>
+  <p>Nested blockquote level 1.</p>
+
+  <blockquote>
+    <p>Nested blockquote level 2.</p>
+
+    <blockquote>
+      <p>Nested blockquote level 3.</p>
+
+      <blockquote>
+        <p>Nested level 4.</p>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<blockquote>
+  <h4 id="blockquote-with-heading">Blockquote with heading</h4>
+
+  <p>And a paragraph following the heading.</p>
+
+  <ul>
+    <li>List item inside blockquote</li>
+    <li>Another item
+      <ul>
+        <li>Nested item</li>
+      </ul>
+    </li>
+  </ul>
+
+  <pre><code class="language-javascript">// Code block inside blockquote
+const x = 42;
+</code></pre>
+</blockquote>
+
+<hr />
+
+<h2 id="8-fenced-code-blocks-with-language-tags">8. Fenced Code Blocks with Language Tags</h2>
+
+<pre><code class="language-javascript">// JavaScript
+const greet = (name) =&gt; `Hello, ${name}!`;
+console.log(greet("World"));
+</code></pre>
+
+<pre><code class="language-python"># Python
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+print(list(fibonacci(10)))
+</code></pre>
+
+<pre><code class="language-bash"># Shell
+#!/usr/bin/env bash
+set -euo pipefail
+
+NAME="${1:-World}"
+echo "Hello, ${NAME}!"
+</code></pre>
+
+<pre><code class="language-sql">-- SQL
+SELECT u.name, COUNT(o.id) AS order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.created_at &gt; '2024-01-01'
+GROUP BY u.name
+HAVING COUNT(o.id) &gt; 5
+ORDER BY order_count DESC;
+</code></pre>
+
+<pre><code class="language-json">{
+  "name": "my-package",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}
+</code></pre>
+
+<pre><code class="language-yaml"># YAML
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+</code></pre>
+
+<pre><code class="language-diff">- This line was removed
++ This line was added
+  This line is unchanged
+- Old function name
++ New function name
+</code></pre>
+
+<hr />
+
+<h2 id="9-setext-and-atx-headings">9. Setext and ATX Headings</h2>
+
+<h1 id="h1--atx-style">H1 — ATX style</h1>
+<h2 id="h2--atx-style">H2 — ATX style</h2>
+<h3 id="h3--atx-style">H3 — ATX style</h3>
+<h4 id="h4--atx-style">H4 — ATX style</h4>
+<h5 id="h5--atx-style">H5 — ATX style</h5>
+<h6 id="h6--atx-style">H6 — ATX style</h6>
+
+<h1 id="h1-setext-style">H1 Setext style</h1>
+
+<h2 id="h2-setext-style">H2 Setext style</h2>
+
+<hr />
+
+<h2 id="10-lists--all-variants">10. Lists — All Variants</h2>
+
+<h3 id="ordered-list-numeric">Ordered List (numeric)</h3>
+<ol>
+  <li>First item</li>
+  <li>Second item</li>
+  <li>Third item</li>
+</ol>
+
+<h3 id="ordered-list-starts-at-other-number">Ordered List (starts at other number)</h3>
+<ol>
+  <li>Third</li>
+  <li>Fourth</li>
+  <li>Fifth</li>
+</ol>
+
+<h3 id="ordered-with-nesting">Ordered with nesting</h3>
+<ol>
+  <li>First level
+    <ol>
+      <li>Second level
+        <ol>
+          <li>Third level
+            <ol>
+              <li>Fourth level</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li>Back to first</li>
+</ol>
+
+<h3 id="unordered-hyphens">Unordered (hyphens)</h3>
+<ul>
+  <li>Item A</li>
+  <li>Item B
+    <ul>
+      <li>Nested B1</li>
+      <li>Nested B2
+        <ul>
+          <li>Deep B2a</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Item C</li>
+</ul>
+
+<h3 id="unordered-asterisks">Unordered (asterisks)</h3>
+<ul>
+  <li>Alpha</li>
+  <li>Beta
+    <ul>
+      <li>Gamma
+        <ul>
+          <li>Delta</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="unordered-plus-signs">Unordered (plus signs)</h3>
+<ul>
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</ul>
+
+<h3 id="mixed-nested">Mixed nested</h3>
+<ol>
+  <li>Ordered item
+    <ul>
+      <li>Unordered sub-item</li>
+      <li>Another sub-item
+        <ol>
+          <li>Back to ordered</li>
+          <li>Still ordered</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Second ordered item</li>
+</ol>
+
+<h3 id="loose-list-paragraphs-in-items">Loose list (paragraphs in items)</h3>
+
+<ul>
+  <li>
+    <p>First item</p>
+
+    <p>This paragraph belongs to the first item.</p>
+  </li>
+  <li>
+    <p>Second item</p>
+
+    <p>This paragraph belongs to the second item.</p>
+
+    <p>And a second paragraph in the second item.</p>
+  </li>
+  <li>
+    <p>Third item</p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="11-links--images">11. Links &amp; Images</h2>
+
+<h3 id="link-variants">Link variants</h3>
+<ul>
+  <li><a href="https://example.com">Inline link</a></li>
+  <li><a href="https://example.com" title="Example Domain">Link with title</a></li>
+  <li><a href="https://reference1.example.com">Reference link</a></li>
+  <li><a href="https://reference2.example.com" title="Reference 2">Reference link with title</a></li>
+  <li><a href="https://collapsed.example.com">Collapsed reference</a></li>
+  <li><a href="https://autolink.example.com">https://autolink.example.com</a></li>
+  <li><a href="mailto:email@example.com">email@example.com</a></li>
+</ul>
+
+<h3 id="image-variants">Image variants</h3>
+<p><img src="../support/images/via.placeholder.com_100x50.png" alt="Alt text" />
+<img src="../support/images/via.placeholder.com_100x50.png" alt="Alt with title" title="Image Title" />
+<a href="https://example.com"><img src="../support/images/via.placeholder.com_100x30.png" alt="Linked image" /></a></p>
+
+<hr />
+
+<h2 id="12-inline-formatting-edge-cases">12. Inline Formatting Edge Cases</h2>
+
+<p>Normal <strong>bold</strong> and <em>italic</em> text.</p>
+
+<p><strong><em>Bold and italic</em></strong> and <strong><em>also valid</em></strong> triple asterisk.</p>
+
+<p><strong>Double underscore bold</strong> and <em>single underscore italic</em>.</p>
+
+<p>Bold mid<strong>word</strong>bold and italic mid_word_test.</p>
+
+<p>*Escaped asterisks* don&#8217;t format.</p>
+
+<p><code>Code spans with backticks — "quotes" &amp; &lt;html&gt; entities</code></p>
+
+<p>Code with embedded backtick: <code>let x = `template ${literal}`;</code></p>
+
+<p>Hard line break (two spaces at end):<br />
+versus soft line break (single newline).</p>
+
+<hr />
+
+<h2 id="13-html-blocks">13. <abbr title="HyperText Markup Language">HTML</abbr> Blocks</h2>
+
+<details>
+<summary>Click to expand</summary>
+
+This content is hidden until expanded. Markdown **rendering** inside HTML blocks varies by renderer.
+
+```javascript
+console.log("Inside details block");
+```
+
+</details>
+
+<p><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></p>
+
+<p><sub>Subscript text</sub> and <sup>Superscript text</sup></p>
+
+<p><mark>Highlighted text</mark> (<abbr title="HyperText Markup Language">HTML</abbr> mark element)</p>
+
+<hr />
+
+<h2 id="14-horizontal-rules">14. Horizontal Rules</h2>
+
+<p>Three hyphens:</p>
+
+<hr />
+
+<p>Three asterisks:</p>
+
+<hr />
+
+<p>Three underscores:</p>
+
+<hr />
+
+<hr />
+
+<h2 id="15-escaping">15. Escaping</h2>
+
+<p>\ Backslash<br />
+` Backtick<br />
+* Asterisk<br />
+_ Underscore<br />
+{ Curly brace<br />
+} Close curly brace<br />
+[ Open bracket<br />
+] Close bracket<br />
+( Parenthesis<br />
+) Close parenthesis<br />
+# Hash<br />
++ Plus<br />
+- Minus<br />
+. Period<br />
+! Exclamation<br />
+| Pipe</p>
+
+<hr />
+
+<h2 id="16-long-paragraph-wrapping-test">16. Long Paragraph (Wrapping Test)</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+
+<hr />
+
+<h2 id="17-nested-formatting-combinations">17. Nested Formatting Combinations</h2>
+
+<blockquote>
+  <p><strong>Bold in blockquote</strong> with <em>italic</em> and <del>strikethrough</del>.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Col1</th>
+        <th>Col2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>code</code></td>
+        <td><strong>bold</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ol>
+    <li>Ordered list in blockquote</li>
+    <li>Second item
+      <ul>
+        <li>With nested unordered</li>
+        <li>Items here</li>
+      </ul>
+    </li>
+  </ol>
+</blockquote>
+
+<hr />
+
+<p><em>End of markdown features test.</em></p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This is the first footnote.&#160;<a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:longnote">
+      <p>This is a longer footnote with multiple paragraphs.</p>
+
+      <p>Indent paragraphs to include them in the footnote.</p>
+
+      <p>You can also use code blocks and other formatting:</p>
+
+      <pre><code class="language-python">print("Hello from a footnote!")
+</code></pre>
+      <p><a href="#fnref:longnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Inline footnotes are supported by some renderers.&#160;<a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

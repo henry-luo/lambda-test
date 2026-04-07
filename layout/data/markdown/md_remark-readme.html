@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>remark README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>remark README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        remark README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1><img src="../support/images/gh_remark-logo.svg?sanitize=true" alt="remark" /></h1>
+
+<p><a href="https://github.com/remarkjs/remark/actions"><img src="../support/images/github.com_remarkjs_remark_workflows_main_badge.svg" alt="Build" /></a>
+<a href="https://codecov.io/github/remarkjs/remark"><img src="../support/images/img.shields.io_codecov_c_github_remarkjs_remark.svg" alt="Coverage" /></a>
+<a href="https://www.npmjs.com/package/remark"><img src="../support/images/img.shields.io_npm_dm_remark.svg" alt="Downloads" /></a>
+<a href="https://bundlejs.com/?q=remark"><img src="../support/images/img.shields.io_bundlejs_size_remark.svg" alt="Size" /></a></p>
+
+<p><strong>remark</strong> is a tool that transforms markdown with plugins.
+These plugins can inspect and change your markup.
+You can use remark on the server,
+the client,
+CLIs,
+deno,
+etc.</p>
+
+<h2 id="feature-highlights">Feature highlights</h2>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong><a href="#syntax">compliant</a></strong>
+— 100% to CommonMark,
+100% to GFM or MDX with a plugin</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong><a href="#syntax-tree">ASTs</a></strong>
+— inspecting and changing content made easy</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong><a href="https://www.npmtrends.com/remark-parse-vs-marked-vs-micromark-vs-markdown-it">popular</a></strong>
+— world’s most popular markdown parser</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong><a href="#plugins">plugins</a></strong>
+— 150+ plugins you can pick and choose from</li>
+</ul>
+
+<h2 id="intro">Intro</h2>
+
+<p>remark is an ecosystem of plugins that work with markdown as structured data,
+specifically ASTs (abstract syntax trees).
+ASTs make it easy for programs to deal with markdown.
+We call those programs plugins.
+Plugins inspect and change trees.
+You can use the many existing plugins or you can make your own.</p>
+
+<ul>
+  <li>to learn markdown,
+see this <a href="https://commonmark.org/help/">cheatsheet and tutorial</a></li>
+  <li>for more about us,
+see <a href="https://unifiedjs.com"><code>unifiedjs.com</code></a></li>
+  <li>for questions,
+see <a href="https://github.com/remarkjs/.github/blob/main/support.md">support</a></li>
+  <li>to help,
+see <a href="#contribute">contribute</a> or <a href="#sponsor">sponsor</a> below</li>
+</ul>
+
+<h2 id="contents">Contents</h2>
+
+<ul>
+  <li><a href="#what-is-this">What is this?</a></li>
+  <li><a href="#when-should-i-use-this">When should I use this?</a></li>
+  <li><a href="#plugins">Plugins</a></li>
+  <li><a href="#examples">Examples</a>
+    <ul>
+      <li><a href="#example-turning-markdown-into-html">Example: turning markdown into HTML</a></li>
+      <li><a href="#example-support-for-gfm-and-frontmatter">Example: support for GFM and frontmatter</a></li>
+      <li><a href="#example-checking-markdown">Example: checking markdown</a></li>
+      <li><a href="#example-checking-and-formatting-markdown-on-the-cli">Example: checking and formatting markdown on the CLI</a></li>
+    </ul>
+  </li>
+  <li><a href="#syntax">Syntax</a></li>
+  <li><a href="#syntax-tree">Syntax tree</a></li>
+  <li><a href="#types">Types</a></li>
+  <li><a href="#compatibility">Compatibility</a></li>
+  <li><a href="#security">Security</a></li>
+  <li><a href="#contribute">Contribute</a></li>
+  <li><a href="#sponsor">Sponsor</a></li>
+  <li><a href="#license">License</a></li>
+</ul>
+
+<h2 id="what-is-this">What is this?</h2>
+
+<p>With this project and a plugin,
+you can turn this markdown:</p>
+
+<pre><code class="language-markdown"># Hello, *Mercury*!
+</code></pre>
+
+<p>…into the following HTML:</p>
+
+<pre><code class="language-html">&lt;h1&gt;Hello, &lt;em&gt;Mercury&lt;/em&gt;!&lt;/h1&gt;
+</code></pre>
+
+<details><summary>Show example code</summary>
+
+```js
+import rehypeStringify from 'rehype-stringify'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import {unified} from 'unified'
+
+const file = await unified()
+  .use(remarkParse)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process('# Hello, *Mercury*!')
+
+console.log(String(file)) // =&gt; '<h1>Hello, <em>Mercury</em>!</h1>'
+```
+
+</details>
+
+<p>With another plugin,
+you can turn this markdown:</p>
+
+<pre><code class="language-markdown"># Hi, Saturn!
+</code></pre>
+
+<p>…into the following markdown:</p>
+
+<pre><code class="language-markdown">## Hi, Saturn!
+</code></pre>
+
+<details><summary>Show example code</summary>
+
+```js
+/**
+ * @import {Root} from 'mdast'
+ */
+
+import remarkParse from 'remark-parse'
+import remarkStringify from 'remark-stringify'
+import {unified} from 'unified'
+import {visit} from 'unist-util-visit'
+
+const file = await unified()
+  .use(remarkParse)
+  .use(myRemarkPluginToIncreaseHeadings)
+  .use(remarkStringify)
+  .process('# Hi, Saturn!')
+
+console.log(String(file)) // =&gt; '## Hi, Saturn!'
+
+function myRemarkPluginToIncreaseHeadings() {
+  /**
+   * @param {Root} tree
+   */
+  return function (tree) {
+    visit(tree, function (node) {
+      if (node.type === 'heading') {
+        node.depth++
+      }
+    })
+  }
+}
+```
+
+</details>
+
+<p>You can use remark for many different things.
+<strong><a href="https://github.com/unifiedjs/unified">unified</a></strong> is the core project that transforms content with
+ASTs.
+<strong>remark</strong> adds support for markdown to unified.
+<strong><a href="https://github.com/syntax-tree/mdast">mdast</a></strong> is the markdown AST that remark uses.</p>
+
+<p>This GitHub repository is a monorepo that contains the following packages:</p>
+
+<ul>
+  <li><a href="https://github.com/remarkjs/remark/tree/main/packages/remark-parse"><code>remark-parse</code></a>
+— plugin to take markdown as input and turn it into a syntax tree (mdast)</li>
+  <li><a href="packages/remark-stringify/"><code>remark-stringify</code></a>
+— plugin to take a syntax tree (mdast) and turn it into markdown as output</li>
+  <li><a href="https://github.com/remarkjs/remark/tree/main/packages/remark"><code>remark</code></a>
+— <code>unified</code>, <code>remark-parse</code>, and <code>remark-stringify</code>,
+useful when input and output are markdown</li>
+  <li><a href="https://github.com/remarkjs/remark/tree/main/packages/remark-cli"><code>remark-cli</code></a>
+— CLI around <code>remark</code> to inspect and format markdown in scripts</li>
+</ul>
+
+<h2 id="when-should-i-use-this">When should I use this?</h2>
+
+<p>Depending on the input you have and output you want,
+you can use different parts of remark.
+If the input is markdown,
+you can use <code>remark-parse</code> with <code>unified</code>.
+If the output is markdown,
+you can use <code>remark-stringify</code> with <code>unified</code>.
+If both the input and output are markdown,
+you can use <code>remark</code> on its own.
+When you want to inspect and format markdown files in a project,
+you can use <code>remark-cli</code>.</p>
+
+<p>If you <em>just</em> want to turn markdown into HTML (with maybe a few extensions),
+we recommend <a href="https://github.com/micromark/micromark"><code>micromark</code></a> instead.</p>
+
+<p>If you don’t use plugins and want to deal with syntax trees manually,
+you can use <a href="https://github.com/syntax-tree/mdast-util-from-markdown"><code>mdast-util-from-markdown</code></a> and
+<a href="https://github.com/syntax-tree/mdast-util-to-markdown"><code>mdast-util-to-markdown</code></a>.</p>
+
+<h2 id="plugins">Plugins</h2>
+
+<p>remark plugins deal with markdown.
+Some popular examples are:</p>
+
+<ul>
+  <li><a href="https://github.com/remarkjs/remark-gfm"><code>remark-gfm</code></a>
+— add support for GFM (GitHub flavored markdown)</li>
+  <li><a href="https://github.com/remarkjs/remark-lint"><code>remark-lint</code></a>
+— inspect markdown and warn about inconsistencies</li>
+  <li><a href="https://github.com/remarkjs/remark-toc"><code>remark-toc</code></a>
+— generate a table of contents</li>
+  <li><a href="https://github.com/remarkjs/remark-rehype"><code>remark-rehype</code></a>
+— turn markdown into HTML</li>
+</ul>
+
+<p>These plugins are exemplary because what they do and how they do it is quite
+different,
+respectively to extend markdown syntax,
+inspect trees,
+change trees,
+and transform to other syntax trees.</p>
+
+<p>You can choose from the 150+ plugins that already exist.
+Here are three good ways to find plugins:</p>
+
+<ul>
+  <li><a href="https://github.com/remarkjs/awesome-remark"><code>awesome-remark</code></a>
+— selection of the most awesome projects</li>
+  <li><a href="doc/plugins.md#list-of-plugins">List of plugins</a>
+— list of all plugins</li>
+  <li><a href="https://github.com/topics/remark-plugin"><code>remark-plugin</code> topic</a>
+— any tagged repo on GitHub</li>
+</ul>
+
+<p>Some plugins are maintained by us here in the <code>@remarkjs</code> organization while
+others are maintained by folks elsewhere.
+Anyone can make remark plugins,
+so as always when choosing whether to include
+dependencies in your project,
+make sure to carefully assess the quality of remark plugins too.</p>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="example-turning-markdown-into-html">Example: turning markdown into HTML</h3>
+
+<p>remark is an ecosystem around markdown.
+A different ecosystem is for HTML:
+<a href="https://github.com/rehypejs/rehype">rehype</a>.
+The following example turns markdown into HTML by combining both ecosystems with
+<a href="https://github.com/remarkjs/remark-rehype"><code>remark-rehype</code></a>:</p>
+
+<pre><code class="language-js">import rehypeSanitize from 'rehype-sanitize'
+import rehypeStringify from 'rehype-stringify'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import {unified} from 'unified'
+
+const file = await unified()
+  .use(remarkParse)
+  .use(remarkRehype)
+  .use(rehypeSanitize)
+  .use(rehypeStringify)
+  .process('# Hello, Neptune!')
+
+console.log(String(file))
+</code></pre>
+
+<p>Yields:</p>
+
+<pre><code class="language-html">&lt;h1&gt;Hello, Neptune!&lt;/h1&gt;
+</code></pre>
+
+<h3 id="example-support-for-gfm-and-frontmatter">Example: support for GFM and frontmatter</h3>
+
+<p>remark supports CommonMark by default.
+Non-standard markdown extensions can be enabled with plugins.
+The following example adds support for GFM
+(autolink literals, footnotes, strikethrough, tables, tasklists)
+and frontmatter (YAML):</p>
+
+<pre><code class="language-js">import rehypeStringify from 'rehype-stringify'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkGfm from 'remark-gfm'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import {unified} from 'unified'
+
+const value = `---
+layout: solar-system
+---
+
+# Hi ~~Mars~~Venus!
+`
+
+const file = await unified()
+  .use(remarkParse)
+  .use(remarkFrontmatter)
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(value)
+
+console.log(String(file))
+</code></pre>
+
+<p>Yields:</p>
+
+<pre><code class="language-html">&lt;h1&gt;Hi &lt;del&gt;Mars&lt;/del&gt;Venus!&lt;/h1&gt;
+</code></pre>
+
+<h3 id="example-checking-markdown">Example: checking markdown</h3>
+
+<p>The following example checks that markdown code style is consistent and follows
+recommended best practices:</p>
+
+<pre><code class="language-js">import {remark} from 'remark'
+import remarkPresetLintConsistent from 'remark-preset-lint-consistent'
+import remarkPresetLintRecommended from 'remark-preset-lint-recommended'
+import {reporter} from 'vfile-reporter'
+
+const file = await remark()
+  .use(remarkPresetLintConsistent)
+  .use(remarkPresetLintRecommended)
+  .process('1) Hello, _Jupiter_ and *Neptune*!')
+
+console.error(reporter(file))
+</code></pre>
+
+<p>Yields:</p>
+
+<pre><code class="language-text">1:2           warning Unexpected ordered list marker `)`, expected `.`                                     ordered-list-marker-style remark-lint
+1:25-1:34     warning Unexpected emphasis marker `*`, expected `_`                                         emphasis-marker           remark-lint
+  [cause]:
+    1:11-1:20 info    Emphasis marker style `'_'` first defined for `'consistent'` here                    emphasis-marker           remark-lint
+1:35          warning Unexpected missing final newline character, expected line feed (`\n`) at end of file final-newline             remark-lint
+
+⚠ 3 warnings
+</code></pre>
+
+<h3 id="example-checking-and-formatting-markdown-on-the-cli">Example: checking and formatting markdown on the CLI</h3>
+
+<p>The following example checks and formats markdown with <code>remark-cli</code>,
+which is the CLI (command line interface) of remark that you can use in your
+terminal.
+This example assumes you’re in a Node.js package.</p>
+
+<p>First,
+install the CLI and plugins:</p>
+
+<pre><code class="language-sh">npm install --save-dev remark-cli remark-preset-lint-consistent remark-preset-lint-recommended remark-toc
+</code></pre>
+
+<p>…then add an npm script in your <code>package.json</code>:</p>
+
+<pre><code class="language-js">  /* … */
+  "scripts": {
+    /* … */
+    "format": "remark . --output",
+    /* … */
+  },
+  /* … */
+</code></pre>
+
+<blockquote>
+  <p>💡 <strong>Tip</strong>:
+add ESLint and such in the <code>format</code> script too.</p>
+</blockquote>
+
+<p>The above change adds a <code>format</code> script,
+which can be run with <code>npm run format</code>.
+It runs remark on all markdown files (<code>.</code>) and rewrites them (<code>--output</code>).
+Run <code>./node_modules/.bin/remark --help</code> for more info on the CLI.</p>
+
+<p>Then,
+add a <code>remarkConfig</code> to your <code>package.json</code> to configure remark:</p>
+
+<pre><code class="language-js">  /* … */
+  "remarkConfig": {
+    "settings": {
+      "bullet": "*", // Use `*` for list item bullets (default)
+      // See &lt;https://github.com/remarkjs/remark/tree/main/packages/remark-stringify&gt; for more options.
+    },
+    "plugins": [
+      "remark-preset-lint-consistent", // Check that markdown is consistent.
+      "remark-preset-lint-recommended", // Few recommended rules.
+      [
+        // Generate a table of contents in `## Contents`
+        "remark-toc",
+        {
+          "heading": "contents"
+        }
+      ]
+    ]
+  },
+  /* … */
+</code></pre>
+
+<blockquote>
+  <p>👉 <strong>Note</strong>:
+you must remove the comments in the above examples when copy/pasting them as
+comments are not supported in <code>package.json</code> files.</p>
+</blockquote>
+
+<p>Finally,
+you can run the npm script to check and format markdown files in your project:</p>
+
+<pre><code class="language-sh">npm run format
+</code></pre>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>Markdown is parsed and serialized according to CommonMark.
+Other plugins can add support for syntax extensions.</p>
+
+<p>We use <a href="https://github.com/micromark/micromark"><code>micromark</code></a> for our parsing.
+See its documentation for more information on markdown,
+CommonMark,
+and extensions.</p>
+
+<h2 id="syntax-tree">Syntax tree</h2>
+
+<p>The syntax tree used in remark is <a href="https://github.com/syntax-tree/mdast">mdast</a>.
+It represents markdown constructs as JSON objects.</p>
+
+<p>This markdown:</p>
+
+<pre><code class="language-markdown">## Hello *Pluto*!
+</code></pre>
+
+<p>…yields the following tree (positional info remove for brevity):</p>
+
+<pre><code class="language-js">{
+  type: 'heading',
+  depth: 2,
+  children: [
+    {type: 'text', value: 'Hello '},
+    {type: 'emphasis', children: [{type: 'text', value: 'Pluto'}]}
+    {type: 'text', value: '!'}
+  ]
+}
+</code></pre>
+
+<h2 id="types">Types</h2>
+
+<p>The remark organization and the unified collective as a whole is fully typed
+with <a href="https://www.typescriptlang.org">TypeScript</a>.
+Types for mdast are available in <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mdast"><code>@types/mdast</code></a>.</p>
+
+<p>For TypeScript to work,
+it is important to type your plugins.
+For example:</p>
+
+<pre><code class="language-js">/**
+ * @import {Root} from 'mdast'
+ * @import {VFile} from 'vfile'
+ */
+
+/**
+ * @typedef Options
+ *   Configuration.
+ * @property {boolean | null | undefined} [someField]
+ *   Some option (optional).
+ */
+
+/**
+ * My plugin.
+ *
+ * @param {Options | null | undefined} [options]
+ *   Configuration (optional).
+ * @returns
+ *   Transform.
+ */
+export function myRemarkPluginAcceptingOptions(options) {
+  /**
+   * Transform.
+   *
+   * @param {Root} tree
+   *   Tree.
+   * @param {VFile} file
+   *   File
+   * @returns {undefined}
+   *   Nothing.
+   */
+  return function (tree, file) {
+    // Do things.
+  }
+}
+</code></pre>
+
+<h2 id="compatibility">Compatibility</h2>
+
+<p>Projects maintained by the unified collective are compatible with maintained
+versions of Node.js.</p>
+
+<p>When we cut a new major release,
+we drop support for unmaintained versions of Node.
+This means we try to keep the current release line compatible with Node.js 16.</p>
+
+<h2 id="security">Security</h2>
+
+<p>As markdown can be turned into HTML and improper use of HTML can open you up to
+<a href="https://en.wikipedia.org/wiki/Cross-site_scripting">cross-site scripting (XSS)</a> attacks,
+use of remark can be unsafe.
+When going to HTML,
+you will combine remark with <strong><a href="https://github.com/rehypejs/rehype">rehype</a></strong>,
+in which case you should use <a href="https://github.com/rehypejs/rehype-sanitize"><code>rehype-sanitize</code></a>.</p>
+
+<p>Another security aspect is DDoS attacks.
+An attacker could cause a crash or slow down with big files.
+Crashes can also originate from smaller payloads,
+often when thousands of things (such as lists or links) are opened.
+It is wise to cap the accepted size of input
+(500kb can hold a big book)
+and to process content in a different thread or worker so that it can be
+stopped when needed.</p>
+
+<p>Use of remark plugins could also open you up to other attacks.
+Carefully assess each plugin and the risks involved in using them.</p>
+
+<p>For info on how to submit a report,
+see our <a href="https://github.com/remarkjs/.github/blob/main/security.md">security policy</a>.</p>
+
+<h2 id="contribute">Contribute</h2>
+
+<p>See <a href="https://github.com/remarkjs/.github/blob/main/contributing.md"><code>contributing.md</code></a> in <a href="https://github.com/remarkjs/.github"><code>remarkjs/.github</code></a>
+for ways to get started.
+See <a href="https://github.com/remarkjs/.github/blob/main/support.md"><code>support.md</code></a> for ways to get help.</p>
+
+<p>This project has a <a href="https://github.com/remarkjs/.github/blob/main/code-of-conduct.md">code of conduct</a>.
+By interacting with this repository,
+organization,
+or community you agree to abide by its terms.</p>
+
+<h2 id="sponsor">Sponsor</h2>
+
+<p>Support this effort and give back by sponsoring on <a href="https://opencollective.com/unified">OpenCollective</a>!</p>
+
+<table>
+<tr valign="middle">
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://vercel.com">Vercel</a><br /><br />
+  <a href="https://vercel.com"><img src="../support/images/avatars1.githubusercontent.com_u_14985020.png" width="128" /></a>
+</td>
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://motif.land">Motif</a><br /><br />
+  <a href="https://motif.land"><img src="../support/images/avatars1.githubusercontent.com_u_74457950.png" width="128" /></a>
+</td>
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://www.hashicorp.com">HashiCorp</a><br /><br />
+  <a href="https://www.hashicorp.com"><img src="../support/images/avatars1.githubusercontent.com_u_761456.png" width="128" /></a>
+</td>
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://www.gitbook.com">GitBook</a><br /><br />
+  <a href="https://www.gitbook.com"><img src="../support/images/avatars1.githubusercontent.com_u_7111340.png" width="128" /></a>
+</td>
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://www.gatsbyjs.org">Gatsby</a><br /><br />
+  <a href="https://www.gatsbyjs.org"><img src="../support/images/avatars1.githubusercontent.com_u_12551863.png" width="128" /></a>
+</td>
+</tr>
+<tr valign="middle">
+</tr>
+<tr valign="middle">
+<td width="20%" align="center" rowspan="2" colspan="2">
+  <a href="https://www.netlify.com">Netlify</a><br /><br />
+  <!--OC has a sharper image-->
+  <a href="https://www.netlify.com"><img src="../support/images/images-opencollectiv_256.png" width="128" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://www.coinbase.com">Coinbase</a><br /><br />
+  <a href="https://www.coinbase.com"><img src="../support/images/avatars1.githubusercontent.com_u_1885080.png" width="64" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://themeisle.com">ThemeIsle</a><br /><br />
+  <a href="https://themeisle.com"><img src="../support/images/avatars1.githubusercontent.com_u_58979018.png" width="64" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://expo.io">Expo</a><br /><br />
+  <a href="https://expo.io"><img src="../support/images/avatars1.githubusercontent.com_u_12504344.png" width="64" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://boostnote.io">Boost Note</a><br /><br />
+  <a href="https://boostnote.io"><img src="../support/images/images-opencollectiv_128.png" width="64" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://markdown.space">Markdown Space</a><br /><br />
+  <a href="https://markdown.space"><img src="../support/images/images-opencollectiv_128.png" width="64" /></a>
+</td>
+<td width="10%" align="center">
+  <a href="https://www.holloway.com">Holloway</a><br /><br />
+  <a href="https://www.holloway.com"><img src="../support/images/avatars1.githubusercontent.com_u_35904294.jpg" width="64" /></a>
+</td>
+<td width="10%"></td>
+<td width="10%"></td>
+</tr>
+<tr valign="middle">
+<td width="100%" align="center" colspan="8">
+  <br />
+  <a href="https://opencollective.com/unified"><strong>You?</strong></a>
+  <br /><br />
+</td>
+</tr>
+</table>
+
+<h2 id="license">License</h2>
+
+<p><a href="license">MIT</a> © <a href="https://wooorm.com">Titus Wormer</a></p>
+
+<!-- Definitions -->
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

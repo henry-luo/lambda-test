@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dayjs README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>dayjs README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        dayjs README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <table>
+  <tbody>
+    <tr>
+      <td>English</td>
+      <td><a href="./docs/zh-cn/README.zh-CN.md">简体中文</a></td>
+      <td><a href="./docs/ja/README-ja.md">日本語</a></td>
+      <td><a href="./docs/pt-br/README-pt-br.md">Português Brasileiro</a></td>
+      <td><a href="./docs/ko/README-ko.md">한국어</a></td>
+      <td><a href="./docs/es-es/README-es-es.md">Español (España)</a></td>
+      <td><a href="./docs/ru/README-ru.md">Русский</a></td>
+      <td><a href="./docs/tr/README-tr.md">Türkçe</a></td>
+      <td><a href="./docs/si/README-si.md">සිංහල</a></td>
+      <td><a href="./docs/he/README-he.md">עברית</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="center"><a href="https://day.js.org/" target="_blank" rel="noopener noreferrer"><img width="550" src="../support/images/user-images-githubus_39081119-3057bbe2-456e-11e8-862c-646133ad4b43.png" alt="Day.js" /></a></p>
+<p align="center">Fast <b>2kB</b> alternative to Moment.js with the same modern API</p>
+<p align="center">
+    <a href="https://bundlephobia.com/package/dayjs"><img src="../support/images/img.shields.io_bundlephobia_minzip_dayjs.svg" alt="Gzip Size" /></a>
+    <a href="https://www.npmjs.com/package/dayjs"><img src="../support/images/img.shields.io_npm_v_dayjs.svg" alt="NPM Version" /></a>
+    <a href="https://github.com/iamkun/dayjs/actions/workflows/check.yml"><img src="../support/images/img.shields.io_github_actions_workflow_status_iamkun_dayjs_check.yml.svg" alt="Build Status" /></a>
+    <a href="https://codecov.io/gh/iamkun/dayjs"><img src="../support/images/img.shields.io_codecov_c_github_iamkun_dayjs_master.svg" alt="Codecov" /></a>
+    <a href="https://github.com/iamkun/dayjs/blob/master/LICENSE"><img src="../support/images/img.shields.io_badge_license-MIT-brightgreen.svg" alt="License" /></a>
+    <br />
+    <a href="https://saucelabs.com/u/dayjs">
+        <img width="750" src="../support/images/user-images-githubus_40040137-8e3323a6-584b-11e8-9dba-bbe577ee8a7b.png" alt="Sauce Test Status" />
+    </a>
+</p>
+
+<blockquote>
+  <p>Day.js is a minimalist JavaScript library that parses, validates, manipulates, and displays dates and times for modern browsers with a largely Moment.js-compatible API. If you use Moment.js, you already know how to use Day.js.</p>
+</blockquote>
+
+<pre><code class="language-js">dayjs().startOf('month').add(1, 'day').set('year', 2018).format('YYYY-MM-DD HH:mm:ss');
+</code></pre>
+
+<ul>
+  <li>🕒 Familiar Moment.js API &amp; patterns</li>
+  <li>💪 Immutable</li>
+  <li>🔥 Chainable</li>
+  <li>🌐 I18n support</li>
+  <li>📦 2kb mini library</li>
+  <li>👫 All browsers supported</li>
+</ul>
+
+<hr />
+
+<h2 id="getting-started">Getting Started</h2>
+
+<h3 id="documentation">Documentation</h3>
+
+<p>You can find more details, API, and other docs on <a href="https://day.js.org/">day.js.org</a> website.</p>
+
+<h3 id="installation">Installation</h3>
+
+<pre><code class="language-console">npm install dayjs --save
+</code></pre>
+
+<p>📚<a href="https://day.js.org/docs/en/installation/installation">Installation Guide</a></p>
+
+<h3 id="api">API</h3>
+
+<p>It&#8217;s easy to use Day.js APIs to parse, validate, manipulate, and display dates and times.</p>
+
+<pre><code class="language-javascript">dayjs('2018-08-08') // parse
+
+dayjs().format('{YYYY} MM-DDTHH:mm:ss SSS [Z] A') // display
+
+dayjs().set('month', 3).month() // get &amp; set
+
+dayjs().add(1, 'year') // manipulate
+
+dayjs().isBefore(dayjs()) // query
+</code></pre>
+
+<p>📚<a href="https://day.js.org/docs/en/parse/parse">API Reference</a></p>
+
+<h3 id="i18n">I18n</h3>
+
+<p>Day.js has great support for internationalization.</p>
+
+<p>But none of them will be included in your build unless you use it.</p>
+
+<pre><code class="language-javascript">import 'dayjs/locale/es' // load on demand
+
+dayjs.locale('es') // use Spanish locale globally
+
+dayjs('2018-05-05').locale('zh-cn').format() // use Chinese Simplified locale in a specific instance
+</code></pre>
+
+<p>📚<a href="https://day.js.org/docs/en/i18n/i18n">Internationalization</a></p>
+
+<h3 id="plugin">Plugin</h3>
+
+<p>A plugin is an independent module that can be added to Day.js to extend functionality or add new features.</p>
+
+<pre><code class="language-javascript">import advancedFormat from 'dayjs/plugin/advancedFormat' // load on demand
+
+dayjs.extend(advancedFormat) // use plugin
+
+dayjs().format('Q Do k kk X x') // more available formats
+</code></pre>
+
+<p>📚<a href="https://day.js.org/docs/en/plugin/plugin">Plugin List</a></p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a sponsor. Your logo will show up here with a link to your website.</p>
+
+<p>[<a href="https://github.com/sponsors/iamkun/">Become a sponsor via Github</a>] [<a href="https://opencollective.com/dayjs#sponsor">Become a sponsor via OpenCollective</a>]</p>
+
+<p><a href="https://github.com/ken-swyfft" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_65305317.jpg" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://opencollective.com/sight-sound" target="_blank">
+  <img width="70" src="../support/images/images-opencollectiv_256.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://opencollective.com/filerev" target="_blank">
+  <img width="70" src="../support/images/images-opencollectiv_256.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://opencollective.com/carboneio" target="_blank">
+  <img width="70" src="../support/images/images-opencollectiv_256.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/radioplusexperts" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_188567998.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://anonstories.com" target="_blank">
+  <img alt="Instagram Story Viewer" width="70" src="../support/images/avatars.githubusercontent.com_u_240702364.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.sayfone.com/call-rates " target="_blank">
+  <img alt="Sayfone Cheap international calls" width="70" src="../support/images/github.com_user-attachments_assets_68f91139-b190-421b-bcd7-43a8e3d84fe7.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://automatio.ai" target="_blank" alt="Automatio AI">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_1984909.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://bestkru.com/" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_159320286.png" alt="BestKru" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://handsontable.com/docs/react-data-grid/?utm_source=Dayjs_GH&amp;utm_medium=sponsorship&amp;utm_campaign=library_sponsorship" target="_blank">
+  <img width="70" src="../support/images/github.com_user-attachments_assets_426c3476-dc34-44d1-a904-ed58dbd20dd6.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://route4me.com/" target="_blank">
+  <img width="70" src="../support/images/github.com_user-attachments_assets_3fbc86c5-98a9-49c2-beae-1969026fcd76.png" alt="Route Optimizer and Route Planner Software" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/sentdm" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_153308555.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/blacksandsmedia" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_116517387.png" />
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/mvpsnet" target="_blank">
+  <img width="70" src="../support/images/avatars.githubusercontent.com_u_89784111.png" />
+</a></p>
+
+<h2 id="contributors">Contributors</h2>
+
+<p>This project exists thanks to all the people who contribute.</p>
+
+<p>Please give us a 💖 star 💖 to support us. Thank you.</p>
+
+<p>And thank you to all our backers! 🙏</p>
+
+<p><a href="https://opencollective.com/dayjs#backers" target="_blank"><img src="../support/images/opencollective_contributors.svg" /></a></p>
+
+<h2 id="license">License</h2>
+
+<p>Day.js is licensed under a <a href="./LICENSE">MIT License</a>.</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>
