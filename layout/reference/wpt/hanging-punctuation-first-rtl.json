@@ -1,5 +1,6 @@
 {
   "test_file": "hanging-punctuation-first-rtl.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -911,9 +912,9 @@
                     {
                       "x": 1000,
                       "y": 24,
-                      "width": 16,
+                      "width": 176,
                       "height": 16,
-                      "right": 1016,
+                      "right": 1176,
                       "bottom": 40,
                       "text": "(Hang test)",
                       "startIndex": 0,
@@ -1063,9 +1064,9 @@
                         {
                           "x": 888,
                           "y": 56,
-                          "width": 16,
+                          "width": 288,
                           "height": 16,
-                          "right": 904,
+                          "right": 1176,
                           "bottom": 72,
                           "text": "(This should hang.",
                           "startIndex": 0,
@@ -1152,9 +1153,9 @@
                         {
                           "x": 904,
                           "y": 72,
-                          "width": 16,
+                          "width": 272,
                           "height": 16,
-                          "right": 920,
+                          "right": 1176,
                           "bottom": 88,
                           "text": "(This should not.",
                           "startIndex": 0,
@@ -1244,9 +1245,9 @@
                         {
                           "x": 876,
                           "y": 104,
-                          "width": 284,
+                          "width": 300,
                           "height": 16,
-                          "right": 1160,
+                          "right": 1176,
                           "bottom": 120,
                           "text": "(This should hang ",
                           "startIndex": 0,
@@ -1300,9 +1301,9 @@
                         {
                           "x": 888,
                           "y": 136,
-                          "width": 16,
+                          "width": 288,
                           "height": 16,
-                          "right": 904,
+                          "right": 1176,
                           "bottom": 152,
                           "text": "and now were fine.",
                           "startIndex": 0,
@@ -1482,9 +1483,9 @@
                         {
                           "x": 888,
                           "y": 168,
-                          "width": 16,
+                          "width": 272,
                           "height": 16,
-                          "right": 904,
+                          "right": 1160,
                           "bottom": 184,
                           "text": "This should hang.",
                           "startIndex": 0,
@@ -1692,9 +1693,9 @@
                         {
                           "x": 1096,
                           "y": 216,
-                          "width": 16,
+                          "width": 80,
                           "height": 16,
-                          "right": 1112,
+                          "right": 1176,
                           "bottom": 232,
                           "text": "hang.",
                           "startIndex": 0,
@@ -1784,9 +1785,9 @@
                         {
                           "x": 876,
                           "y": 248,
-                          "width": 252,
+                          "width": 268,
                           "height": 16,
-                          "right": 1128,
+                          "right": 1144,
                           "bottom": 264,
                           "text": "(This should ",
                           "startIndex": 0,
@@ -1840,9 +1841,9 @@
                         {
                           "x": 984,
                           "y": 280,
-                          "width": 16,
+                          "width": 192,
                           "height": 16,
-                          "right": 1000,
+                          "right": 1176,
                           "bottom": 296,
                           "text": "text-indent.",
                           "startIndex": 0,

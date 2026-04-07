@@ -300,14 +300,31 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                                     const endIndex = line.chars[line.chars.length - 1].index + 1;
                                     const segmentText = text.substring(startIndex, endIndex);
 
-                                    // Match line to rectArray entry by Y-coordinate proximity
-                                    // (not by index, since getClientRects() may include extra
-                                    // zero-width rects for newline characters in pre/pre-wrap)
+                                    // Collect ALL rects at this Y-line and compute bounding box.
+                                    // getClientRects() may return separate rects for whitespace
+                                    // and non-whitespace segments on the same line (pre-wrap).
                                     const lineTolerance = 3;
-                                    let rect = rectArray.find(r =>
+                                    const lineRects = rectArray.filter(r =>
                                         Math.abs(r.y - line.y) <= lineTolerance && r.width > 0
                                     );
-                                    if (!rect && lineIndex < rectArray.length) {
+                                    let rect;
+                                    if (lineRects.length > 1) {
+                                        // Merge all same-line rects into a bounding box
+                                        const minX = Math.min(...lineRects.map(r => r.x));
+                                        const maxRight = Math.max(...lineRects.map(r => r.right || (r.x + r.width)));
+                                        const minY = Math.min(...lineRects.map(r => r.y));
+                                        const maxBottom = Math.max(...lineRects.map(r => r.bottom || (r.y + r.height)));
+                                        rect = {
+                                            x: minX,
+                                            y: minY,
+                                            width: Math.round((maxRight - minX) * 100) / 100,
+                                            height: Math.round((maxBottom - minY) * 100) / 100,
+                                            right: maxRight,
+                                            bottom: maxBottom
+                                        };
+                                    } else if (lineRects.length === 1) {
+                                        rect = lineRects[0];
+                                    } else if (lineIndex < rectArray.length) {
                                         rect = rectArray[lineIndex]; // fallback to index
                                     }
                                     if (!rect) return;

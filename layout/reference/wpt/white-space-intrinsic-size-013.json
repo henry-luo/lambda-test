@@ -1,5 +1,6 @@
 {
   "test_file": "white-space-intrinsic-size-013.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Lambda/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1408,9 +1409,9 @@
                         {
                           "x": 8,
                           "y": 50,
-                          "width": 25,
+                          "width": 200,
                           "height": 25,
-                          "right": 33,
+                          "right": 208,
                           "bottom": 75,
                           "text": "A       \n",
                           "startIndex": 0,
@@ -1436,9 +1437,9 @@
                         {
                           "x": 8,
                           "y": 75,
-                          "width": 50,
+                          "width": 200,
                           "height": 25,
-                          "right": 58,
+                          "right": 208,
                           "bottom": 100,
                           "text": "GH      \n",
                           "startIndex": 0,
@@ -1464,9 +1465,9 @@
                         {
                           "x": 8,
                           "y": 100,
-                          "width": 75,
+                          "width": 200,
                           "height": 25,
-                          "right": 83,
+                          "right": 208,
                           "bottom": 125,
                           "text": "MNO     \n",
                           "startIndex": 0,
@@ -1492,9 +1493,9 @@
                         {
                           "x": 8,
                           "y": 125,
-                          "width": 100,
+                          "width": 200,
                           "height": 25,
-                          "right": 108,
+                          "right": 208,
                           "bottom": 150,
                           "text": "WXYZ    ",
                           "startIndex": 0,

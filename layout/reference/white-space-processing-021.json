@@ -1,5 +1,6 @@
 {
   "test_file": "white-space-processing-021.htm",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,8 +189,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/jane/Projects/Lambda/test/layout/data/css2.1/html4/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
-                "length": 401,
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Lambda/test/layout/data/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "length": 392,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -684,8 +685,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n            div\n            {\n                font: 16px/1em ahem;\n            }\n            #div1\n            {\n                white-space: pre-line;\n            }\n            #div2, #div3\n            {\n                background: black;\n                display: inline-block;\n                height: 1em;\n                width: 1em;\n            }\n            #div3\n            {\n                margin-left: 1em;\n            }\n        ",
-                "length": 439,
+                "text": "\n        @font-face {\n            font-family: 'ahem';\n            src: url('../font/Ahem.ttf') format('truetype');\n        }\n\n            div\n            {\n                font: 16px/1em ahem;\n            }\n            #div1\n            {\n                white-space: pre-line;\n            }\n            #div2, #div3\n            {\n                background: black;\n                display: inline-block;\n                height: 1em;\n                width: 1em;\n            }\n            #div3\n            {\n                margin-left: 1em;\n            }\n        ",
+                "length": 565,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
