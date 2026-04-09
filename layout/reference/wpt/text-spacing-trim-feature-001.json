@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-feature-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 44,
+      "height": 45,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -1189,8 +1190,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
-                "length": 366,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
+                "length": 398,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1233,11 +1234,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 28,
+          "height": 29,
           "contentWidth": 1184,
-          "contentHeight": 28,
+          "contentHeight": 29,
           "scrollWidth": 1184,
-          "scrollHeight": 28
+          "scrollHeight": 29
         },
         "computed": {
           "display": "block",
@@ -1293,11 +1294,11 @@
               "x": 8,
               "y": 8,
               "width": 1184,
-              "height": 28,
+              "height": 29,
               "contentWidth": 1184,
-              "contentHeight": 28,
+              "contentHeight": 29,
               "scrollWidth": 1184,
-              "scrollHeight": 28
+              "scrollHeight": 29
             },
             "computed": {
               "display": "block",
@@ -1353,11 +1354,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1411,9 +1412,9 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 11,
-                      "width": 200,
-                      "height": 23,
+                      "y": 8,
+                      "width": 180,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -1472,11 +1473,11 @@
                           "rects": [
                             {
                               "x": 8,
-                              "y": 11,
-                              "width": 200,
-                              "height": 23,
-                              "right": 208,
-                              "bottom": 34,
+                              "y": 8,
+                              "width": 180,
+                              "height": 29,
+                              "right": 188,
+                              "bottom": 37,
                               "text": "国）（国国（（国（国",
                               "startIndex": 0,
                               "endIndex": 10

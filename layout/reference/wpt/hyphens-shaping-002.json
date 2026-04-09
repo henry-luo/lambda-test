@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 232,
+      "height": 276,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -745,8 +745,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  /* The main text is invisible,\n     but we want to give the UA a chance to use the right hyphen,\n     which may be font dependent.\n   */\n  div {\n    font-family: 'csstest_noto';\n    font-size: 4em;\n    hyphens: manual;\n    margin: auto;\n    width: 0;\n  }\n  #test { color: transparent; }\n  span { color: black; }\n",
-                "length": 442,
+                "text": "\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  /* The main text is invisible,\n     but we want to give the UA a chance to use the right hyphen,\n     which may be font dependent.\n   */\n  div {\n    font-family: 'csstest_noto';\n    font-size: 4em;\n    hyphens: manual;\n    margin: auto;\n    width: 0;\n  }\n  #test { color: transparent; }\n  span { color: black; }\n",
+                "length": 458,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -789,11 +789,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 208,
+          "height": 252,
           "contentWidth": 1184,
-          "contentHeight": 208,
+          "contentHeight": 252,
           "scrollWidth": 1184,
-          "scrollHeight": 208
+          "scrollHeight": 252
         },
         "computed": {
           "display": "block",
@@ -939,11 +939,11 @@
               "x": 600,
               "y": 50,
               "width": 0,
-              "height": 174,
+              "height": 218,
               "contentWidth": 0,
-              "contentHeight": 174,
-              "scrollWidth": 139,
-              "scrollHeight": 174
+              "contentHeight": 218,
+              "scrollWidth": 115,
+              "scrollHeight": 218
             },
             "computed": {
               "display": "block",
@@ -997,12 +997,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 482.38,
-                      "y": 53,
-                      "width": 117.63,
-                      "height": 74,
+                      "x": 506.09,
+                      "y": 50,
+                      "width": 93.91,
+                      "height": 109,
                       "right": 600,
-                      "bottom": 127,
+                      "bottom": 159,
                       "text": "دامي",
                       "startIndex": 0,
                       "endIndex": 4
@@ -1024,10 +1024,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 461.06,
-                  "y": 53,
-                  "width": 21.31,
-                  "height": 74,
+                  "x": 485.5,
+                  "y": 50,
+                  "width": 20.59,
+                  "height": 109,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1085,12 +1085,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 482.38,
-                          "y": 53,
+                          "x": 506.09,
+                          "y": 50,
                           "width": 0,
-                          "height": 74,
-                          "right": 482.38,
-                          "bottom": 127,
+                          "height": 109,
+                          "right": 506.09,
+                          "bottom": 159,
                           "text": "­",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1115,12 +1115,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 532.89,
-                      "y": 140,
-                      "width": 67.11,
-                      "height": 74,
+                      "x": 530.13,
+                      "y": 159,
+                      "width": 69.88,
+                      "height": 109,
                       "right": 600,
-                      "bottom": 214,
+                      "bottom": 268,
                       "text": "دى",
                       "startIndex": 0,
                       "endIndex": 2

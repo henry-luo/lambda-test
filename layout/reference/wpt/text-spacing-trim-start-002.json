@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-start-002.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 156,
+      "height": 103,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -419,8 +420,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 3.6em;\n  text-spacing-trim: trim-start;\n}\n",
-                "length": 226,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 3.6em;\n  text-spacing-trim: trim-start;\n}\n",
+                "length": 242,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -463,11 +464,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 140,
+          "height": 87,
           "contentWidth": 1184,
-          "contentHeight": 140,
+          "contentHeight": 87,
           "scrollWidth": 1184,
-          "scrollHeight": 140
+          "scrollHeight": 87
         },
         "computed": {
           "display": "block",
@@ -523,11 +524,11 @@
               "x": 8,
               "y": 8,
               "width": 72,
-              "height": 140,
+              "height": 87,
               "contentWidth": 72,
-              "contentHeight": 140,
+              "contentHeight": 87,
               "scrollWidth": 72,
-              "scrollHeight": 140
+              "scrollHeight": 87
             },
             "computed": {
               "display": "block",
@@ -583,11 +584,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 72,
-                  "height": 140,
+                  "height": 87,
                   "contentWidth": 72,
-                  "contentHeight": 140,
+                  "contentHeight": 87,
                   "scrollWidth": 72,
-                  "scrollHeight": 140
+                  "scrollHeight": 87
                 },
                 "computed": {
                   "display": "block",
@@ -635,21 +636,21 @@
                 "children": [
                   {
                     "nodeType": "text",
-                    "text": "（国国",
-                    "length": 3,
+                    "text": "（国国国",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 8,
-                          "y": 11,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 34,
-                          "text": "（国国",
+                          "y": 8,
+                          "width": 70,
+                          "height": 29,
+                          "right": 78,
+                          "bottom": 37,
+                          "text": "（国国国",
                           "startIndex": 0,
-                          "endIndex": 3
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,
@@ -663,49 +664,21 @@
                   },
                   {
                     "nodeType": "text",
-                    "text": "国（国",
-                    "length": 3,
+                    "text": "（国国国",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 8,
-                          "y": 39,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 62,
-                          "text": "国（国",
+                          "y": 37,
+                          "width": 70,
+                          "height": 29,
+                          "right": 78,
+                          "bottom": 66,
+                          "text": "（国国国",
                           "startIndex": 0,
-                          "endIndex": 3
-                        }
-                      ],
-                      "hasLayout": true,
-                      "parentVisible": true,
-                      "parentDisplay": "block",
-                      "parentVisibility": "visible"
-                    },
-                    "depth": 4,
-                    "nodeIndex": 0,
-                    "children": []
-                  },
-                  {
-                    "nodeType": "text",
-                    "text": "国国",
-                    "length": 2,
-                    "isWhitespaceOnly": false,
-                    "layout": {
-                      "rects": [
-                        {
-                          "x": 8,
-                          "y": 67,
-                          "width": 40,
-                          "height": 23,
-                          "right": 48,
-                          "bottom": 90,
-                          "text": "国国",
-                          "startIndex": 0,
-                          "endIndex": 2
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,
@@ -724,10 +697,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 48,
-                      "y": 67,
+                      "x": 78,
+                      "y": 37,
                       "width": 0,
-                      "height": 23,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -780,49 +753,21 @@
                   },
                   {
                     "nodeType": "text",
-                    "text": "（国国",
-                    "length": 3,
+                    "text": "（国国国",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 8,
-                          "y": 95,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 118,
-                          "text": "（国国",
+                          "y": 66,
+                          "width": 70,
+                          "height": 29,
+                          "right": 78,
+                          "bottom": 95,
+                          "text": "（国国国",
                           "startIndex": 0,
-                          "endIndex": 3
-                        }
-                      ],
-                      "hasLayout": true,
-                      "parentVisible": true,
-                      "parentDisplay": "block",
-                      "parentVisibility": "visible"
-                    },
-                    "depth": 4,
-                    "nodeIndex": 2,
-                    "children": []
-                  },
-                  {
-                    "nodeType": "text",
-                    "text": "国",
-                    "length": 1,
-                    "isWhitespaceOnly": false,
-                    "layout": {
-                      "rects": [
-                        {
-                          "x": 8,
-                          "y": 123,
-                          "width": 20,
-                          "height": 23,
-                          "right": 28,
-                          "bottom": 146,
-                          "text": "国",
-                          "startIndex": 0,
-                          "endIndex": 1
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,

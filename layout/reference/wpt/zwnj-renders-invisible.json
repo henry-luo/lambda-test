@@ -1,5 +1,6 @@
 {
   "test_file": "zwnj-renders-invisible.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -574,8 +575,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: ahem-zwnj;\n    src: url('../../fonts/ahem-visible-zwnj.otf');\n}\n.ahem-zwnj {\n    font-family: ahem-zwnj;\n}\nbody {\n    font-size: 60px;\n}\n",
-                "length": 168,
+                "text": "\n@font-face {\n    font-family: ahem-zwnj;\n    src: url('../..../../../support/fonts/ahem-visible-zwnj.otf');\n}\n.ahem-zwnj {\n    font-family: ahem-zwnj;\n}\nbody {\n    font-size: 60px;\n}\n",
+                "length": 184,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],

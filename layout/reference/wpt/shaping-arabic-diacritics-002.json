@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-arabic-diacritics-002.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -760,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: ArabicTest;\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n}\n.test {\n    font: 120px/2 ArabicTest, sans-serif;\n}\n.test span {\n    padding: .1em .05em 0;\n    background: black;\n}\n",
-                "length": 237,
+                "text": "\n@font-face {\n    font-family: ArabicTest;\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n}\n.test {\n    font: 120px/2 ArabicTest, sans-serif;\n}\n.test span {\n    padding: .1em .05em 0;\n    background: black;\n}\n",
+                "length": 253,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1017,11 +1018,11 @@
                   "rects": [
                     {
                       "x": 8,
-                      "y": 101,
+                      "y": 68,
                       "width": 66.75,
-                      "height": 138,
+                      "height": 204,
                       "right": 74.75,
-                      "bottom": 239,
+                      "bottom": 272,
                       "text": "a",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1044,9 +1045,9 @@
                 "classes": [],
                 "layout": {
                   "x": 74.75,
-                  "y": 89,
-                  "width": 45.34,
-                  "height": 150,
+                  "y": 56,
+                  "width": 38.48,
+                  "height": 216,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1105,11 +1106,11 @@
                       "rects": [
                         {
                           "x": 80.75,
-                          "y": 101,
-                          "width": 33.34,
-                          "height": 138,
-                          "right": 114.09,
-                          "bottom": 239,
+                          "y": 68,
+                          "width": 26.48,
+                          "height": 204,
+                          "right": 107.23,
+                          "bottom": 272,
                           "text": " ٰٔ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1134,12 +1135,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 120.09,
-                      "y": 101,
+                      "x": 113.23,
+                      "y": 68,
                       "width": 60,
-                      "height": 138,
-                      "right": 180.09,
-                      "bottom": 239,
+                      "height": 204,
+                      "right": 173.23,
+                      "bottom": 272,
                       "text": "z",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1227,11 +1228,11 @@
                   "rects": [
                     {
                       "x": 8,
-                      "y": 341,
+                      "y": 308,
                       "width": 66.75,
-                      "height": 138,
+                      "height": 204,
                       "right": 74.75,
-                      "bottom": 479,
+                      "bottom": 512,
                       "text": "a",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1254,9 +1255,9 @@
                 "classes": [],
                 "layout": {
                   "x": 74.75,
-                  "y": 329,
-                  "width": 45.34,
-                  "height": 150,
+                  "y": 296,
+                  "width": 38.48,
+                  "height": 216,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1315,11 +1316,11 @@
                       "rects": [
                         {
                           "x": 80.75,
-                          "y": 341,
-                          "width": 33.34,
-                          "height": 138,
-                          "right": 114.09,
-                          "bottom": 479,
+                          "y": 308,
+                          "width": 26.48,
+                          "height": 204,
+                          "right": 107.23,
+                          "bottom": 512,
                           "text": " ٰٔ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1344,12 +1345,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 120.09,
-                      "y": 341,
+                      "x": 113.23,
+                      "y": 308,
                       "width": 60,
-                      "height": 138,
-                      "right": 180.09,
-                      "bottom": 479,
+                      "height": 204,
+                      "right": 173.23,
+                      "bottom": 512,
                       "text": "z",
                       "startIndex": 0,
                       "endIndex": 1

@@ -1,5 +1,6 @@
 {
   "test_file": "text-transform-upperlower-038.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 176,
+      "height": 200,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -683,8 +684,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('/fonts/GentiumPlus-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 36px; font-family: 'Gentium Plus', 'Noto Serif', 'Noto Sans', webfont, sans-serif; border: 1px solid orange; margin: 10px; width: 200px;  padding: 5px; }\n/* the CSS above is not part of the test */\n.test { text-transform: lowercase; }\n",
-                "length": 400,
+                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('../../../support/fonts/GentiumPlus-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 36px; font-family: 'Gentium Plus', 'Noto Serif', 'Noto Sans', webfont, sans-serif; border: 1px solid orange; margin: 10px; width: 200px;  padding: 5px; }\n/* the CSS above is not part of the test */\n.test { text-transform: lowercase; }\n",
+                "length": 416,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -727,11 +728,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 150,
+          "height": 174,
           "contentWidth": 1184,
-          "contentHeight": 150,
+          "contentHeight": 174,
           "scrollWidth": 1184,
-          "scrollHeight": 150
+          "scrollHeight": 174
         },
         "computed": {
           "display": "block",
@@ -881,11 +882,11 @@
               "x": 18,
               "y": 50,
               "width": 212,
-              "height": 53,
+              "height": 65,
               "contentWidth": 210,
-              "contentHeight": 51,
+              "contentHeight": 63,
               "scrollWidth": 210,
-              "scrollHeight": 51
+              "scrollHeight": 63
             },
             "computed": {
               "display": "block",
@@ -941,10 +942,10 @@
                     {
                       "x": 24,
                       "y": 56,
-                      "width": 171.98,
-                      "height": 41,
-                      "right": 195.98,
-                      "bottom": 97,
+                      "width": 135.73,
+                      "height": 53,
+                      "right": 159.73,
+                      "bottom": 109,
                       "text": "ΟΔΥΣΣΕΥΣ",
                       "startIndex": 0,
                       "endIndex": 8
@@ -971,13 +972,13 @@
             ],
             "layout": {
               "x": 18,
-              "y": 113,
+              "y": 125,
               "width": 212,
-              "height": 53,
+              "height": 65,
               "contentWidth": 210,
-              "contentHeight": 51,
+              "contentHeight": 63,
               "scrollWidth": 210,
-              "scrollHeight": 51
+              "scrollHeight": 63
             },
             "computed": {
               "display": "block",
@@ -1032,11 +1033,11 @@
                   "rects": [
                     {
                       "x": 24,
-                      "y": 119,
-                      "width": 171.98,
-                      "height": 41,
-                      "right": 195.98,
-                      "bottom": 160,
+                      "y": 131,
+                      "width": 135.73,
+                      "height": 53,
+                      "right": 159.73,
+                      "bottom": 184,
                       "text": "οδυσσευς",
                       "startIndex": 0,
                       "endIndex": 8

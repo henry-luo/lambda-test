@@ -1,5 +1,6 @@
 {
   "test_file": "text-transform-upperlower-005.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -683,8 +684,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('/fonts/DoulosSIL-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 125%; line-height: 1.5em; font-family: 'Doulos SIL', 'Noto Sans', webfont, sans-serif; }\n.test span, .ref span { margin-right: 1em; white-space: nowrap; }\n/* the CSS above is not part of the test */\n.test { text-transform: uppercase; }\n",
-                "length": 399,
+                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('../../../support/fonts/DoulosSIL-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 125%; line-height: 1.5em; font-family: 'Doulos SIL', 'Noto Sans', webfont, sans-serif; }\n.test span, .ref span { margin-right: 1em; white-space: nowrap; }\n/* the CSS above is not part of the test */\n.test { text-transform: uppercase; }\n",
+                "length": 415,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],

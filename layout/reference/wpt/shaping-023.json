@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-023.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 298.52,
+      "height": 256.39,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -760,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoSansMongolian-regular.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; writing-mode: vertical-lr; float:left; }\n/* the CSS above is not part of the test */\n.styled { color:blue; }\n",
-                "length": 370,
+                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoSansMongolian-regular.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; writing-mode: vertical-lr; float:left; }\n/* the CSS above is not part of the test */\n.styled { color:blue; }\n",
+                "length": 386,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -808,7 +809,7 @@
           "contentWidth": 1184,
           "contentHeight": 18,
           "scrollWidth": 1184,
-          "scrollHeight": 263
+          "scrollHeight": 220
         },
         "computed": {
           "display": "block",
@@ -958,11 +959,11 @@
               "x": 28,
               "y": 70,
               "width": 382,
-              "height": 208.52,
+              "height": 166.39,
               "contentWidth": 380,
-              "contentHeight": 207,
+              "contentHeight": 164,
               "scrollWidth": 380,
-              "scrollHeight": 207
+              "scrollHeight": 164
             },
             "computed": {
               "display": "block",
@@ -1016,12 +1017,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 54,
+                      "x": 39,
                       "y": 81,
-                      "width": 138,
-                      "height": 62.17,
-                      "right": 192,
-                      "bottom": 143.17,
+                      "width": 161,
+                      "height": 59.06,
+                      "right": 200,
+                      "bottom": 140.06,
                       "text": "ᠨ",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1045,10 +1046,10 @@
                   "styled"
                 ],
                 "layout": {
-                  "x": 54,
-                  "y": 143.17,
-                  "width": 138,
-                  "height": 62.17,
+                  "x": 39,
+                  "y": 140.06,
+                  "width": 161,
+                  "height": 34.11,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1106,12 +1107,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54,
-                          "y": 143.17,
-                          "width": 138,
-                          "height": 62.17,
-                          "right": 192,
-                          "bottom": 205.34,
+                          "x": 39,
+                          "y": 140.06,
+                          "width": 161,
+                          "height": 34.11,
+                          "right": 200,
+                          "bottom": 174.17,
                           "text": "ᠨ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1136,12 +1137,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 54,
-                      "y": 205.34,
-                      "width": 138,
-                      "height": 62.17,
-                      "right": 192,
-                      "bottom": 267.52,
+                      "x": 39,
+                      "y": 174.17,
+                      "width": 161,
+                      "height": 51.22,
+                      "right": 200,
+                      "bottom": 225.39,
                       "text": "ᠨ",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1170,11 +1171,11 @@
               "x": 450,
               "y": 70,
               "width": 382,
-              "height": 208.52,
+              "height": 166.39,
               "contentWidth": 380,
-              "contentHeight": 207,
+              "contentHeight": 164,
               "scrollWidth": 380,
-              "scrollHeight": 207
+              "scrollHeight": 164
             },
             "computed": {
               "display": "block",
@@ -1228,12 +1229,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 476,
+                      "x": 461,
                       "y": 81,
-                      "width": 138,
-                      "height": 62.17,
-                      "right": 614,
-                      "bottom": 143.17,
+                      "width": 161,
+                      "height": 59.06,
+                      "right": 622,
+                      "bottom": 140.06,
                       "text": "ᠨ‍",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1257,10 +1258,10 @@
                   "styled"
                 ],
                 "layout": {
-                  "x": 476,
-                  "y": 143.17,
-                  "width": 138,
-                  "height": 62.17,
+                  "x": 461,
+                  "y": 140.06,
+                  "width": 161,
+                  "height": 34.11,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1318,12 +1319,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 476,
-                          "y": 143.17,
-                          "width": 138,
-                          "height": 62.17,
-                          "right": 614,
-                          "bottom": 205.34,
+                          "x": 461,
+                          "y": 140.06,
+                          "width": 161,
+                          "height": 34.11,
+                          "right": 622,
+                          "bottom": 174.17,
                           "text": "‍ᠨ‍",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1348,12 +1349,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 476,
-                      "y": 205.34,
-                      "width": 138,
-                      "height": 62.17,
-                      "right": 614,
-                      "bottom": 267.52,
+                      "x": 461,
+                      "y": 174.17,
+                      "width": 161,
+                      "height": 51.22,
+                      "right": 622,
+                      "bottom": 225.39,
                       "text": "‍ᠨ",
                       "startIndex": 0,
                       "endIndex": 2

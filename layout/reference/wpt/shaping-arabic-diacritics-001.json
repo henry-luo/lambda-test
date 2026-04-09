@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-arabic-diacritics-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -837,8 +838,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: ArabicTest;\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n}\n.test {\n    font: 120px/2 ArabicTest, sans-serif;\n}\n",
-                "length": 172,
+                "text": "\n@font-face {\n    font-family: ArabicTest;\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n}\n.test {\n    font: 120px/2 ArabicTest, sans-serif;\n}\n",
+                "length": 188,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1003,9 +1004,9 @@
                     {
                       "x": 8,
                       "y": 17,
-                      "width": 496.34,
+                      "width": 736.63,
                       "height": 18,
-                      "right": 504.34,
+                      "right": 744.63,
                       "bottom": 35,
                       "text": "Test passes if the two lines are rendered identically,\n        with the superscript alef (ا) directly above the raised hamza (ء).",
                       "startIndex": 0,
@@ -1094,11 +1095,11 @@
                   "rects": [
                     {
                       "x": 8,
-                      "y": 104,
+                      "y": 71,
                       "width": 66.75,
-                      "height": 138,
+                      "height": 204,
                       "right": 74.75,
-                      "bottom": 242,
+                      "bottom": 275,
                       "text": "a",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1121,9 +1122,9 @@
                 "classes": [],
                 "layout": {
                   "x": 74.75,
-                  "y": 104,
-                  "width": 33.34,
-                  "height": 138,
+                  "y": 71,
+                  "width": 26.48,
+                  "height": 204,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1182,11 +1183,11 @@
                       "rects": [
                         {
                           "x": 74.75,
-                          "y": 104,
-                          "width": 33.34,
-                          "height": 138,
-                          "right": 108.09,
-                          "bottom": 242,
+                          "y": 71,
+                          "width": 26.48,
+                          "height": 204,
+                          "right": 101.23,
+                          "bottom": 275,
                           "text": " ٰٔ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1211,12 +1212,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 108.09,
-                      "y": 104,
+                      "x": 101.23,
+                      "y": 71,
                       "width": 60,
-                      "height": 138,
-                      "right": 168.09,
-                      "bottom": 242,
+                      "height": 204,
+                      "right": 161.23,
+                      "bottom": 275,
                       "text": "z",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1304,11 +1305,11 @@
                   "rects": [
                     {
                       "x": 8,
-                      "y": 344,
+                      "y": 311,
                       "width": 66.75,
-                      "height": 138,
+                      "height": 204,
                       "right": 74.75,
-                      "bottom": 482,
+                      "bottom": 515,
                       "text": "a",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1331,9 +1332,9 @@
                 "classes": [],
                 "layout": {
                   "x": 74.75,
-                  "y": 344,
-                  "width": 33.34,
-                  "height": 138,
+                  "y": 311,
+                  "width": 26.48,
+                  "height": 204,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1392,11 +1393,11 @@
                       "rects": [
                         {
                           "x": 74.75,
-                          "y": 344,
-                          "width": 33.34,
-                          "height": 138,
-                          "right": 108.09,
-                          "bottom": 482,
+                          "y": 311,
+                          "width": 26.48,
+                          "height": 204,
+                          "right": 101.23,
+                          "bottom": 515,
                           "text": " ٰٔ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1421,12 +1422,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 108.09,
-                      "y": 344,
+                      "x": 101.23,
+                      "y": 311,
                       "width": 60,
-                      "height": 138,
-                      "right": 168.09,
-                      "bottom": 482,
+                      "height": 204,
+                      "right": 161.23,
+                      "bottom": 515,
                       "text": "z",
                       "startIndex": 0,
                       "endIndex": 1

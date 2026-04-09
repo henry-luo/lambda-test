@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 95,
+      "height": 102,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -761,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: 'ezra_silregular';\n    src: url('/fonts/sileot-webfont.woff') format('woff');\n    font-weight: normal;\n    font-style: normal;\n}\n.test {\n  width: 70px;\n  font-family: ezra_silregular, monospace;\n  font-size: 15px;\n  background: blue;\n  margin-left: 20px;\n\n  direction: rtl;\n\n  white-space: pre-wrap;\n  text-align: justify;\n}\n.test > span {\n  background: green;;\n}\n",
-                "length": 395,
+                "text": "\n@font-face {\n    font-family: 'ezra_silregular';\n    src: url('../../../support/fonts/sileot-webfont.woff') format('woff');\n    font-weight: normal;\n    font-style: normal;\n}\n.test {\n  width: 70px;\n  font-family: ezra_silregular, monospace;\n  font-size: 15px;\n  background: blue;\n  margin-left: 20px;\n\n  direction: rtl;\n\n  white-space: pre-wrap;\n  text-align: justify;\n}\n.test > span {\n  background: green;;\n}\n",
+                "length": 411,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -805,11 +805,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 71,
+          "height": 78,
           "contentWidth": 1184,
-          "contentHeight": 71,
+          "contentHeight": 78,
           "scrollWidth": 1184,
-          "scrollHeight": 71
+          "scrollHeight": 78
         },
         "computed": {
           "display": "block",
@@ -957,11 +957,11 @@
               "x": 28,
               "y": 50,
               "width": 70,
-              "height": 37,
+              "height": 44,
               "contentWidth": 70,
-              "contentHeight": 37,
+              "contentHeight": 44,
               "scrollWidth": 70,
-              "scrollHeight": 37
+              "scrollHeight": 44
             },
             "computed": {
               "display": "block",
@@ -1014,10 +1014,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 18.98,
+                  "x": 22.88,
                   "y": 50,
-                  "width": 79.02,
-                  "height": 37,
+                  "width": 75.13,
+                  "height": 44,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1075,12 +1075,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 18.98,
+                          "x": 22.88,
                           "y": 50,
-                          "width": 79.02,
-                          "height": 18,
+                          "width": 75.13,
+                          "height": 22,
                           "right": 98,
-                          "bottom": 68,
+                          "bottom": 72,
                           "text": "הם דה ",
                           "startIndex": 0,
                           "endIndex": 6
@@ -1103,12 +1103,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 70.91,
-                          "y": 69,
-                          "width": 27.09,
-                          "height": 18,
+                          "x": 69.52,
+                          "y": 72,
+                          "width": 28.48,
+                          "height": 22,
                           "right": 98,
-                          "bottom": 87,
+                          "bottom": 94,
                           "text": "XXX",
                           "startIndex": 0,
                           "endIndex": 3

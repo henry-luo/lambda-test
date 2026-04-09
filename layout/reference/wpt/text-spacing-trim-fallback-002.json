@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-fallback-002.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 136,
+      "height": 132,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -804,8 +805,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  font-display: block;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  font-display: block;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: Arial, halt-font;\n  font-size: 20px;\n}\n.chws #container {\n  font-family: Arial, chws-font;\n}\n:root.vrl {\n  writing-mode: vertical-rl;\n}\n",
-                "length": 431,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  font-display: block;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  font-display: block;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: Arial, halt-font;\n  font-size: 20px;\n}\n.chws #container {\n  font-family: Arial, chws-font;\n}\n:root.vrl {\n  writing-mode: vertical-rl;\n}\n",
+                "length": 463,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -848,11 +849,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 120,
+          "height": 116,
           "contentWidth": 1184,
-          "contentHeight": 120,
+          "contentHeight": 116,
           "scrollWidth": 1184,
-          "scrollHeight": 120
+          "scrollHeight": 116
         },
         "computed": {
           "display": "block",
@@ -908,11 +909,11 @@
               "x": 8,
               "y": 8,
               "width": 1184,
-              "height": 120,
+              "height": 116,
               "contentWidth": 1184,
-              "contentHeight": 120,
+              "contentHeight": 116,
               "scrollWidth": 1184,
-              "scrollHeight": 120
+              "scrollHeight": 116
             },
             "computed": {
               "display": "block",
@@ -968,11 +969,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 1184,
-                  "height": 30,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 30,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 30
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1056,13 +1057,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 38,
+                  "y": 37,
                   "width": 1184,
-                  "height": 30,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 30,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 30
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1117,11 +1118,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 43,
+                          "y": 42,
                           "width": 61.13,
                           "height": 22,
                           "right": 69.13,
-                          "bottom": 65,
+                          "bottom": 64,
                           "text": "（?）、",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1146,13 +1147,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 68,
+                  "y": 66,
                   "width": 1184,
-                  "height": 30,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 30,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 30
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1207,11 +1208,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 73,
+                          "y": 71,
                           "width": 61.13,
                           "height": 22,
                           "right": 69.13,
-                          "bottom": 95,
+                          "bottom": 93,
                           "text": "（1））",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1236,13 +1237,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 98,
+                  "y": 95,
                   "width": 1184,
-                  "height": 30,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 30,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 30
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1297,11 +1298,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 103,
+                          "y": 100,
                           "width": 61.13,
                           "height": 22,
                           "right": 69.13,
-                          "bottom": 125,
+                          "bottom": 122,
                           "text": "（1。。",
                           "startIndex": 0,
                           "endIndex": 4

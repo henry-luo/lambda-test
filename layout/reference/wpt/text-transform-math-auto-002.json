@@ -1,5 +1,6 @@
 {
   "test_file": "text-transform-math-auto-002.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 178,
+      "height": 181,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -683,8 +684,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n  @font-face {\n    font-family: TestFont;\n    src: url(\"/fonts/math/mathvariant-italic.woff\");\n  }\n  body > div {\n    padding: 10px;\n  }\n  div > span {\n    font-family: monospace;\n    font-size: 16px;\n  }\n  .testfont {\n    font-family: TestFont;\n    font-size: 16px;\n  }\n",
-                "length": 272,
+                "text": "\n  @font-face {\n    font-family: TestFont;\n    src: url(\"../../../../support/fonts/math/mathvariant-italic.woff\");\n  }\n  body > div {\n    padding: 10px;\n  }\n  div > span {\n    font-family: monospace;\n    font-size: 16px;\n  }\n  .testfont {\n    font-family: TestFont;\n    font-size: 16px;\n  }\n",
+                "length": 291,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -727,11 +728,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 154,
+          "height": 157,
           "contentWidth": 1184,
-          "contentHeight": 154,
+          "contentHeight": 157,
           "scrollWidth": 1184,
-          "scrollHeight": 154
+          "scrollHeight": 157
         },
         "computed": {
           "display": "block",
@@ -877,11 +878,11 @@
               "x": 8,
               "y": 50,
               "width": 1184,
-              "height": 40,
+              "height": 41,
               "contentWidth": 1184,
-              "contentHeight": 40,
+              "contentHeight": 41,
               "scrollWidth": 1184,
-              "scrollHeight": 40
+              "scrollHeight": 41
             },
             "computed": {
               "display": "block",
@@ -936,11 +937,11 @@
                   "rects": [
                     {
                       "x": 18,
-                      "y": 61,
+                      "y": 63,
                       "width": 111.95,
                       "height": 18,
                       "right": 129.95,
-                      "bottom": 79,
+                      "bottom": 81,
                       "text": "Single character: ",
                       "startIndex": 0,
                       "endIndex": 18
@@ -966,8 +967,8 @@
                 "layout": {
                   "x": 129.95,
                   "y": 61,
-                  "width": 5.63,
-                  "height": 18,
+                  "width": 40,
+                  "height": 17,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1027,10 +1028,10 @@
                         {
                           "x": 129.95,
                           "y": 61,
-                          "width": 5.63,
-                          "height": 18,
-                          "right": 135.58,
-                          "bottom": 79,
+                          "width": 40,
+                          "height": 17,
+                          "right": 169.95,
+                          "bottom": 78,
                           "text": "∂",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1055,12 +1056,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 135.58,
-                      "y": 61,
+                      "x": 169.95,
+                      "y": 63,
                       "width": 9.03,
                       "height": 18,
-                      "right": 144.61,
-                      "bottom": 79,
+                      "right": 178.98,
+                      "bottom": 81,
                       "text": "=",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1082,8 +1083,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 144.61,
-                  "y": 60,
+                  "x": 178.98,
+                  "y": 62,
                   "width": 48.17,
                   "height": 19,
                   "contentWidth": 0,
@@ -1143,12 +1144,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 144.61,
-                          "y": 60,
+                          "x": 178.98,
+                          "y": 62,
                           "width": 48.17,
                           "height": 19,
-                          "right": 192.78,
-                          "bottom": 79,
+                          "right": 227.16,
+                          "bottom": 81,
                           "text": "1D715",
                           "startIndex": 0,
                           "endIndex": 5
@@ -1175,13 +1176,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 90,
+              "y": 91,
               "width": 1184,
-              "height": 40,
+              "height": 41,
               "contentWidth": 1184,
-              "contentHeight": 40,
+              "contentHeight": 41,
               "scrollWidth": 1184,
-              "scrollHeight": 40
+              "scrollHeight": 41
             },
             "computed": {
               "display": "block",
@@ -1236,11 +1237,11 @@
                   "rects": [
                     {
                       "x": 18,
-                      "y": 101,
+                      "y": 104,
                       "width": 105.5,
                       "height": 18,
                       "right": 123.5,
-                      "bottom": 119,
+                      "bottom": 122,
                       "text": "Two characters: ",
                       "startIndex": 0,
                       "endIndex": 16
@@ -1265,9 +1266,9 @@
                 ],
                 "layout": {
                   "x": 123.5,
-                  "y": 101,
-                  "width": 17.81,
-                  "height": 18,
+                  "y": 102,
+                  "width": 80,
+                  "height": 17,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1326,10 +1327,10 @@
                       "rects": [
                         {
                           "x": 123.5,
-                          "y": 101,
-                          "width": 17.81,
-                          "height": 18,
-                          "right": 141.31,
+                          "y": 102,
+                          "width": 80,
+                          "height": 17,
+                          "right": 203.5,
                           "bottom": 119,
                           "text": "∂∇",
                           "startIndex": 0,
@@ -1355,12 +1356,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 141.31,
-                      "y": 101,
+                      "x": 203.5,
+                      "y": 104,
                       "width": 9.03,
                       "height": 18,
-                      "right": 150.34,
-                      "bottom": 119,
+                      "right": 212.53,
+                      "bottom": 122,
                       "text": "=",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1382,8 +1383,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 150.34,
-                  "y": 100,
+                  "x": 212.53,
+                  "y": 103,
                   "width": 96.33,
                   "height": 19,
                   "contentWidth": 0,
@@ -1443,12 +1444,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 150.34,
-                          "y": 100,
+                          "x": 212.53,
+                          "y": 103,
                           "width": 96.33,
                           "height": 19,
-                          "right": 246.67,
-                          "bottom": 119,
+                          "right": 308.86,
+                          "bottom": 122,
                           "text": "0220202207",
                           "startIndex": 0,
                           "endIndex": 10
@@ -1475,13 +1476,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 130,
+              "y": 132,
               "width": 1184,
-              "height": 40,
+              "height": 41,
               "contentWidth": 1184,
-              "contentHeight": 40,
+              "contentHeight": 41,
               "scrollWidth": 1184,
-              "scrollHeight": 40
+              "scrollHeight": 41
             },
             "computed": {
               "display": "block",
@@ -1536,11 +1537,11 @@
                   "rects": [
                     {
                       "x": 18,
-                      "y": 141,
+                      "y": 145,
                       "width": 114.59,
                       "height": 18,
                       "right": 132.59,
-                      "bottom": 159,
+                      "bottom": 163,
                       "text": "Three characters: ",
                       "startIndex": 0,
                       "endIndex": 18
@@ -1565,9 +1566,9 @@
                 ],
                 "layout": {
                   "x": 132.59,
-                  "y": 141,
-                  "width": 22.25,
-                  "height": 18,
+                  "y": 143,
+                  "width": 120,
+                  "height": 17,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1626,11 +1627,11 @@
                       "rects": [
                         {
                           "x": 132.59,
-                          "y": 141,
-                          "width": 22.25,
-                          "height": 18,
-                          "right": 154.84,
-                          "bottom": 159,
+                          "y": 143,
+                          "width": 120,
+                          "height": 17,
+                          "right": 252.59,
+                          "bottom": 160,
                           "text": "∂∇ȷ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1655,12 +1656,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 154.84,
-                      "y": 141,
+                      "x": 252.59,
+                      "y": 145,
                       "width": 9.03,
                       "height": 18,
-                      "right": 163.88,
-                      "bottom": 159,
+                      "right": 261.63,
+                      "bottom": 163,
                       "text": "=",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1682,8 +1683,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 163.88,
-                  "y": 140,
+                  "x": 261.63,
+                  "y": 144,
                   "width": 144.5,
                   "height": 19,
                   "contentWidth": 0,
@@ -1743,12 +1744,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 163.88,
-                          "y": 140,
+                          "x": 261.63,
+                          "y": 144,
                           "width": 144.5,
                           "height": 19,
-                          "right": 308.38,
-                          "bottom": 159,
+                          "right": 406.13,
+                          "bottom": 163,
                           "text": "022020220700237",
                           "startIndex": 0,
                           "endIndex": 15

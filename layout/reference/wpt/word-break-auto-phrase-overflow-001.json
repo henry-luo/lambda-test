@@ -1,5 +1,6 @@
 {
   "test_file": "word-break-auto-phrase-overflow-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -435,8 +436,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: mplus;\n  src: url(/fonts/mplus-1p-regular.woff);\n}\n.container > div {\n  font-family: mplus;\n  word-break: auto-phrase;\n  font-size: 10px;\n  border: 1px solid;\n}\n",
-                "length": 190,
+                "text": "\n@font-face {\n  font-family: mplus;\n  src: url(../../../../support/fonts/mplus-1p-regular.woff);\n}\n.container > div {\n  font-family: mplus;\n  word-break: auto-phrase;\n  font-size: 10px;\n  border: 1px solid;\n}\n",
+                "length": 209,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -660,11 +661,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 11,
+                          "y": 9,
                           "width": 30,
-                          "height": 10,
+                          "height": 14,
                           "right": 39,
-                          "bottom": 21,
+                          "bottom": 23,
                           "text": "\n    楽しい",
                           "startIndex": 0,
                           "endIndex": 8
@@ -688,11 +689,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 26,
-                          "width": 48.61,
-                          "height": 10,
-                          "right": 57.61,
-                          "bottom": 36,
+                          "y": 24,
+                          "width": 50,
+                          "height": 14,
+                          "right": 59,
+                          "bottom": 38,
                           "text": "ドライブ。",
                           "startIndex": 0,
                           "endIndex": 5
@@ -778,11 +779,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 43,
+                          "y": 41,
                           "width": 30,
-                          "height": 10,
+                          "height": 14,
                           "right": 39,
-                          "bottom": 53,
+                          "bottom": 55,
                           "text": "\n    楽しい",
                           "startIndex": 0,
                           "endIndex": 8
@@ -806,11 +807,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 58,
+                          "y": 56,
                           "width": 30,
-                          "height": 10,
+                          "height": 14,
                           "right": 39,
-                          "bottom": 68,
+                          "bottom": 70,
                           "text": "ドライ",
                           "startIndex": 0,
                           "endIndex": 3
@@ -834,11 +835,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 73,
-                          "width": 18.61,
-                          "height": 10,
-                          "right": 27.61,
-                          "bottom": 83,
+                          "y": 71,
+                          "width": 20,
+                          "height": 14,
+                          "right": 29,
+                          "bottom": 85,
                           "text": "ブ。",
                           "startIndex": 0,
                           "endIndex": 2
@@ -868,7 +869,7 @@
                   "height": 107,
                   "contentWidth": 10,
                   "contentHeight": 105,
-                  "scrollWidth": 19,
+                  "scrollWidth": 20,
                   "scrollHeight": 105
                 },
                 "computed": {
@@ -924,11 +925,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 90,
+                          "y": 88,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 100,
+                          "bottom": 102,
                           "text": "\n    楽",
                           "startIndex": 0,
                           "endIndex": 6
@@ -952,11 +953,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 105,
+                          "y": 103,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 115,
+                          "bottom": 117,
                           "text": "し",
                           "startIndex": 0,
                           "endIndex": 1
@@ -980,11 +981,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 120,
+                          "y": 118,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 130,
+                          "bottom": 132,
                           "text": "い",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1008,11 +1009,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 135,
+                          "y": 133,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 145,
+                          "bottom": 147,
                           "text": "ド",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1036,11 +1037,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 150,
+                          "y": 148,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 160,
+                          "bottom": 162,
                           "text": "ラ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1064,11 +1065,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 165,
+                          "y": 163,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 175,
+                          "bottom": 177,
                           "text": "イ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1092,11 +1093,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 180,
-                          "width": 18.61,
-                          "height": 10,
-                          "right": 27.61,
-                          "bottom": 190,
+                          "y": 178,
+                          "width": 20,
+                          "height": 14,
+                          "right": 29,
+                          "bottom": 192,
                           "text": "ブ。",
                           "startIndex": 0,
                           "endIndex": 2
@@ -1182,11 +1183,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 197,
+                          "y": 195,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 207,
+                          "bottom": 209,
                           "text": "\n    楽",
                           "startIndex": 0,
                           "endIndex": 6
@@ -1210,11 +1211,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 212,
+                          "y": 210,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 222,
+                          "bottom": 224,
                           "text": "し",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1238,11 +1239,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 227,
+                          "y": 225,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 237,
+                          "bottom": 239,
                           "text": "い",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1266,11 +1267,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 242,
+                          "y": 240,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 252,
+                          "bottom": 254,
                           "text": "ド",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1294,11 +1295,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 257,
+                          "y": 255,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 267,
+                          "bottom": 269,
                           "text": "ラ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1322,11 +1323,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 272,
+                          "y": 270,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 282,
+                          "bottom": 284,
                           "text": "イ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1350,11 +1351,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 287,
+                          "y": 285,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 297,
+                          "bottom": 299,
                           "text": "ブ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1378,11 +1379,11 @@
                       "rects": [
                         {
                           "x": 9,
-                          "y": 302,
+                          "y": 300,
                           "width": 10,
-                          "height": 10,
+                          "height": 14,
                           "right": 19,
-                          "bottom": 312,
+                          "bottom": 314,
                           "text": "。",
                           "startIndex": 0,
                           "endIndex": 1

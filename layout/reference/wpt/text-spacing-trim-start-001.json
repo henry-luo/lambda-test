@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-start-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 492,
+      "height": 509,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -1420,8 +1421,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 4em;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n.trim-start {\n  text-spacing-trim: trim-start;\n}\n.space-first {\n  text-spacing-trim: space-first;\n}\n",
-                "length": 486,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 4em;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n.trim-start {\n  text-spacing-trim: trim-start;\n}\n.space-first {\n  text-spacing-trim: space-first;\n}\n",
+                "length": 518,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1464,11 +1465,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 476,
+          "height": 493,
           "contentWidth": 1184,
-          "contentHeight": 476,
+          "contentHeight": 493,
           "scrollWidth": 1184,
-          "scrollHeight": 476
+          "scrollHeight": 493
         },
         "computed": {
           "display": "block",
@@ -1524,11 +1525,11 @@
               "x": 8,
               "y": 8,
               "width": 80,
-              "height": 476,
+              "height": 493,
               "contentWidth": 80,
-              "contentHeight": 476,
+              "contentHeight": 493,
               "scrollWidth": 80,
-              "scrollHeight": 476
+              "scrollHeight": 493
             },
             "computed": {
               "display": "block",
@@ -1584,11 +1585,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 80,
-                  "height": 84,
+                  "height": 87,
                   "contentWidth": 80,
-                  "contentHeight": 84,
+                  "contentHeight": 87,
                   "scrollWidth": 80,
-                  "scrollHeight": 84
+                  "scrollHeight": 87
                 },
                 "computed": {
                   "display": "block",
@@ -1643,11 +1644,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 11,
+                          "y": 8,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 34,
+                          "bottom": 37,
                           "text": "（国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1671,11 +1672,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 39,
+                          "y": 37,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 62,
+                          "bottom": 66,
                           "text": "（国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1699,11 +1700,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 67,
+                          "y": 66,
                           "width": 40,
-                          "height": 23,
+                          "height": 29,
                           "right": 48,
-                          "bottom": 90,
+                          "bottom": 95,
                           "text": "（国",
                           "startIndex": 0,
                           "endIndex": 2
@@ -1728,13 +1729,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 92,
+                  "y": 95,
                   "width": 80,
-                  "height": 84,
+                  "height": 87,
                   "contentWidth": 80,
-                  "contentHeight": 84,
+                  "contentHeight": 87,
                   "scrollWidth": 80,
-                  "scrollHeight": 84
+                  "scrollHeight": 87
                 },
                 "computed": {
                   "display": "block",
@@ -1791,9 +1792,9 @@
                           "x": 8,
                           "y": 95,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 118,
+                          "bottom": 124,
                           "text": "国国国）",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1817,11 +1818,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 123,
+                          "y": 124,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 146,
+                          "bottom": 153,
                           "text": "（国国）",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1845,11 +1846,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 151,
+                          "y": 153,
                           "width": 40,
-                          "height": 23,
+                          "height": 29,
                           "right": 48,
-                          "bottom": 174,
+                          "bottom": 182,
                           "text": "（国",
                           "startIndex": 0,
                           "endIndex": 2
@@ -1874,13 +1875,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 176,
+                  "y": 182,
                   "width": 80,
-                  "height": 56,
+                  "height": 58,
                   "contentWidth": 80,
-                  "contentHeight": 56,
+                  "contentHeight": 58,
                   "scrollWidth": 80,
-                  "scrollHeight": 56
+                  "scrollHeight": 58
                 },
                 "computed": {
                   "display": "block",
@@ -1935,11 +1936,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 179,
+                          "y": 182,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 202,
+                          "bottom": 211,
                           "text": "国国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1963,11 +1964,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 207,
+                          "y": 211,
                           "width": 20,
-                          "height": 23,
+                          "height": 29,
                           "right": 28,
-                          "bottom": 230,
+                          "bottom": 240,
                           "text": "（",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1992,13 +1993,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 232,
+                  "y": 240,
                   "width": 80,
-                  "height": 56,
+                  "height": 58,
                   "contentWidth": 80,
-                  "contentHeight": 56,
+                  "contentHeight": 58,
                   "scrollWidth": 80,
-                  "scrollHeight": 56
+                  "scrollHeight": 58
                 },
                 "computed": {
                   "display": "block",
@@ -2053,11 +2054,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 232,
+                          "y": 240,
                           "width": 80,
-                          "height": 28,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 260,
+                          "bottom": 269,
                           "text": "国国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -2081,11 +2082,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 260,
-                          "width": 10.75,
-                          "height": 28,
-                          "right": 18.75,
-                          "bottom": 288,
+                          "y": 269,
+                          "width": 20,
+                          "height": 29,
+                          "right": 28,
+                          "bottom": 298,
                           "text": "“",
                           "startIndex": 0,
                           "endIndex": 1
@@ -2110,13 +2111,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 288,
+                  "y": 298,
                   "width": 80,
-                  "height": 84,
+                  "height": 87,
                   "contentWidth": 80,
-                  "contentHeight": 84,
+                  "contentHeight": 87,
                   "scrollWidth": 80,
-                  "scrollHeight": 84
+                  "scrollHeight": 87
                 },
                 "computed": {
                   "display": "block",
@@ -2171,11 +2172,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 291,
+                          "y": 298,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 314,
+                          "bottom": 327,
                           "text": "（国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -2198,9 +2199,9 @@
                     "classes": [],
                     "layout": {
                       "x": 88,
-                      "y": 291,
+                      "y": 298,
                       "width": 0,
-                      "height": 23,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -2260,11 +2261,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 319,
+                          "y": 327,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 342,
+                          "bottom": 356,
                           "text": "（国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -2287,9 +2288,9 @@
                     "classes": [],
                     "layout": {
                       "x": 88,
-                      "y": 319,
+                      "y": 327,
                       "width": 0,
-                      "height": 23,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -2349,11 +2350,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 347,
+                          "y": 356,
                           "width": 40,
-                          "height": 23,
+                          "height": 29,
                           "right": 48,
-                          "bottom": 370,
+                          "bottom": 385,
                           "text": "（国",
                           "startIndex": 0,
                           "endIndex": 2
@@ -2378,13 +2379,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 372,
+                  "y": 385,
                   "width": 80,
-                  "height": 56,
+                  "height": 58,
                   "contentWidth": 80,
-                  "contentHeight": 56,
+                  "contentHeight": 58,
                   "scrollWidth": 80,
-                  "scrollHeight": 56
+                  "scrollHeight": 58
                 },
                 "computed": {
                   "display": "block",
@@ -2439,11 +2440,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 375,
+                          "y": 385,
                           "width": 80,
-                          "height": 23,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 398,
+                          "bottom": 414,
                           "text": "国国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -2466,9 +2467,9 @@
                     "classes": [],
                     "layout": {
                       "x": 88,
-                      "y": 375,
+                      "y": 385,
                       "width": 0,
-                      "height": 23,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -2528,11 +2529,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 403,
+                          "y": 414,
                           "width": 20,
-                          "height": 23,
+                          "height": 29,
                           "right": 28,
-                          "bottom": 426,
+                          "bottom": 443,
                           "text": "（",
                           "startIndex": 0,
                           "endIndex": 1
@@ -2557,13 +2558,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 428,
+                  "y": 443,
                   "width": 80,
-                  "height": 56,
+                  "height": 58,
                   "contentWidth": 80,
-                  "contentHeight": 56,
+                  "contentHeight": 58,
                   "scrollWidth": 80,
-                  "scrollHeight": 56
+                  "scrollHeight": 58
                 },
                 "computed": {
                   "display": "block",
@@ -2618,11 +2619,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 428,
+                          "y": 443,
                           "width": 80,
-                          "height": 28,
+                          "height": 29,
                           "right": 88,
-                          "bottom": 456,
+                          "bottom": 472,
                           "text": "国国国国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -2645,9 +2646,9 @@
                     "classes": [],
                     "layout": {
                       "x": 88,
-                      "y": 428,
+                      "y": 443,
                       "width": 0,
-                      "height": 28,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -2707,11 +2708,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 456,
-                          "width": 10.75,
-                          "height": 28,
-                          "right": 18.75,
-                          "bottom": 484,
+                          "y": 472,
+                          "width": 20,
+                          "height": 29,
+                          "right": 28,
+                          "bottom": 501,
                           "text": "“",
                           "startIndex": 0,
                           "endIndex": 1

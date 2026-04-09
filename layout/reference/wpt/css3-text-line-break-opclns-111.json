@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 242,
+      "height": 182,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -761,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n\tfont-family: CSSFW;\n\tsrc: url('/fonts/adobe-fonts/CSSFWOrientationTest.otf');\n\t}\n.test, .ref { font-size: 30px; font-family: CSSFW, sans-serif; width: 3em; padding: 0; border: 1px solid orange; line-height: 1em; }\n",
-                "length": 229,
+                "text": "\n@font-face {\n\tfont-family: CSSFW;\n\tsrc: url('../../../support/fonts/adobe-fonts/CSSFWOrientationTest.otf');\n\t}\n.test, .ref { font-size: 30px; font-family: CSSFW, sans-serif; width: 3em; padding: 0; border: 1px solid orange; line-height: 1em; }\n",
+                "length": 245,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -805,11 +805,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 218,
+          "height": 158,
           "contentWidth": 1184,
-          "contentHeight": 218,
+          "contentHeight": 158,
           "scrollWidth": 1184,
-          "scrollHeight": 219
+          "scrollHeight": 158
         },
         "computed": {
           "display": "block",
@@ -959,11 +959,11 @@
               "x": 8,
               "y": 50,
               "width": 92,
-              "height": 92,
+              "height": 62,
               "contentWidth": 90,
-              "contentHeight": 90,
+              "contentHeight": 60,
               "scrollWidth": 90,
-              "scrollHeight": 92
+              "scrollHeight": 60
             },
             "computed": {
               "display": "block",
@@ -1018,11 +1018,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 48,
+                      "y": 51,
                       "width": 60,
-                      "height": 35,
+                      "height": 30,
                       "right": 69,
-                      "bottom": 83,
+                      "bottom": 81,
                       "text": "中中",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1039,49 +1039,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "中༻",
-                "length": 2,
+                "text": "中༻文",
+                "length": 3,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 9,
-                      "y": 78,
-                      "width": 69.92,
-                      "height": 35,
-                      "right": 78.92,
-                      "bottom": 113,
-                      "text": "中༻",
+                      "y": 81,
+                      "width": 90,
+                      "height": 30,
+                      "right": 99,
+                      "bottom": 111,
+                      "text": "中༻文",
                       "startIndex": 0,
-                      "endIndex": 2
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "block",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 0,
-                "children": []
-              },
-              {
-                "nodeType": "text",
-                "text": "文",
-                "length": 1,
-                "isWhitespaceOnly": false,
-                "layout": {
-                  "rects": [
-                    {
-                      "x": 9,
-                      "y": 108,
-                      "width": 30,
-                      "height": 35,
-                      "right": 39,
-                      "bottom": 143,
-                      "text": "文",
-                      "startIndex": 0,
-                      "endIndex": 1
+                      "endIndex": 3
                     }
                   ],
                   "hasLayout": true,
@@ -1105,13 +1077,13 @@
             ],
             "layout": {
               "x": 8,
-              "y": 142,
+              "y": 112,
               "width": 92,
-              "height": 92,
+              "height": 62,
               "contentWidth": 90,
-              "contentHeight": 90,
+              "contentHeight": 60,
               "scrollWidth": 90,
-              "scrollHeight": 92
+              "scrollHeight": 60
             },
             "computed": {
               "display": "block",
@@ -1166,11 +1138,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 140,
+                      "y": 113,
                       "width": 60,
-                      "height": 35,
+                      "height": 30,
                       "right": 69,
-                      "bottom": 175,
+                      "bottom": 143,
                       "text": "中中",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1193,9 +1165,9 @@
                 "classes": [],
                 "layout": {
                   "x": 69,
-                  "y": 140,
+                  "y": 113,
                   "width": 0,
-                  "height": 35,
+                  "height": 30,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1248,49 +1220,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "中༻",
-                "length": 2,
+                "text": "中༻文",
+                "length": 3,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 9,
-                      "y": 170,
-                      "width": 69.92,
-                      "height": 35,
-                      "right": 78.92,
-                      "bottom": 205,
-                      "text": "中༻",
+                      "y": 143,
+                      "width": 90,
+                      "height": 30,
+                      "right": 99,
+                      "bottom": 173,
+                      "text": "中༻文",
                       "startIndex": 0,
-                      "endIndex": 2
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "block",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 2,
-                "children": []
-              },
-              {
-                "nodeType": "text",
-                "text": "文",
-                "length": 1,
-                "isWhitespaceOnly": false,
-                "layout": {
-                  "rects": [
-                    {
-                      "x": 9,
-                      "y": 200,
-                      "width": 30,
-                      "height": 35,
-                      "right": 39,
-                      "bottom": 235,
-                      "text": "文",
-                      "startIndex": 0,
-                      "endIndex": 1
+                      "endIndex": 3
                     }
                   ],
                   "hasLayout": true,

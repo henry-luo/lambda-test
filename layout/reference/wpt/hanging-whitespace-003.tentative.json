@@ -1,5 +1,6 @@
 {
   "test_file": "hanging-whitespace-003.tentative.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1271,9 +1272,9 @@
                     {
                       "x": 8,
                       "y": 50,
-                      "width": 100,
+                      "width": 150,
                       "height": 25,
-                      "right": 108,
+                      "right": 158,
                       "bottom": 75,
                       "text": "XXXX　　",
                       "startIndex": 0,
@@ -1449,9 +1450,9 @@
                     {
                       "x": 33,
                       "y": 75,
-                      "width": 75,
+                      "width": 125,
                       "height": 25,
-                      "right": 108,
+                      "right": 158,
                       "bottom": 100,
                       "text": "\n  XXX　　",
                       "startIndex": 0,

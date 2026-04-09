@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-end-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 100,
+      "height": 74,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -804,8 +805,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 3.6em;\n  text-spacing-trim: trim-start;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
-                "length": 421,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  inline-size: 3.6em;\n  text-spacing-trim: trim-start;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
+                "length": 453,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -848,11 +849,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 84,
+          "height": 58,
           "contentWidth": 1184,
-          "contentHeight": 84,
+          "contentHeight": 58,
           "scrollWidth": 1184,
-          "scrollHeight": 84
+          "scrollHeight": 58
         },
         "computed": {
           "display": "block",
@@ -908,11 +909,11 @@
               "x": 8,
               "y": 8,
               "width": 72,
-              "height": 84,
+              "height": 58,
               "contentWidth": 72,
-              "contentHeight": 84,
-              "scrollWidth": 72,
-              "scrollHeight": 84
+              "contentHeight": 58,
+              "scrollWidth": 80,
+              "scrollHeight": 58
             },
             "computed": {
               "display": "block",
@@ -968,11 +969,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 72,
-                  "height": 84,
+                  "height": 58,
                   "contentWidth": 72,
-                  "contentHeight": 84,
-                  "scrollWidth": 72,
-                  "scrollHeight": 84
+                  "contentHeight": 58,
+                  "scrollWidth": 80,
+                  "scrollHeight": 58
                 },
                 "computed": {
                   "display": "block",
@@ -1020,21 +1021,21 @@
                 "children": [
                   {
                     "nodeType": "text",
-                    "text": "国国",
-                    "length": 2,
+                    "text": "国国国）",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 8,
-                          "y": 11,
-                          "width": 40,
-                          "height": 23,
-                          "right": 48,
-                          "bottom": 34,
-                          "text": "国国",
+                          "y": 8,
+                          "width": 70,
+                          "height": 29,
+                          "right": 78,
+                          "bottom": 37,
+                          "text": "国国国）",
                           "startIndex": 0,
-                          "endIndex": 2
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,
@@ -1048,49 +1049,21 @@
                   },
                   {
                     "nodeType": "text",
-                    "text": "国）国",
-                    "length": 3,
+                    "text": "国国国）",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 8,
-                          "y": 39,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 62,
-                          "text": "国）国",
+                          "y": 37,
+                          "width": 80,
+                          "height": 29,
+                          "right": 88,
+                          "bottom": 66,
+                          "text": "国国国）",
                           "startIndex": 0,
-                          "endIndex": 3
-                        }
-                      ],
-                      "hasLayout": true,
-                      "parentVisible": true,
-                      "parentDisplay": "block",
-                      "parentVisibility": "visible"
-                    },
-                    "depth": 4,
-                    "nodeIndex": 0,
-                    "children": []
-                  },
-                  {
-                    "nodeType": "text",
-                    "text": "国国）",
-                    "length": 3,
-                    "isWhitespaceOnly": false,
-                    "layout": {
-                      "rects": [
-                        {
-                          "x": 8,
-                          "y": 67,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 90,
-                          "text": "国国）",
-                          "startIndex": 0,
-                          "endIndex": 3
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,

@@ -1,5 +1,6 @@
 {
   "test_file": "tab-size-integer-005.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 218,
+      "height": 226,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -667,8 +668,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    /* this font-family does not support <space>, so should not be used to resolve tab-size */\n    font-family: without-space;\n    src: url(\"/fonts/CanvasTest-nospace.ttf\");\n}\n@font-face {\n    /* the <space> in this font is much narrower than the default/.notdef in \"first\" */\n    font-family: with-space;\n    src: url(\"/fonts/GentiumPlus-R.woff\");\n}\ndiv {\n    font: 40px/2 without-space, with-space, sans-serif;\n    white-space: pre;\n    tab-size: 8;\n}\nspan {\n    font-family: with-space, sans-serif;\n}\n",
-                "length": 518,
+                "text": "\n@font-face {\n    /* this font-family does not support <space>, so should not be used to resolve tab-size */\n    font-family: without-space;\n    src: url(\"../../../support/fonts/CanvasTest-nospace.ttf\");\n}\n@font-face {\n    /* the <space> in this font is much narrower than the default/.notdef in \"first\" */\n    font-family: with-space;\n    src: url(\"../../../support/fonts/GentiumPlus-R.woff\");\n}\ndiv {\n    font: 40px/2 without-space, with-space, sans-serif;\n    white-space: pre;\n    tab-size: 8;\n}\nspan {\n    font-family: with-space, sans-serif;\n}\n",
+                "length": 550,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -711,11 +712,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 194,
+          "height": 202,
           "contentWidth": 1184,
-          "contentHeight": 194,
+          "contentHeight": 202,
           "scrollWidth": 1184,
-          "scrollHeight": 194
+          "scrollHeight": 207
         },
         "computed": {
           "display": "block",
@@ -861,11 +862,11 @@
               "x": 8,
               "y": 50,
               "width": 1184,
-              "height": 80,
+              "height": 84,
               "contentWidth": 1184,
-              "contentHeight": 80,
+              "contentHeight": 84,
               "scrollWidth": 1184,
-              "scrollHeight": 80
+              "scrollHeight": 89
             },
             "computed": {
               "display": "block",
@@ -919,9 +920,9 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 67,
-                  "width": 11.13,
-                  "height": 46,
+                  "y": 64,
+                  "width": 8.81,
+                  "height": 59,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -980,11 +981,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 67,
-                          "width": 11.13,
-                          "height": 46,
-                          "right": 19.13,
-                          "bottom": 113
+                          "y": 64,
+                          "width": 8.81,
+                          "height": 59,
+                          "right": 16.81,
+                          "bottom": 123
                         }
                       ],
                       "hasLayout": true,
@@ -1006,12 +1007,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 19.13,
-                      "y": 67,
-                      "width": 77.78,
-                      "height": 46,
-                      "right": 96.91,
-                      "bottom": 113,
+                      "x": 16.81,
+                      "y": 40,
+                      "width": 101.66,
+                      "height": 99,
+                      "right": 118.47,
+                      "bottom": 139,
                       "text": "\tE",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1036,13 +1037,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 130,
+              "y": 134,
               "width": 1184,
-              "height": 80,
+              "height": 84,
               "contentWidth": 1184,
-              "contentHeight": 80,
+              "contentHeight": 84,
               "scrollWidth": 1184,
-              "scrollHeight": 80
+              "scrollHeight": 89
             },
             "computed": {
               "display": "block",
@@ -1096,9 +1097,9 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 147,
-                  "width": 88.91,
-                  "height": 46,
+                  "y": 148,
+                  "width": 70.47,
+                  "height": 59,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1157,11 +1158,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 147,
-                          "width": 88.91,
-                          "height": 46,
-                          "right": 96.91,
-                          "bottom": 193
+                          "y": 148,
+                          "width": 70.47,
+                          "height": 59,
+                          "right": 78.47,
+                          "bottom": 207
                         }
                       ],
                       "hasLayout": true,
@@ -1183,12 +1184,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 96.91,
-                      "y": 147,
-                      "width": 26.69,
-                      "height": 46,
-                      "right": 123.59,
-                      "bottom": 193,
+                      "x": 78.47,
+                      "y": 124,
+                      "width": 40,
+                      "height": 99,
+                      "right": 118.47,
+                      "bottom": 223,
                       "text": "E",
                       "startIndex": 0,
                       "endIndex": 1
