@@ -1932,7 +1932,12 @@ class RadiantLayoutTester {
         const batchSize = this.batchSize;
         const maxConcurrency = this.maxConcurrency;
 
-        // Ensure batch output directory exists once before spawning anything
+        // Clean and recreate batch output directory to avoid stale files from previous runs
+        try {
+            await fs.rm(this.batchOutputDir, { recursive: true, force: true });
+        } catch (e) {
+            // Ignore if doesn't exist
+        }
         try {
             await fs.mkdir(this.batchOutputDir, { recursive: true });
         } catch (e) {
@@ -1978,9 +1983,52 @@ class RadiantLayoutTester {
                 });
             }
 
-            // Compare each result against reference in parallel within the batch
-            const comparePromises = batch.map(async (task) => {
+            // Compare each result against reference in parallel within the batch.
+            // Detect missing output files (from batch process crashes) and retry individually.
+            const missingTasks = [];
+            const validTasks = [];
+            for (const task of batch) {
                 const outputFile = outputMap.get(task.htmlFile);
+                try {
+                    await fs.access(outputFile);
+                    validTasks.push({ task, outputFile });
+                } catch {
+                    missingTasks.push(task);
+                }
+            }
+
+            // Retry missing files individually (they were likely killed by a crash in the same batch)
+            if (missingTasks.length > 0 && missingTasks.length < batch.length) {
+                if (!this.json) {
+                    console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
+                }
+                for (const task of missingTasks) {
+                    const retryOutput = this.getUniqueOutputFile();
+                    try {
+                        await this.runRadiantLayout(task.htmlFile, retryOutput);
+                        validTasks.push({ task, outputFile: retryOutput });
+                    } catch {
+                        // Still fails individually — mark as error
+                        validTasks.push({ task, outputFile: retryOutput });
+                    }
+                }
+            } else if (missingTasks.length === batch.length) {
+                // Entire batch failed — retry all individually
+                if (!this.json) {
+                    console.log(`   🔄 Entire batch failed, retrying ${missingTasks.length} files individually`);
+                }
+                for (const task of missingTasks) {
+                    const retryOutput = this.getUniqueOutputFile();
+                    try {
+                        await this.runRadiantLayout(task.htmlFile, retryOutput);
+                        validTasks.push({ task, outputFile: retryOutput });
+                    } catch {
+                        validTasks.push({ task, outputFile: retryOutput });
+                    }
+                }
+            }
+
+            const comparePromises = validTasks.map(async ({ task, outputFile }) => {
                 return this.compareTestResult(task.htmlFile, task.category, outputFile);
             });
             const batchResults = await Promise.all(comparePromises);
