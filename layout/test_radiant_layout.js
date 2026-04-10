@@ -18,7 +18,7 @@ const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
 
 // Detect CPU cores for default concurrency
 const CPU_CORES = os.cpus().length;
-const DEFAULT_CONCURRENCY = Math.max(1, CPU_CORES);
+const DEFAULT_CONCURRENCY = Math.max(1, CPU_CORES - 1);
 
 // Maximum HTML test file size (100KB) - larger files are skipped
 const MAX_TEST_FILE_SIZE = 350 * 1024;
