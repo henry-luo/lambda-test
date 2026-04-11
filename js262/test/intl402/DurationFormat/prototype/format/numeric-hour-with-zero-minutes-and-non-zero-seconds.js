@@ -1,0 +1,43 @@
+
+
+/*---
+esid: sec-Intl.DurationFormat.prototype.format
+description: >
+  The correct separator is used for numeric hours with zero minutes and non-zero seconds.
+locale: [en]
+includes: [testIntl.js]
+features: [Intl.DurationFormat]
+---*/
+
+const df = new Intl.DurationFormat("en", {
+  
+  hours: "numeric",
+});
+
+const durations = [
+  
+  
+  {hours: 0, minutes: 0, seconds: 0},
+  {hours: 0, minutes: 0, seconds: 1},
+  {hours: 0, minutes: 1, seconds: 0},
+  {hours: 0, minutes: 1, seconds: 1},
+  {hours: 1, minutes: 0, seconds: 0},
+  {hours: 1, minutes: 0, seconds: 1},
+  {hours: 1, minutes: 1, seconds: 0},
+  {hours: 1, minutes: 1, seconds: 1},
+
+  
+  {hours: 1, minutes: 0, seconds: 0, milliseconds: 1},
+  {hours: 1, minutes: 0, seconds: 0, microseconds: 1},
+  {hours: 1, minutes: 0, seconds: 0, nanoseconds: 1},
+];
+
+for (const duration of durations) {
+  const expected = formatDurationFormatPattern(df, duration);
+
+  assert.sameValue(
+    df.format(duration),
+    expected,
+    `Duration is ${JSON.stringify(duration)}`
+  );
+}

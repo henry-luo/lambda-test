@@ -1,0 +1,22 @@
+
+
+/*---
+info: Only constructor call (with "new" keyword) makes instance
+es5id: 11.8.6_A4_T3
+description: Checking String case
+---*/
+
+
+if ("" instanceof String) {
+	throw new Test262Error('#1: "" is not instanceof String');
+}
+
+
+if (String("") instanceof String) {
+	throw new Test262Error('#2: String("") is not instanceof String');
+}
+
+
+if (new String instanceof String !== true) {
+	throw new Test262Error('#3: new String instanceof String');
+}

@@ -1,0 +1,25 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+var o = { f: "string-f" };
+with (o) {
+  var desc = Object.getOwnPropertyDescriptor(this, "f");
+  assert.sameValue(desc.value, undefined);
+  assert.sameValue(desc.writable, true);
+  assert.sameValue(desc.enumerable, true);
+  assert.sameValue(desc.configurable, false);
+  function f() {
+    return "fun-f";
+  }
+}
+
+
+assert.sameValue(o.f, "string-f");
+assert.sameValue(f(), "fun-f");
+

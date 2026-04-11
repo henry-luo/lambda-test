@@ -1,0 +1,28 @@
+
+
+/*---
+info: "\"var\" does not override function declaration"
+es5id: 13_A19_T2
+description: >
+    Creating a function and a variable with identical Identifiers
+    within function scope
+---*/
+
+(function (){
+
+    
+    if (typeof __decl !== "function") {
+    	throw new Test262Error('#1: typeof __decl === "function". Actual: typeof __decl ==='+typeof __decl);
+    }
+    
+    
+    var __decl = 1;
+    
+    
+    if (__decl !== 1) {
+    	throw new Test262Error('#2: __decl === 1. Actual: __decl ==='+__decl);
+    }
+    
+    
+    function __decl(){return 1;}
+})();

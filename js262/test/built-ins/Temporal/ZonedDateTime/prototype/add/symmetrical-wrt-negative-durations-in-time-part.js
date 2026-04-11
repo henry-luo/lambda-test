@@ -1,0 +1,18 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.add
+description: Results are symmetrical with regard to negative durations in the time part.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const jan31 = new Temporal.ZonedDateTime(1580511600000000000n, "-08:00");
+
+const expected1 = new Temporal.ZonedDateTime(1580509800000000000n, "-08:00");
+
+const expected2 = new Temporal.ZonedDateTime(1580511570000000000n, "-08:00");
+
+TemporalHelpers.assertZonedDateTimesEqual(jan31.add({ minutes: -30 }), expected1);
+TemporalHelpers.assertZonedDateTimesEqual(jan31.add({ seconds: -30 }), expected2);

@@ -1,0 +1,26 @@
+
+
+/*---
+includes: [deepEqual.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+function TestStringIteratorPrototypeConfusion() {
+    var iter = ""[Symbol.iterator]();
+    assert.throws(
+        TypeError,
+        () => iter.next.call(Object.getPrototypeOf(iter)),
+        "next method called on incompatible String Iterator");
+}
+TestStringIteratorPrototypeConfusion();
+
+
+function TestStringIteratorWrappers() {
+    var iter = ""[Symbol.iterator]();
+    assert.deepEqual(iter.next.call($262.createRealm().global.eval('"x"[Symbol.iterator]()')),
+		 { value: "x", done: false })
+}
+TestStringIteratorWrappers();

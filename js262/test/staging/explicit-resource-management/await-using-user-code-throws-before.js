@@ -1,0 +1,25 @@
+
+
+/*---
+description: Test exception handling when user code throws.
+includes: [asyncHelpers.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+
+asyncTest(async function() {
+  async function TestUserCodeThrowsBeforeUsingStatements() {
+    throw new Test262Error('User code is throwing!');
+    await using x = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        return 42;
+      }
+    };
+  };
+
+  await assert.throwsAsync(
+      Test262Error, () => TestUserCodeThrowsBeforeUsingStatements(),
+      'User code is throwing!')
+});

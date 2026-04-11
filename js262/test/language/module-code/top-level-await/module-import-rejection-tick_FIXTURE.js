@@ -1,0 +1,11 @@
+
+
+export default 42;
+
+await Promise.resolve().then(() => {
+  
+  return Promise.reject(new RangeError());
+});
+
+var rejection = Promise.reject(new TypeError());
+await rejection;

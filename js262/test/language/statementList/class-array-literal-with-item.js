@@ -1,0 +1,39 @@
+
+
+/*---
+description: Array Literal with items (Valid syntax of StatementList starting with a Class Declaration)
+esid: prod-StatementList
+features: [class]
+flags: [generated]
+info: |
+    StatementList:
+      StatementListItem
+      StatementList StatementListItem
+
+    StatementListItem:
+      Statement
+      Declaration
+
+    Declaration:
+      ClassDeclaration
+
+
+    Statement:
+      BlockStatement
+      VariableStatement
+      EmptyStatement
+      ExpressionStatement
+      ...
+
+    ExpressionStatement:
+      [lookahead ∉ { {, function, async [no LineTerminator here] function, class, let [ }]
+        Expression ;
+
+    ArrayLiteral[Yield, Await]:
+      [ Elision_opt ]
+      [ ElementList ]
+      [ ElementList , Elision_opt ]
+---*/
+
+
+class C {}[42];

@@ -1,0 +1,15 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+var a = [0, 1];
+var iterations = 0;
+for (var k in a) {
+  iterations++;
+  a.length = 1;
+}
+assert.sameValue(iterations, 1);
+

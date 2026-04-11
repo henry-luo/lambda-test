@@ -1,0 +1,15 @@
+
+
+/*---
+info: |
+    The production Assertion :: \b evaluates by returning an internal
+    AssertionTester closure that takes a State argument x and performs the ...
+es5id: 15.10.2.6_A3_T5
+description: >
+    Execute /so\b/.test("pilot\nsoviet robot\topenoffice") and check
+    results
+---*/
+
+var __executed = /so\b/.test("pilot\nsoviet robot\topenoffice");
+
+assert(!__executed, 'The value of !__executed is expected to be true');

@@ -1,0 +1,43 @@
+
+
+/*---
+info: If ToBoolean(x) is true, return x
+es5id: 11.11.2_A4_T1
+description: >
+    Type(x) and Type(y) vary between primitive boolean and Boolean
+    object
+---*/
+
+
+if (((true || true)) !== true) {
+  throw new Test262Error('#1: (true || true) === true');
+}
+
+
+if ((true || false) !== true) {
+  throw new Test262Error('#2: (true || false) === true');
+}
+
+
+var x = new Boolean(true);
+if ((x || new Boolean(true)) !== x) {
+  throw new Test262Error('#3: (var x = new Boolean(true); (x || new Boolean(true)) === x');
+}
+
+
+var x = new Boolean(true);
+if ((x || new Boolean(false)) !== x) {
+  throw new Test262Error('#4: (var x = new Boolean(true); (x || new Boolean(false)) === x');
+}
+
+
+var x = new Boolean(false);
+if ((x || new Boolean(true)) !== x) {
+  throw new Test262Error('#5: (var x = new Boolean(false); (x || new Boolean(true)) === x');
+}
+
+
+var x = new Boolean(false);
+if ((x || new Boolean(false)) !== x) {
+  throw new Test262Error('#6: (var x = new Boolean(false); (x || new Boolean(false)) === x');
+}

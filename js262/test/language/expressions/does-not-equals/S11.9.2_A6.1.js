@@ -1,0 +1,37 @@
+
+
+/*---
+info: If Type(x) as well as Type(y) is Undefined or Null, return true
+es5id: 11.9.2_A6.1
+description: Checking all combinations
+---*/
+
+
+if ((undefined != undefined) !== false) {
+  throw new Test262Error('#1: (undefined != undefined) === false');
+}
+
+
+if ((void 0 != undefined) !== false) {
+  throw new Test262Error('#2: (void 0 != undefined) === false');
+}
+
+
+if ((undefined != eval("var x")) !== false) {
+  throw new Test262Error('#3: (undefined != eval("var x")) === false');
+}
+
+
+if ((undefined != null) !== false) {
+  throw new Test262Error('#4: (undefined != null) === false');
+}
+
+
+if ((null != void 0) !== false) {
+  throw new Test262Error('#5: (null != void 0) === false');
+}
+
+
+if ((null != null) !== false) {
+  throw new Test262Error('#6: (null != null) === false');
+}

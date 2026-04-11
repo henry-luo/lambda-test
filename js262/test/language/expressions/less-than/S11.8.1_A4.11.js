@@ -1,0 +1,48 @@
+
+
+/*---
+info: If x is a prefix of y and x !== y, return true
+es5id: 11.8.1_A4.11
+description: x and y are string primitives
+---*/
+
+
+if (("x" < "x ") !== true) {
+  throw new Test262Error('#1: ("x" < "x ") === true');
+}
+
+
+if (("" < "x") !== true) {
+  throw new Test262Error('#2: ("" < "x") === true');
+}
+
+
+if (("ab" < "abcd") !== true) {
+  throw new Test262Error('#3: ("ab" < abcd") === true');
+}
+
+
+if (("abcd" < "abc\u0064") !== false) {
+  throw new Test262Error('#4: ("abcd" < abc\\u0064") === false');
+}
+
+
+if (("x" < "x" + "y") !== true) {
+  throw new Test262Error('#5: ("x" < "x" + "y") === true');
+}
+
+
+var x = "x";
+if ((x < x + "y") !== true) {
+  throw new Test262Error('#6: var x = "x"; (x < x + "y") === true');
+}
+
+
+if (("a\u0000" < "a\u0000a") !== true) {
+  throw new Test262Error('#7: ("a\\u0000" < "a\\u0000a") === true');
+}
+
+
+if (("x" < " x") !== false) {
+  throw new Test262Error('#8: ("x" < " x") === false');
+}

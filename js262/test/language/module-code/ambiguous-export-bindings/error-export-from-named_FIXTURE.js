@@ -1,0 +1,4 @@
+
+
+export * from './error-export-from-named-1_FIXTURE.js';
+export * from './error-export-from-named-2_FIXTURE.js';

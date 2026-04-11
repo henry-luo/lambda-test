@@ -1,0 +1,17 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+class A {
+  #x = 14;
+  g() {
+    return eval('this.#x');
+  }
+}
+
+var a = new A;
+assert.sameValue(a.g(), 14);

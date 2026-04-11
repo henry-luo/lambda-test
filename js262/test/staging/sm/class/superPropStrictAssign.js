@@ -1,0 +1,27 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+
+Object.defineProperty(Object.prototype, "prop", { writable: false });
+
+class strictAssignmentTest {
+    constructor() {
+        
+        super.prop = 14;
+    }
+}
+
+assert.throws(TypeError, ()=>new strictAssignmentTest());
+
+
+({ test() { super.prop = 14; } }).test();
+
+assert.sameValue(Object.prototype.prop, undefined);
+

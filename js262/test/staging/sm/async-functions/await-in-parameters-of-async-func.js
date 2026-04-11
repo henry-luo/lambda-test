@@ -1,0 +1,50 @@
+
+
+/*---
+description: |
+  error for incomplete await expr in async function/generator parameter
+info: bugzilla.mozilla.org/show_bug.cgi?id=1478910
+esid: pending
+---*/
+
+test();
+
+function test()
+{
+  let testAwaitInDefaultExprOfAsyncFunc = (code) => {
+    assert.throws(SyntaxError, () => eval(code), "await expression can't be used in parameter");
+  };
+
+  let testNoException = (code) => {
+    eval(code);
+  };
+
+  
+  testAwaitInDefaultExprOfAsyncFunc("async function* f(a = await) {}");
+  testAwaitInDefaultExprOfAsyncFunc("let f = async function*(a = await) {}");
+
+  testAwaitInDefaultExprOfAsyncFunc("function f(a = async function*(a = await) {}) {}");
+  testAwaitInDefaultExprOfAsyncFunc("function f() { a = async function*(a = await) {}; }");
+
+  testAwaitInDefaultExprOfAsyncFunc("async function* f() { a = async function*(a = await) {}; }");
+  testNoException("async function* f() { let a = function(a = await) {}; }");
+
+  testNoException("async function* f(a = async function*() { await 1; }) {}");
+
+  
+  testAwaitInDefaultExprOfAsyncFunc("async function f(a = await) {}");
+  testAwaitInDefaultExprOfAsyncFunc("let f = async function(a = await) {}");
+
+  testAwaitInDefaultExprOfAsyncFunc("function f(a = async function(a = await) {}) {}");
+  testAwaitInDefaultExprOfAsyncFunc("function f() { a = async function(a = await) {}; }");
+
+  testAwaitInDefaultExprOfAsyncFunc("async function f() { a = async function(a = await) {}; }");
+  testNoException("async function f() { let a = function(a = await) {}; }");
+
+  testNoException("async function f(a = async function() { await 1; }) {}");
+
+  
+  testAwaitInDefaultExprOfAsyncFunc("async (a = await) => {}");
+
+  testNoException("async (a = async () => { await 1; }) => {}");
+}

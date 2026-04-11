@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-function.prototype.tostring
+description: Function.prototype.toString on an async generator method
+features: [async-iteration]
+includes: [nativeFunctionMatcher.js]
+---*/
+
+let x = "h";
+let f = class { async  *  f  (  )  {  } }.prototype.f;
+let g = class { async  *  [  "g"  ]  (  )  {  } }.prototype.g;
+let h = class { async  *  [  x  ]  (  )  {  } }.prototype.h;
+
+assertToStringOrNativeFunction(f, "async /* a */ * /* b */ f /* c */ ( /* d */ ) /* e */ { /* f */ }");
+assertToStringOrNativeFunction(g, "async /* a */ * /* b */ [ /* c */ \"g\" /* d */ ] /* e */ ( /* f */ ) /* g */ { /* h */ }");
+assertToStringOrNativeFunction(h, "async /* a */ * /* b */ [ /* c */ x /* d */ ] /* e */ ( /* f */ ) /* g */ { /* h */ }");

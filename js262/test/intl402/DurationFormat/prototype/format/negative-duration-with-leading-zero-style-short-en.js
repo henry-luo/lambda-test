@@ -1,0 +1,27 @@
+
+
+/*---
+esid: sec-Intl.DurationFormat.prototype.format
+description: >
+  Test format method with negative duration and leading zero using the "short" style.
+locale: [en-US]
+includes: [testIntl.js]
+features: [Intl.DurationFormat]
+---*/
+
+const style = "short";
+
+const duration = {
+  hours: 0,
+  seconds: -1,
+};
+
+const df = new Intl.DurationFormat("en", {style, hoursDisplay: "always"});
+
+const expected = formatDurationFormatPattern(df, duration);
+
+assert.sameValue(
+  df.format(duration),
+  expected,
+  `DurationFormat format output using ${style} style option`
+);

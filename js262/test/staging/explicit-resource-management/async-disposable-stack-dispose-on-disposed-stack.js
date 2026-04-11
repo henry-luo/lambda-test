@@ -1,0 +1,40 @@
+
+
+/*---
+description: |
+  Call disposeAsync() on a disposed AsyncDisposableStack.
+includes: [asyncHelpers.js, compareArray.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+asyncTest(async function() {
+  let valuesNormal = [];
+
+  async function TestAsyncDisposableStackUseDisposingTwice() {
+    let stack = new AsyncDisposableStack();
+    const firstDisposable = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        valuesNormal.push(42);
+      }
+    };
+    const secondDisposable = {
+      value: 2,
+      [Symbol.asyncDispose]() {
+        valuesNormal.push(43);
+      }
+    };
+    stack.use(firstDisposable);
+    stack.use(secondDisposable);
+    let newStack = stack.move();
+    await newStack.disposeAsync();
+    assert.sameValue(newStack.disposed, true, 'disposed should be true');
+    
+    await newStack.disposeAsync();
+  };
+
+  await TestAsyncDisposableStackUseDisposingTwice();
+
+  assert.compareArray(valuesNormal, [43, 42]);
+});

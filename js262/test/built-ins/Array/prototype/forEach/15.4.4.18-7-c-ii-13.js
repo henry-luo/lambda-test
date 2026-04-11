@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-array.prototype.foreach
+description: Array.prototype.forEach - callbackfn that uses arguments
+---*/
+
+var result = false;
+
+function callbackfn() {
+  result = (arguments[2][arguments[1]] === arguments[0]);
+}
+
+[11].forEach(callbackfn);
+
+assert(result, 'result !== true');

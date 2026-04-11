@@ -1,0 +1,21 @@
+
+
+/*---
+description: An ArrayAssignmentPattern without an AssignmentElementList requires iterable values and throws for Symbol values. (AssignmentExpression)
+esid: sec-variable-statement-runtime-semantics-evaluation
+features: [Symbol, destructuring-binding]
+flags: [generated]
+info: |
+    VariableDeclaration : BindingPattern Initializer
+
+    1. Let rhs be the result of evaluating Initializer.
+    2. Let rval be GetValue(rhs).
+    3. ReturnIfAbrupt(rval).
+    4. Return the result of performing BindingInitialization for
+       BindingPattern passing rval and undefined as arguments.
+---*/
+var s = Symbol();
+
+assert.throws(TypeError, function() {
+  0, [] = s;
+});

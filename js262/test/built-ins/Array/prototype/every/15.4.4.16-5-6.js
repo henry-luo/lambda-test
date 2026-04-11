@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-array.prototype.every
+description: Array.prototype.every - thisArg is function
+---*/
+
+var res = false;
+
+function callbackfn(val, idx, obj)
+{
+  return this.res;
+}
+
+function foo() {}
+foo.res = true;
+var arr = [1];
+
+assert.sameValue(arr.every(callbackfn, foo), true, 'arr.every(callbackfn,foo)');

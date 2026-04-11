@@ -1,0 +1,28 @@
+
+
+/*---
+info: Applaing negation to boolean works well
+es5id: 8.3_A3
+description: Check not false equals true, not true equals false
+---*/
+
+
+if (!false !== true){
+  throw new Test262Error('#1: !false === true');
+}
+
+
+if (!false != true){
+  throw new Test262Error('#2: !false == true');
+}
+
+
+if (!true !== false){
+  throw new Test262Error('#3: !true === false');
+}
+
+
+if (!true != false){
+  throw new Test262Error('#4: !true == false');
+}
+

@@ -1,0 +1,25 @@
+
+
+/*---
+esid: sec-patterns
+es6id: 21.2.1
+description: Braced quantifier in an Atom position (exact count)
+info: |
+    SyntaxCharacter :: one of
+        ^$\.*+?()[]{}|
+
+    PatternCharacter ::
+        SourceCharacter but not SyntaxCharacter
+
+    Although Annex B extends the definition of Term to include
+    ExtendedPatternCharacter, it also introduces the InvalidBracedQuantifier
+    pattern with a higher precedence. This makes the SyntaxError for such
+    patterns consistent between Annex-B and non-Annex-B environments.
+negative:
+  phase: parse
+  type: SyntaxError
+---*/
+
+$DONOTEVALUATE();
+
+/{2}/;

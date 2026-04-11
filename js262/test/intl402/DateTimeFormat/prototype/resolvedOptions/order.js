@@ -1,0 +1,46 @@
+
+
+/*---
+esid: sec-intl.datetimeformat.prototype.resolvedoptions
+description: Verifies the property order for the object returned by resolvedOptions().
+---*/
+
+const options = new Intl.DateTimeFormat([], {
+  "hourCycle": "h24",
+  "weekday": "short",
+  "era": "short",
+  "year": "numeric",
+  "month": "numeric",
+  "day": "numeric",
+  "hour": "numeric",
+  "minute": "numeric",
+  "second": "numeric",
+  "timeZoneName": "short",
+}).resolvedOptions();
+
+const expected = [
+  "locale",
+  "calendar",
+  "numberingSystem",
+  "timeZone",
+  "hourCycle",
+  "hour12",
+  "weekday",
+  "era",
+  "year",
+  "month",
+  "day",
+  "hour",
+  "minute",
+  "second",
+  "timeZoneName",
+];
+
+let actual = Object.getOwnPropertyNames(options);
+
+
+assert(actual.indexOf("locale") > -1, "\"locale\" is present");
+for (var i = 1; i < expected.length; i++) {
+  
+  assert(actual.indexOf(expected[i-1]) < actual.indexOf(expected[i]), `"${expected[i-1]}" precedes "${expected[i]}"`);
+}

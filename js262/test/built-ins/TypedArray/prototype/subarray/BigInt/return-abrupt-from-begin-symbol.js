@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.subarray
+description: Return abrupt from ToInteger(begin), begin is symbol
+info: |
+  22.2.3.27 %TypedArray%.prototype.subarray( begin , end )
+
+  ...
+  7. Let relativeBegin be ? ToInteger(begin).
+  ...
+includes: [testTypedArray.js]
+features: [BigInt, Symbol, TypedArray]
+---*/
+
+var s = Symbol("1");
+
+testWithBigIntTypedArrayConstructors(function(TA) {
+  var sample = new TA();
+
+  assert.throws(TypeError, function() {
+    sample.subarray(s);
+  });
+}, null, ["passthrough"]);

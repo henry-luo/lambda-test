@@ -1,0 +1,13 @@
+
+
+/*---
+esid: sec-get-temporal.duration.prototype.years
+description: Basic functionality
+features: [Temporal]
+---*/
+
+const instance = new Temporal.Duration(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+assert.sameValue(instance.years, 1);
+
+const negInstance = new Temporal.Duration(-1, -2, -3, -4, -5, -6, -7, -8, -9, -10);
+assert.sameValue(negInstance.years, -1);

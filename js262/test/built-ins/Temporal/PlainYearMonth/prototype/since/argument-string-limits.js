@@ -1,0 +1,40 @@
+
+
+/*---
+esid: sec-temporal.plainyearmonth.prototype.since
+description: ISO strings at the edges of the representable range
+features: [Temporal]
+---*/
+
+const instance = new Temporal.PlainYearMonth(1970, 1);
+
+
+const validStrings = [
+  "-271821-05",
+  "-271821-05-01",
+  "-271821-05-01T00:00",
+  "+275760-09",
+  "+275760-09-30",
+  "+275760-09-30T23:59:59.999999999",
+];
+
+for (const arg of validStrings) {
+  instance.since(arg);
+}
+
+const invalidStrings = [
+  "-271821-04",
+  "-271821-04-30",
+  "-271821-04-30T23:59:59.999999999",
+  "+275760-10",
+  "+275760-10-01",
+  "+275760-10-01T00:00",
+];
+
+for (const arg of invalidStrings) {
+  assert.throws(
+    RangeError,
+    () => instance.since(arg),
+    `"${arg}" is outside the representable range of PlainYearMonth`
+  );
+}

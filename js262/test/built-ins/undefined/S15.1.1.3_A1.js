@@ -1,0 +1,22 @@
+
+
+/*---
+info: The initial value of undefined is undefined
+esid: sec-undefined
+description: Use typeof, isNaN, isFinite
+---*/
+
+
+if (typeof(undefined) !== "undefined") {
+  throw new Test262Error('#1: typeof(undefined) === "undefined". Actual: ' + (typeof(undefined)));
+}
+
+
+if (undefined !== void 0) {
+  throw new Test262Error('#2: undefined === void 0. Actual: ' + (undefined));
+}
+
+
+if (undefined !== eval("var x")) {
+  throw new Test262Error('#3: undefined === eval("var x"). Actual: ' + (undefined));
+}

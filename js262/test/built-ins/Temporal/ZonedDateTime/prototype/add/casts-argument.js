@@ -1,0 +1,15 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.add
+description: Casts argument to Duration.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const zdt = new Temporal.ZonedDateTime(-560174321098766n, "UTC")
+
+const expected = new Temporal.ZonedDateTime(303825678902034n, "UTC");
+
+TemporalHelpers.assertZonedDateTimesEqual(zdt.add("PT240H0.000000800S"), expected);

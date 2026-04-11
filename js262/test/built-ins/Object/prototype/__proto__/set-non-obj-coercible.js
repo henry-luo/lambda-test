@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-object.prototype.__proto__
+es6id: B.2.2.1
+description: Called on a value that is not object-coercible
+info: |
+    1. Let O be ? RequireObjectCoercible(this value).
+features: [__proto__]
+---*/
+
+var set = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+
+assert.sameValue(typeof set, 'function');
+
+assert.throws(TypeError, function() {
+  set.call(undefined);
+});
+
+assert.throws(TypeError, function() {
+  set.call(null);
+});

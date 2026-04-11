@@ -1,0 +1,33 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.withcalendar
+description: A time string is valid input for Calendar
+features: [Temporal]
+---*/
+
+const instance = Temporal.ZonedDateTime.from({ year: 1976, month: 11, day: 18, hour: 12, minute: 34, timeZone: "UTC"});
+
+const calendars = [
+  "buddhist",
+  "chinese",
+  "coptic",
+  "dangi",
+  "ethioaa",
+  "ethiopic",
+  "gregory",
+  "hebrew",
+  "indian",
+  "islamic-civil",
+  "islamic-tbla",
+  "islamic-umalqura",
+  "japanese",
+  "persian",
+  "roc",
+]
+
+calendars.forEach((cal) => {
+  const str = `T11:30[u-ca=${cal}]`;
+  const result = instance.withCalendar(str);
+  assert.sameValue(result.calendarId, cal, `Calendar created from string "${str}"`);
+});

@@ -1,0 +1,15 @@
+
+
+/*---
+es5id: 15.2.3.3-4-111
+description: >
+    Object.getOwnPropertyDescriptor returns data desc for functions on
+    built-ins (Math.sin)
+---*/
+
+var desc = Object.getOwnPropertyDescriptor(Math, "sin");
+
+assert.sameValue(desc.value, Math.sin, 'desc.value');
+assert.sameValue(desc.writable, true, 'desc.writable');
+assert.sameValue(desc.enumerable, false, 'desc.enumerable');
+assert.sameValue(desc.configurable, true, 'desc.configurable');

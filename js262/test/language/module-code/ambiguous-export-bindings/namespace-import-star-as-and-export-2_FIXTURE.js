@@ -1,0 +1,4 @@
+
+
+import * as foo from "./namespace-empty-module_FIXTURE.js";
+export { foo };

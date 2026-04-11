@@ -1,0 +1,24 @@
+
+
+/*---
+info: The parseFloat property has the attribute DontEnum
+esid: sec-parsefloat-string
+description: Checking use propertyIsEnumerable, for-in
+---*/
+
+
+if (this.propertyIsEnumerable('parseFloat') !== false) {
+  throw new Test262Error('#1:this.propertyIsEnumerable(\'parseFloat\') === false. Actual: ' + (this.propertyIsEnumerable('parseFloat')));
+}
+
+
+var result = true;
+for (var p in this) {
+  if (p === "parseFloat") {
+    result = false;
+  }
+}
+
+if (result !== true) {
+  throw new Test262Error('#2: result = true; for (p in this) { if (p === "parseFloat") result = false; }  result === true;');
+}

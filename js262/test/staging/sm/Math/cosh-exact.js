@@ -1,0 +1,23 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+assert.sameValue(Math.cosh(NaN), NaN);
+
+
+assert.sameValue(Math.cosh(+0), 1);
+
+
+assert.sameValue(Math.cosh(-0), 1);
+
+
+assert.sameValue(Math.cosh(Infinity), Infinity);
+
+
+assert.sameValue(Math.cosh(-Infinity), Infinity);
+

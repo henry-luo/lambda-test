@@ -1,0 +1,17 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+var re = /(\2(a)){2}/;
+var str = 'aaa';
+var actual = re.exec(str);
+
+assert.compareArray(actual, ['aa', 'a', 'a']);
+assert.sameValue(actual.index, 0);
+assert.sameValue(actual.input, str);

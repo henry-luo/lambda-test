@@ -1,0 +1,31 @@
+
+
+/*---
+info: |
+    If Type(Primitive(x)) is not String and Type(Primitive(y)) is not String,
+    then operator x + y returns ToNumber(x) + ToNumber(y)
+es5id: 11.6.1_A3.1_T1.3
+description: >
+    Type(Primitive(x)) and Type(Primitive(y)) vary between Null and
+    Undefined
+---*/
+
+
+if (isNaN(null + undefined) !== true) {
+  throw new Test262Error('#1: null + undefined === Not-a-Number. Actual: ' + (null + undefined));
+}
+
+
+if (isNaN(undefined + null) !== true) {
+  throw new Test262Error('#2: undefined + null === Not-a-Number. Actual: ' + (undefined + null));
+}
+
+
+if (isNaN(undefined + undefined) !== true) {
+  throw new Test262Error('#3: undefined + undefined === Not-a-Number. Actual: ' + (undefined + undefined));
+}
+
+
+if (null + null !== 0) {
+  throw new Test262Error('#4: null + null === 0. Actual: ' + (null + null));
+}

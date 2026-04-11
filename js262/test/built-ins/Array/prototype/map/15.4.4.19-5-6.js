@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-array.prototype.map
+description: Array.prototype.map - thisArg is function
+---*/
+
+var res = false;
+
+function callbackfn(val, idx, obj)
+{
+  return this.res;
+}
+
+function foo() {}
+foo.res = true;
+
+var srcArr = [1];
+var resArr = srcArr.map(callbackfn, foo);
+
+assert.sameValue(resArr[0], true, 'resArr[0]');

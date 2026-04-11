@@ -1,0 +1,23 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime
+description: ZonedDateTime constructor accepts link names as time zone ID input
+features: [Temporal, canonical-tz]
+---*/
+
+const testCases = [
+  "Africa/Asmera",  
+  "America/Kralendijk",  
+  "America/Lower_Princes",  
+  "America/Marigot",  
+  "America/St_Barthelemy",  
+  "America/Virgin",  
+  "Antarctica/South_Pole",  
+  "Asia/Chungking",  
+];
+
+for (let id of testCases) {
+  const instance = new Temporal.ZonedDateTime(0n, id);
+  assert.sameValue(instance.timeZoneId, id);
+}

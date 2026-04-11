@@ -1,0 +1,42 @@
+
+
+/*---
+info: 1. Evaluate Expression
+es5id: 12.13_A3_T1
+description: Evaluating boolean expression
+---*/
+
+
+var b=true;
+try{
+  throw b&&false;
+}
+catch(e){
+  if (e!==false) throw new Test262Error('#1: Exception === false(operaton &&). Actual:  Exception ==='+ e );
+}
+
+
+var b=true;
+try{
+  throw b||false;
+}
+catch(e){
+  if (e!==true) throw new Test262Error('#2: Exception === true(operaton ||). Actual:  Exception ==='+ e );
+}
+
+
+try{
+  throw !false;
+}
+catch(e){
+  if (e!==true) throw new Test262Error('#3: Exception === true(operaton !). Actual:  Exception ==='+ e );
+}
+
+
+var b=true;
+try{
+  throw !(b&&false);
+}
+catch(e){
+  if (e!==true) throw new Test262Error('#4: Exception === true(operaton &&). Actual:  Exception ==='+ e );
+}

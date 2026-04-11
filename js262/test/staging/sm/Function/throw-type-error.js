@@ -1,0 +1,20 @@
+
+
+/*---
+includes: [propertyHelper.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+const ThrowTypeError = function(){
+    "use strict";
+    return Object.getOwnPropertyDescriptor(arguments, "callee").get;
+}();
+
+verifyProperty(ThrowTypeError, "length", {
+    value: 0, writable: false, enumerable: false, configurable: false
+});
+
+assert.sameValue(Object.isFrozen(ThrowTypeError), true);

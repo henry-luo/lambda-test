@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-method-definitions-runtime-semantics-propertydefinitionevaluation
+description: Function.prototype.toString on a setter (class)
+includes: [nativeFunctionMatcher.js]
+---*/
+
+let x = "h";
+let f = Object.getOwnPropertyDescriptor(class { set  f  (  a  )  {  } }.prototype, "f").set;
+let g = Object.getOwnPropertyDescriptor(class { set  [  "g"  ]  (  a  )  {  } }.prototype, "g").set;
+let h = Object.getOwnPropertyDescriptor(class { set  [  x  ]  (  a  )  {  } }.prototype, "h").set;
+
+assertToStringOrNativeFunction(f, "set /* a */ f /* b */ ( /* c */ a /* d */ ) /* e */ { /* f */ }");
+assertToStringOrNativeFunction(g, "set /* a */ [ /* b */ \"g\" /* c */ ] /* d */ ( /* e */ a /* f */ ) /* g */ { /* h */ }");
+assertToStringOrNativeFunction(h, "set /* a */ [ /* b */ x /* c */ ] /* d */ ( /* e */ a /* f */ ) /* g */ { /* h */ }");

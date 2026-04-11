@@ -1,0 +1,58 @@
+
+
+/*---
+info: |
+    Global object has properties such as built-in objects such as
+    Math, String, Date, parseInt, etc
+es5id: 10.2.3_A1.2_T2
+description: Function execution context - Function Properties
+---*/
+
+function test() {
+  
+  if (eval === null) {
+    throw new Test262Error("#4: eval === null");
+  }
+
+  
+  if (parseInt === null) {
+    throw new Test262Error("#5: parseInt === null");
+  }
+
+  
+  if (parseFloat === null) {
+    throw new Test262Error("#6: parseFloat === null");
+  }
+
+  
+  if (isNaN === null) {
+    throw new Test262Error("#7: isNaN === null");
+  }
+
+  
+  if (isFinite === null) {
+    throw new Test262Error("#8: isFinite === null");
+  }
+
+  
+  if (decodeURI === null) {
+    throw new Test262Error("#9: decodeURI === null");
+  }
+
+  
+  if (decodeURIComponent === null) {
+    throw new Test262Error("#10: decodeURIComponent === null");
+  }
+
+  
+  if (encodeURI === null) {
+    throw new Test262Error("#11: encodeURI === null");
+  }
+
+  
+  if (encodeURIComponent === null) {
+    throw new Test262Error("#12: encodeURIComponent === null");
+  }
+}
+
+test();

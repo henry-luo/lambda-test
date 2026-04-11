@@ -1,0 +1,24 @@
+
+
+/*---
+description: >
+    The assertion fails when invoked without arguments.
+---*/
+
+var threw = false;
+
+try {
+  assert.throws();
+} catch(err) {
+  threw = true;
+  if (err.constructor !== Test262Error) {
+    throw new Error(
+      'Expected a Test262Error, but a "' + err.constructor.name +
+      '" was thrown.'
+    );
+  }
+}
+
+if (threw === false) {
+  throw new Error('Expected a Test262Error, but no error was thrown.');
+}

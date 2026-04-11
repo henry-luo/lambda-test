@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.total
+description: Negative zero, as an extended year, is rejected
+features: [Temporal, arrow-function]
+---*/
+
+const instance = new Temporal.Duration(1, 0, 0, 0, 24);
+
+let relativeTo = "-000000-11-04T00:00";
+assert.throws(
+  RangeError,
+  () => { instance.total({ unit: "days", relativeTo }); },
+  "reject minus zero as extended year"
+);

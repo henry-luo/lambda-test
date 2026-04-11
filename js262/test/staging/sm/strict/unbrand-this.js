@@ -1,0 +1,27 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+function strict() {
+  "use strict";
+  this.insert = function(){ bar(); };
+  function bar() {}
+}
+
+
+assert.throws(TypeError, function() {
+  strict.call(undefined);
+});
+
+
+assert.throws(TypeError, function() {
+  strict.call(null);
+});
+
+
+strict.call({});

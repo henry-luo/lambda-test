@@ -1,0 +1,64 @@
+
+
+/*---
+info: Let reservedURIComponentSet be the empty string
+esid: sec-decodeuricomponent-encodeduricomponent
+description: >
+    uriReserved and "#" not in reservedURIComponentSet. HexDigit in
+    [0..9, a..f]
+---*/
+
+
+if (decodeURIComponent("%3b") !== ";") {
+  throw new Test262Error('#1: decodeURIComponent("%3b") equal ";", not "%3B" or "%3b"');
+}
+
+
+if (decodeURIComponent("%2f") !== "/") {
+  throw new Test262Error('#2: decodeURIComponent("%2f") equal "/", not "%2F" or "%2f"');
+}
+
+
+if (decodeURIComponent("%3f") !== "?") {
+  throw new Test262Error('#3: decodeURIComponent("%3f") equal "?", not "%3F" or "%3f"');
+}
+
+
+if (decodeURIComponent("%3a") !== ":") {
+  throw new Test262Error('#4: decodeURIComponent("%3a") equal ":", not "%3A" or "%3a"');
+}
+
+
+if (decodeURIComponent("%40") !== "@") {
+  throw new Test262Error('#5: decodeURIComponent("%40") equal "@", not "%40"');
+}
+
+
+if (decodeURIComponent("%26") !== "&") {
+  throw new Test262Error('#6: decodeURIComponent("%26") equal "&", not "%26"');
+}
+
+
+if (decodeURIComponent("%3d") !== "=") {
+  throw new Test262Error('#7.1: decodeURIComponent("%3d") equal "=", not "%3D" or "%3d"');
+}
+
+
+if (decodeURIComponent("%2b") !== "+") {
+  throw new Test262Error('#8.1: decodeURIComponent("%2b") equal "+", not "%2B" or "%2b"');
+}
+
+
+if (decodeURIComponent("%24") !== "$") {
+  throw new Test262Error('#9: decodeURIComponent("%24") equal "$", not "%24"');
+}
+
+
+if (decodeURIComponent("%2c") !== ",") {
+  throw new Test262Error('#10: decodeURIComponent("%2c") equal ",", not "%2C" or "%2c"');
+}
+
+
+if (decodeURIComponent("%23") !== "#") {
+  throw new Test262Error('#11: decodeURIComponent("%23") equal "#", not "%23"');
+}

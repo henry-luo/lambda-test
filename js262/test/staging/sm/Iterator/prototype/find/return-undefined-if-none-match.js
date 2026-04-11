@@ -1,0 +1,19 @@
+
+
+/*---
+features:
+  - iterator-helpers
+info: |
+  Iterator is not enabled unconditionally
+description: |
+  pending
+esid: pending
+---*/
+
+const iter = [1, 3, 5].values();
+const fn = (value) => value % 2 == 0;
+
+assert.sameValue(iter.find(fn), undefined);
+
+assert.sameValue([].values().find(x => x), undefined);
+

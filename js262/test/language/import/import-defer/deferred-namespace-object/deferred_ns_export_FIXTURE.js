@@ -1,0 +1,8 @@
+
+
+import "./setup_FIXTURE.js";
+import defer * as ns from "./dep2_FIXTURE.js";
+
+globalThis.evaluations.push("reexport");
+
+export { ns };

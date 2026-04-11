@@ -1,0 +1,38 @@
+
+
+/*---
+esid: prod-NumericLiteralSeparator
+description: >
+  `0b` | `0B` BinaryDigits NumericLiteralSeparator BinaryDigit
+info: |
+  NumericLiteral ::
+    DecimalIntegerLiteral BigIntLiteralSuffix
+    NumericLiteralBase BigIntLiteralSuffix
+
+  NumericLiteralBase ::
+    BinaryIntegerLiteral
+    OctalIntegerLiteral
+    HexIntegerLiteral
+
+  BigIntLiteralSuffix :: n
+
+  NumericLiteralSeparator ::
+    _
+
+  BinaryIntegerLiteral ::
+    0b BinaryDigits
+    0B BinaryDigits
+
+  BinaryDigits ::
+    BinaryDigit
+    BinaryDigits BinaryDigit
+    BinaryDigits NumericLiteralSeparator BinaryDigit
+
+  BinaryDigit :: one of
+    0 1
+
+features: [BigInt, numeric-separator-literal]
+---*/
+
+assert.sameValue(0b01_0n, 0b010n);
+assert.sameValue(0B01_0n, 0B010n);

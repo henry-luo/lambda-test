@@ -1,0 +1,26 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-161
+description: >
+    Object.defineProperties - 'O' is an Array, 'P' is the length
+    property of 'O', the [[Value]] field of 'desc' is less than value
+    of  the length property,  test the [[Writable]] attribute of the
+    length property is set to true at last after deleting properties
+    with large index named if the [[Writable]] field of 'desc' is
+    absent (15.4.5.1 step 3.h)
+---*/
+
+var arr = [0, 1];
+
+Object.defineProperties(arr, {
+  length: {
+    value: 1
+  }
+});
+
+arr.length = 10; 
+
+assert.sameValue(arr.hasOwnProperty("1"), false, 'arr.hasOwnProperty("1")');
+assert.sameValue(arr.length, 10, 'arr.length');
+assert.sameValue(arr[0], 0, 'arr[0]');

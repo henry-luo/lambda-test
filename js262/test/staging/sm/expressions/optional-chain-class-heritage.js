@@ -1,0 +1,15 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var a = {b: null};
+
+class C extends a?.b {}
+
+assert.sameValue(Object.getPrototypeOf(C.prototype), null);
+

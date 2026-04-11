@@ -1,0 +1,44 @@
+
+
+/*---
+includes: [sm/non262-TypedArray-shell.js]
+description: |
+  pending
+esid: pending
+---*/
+
+const originalNumberToLocaleString = Number.prototype.toLocaleString;
+
+const separator = ["", ""].toLocaleString();
+
+
+for (let constructor of typedArrayConstructors) {
+    let typedArray = new constructor(42);
+    $262.detachArrayBuffer(typedArray.buffer);
+    assert.throws(TypeError, () => typedArray.toLocaleString());
+}
+
+
+for (let constructor of typedArrayConstructors) {
+    Number.prototype.toLocaleString = function() {
+        "use strict";
+        if (!detached) {
+            $262.detachArrayBuffer(typedArray.buffer);
+            detached = true;
+        }
+        return this;
+    };
+
+    
+    let detached = false;
+    let typedArray = new constructor(1);
+    assert.sameValue(typedArray.toLocaleString(), "0");
+    assert.sameValue(detached, true);
+
+    
+    detached = false;
+    typedArray = new constructor(2);
+    assert.sameValue(typedArray.toLocaleString(), "0" + separator);
+    assert.sameValue(detached, true);
+}
+Number.prototype.toLocaleString = originalNumberToLocaleString;

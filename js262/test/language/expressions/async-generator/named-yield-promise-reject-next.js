@@ -1,0 +1,42 @@
+
+
+/*---
+description: yield Promise.reject(value) is treated as throw value (Named async generator expression)
+esid: prod-AsyncGeneratorExpression
+features: [async-iteration]
+flags: [generated, async]
+info: |
+    Async Generator Function Definitions
+
+    AsyncGeneratorExpression :
+      async [no LineTerminator here] function * BindingIdentifier ( FormalParameters ) {
+        AsyncGeneratorBody }
+
+---*/
+let error = new Error();
+
+
+var callCount = 0;
+
+var gen = async function *g() {
+  callCount += 1;
+  yield Promise.reject(error);
+  yield "unreachable";
+};
+
+var iter = gen();
+
+iter.next().then(() => {
+  throw new Test262Error("Promise incorrectly resolved.");
+}, rejectValue => {
+  
+  assert.sameValue(rejectValue, error);
+
+  iter.next().then(({done, value}) => {
+    
+    assert.sameValue(done, true, "The value of IteratorResult.done is `true`");
+    assert.sameValue(value, undefined, "The value of IteratorResult.value is `undefined`");
+  }).then($DONE, $DONE);
+}).catch($DONE);
+
+assert.sameValue(callCount, 1);

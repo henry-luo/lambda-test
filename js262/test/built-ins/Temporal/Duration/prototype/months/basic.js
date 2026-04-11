@@ -1,0 +1,13 @@
+
+
+/*---
+esid: sec-get-temporal.duration.prototype.months
+description: Basic functionality
+features: [Temporal]
+---*/
+
+const instance = new Temporal.Duration(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+assert.sameValue(instance.months, 2);
+
+const negInstance = new Temporal.Duration(-1, -2, -3, -4, -5, -6, -7, -8, -9, -10);
+assert.sameValue(negInstance.months, -2);

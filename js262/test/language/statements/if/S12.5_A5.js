@@ -1,0 +1,37 @@
+
+
+/*---
+info: |
+    FunctionDeclaration inside the "if" Expression is evaluated as true and
+    function will not be declarated
+es5id: 12.5_A5
+description: >
+    The "if" Expression is "function __func(){throw
+    "FunctionExpression";}"
+---*/
+
+
+try {
+	__func=__func;
+	throw new Test262Error('#1: "__func=__func" lead to throwing exception');
+} catch (e) {
+	;
+}
+
+
+try {
+	if(function __func(){throw "FunctionExpression";}) (function(){throw "TrueBranch"})(); else (function(){"MissBranch"})();
+} catch (e) {
+	if (e !== "TrueBranch") {
+		throw new Test262Error('#2: Exception ==="TrueBranch". Actual:  Exception ==='+ e);
+	}
+}
+
+
+try {
+	__func=__func;
+	throw new Test262Error('#3: "__func=__func" lead to throwing exception');
+} catch (e) {
+	;
+}
+

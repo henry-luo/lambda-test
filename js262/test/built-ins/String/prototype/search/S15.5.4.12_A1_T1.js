@@ -1,0 +1,17 @@
+
+
+/*---
+info: String.prototype.search (regexp)
+es5id: 15.5.4.12_A1_T1
+description: Argument is true, and instance is object
+---*/
+
+var __instance = new Object(true);
+
+__instance.search = String.prototype.search;
+
+
+if (__instance.search(true) !== 0) {
+  throw new Test262Error('#1: __instance = new Object(true); __instance.search = String.prototype.search;  __instance.search(true) === 0. Actual: ' + __instance.search(true));
+}
+

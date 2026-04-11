@@ -1,0 +1,23 @@
+
+
+/*---
+esid: sec-typedarray.prototype.constructor
+description: >
+  The initial value of Float32Array.prototype.constructor is the Float32Array object.
+info: |
+  The initial value of Float32Array.prototype.constructor is the intrinsic
+  object %Float32Array%.
+
+  17 ECMAScript Standard Built-in Objects:
+    Every other data property described in clauses 18 through 26 and in Annex B.2 has
+    the attributes { [[Writable]]: true, [[Enumerable]]: false, [[Configurable]]: true }
+    unless otherwise specified.
+includes: [propertyHelper.js]
+features: [TypedArray]
+---*/
+
+assert.sameValue(Float32Array.prototype.constructor, Float32Array);
+
+verifyNotEnumerable(Float32Array.prototype, "constructor");
+verifyWritable(Float32Array.prototype, "constructor");
+verifyConfigurable(Float32Array.prototype, "constructor");

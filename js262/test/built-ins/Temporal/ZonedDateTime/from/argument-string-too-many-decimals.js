@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.from
+description: No more than 9 decimal places are allowed
+features: [Temporal]
+---*/
+
+var invalidStrings = [
+  "1970-01-01T00:00:00.1234567891Z[UTC]",
+  "1970-01-01T00:00:00.1234567890Z[UTC]",
+  "1970-01-01T00+00:00:00.0000000000Z[UTC]",
+];
+
+invalidStrings.forEach(function (arg) {
+  assert.throws(
+    RangeError,
+    function() { Temporal.ZonedDateTime.from(arg); },
+    "no more than 9 decimal places are allowed"
+  );
+});

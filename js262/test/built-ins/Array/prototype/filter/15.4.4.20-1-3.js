@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-array.prototype.filter
+description: Array.prototype.filter applied to boolean primitive
+---*/
+
+function callbackfn(val, idx, obj) {
+  return obj instanceof Boolean;
+}
+
+Boolean.prototype[0] = true;
+Boolean.prototype.length = 1;
+
+var newArr = Array.prototype.filter.call(false, callbackfn);
+
+assert.sameValue(newArr[0], true, 'newArr[0]');

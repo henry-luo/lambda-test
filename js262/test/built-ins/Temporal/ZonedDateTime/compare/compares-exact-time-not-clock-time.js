@@ -1,0 +1,15 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.compare
+description: Compares exact time, not clock time.
+features: [Temporal]
+---*/
+
+
+const clockBefore = new Temporal.ZonedDateTime(946711800000000000n, "-08:00");
+const clockAfter = new Temporal.ZonedDateTime(946704600000000000n, "-04:00");
+
+assert.sameValue(Temporal.ZonedDateTime.compare(clockBefore, clockAfter), 1);
+assert.sameValue(Temporal.PlainDateTime.compare(clockBefore.toPlainDateTime(), clockAfter.toPlainDateTime()), -1);
+

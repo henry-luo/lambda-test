@@ -1,0 +1,27 @@
+
+
+/*---
+info: Operator use ToString
+esid: sec-parsefloat-string
+description: Checking for Number object
+---*/
+
+
+if (parseFloat(new Number(-1.1)) !== parseFloat("-1.1")) {
+  throw new Test262Error('#1: parseFloat(new Number(-1.1)) === parseFloat("-1.1"). Actual: ' + (parseFloat(new Number(-1.1))));
+}
+
+
+if (parseFloat(new Number(Infinity)) !== parseFloat("Infinity")) {
+  throw new Test262Error('#2: parseFloat(new Number(Infinity)) === parseFloat("Infinity"). Actual: ' + (parseFloat(new Number(Infinity))));
+}
+
+
+if (String(parseFloat(new Number(NaN))) !== "NaN") {
+  throw new Test262Error('#3: String(parseFloat(new Number(NaN))) === "NaN". Actual: ' + (String(parseFloat(new Number(NaN)))));
+}
+
+
+if (parseFloat(new Number(.01e+2)) !== parseFloat(".01e+2")) {
+  throw new Test262Error('#4: parseFloat(new Number(.01e+2)) === parseFloat(".01e+2"). Actual: ' + (parseFloat(new Number(.01e+2))));
+}

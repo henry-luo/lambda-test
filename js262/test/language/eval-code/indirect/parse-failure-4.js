@@ -1,0 +1,22 @@
+
+
+/*---
+info: |
+    If Result(3).type is not normal, then Result(3).type must be throw.
+    Throw Result(3).value as an exception
+esid: sec-performeval
+es5id: 15.1.2.1_A3.3_T2
+description: Break statement
+---*/
+
+assert.throws(SyntaxError, function() {
+  (0,eval)("break;");
+});
+
+assert.throws(SyntaxError, function() {
+  for (var i = 0; i <= 1; i++) {
+    (0,eval)("break;");
+    throw new Test262Error("First iteration should not complete");
+  }
+  throw new Test262Error("Iteration should not complete");
+});

@@ -1,0 +1,43 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.round
+description: >
+  RoundDuration computes on exact mathematical values.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+{
+  let duration = Temporal.Duration.from({
+    hours: 100_000,
+    nanoseconds: 5,
+  });
+
+  let rounded = duration.round({smallestUnit: "hours", roundingMode: "ceil"});
+
+  
+  TemporalHelpers.assertDuration(
+    rounded,
+    0, 0, 0, 0,
+    100001, 0, 0,
+    0, 0, 0,
+  );
+}
+
+{
+  let duration = Temporal.Duration.from({
+    days: 1000,
+    nanoseconds: 5,
+  });
+
+  let rounded = duration.round({smallestUnit: "days", roundingMode: "ceil"});
+
+  
+  TemporalHelpers.assertDuration(
+    rounded,
+    0, 0, 0, 1001,
+    0, 0, 0,
+    0, 0, 0,
+  );
+}

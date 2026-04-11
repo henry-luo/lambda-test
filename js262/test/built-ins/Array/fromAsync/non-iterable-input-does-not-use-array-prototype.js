@@ -1,0 +1,44 @@
+
+
+/*---
+esid: sec-array.fromasync
+description: Non-iterable input does not use Array.prototype
+includes: [compareArray.js, asyncHelpers.js]
+flags: [async]
+features: [Array.fromAsync]
+---*/
+
+asyncTest(async function () {
+const arrayIterator = [].values();
+const IntrinsicArrayIteratorPrototype =
+Object.getPrototypeOf(arrayIterator);
+const intrinsicArrayIteratorPrototypeNext =
+IntrinsicArrayIteratorPrototype.next;
+
+try {
+
+
+IntrinsicArrayIteratorPrototype.next = function fakeNext () {
+  throw new Test262Error(
+    'This fake next function should not be called; ' +
+    'instead, each element should have been directly accessed.',
+  );
+};
+
+const expected = [ 0, 1, 2 ];
+const input = {
+  length: 3,
+  0: 0,
+  1: 1,
+  2: 2,
+};
+const output = await Array.fromAsync(input);
+assert.compareArray(output, expected);
+}
+
+finally {
+
+IntrinsicArrayIteratorPrototype.next =
+  intrinsicArrayIteratorPrototypeNext;
+}
+});

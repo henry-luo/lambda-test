@@ -1,0 +1,17 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var obj = {
+  exec() {
+    return function(){};
+  }
+};
+
+assert.sameValue(RegExp.prototype.test.call(obj, ""), true);
+

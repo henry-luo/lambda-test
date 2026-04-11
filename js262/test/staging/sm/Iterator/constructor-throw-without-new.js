@@ -1,0 +1,15 @@
+
+
+/*---
+info: |
+  Iterator constructor throws when called without new.
+
+  Iterator is not enabled unconditionally
+features:
+  - iterator-helpers
+description: |
+  pending
+esid: pending
+---*/
+assert.throws(TypeError, () => Iterator());
+

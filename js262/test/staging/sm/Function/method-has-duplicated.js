@@ -1,0 +1,25 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+function f0(a) {
+}
+
+
+assert.throws(SyntaxError, () => eval(`
+({
+  m1(a, a) {
+  }
+});
+`));
+assert.throws(SyntaxError, () => eval(`
+({
+  m2(a, ...a) {
+  }
+});
+`));
+

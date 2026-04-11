@@ -1,0 +1,36 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+function strictThis() { 'use strict'; return this; }
+
+
+function flat(g) {
+    function h() { return g(); }
+    return h;
+}
+assert.sameValue(flat(strictThis)(), undefined);
+
+
+function upvar(f) {
+    function h() {
+        return f(); 
+    }
+    return h();
+}
+assert.sameValue(upvar(strictThis), undefined);
+
+
+var obj = { f: strictThis };
+with (obj) {
+    
+
+    function g() { return f(); }
+    assert.sameValue(g(), obj);
+}
+

@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.valueof
+description: >
+  Temporal.Duration.prototype.valueOf does not implement [[Construct]], is not new-able
+info: |
+    Built-in function objects that are not identified as constructors do not implement the
+    [[Construct]] internal method unless otherwise specified in the description of a particular
+    function.
+includes: [isConstructor.js]
+features: [Reflect.construct, Temporal]
+---*/
+
+assert.throws(TypeError, () => {
+  new Temporal.Duration.prototype.valueOf();
+}, "Calling as constructor");
+
+assert.sameValue(isConstructor(Temporal.Duration.prototype.valueOf), false,
+  "isConstructor(Temporal.Duration.prototype.valueOf)");

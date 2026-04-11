@@ -1,0 +1,22 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+var getProtoCalled = false;
+
+var newTarget = Object.defineProperty(function(){}.bind(), "prototype", {
+    get() {
+        getProtoCalled = true;
+        return null;
+    }
+});
+
+assert.throws(SyntaxError, () => {
+    Reflect.construct(Function, ["@error"], newTarget);
+});
+
+assert.sameValue(getProtoCalled, false);
+

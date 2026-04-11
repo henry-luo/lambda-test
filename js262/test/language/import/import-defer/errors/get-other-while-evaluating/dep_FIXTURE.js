@@ -1,0 +1,9 @@
+
+
+import defer * as main from "./main.js";
+
+try {
+  main.foo;
+} catch (error) {
+  globalThis["error on main.foo"] = error;
+}

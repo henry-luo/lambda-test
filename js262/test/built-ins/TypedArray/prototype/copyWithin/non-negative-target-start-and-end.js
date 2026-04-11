@@ -1,0 +1,63 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.copywithin
+description: >
+  Copy values with non-negative target, start and end positions.
+info: |
+  22.2.3.5 %TypedArray%.prototype.copyWithin (target, start [ , end ] )
+
+  %TypedArray%.prototype.copyWithin is a distinct function that implements the
+  same algorithm as Array.prototype.copyWithin as defined in 22.1.3.3 except
+  that the this object's [[ArrayLength]] internal slot is accessed in place of
+  performing a [[Get]] of "length" and the actual copying of values in step 12
+  must be performed in a manner that preserves the bit-level encoding of the
+  source data.
+
+  ...
+includes: [compareArray.js, testTypedArray.js]
+features: [TypedArray]
+---*/
+
+testWithTypedArrayConstructors(function(TA, makeCtorArg) {
+  assert(
+    compareArray(
+      new TA(makeCtorArg([0, 1, 2, 3])).copyWithin(0, 0, 0),
+      [0, 1, 2, 3]
+    ),
+    '[0, 1, 2, 3].copyWithin(0, 0, 0) -> [0, 1, 2, 3]'
+  );
+
+  assert(
+    compareArray(
+      new TA(makeCtorArg([0, 1, 2, 3])).copyWithin(0, 0, 2),
+      [0, 1, 2, 3]
+    ),
+    '[0, 1, 2, 3].copyWithin(0, 0, 2) -> [0, 1, 2, 3]'
+  );
+
+  assert(
+    compareArray(
+      new TA(makeCtorArg([0, 1, 2, 3])).copyWithin(0, 1, 2),
+      [1, 1, 2, 3]
+    ),
+    '[0, 1, 2, 3].copyWithin(0, 1, 2) -> [1, 1, 2, 3]'
+  );
+
+  
+  assert(
+    compareArray(
+      new TA(makeCtorArg([0, 1, 2, 3])).copyWithin(1, 0, 2),
+      [0, 0, 1, 3]
+    ),
+    '[0, 1, 2, 3].copyWithin(1, 0, 2) -> [0, 0, 1, 3]'
+  );
+
+  assert(
+    compareArray(
+      new TA(makeCtorArg([0, 1, 2, 3, 4, 5])).copyWithin(1, 3, 5),
+      [0, 3, 4, 3, 4, 5]
+    ),
+    '[0, 1, 2, 3, 4, 5].copyWithin(1, 3, 5) -> [0, 3, 4, 3, 4, 5]'
+  );
+});

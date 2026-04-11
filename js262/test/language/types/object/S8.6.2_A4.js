@@ -1,0 +1,39 @@
+
+
+/*---
+info: |
+    [[HasInstance]] returns a boolean value indicating whether Value
+    delegates behaviour to this object
+es5id: 8.6.2_A4
+description: >
+    Check that the obj instance of Object, but not instance  of
+    Function, String, Number, Array
+---*/
+
+var __obj={};
+
+
+if (!(__obj instanceof Object)) {
+  throw new Test262Error('#1: var __obj={}; (__obj instanceof Object) === true. Actual: ' + ((__obj instanceof Object)));
+}
+
+
+if (__obj instanceof Function) {
+  throw new Test262Error('#2: var __obj={}; (__obj instanceof Function) === false. Actual: ' + ((__obj instanceof Function)));
+}
+
+
+if (__obj instanceof String) {
+  throw new Test262Error('#3: var __obj={}; (__obj instanceof String) === false. Actual: ' + ((__obj instanceof String)));
+}
+
+
+if (__obj instanceof Number) {
+  throw new Test262Error('#4: var __obj={}; (__obj instanceof Number) === false. Actual: ' + ((__obj instanceof Number)));
+}
+
+
+if (__obj instanceof Array) {
+  throw new Test262Error('#5: var __obj={}; (__obj instanceof Array) === false. Actual: ' + ((__obj instanceof Array)));
+}
+

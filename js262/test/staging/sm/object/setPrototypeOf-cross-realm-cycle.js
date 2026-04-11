@@ -1,0 +1,16 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var gw = $262.createRealm().global;
+
+var obj = {};
+var w = gw.Object.create(obj);
+assert.throws(TypeError, () => Object.setPrototypeOf(obj, w));
+assert.throws(gw.TypeError, () => gw.Object.setPrototypeOf(obj, w));
+

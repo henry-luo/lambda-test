@@ -1,0 +1,10 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.timezoneid
+description: Basic functionality of timeZoneId property
+features: [Temporal]
+---*/
+
+const instance = new Temporal.ZonedDateTime(0n, "UTC");
+assert.sameValue(instance.timeZoneId, "UTC");

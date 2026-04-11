@@ -1,0 +1,50 @@
+
+
+/*---
+esid: sec-uint8array.frombase64
+description: >
+  Uint8Array.fromBase64 throws a TypeError when alphabet and
+  lastChunkHandling are invalid string values.
+includes: [compareArray.js]
+features: [uint8array-base64, TypedArray]
+---*/
+
+let string = 'SGVsbG8gV29ybGQ=';
+assert.compareArray(
+    Uint8Array.fromBase64(string),
+    [72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100])
+
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(string, {alphabet: 'base'});
+});
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(string, {alphabet: 'base65'});
+});
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(string, {alphabet: 'base64urlurl'});
+});
+
+assert.throws(TypeError, function() {
+    Uint8Array.fromBase64(string, {alphabet: '☉‿⊙'});
+  });
+
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(string, {lastChunkHandling: 'stric'});
+});
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(string, {lastChunkHandling: 'looss'});
+});
+
+assert.throws(TypeError, function() {
+  Uint8Array.fromBase64(
+      string, {lastChunkHandling: 'stop-before-partial-partial'});
+});
+
+assert.throws(TypeError, function() {
+    Uint8Array.fromBase64(string, {lastChunkHandling: '☉‿⊙'});
+  });

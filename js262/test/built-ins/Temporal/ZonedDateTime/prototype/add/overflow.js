@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.add
+description: Hours overflow.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+var earlier = new Temporal.ZonedDateTime(1590981158271986102n, "-04:00");
+var later = earlier.add({ hours: 2 });
+
+TemporalHelpers.assertZonedDateTimesEqual(
+    later,
+    new Temporal.ZonedDateTime(1590988358271986102n, "-04:00"));
+
+
+later = new Temporal.ZonedDateTime(1572356798271986102n, "-03:00");
+
+earlier = new Temporal.ZonedDateTime(1572313598271986102n, "-03:00");
+
+
+TemporalHelpers.assertZonedDateTimesEqual(later.add({ hours: -12 }), earlier);

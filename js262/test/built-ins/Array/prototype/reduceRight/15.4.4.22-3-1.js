@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-array.prototype.reduceright
+description: Array.prototype.reduceRight - value of 'length' is undefined
+---*/
+
+var accessed = false;
+
+function callbackfn(prevVal, curVal, idx, obj) {
+  accessed = true;
+}
+
+var obj = {
+  0: 9,
+  length: undefined
+};
+
+assert.sameValue(Array.prototype.reduceRight.call(obj, callbackfn, 1), 1, 'Array.prototype.reduceRight.call(obj, callbackfn, 1)');
+assert.sameValue(accessed, false, 'accessed');

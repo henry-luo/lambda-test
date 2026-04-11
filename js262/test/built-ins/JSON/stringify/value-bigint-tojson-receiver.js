@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-serializejsonproperty
+description: toJSON method called with BigInt as receiver
+features: [BigInt]
+---*/
+
+assert.throws(TypeError, () => JSON.stringify(1n),
+              "toString throws for BigInt object");
+
+
+Object.defineProperty(BigInt.prototype, "toJSON", {
+    get() {
+        "use strict";
+        return () => typeof this;
+    }
+});
+
+assert.sameValue(JSON.stringify(1n), "\"bigint\"",
+                 "BigInt toJSON method called with value as receiver");

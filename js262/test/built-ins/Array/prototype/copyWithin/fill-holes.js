@@ -1,0 +1,18 @@
+
+
+/*---
+esid: sec-array.prototype.copywithin
+description: >
+  Loop from each property, even empty holes.
+---*/
+
+var arr = [0, 1, , , 1];
+
+arr.copyWithin(0, 1, 4);
+
+assert.sameValue(arr.length, 5);
+assert.sameValue(arr[0], 1);
+assert.sameValue(arr[4], 1);
+assert.sameValue(arr.hasOwnProperty(1), false);
+assert.sameValue(arr.hasOwnProperty(2), false);
+assert.sameValue(arr.hasOwnProperty(3), false);

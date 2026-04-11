@@ -1,0 +1,22 @@
+
+
+/*---
+description: Compare the values of an iterator with an array of expected values
+defines: [assert.compareIterator]
+---*/
+
+
+assert.compareIterator = function(iter, validators, message) {
+  message = message || '';
+
+  var i, result;
+  for (i = 0; i < validators.length; i++) {
+    result = iter.next();
+    assert(!result.done, 'Expected ' + i + ' values(s). Instead iterator only produced ' + (i - 1) + ' value(s). ' + message);
+    validators[i](result.value);
+  }
+
+  result = iter.next();
+  assert(result.done, 'Expected only ' + i + ' values(s). Instead iterator produced more. ' + message);
+  assert.sameValue(result.value, undefined, 'Expected value of `undefined` when iterator completes. ' + message);
+}

@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-function.prototype.tostring
+description: >
+  Function.prototype.toString on an async generator created with the
+  AsyncGenerator constructor.
+features: [async-iteration]
+includes: [nativeFunctionMatcher.js]
+---*/
+
+async function* f() {}
+var AsyncGenerator = f.constructor;
+
+var g = AsyncGenerator("a", " /* a */ b, c /* b */ //", "/* c */ ; /* d */ //");
+assertToStringOrNativeFunction(g, "async function* anonymous(a, /* a */ b, c /* b */ //\n) {\n/* c */ ; /* d */ //\n}");

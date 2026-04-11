@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-date.prototype.getday
+description: >
+  Property descriptor for Date.prototype.getDay.
+info: |
+  Date.prototype.getDay ( )
+
+  17 ECMAScript Standard Built-in Objects:
+    Every other data property described in clauses 19 through 28 and in
+    Annex B.2 has the attributes { [[Writable]]: true, [[Enumerable]]: false,
+    [[Configurable]]: true } unless otherwise specified.
+includes: [propertyHelper.js]
+---*/
+
+verifyProperty(Date.prototype, "getDay", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

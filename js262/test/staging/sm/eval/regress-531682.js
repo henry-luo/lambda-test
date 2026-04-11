@@ -1,0 +1,32 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+var BUGNUMBER = 531682;
+var summary = 'Checking proper wrapping of scope in  eval(source, scope)';
+var actual;
+var expect;
+
+
+var x = 0;
+
+test();
+
+
+function scope1() {
+    eval('var x = 1;');
+    return function() { return x; }
+}
+
+function test() {
+    
+    actual = eval('x', scope1());
+    expect = 0;
+    assert.sameValue(expect, actual, summary);
+}

@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-promise.any
+description: >
+  Promise.any resolves with the first item that does not reject.
+flags: [async]
+features: [Promise.any, arrow-function]
+---*/
+
+let fulfillables = [
+  Promise.reject('a'),
+  new Promise((resolve, reject) => reject('b')),
+  Promise.all([Promise.reject('c')]),
+  Promise.resolve(Promise.reject('d').catch(v => v)),
+];
+
+Promise.any(fulfillables)
+  .then((resolution) => {
+    assert.sameValue(resolution, 'd');
+  }).then($DONE, $DONE);

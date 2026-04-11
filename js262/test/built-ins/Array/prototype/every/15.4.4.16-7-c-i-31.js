@@ -1,0 +1,32 @@
+
+
+/*---
+esid: sec-array.prototype.every
+description: >
+    Array.prototype.every - unhandled exceptions happened in getter
+    terminate iteration on an Array
+---*/
+
+var accessed = false;
+
+function callbackfn(val, idx, obj) {
+  if (idx > 1) {
+    accessed = true;
+  }
+  return true;
+}
+
+var arr = [];
+arr[5] = 10;
+arr[10] = 100;
+
+Object.defineProperty(arr, "1", {
+  get: function() {
+    throw new RangeError("unhandle exception happened in getter");
+  },
+  configurable: true
+});
+assert.throws(RangeError, function() {
+  arr.every(callbackfn);
+});
+assert.sameValue(accessed, false, 'accessed');

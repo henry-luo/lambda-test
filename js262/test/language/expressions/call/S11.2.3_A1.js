@@ -1,0 +1,59 @@
+
+
+/*---
+info: |
+    White Space and Line Terminator between MemberExpression and Arguments
+    are allowed
+es5id: 11.2.3_A1
+description: Checking by using eval
+---*/
+
+
+if (eval("Number\u0009()") !== 0) {
+  throw new Test262Error('#1: Number\\u0009() === 0');
+}
+
+
+if (eval("Number\u000B()") !== 0) {
+  throw new Test262Error('#2: Number\\u000B() === 0');  
+}
+
+
+if (eval("Number\u000C()") !== 0) {
+  throw new Test262Error('#3: Number\\u000C() === 0');
+}
+
+
+if (eval("Number\u0020()") !== 0) {
+  throw new Test262Error('#4: Number\\u0020 === 0');
+}
+
+
+if (eval("Number\u00A0()") !== 0) {
+  throw new Test262Error('#5: Number\\u00A0() === 0');
+}
+
+
+if (eval("Number\u000A()") !== 0) {
+  throw new Test262Error('#6: Number\\u000A() === 0');  
+}
+
+
+if (eval("Number\u000D()") !== 0) {
+  throw new Test262Error('#7: Number\\u000D() === 0');
+}
+
+
+if (eval("Number\u2028()") !== 0) {
+  throw new Test262Error('#8: Number\\u2028() === 0');
+}
+
+
+if (eval("Number\u2029()") !== 0) {
+  throw new Test262Error('#9: Number\\u2029() === 0');
+}
+
+
+if (eval("Number\u0009\u000B\u000C\u0020\u00A0\u000A\u000D\u2028\u2029()") !== 0) {
+  throw new Test262Error('#10: Number\\u0009\\u000B\\u000C\\u0020\\u00A0\\u000A\\u000D\\u2028\\u2029() === 0');
+}

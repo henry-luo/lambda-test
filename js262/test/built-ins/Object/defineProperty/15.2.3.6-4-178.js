@@ -1,0 +1,18 @@
+
+
+/*---
+es5id: 15.2.3.6-4-178
+description: >
+    Object.defineProperty - 'O' is an Array, 'name' is the length
+    property of 'O', the [[Value]] field of 'desc' is less than value
+    of  the length property, test the configurable large index named
+    property of 'O' is deleted (15.4.5.1 step 3.l.ii)
+---*/
+
+var arrObj = [0, 1];
+
+Object.defineProperty(arrObj, "length", {
+  value: 1
+});
+
+assert.sameValue(arrObj.hasOwnProperty("1"), false, 'arrObj.hasOwnProperty("1")');

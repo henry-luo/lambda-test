@@ -1,0 +1,33 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.total
+description: >
+    Rounding the resulting duration takes the time zone's UTC offset shifts
+    into account
+features: [Temporal]
+---*/
+
+
+{
+  
+  const duration = new Temporal.Duration(0, 1, 0, 15, 11, 30);
+  const relativeTo = new Temporal.ZonedDateTime(
+    950868000_000_000_000n ,
+    "America/Vancouver"); 
+
+  assert.sameValue(duration.total({ unit: "months", relativeTo }), 1.5,
+    "1 month 15 days 11:30 should be exactly 1.5 months");
+}
+
+{
+  
+  
+  const duration = new Temporal.Duration(0, 1, 0, 15, 0, 30);
+  const relativeTo = new Temporal.ZonedDateTime(
+    951991200_000_000_000n ,
+    "America/Vancouver"); 
+
+  assert.sameValue(duration.total({ unit: "months", relativeTo }), 1.5,
+    "1 month 15 days 00:30 should be exactly 1.5 months");
+}

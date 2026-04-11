@@ -1,0 +1,87 @@
+
+
+/*---
+info: |
+    When String is called as a function rather than as a constructor, it
+    performs a type conversion
+es5id: 15.5.1.1_A1_T11
+description: Call String(1/0) and String(-1/0), and call with +/-Infinity
+---*/
+
+var __str = String(1 / 0);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#1: __str = String(1/0); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "Infinity") {
+  throw new Test262Error('#2: __str = String(1/0); __str === "Infinity". Actual: __str ===' + __str);
+}
+
+
+__str = String(-1 / 0);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#3: __str = String(-1/0); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "-Infinity") {
+  throw new Test262Error('#4: __str = String(-1/0); __str === "-Infinity". Actual: __str ===' + __str);
+}
+
+
+__str = String(Infinity);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#5: __str = String(Infinity); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "Infinity") {
+  throw new Test262Error('#6: __str = String(Infinity); __str === "Infinity". Actual: __str ===' + __str);
+}
+
+
+__str = String(-Infinity);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#7: __str = String(-Infinity); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "-Infinity") {
+  throw new Test262Error('#8: __str = String(-Infinity); __str === "-Infinity". Actual: __str ===' + __str);
+}
+
+
+__str = String(Number.POSITIVE_INFINITY);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#9: __str = String(Number.POSITIVE_INFINITY); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "Infinity") {
+  throw new Test262Error('#10: __str = String(Number.POSITIVE_INFINITY); __str === "Infinity". Actual: __str ===' + __str);
+}
+
+
+__str = String(Number.NEGATIVE_INFINITY);
+
+
+if (typeof __str !== "string") {
+  throw new Test262Error('#11: __str = String(Number.NEGATIVE_INFINITY); typeof __str === "string". Actual: typeof __str ===' + typeof __str);
+}
+
+
+if (__str !== "-Infinity") {
+  throw new Test262Error('#12: __str = String(Number.NEGATIVE_INFINITY); __str === "-Infinity". Actual: __str ===' + __str);
+}
+

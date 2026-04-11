@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-asyncdisposablestack.prototype.adopt
+description: Returns the argument provided.
+info: |
+  AsyncDisposableStack.prototype.adopt ( value, onDisposeAsync )
+
+  ...
+  8. Return value.
+
+features: [explicit-resource-management]
+---*/
+
+var stack = new AsyncDisposableStack();
+var resource = {};
+assert.sameValue(stack.adopt(resource, async _ => {}), resource);
+assert.sameValue(stack.adopt(null, async _ => {}), null);
+assert.sameValue(stack.adopt(undefined, async _ => {}), undefined);

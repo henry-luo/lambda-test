@@ -1,0 +1,16 @@
+
+
+/*---
+description: >
+  values compare correctly with circular references.
+includes: [deepEqual.js]
+---*/
+
+var a = { x: 1 };
+var b = { x: 1 };
+a.a = a;
+a.b = b;
+b.a = b;
+b.b = a;
+
+assert.deepEqual(a, b);

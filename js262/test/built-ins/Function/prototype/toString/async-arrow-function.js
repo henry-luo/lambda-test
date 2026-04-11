@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-async-arrow-function-definitions-runtime-semantics-evaluation
+description: Function.prototype.toString on an async arrow function
+features: [async-functions]
+includes: [nativeFunctionMatcher.js]
+---*/
+
+let f = async  (  a  ,  b  )  =>  {  ;  };
+let g = async  (  )  =>  0;
+let h = async  a  =>  0;
+
+assertToStringOrNativeFunction(f, "async /* a */ ( /* b */ a /* c */ , /* d */ b /* e */ ) /* f */ => /* g */ { /* h */ ; /* i */ }");
+assertToStringOrNativeFunction(g, "async /* a */ ( /* b */ ) /* c */ => /* d */ 0");
+assertToStringOrNativeFunction(h, "async /* a */ a /* b */ => /* c */ 0");

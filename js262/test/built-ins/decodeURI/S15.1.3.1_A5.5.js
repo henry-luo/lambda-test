@@ -1,0 +1,24 @@
+
+
+/*---
+info: The decodeURI property has the attribute DontEnum
+esid: sec-decodeuri-encodeduri
+description: Checking use propertyIsEnumerable, for-in
+---*/
+
+
+if (this.propertyIsEnumerable('decodeURI') !== false) {
+  throw new Test262Error('#1: this.propertyIsEnumerable(\'decodeURI\') === false. Actual: ' + (this.propertyIsEnumerable('decodeURI')));
+}
+
+
+var result = true;
+for (var p in this) {
+  if (p === "decodeURI") {
+    result = false;
+  }
+}
+
+if (result !== true) {
+  throw new Test262Error('#2: result = true; for (p in this) { if (p === "decodeURI") result = false; }  result === true;');
+}

@@ -1,0 +1,4 @@
+
+
+import defer * as ns from "./throws_FIXTURE.js";
+export { ns };

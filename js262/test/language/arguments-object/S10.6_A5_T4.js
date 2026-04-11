@@ -1,0 +1,39 @@
+
+
+/*---
+info: |
+    A property is created with name length with property
+    attributes { DontEnum } and no others
+es5id: 10.6_A5_T4
+description: Overriding arguments.length property
+---*/
+
+var str = "something different";
+
+function f1(){
+  arguments.length = str;
+  return arguments;
+}
+
+try{
+  if(f1().length !== str){
+    throw new Test262Error("#1: A property length have attribute { ReadOnly }");
+  }
+}
+catch(e){
+  throw new Test262Error("#1: arguments object don't exists");
+}
+
+
+var f2 = function(){
+    arguments.length = str;
+    return arguments;
+  };
+try{
+  if(f2().length !== str){
+    throw new Test262Error("#2: A property length have attribute { ReadOnly }");
+  }
+}
+catch(e){
+  throw new Test262Error("#2: arguments object don't exists");
+}

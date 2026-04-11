@@ -1,0 +1,42 @@
+
+
+/*---
+info: Catching objects with try/catch/finally statement
+es5id: 12.14_A18_T4
+description: Catching string
+---*/
+
+
+try{
+  throw "exception #1";
+}
+catch(e){
+  if (e!=="exception #1") throw new Test262Error('#1: Exception ==="exception #1". Actual:  Exception ==='+ e  );
+}
+
+
+try{
+  throw "exception"+" #1";
+}
+catch(e){
+  if (e!=="exception #1") throw new Test262Error('#2: Exception ==="exception #1". Actual:  Exception ==='+ e  );
+}
+
+
+var b="exception #1";
+try{
+  throw b;
+}
+catch(e){
+  if (e!=="exception #1") throw new Test262Error('#3: Exception ==="exception #1". Actual:  Exception ==='+ e  );
+}
+
+
+var a="exception";
+var b=" #1";
+try{
+  throw a+b;
+}
+catch(e){
+  if (e!=="exception #1") throw new Test262Error('#4: Exception ==="exception #1". Actual:  Exception ==='+ e  );
+}

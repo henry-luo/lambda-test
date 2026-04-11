@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-date.prototype.setutcfullyear
+description: >
+  Property descriptor for Date.prototype.setUTCFullYear.
+info: |
+  Date.prototype.setUTCFullYear ( year [ , month [ , date ] ] )
+
+  17 ECMAScript Standard Built-in Objects:
+    Every other data property described in clauses 19 through 28 and in
+    Annex B.2 has the attributes { [[Writable]]: true, [[Enumerable]]: false,
+    [[Configurable]]: true } unless otherwise specified.
+includes: [propertyHelper.js]
+---*/
+
+verifyProperty(Date.prototype, "setUTCFullYear", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

@@ -1,0 +1,59 @@
+
+
+/*---
+info: |
+    White Space and Line Terminator between LogicalANDExpression and "&&" or
+    between "&&" and BitwiseORExpression are allowed
+es5id: 11.11.1_A1
+description: Checking by using eval
+---*/
+
+
+if ((eval("true\u0009&&\u0009true")) !== true) {
+  throw new Test262Error('#1: (true\\u0009&&\\u0009true) === true');
+}
+
+
+if ((eval("true\u000B&&\u000Btrue")) !== true) {
+  throw new Test262Error('#2: (true\\u000B&&\\u000Btrue) === true');  
+}
+
+
+if ((eval("true\u000C&&\u000Ctrue")) !== true) {
+  throw new Test262Error('#3: (true\\u000C&&\\u000Ctrue) === true');
+}
+
+
+if ((eval("true\u0020&&\u0020true")) !== true) {
+  throw new Test262Error('#4: (true\\u0020&&\\u0020true) === true');
+}
+
+
+if ((eval("true\u00A0&&\u00A0true")) !== true) {
+  throw new Test262Error('#5: (true\\u00A0&&\\u00A0true) === true');
+}
+
+
+if ((eval("true\u000A&&\u000Atrue")) !== true) {
+  throw new Test262Error('#6: (true\\u000A&&\\u000Atrue) === true');  
+}
+
+
+if ((eval("true\u000D&&\u000Dtrue")) !== true) {
+  throw new Test262Error('#7: (true\\u000D&&\\u000Dtrue) === true');
+}
+
+
+if ((eval("true\u2028&&\u2028true")) !== true) {
+  throw new Test262Error('#8: (true\\u2028&&\\u2028true) === true');
+}
+
+
+if ((eval("true\u2029&&\u2029true")) !== true) {
+  throw new Test262Error('#9: (true\\u2029&&\\u2029true) === true');
+}
+
+
+if ((eval("true\u0009\u000B\u000C\u0020\u00A0\u000A\u000D\u2028\u2029&&\u0009\u000B\u000C\u0020\u00A0\u000A\u000D\u2028\u2029true")) !== true) {
+  throw new Test262Error('#10: (true\\u0009\\u000B\\u000C\\u0020\\u00A0\\u000A\\u000D\\u2028\\u2029&&\\u0009\\u000B\\u000C\\u0020\\u00A0\\u000A\\u000D\\u2028\\u2029true) === true');
+}

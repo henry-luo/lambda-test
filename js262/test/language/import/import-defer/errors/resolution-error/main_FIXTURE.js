@@ -1,0 +1,5 @@
+
+
+import defer * as ns from "./resolution-error_FIXTURE.js";
+
+globalThis.evaluated = true;

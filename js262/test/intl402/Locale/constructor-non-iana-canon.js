@@ -1,0 +1,105 @@
+
+
+/*---
+esid: sec-intl.locale
+description: >
+    Verifies canonicalization, minimization and maximization of specific tags.
+info: |
+    ApplyOptionsToTag( tag, options )
+    10. Return CanonicalizeLanguageTag(tag).
+
+    Intl.Locale.prototype.maximize ()
+    3. Let maximal be the result of the Add Likely Subtags algorithm applied to loc.[[Locale]].
+
+    Intl.Locale.prototype.minimize ()
+    3. Let minimal be the result of the Remove Likely Subtags algorithm applied to loc.[[Locale]].
+features: [Intl.Locale]
+---*/
+
+
+var testData = [
+    {
+        tag: "mo",
+        canonical: "ro",
+        maximized: "ro-Latn-RO",
+    },
+    {
+        tag: "es-ES-preeuro",
+        maximized: "es-Latn-ES-preeuro",
+        minimized: "es-preeuro",
+    },
+    {
+        tag: "uz-UZ-cyrillic",
+        maximized: "uz-Latn-UZ-cyrillic",
+        minimized: "uz-cyrillic",
+    },
+    {
+        tag: "posix",
+    },
+    {
+        tag: "hi-direct",
+        maximized: "hi-Deva-IN-direct",
+    },
+    {
+        tag: "zh-pinyin",
+        maximized: "zh-Hans-CN-pinyin",
+    },
+    {
+        tag: "zh-stroke",
+        maximized: "zh-Hans-CN-stroke",
+    },
+    {
+        tag: "aar-x-private",
+        
+        
+        canonical: "aa-x-private",
+        maximized: "aa-Latn-ET-x-private",
+   },
+    {
+        tag: "heb-x-private",
+        
+        
+        canonical: "he-x-private",
+        maximized: "he-Hebr-IL-x-private",
+    },
+    {
+        tag: "de-u-kf",
+        maximized: "de-Latn-DE-u-kf",
+    },
+    {
+        tag: "ces",
+        
+        
+        canonical: "cs",
+        maximized: "cs-Latn-CZ",
+    },
+    {
+        tag: "hy-arevela",
+        canonical: "hy",
+        maximized: "hy-Armn-AM",
+    },
+    {
+        tag: "hy-arevmda",
+        canonical: "hyw",
+        maximized: "hyw-Armn-AM",
+    },
+];
+
+for (const {tag, canonical = tag, maximized = canonical, minimized = canonical} of testData) {
+    const loc = new Intl.Locale(tag);
+    assert.sameValue(
+      new Intl.Locale(tag).toString(),
+      canonical,
+      `new Intl.Locale("${tag}").toString() returns "${canonical}"`
+    );
+    assert.sameValue(
+      new Intl.Locale(tag).maximize().toString(),
+      maximized,
+      `new Intl.Locale("${tag}").maximize().toString() returns "${maximized}"`
+    );
+    assert.sameValue(
+      new Intl.Locale(tag).minimize().toString(),
+      minimized,
+      `new Intl.Locale("${tag}").minimize().toString() returns "${minimized}"`
+    );
+}

@@ -1,0 +1,17 @@
+
+
+/*---
+info: Operator -x returns -ToNumber(x)
+es5id: 11.4.7_A3_T5
+description: Type(x) is Object object or Function object
+---*/
+
+
+if (isNaN(-{}) !== true) {
+  throw new Test262Error('#1: -{} === Not-a-Number. Actual: ' + (-{}));
+}
+
+
+if (isNaN(-function(){return 1}) !== true) {
+  throw new Test262Error('#2: -function(){return 1} === Not-a-Number. Actual: ' + (-function(){return 1}));
+}

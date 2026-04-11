@@ -1,0 +1,39 @@
+
+
+/*---
+info: The production x >>>= y is the same as x = x >>> y
+es5id: 11.13.2_A4.8_T2.8
+description: >
+    Type(x) is different from Type(y) and both types vary between
+    Boolean (primitive or object) and Undefined
+---*/
+
+var x;
+
+
+x = true;
+x >>>= undefined;
+if (x !== 1) {
+  throw new Test262Error('#1: x = true; x >>>= undefined; x === 1. Actual: ' + (x));
+}
+
+
+x = undefined;
+x >>>= true;
+if (x !== 0) {
+  throw new Test262Error('#2: x = undefined; x >>>= true; x === 0. Actual: ' + (x));
+}
+
+
+x = new Boolean(true);
+x >>>= undefined;
+if (x !== 1) {
+  throw new Test262Error('#3: x = new Boolean(true); x >>>= undefined; x === 1. Actual: ' + (x));
+}
+
+
+x = undefined;
+x >>>= new Boolean(true);
+if (x !== 0) {
+  throw new Test262Error('#4: x = undefined; x >>>= new Boolean(true); x === 0. Actual: ' + (x));
+}

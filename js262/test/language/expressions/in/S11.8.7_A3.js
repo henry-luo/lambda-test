@@ -1,0 +1,62 @@
+
+
+/*---
+info: If ShiftExpression is not an object, throw TypeError
+es5id: 11.8.7_A3
+description: Checking all the types of primitives
+---*/
+
+
+try {
+  "toString" in true;
+  throw new Test262Error('#1: "toString" in true throw TypeError');  
+}
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#1: "toString" in true throw TypeError');  
+  }
+}
+
+
+try {
+  "MAX_VALUE" in 1;
+  throw new Test262Error('#2: "MAX_VALUE" in 1 throw TypeError');  
+}
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#2: "MAX_VALUE" in 1 throw TypeError');  
+  }
+}
+
+
+try {
+  "length" in "string";
+  throw new Test262Error('#3: "length" in "string" throw TypeError');  
+}
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#3: "length" in "string" throw TypeError');  
+  }
+}
+
+
+try {
+  "toString" in undefined;
+  throw new Test262Error('#4: "toString" in undefined throw TypeError');  
+}
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#4: "toString" in undefined throw TypeError');  
+  }
+}
+
+
+try {
+  "toString" in null;
+  throw new Test262Error('#5: "toString" in null throw TypeError');  
+}
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#5: "toString" in null throw TypeError');  
+  }
+}

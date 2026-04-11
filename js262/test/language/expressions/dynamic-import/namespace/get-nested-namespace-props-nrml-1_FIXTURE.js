@@ -1,0 +1,3 @@
+
+
+export * as exportns from './get-nested-namespace-props-nrml-2_FIXTURE.js';

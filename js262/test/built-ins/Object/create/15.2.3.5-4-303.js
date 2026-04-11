@@ -1,0 +1,19 @@
+
+
+/*---
+es5id: 15.2.3.5-4-303
+description: >
+    Object.create - TypeError is thrown if both 'get' property and
+    'value' property of one property in 'Properties' are present
+    (8.10.5 step 9.a)
+---*/
+
+
+assert.throws(TypeError, function() {
+  Object.create({}, {
+    prop: {
+      get: function() {},
+      value: 100
+    }
+  });
+});

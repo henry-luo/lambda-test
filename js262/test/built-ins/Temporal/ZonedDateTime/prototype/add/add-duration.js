@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.add
+description: Adding a duration object works.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const zdt = new Temporal.ZonedDateTime(-560174321098766n, "UTC")
+const d = new Temporal.Duration(0, 0, 0, 0, 240, 0, 0, 0, 0, 800);
+
+const expected = new Temporal.ZonedDateTime(303825678902034n, "UTC");
+
+TemporalHelpers.assertZonedDateTimesEqual(zdt.add(d), expected);

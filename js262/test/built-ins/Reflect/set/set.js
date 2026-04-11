@@ -1,0 +1,20 @@
+
+
+/*---
+es6id: 26.1.13
+description: >
+  Reflect.set is configurable, writable and not enumerable.
+info: |
+  26.1.13 Reflect.set ( target, propertyKey, V [ , receiver ] )
+
+  17 ECMAScript Standard Built-in Objects
+
+includes: [propertyHelper.js]
+features: [Reflect]
+---*/
+
+verifyProperty(Reflect, 'set', {
+  writable: true,
+  enumerable: false,
+  configurable: true
+});

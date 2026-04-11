@@ -1,0 +1,42 @@
+
+
+/*---
+esid: sec-get-dataview.prototype.byteoffset
+description: |
+  throws a TypeError if the underlying ArrayBuffer is resized beyond the
+  boundary of the fixed-sized DataView instance
+features: [resizable-arraybuffer]
+---*/
+
+
+assert.sameValue(typeof ArrayBuffer.prototype.resize, "function");
+
+var ab = new ArrayBuffer(4, {maxByteLength: 5});
+var dataView = new DataView(ab, 1, 2);
+
+assert.sameValue(dataView.byteOffset, 1);
+
+try {
+  ab.resize(5);
+} catch (_) {}
+
+assert.sameValue(dataView.byteOffset, 1, "following grow");
+
+try {
+  ab.resize(BPE * 3);
+} catch (_) {}
+
+assert.sameValue(dataView.byteOffset, 1, "following shrink (within bounds)");
+
+var expectedError;
+try {
+  ab.resize(2);
+  expectedError = TypeError;
+} catch (_) {
+  expectedError = Test262Error;
+}
+
+assert.throws(expectedError, function() {
+  dataView.byteOffset;
+  throw new Test262Error('the operation completed successfully');
+});

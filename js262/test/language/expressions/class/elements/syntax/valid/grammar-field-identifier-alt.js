@@ -1,0 +1,69 @@
+
+
+/*---
+description: Valid FieldDefinition, ClassElementName, PropertyName Syntax (class expression)
+esid: prod-ClassElement
+features: [class-fields-public, class]
+flags: [generated]
+info: |
+    ClassElement :
+      MethodDefinition
+      static MethodDefinition
+      FieldDefinition ;
+      ;
+
+    FieldDefinition :
+      ClassElementName Initializer _opt
+
+    ClassElementName :
+      PropertyName
+      PrivateName
+
+    PropertyName :
+      LiteralPropertyName
+      ComputedPropertyName
+
+    LiteralPropertyName :
+      IdentifierName
+      StringLiteral
+      NumericLiteral
+
+    IdentifierName ::
+      IdentifierStart
+      IdentifierName IdentifierPart
+
+    IdentifierStart ::
+      UnicodeIDStart
+      $
+      _
+      \ UnicodeEscapeSequence
+
+    IdentifierPart ::
+      UnicodeIDContinue
+      $
+      \ UnicodeEscapeSequence
+      <ZWNJ> <ZWJ>
+
+    UnicodeIDStart ::
+      any Unicode code point with the Unicode property "ID_Start"
+
+    UnicodeIDContinue ::
+      any Unicode code point with the Unicode property "ID_Continue"
+
+
+    NOTE 3
+    The sets of code points with Unicode properties "ID_Start" and
+    "ID_Continue" include, respectively, the code points with Unicode
+    properties "Other_ID_Start" and "Other_ID_Continue".
+
+---*/
+
+
+var C = class {
+  $;
+  _;
+  \u{6F};
+  ℘;      
+  ZW_‌_NJ; 
+  ZW_‍_J;  
+};

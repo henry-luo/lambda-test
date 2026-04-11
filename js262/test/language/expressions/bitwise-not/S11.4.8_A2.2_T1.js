@@ -1,0 +1,76 @@
+
+
+/*---
+info: Operator ~x uses [[Default Value]]
+es5id: 11.4.8_A2.2_T1
+description: If Type(value) is Object, evaluate ToPrimitive(value, Number)
+---*/
+
+
+var object = {valueOf: function() {return 1}};
+if (~object !== -2) {
+  throw new Test262Error('#1: var object = {valueOf: function() {return 1}}; ~object === -2. Actual: ' + (~object));
+}
+
+
+var object = {valueOf: function() {return 1}, toString: function() {return 0}};
+if (~object !== -2) {
+  throw new Test262Error('#2: var object = {valueOf: function() {return 1}, toString: function() {return 0}}; ~object === -2. Actual: ' + (~object));
+} 
+
+
+var object = {valueOf: function() {return 1}, toString: function() {return {}}};
+if (~object !== -2) {
+  throw new Test262Error('#3: var object = {valueOf: function() {return 1}, toString: function() {return {}}}; ~object === -2. Actual: ' + (~object));
+}
+
+
+try {
+  var object = {valueOf: function() {return 1}, toString: function() {throw "error"}};
+  if (~object !== -2) {
+    throw new Test262Error('#4.1: var object = {valueOf: function() {return 1}, toString: function() {throw "error"}}; ~object === -2. Actual: ' + (~object));
+  }
+}
+catch (e) {
+  if (e === "error") {
+    throw new Test262Error('#4.2: var object = {valueOf: function() {return 1}, toString: function() {throw "error"}}; ~object not throw "error"');
+  } else {
+    throw new Test262Error('#4.3: var object = {valueOf: function() {return 1}, toString: function() {throw "error"}}; ~object not throw Error. Actual: ' + (e));
+  }
+}
+
+
+var object = {toString: function() {return 1}};
+if (~object !== -2) {
+  throw new Test262Error('#5: var object = {toString: function() {return 1}}; ~object === -2. Actual: ' + (~object));
+}
+
+
+var object = {valueOf: function() {return {}}, toString: function() {return 1}}
+if (~object !== -2) {
+  throw new Test262Error('#6: var object = {valueOf: function() {return {}}, toString: function() {return 1}}; ~object === -2. Actual: ' + (~object));
+}
+
+
+try {
+  var object = {valueOf: function() {throw "error"}, toString: function() {return 1}};
+  ~object;
+  throw new Test262Error('#7.1: var object = {valueOf: function() {throw "error"}, toString: function() {return 1}}; ~object throw "error". Actual: ' + (~object));
+}  
+catch (e) {
+  if (e !== "error") {
+    throw new Test262Error('#7.2: var object = {valueOf: function() {throw "error"}, toString: function() {return 1}}; ~object throw "error". Actual: ' + (e));
+  } 
+}
+
+
+try {
+  var object = {valueOf: function() {return {}}, toString: function() {return {}}};
+  ~object;
+  throw new Test262Error('#8.1: var object = {valueOf: function() {return {}}, toString: function() {return {}}}; ~object throw TypeError. Actual: ' + (~object));
+}  
+catch (e) {
+  if ((e instanceof TypeError) !== true) {
+    throw new Test262Error('#8.2: var object = {valueOf: function() {return {}}, toString: function() {return {}}}; ~object throw TypeError. Actual: ' + (e));
+  } 
+}

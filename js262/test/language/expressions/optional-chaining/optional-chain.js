@@ -1,0 +1,50 @@
+
+
+/*---
+esid: prod-OptionalExpression
+description: >
+  various optional chain expansions
+info: |
+  OptionalChain[Yield, Await]:
+    ?.[Expression]
+    ?.IdentifierName
+    ?.Arguments
+    ?.TemplateLiteral
+    OptionalChain [Expression]
+    OptionalChain .IdentifierName
+    OptionalChain Arguments[?Yield, ?Await]
+    OptionalChain TemplateLiteral
+features: [optional-chaining]
+---*/
+
+const arr = [10, 11];
+const obj = {
+  a: 'hello',
+  b: {val: 13},
+  c(arg1) {
+    return arg1 * 2;
+  },
+  arr: [11, 12]
+};
+const i = 0;
+
+
+assert.sameValue(11, arr?.[i + 1]);
+
+
+assert.sameValue('hello', obj?.a);
+
+
+const fn = (arg1, arg2) => {
+  return arg1 + arg2;
+}
+assert.sameValue(30, fn?.(10, 20));
+
+
+assert.sameValue(12, obj?.arr[i + 1]);
+
+
+assert.sameValue(13, obj?.b.val);
+
+
+assert.sameValue(20, obj?.c(10));

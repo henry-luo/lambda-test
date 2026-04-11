@@ -1,0 +1,18 @@
+
+
+/*---
+flags:
+  - onlyStrict
+description: |
+  pending
+esid: pending
+---*/
+
+Object.defineProperty(String.prototype, "toString", {
+    get() {
+        assert.sameValue(typeof this, "string");
+
+        return function() { return typeof this; };
+    }
+})
+assert.sameValue(Object.prototype.toLocaleString.call("test"), "string");

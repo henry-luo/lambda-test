@@ -1,0 +1,11 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.tostring
+description: Shows offset if offset = auto.
+features: [Temporal]
+---*/
+
+const zdt1 = Temporal.ZonedDateTime.from("1976-11-18T15:23+00:00[UTC]");
+
+assert.sameValue(zdt1.toString({ offset: "auto" }),  "1976-11-18T15:23:00+00:00[UTC]");

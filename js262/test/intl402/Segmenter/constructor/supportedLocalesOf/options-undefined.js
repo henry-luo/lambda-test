@@ -1,0 +1,25 @@
+
+
+/*---
+esid: sec-Intl.Segmenter.supportedLocalesOf
+description: Checks handling of an undefined options argument to the supportedLocalesOf function.
+info: |
+    SupportedLocales ( availableLocales, requestedLocales, options )
+
+    1. If options is not undefined, then
+        b. Let matcher be ? GetOption(options, "localeMatcher", "string", «"lookup", "best fit"», "best fit").
+features: [Intl.Segmenter]
+---*/
+
+assert.sameValue(typeof Intl.Segmenter.supportedLocalesOf, "function",
+                 "Should support Intl.Segmenter.supportedLocalesOf.");
+
+Object.defineProperties(Object.prototype, {
+  "localeMatcher": {
+    get() { throw new Error("Should not call localeMatcher getter"); }
+  }
+});
+
+assert.sameValue(Array.isArray(Intl.Segmenter.supportedLocalesOf()), true, "No arguments");
+assert.sameValue(Array.isArray(Intl.Segmenter.supportedLocalesOf([])), true, "One argument");
+assert.sameValue(Array.isArray(Intl.Segmenter.supportedLocalesOf([], undefined)), true, "Two arguments");

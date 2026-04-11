@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.gettimezonetransition
+description: The "getTimeZoneTransition" property of Temporal.ZonedDateTime.prototype
+includes: [propertyHelper.js]
+features: [Temporal]
+---*/
+
+assert.sameValue(
+  typeof Temporal.ZonedDateTime.prototype.getTimeZoneTransition,
+  "function",
+  "`typeof ZonedDateTime.prototype.getTimeZoneTransition` is `function`"
+);
+
+verifyProperty(Temporal.ZonedDateTime.prototype, "getTimeZoneTransition", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

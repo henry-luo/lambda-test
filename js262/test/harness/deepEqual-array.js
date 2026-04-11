@@ -1,0 +1,13 @@
+
+
+/*---
+description: >
+  array values compare correctly.
+includes: [deepEqual.js]
+---*/
+
+assert.deepEqual([], []);
+assert.deepEqual([1, "a", true], [1, "a", true]);
+
+assert.throws(Test262Error, function () { assert.deepEqual([], [1]); });
+assert.throws(Test262Error, function () { assert.deepEqual([1, "a", true], [1, "a", false]); });

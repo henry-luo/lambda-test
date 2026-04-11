@@ -1,0 +1,3 @@
+
+
+export { foo } from "./import-and-export-propagates-binding_FIXTURE.js";

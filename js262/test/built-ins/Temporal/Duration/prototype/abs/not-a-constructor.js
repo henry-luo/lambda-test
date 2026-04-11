@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.abs
+description: >
+  Temporal.Duration.prototype.abs does not implement [[Construct]], is not new-able
+info: |
+    Built-in function objects that are not identified as constructors do not implement the
+    [[Construct]] internal method unless otherwise specified in the description of a particular
+    function.
+includes: [isConstructor.js]
+features: [Reflect.construct, Temporal]
+---*/
+
+assert.throws(TypeError, () => {
+  new Temporal.Duration.prototype.abs();
+}, "Calling as constructor");
+
+assert.sameValue(isConstructor(Temporal.Duration.prototype.abs), false,
+  "isConstructor(Temporal.Duration.prototype.abs)");

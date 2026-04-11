@@ -1,0 +1,34 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+function a() {
+    var b = {a: "A"};
+
+    class X {
+        constructor(a) {
+            return b[a]
+        }
+    };
+
+    assert.throws(TypeError, () => "a".replace(/a/, X));
+}
+
+function b() {
+    class X {
+        constructor(x, y) {
+            return x - y;
+        }
+    }
+
+    assert.throws(TypeError, () => [1, 2, 3].sort(X));
+}
+
+a();
+b();
+

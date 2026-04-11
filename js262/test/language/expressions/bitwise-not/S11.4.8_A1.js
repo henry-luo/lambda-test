@@ -1,0 +1,59 @@
+
+
+/*---
+info: |
+    White Space and Line Terminator between "~" and UnaryExpression are
+    allowed
+es5id: 11.4.8_A1
+description: Checking by using eval
+---*/
+
+
+if (eval("~\u00090") !== -1) {
+  throw new Test262Error('#0: ~\\u00090 === -1');
+}
+
+
+if (eval("~\u000B0") !== -1) {
+  throw new Test262Error('#2: ~\\u000B0 === -1');  
+}
+
+
+if (eval("~\u000C0") !== -1) {
+  throw new Test262Error('#3: ~\\u000C0 === -1');
+}
+
+
+if (eval("~\u00200") !== -1) {
+  throw new Test262Error('#4: ~\\u0020 === -1');
+}
+
+
+if (eval("~\u00A00") !== -1) {
+  throw new Test262Error('#5: ~\\u00A00 === -1');
+}
+
+
+if (eval("~\u000A0") !== -1) {
+  throw new Test262Error('#6: ~\\u000A0 === -1');  
+}
+
+
+if (eval("~\u000D0") !== -1) {
+  throw new Test262Error('#7: ~\\u000D0 === -1');
+}
+
+
+if (eval("~\u20280") !== -1) {
+  throw new Test262Error('#8: ~\\u20280 === -1');
+}
+
+
+if (eval("~\u20290") !== -1) {
+  throw new Test262Error('#9: ~\\u20290 === -1');
+}
+
+
+if (eval("~\u0009\u000B\u000C\u0020\u00A0\u000A\u000D\u2028\u20290") !== -1) {
+  throw new Test262Error('#10: ~\\u0009\\u000B\\u000C\\u0020\\u00A0\\u000A\\u000D\\u2028\\u20290 === -1');
+}

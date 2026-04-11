@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-object.hasown
+description: >
+    Properties - [[HasOwnProperty]] (non-writable, non-configurable,
+    enumerable inherited value property)
+author: Jamie Kyle
+features: [Object.hasOwn]
+---*/
+
+var base = {};
+Object.defineProperty(base, "foo", {
+  value: 42,
+  enumerable: true
+});
+var o = Object.create(base);
+
+assert.sameValue(Object.hasOwn(o, "foo"), false, 'Object.hasOwn(o, "foo")');

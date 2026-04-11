@@ -1,0 +1,22 @@
+
+
+/*---
+info: If Type(x) and Type(y) are Undefined-s, return true
+es5id: 11.9.4_A6.1
+description: void 0, eval("var x") is undefined
+---*/
+
+
+if (!(undefined === undefined)) {
+  throw new Test262Error('#1: undefined === undefined');
+}
+
+
+if (!(void 0 === undefined)) {
+  throw new Test262Error('#2: void 0 === undefined');
+}
+
+
+if (!(undefined === eval("var x"))) {
+  throw new Test262Error('#3: undefined === eval("var x")');
+}

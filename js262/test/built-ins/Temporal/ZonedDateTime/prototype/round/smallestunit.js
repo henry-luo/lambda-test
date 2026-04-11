@@ -1,0 +1,25 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.round
+description: Test various smallestUnit values.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const bal = new Temporal.ZonedDateTime(217205999999999999n, "+01:00");
+
+const expected = new Temporal.ZonedDateTime(217206000000000000n, "+01:00");
+
+[
+  "day",
+  "hour",
+  "minute",
+  "second",
+  "millisecond",
+  "microsecond"
+].forEach(smallestUnit => {
+    TemporalHelpers.assertZonedDateTimesEqual(bal.round( { smallestUnit }),
+                                              expected);
+});

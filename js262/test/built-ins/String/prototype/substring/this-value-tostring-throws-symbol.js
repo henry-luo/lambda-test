@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-string.prototype.substring
+description: If this value is a Symbol, String.prototype.substring should throw a TypeError
+info: |
+  String.prototype.substring ( _start_, _end_ )
+  
+  1. Let O be ? RequireObjectCoercible(this value).
+  2. Let _S_ be ? ToString(_O_).
+
+  ToString (_argument_)
+  
+  2. If _argument_ is a Symbol, throw a *TypeError* exception.
+features: [Symbol]
+---*/
+assert.throws(TypeError, function () {
+    String.prototype.substring.call(Symbol())
+}, "If this value is a Symbol, String.prototype.substring should throw a TypeError")

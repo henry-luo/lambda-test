@@ -1,0 +1,14 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.since
+description: Time zone parsing from ISO strings uses the bracketed offset, not the ISO string offset
+features: [Temporal]
+---*/
+
+const expectedTimeZone = "+01:46";
+const instance = new Temporal.ZonedDateTime(0n, expectedTimeZone);
+const timeZone = "2021-08-19T17:30:45.123456789-12:12[+01:46]";
+
+
+instance.since({ year: 2020, month: 5, day: 2, timeZone });

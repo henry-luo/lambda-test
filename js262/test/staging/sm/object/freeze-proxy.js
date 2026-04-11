@@ -1,0 +1,30 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+function logProxy(object = {}, handler = {}) {
+    var log = [];
+    var proxy = new Proxy(object, new Proxy(handler, {
+        get(target, propertyKey, receiver) {
+            log.push(propertyKey);
+            return target[propertyKey];
+        }
+    }));
+    return {proxy, log};
+}
+
+
+var {proxy, log} = logProxy();
+Object.freeze(proxy);
+assert.compareArray(log, ["preventExtensions", "ownKeys"]);
+
+var {proxy, log} = logProxy();
+Object.freeze(Object.freeze(proxy));
+assert.compareArray(log, ["preventExtensions", "ownKeys", "preventExtensions", "ownKeys"]);
+

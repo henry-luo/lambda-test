@@ -1,0 +1,18 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+var a = [];
+
+
+for (var i = 0; i < 200; i++) {
+    a.push("b" + i);
+    assert.throws(
+        SyntaxError,
+        () => eval("(function ([" + a.join("],[") + "],a,a){})"),
+        'duplicate argument names not allowed in this context');
+}

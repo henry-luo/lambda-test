@@ -1,0 +1,13 @@
+
+
+/*---
+esid: sec-get-temporal.duration.prototype.microseconds
+description: Basic functionality
+features: [Temporal]
+---*/
+
+const instance = new Temporal.Duration(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+assert.sameValue(instance.microseconds, 9);
+
+const negInstance = new Temporal.Duration(-1, -2, -3, -4, -5, -6, -7, -8, -9, -10);
+assert.sameValue(negInstance.microseconds, -9);

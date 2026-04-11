@@ -1,0 +1,18 @@
+
+
+/*---
+description: Property type and descriptor. 
+includes: [propertyHelper.js]
+---*/
+
+assert.sameValue(
+  typeof Intl.DateTimeFormat.prototype.formatToParts,
+  'function',
+  '`typeof Intl.DateTimeFormat.prototype.formatToParts` is `function`'
+);
+
+verifyProperty(Intl.DateTimeFormat.prototype, "formatToParts", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

@@ -1,0 +1,59 @@
+
+
+/*---
+info: |
+    Compute the longest prefix of Result(2), which might be Result(2) itself,
+    which satisfies the syntax of a StrDecimalLiteral
+esid: sec-parsefloat-string
+description: Checking DecimalDigits . DecimalDigits_opt ExponentPart_opt
+---*/
+
+
+if (parseFloat("-11.string") !== -11) {
+  throw new Test262Error('#1: parseFloat("-11.string") === -11. Actual: ' + (parseFloat("-11.string")));
+}
+
+
+if (parseFloat("01.string") !== 1) {
+  throw new Test262Error('#2: parseFloat("01.string") === 1. Actual: ' + (parseFloat("01.string")));
+}
+
+
+if (parseFloat("+11.1string") !== 11.1) {
+  throw new Test262Error('#3: parseFloat("+11.1string") === 11.1. Actual: ' + (parseFloat("+11.1string")));
+}
+
+
+if (parseFloat("01.1string") !== 1.1) {
+  throw new Test262Error('#4: parseFloat("01.1string") === 1.1. Actual: ' + (parseFloat("01.1string")));
+}
+
+
+if (parseFloat("-11.e-1string") !== -1.1) {
+  throw new Test262Error('#5: parseFloat("-11.e-1string") === -1.1. Actual: ' + (parseFloat("-11.e-1string")));
+}
+
+
+if (parseFloat("01.e1string") !== 10) {
+  throw new Test262Error('#6: parseFloat("01.e1string") === 10. Actual: ' + (parseFloat("01.e1string")));
+}
+
+
+if (parseFloat("+11.22e-1string") !== 1.122) {
+  throw new Test262Error('#7: parseFloat("+11.22e-1string") === 1.122. Actual: ' + (parseFloat("+11.22e-1string")));
+}
+
+
+if (parseFloat("01.01e1string") !== 10.1) {
+  throw new Test262Error('#8: parseFloat("01.01e1string") === 10.1. Actual: ' + (parseFloat("01.01e1string")));
+}
+
+
+if (parseFloat("001.string") !== 1) {
+  throw new Test262Error('#9: parseFloat("001.string") === 1. Actual: ' + (parseFloat("001.string")));
+}
+
+
+if (parseFloat("010.string") !== 10) {
+  throw new Test262Error('#10: parseFloat("010.string") === 10. Actual: ' + (parseFloat("010.string")));
+}

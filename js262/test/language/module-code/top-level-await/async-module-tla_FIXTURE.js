@@ -1,0 +1,5 @@
+
+
+globalThis.check = false;
+await 0;
+globalThis.check = true;

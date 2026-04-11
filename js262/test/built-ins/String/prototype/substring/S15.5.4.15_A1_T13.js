@@ -1,0 +1,35 @@
+
+
+/*---
+info: String.prototype.substring (start, end)
+es5id: 15.5.4.15_A1_T13
+description: >
+    Arguments are objects, and instance is string.  First object have
+    overrided valueOf and toString functions.  Second object have
+    overrided toString function, that return exception
+---*/
+
+var __obj = {
+  valueOf: function() {
+    return {};
+  },
+  toString: function() {
+    return 1;
+  }
+};
+var __obj2 = {
+  toString: function() {
+    throw "inend";
+  }
+};
+
+
+try {
+  var x = "ABB\u0041BABAB\u0031BBAA".substring(__obj, __obj2);
+  throw new Test262Error('#1: var x = "ABB\\u0041BABAB\\u0031BBAA".substring(__obj,__obj2) lead to throw exception');
+} catch (e) {
+  if (e !== "inend") {
+    throw new Test262Error('#1.1: Exception === "inend". Actual: ' + e);
+  }
+}
+

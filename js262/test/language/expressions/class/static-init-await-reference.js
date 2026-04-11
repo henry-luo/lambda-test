@@ -1,0 +1,28 @@
+
+
+/*---
+esid: sec-class-definitions-static-semantics-early-errors
+description: The `await` keyword is interpreted as a IdentifierReference in method parameter lists
+info: |
+  ClassStaticBlockBody : ClassStaticBlockStatementList
+
+  [...]
+  - It is a Syntax Error if ContainsAwait of ClassStaticBlockStatementList is true.
+features: [class-static-block]
+---*/
+
+var await = 0;
+var fromParam, fromBody;
+
+class C {
+  static {
+    new (class {
+      constructor(x = fromParam = await) {
+        fromBody = await;
+      }
+    });
+  }
+}
+
+assert.sameValue(fromParam, 0, 'from parameter');
+assert.sameValue(fromBody, 0, 'from body');

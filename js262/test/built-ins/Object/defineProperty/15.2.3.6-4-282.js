@@ -1,0 +1,35 @@
+
+
+/*---
+es5id: 15.2.3.6-4-282
+description: >
+    Object.defineProperty - 'O' is an Array, 'name' is generic own
+    data property of 'O', test TypeError is thrown when updating the
+    [[Writable]] attribute value of 'name' which is defined as
+    non-configurable (15.4.5.1 step 5)
+includes: [propertyHelper.js]
+---*/
+
+
+var arrObj = [];
+
+Object.defineProperty(arrObj, "property", {
+  writable: false
+});
+try {
+  Object.defineProperty(arrObj, "property", {
+    writable: true
+  });
+  throw new Test262Error("Expected an exception.");
+} catch (e) {
+  if (!(e instanceof TypeError)) {
+    throw new Test262Error("Expected TypeError, got " + e);
+  }
+}
+
+verifyProperty(arrObj, "property", {
+  value: undefined,
+  writable: false,
+  enumerable: false,
+  configurable: false,
+});

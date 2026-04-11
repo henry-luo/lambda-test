@@ -1,0 +1,46 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.round
+description: >
+    When converting the result from normalized duration form, each duration
+    component is turned into a float64-representable integer
+features: [Temporal]
+---*/
+
+
+const ms = new Temporal.Duration(0, 0, 0, 0, 0, 0,  Number.MAX_SAFE_INTEGER,  488, 0, 0);
+assert.throws(RangeError, () => ms.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (maximum milliseconds)");
+
+const us = new Temporal.Duration(0, 0, 0, 0, 0, 0,  Number.MAX_SAFE_INTEGER, 0,  475_712, 0);
+assert.throws(RangeError, () => ms.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (maximum microseconds)");
+
+const ns = new Temporal.Duration(0, 0, 0, 0, 0, 0,  Number.MAX_SAFE_INTEGER, 0, 0,  463_129_088);
+assert.throws(RangeError, () => ns.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (maximum nanoseconds)");
+
+const msMin = new Temporal.Duration(0, 0, 0, 0, 0, 0,  -Number.MAX_SAFE_INTEGER,  -487, 0, 0);
+assert.throws(RangeError, () => msMin.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (minimum milliseconds)");
+
+const usMin = new Temporal.Duration(0, 0, 0, 0, 0, 0,  -Number.MAX_SAFE_INTEGER, 0,  -475_711, 0);
+assert.throws(RangeError, () => usMin.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (minimum microseconds)");
+
+const nsMin = new Temporal.Duration(0, 0, 0, 0, 0, 0,  -Number.MAX_SAFE_INTEGER, 0, 0,  -463_129_088);
+assert.throws(RangeError, () => nsMin.round({
+  largestUnit: "nanoseconds",
+  roundingIncrement: 1,
+}), "nanoseconds component after balancing as a float64-representable integer is out of range (minimum nanoseconds)");

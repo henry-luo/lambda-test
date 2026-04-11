@@ -1,0 +1,29 @@
+
+
+/*---
+description: >
+    Objects whose specified property is configurable do not satisfy the
+    assertion.
+includes: [propertyHelper.js]
+---*/
+var threw = false;
+var obj = {};
+Object.defineProperty(obj, 'a', {
+  configurable: true
+});
+
+try {
+  verifyNotConfigurable(obj, 'a');
+} catch(err) {
+  threw = true;
+  if (err.constructor !== Test262Error) {
+    throw new Error(
+      'Expected a Test262Error, but a "' + err.constructor.name +
+      '" was thrown.'
+    );
+  }
+}
+
+if (threw === false) {
+  throw new Error('Expected a Test262Error, but no error was thrown.');
+}

@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-temporal.plaintime.from
+description: >
+  A property bag missing optional properties is equivalent to a property bag
+  with all the optional properties having their default values
+features: [Temporal]
+---*/
+
+const minimumProperties = {
+  hour: 0,
+};
+const allProperties = {
+  hour: 0,
+  minute: 0,
+  second: 0,
+  millisecond: 0,
+  microsecond: 0,
+  nanosecond: 0,
+};
+const resultWithout = Temporal.PlainTime.from(minimumProperties);
+const resultWith = Temporal.PlainTime.from(allProperties);
+assert(resultWithout.equals(resultWith), "results should be the same with and without optional properties");

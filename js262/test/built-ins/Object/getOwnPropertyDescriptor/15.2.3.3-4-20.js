@@ -1,0 +1,15 @@
+
+
+/*---
+es5id: 15.2.3.3-4-20
+description: >
+    Object.getOwnPropertyDescriptor returns data desc for functions on
+    built-ins (Object.seal)
+---*/
+
+var desc = Object.getOwnPropertyDescriptor(Object, "seal");
+
+assert.sameValue(desc.value, Object.seal, 'desc.value');
+assert.sameValue(desc.writable, true, 'desc.writable');
+assert.sameValue(desc.enumerable, false, 'desc.enumerable');
+assert.sameValue(desc.configurable, true, 'desc.configurable');

@@ -1,0 +1,48 @@
+
+
+/*---
+esid: sec-array.prototype.flat
+description: >
+    if the argument is a string or object, the depthNum is 0
+includes: [compareArray.js]
+features: [Array.prototype.flat]
+---*/
+
+var a = [1, [2]];
+var expected = a;
+
+
+var depthNum = 'TestString';
+var actual = a.flat(depthNum);
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+depthNum = {};
+actual = a.flat(depthNum);
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+depthNum = Number.NEGATIVE_INFINITY;
+actual = a.flat(depthNum);
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+depthNum = +0;
+actual = a.flat(depthNum);
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+depthNum = -0;
+actual = a.flat(depthNum);
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+depthNum = '1';
+actual = a.flat(depthNum);
+expected = [1, 2]
+assert.compareArray(actual, expected, 'The value of actual is expected to equal the value of expected');
+
+
+actual = a.flat(undefined);
+expected = [1, 2];
+assert.compareArray(actual, expected, 'a.flat(undefined) uses default depth of 1');

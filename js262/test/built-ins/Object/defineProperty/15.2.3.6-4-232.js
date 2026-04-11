@@ -1,0 +1,31 @@
+
+
+/*---
+es5id: 15.2.3.6-4-232
+description: >
+    Object.defineProperty - 'O' is an Array, 'name' is an array index
+    property, the [[Set]] field of 'desc' and the [[Set]] attribute
+    value of 'name' are two objects which refer to the same object
+    (15.4.5.1 step 4.c)
+includes: [propertyHelper.js]
+---*/
+
+var arrObj = [];
+
+function setFunc(value) {
+  arrObj.setVerifyHelpProp = value;
+}
+
+Object.defineProperty(arrObj, "0", {
+  set: setFunc
+});
+
+Object.defineProperty(arrObj, "0", {
+  set: setFunc
+});
+verifyWritable(arrObj, "0", "setVerifyHelpProp");
+
+verifyProperty(arrObj, "0", {
+  enumerable: false,
+  configurable: false,
+});

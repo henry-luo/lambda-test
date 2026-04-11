@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-temporal.instant.from
+description: Temporal.Instant.from does not implement [[Construct]], is not new-able
+info: |
+    Built-in function objects that are not identified as constructors do not implement the
+    [[Construct]] internal method unless otherwise specified in the description of a particular
+    function.
+includes: [isConstructor.js]
+features: [Reflect.construct, Temporal]
+---*/
+
+assert.throws(TypeError, () => {
+  new Temporal.Instant.from();
+}, "Calling as constructor");
+
+assert.sameValue(isConstructor(Temporal.Instant.from), false,
+  "isConstructor(Temporal.Instant.from)");

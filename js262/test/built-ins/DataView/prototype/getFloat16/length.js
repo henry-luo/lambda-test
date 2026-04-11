@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-dataview.prototype.getfloat16
+description: >
+  DataView.prototype.getFloat16.length is 1.
+features: [Float16Array]
+includes: [propertyHelper.js]
+---*/
+
+verifyProperty(DataView.prototype.getFloat16, "length", {
+  value: 1,
+  writable: false,
+  enumerable: false,
+  configurable: true
+});

@@ -1,0 +1,3 @@
+
+
+Function('return this;')().test262 += '9';

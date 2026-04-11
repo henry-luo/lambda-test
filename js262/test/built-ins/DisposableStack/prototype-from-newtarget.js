@@ -1,0 +1,33 @@
+
+
+/*---
+esid: sec-disposablestack
+description: >
+  The [[Prototype]] internal slot is computed from NewTarget.
+info: |
+  DisposableStack ( )
+
+  ...
+  2. Let disposableStack be ? OrdinaryCreateFromConstructor(NewTarget, "%DisposableStack.prototype%", « [[DisposableState]], [[DisposeCapability]] »).
+  3. Set disposableStack.[[DisposableState]] to pending.
+  4. Set disposableStack.[[DisposeCapability]] to NewDisposeCapability().
+  5. Return disposableStack.
+
+  OrdinaryCreateFromConstructor ( constructor, intrinsicDefaultProto [ , internalSlotsList ] )
+
+  ...
+  2. Let proto be ? GetPrototypeFromConstructor(constructor, intrinsicDefaultProto).
+  3. Return ObjectCreate(proto, internalSlotsList).
+
+  GetPrototypeFromConstructor ( constructor, intrinsicDefaultProto )
+
+  3. Let proto be ? Get(constructor, 'prototype').
+  4. If Type(proto) is not Object, then
+    a. Let realm be ? GetFunctionRealm(constructor).
+    b. Set proto to realm's intrinsic object named intrinsicDefaultProto.
+  5. Return proto.
+features: [explicit-resource-management]
+---*/
+
+var stack = new DisposableStack();
+assert.sameValue(Object.getPrototypeOf(stack), DisposableStack.prototype);

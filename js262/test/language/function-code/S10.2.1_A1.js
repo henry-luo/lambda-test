@@ -1,0 +1,27 @@
+
+
+/*---
+info: |
+    If the caller supplies fewer parameter values than there are
+    formal parameters, the extra formal parameters have value undefined
+es5id: 10.2.1_A1
+description: Calling function excluding a few parameters
+---*/
+
+
+function f1(a, b){
+  return (b === undefined);
+}
+if(!(f1(1, 2) === false)){
+  throw new Test262Error('#1: f1(1, 2) === false');
+} else if(!(f1(1) === true)){
+  throw new Test262Error('#1: f1(1) === true');
+}
+
+
+function f2(a, b, c){
+  return (b === undefined) && (c === undefined);
+}
+if(!(f2(1) === true)){
+  throw new Test262Error('#2: f2(1) === true');
+}

@@ -1,0 +1,19 @@
+
+
+/*---
+info: |
+    If thisArg is not null(defined) the called function is passed
+    ToObject(thisArg) as the this value
+es5id: 15.3.4.3_A5_T5
+description: thisArg is function variable
+---*/
+
+var f = function() {
+  this.touched = true;
+};
+
+var obj = {};
+
+f.apply(obj);
+
+assert(obj.touched, 'The value of obj.touched is expected to be true');

@@ -1,0 +1,31 @@
+
+
+/*---
+info: If x is not a string value, return x
+es5id: 15.1.2.1_A1.1_T2
+description: Checking all object
+---*/
+
+
+var x = {};
+if (eval(x) !== x) {
+  throw new Test262Error('#1: x = {}; eval(x) === x. Actual: ' + (eval(x)));
+}
+
+
+x = new Number(1);
+if (eval(x) !== x) {
+  throw new Test262Error('#2: x = new Number(1); eval(x) === x. Actual: ' + (eval(x)));
+}
+
+
+x = new Boolean(true);
+if (eval(x) !== x) {
+  throw new Test262Error('#3: x = new Boolean(true); eval(x) === x. Actual: ' + (eval(x)));
+}
+
+
+x = new String("1+1");
+if (eval(x) !== x) {
+  throw new Test262Error('#4: x = new String("1"); eval(x) === x. Actual: ' + (eval(x)));
+}

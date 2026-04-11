@@ -1,0 +1,12 @@
+
+
+/*---
+info: Operator use ToNumber
+esid: sec-parseint-string-radix
+description: Checking for boolean primitive
+---*/
+
+assert.sameValue(parseInt("11", false), parseInt("11", 10), 'parseInt("11", false) must return the same value returned by parseInt("11", 10)');
+
+
+assert.sameValue(parseInt("11", true), NaN, 'parseInt("11", true) must return NaN');

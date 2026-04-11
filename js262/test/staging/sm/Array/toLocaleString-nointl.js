@@ -1,0 +1,30 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+if (typeof Intl !== "object") {
+    const localeSep = [,,].toLocaleString();
+
+    const obj = {
+        toLocaleString() {
+            assert.sameValue(arguments.length, 0);
+            return "pass";
+        }
+    };
+
+    
+    assert.sameValue([obj].toLocaleString(), "pass");
+    
+    assert.sameValue([obj, obj].toLocaleString(), "pass" + localeSep + "pass");
+
+    
+    const locales = {}, options = {};
+    
+    assert.sameValue([obj].toLocaleString(locales, options), "pass");
+    
+    assert.sameValue([obj, obj].toLocaleString(locales, options), "pass" + localeSep + "pass");
+}
+

@@ -1,0 +1,54 @@
+
+
+/*---
+info: |
+    Compute the longest prefix of Result(2), which might be Result(2) itself,
+    which satisfies the syntax of a StrDecimalLiteral
+esid: sec-parsefloat-string
+description: Some wrong number
+---*/
+
+
+if (parseFloat("0x") !== 0) {
+  throw new Test262Error('#1: parseFloat("0x") === 0. Actual: ' + (parseFloat("0x")));
+}
+
+
+if (parseFloat("11x") !== 11) {
+  throw new Test262Error('#2: parseFloat("11x") === 11. Actual: ' + (parseFloat("11x")));
+}
+
+
+if (parseFloat("11s1") !== 11) {
+  throw new Test262Error('#3: parseFloat("11s1") === 11. Actual: ' + (parseFloat("11s1")));
+}
+
+
+if (parseFloat("11.s1") !== 11) {
+  throw new Test262Error('#4: parseFloat("11.s1") === 11. Actual: ' + (parseFloat("11.s1")));
+}
+
+
+if (parseFloat(".0s1") !== 0) {
+  throw new Test262Error('#5: parseFloat(".0s1") === 0. Actual: ' + (parseFloat(".0s1")));
+}
+
+
+if (parseFloat("1.s1") !== 1) {
+  throw new Test262Error('#6: parseFloat("1.s1") === 1. Actual: ' + (parseFloat("1.s1")));
+}
+
+
+if (parseFloat("1..1") !== 1) {
+  throw new Test262Error('#7: parseFloat("1..1") === 1. Actual: ' + (parseFloat("1..1")));
+}
+
+
+if (parseFloat("0.1.1") !== 0.1) {
+  throw new Test262Error('#8: parseFloat("0.1.1") === 0.1. Actual: ' + (parseFloat("0.1.1")));
+}
+
+
+if (parseFloat("0. 1") !== 0) {
+  throw new Test262Error('#9: parseFloat("0. 1") === 0. Actual: ' + (parseFloat("0. 1")));
+}

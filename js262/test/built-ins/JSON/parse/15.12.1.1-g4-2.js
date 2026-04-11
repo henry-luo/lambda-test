@@ -1,0 +1,12 @@
+
+
+/*---
+es5id: 15.12.1.1-g4-2
+description: >
+    The JSON lexical grammar does not allow a JSONStringCharacter to
+    be any of the Unicode characters U+0008 thru U+000F
+---*/
+
+assert.throws(SyntaxError, function() {
+    JSON.parse('"\u0008\u0009\u000a\u000b\u000c\u000d\u000e\u000f"'); 
+});

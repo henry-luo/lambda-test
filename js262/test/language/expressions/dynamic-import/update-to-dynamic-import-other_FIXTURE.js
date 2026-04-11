@@ -1,0 +1,7 @@
+
+
+var global = Function('return this;')();
+
+global.test262Update('other');
+
+export default 42;

@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-runtime-semantics-classdefinitionevaluation
+description: >
+  Default class constructor does not use argument evaluation.
+features: [Symbol.iterator]
+---*/
+
+Array.prototype[Symbol.iterator] = function() {
+  throw new Test262Error('@@iterator invoked');
+};
+
+class Base {
+  constructor(value) {
+    this.value = value;
+  }
+}
+
+class Derived extends Base {}
+
+const instance = new Derived(5);
+
+assert.sameValue(instance.value, 5);

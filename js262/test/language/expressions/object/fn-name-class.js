@@ -1,0 +1,48 @@
+
+
+/*---
+es6id: 12.2.6.9
+description: Assignment of function `name` attribute (ClassExpression)
+info: |
+    6. If IsAnonymousFunctionDefinition(AssignmentExpression) is true, then
+       a. Let hasNameProperty be HasOwnProperty(propValue, "name").
+       b. ReturnIfAbrupt(hasNameProperty).
+       c. If hasNameProperty is false, perform SetFunctionName(propValue,
+          propKey).
+includes: [propertyHelper.js]
+features: [class, Symbol]
+---*/
+
+var namedSym = Symbol('test262');
+var anonSym = Symbol();
+var o;
+
+o = {
+  xId: class x {},
+  id: class {},
+  [anonSym]: class {},
+  [namedSym]: class {}
+};
+
+assert(o.xId.name !== 'xId');
+
+verifyProperty(o.id, 'name', {
+  value: 'id',
+  writable: false,
+  enumerable: false,
+  configurable: true,
+});
+
+verifyProperty(o[anonSym], 'name', {
+  value: '',
+  writable: false,
+  enumerable: false,
+  configurable: true,
+});
+
+verifyProperty(o[namedSym], 'name', {
+  value: '[test262]',
+  writable: false,
+  enumerable: false,
+  configurable: true,
+});

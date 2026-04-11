@@ -1,0 +1,15 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+if (typeof disassemble != 'undefined')
+{
+    var func = disassemble(function() { return "c\\d"; })
+
+    
+    assert.sameValue(func.indexOf("\\\\\\\\"), -1)
+}
+

@@ -1,0 +1,31 @@
+
+
+/*---
+info: The String.prototype.indexOf.length property has the attribute DontEnum
+es5id: 15.5.4.7_A8
+description: >
+    Checking if enumerating the String.prototype.indexOf.length
+    property fails
+---*/
+
+
+if (!(String.prototype.indexOf.hasOwnProperty('length'))) {
+  throw new Test262Error('#0: String.prototype.indexOf.hasOwnProperty(\'length\') return true. Actual: ' + String.prototype.indexOf.hasOwnProperty('length'));
+}
+
+
+if (String.prototype.indexOf.propertyIsEnumerable('length')) {
+  throw new Test262Error('#1: String.prototype.indexOf.propertyIsEnumerable(\'length\') return false');
+}
+
+
+var count = 0;
+
+for (var p in String.prototype.indexOf) {
+  if (p === "length") count++;
+}
+
+if (count !== 0) {
+  throw new Test262Error('#2: count=0; for (p in String.prototype.indexOf){if (p==="length") count++;}; count === 0. Actual: ' + count);
+}
+

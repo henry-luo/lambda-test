@@ -1,0 +1,26 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.since
+description: Assumes a different default for largestUnit if smallestUnit is larger than days
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const earlier = new Temporal.ZonedDateTime(1546935756123456789n, "+01:00");
+const later = new Temporal.ZonedDateTime(1631018380987654321n, "+01:00");
+
+TemporalHelpers.assertDuration(later.since(earlier, {
+  smallestUnit: "years",
+  roundingMode: "halfExpand"
+}), 3, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+TemporalHelpers.assertDuration(later.since(earlier, {
+  smallestUnit: "months",
+  roundingMode: "halfExpand"
+}), 0, 32, 0, 0, 0, 0, 0, 0, 0, 0);
+TemporalHelpers.assertDuration(later.since(earlier, {
+  smallestUnit: "weeks",
+  roundingMode: "halfExpand"
+}), 0, 0, 139, 0, 0, 0, 0, 0, 0, 0);
+

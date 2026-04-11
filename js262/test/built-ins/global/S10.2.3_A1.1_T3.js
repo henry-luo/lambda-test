@@ -1,0 +1,84 @@
+
+
+/*---
+info: |
+    Global object has properties such as built-in objects such as
+    Math, String, Date, parseInt, etc
+es5id: 10.2.3_A1.1_T3
+description: Global execution context - Constructor Properties
+---*/
+
+
+if (Object === null) {
+  throw new Test262Error("#13: Object === null");
+}
+
+
+if (Function === null) {
+  throw new Test262Error("#14: Function === null");
+}
+
+
+if (String === null) {
+  throw new Test262Error("#15: String === null");
+}
+
+
+if (Number === null) {
+  throw new Test262Error("#16: Number === null");
+}
+
+
+if (Array === null) {
+  throw new Test262Error("#17: Array === null");
+}
+
+
+if (Boolean === null) {
+  throw new Test262Error("#20: Boolean === null");
+}
+
+
+if (Date === null) {
+  throw new Test262Error("#18: Date === null");
+}
+
+
+if (RegExp === null) {
+  throw new Test262Error("#19: RegExp === null");
+}
+
+
+if (Error === null) {
+  throw new Test262Error("#20: Error === null");
+}
+
+
+if (EvalError === null) {
+  throw new Test262Error("#21: EvalError === null");
+}
+
+
+if (RangeError === null) {
+  throw new Test262Error("#22: RangeError === null");
+}
+
+
+if (ReferenceError === null) {
+  throw new Test262Error("#23: ReferenceError === null");
+}
+
+
+if (SyntaxError === null) {
+  throw new Test262Error("#24: SyntaxError === null");
+}
+
+
+if (TypeError === null) {
+  throw new Test262Error("#25: TypeError === null");
+}
+
+
+if (URIError === null) {
+  throw new Test262Error("#26: URIError === null");
+}

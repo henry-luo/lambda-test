@@ -1,0 +1,3 @@
+
+
+var smoosh; function smoosh() {}

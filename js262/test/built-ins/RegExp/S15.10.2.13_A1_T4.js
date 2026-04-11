@@ -1,0 +1,42 @@
+
+
+/*---
+info: |
+    The production CharacterClass :: [ [lookahead \notin {^}] ClassRanges ]
+    evaluates by evaluating ClassRanges to obtain a CharSet and returning
+    that CharSet and the boolean false
+es5id: 15.10.2.13_A1_T4
+description: Execute /q[ax-zb](?=\s+)/.exec("tqaqy ") and check results
+---*/
+
+var __executed = /q[ax-zb](?=\s+)/.exec("tqaqy ");
+
+var __expected = ["qy"];
+__expected.index = 3;
+__expected.input = "tqaqy ";
+
+assert.sameValue(
+  __executed.length,
+  __expected.length,
+  'The value of __executed.length is expected to equal the value of __expected.length'
+);
+
+assert.sameValue(
+  __executed.index,
+  __expected.index,
+  'The value of __executed.index is expected to equal the value of __expected.index'
+);
+
+assert.sameValue(
+  __executed.input,
+  __expected.input,
+  'The value of __executed.input is expected to equal the value of __expected.input'
+);
+
+for(var index=0; index<__expected.length; index++) {
+  assert.sameValue(
+    __executed[index],
+    __expected[index],
+    'The value of __executed[index] is expected to equal the value of __expected[index]'
+  );
+}

@@ -1,0 +1,9 @@
+
+
+/*---
+esid: sec-Intl.Segmenter.prototype.segment
+description: Checks the "name" property of %IntlSegmentsPrototype%[%Symbol.iterator%] 
+features: [Intl.Segmenter]
+---*/
+let ss = (new Intl.Segmenter()).segment("123")[Symbol.iterator].name;
+assert.sameValue("[Symbol.iterator]", ss);

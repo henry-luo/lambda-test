@@ -1,0 +1,30 @@
+
+
+/*---
+esid: sec-temporal.plaintime.prototype.round
+description: Tests calculations with roundingMode "floor".
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+const instance = new Temporal.PlainTime(13, 46, 23, 123, 987, 500);
+
+const expected = [
+  ["hour", [13]],
+  ["minute", [13, 46]],
+  ["second", [13, 46, 23]],
+  ["millisecond", [13, 46, 23, 123]],
+  ["microsecond", [13, 46, 23, 123, 987]],
+  ["nanosecond", [13, 46, 23, 123, 987, 500]],
+];
+
+const roundingMode = "floor";
+
+expected.forEach(([smallestUnit, expected]) => {
+  const [h, min = 0, s = 0, ms = 0, µs = 0, ns = 0] = expected;
+  TemporalHelpers.assertPlainTime(
+    instance.round({ smallestUnit, roundingMode }),
+    h, min, s, ms, µs, ns,
+    `rounds to ${smallestUnit} (roundingMode = ${roundingMode})`
+  );
+});

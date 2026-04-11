@@ -1,0 +1,19 @@
+
+
+/*---
+description: >
+    `Promise.race` invoked on a non-constructor value
+es6id: 25.4.4.3
+info: |
+    [...]
+    6. Let promiseCapability be NewPromiseCapability(C).
+    7. ReturnIfAbrupt(promiseCapability).
+
+    25.4.1.5 NewPromiseCapability ( C )
+
+    1. If IsConstructor(C) is false, throw a TypeError exception.
+---*/
+
+assert.throws(TypeError, function() {
+  Promise.race.call(eval);
+});

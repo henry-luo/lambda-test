@@ -1,0 +1,32 @@
+
+
+/*---
+description: Test if disposed methods are called correctly in async function.
+includes: [asyncHelpers.js, compareArray.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+
+asyncTest(async function() {
+  let functionBodyValues = [];
+
+  async function TestUsingInFunctionBody() {
+    await using x = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        functionBodyValues.push(42);
+      }
+    };
+    await using y = {
+      value: 2,
+      [Symbol.asyncDispose]() {
+        functionBodyValues.push(43);
+      }
+    };
+  }
+
+  functionBodyValues = [];
+  await TestUsingInFunctionBody();
+  assert.compareArray(functionBodyValues, [43, 42]);
+});

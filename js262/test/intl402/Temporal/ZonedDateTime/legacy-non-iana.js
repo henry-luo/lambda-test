@@ -1,0 +1,42 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime
+description: Only IANA time zone identifiers are allowed.
+features: [Temporal]
+---*/
+
+
+const invalidTimeZones = [
+  "ACT",
+  "AET",
+  "AGT",
+  "ART",
+  "AST",
+  "BET",
+  "BST",
+  "CAT",
+  "CNT",
+  "CST",
+  "CTT",
+  "EAT",
+  "ECT",
+  "IET",
+  "IST",
+  "JST",
+  "MIT",
+  "NET",
+  "NST",
+  "PLT",
+  "PNT",
+  "PRT",
+  "PST",
+  "SST",
+  "VST",
+];
+
+for (let timeZone of invalidTimeZones) {
+  assert.throws(RangeError, () => {
+    new Temporal.ZonedDateTime(0n, timeZone);
+  }, "Time zone: " + timeZone);
+}
