@@ -1,5 +1,6 @@
 {
   "test_file": "letter-spacing-203.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -745,8 +746,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n  @import \"/fonts/ahem.css\";\n  .contain {\n    font: 20px/1 Ahem;\n    border: solid blue;\n    margin: 1em;\n    float: left; }\n  .ls0 {\n    letter-spacing: 0;\n  }\n  .ls1 {\n    letter-spacing: 1em;\n  }\n  .ls3 {\n    letter-spacing: 3em;\n  }\n  .control p {\n    white-space: pre-wrap;\n  }\n  p {\n    letter-spacing: 0;\n    margin: 0;\n    word-break: break-all;\n  }\n",
-                "length": 359,
+                "text": "\n  @import \"../../../support/fonts/ahem.css\";\n  .contain {\n    font: 20px/1 Ahem;\n    border: solid blue;\n    margin: 1em;\n    float: left; }\n  .ls0 {\n    letter-spacing: 0;\n  }\n  .ls1 {\n    letter-spacing: 1em;\n  }\n  .ls3 {\n    letter-spacing: 3em;\n  }\n  .control p {\n    white-space: pre-wrap;\n  }\n  p {\n    letter-spacing: 0;\n    margin: 0;\n    word-break: break-all;\n  }\n",
+                "length": 375,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],

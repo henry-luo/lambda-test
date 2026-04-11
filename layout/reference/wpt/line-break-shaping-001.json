@@ -1,5 +1,6 @@
 {
   "test_file": "line-break-shaping-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 262,
+      "height": 306,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -744,8 +745,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  div {\n    font-family: 'csstest_noto';\n    font-size: 4em;\n  }\n  section {\n    float: left; /* to sizing to the intrinsic min of the ref box*/\n    position: relative;\n  }\n  #ref {\n    border: solid orange;\n    margin: 1rem;\n  }\n  #test {\n    border: solid blue;\n    position: absolute; /* to avoid influencing the size of the section */\n    left: 1rem;\n    right: 1rem;\n    line-break: anywhere;\n  }\n",
-                "length": 530,
+                "text": "\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  div {\n    font-family: 'csstest_noto';\n    font-size: 4em;\n  }\n  section {\n    float: left; /* to sizing to the intrinsic min of the ref box*/\n    position: relative;\n  }\n  #ref {\n    border: solid orange;\n    margin: 1rem;\n  }\n  #test {\n    border: solid blue;\n    position: absolute; /* to avoid influencing the size of the section */\n    left: 1rem;\n    right: 1rem;\n    line-break: anywhere;\n  }\n",
+                "length": 546,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -792,7 +793,7 @@
           "contentWidth": 1184,
           "contentHeight": 18,
           "scrollWidth": 1184,
-          "scrollHeight": 426
+          "scrollHeight": 514
         },
         "computed": {
           "display": "block",
@@ -937,12 +938,12 @@
             "layout": {
               "x": 8,
               "y": 50,
-              "width": 120.53,
-              "height": 212,
-              "contentWidth": 121,
-              "contentHeight": 212,
-              "scrollWidth": 121,
-              "scrollHeight": 392
+              "width": 119.78,
+              "height": 256,
+              "contentWidth": 120,
+              "contentHeight": 256,
+              "scrollWidth": 120,
+              "scrollHeight": 480
             },
             "computed": {
               "display": "block",
@@ -997,12 +998,12 @@
                 "layout": {
                   "x": 24,
                   "y": 66,
-                  "width": 88.53,
-                  "height": 180,
-                  "contentWidth": 83,
-                  "contentHeight": 174,
-                  "scrollWidth": 83,
-                  "scrollHeight": 174
+                  "width": 87.78,
+                  "height": 224,
+                  "contentWidth": 82,
+                  "contentHeight": 218,
+                  "scrollWidth": 82,
+                  "scrollHeight": 218
                 },
                 "computed": {
                   "display": "block",
@@ -1057,11 +1058,11 @@
                       "rects": [
                         {
                           "x": 27,
-                          "y": 72,
-                          "width": 82.53,
-                          "height": 74,
-                          "right": 109.53,
-                          "bottom": 146,
+                          "y": 69,
+                          "width": 81.78,
+                          "height": 109,
+                          "right": 108.78,
+                          "bottom": 178,
                           "text": "ﻋﺎﺋﻠ",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1084,9 +1085,9 @@
                     "classes": [],
                     "layout": {
                       "x": 27,
-                      "y": 72,
+                      "y": 69,
                       "width": 0,
-                      "height": 74,
+                      "height": 109,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -1145,12 +1146,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 88.89,
-                          "y": 159,
-                          "width": 20.64,
-                          "height": 74,
-                          "right": 109.53,
-                          "bottom": 233,
+                          "x": 78.88,
+                          "y": 178,
+                          "width": 29.91,
+                          "height": 109,
+                          "right": 108.78,
+                          "bottom": 287,
                           "text": "ﺔ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1175,13 +1176,13 @@
                 "classes": [],
                 "layout": {
                   "x": 24,
-                  "y": 262,
-                  "width": 88.53,
-                  "height": 180,
-                  "contentWidth": 83,
-                  "contentHeight": 174,
-                  "scrollWidth": 83,
-                  "scrollHeight": 174
+                  "y": 306,
+                  "width": 87.78,
+                  "height": 224,
+                  "contentWidth": 82,
+                  "contentHeight": 218,
+                  "scrollWidth": 82,
+                  "scrollHeight": 218
                 },
                 "computed": {
                   "display": "block",
@@ -1215,9 +1216,9 @@
                   "fontWeight": "400",
                   "textAlign": "start",
                   "verticalAlign": "baseline",
-                  "top": "212px",
+                  "top": "256px",
                   "right": "16px",
-                  "bottom": "-180px",
+                  "bottom": "-224px",
                   "left": "16px",
                   "zIndex": "auto",
                   "overflow": "visible",
@@ -1229,21 +1230,21 @@
                 "children": [
                   {
                     "nodeType": "text",
-                    "text": "عا",
-                    "length": 2,
+                    "text": "عائل",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
-                          "x": 60.89,
-                          "y": 268,
-                          "width": 48.64,
-                          "height": 74,
-                          "right": 109.53,
-                          "bottom": 342,
-                          "text": "عا",
+                          "x": 27,
+                          "y": 309,
+                          "width": 81.78,
+                          "height": 109,
+                          "right": 108.78,
+                          "bottom": 418,
+                          "text": "عائل",
                           "startIndex": 0,
-                          "endIndex": 2
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,
@@ -1257,21 +1258,21 @@
                   },
                   {
                     "nodeType": "text",
-                    "text": "ئلة",
-                    "length": 3,
+                    "text": "ة",
+                    "length": 1,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
-                          "x": 55.02,
-                          "y": 355,
-                          "width": 54.52,
-                          "height": 74,
-                          "right": 109.53,
-                          "bottom": 429,
-                          "text": "ئلة",
+                          "x": 78.88,
+                          "y": 418,
+                          "width": 29.91,
+                          "height": 109,
+                          "right": 108.78,
+                          "bottom": 527,
+                          "text": "ة",
                           "startIndex": 0,
-                          "endIndex": 3
+                          "endIndex": 1
                         }
                       ],
                       "hasLayout": true,

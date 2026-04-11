@@ -1,5 +1,6 @@
 {
   "test_file": "shaping_lig-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 278,
+      "height": 320,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -606,8 +607,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: GentiumPlus;\n    src: url('/fonts/GentiumPlus-R.woff') format('woff');\n    font-weight: normal;\n    font-style: normal;\n}\n.test {\n    font-family: GentiumPlus;\n    font-size: 18pt;\n    width: 300px;\n    border: 1px solid black;\n    margin: 1em;\n}\n/* the CSS above is not part of the test */\n",
-                "length": 322,
+                "text": "\n@font-face {\n    font-family: GentiumPlus;\n    src: url('../../../support/fonts/GentiumPlus-R.woff') format('woff');\n    font-weight: normal;\n    font-style: normal;\n}\n.test {\n    font-family: GentiumPlus;\n    font-size: 18pt;\n    width: 300px;\n    border: 1px solid black;\n    margin: 1em;\n}\n/* the CSS above is not part of the test */\n",
+                "length": 338,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -650,11 +651,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 238,
+          "height": 280,
           "contentWidth": 1184,
-          "contentHeight": 238,
+          "contentHeight": 280,
           "scrollWidth": 1184,
-          "scrollHeight": 238
+          "scrollHeight": 280
         },
         "computed": {
           "display": "block",
@@ -804,11 +805,11 @@
               "x": 32,
               "y": 58,
               "width": 302,
-              "height": 86,
+              "height": 107,
               "contentWidth": 300,
-              "contentHeight": 84,
+              "contentHeight": 105,
               "scrollWidth": 300,
-              "scrollHeight": 84
+              "scrollHeight": 105
             },
             "computed": {
               "display": "block",
@@ -856,21 +857,21 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "Sanitary measures in the office ",
-                "length": 32,
+                "text": "Sanitary measures in the ",
+                "length": 25,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 33,
                       "y": 59,
-                      "width": 295.92,
-                      "height": 28,
-                      "right": 328.92,
-                      "bottom": 87,
-                      "text": "Sanitary measures in the office ",
+                      "width": 243.86,
+                      "height": 35,
+                      "right": 276.86,
+                      "bottom": 94,
+                      "text": "Sanitary measures in the ",
                       "startIndex": 0,
-                      "endIndex": 32
+                      "endIndex": 25
                     }
                   ],
                   "hasLayout": true,
@@ -884,21 +885,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "ought be adequately ",
-                "length": 20,
+                "text": "office ought be adequately ",
+                "length": 27,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 33,
-                      "y": 87,
-                      "width": 193.27,
-                      "height": 28,
-                      "right": 226.27,
-                      "bottom": 115,
-                      "text": "ought be adequately ",
+                      "y": 94,
+                      "width": 260.58,
+                      "height": 35,
+                      "right": 293.58,
+                      "bottom": 129,
+                      "text": "office ought be adequately ",
                       "startIndex": 0,
-                      "endIndex": 20
+                      "endIndex": 27
                     }
                   ],
                   "hasLayout": true,
@@ -918,9 +919,9 @@
                 "classes": [],
                 "layout": {
                   "x": 33,
-                  "y": 115,
-                  "width": 116.02,
-                  "height": 28,
+                  "y": 129,
+                  "width": 112.64,
+                  "height": 35,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -979,11 +980,11 @@
                       "rects": [
                         {
                           "x": 33,
-                          "y": 115,
-                          "width": 116.02,
-                          "height": 28,
-                          "right": 149.02,
-                          "bottom": 143,
+                          "y": 129,
+                          "width": 112.64,
+                          "height": 35,
+                          "right": 145.64,
+                          "bottom": 164,
                           "text": "maintained",
                           "startIndex": 0,
                           "endIndex": 10
@@ -1008,12 +1009,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 149.02,
-                      "y": 115,
-                      "width": 6,
-                      "height": 28,
-                      "right": 155.02,
-                      "bottom": 143,
+                      "x": 145.64,
+                      "y": 129,
+                      "width": 5.5,
+                      "height": 35,
+                      "right": 151.14,
+                      "bottom": 164,
                       "text": ".",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1040,13 +1041,13 @@
             ],
             "layout": {
               "x": 32,
-              "y": 168,
+              "y": 189,
               "width": 302,
-              "height": 86,
+              "height": 107,
               "contentWidth": 300,
-              "contentHeight": 84,
+              "contentHeight": 105,
               "scrollWidth": 300,
-              "scrollHeight": 84
+              "scrollHeight": 105
             },
             "computed": {
               "display": "block",
@@ -1101,11 +1102,11 @@
                   "rects": [
                     {
                       "x": 33,
-                      "y": 169,
-                      "width": 235.27,
-                      "height": 28,
-                      "right": 268.27,
-                      "bottom": 197,
+                      "y": 190,
+                      "width": 243.86,
+                      "height": 35,
+                      "right": 276.86,
+                      "bottom": 225,
                       "text": "Sanitary measures in the",
                       "startIndex": 0,
                       "endIndex": 24
@@ -1127,10 +1128,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 268.27,
-                  "y": 169,
+                  "x": 276.86,
+                  "y": 190,
                   "width": 0,
-                  "height": 28,
+                  "height": 35,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1190,11 +1191,11 @@
                   "rects": [
                     {
                       "x": 33,
-                      "y": 197,
-                      "width": 253.92,
-                      "height": 28,
-                      "right": 286.92,
-                      "bottom": 225,
+                      "y": 225,
+                      "width": 260.58,
+                      "height": 35,
+                      "right": 293.58,
+                      "bottom": 260,
                       "text": "office ought be adequately ",
                       "startIndex": 0,
                       "endIndex": 27
@@ -1217,9 +1218,9 @@
                 "classes": [],
                 "layout": {
                   "x": 33,
-                  "y": 225,
-                  "width": 116.02,
-                  "height": 28,
+                  "y": 260,
+                  "width": 112.64,
+                  "height": 35,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1278,11 +1279,11 @@
                       "rects": [
                         {
                           "x": 33,
-                          "y": 225,
-                          "width": 116.02,
-                          "height": 28,
-                          "right": 149.02,
-                          "bottom": 253,
+                          "y": 260,
+                          "width": 112.64,
+                          "height": 35,
+                          "right": 145.64,
+                          "bottom": 295,
                           "text": "maintained",
                           "startIndex": 0,
                           "endIndex": 10
@@ -1307,12 +1308,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 149.02,
-                      "y": 225,
-                      "width": 6,
-                      "height": 28,
-                      "right": 155.02,
-                      "bottom": 253,
+                      "x": 145.64,
+                      "y": 260,
+                      "width": 5.5,
+                      "height": 35,
+                      "right": 151.14,
+                      "bottom": 295,
                       "text": ".",
                       "startIndex": 0,
                       "endIndex": 1

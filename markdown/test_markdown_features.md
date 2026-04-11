@@ -383,9 +383,9 @@ H2 Setext style
 [Collapsed reference]: https://collapsed.example.com
 
 ### Image variants
-![Alt text](https://via.placeholder.com/100x50)
-![Alt with title](https://via.placeholder.com/100x50 "Image Title")
-[![Linked image](https://via.placeholder.com/100x30)](https://example.com)
+![Alt text](../support/images/via.placeholder.com_100x50.png)
+![Alt with title](../support/images/via.placeholder.com_100x50.png "Image Title")
+[![Linked image](../support/images/via.placeholder.com_100x30.png)](https://example.com)
 
 ---
 

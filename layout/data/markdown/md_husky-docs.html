@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>husky docs</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>husky docs</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        husky docs
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p><img src="../support/images/img.shields.io_npm_dm_husky.svg" alt="npm" /></p>
+
+<blockquote>
+  <p>Ultra-fast modern native git hooks</p>
+</blockquote>
+
+<p>Husky enhances your commits and more 🐶 <em>woof!</em></p>
+
+<p>Automatically <strong>lint your commit messages</strong>, <strong>code</strong>, and <strong>run tests</strong> upon committing or pushing.</p>
+
+<p>Get started <a href="/get-started.md">here</a>.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Just <code>2 kB</code> (📦 <em>gzipped</em>) with no dependencies</li>
+  <li>Fastest due to being lightweight (runs in <code>~1ms</code>)</li>
+  <li>Uses new Git feature (<code>core.hooksPath</code>)</li>
+  <li>Supports:
+    <ul>
+      <li>macOS, Linux, Windows</li>
+      <li>Git GUIs, Node version managers, custom hooks directory, nested projects, monorepos</li>
+      <li><a href="https://git-scm.com/docs/githooks">All 13 client-side Git hooks</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>And more:</p>
+
+<ul>
+  <li>Branch-specific hooks</li>
+  <li>Use POSIX shell to script advanced cases</li>
+  <li>Adheres to Git&#8217;s native hook organization</li>
+  <li>Aligns with <a href="https://docs.npmjs.com/cli/v10/using-npm/scripts#best-practices">npm</a> best practices using <code>prepare</code> script</li>
+  <li>Opt-in/opt-out options</li>
+  <li>Can be globally disabled</li>
+  <li>User-friendly error messages</li>
+</ul>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a sponsor <a href="https://github.com/sponsors/typicode">here</a> 💖</p>
+
+<h3 id="github">GitHub</h3>
+
+<p align="center">
+  <a href="http://git-tower.com/?utm_source=husky&amp;utm_medium=referral">
+    <img height="100" style="height: 100px; width: auto; max-width: none;" alt="Git Tower" src="../support/images/camo.githubusercontent.com_4b4d0ae4ec27fe8591b575c86fe21c562f34926893272dccc05fbf0447d38694_68747470733a2f2f6a7_0c7dce26.png" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://serpapi.com/?utm_source=typicode">
+    <img height="100" style="height: 100px; width: auto; max-width: none;" src="../support/images/github.com_user-attachments_assets_52b3039d-1e4c-4c68-951c-93f0f1e73611.png" alt="SerpApi" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="./sponsorkit/sponsors.svg">
+    <img src="./sponsorkit/sponsors.svg" />
+  </a>
+</p>
+
+<h3 id="open-collective">Open Collective</h3>
+
+<p><a href="https://opencollective.com/husky/tiers/company/0/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/husky/tiers/company/1/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/husky/tiers/company/2/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/husky/tiers/company/3/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/husky/tiers/company/4/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://opencollective.com/husky/tiers/company/5/website"><img src="../support/images/opencollective_avatar.svg" /></a>
+<a href="https://www.sanity.io/"><img src="../support/images/github.com_user-attachments_assets_b9c5a918-70fc-4615-ae7d-e7e5bc3c66e8.png" alt="image" /></a></p>
+
+<h2 id="used-by">Used by</h2>
+
+<p>Husky is used in <a href="https://github.com/typicode/husky/network/dependents?package_id=UGFja2FnZS0xODQzNTgwNg%3D%3D"><strong>over 1.5M projects</strong></a> on GitHub, including:</p>
+
+<ul>
+  <li><a href="https://github.com/vercel/next.js">vercel/next.js</a></li>
+  <li><a href="https://github.com/vercel/hyper">vercel/hyper</a></li>
+  <li><a href="https://github.com/webpack/webpack">webpack/webpack</a></li>
+  <li><a href="https://github.com/angular/angular">angular/angular</a></li>
+  <li><a href="https://github.com/facebook/docusaurus">facebook/docusaurus</a></li>
+  <li><a href="https://github.com/microsoft/vscode">microsoft/vscode</a></li>
+  <li><a href="https://github.com/11ty/eleventy">11ty/eleventy</a></li>
+  <li><a href="https://github.com/stylelint/stylelint">stylelint/stylelint</a></li>
+  <li><a href="https://github.com/colinhacks/zod">colinhacks/zod</a></li>
+  <li><a href="https://github.com/rollup/rollup">rollup/rollup</a></li>
+  <li><a href="https://github.com/tinyhttp/tinyhttp">tinyhttp/tinyhttp</a></li>
+  <li>&#8230;</li>
+</ul>
+
+<h2 id="articles">Articles</h2>
+
+<ul>
+  <li><a href="https://blog.typicode.com/posts/husky-git-hooks-javascript-config/">Why husky has dropped conventional JS config</a></li>
+  <li><a href="https://blog.typicode.com/posts/husky-git-hooks-autoinstall/">Why husky doesn&#8217;t autoinstall anymore</a></li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

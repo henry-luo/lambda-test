@@ -1,5 +1,6 @@
 {
   "test_file": "hyphens-overflow-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -832,9 +833,9 @@
                     {
                       "x": 9,
                       "y": 9,
-                      "width": 40,
+                      "width": 50,
                       "height": 10,
-                      "right": 49,
+                      "right": 59,
                       "bottom": 19,
                       "text": "12 4­x",
                       "startIndex": 0,
@@ -1186,9 +1187,9 @@
                     {
                       "x": 9,
                       "y": 75,
-                      "width": 40,
+                      "width": 50,
                       "height": 10,
-                      "right": 49,
+                      "right": 59,
                       "bottom": 85,
                       "text": "1234­x",
                       "startIndex": 0,
@@ -1304,9 +1305,9 @@
                     {
                       "x": 9,
                       "y": 97,
-                      "width": 50,
+                      "width": 60,
                       "height": 10,
-                      "right": 59,
+                      "right": 69,
                       "bottom": 107,
                       "text": "12345­x",
                       "startIndex": 0,
@@ -1422,9 +1423,9 @@
                     {
                       "x": 9,
                       "y": 119,
-                      "width": 60,
+                      "width": 70,
                       "height": 10,
-                      "right": 69,
+                      "right": 79,
                       "bottom": 129,
                       "text": "123456­x",
                       "startIndex": 0,
@@ -1600,9 +1601,9 @@
                         {
                           "x": 9,
                           "y": 141,
-                          "width": 60,
+                          "width": 70,
                           "height": 10,
-                          "right": 69,
+                          "right": 79,
                           "bottom": 151,
                           "text": "ren­for­c",
                           "startIndex": 0,
@@ -1808,9 +1809,9 @@
                         {
                           "x": 9,
                           "y": 163,
-                          "width": 20,
+                          "width": 30,
                           "height": 10,
-                          "right": 29,
+                          "right": 39,
                           "bottom": 173,
                           "text": "00­1",
                           "startIndex": 0,

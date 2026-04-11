@@ -1,5 +1,6 @@
 {
   "test_file": "hanging-whitespace-004.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1214,7 +1215,7 @@
               "height": 100,
               "contentWidth": 100,
               "contentHeight": 100,
-              "scrollWidth": 200,
+              "scrollWidth": 100,
               "scrollHeight": 100
             },
             "computed": {
@@ -1274,7 +1275,7 @@
                   "height": 50,
                   "contentWidth": 100,
                   "contentHeight": 50,
-                  "scrollWidth": 200,
+                  "scrollWidth": 100,
                   "scrollHeight": 50
                 },
                 "computed": {
@@ -1483,7 +1484,7 @@
                   "height": 50,
                   "contentWidth": 100,
                   "contentHeight": 50,
-                  "scrollWidth": 200,
+                  "scrollWidth": 100,
                   "scrollHeight": 50
                 },
                 "computed": {
@@ -1538,11 +1539,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 8,
+                          "x": 33,
                           "y": 100,
                           "width": 75,
                           "height": 25,
-                          "right": 83,
+                          "right": 108,
                           "bottom": 125,
                           "text": "X X",
                           "startIndex": 0,
@@ -1567,7 +1568,7 @@
                       "pre-wrap"
                     ],
                     "layout": {
-                      "x": 83,
+                      "x": 108,
                       "y": 100,
                       "width": 125,
                       "height": 25,
@@ -1628,11 +1629,11 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 83,
+                              "x": 108,
                               "y": 100,
                               "width": 125,
                               "height": 25,
-                              "right": 208,
+                              "right": 233,
                               "bottom": 125
                             }
                           ],

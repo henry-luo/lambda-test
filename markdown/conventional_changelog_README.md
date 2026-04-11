@@ -8,25 +8,25 @@
 [![Build status][build]][build-url]
 [![Coverage status][coverage]][coverage-url]
 
-[package]: https://img.shields.io/badge/package-ESM--only-ffe536.svg
+[package]: ../support/images/img.shields.io_badge_package-ESM--only-ffe536.svg
 [package-url]: https://nodejs.org/api/esm.html
 
-[npm]: https://img.shields.io/npm/v/conventional-changelog.svg
+[npm]: ../support/images/img.shields.io_npm_v_conventional-changelog.svg
 [npm-url]: https://npmjs.com/package/conventional-changelog
 
-[node]: https://img.shields.io/node/v/conventional-changelog.svg
+[node]: ../support/images/img.shields.io_node_v_conventional-changelog.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://img.shields.io/librariesio/release/npm/conventional-changelog
+[deps]: ../support/images/img.shields.io_librariesio_release_npm_conventional-changelog.svg
 [deps-url]: https://libraries.io/npm/conventional-changelog
 
-[size]: https://packagephobia.com/badge?p=conventional-changelog
+[size]: ../support/images/packagephobia.com_badge_p_conventional-changelog.svg
 [size-url]: https://packagephobia.com/result?p=conventional-changelog
 
-[build]: https://img.shields.io/github/actions/workflow/status/conventional-changelog/conventional-changelog/tests.yaml?branch=master
+[build]: ../support/images/img.shields.io_github_actions_workflow_status_conventional-changelog_conventional-changelog_tests.yaml.svg
 [build-url]: https://github.com/conventional-changelog/conventional-changelog/actions
 
-[coverage]: https://coveralls.io/repos/github/conventional-changelog/conventional-changelog/badge.svg?branch=master
+[coverage]: ../support/images/coveralls.io_repos_github_conventional-changelog_conventional-changelog_badge.svg
 [coverage-url]: https://coveralls.io/github/conventional-changelog/conventional-changelog?branch=master
 
 Generate a changelog from git metadata.

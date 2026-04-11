@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soft Hyphen - Long Words</title>
+    <style>
+        @font-face {
+            font-family: 'Liberation Sans';
+            src: url('../../font/LiberationSans-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * { margin: 0; padding: 0; }
+        body {
+            font-family: 'Liberation Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .container {
+            width: 180px;
+            background: #f0f0f0;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Long word with many soft hyphens -->
+    <div class="container"><p>Anti&shy;dis&shy;estab&shy;lish&shy;ment&shy;arian&shy;ism</p></div>
+
+    <!-- Soft hyphen mixed with regular text and spaces -->
+    <div class="container"><p>The quick brown Butter&shy;fly jumps over the lazy dog.</p></div>
+
+    <!-- Multiple words with soft hyphens -->
+    <div class="container"><p>Micro&shy;soft Auto&shy;mobile Tele&shy;communi&shy;cation</p></div>
+
+    <script type="application/json" id="test-metadata">
+    {
+        "test_id": "text_flow_762_soft_hyphen_long_words",
+        "category": "text_flow",
+        "features": ["soft-hyphen", "line-break", "shy", "long-words"],
+        "description": "Soft hyphen in long compound words and mixed with regular text flow",
+        "complexity": "medium"
+    }
+    </script>
+</body>
+</html>

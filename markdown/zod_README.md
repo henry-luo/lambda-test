@@ -9,10 +9,10 @@
 </p>
 <p align="center">
 <a href="https://github.com/colinhacks/zod/actions?query=branch%3Amain"><img src="../support/images/github_badge.svg" alt="Zod CI status" /></a>
-<a href="https://twitter.com/colinhacks" rel="nofollow"><img src="https://img.shields.io/badge/created%20by-@colinhacks-4BBAAB.svg" alt="Created by Colin McDonnell"></a>
-<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="https://img.shields.io/github/license/colinhacks/zod" alt="License"></a>
-<a href="https://www.npmjs.com/package/zod" rel="nofollow"><img src="https://img.shields.io/npm/dw/zod.svg" alt="npm"></a>
-<a href="https://github.com/colinhacks/zod" rel="nofollow"><img src="https://img.shields.io/github/stars/colinhacks/zod" alt="stars"></a>
+<a href="https://twitter.com/colinhacks" rel="nofollow"><img src="../support/images/img.shields.io_badge_created_20by-_colinhacks-4BBAAB.svg" alt="Created by Colin McDonnell"></a>
+<a href="https://opensource.org/licenses/MIT" rel="nofollow"><img src="../support/images/img.shields.io_github_license_colinhacks_zod.svg" alt="License"></a>
+<a href="https://www.npmjs.com/package/zod" rel="nofollow"><img src="../support/images/img.shields.io_npm_dw_zod.svg" alt="npm"></a>
+<a href="https://github.com/colinhacks/zod" rel="nofollow"><img src="../support/images/img.shields.io_github_stars_colinhacks_zod.svg" alt="stars"></a>
 </p>
 
 <div align="center">
@@ -206,7 +206,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://www.coderabbit.ai/">
         <picture height="80px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/eea24edb-ff20-4532-b57c-e8719f455d6d">
-          <img alt="CodeRabbit logo" height="80px" src="https://github.com/user-attachments/assets/d791bc7d-dc60-4d55-9c31-97779839cb74">
+          <img alt="CodeRabbit logo" height="80px" src="../support/images/github.com_user-attachments_assets_d791bc7d-dc60-4d55-9c31-97779839cb74.svg">
         </picture>
       </a>
       <br  />
@@ -230,8 +230,8 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <p>
       <a href="https://www.courier.com/?utm_source=zod&utm_campaign=osssponsors">
         <picture height="62px">
-          <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/6b09506a-78de-47e8-a8c1-792efe31910a">
-          <img alt="Courier logo" height="62px" src="https://github.com/user-attachments/assets/6b09506a-78de-47e8-a8c1-792efe31910a">
+          <source media="(prefers-color-scheme: dark)" srcset="../support/images/github.com_user-attachments_assets_6b09506a-78de-47e8-a8c1-792efe31910a.png">
+          <img alt="Courier logo" height="62px" src="../support/images/github.com_user-attachments_assets_6b09506a-78de-47e8-a8c1-792efe31910a.png">
         </picture>
       </a>
       <br  />
@@ -247,7 +247,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://liblab.com/?utm_source=zod">
         <picture height="62px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/34dfa1a2-ce94-46f4-8902-fbfac3e1a9bc">
-          <img alt="LibLab" height="62px" src="https://github.com/user-attachments/assets/3de0b617-5137-49c4-b72d-a033cbe602d8">
+          <img alt="LibLab" height="62px" src="../support/images/github.com_user-attachments_assets_3de0b617-5137-49c4-b72d-a033cbe602d8.png">
         </picture>
       </a>
       <br  />
@@ -265,7 +265,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://neon.tech">
         <picture height="68px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/83b4b1b1-a9ab-4ae5-a632-56d282f0c444">
-          <img alt="Neon" height="68px" src="https://github.com/user-attachments/assets/b5799fc8-81ff-4053-a1c3-b29adf85e7a1">
+          <img alt="Neon" height="68px" src="../support/images/github.com_user-attachments_assets_b5799fc8-81ff-4053-a1c3-b29adf85e7a1.png">
         </picture>
       </a>
       <br  />
@@ -281,7 +281,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://retool.com/?utm_source=github&utm_medium=referral&utm_campaign=zod">
         <picture height="45px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/colinhacks/zod/assets/3084745/ac65013f-aeb4-48dd-a2ee-41040b69cbe6">
-          <img alt="Retool" height="45px" src="https://github.com/colinhacks/zod/assets/3084745/5ef4c11b-efeb-4495-90a8-41b83f798600">
+          <img alt="Retool" height="45px" src="../support/images/github.com_colinhacks_zod_assets_3084745_5ef4c11b-efeb-4495-90a8-41b83f798600.png">
         </picture>
       </a>
       <br  />
@@ -299,7 +299,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://stainless.com">
         <picture height="45px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/colinhacks/zod/assets/3084745/f20759c1-3e51-49d0-a31e-bbc43abec665">
-          <img alt="stainless" height="45px" src="https://github.com/colinhacks/zod/assets/3084745/e9444e44-d991-4bba-a697-dbcfad608e47">
+          <img alt="stainless" height="45px" src="../support/images/github.com_colinhacks_zod_assets_3084745_e9444e44-d991-4bba-a697-dbcfad608e47.png">
         </picture>
       </a>
       <br  />
@@ -315,7 +315,7 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://speakeasy.com/editor?utm_source=zod+docs">
         <picture height="40px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/colinhacks/zod/assets/3084745/b1d86601-c7fb-483c-9927-5dc24ce8b737">
-          <img alt="speakeasy" height="40px" src="https://github.com/colinhacks/zod/assets/3084745/647524a4-22bb-4199-be70-404207a5a2b5">
+          <img alt="speakeasy" height="40px" src="../support/images/github.com_colinhacks_zod_assets_3084745_647524a4-22bb-4199-be70-404207a5a2b5.svg">
         </picture>
       </a>
       <br  />
@@ -335,81 +335,81 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
 <table align="center" style="justify-content: center;align-items: center;display: flex;">
   <tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/72055470?s=200&v=4" height="50px;" alt="Nitric" />
+      <img src="../support/images/avatars.githubusercontent.com_u_72055470.png" height="50px;" alt="Nitric" />
       <br />
       <a style="text-decoration:none;" href="https://nitric.io/" target="_blank">Nitric</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/89474619?s=200&v=4" height="50px;" alt="PropelAuth" />
+      <img src="../support/images/avatars.githubusercontent.com_u_89474619.png" height="50px;" alt="PropelAuth" />
       <br />
       <a style="text-decoration:none;" href="https://www.propelauth.com/" target="_blank">PropelAuth</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/80861386?s=200&v=4" height="50px;" alt="Cerbos" />
+      <img src="../support/images/avatars.githubusercontent.com_u_80861386.png" height="50px;" alt="Cerbos" />
       <br />
       <a style="text-decoration:none;" href="https://cerbos.dev/" target="_blank">Cerbos</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/301879?s=200&v=4" height="50px;" alt="Scalar.com logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_301879.png" height="50px;" alt="Scalar.com logo" />
       <br />
       <a style="text-decoration:none;" href="https://scalar.com/" target="_blank">Scalar</a>
     </td>
     </tr><tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/95297378?s=200&v=4" height="50px;" alt="Trigger.dev logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_95297378.jpg" height="50px;" alt="Trigger.dev logo" />
       <br />
       <a style="text-decoration:none;" href="https://trigger.dev" target="_blank">Trigger.dev</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/125754?s=200&v=4" height="50px;" alt="Transloadit logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_125754.png" height="50px;" alt="Transloadit logo" />
       <br />
       <a style="text-decoration:none;" href="https://transloadit.com/?utm_source=zod&utm_medium=refe
     rral&utm_campaign=sponsorship&utm_content=github" target="_blank">Transloadit</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/107880645?s=200&v=4" height="50px;" alt="Infisical logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_107880645.png" height="50px;" alt="Infisical logo" />
       <br />
       <a style="text-decoration:none;" href="https://infisical.com" target="_blank">Infisical</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/91036480?s=200&v=4" height="50px;" alt="Whop logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_91036480.png" height="50px;" alt="Whop logo" />
       <br />
       <a style="text-decoration:none;" href="https://whop.com/" target="_blank">Whop</a>
     </td>
     </tr><tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/36402888?s=200&v=4" height="50px;" alt="CryptoJobsList logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_36402888.png" height="50px;" alt="CryptoJobsList logo" />
       <br />
       <a style="text-decoration:none;" href="https://cryptojobslist.com/" target="_blank">CryptoJobsList</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/70170949?s=200&v=4" height="50px;" alt="Plain logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_70170949.png" height="50px;" alt="Plain logo" />
       <br />
       <a style="text-decoration:none;" href="https://plain.com/" target="_blank">Plain.</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/78935958?s=200&v=4" height="50px;" alt="Inngest logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_78935958.png" height="50px;" alt="Inngest logo" />
       <br />
       <a style="text-decoration:none;" href="https://inngest.com/" target="_blank">Inngest</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/13880908?s=200&v=4" height="50px;" alt="Storyblok CMS" />
+      <img src="../support/images/avatars.githubusercontent.com_u_13880908.png" height="50px;" alt="Storyblok CMS" />
       <br />
       <a style="text-decoration:none;" href="https://storyblok.com/" target="_blank">Storyblok</a>
     </td>
     </tr><tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/16199997?s=200&v=4" height="50px;" alt="Mux logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_16199997.png" height="50px;" alt="Mux logo" />
       <br />
       <a style="text-decoration:none;" href="https://mux.link/zod" target="_blank">Mux</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/76428554?s=200&v=4" height="50px;" alt="Cybozu logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_76428554.png" height="50px;" alt="Cybozu logo" />
       <br />
       <a style="text-decoration:none;" href="https://cybozu.co.jp/index.html" target="_blank">Cybozu</a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/147273133?s=200&v=4" height="50px;" alt="Juno logo" />
+      <img src="../support/images/avatars.githubusercontent.com_u_147273133.png" height="50px;" alt="Juno logo" />
       <br />
       <a style="text-decoration:none;" href="https://juno.build/?utm_source=zod" target="_blank">Juno</a>
     </td>
@@ -426,23 +426,23 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
       <a href="https://www.val.town/">
         <picture width="100%" height="40px">
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/36961d2e-d92e-42af-9031-a41885ece5f4">
-          <img alt="val town logo" src="https://github.com/user-attachments/assets/95305fc4-4da6-4bf8-aea4-bae8f5893e5d" height="40px">
+          <img alt="val town logo" src="../support/images/github.com_user-attachments_assets_95305fc4-4da6-4bf8-aea4-bae8f5893e5d.png" height="40px">
         </picture>
       </a>
     </td>
     <td align="center">
       <a href="https://www.route4me.com/">
-        <img src="https://avatars.githubusercontent.com/u/7936820?s=200&v=4" height="40px;" alt="route4me logo" />
+        <img src="../support/images/avatars.githubusercontent.com_u_7936820.png" height="40px;" alt="route4me logo" />
       </a>
     </td>
     <td align="center">
       <a href="https://encore.dev">
-        <img src="https://github.com/colinhacks/zod/assets/3084745/5ad94e73-cd34-4957-9979-37da85fcf9cd" height="40px;" alt="Encore.dev logo" />
+        <img src="../support/images/github.com_colinhacks_zod_assets_3084745_5ad94e73-cd34-4957-9979-37da85fcf9cd.png" height="40px;" alt="Encore.dev logo" />
       </a>
     </td>
     <td align="center">
       <a href="https://www.replay.io/">
-        <img src="https://avatars.githubusercontent.com/u/60818315?s=200&v=4" height="40px;" alt="Replay.io logo" />
+        <img src="../support/images/avatars.githubusercontent.com_u_60818315.png" height="40px;" alt="Replay.io logo" />
       </a>
     </td>
   </tr>
@@ -454,29 +454,29 @@ Sponsorship at any level is appreciated and encouraged. If you built a paid prod
     </td>
     <td align="center">
       <a href="https://marcatopartners.com">
-        <img src="https://avatars.githubusercontent.com/u/84106192?s=200&v=4" height="40px;" alt="Marcato Partners" />
+        <img src="../support/images/avatars.githubusercontent.com_u_84106192.jpg" height="40px;" alt="Marcato Partners" />
       </a>
     </td>
     <td align="center">
       <a href="https://interval.com">
-        <img src="https://avatars.githubusercontent.com/u/67802063?s=200&v=4" height="40px;" alt="" />
+        <img src="../support/images/avatars.githubusercontent.com_u_67802063.png" height="40px;" alt="" />
       </a>
     </td>
     <td align="center">
       <a href="https://seasoned.cc">
-        <img src="https://avatars.githubusercontent.com/u/33913103?s=200&v=4" height="40px;" alt="" />
+        <img src="../support/images/avatars.githubusercontent.com_u_33913103.png" height="40px;" alt="" />
       </a>
     </td>
   </tr>
   <tr>
     <td align="center">
       <a href="https://www.bamboocreative.nz/">
-        <img src="https://avatars.githubusercontent.com/u/41406870?v=4" height="40px;" alt="Bamboo Creative logo" />
+        <img src="../support/images/avatars.githubusercontent.com_u_41406870.png" height="40px;" alt="Bamboo Creative logo" />
       </a>
     </td>
     <td align="center">
       <a href="https://github.com/jasonLaster">
-        <img src="https://avatars.githubusercontent.com/u/254562?v=4" height="40px;" alt="Jason Laster" />
+        <img src="../support/images/avatars.githubusercontent.com_u_254562.jpg" height="40px;" alt="Jason Laster" />
       </a>
     </td>
   </tr>

@@ -3,8 +3,8 @@
 
 A JavaScript implementation of descriptive, regression, and inference statistics.
 
-[![Coverage Status](https://coveralls.io/repos/github/simple-statistics/simple-statistics/badge.svg)](https://coveralls.io/github/simple-statistics/simple-statistics)
-[![npm version](https://badge.fury.io/js/simple-statistics.svg)](http://badge.fury.io/js/simple-statistics)
+[![Coverage Status](../support/images/coveralls.io_repos_github_simple-statistics_simple-statistics_badge.svg)](https://coveralls.io/github/simple-statistics/simple-statistics)
+[![npm version](../support/images/badge.fury.io_js_simple-statistics.svg)](http://badge.fury.io/js/simple-statistics)
 
 Implemented in literate JavaScript with no dependencies, designed to work
 in all modern browsers (including IE) as well as in [node.js](https://nodejs.org/).

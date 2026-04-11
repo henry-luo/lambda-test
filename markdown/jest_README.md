@@ -1,14 +1,14 @@
 <p align="center">
-  <a href="https://www.npmjs.com/package/jest"><img src="https://img.shields.io/npm/v/jest" alt="npm version"></a>
-  <a href="https://github.com/jestjs/jest/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Jest is released under the MIT license."></a>
-  <a href="https://twitter.com/intent/follow?screen_name=jestjs_"><img src="https://img.shields.io/twitter/follow/jestjs_.svg?style=social&label=Follow%20@jestjs_" alt="Follow on Twitter" /></a>
+  <a href="https://www.npmjs.com/package/jest"><img src="../support/images/img.shields.io_npm_v_jest.svg" alt="npm version"></a>
+  <a href="https://github.com/jestjs/jest/blob/main/LICENSE"><img src="../support/images/img.shields.io_badge_license-MIT-blue.svg" alt="Jest is released under the MIT license."></a>
+  <a href="https://twitter.com/intent/follow?screen_name=jestjs_"><img src="../support/images/img.shields.io_twitter_follow_jestjs_.svg" alt="Follow on Twitter" /></a>
 </p>
 <p align="center">
-  <a href="https://github.com/jestjs/jest/actions/workflows/nodejs.yml"><img alt="GitHub CI Status" src="https://img.shields.io/github/actions/workflow/status/jestjs/jest/nodejs.yml?label=CI&logo=GitHub"></a>
-  <a href="https://codecov.io/github/jestjs/jest"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/jestjs/jest/main.svg?maxAge=43200"></a>
+  <a href="https://github.com/jestjs/jest/actions/workflows/nodejs.yml"><img alt="GitHub CI Status" src="../support/images/img.shields.io_github_actions_workflow_status_jestjs_jest_nodejs.yml.svg"></a>
+  <a href="https://codecov.io/github/jestjs/jest"><img alt="Coverage Status" src="../support/images/img.shields.io_codecov_c_github_jestjs_jest_main.svg"></a>
 </p>
 <p align="center">
-  <a href="https://gitpod.io/#https://github.com/jestjs/jest"><img alt="Gitpod ready-to-code" src="https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod"></a>
+  <a href="https://gitpod.io/#https://github.com/jestjs/jest"><img alt="Gitpod ready-to-code" src="../support/images/img.shields.io_badge_Gitpod-ready--to--code-blue.svg"></a>
 </p>
 
 <!-- A spacer -->
@@ -225,7 +225,7 @@ Learn more about using [Jest on the official site!](https://jestjs.io)
 
 ## Badge
 
-Show the world you're using _Jest_ `→` [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/jestjs/jest) [![jest tested](https://img.shields.io/badge/Jest-tested-eee.svg?logo=jest&labelColor=99424f)](https://github.com/jestjs/jest) [![jest](../support/images/jestjs_jest-badge.svg)](https://github.com/jestjs/jest)
+Show the world you're using _Jest_ `→` [![tested with jest](../support/images/img.shields.io_badge_tested_with-jest-99424f.svg)](https://github.com/jestjs/jest) [![jest tested](../support/images/img.shields.io_badge_Jest-tested-eee.svg)](https://github.com/jestjs/jest) [![jest](../support/images/jestjs_jest-badge.svg)](https://github.com/jestjs/jest)
 
 <!-- prettier-ignore -->
 ```md

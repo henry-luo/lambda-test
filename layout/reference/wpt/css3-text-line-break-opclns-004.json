@@ -1,5 +1,6 @@
 {
   "test_file": "css3-text-line-break-opclns-004.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -760,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n\tfont-family: CSSFW;\n\tsrc: url('/fonts/adobe-fonts/CSSFWOrientationTest.otf');\n\t}\n.test, .ref { font-size: 30px; font-family: CSSFW, sans-serif; width: 3em; padding: 0; border: 1px solid orange; line-height: 1em; }\n",
-                "length": 229,
+                "text": "\n@font-face {\n\tfont-family: CSSFW;\n\tsrc: url('../../../support/fonts/adobe-fonts/CSSFWOrientationTest.otf');\n\t}\n.test, .ref { font-size: 30px; font-family: CSSFW, sans-serif; width: 3em; padding: 0; border: 1px solid orange; line-height: 1em; }\n",
+                "length": 245,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -808,7 +809,7 @@
           "contentWidth": 1184,
           "contentHeight": 158,
           "scrollWidth": 1184,
-          "scrollHeight": 159
+          "scrollHeight": 158
         },
         "computed": {
           "display": "block",
@@ -962,7 +963,7 @@
               "contentWidth": 90,
               "contentHeight": 60,
               "scrollWidth": 90,
-              "scrollHeight": 62
+              "scrollHeight": 60
             },
             "computed": {
               "display": "block",
@@ -1017,11 +1018,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 48,
+                      "y": 51,
                       "width": 60,
-                      "height": 35,
+                      "height": 30,
                       "right": 69,
-                      "bottom": 83,
+                      "bottom": 81,
                       "text": "中中",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1045,11 +1046,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 78,
-                      "width": 70.73,
-                      "height": 35,
-                      "right": 79.73,
-                      "bottom": 113,
+                      "y": 81,
+                      "width": 60,
+                      "height": 30,
+                      "right": 69,
+                      "bottom": 111,
                       "text": "༺文",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1082,7 +1083,7 @@
               "contentWidth": 90,
               "contentHeight": 60,
               "scrollWidth": 90,
-              "scrollHeight": 62
+              "scrollHeight": 60
             },
             "computed": {
               "display": "block",
@@ -1137,11 +1138,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 110,
+                      "y": 113,
                       "width": 60,
-                      "height": 35,
+                      "height": 30,
                       "right": 69,
-                      "bottom": 145,
+                      "bottom": 143,
                       "text": "中中",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1164,9 +1165,9 @@
                 "classes": [],
                 "layout": {
                   "x": 69,
-                  "y": 110,
+                  "y": 113,
                   "width": 0,
-                  "height": 35,
+                  "height": 30,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1226,11 +1227,11 @@
                   "rects": [
                     {
                       "x": 9,
-                      "y": 140,
-                      "width": 70.73,
-                      "height": 35,
-                      "right": 79.73,
-                      "bottom": 175,
+                      "y": 143,
+                      "width": 60,
+                      "height": 30,
+                      "right": 69,
+                      "bottom": 173,
                       "text": "༺文",
                       "startIndex": 0,
                       "endIndex": 2

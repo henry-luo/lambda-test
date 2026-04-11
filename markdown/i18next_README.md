@@ -1,12 +1,12 @@
-# i18next: learn once - translate everywhere [![Post](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/intent/tweet?text=Awesome%20i18next:%20learn%20once%20-%20translate%20everywhere%20-%20the%20internationalization%20ecosystem%20&url=https://github.com/i18next/i18next&via=jamuhl&hashtags=i18n,javascript,dev)
+# i18next: learn once - translate everywhere [![Post](../support/images/img.shields.io_twitter_url_http_shields.io.svg)](https://x.com/intent/tweet?text=Awesome%20i18next:%20learn%20once%20-%20translate%20everywhere%20-%20the%20internationalization%20ecosystem%20&url=https://github.com/i18next/i18next&via=jamuhl&hashtags=i18n,javascript,dev)
 
 [![CI](../support/images/github_badge.svg)](https://github.com/i18next/i18next/actions/workflows/CI.yml)
-[![Coveralls](https://img.shields.io/coveralls/i18next/i18next/master.svg?style=flat-square)](https://coveralls.io/github/i18next/i18next)
-[![Package Quality](https://packagequality.com/shield/i18next.svg)](https://packagequality.com/#?package=i18next)
-[![cdnjs version](https://img.shields.io/cdnjs/v/i18next.svg?style=flat-square)](https://cdnjs.com/libraries/i18next)
-[![npm version](https://img.shields.io/npm/v/i18next.svg?style=flat-square)](https://www.npmjs.com/package/i18next)
-![npm](https://img.shields.io/npm/dw/i18next)
-[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20i18next%20Guru-006BFF)](https://gurubase.io/g/i18next)
+[![Coveralls](../support/images/img.shields.io_coveralls_i18next_i18next_master.svg)](https://coveralls.io/github/i18next/i18next)
+[![Package Quality](../support/images/packagequality.com_shield_i18next.svg)](https://packagequality.com/#?package=i18next)
+[![cdnjs version](../support/images/img.shields.io_cdnjs_v_i18next.svg)](https://cdnjs.com/libraries/i18next)
+[![npm version](../support/images/img.shields.io_npm_v_i18next.svg)](https://www.npmjs.com/package/i18next)
+![npm](../support/images/img.shields.io_npm_dw_i18next.svg)
+[![Gurubase](../support/images/img.shields.io_badge_Gurubase-Ask_20i18next_20Guru-006BFF.svg)](https://gurubase.io/g/i18next)
 
 i18next is a very popular internationalization framework for browser or any other javascript environment (eg. Node.js, Deno).
 

@@ -1,5 +1,6 @@
 {
   "test_file": "text-transform-capitalize-020.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -683,8 +684,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('/fonts/GentiumPlus-R.woff2') format('woff2'),\n\t url('/fonts/GentiumPlus-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 125%; line-height: 1.5em; font-family: 'Doulos SIL', 'Noto Serif', 'Noto Sans', webfont, sans-serif; }\n.test span, .ref span { margin-right: 1em; white-space: nowrap; }\n/* the CSS above is not part of the test */\n.test { text-transform: capitalize; }\n",
-                "length": 469,
+                "text": "\n@font-face {\n\tfont-family: 'webfont';\n\tsrc: url('../../../support/fonts/GentiumPlus-R.woff2') format('woff2'),\n\t url('../../../support/fonts/GentiumPlus-R.woff') format('woff');\n\tfont-weight: normal;\n\tfont-style: normal;\n\t}\n.test, .ref { font-size: 125%; line-height: 1.5em; font-family: 'Doulos SIL', 'Noto Serif', 'Noto Sans', webfont, sans-serif; }\n.test span, .ref span { margin-right: 1em; white-space: nowrap; }\n/* the CSS above is not part of the test */\n.test { text-transform: capitalize; }\n",
+                "length": 501,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1028,9 +1029,9 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 71,
-                  "width": 63.92,
-                  "height": 23,
+                  "y": 68,
+                  "width": 68,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1089,11 +1090,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 71,
-                          "width": 63.92,
-                          "height": 23,
-                          "right": 71.92,
-                          "bottom": 94,
+                          "y": 68,
+                          "width": 68,
+                          "height": 29,
+                          "right": 76,
+                          "bottom": 97,
                           "text": "ԁԁԁ Ԁԁԁ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1118,12 +1119,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 91.92,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 97.48,
-                      "bottom": 94
+                      "x": 96,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 100.41,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1142,10 +1143,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 97.48,
-                  "y": 71,
-                  "width": 113.5,
-                  "height": 23,
+                  "x": 100.41,
+                  "y": 68,
+                  "width": 94.38,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1203,12 +1204,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 97.48,
-                          "y": 71,
-                          "width": 113.5,
-                          "height": 23,
-                          "right": 210.98,
-                          "bottom": 94,
+                          "x": 100.41,
+                          "y": 68,
+                          "width": 94.38,
+                          "height": 29,
+                          "right": 194.78,
+                          "bottom": 97,
                           "text": "ԃԃԃ Ԃԃԃ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1233,12 +1234,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 230.98,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 236.55,
-                      "bottom": 94
+                      "x": 214.78,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 219.19,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1257,10 +1258,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 236.55,
-                  "y": 71,
-                  "width": 99.86,
-                  "height": 23,
+                  "x": 219.19,
+                  "y": 68,
+                  "width": 88.38,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1318,12 +1319,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 236.55,
-                          "y": 71,
-                          "width": 99.86,
-                          "height": 23,
-                          "right": 336.41,
-                          "bottom": 94,
+                          "x": 219.19,
+                          "y": 68,
+                          "width": 88.38,
+                          "height": 29,
+                          "right": 307.56,
+                          "bottom": 97,
                           "text": "ԅԅԅ Ԅԅԅ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1348,12 +1349,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 356.41,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 361.97,
-                      "bottom": 94
+                      "x": 327.56,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 331.97,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1372,10 +1373,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 361.97,
-                  "y": 71,
-                  "width": 69.63,
-                  "height": 23,
+                  "x": 331.97,
+                  "y": 68,
+                  "width": 64.95,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1433,12 +1434,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 361.97,
-                          "y": 71,
-                          "width": 69.63,
-                          "height": 23,
-                          "right": 431.59,
-                          "bottom": 94,
+                          "x": 331.97,
+                          "y": 68,
+                          "width": 64.95,
+                          "height": 29,
+                          "right": 396.92,
+                          "bottom": 97,
                           "text": "ԇԇԇ Ԇԇԇ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1463,12 +1464,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 451.59,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 457.16,
-                      "bottom": 94
+                      "x": 416.92,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 421.33,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1487,10 +1488,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 457.16,
-                  "y": 71,
-                  "width": 114.47,
-                  "height": 23,
+                  "x": 421.33,
+                  "y": 68,
+                  "width": 98.23,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1548,12 +1549,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 457.16,
-                          "y": 71,
-                          "width": 114.47,
-                          "height": 23,
-                          "right": 571.63,
-                          "bottom": 94,
+                          "x": 421.33,
+                          "y": 68,
+                          "width": 98.23,
+                          "height": 29,
+                          "right": 519.56,
+                          "bottom": 97,
                           "text": "ԉԉԉ Ԉԉԉ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1578,12 +1579,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 591.63,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 597.19,
-                      "bottom": 94
+                      "x": 539.56,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 543.97,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1602,10 +1603,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 597.19,
-                  "y": 71,
-                  "width": 118.92,
-                  "height": 23,
+                  "x": 543.97,
+                  "y": 68,
+                  "width": 100.31,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1663,12 +1664,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 597.19,
-                          "y": 71,
-                          "width": 118.92,
-                          "height": 23,
-                          "right": 716.11,
-                          "bottom": 94,
+                          "x": 543.97,
+                          "y": 68,
+                          "width": 100.31,
+                          "height": 29,
+                          "right": 644.28,
+                          "bottom": 97,
                           "text": "ԋԋԋ Ԋԋԋ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1693,12 +1694,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 736.11,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 741.67,
-                      "bottom": 94
+                      "x": 664.28,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 668.69,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1717,10 +1718,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 741.67,
-                  "y": 71,
-                  "width": 78.73,
-                  "height": 23,
+                  "x": 668.69,
+                  "y": 68,
+                  "width": 71.28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1778,12 +1779,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 741.67,
-                          "y": 71,
-                          "width": 78.73,
-                          "height": 23,
-                          "right": 820.41,
-                          "bottom": 94,
+                          "x": 668.69,
+                          "y": 68,
+                          "width": 71.28,
+                          "height": 29,
+                          "right": 739.97,
+                          "bottom": 97,
                           "text": "ԍԍԍ Ԍԍԍ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1808,12 +1809,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 840.41,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 845.97,
-                      "bottom": 94
+                      "x": 759.97,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 764.38,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1832,10 +1833,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 845.97,
-                  "y": 71,
-                  "width": 89.16,
-                  "height": 23,
+                  "x": 764.38,
+                  "y": 68,
+                  "width": 75.23,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1893,12 +1894,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 845.97,
-                          "y": 71,
-                          "width": 89.16,
-                          "height": 23,
-                          "right": 935.13,
-                          "bottom": 94,
+                          "x": 764.38,
+                          "y": 68,
+                          "width": 75.23,
+                          "height": 29,
+                          "right": 839.61,
+                          "bottom": 97,
                           "text": "ԏԏԏ Ԏԏԏ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -1923,12 +1924,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 955.13,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 960.69,
-                      "bottom": 94
+                      "x": 859.61,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 864.02,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -1947,10 +1948,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 960.69,
-                  "y": 71,
-                  "width": 72.5,
-                  "height": 23,
+                  "x": 864.02,
+                  "y": 68,
+                  "width": 58.14,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2008,12 +2009,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 960.69,
-                          "y": 71,
-                          "width": 72.5,
-                          "height": 23,
-                          "right": 1033.19,
-                          "bottom": 94,
+                          "x": 864.02,
+                          "y": 68,
+                          "width": 58.14,
+                          "height": 29,
+                          "right": 922.16,
+                          "bottom": 97,
                           "text": "ԑԑԑ Ԑԑԑ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2038,12 +2039,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 1053.19,
-                      "y": 71,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 1058.75,
-                      "bottom": 94
+                      "x": 942.16,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 946.56,
+                      "bottom": 97
                     }
                   ],
                   "hasLayout": true,
@@ -2062,10 +2063,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 1058.75,
-                  "y": 71,
-                  "width": 81.36,
-                  "height": 23,
+                  "x": 946.56,
+                  "y": 68,
+                  "width": 71.28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2123,12 +2124,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 1058.75,
-                          "y": 71,
-                          "width": 81.36,
-                          "height": 23,
-                          "right": 1140.11,
-                          "bottom": 94,
+                          "x": 946.56,
+                          "y": 68,
+                          "width": 71.28,
+                          "height": 29,
+                          "right": 1017.84,
+                          "bottom": 97,
                           "text": "ԓԓԓ Ԓԓԓ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2146,16 +2147,41 @@
                 ]
               },
               {
+                "nodeType": "text",
+                "text": " ",
+                "length": 1,
+                "isWhitespaceOnly": true,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 1037.84,
+                      "y": 68,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 1042.25,
+                      "bottom": 97
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 19,
+                "children": []
+              },
+              {
                 "nodeType": "element",
                 "selector": "span:nth-of-type(11)",
                 "tag": "span",
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 8,
-                  "y": 101,
-                  "width": 91.48,
-                  "height": 23,
+                  "x": 1042.25,
+                  "y": 68,
+                  "width": 99.53,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2213,12 +2239,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 8,
-                          "y": 101,
-                          "width": 91.48,
-                          "height": 23,
-                          "right": 99.48,
-                          "bottom": 124,
+                          "x": 1042.25,
+                          "y": 68,
+                          "width": 99.53,
+                          "height": 29,
+                          "right": 1141.78,
+                          "bottom": 97,
                           "text": "ԕԕԕ Ԕԕԕ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2236,41 +2262,16 @@
                 ]
               },
               {
-                "nodeType": "text",
-                "text": " ",
-                "length": 1,
-                "isWhitespaceOnly": true,
-                "layout": {
-                  "rects": [
-                    {
-                      "x": 119.48,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 125.05,
-                      "bottom": 124
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "block",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 21,
-                "children": []
-              },
-              {
                 "nodeType": "element",
                 "selector": "span:nth-of-type(12)",
                 "tag": "span",
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 125.05,
-                  "y": 101,
-                  "width": 93.25,
-                  "height": 23,
+                  "x": 8,
+                  "y": 98,
+                  "width": 90.72,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2328,12 +2329,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 125.05,
-                          "y": 101,
-                          "width": 93.25,
-                          "height": 23,
-                          "right": 218.3,
-                          "bottom": 124,
+                          "x": 8,
+                          "y": 98,
+                          "width": 90.72,
+                          "height": 29,
+                          "right": 98.72,
+                          "bottom": 127,
                           "text": "ԗԗԗ Ԗԗԗ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2358,12 +2359,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 238.3,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 243.86,
-                      "bottom": 124
+                      "x": 118.72,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 123.13,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2382,10 +2383,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 243.86,
-                  "y": 101,
-                  "width": 105.77,
-                  "height": 23,
+                  "x": 123.13,
+                  "y": 98,
+                  "width": 95.48,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2443,12 +2444,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 243.86,
-                          "y": 101,
-                          "width": 105.77,
-                          "height": 23,
-                          "right": 349.63,
-                          "bottom": 124,
+                          "x": 123.13,
+                          "y": 98,
+                          "width": 95.48,
+                          "height": 29,
+                          "right": 218.61,
+                          "bottom": 127,
                           "text": "ԙԙԙ Ԙԙԙ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2473,12 +2474,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 369.63,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 375.19,
-                      "bottom": 124
+                      "x": 238.61,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 243.02,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2497,10 +2498,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 375.19,
-                  "y": 101,
-                  "width": 77.81,
-                  "height": 23,
+                  "x": 243.02,
+                  "y": 98,
+                  "width": 69.63,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2558,12 +2559,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 375.19,
-                          "y": 101,
-                          "width": 77.81,
-                          "height": 23,
-                          "right": 453,
-                          "bottom": 124,
+                          "x": 243.02,
+                          "y": 98,
+                          "width": 69.63,
+                          "height": 29,
+                          "right": 312.64,
+                          "bottom": 127,
                           "text": "ԛԛԛ Ԛԛԛ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2588,12 +2589,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 473,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 478.56,
-                      "bottom": 124
+                      "x": 332.64,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 337.05,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2612,10 +2613,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 478.56,
-                  "y": 101,
-                  "width": 77.81,
-                  "height": 23,
+                  "x": 337.05,
+                  "y": 98,
+                  "width": 94.91,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2673,12 +2674,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 478.56,
-                          "y": 101,
-                          "width": 77.81,
-                          "height": 23,
-                          "right": 556.38,
-                          "bottom": 124,
+                          "x": 337.05,
+                          "y": 98,
+                          "width": 94.91,
+                          "height": 29,
+                          "right": 431.95,
+                          "bottom": 127,
                           "text": "ԝԝԝ Ԝԝԝ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2703,12 +2704,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 576.38,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 581.94,
-                      "bottom": 124
+                      "x": 451.95,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 456.36,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2727,10 +2728,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 581.94,
-                  "y": 101,
-                  "width": 83.44,
-                  "height": 23,
+                  "x": 456.36,
+                  "y": 98,
+                  "width": 68.75,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2788,12 +2789,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 581.94,
-                          "y": 101,
-                          "width": 83.44,
-                          "height": 23,
-                          "right": 665.38,
-                          "bottom": 124,
+                          "x": 456.36,
+                          "y": 98,
+                          "width": 68.75,
+                          "height": 29,
+                          "right": 525.11,
+                          "bottom": 127,
                           "text": "ԟԟԟ Ԟԟԟ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2818,12 +2819,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 685.38,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 690.94,
-                      "bottom": 124
+                      "x": 545.11,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 549.52,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2842,10 +2843,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 690.94,
-                  "y": 101,
-                  "width": 108.48,
-                  "height": 23,
+                  "x": 549.52,
+                  "y": 98,
+                  "width": 97.72,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2903,12 +2904,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 690.94,
-                          "y": 101,
-                          "width": 108.48,
-                          "height": 23,
-                          "right": 799.42,
-                          "bottom": 124,
+                          "x": 549.52,
+                          "y": 98,
+                          "width": 97.72,
+                          "height": 29,
+                          "right": 647.23,
+                          "bottom": 127,
                           "text": "ԡԡԡ Ԡԡԡ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -2933,12 +2934,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 819.42,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 824.98,
-                      "bottom": 124
+                      "x": 667.23,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 671.64,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -2957,10 +2958,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 824.98,
-                  "y": 101,
-                  "width": 122.64,
-                  "height": 23,
+                  "x": 671.64,
+                  "y": 98,
+                  "width": 100.64,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3018,12 +3019,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 824.98,
-                          "y": 101,
-                          "width": 122.64,
-                          "height": 23,
-                          "right": 947.63,
-                          "bottom": 124,
+                          "x": 671.64,
+                          "y": 98,
+                          "width": 100.64,
+                          "height": 29,
+                          "right": 772.28,
+                          "bottom": 127,
                           "text": "ԣԣԣ Ԣԣԣ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3048,12 +3049,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 967.63,
-                      "y": 101,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 973.19,
-                      "bottom": 124
+                      "x": 792.28,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 796.69,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -3072,10 +3073,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 973.19,
-                  "y": 101,
-                  "width": 87.5,
-                  "height": 23,
+                  "x": 796.69,
+                  "y": 98,
+                  "width": 75.97,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3133,12 +3134,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 973.19,
-                          "y": 101,
-                          "width": 87.5,
-                          "height": 23,
-                          "right": 1060.69,
-                          "bottom": 124,
+                          "x": 796.69,
+                          "y": 98,
+                          "width": 75.97,
+                          "height": 29,
+                          "right": 872.66,
+                          "bottom": 127,
                           "text": "ԥԥԥ Ԥԥԥ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3156,16 +3157,41 @@
                 ]
               },
               {
+                "nodeType": "text",
+                "text": " ",
+                "length": 1,
+                "isWhitespaceOnly": true,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 892.66,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 897.06,
+                      "bottom": 127
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 37,
+                "children": []
+              },
+              {
                 "nodeType": "element",
                 "selector": "span:nth-of-type(20)",
                 "tag": "span",
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 8,
-                  "y": 131,
-                  "width": 87.14,
-                  "height": 23,
+                  "x": 897.06,
+                  "y": 98,
+                  "width": 74.02,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3223,12 +3249,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 8,
-                          "y": 131,
-                          "width": 87.14,
-                          "height": 23,
-                          "right": 95.14,
-                          "bottom": 154,
+                          "x": 897.06,
+                          "y": 98,
+                          "width": 74.02,
+                          "height": 29,
+                          "right": 971.08,
+                          "bottom": 127,
                           "text": "ԧԧԧ Ԧԧԧ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3253,12 +3279,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 115.14,
-                      "y": 131,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 120.7,
-                      "bottom": 154
+                      "x": 991.08,
+                      "y": 98,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 995.48,
+                      "bottom": 127
                     }
                   ],
                   "hasLayout": true,
@@ -3277,10 +3303,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 120.7,
-                  "y": 131,
-                  "width": 55.56,
-                  "height": 23,
+                  "x": 995.48,
+                  "y": 98,
+                  "width": 76.09,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3338,12 +3364,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 120.7,
-                          "y": 131,
-                          "width": 55.56,
-                          "height": 23,
-                          "right": 176.27,
-                          "bottom": 154,
+                          "x": 995.48,
+                          "y": 98,
+                          "width": 76.09,
+                          "height": 29,
+                          "right": 1071.58,
+                          "bottom": 127,
                           "text": "ԩԩԩ Ԩԩԩ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3361,41 +3387,16 @@
                 ]
               },
               {
-                "nodeType": "text",
-                "text": " ",
-                "length": 1,
-                "isWhitespaceOnly": true,
-                "layout": {
-                  "rects": [
-                    {
-                      "x": 196.27,
-                      "y": 131,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 201.83,
-                      "bottom": 154
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "block",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 41,
-                "children": []
-              },
-              {
                 "nodeType": "element",
                 "selector": "span:nth-of-type(22)",
                 "tag": "span",
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 201.83,
-                  "y": 131,
-                  "width": 106.25,
-                  "height": 23,
+                  "x": 8,
+                  "y": 128,
+                  "width": 122.66,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3453,12 +3454,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 201.83,
-                          "y": 131,
-                          "width": 106.25,
-                          "height": 23,
-                          "right": 308.08,
-                          "bottom": 154,
+                          "x": 8,
+                          "y": 128,
+                          "width": 122.66,
+                          "height": 29,
+                          "right": 130.66,
+                          "bottom": 157,
                           "text": "ԫԫԫ Ԫԫԫ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3483,12 +3484,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 328.08,
-                      "y": 131,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 333.64,
-                      "bottom": 154
+                      "x": 150.66,
+                      "y": 128,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 155.06,
+                      "bottom": 157
                     }
                   ],
                   "hasLayout": true,
@@ -3507,10 +3508,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 333.64,
-                  "y": 131,
-                  "width": 69.97,
-                  "height": 23,
+                  "x": 155.06,
+                  "y": 128,
+                  "width": 70.8,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3568,12 +3569,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 333.64,
-                          "y": 131,
-                          "width": 69.97,
-                          "height": 23,
-                          "right": 403.61,
-                          "bottom": 154,
+                          "x": 155.06,
+                          "y": 128,
+                          "width": 70.8,
+                          "height": 29,
+                          "right": 225.86,
+                          "bottom": 157,
                           "text": "ԭԭԭ Ԭԭԭ",
                           "startIndex": 0,
                           "endIndex": 7
@@ -3598,12 +3599,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 423.61,
-                      "y": 131,
-                      "width": 5.56,
-                      "height": 23,
-                      "right": 429.17,
-                      "bottom": 154
+                      "x": 245.86,
+                      "y": 128,
+                      "width": 4.41,
+                      "height": 29,
+                      "right": 250.27,
+                      "bottom": 157
                     }
                   ],
                   "hasLayout": true,
@@ -3622,10 +3623,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 429.17,
-                  "y": 131,
-                  "width": 80.38,
-                  "height": 23,
+                  "x": 250.27,
+                  "y": 128,
+                  "width": 74.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3683,12 +3684,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 429.17,
-                          "y": 131,
-                          "width": 80.38,
-                          "height": 23,
-                          "right": 509.55,
-                          "bottom": 154,
+                          "x": 250.27,
+                          "y": 128,
+                          "width": 74.3,
+                          "height": 29,
+                          "right": 324.56,
+                          "bottom": 157,
                           "text": "ԯԯԯ Ԯԯԯ",
                           "startIndex": 0,
                           "endIndex": 7

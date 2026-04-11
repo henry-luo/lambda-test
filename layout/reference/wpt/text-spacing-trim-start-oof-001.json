@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-start-oof-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 156,
+      "height": 161,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -804,8 +805,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  text-spacing-trim: trim-start;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
-                "length": 399,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  text-spacing-trim: trim-start;\n}\n.chws #container {\n  font-family: chws-font;\n}\n.vrl {\n  writing-mode: vertical-rl;\n}\n",
+                "length": 431,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -848,11 +849,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 140,
+          "height": 145,
           "contentWidth": 1184,
-          "contentHeight": 140,
+          "contentHeight": 145,
           "scrollWidth": 1184,
-          "scrollHeight": 140
+          "scrollHeight": 145
         },
         "computed": {
           "display": "block",
@@ -908,11 +909,11 @@
               "x": 8,
               "y": 8,
               "width": 1184,
-              "height": 140,
+              "height": 145,
               "contentWidth": 1184,
-              "contentHeight": 140,
+              "contentHeight": 145,
               "scrollWidth": 1184,
-              "scrollHeight": 140
+              "scrollHeight": 145
             },
             "computed": {
               "display": "block",
@@ -968,11 +969,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1027,11 +1028,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 11,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 34,
+                          "y": 8,
+                          "width": 50,
+                          "height": 29,
+                          "right": 58,
+                          "bottom": 37,
                           "text": "（国国",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1056,13 +1057,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 36,
+                  "y": 37,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1116,9 +1117,9 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 39,
-                      "width": 60,
-                      "height": 23,
+                      "y": 37,
+                      "width": 50,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -1177,11 +1178,11 @@
                           "rects": [
                             {
                               "x": 8,
-                              "y": 39,
-                              "width": 60,
-                              "height": 23,
-                              "right": 68,
-                              "bottom": 62,
+                              "y": 37,
+                              "width": 50,
+                              "height": 29,
+                              "right": 58,
+                              "bottom": 66,
                               "text": "（国国",
                               "startIndex": 0,
                               "endIndex": 3
@@ -1208,13 +1209,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 64,
+                  "y": 66,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1268,9 +1269,9 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 67,
+                      "y": 66,
                       "width": 0,
-                      "height": 23,
+                      "height": 29,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -1330,11 +1331,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 67,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 90,
+                          "y": 66,
+                          "width": 50,
+                          "height": 29,
+                          "right": 58,
+                          "bottom": 95,
                           "text": "（国国",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1359,13 +1360,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 92,
+                  "y": 95,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1419,7 +1420,7 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 92,
+                      "y": 95,
                       "width": 0,
                       "height": 0,
                       "contentWidth": 0,
@@ -1482,10 +1483,10 @@
                         {
                           "x": 8,
                           "y": 95,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 118,
+                          "width": 50,
+                          "height": 29,
+                          "right": 58,
+                          "bottom": 124,
                           "text": "（国国",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1510,13 +1511,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 120,
+                  "y": 124,
                   "width": 1184,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 1184,
-                  "contentHeight": 28,
+                  "contentHeight": 29,
                   "scrollWidth": 1184,
-                  "scrollHeight": 28
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -1570,7 +1571,7 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 120,
+                      "y": 124,
                       "width": 0,
                       "height": 0,
                       "contentWidth": 0,
@@ -1610,9 +1611,9 @@
                       "fontWeight": "400",
                       "textAlign": "start",
                       "verticalAlign": "baseline",
-                      "top": "120px",
+                      "top": "124px",
                       "right": "1192px",
-                      "bottom": "680px",
+                      "bottom": "676px",
                       "left": "8px",
                       "zIndex": "auto",
                       "overflow": "visible",
@@ -1632,11 +1633,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 123,
-                          "width": 60,
-                          "height": 23,
-                          "right": 68,
-                          "bottom": 146,
+                          "y": 124,
+                          "width": 50,
+                          "height": 29,
+                          "right": 58,
+                          "bottom": 153,
                           "text": "（国国",
                           "startIndex": 0,
                           "endIndex": 3

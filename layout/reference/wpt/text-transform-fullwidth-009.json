@@ -1,5 +1,6 @@
 {
   "test_file": "text-transform-fullwidth-009.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1334,9 +1335,9 @@
                     {
                       "x": 18,
                       "y": 80,
-                      "width": 10,
+                      "width": 20,
                       "height": 10,
-                      "right": 28,
+                      "right": 38,
                       "bottom": 90,
                       "text": "x　",
                       "startIndex": 0,
@@ -1657,9 +1658,9 @@
                     {
                       "x": 18,
                       "y": 140,
-                      "width": 10,
+                      "width": 20,
                       "height": 10,
-                      "right": 28,
+                      "right": 38,
                       "bottom": 150,
                       "text": "x　",
                       "startIndex": 0,

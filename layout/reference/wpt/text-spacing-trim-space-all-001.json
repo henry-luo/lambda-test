@@ -1,5 +1,6 @@
 {
   "test_file": "text-spacing-trim-space-all-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 100,
+      "height": 103,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -650,8 +651,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  text-spacing-trim: space-all;\n  width: 4em;\n}\n.chws #container {\n  font-family: chws-font;\n}\n#container > div > span {\n  background: black;\n}\n",
-                "length": 423,
+                "text": "\n@font-face {\n  font-family: halt-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-halt.otf');\n}\n@font-face {\n  font-family: chws-font;\n  src: url('../../../support/fonts/noto/cjk/NotoSansCJKjp-Regular-subset-chws.otf');\n}\n#container {\n  font-family: halt-font;\n  font-size: 20px;\n  text-spacing-trim: space-all;\n  width: 4em;\n}\n.chws #container {\n  font-family: chws-font;\n}\n#container > div > span {\n  background: black;\n}\n",
+                "length": 455,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -694,11 +695,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 84,
+          "height": 87,
           "contentWidth": 1184,
-          "contentHeight": 84,
+          "contentHeight": 87,
           "scrollWidth": 1184,
-          "scrollHeight": 84
+          "scrollHeight": 87
         },
         "computed": {
           "display": "block",
@@ -754,11 +755,11 @@
               "x": 8,
               "y": 8,
               "width": 80,
-              "height": 84,
+              "height": 87,
               "contentWidth": 80,
-              "contentHeight": 84,
+              "contentHeight": 87,
               "scrollWidth": 80,
-              "scrollHeight": 84
+              "scrollHeight": 87
             },
             "computed": {
               "display": "block",
@@ -814,11 +815,11 @@
                   "x": 8,
                   "y": 8,
                   "width": 80,
-                  "height": 84,
+                  "height": 87,
                   "contentWidth": 80,
-                  "contentHeight": 84,
+                  "contentHeight": 87,
                   "scrollWidth": 80,
-                  "scrollHeight": 84
+                  "scrollHeight": 87
                 },
                 "computed": {
                   "display": "block",
@@ -872,9 +873,9 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 11,
+                      "y": 8,
                       "width": 80,
-                      "height": 79,
+                      "height": 87,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -933,11 +934,11 @@
                           "rects": [
                             {
                               "x": 8,
-                              "y": 11,
+                              "y": 8,
                               "width": 80,
-                              "height": 23,
+                              "height": 29,
                               "right": 88,
-                              "bottom": 34,
+                              "bottom": 37,
                               "text": "国）（国",
                               "startIndex": 0,
                               "endIndex": 4
@@ -961,11 +962,11 @@
                           "rects": [
                             {
                               "x": 8,
-                              "y": 39,
+                              "y": 37,
                               "width": 80,
-                              "height": 23,
+                              "height": 29,
                               "right": 88,
-                              "bottom": 62,
+                              "bottom": 66,
                               "text": "国（（国",
                               "startIndex": 0,
                               "endIndex": 4
@@ -989,11 +990,11 @@
                           "rects": [
                             {
                               "x": 8,
-                              "y": 67,
+                              "y": 66,
                               "width": 40,
-                              "height": 23,
+                              "height": 29,
                               "right": 48,
-                              "bottom": 90,
+                              "bottom": 95,
                               "text": "（国",
                               "startIndex": 0,
                               "endIndex": 2

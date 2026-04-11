@@ -4,11 +4,11 @@
 
 # Marked
 
-[![npm](https://badgen.net/npm/v/marked)](https://www.npmjs.com/package/marked)
-[![install size](https://badgen.net/packagephobia/install/marked)](https://packagephobia.now.sh/result?p=marked)
-[![downloads](https://badgen.net/npm/dt/marked)](https://www.npmjs.com/package/marked)
+[![npm](../support/images/badgen.net_npm_v_marked.svg)](https://www.npmjs.com/package/marked)
+[![install size](../support/images/badgen.net_packagephobia_install_marked.svg)](https://packagephobia.now.sh/result?p=marked)
+[![downloads](../support/images/badgen.net_npm_dt_marked.svg)](https://www.npmjs.com/package/marked)
 [![github actions](../support/images/github_badge.svg)](https://github.com/markedjs/marked/actions)
-[![snyk](https://snyk.io/test/npm/marked/badge.svg)](https://snyk.io/test/npm/marked)
+[![snyk](../support/images/snyk.io_test_npm_marked_badge.svg)](https://snyk.io/test/npm/marked)
 
 - ⚡ built for speed
 - ⬇️ low-level compiler for parsing markdown without caching or blocking for long periods of time

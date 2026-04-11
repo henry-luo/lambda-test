@@ -1,5 +1,6 @@
 {
   "test_file": "overflow-wrap-anywhere-004.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1572,9 +1573,9 @@
                     {
                       "x": 8,
                       "y": 70,
-                      "width": 100,
+                      "width": 120,
                       "height": 20,
-                      "right": 108,
+                      "right": 128,
                       "bottom": 90,
                       "text": "XXXXX ",
                       "startIndex": 0,

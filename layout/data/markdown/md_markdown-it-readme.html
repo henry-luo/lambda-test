@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>markdown it README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>markdown it README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        markdown it README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="markdown-it-">markdown-it <!-- omit in toc --></h1>
+
+<p><a href="https://github.com/markdown-it/markdown-it/actions/workflows/ci.yml"><img src="../support/images/github_badge.svg" alt="CI" /></a>
+<a href="https://www.npmjs.org/package/markdown-it"><img src="../support/images/img.shields.io_npm_v_markdown-it.svg" alt="NPM version" /></a>
+<a href="https://coveralls.io/github/markdown-it/markdown-it?branch=master"><img src="../support/images/coveralls.io_repos_markdown-it_markdown-it_badge.svg" alt="Coverage Status" /></a>
+<a href="https://gitter.im/markdown-it/markdown-it"><img src="../support/images/badges.gitter.im_Join_20Chat.svg" alt="Gitter" /></a></p>
+
+<blockquote>
+  <p>Markdown parser done right. Fast and easy to extend.</p>
+</blockquote>
+
+<p><strong><a href="https://markdown-it.github.io">Live demo</a></strong></p>
+
+<ul>
+  <li>Follows the <strong><a href="http://spec.commonmark.org/">CommonMark spec</a></strong> + adds syntax extensions &amp; sugar (URL autolinking, typographer).</li>
+  <li>Configurable syntax! You can add new rules and even replace existing ones.</li>
+  <li>High speed.</li>
+  <li><a href="https://github.com/markdown-it/markdown-it/tree/master/docs/security.md">Safe</a> by default.</li>
+  <li>Community-written <strong><a href="https://www.npmjs.org/browse/keyword/markdown-it-plugin">plugins</a></strong> and <a href="https://www.npmjs.org/browse/keyword/markdown-it">other packages</a> on npm.</li>
+</ul>
+
+<p><strong>Table of content</strong></p>
+
+<ul>
+  <li><a href="#install">Install</a></li>
+  <li><a href="#usage-examples">Usage examples</a>
+    <ul>
+      <li><a href="#simple">Simple</a></li>
+      <li><a href="#init-with-presets-and-options">Init with presets and options</a></li>
+      <li><a href="#plugins-load">Plugins load</a></li>
+      <li><a href="#syntax-highlighting">Syntax highlighting</a></li>
+      <li><a href="#linkify">Linkify</a></li>
+    </ul>
+  </li>
+  <li><a href="#api">API</a></li>
+  <li><a href="#syntax-extensions">Syntax extensions</a>
+    <ul>
+      <li><a href="#manage-rules">Manage rules</a></li>
+    </ul>
+  </li>
+  <li><a href="#benchmark">Benchmark</a></li>
+  <li><a href="#markdown-it-for-enterprise">markdown-it for enterprise</a></li>
+  <li><a href="#authors">Authors</a></li>
+  <li><a href="#references--thanks">References / Thanks</a></li>
+</ul>
+
+<h2 id="install">Install</h2>
+
+<p><strong>node.js</strong>:</p>
+
+<pre><code class="language-bash">npm install markdown-it
+</code></pre>
+
+<p><strong>browser (CDN):</strong></p>
+
+<ul>
+  <li><a href="http://www.jsdelivr.com/#!markdown-it" title="jsDelivr CDN">jsDeliver CDN</a></li>
+  <li><a href="https://cdnjs.com/libraries/markdown-it" title="cdnjs.com">cdnjs.com CDN</a></li>
+</ul>
+
+<h2 id="usage-examples">Usage examples</h2>
+
+<p>See also:</p>
+
+<ul>
+  <li><strong><a href="https://markdown-it.github.io/markdown-it/">API documentation</a></strong> - for more
+info and examples.</li>
+  <li><a href="https://github.com/markdown-it/markdown-it/tree/master/docs">Development info</a> -
+for plugins writers.</li>
+</ul>
+
+<h3 id="simple">Simple</h3>
+
+<pre><code class="language-js">// node.js
+// can use `require('markdown-it')` for CJS
+import markdownit from 'markdown-it'
+const md = markdownit()
+const result = md.render('# markdown-it rulezz!');
+
+// browser with UMD build, added to "window" on script load
+// Note, there is no dash in "markdownit".
+const md = window.markdownit();
+const result = md.render('# markdown-it rulezz!');
+</code></pre>
+
+<p>Single line rendering, without paragraph wrap:</p>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+const md = markdownit()
+const result = md.renderInline('__markdown-it__ rulezz!');
+</code></pre>
+
+<h3 id="init-with-presets-and-options">Init with presets and options</h3>
+
+<p>(*) presets define combinations of active rules and options. Can be
+<code>"commonmark"</code>, <code>"zero"</code> or <code>"default"</code> (if skipped). See
+<a href="https://markdown-it.github.io/markdown-it/#MarkdownIt.new">API docs</a> for more details.</p>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+
+// commonmark mode
+const md = markdownit('commonmark')
+
+// default mode
+const md = markdownit()
+
+// enable everything
+const md = markdownit({
+  html: true,
+  linkify: true,
+  typographer: true
+})
+
+// full options list (defaults)
+const md = markdownit({
+  // Enable HTML tags in source
+  html:         false,
+
+  // Use '/' to close single tags (&lt;br /&gt;).
+  // This is only for full CommonMark compatibility.
+  xhtmlOut:     false,
+
+  // Convert '\n' in paragraphs into &lt;br&gt;
+  breaks:       false,
+
+  // CSS language prefix for fenced blocks. Can be
+  // useful for external highlighters.
+  langPrefix:   'language-',
+
+  // Autoconvert URL-like text to links
+  linkify:      false,
+
+  // Enable some language-neutral replacement + quotes beautification
+  // For the full list of replacements, see https://github.com/markdown-it/markdown-it/blob/master/lib/rules_core/replacements.mjs
+  typographer:  false,
+
+  // Double + single quotes replacement pairs, when typographer enabled,
+  // and smartquotes on. Could be either a String or an Array.
+  //
+  // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
+  // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
+  quotes: '“”‘’',
+
+  // Highlighter function. Should return escaped HTML,
+  // or '' if the source string is not changed and should be escaped externally.
+  // If result starts with &lt;pre... internal wrapper is skipped.
+  highlight: function (/*str, lang*/) { return ''; }
+});
+</code></pre>
+
+<h3 id="plugins-load">Plugins load</h3>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+
+const md = markdownit
+  .use(plugin1)
+  .use(plugin2, opts, ...)
+  .use(plugin3);
+</code></pre>
+
+<h3 id="syntax-highlighting">Syntax highlighting</h3>
+
+<p>Apply syntax highlighting to fenced code blocks with the <code>highlight</code> option:</p>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+import hljs from 'highlight.js' // https://highlightjs.org
+
+// Actual default values
+const md = markdownit({
+  highlight: function (str, lang) {
+    if (lang &amp;&amp; hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (__) {}
+    }
+
+    return ''; // use external default escaping
+  }
+});
+</code></pre>
+
+<p>Or with full wrapper override (if you need assign class to <code>&lt;pre&gt;</code> or <code>&lt;code&gt;</code>):</p>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+import hljs from 'highlight.js' // https://highlightjs.org
+
+// Actual default values
+const md = markdownit({
+  highlight: function (str, lang) {
+    if (lang &amp;&amp; hljs.getLanguage(lang)) {
+      try {
+        return '&lt;pre&gt;&lt;code class="hljs"&gt;' +
+               hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+               '&lt;/code&gt;&lt;/pre&gt;';
+      } catch (__) {}
+    }
+
+    return '&lt;pre&gt;&lt;code class="hljs"&gt;' + md.utils.escapeHtml(str) + '&lt;/code&gt;&lt;/pre&gt;';
+  }
+});
+</code></pre>
+
+<h3 id="linkify">Linkify</h3>
+
+<p><code>linkify: true</code> uses <a href="https://github.com/markdown-it/linkify-it">linkify-it</a>. To
+configure linkify-it, access the linkify instance through <code>md.linkify</code>:</p>
+
+<pre><code class="language-js">md.linkify.set({ fuzzyEmail: false });  // disables converting email to link
+</code></pre>
+
+<h2 id="api">API</h2>
+
+<p><strong><a href="https://markdown-it.github.io/markdown-it/">API documentation</a></strong></p>
+
+<p>If you are going to write plugins, please take a look at
+<a href="https://github.com/markdown-it/markdown-it/tree/master/docs">Development info</a>.</p>
+
+<h2 id="syntax-extensions">Syntax extensions</h2>
+
+<p>Embedded (enabled by default):</p>
+
+<ul>
+  <li><a href="https://help.github.com/articles/organizing-information-with-tables/">Tables</a> (GFM)</li>
+  <li><a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#styling-text">Strikethrough</a> (GFM)</li>
+</ul>
+
+<p>Via plugins:</p>
+
+<ul>
+  <li><a href="https://github.com/markdown-it/markdown-it-sub">subscript</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-sup">superscript</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-footnote">footnote</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-deflist">definition list</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-abbr">abbreviation</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-emoji">emoji</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-container">custom container</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-ins">insert</a></li>
+  <li><a href="https://github.com/markdown-it/markdown-it-mark">mark</a></li>
+  <li>&#8230; and <a href="https://www.npmjs.org/browse/keyword/markdown-it-plugin">others</a></li>
+</ul>
+
+<h3 id="manage-rules">Manage rules</h3>
+
+<p>By default all rules are enabled, but can be restricted by options. On plugin
+load all its rules are enabled automatically.</p>
+
+<pre><code class="language-js">import markdownit from 'markdown-it'
+
+// Activate/deactivate rules, with currying
+const md = markdownit()
+  .disable(['link', 'image'])
+  .enable(['link'])
+  .enable('image');
+
+// Enable everything
+const md = markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+});
+</code></pre>
+
+<p>You can find all rules in sources:</p>
+
+<ul>
+  <li><a href="lib/parser_core.mjs"><code>parser_core.mjs</code></a></li>
+  <li><a href="lib/parser_block.mjs"><code>parser_block.mjs</code></a></li>
+  <li><a href="lib/parser_inline.mjs"><code>parser_inline.mjs</code></a></li>
+</ul>
+
+<h2 id="benchmark">Benchmark</h2>
+
+<p>Here is the result of readme parse at MB Pro Retina 2013 (2.4 GHz):</p>
+
+<pre><code class="language-bash">npm run benchmark-deps
+benchmark/benchmark.mjs readme
+
+Selected samples: (1 of 28)
+ &gt; README
+
+Sample: README.md (7774 bytes)
+ &gt; commonmark-reference x 1,222 ops/sec ±0.96% (97 runs sampled)
+ &gt; current x 743 ops/sec ±0.84% (97 runs sampled)
+ &gt; current-commonmark x 1,568 ops/sec ±0.84% (98 runs sampled)
+ &gt; marked x 1,587 ops/sec ±4.31% (93 runs sampled)
+</code></pre>
+
+<p><strong>Note.</strong> CommonMark version runs with <a href="https://github.com/markdown-it/markdown-it/blob/master/benchmark/implementations/current-commonmark/index.mjs">simplified link normalizers</a>
+for more &#8220;honest&#8221; compare. Difference is ≈1.5×.</p>
+
+<p>As you can see, <code>markdown-it</code> doesn&#8217;t pay with speed for its flexibility.
+Slowdown of &#8220;full&#8221; version caused by additional features not available in
+other implementations.</p>
+
+<h2 id="markdown-it-for-enterprise">markdown-it for enterprise</h2>
+
+<p>Available as part of the Tidelift Subscription.</p>
+
+<p>The maintainers of <code>markdown-it</code> and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. <a href="https://tidelift.com/subscription/pkg/npm-markdown-it?utm_source=npm-markdown-it&amp;utm_medium=referral&amp;utm_campaign=enterprise&amp;utm_term=repo">Learn more.</a></p>
+
+<h2 id="authors">Authors</h2>
+
+<ul>
+  <li>Alex Kocharin <a href="https://github.com/rlidwka">github/rlidwka</a></li>
+  <li>Vitaly Puzrin <a href="https://github.com/puzrin">github/puzrin</a></li>
+</ul>
+
+<p><em>markdown-it</em> is the result of the decision of the authors who contributed to
+99% of the <em>Remarkable</em> code to move to a project with the same authorship but
+new leadership (Vitaly and Alex). It&#8217;s not a fork.</p>
+
+<h2 id="references--thanks">References / Thanks</h2>
+
+<p>Big thanks to <a href="https://github.com/jgm">John MacFarlane</a> for his work on the
+CommonMark spec and reference implementations. His work saved us a lot of time
+during this project&#8217;s development.</p>
+
+<p><strong>Related Links:</strong></p>
+
+<ul>
+  <li>https://github.com/jgm/CommonMark - reference CommonMark implementations in C &amp; JS,
+also contains latest spec &amp; online demo.</li>
+  <li>http://talk.commonmark.org - CommonMark forum, good place to collaborate
+developers&#8217; efforts.</li>
+</ul>
+
+<p><strong>Ports</strong></p>
+
+<ul>
+  <li><a href="https://github.com/digitalmoksha/motion-markdown-it">motion-markdown-it</a> - Ruby/RubyMotion</li>
+  <li><a href="https://github.com/ExecutableBookProject/markdown-it-py">markdown-it-py</a>- Python</li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

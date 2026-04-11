@@ -1,7 +1,7 @@
 # Fraction.js - ℚ in JavaScript
 
-[![NPM Package](https://img.shields.io/npm/v/fraction.js.svg?style=flat)](https://npmjs.org/package/fraction.js "View this project on npm")
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![NPM Package](../support/images/img.shields.io_npm_v_fraction.js.svg)](https://npmjs.org/package/fraction.js "View this project on npm")
+[![MIT license](../support/images/img.shields.io_badge_license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 Do you find the limitations of floating-point arithmetic frustrating, especially when rational and irrational numbers like π or √2 are stored within the same finite precision? This can lead to avoidable inaccuracies such as:
 

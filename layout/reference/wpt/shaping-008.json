@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-008.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 532,
+      "height": 628,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -760,8 +761,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; }\n/* the CSS above is not part of the test */\n.fontsizeplus { font-size:120%; }\n",
-                "length": 339,
+                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; }\n/* the CSS above is not part of the test */\n.fontsizeplus { font-size:120%; }\n",
+                "length": 355,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -804,11 +805,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 496,
+          "height": 592,
           "contentWidth": 1184,
-          "contentHeight": 496,
+          "contentHeight": 592,
           "scrollWidth": 1184,
-          "scrollHeight": 496
+          "scrollHeight": 592
         },
         "computed": {
           "display": "block",
@@ -958,11 +959,11 @@
               "x": 28,
               "y": 54,
               "width": 382,
-              "height": 219,
+              "height": 267,
               "contentWidth": 380,
-              "contentHeight": 217,
+              "contentHeight": 265,
               "scrollWidth": 380,
-              "scrollHeight": 217
+              "scrollHeight": 265
             },
             "computed": {
               "display": "block",
@@ -1016,12 +1017,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 328.91,
-                      "y": 96,
-                      "width": 70.09,
-                      "height": 138,
+                      "x": 338.41,
+                      "y": 91,
+                      "width": 60.59,
+                      "height": 204,
                       "right": 399,
-                      "bottom": 234,
+                      "bottom": 295,
                       "text": "ع",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1045,10 +1046,10 @@
                   "fontsizeplus"
                 ],
                 "layout": {
-                  "x": 244.8,
-                  "y": 74,
-                  "width": 84.11,
-                  "height": 166,
+                  "x": 278.84,
+                  "y": 65,
+                  "width": 59.56,
+                  "height": 245,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1106,12 +1107,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 244.8,
-                          "y": 74,
-                          "width": 84.11,
-                          "height": 166,
-                          "right": 328.91,
-                          "bottom": 240,
+                          "x": 278.84,
+                          "y": 65,
+                          "width": 59.56,
+                          "height": 245,
+                          "right": 338.41,
+                          "bottom": 310,
                           "text": "ع",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1136,12 +1137,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 174.7,
-                      "y": 96,
-                      "width": 70.09,
-                      "height": 138,
-                      "right": 244.8,
-                      "bottom": 234,
+                      "x": 221.66,
+                      "y": 91,
+                      "width": 57.19,
+                      "height": 204,
+                      "right": 278.84,
+                      "bottom": 295,
                       "text": "ع",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1168,13 +1169,13 @@
             ],
             "layout": {
               "x": 28,
-              "y": 293,
+              "y": 341,
               "width": 382,
-              "height": 219,
+              "height": 267,
               "contentWidth": 380,
-              "contentHeight": 217,
+              "contentHeight": 265,
               "scrollWidth": 380,
-              "scrollHeight": 217
+              "scrollHeight": 265
             },
             "computed": {
               "display": "block",
@@ -1228,12 +1229,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 342.89,
-                      "y": 335,
-                      "width": 56.11,
-                      "height": 138,
+                      "x": 338.41,
+                      "y": 378,
+                      "width": 60.59,
+                      "height": 204,
                       "right": 399,
-                      "bottom": 473,
+                      "bottom": 582,
                       "text": "ع‍",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1257,10 +1258,10 @@
                   "fontsizeplus"
                 ],
                 "layout": {
-                  "x": 275.56,
-                  "y": 313,
-                  "width": 67.33,
-                  "height": 166,
+                  "x": 278.84,
+                  "y": 352,
+                  "width": 59.56,
+                  "height": 245,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1318,12 +1319,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 275.56,
-                          "y": 313,
-                          "width": 67.33,
-                          "height": 166,
-                          "right": 342.89,
-                          "bottom": 479,
+                          "x": 278.84,
+                          "y": 352,
+                          "width": 59.56,
+                          "height": 245,
+                          "right": 338.41,
+                          "bottom": 597,
                           "text": "‍ع‍",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1348,12 +1349,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 205.47,
-                      "y": 335,
-                      "width": 70.09,
-                      "height": 138,
-                      "right": 275.56,
-                      "bottom": 473,
+                      "x": 221.66,
+                      "y": 378,
+                      "width": 57.19,
+                      "height": 204,
+                      "right": 278.84,
+                      "bottom": 582,
                       "text": "‍ع",
                       "startIndex": 0,
                       "endIndex": 2

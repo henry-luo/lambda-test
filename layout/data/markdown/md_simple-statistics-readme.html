@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>simple statistics README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>simple statistics README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        simple statistics README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 id="simple-statistics">Simple Statistics</h1>
+
+<p>A JavaScript implementation of descriptive, regression, and inference statistics.</p>
+
+<p><a href="https://coveralls.io/github/simple-statistics/simple-statistics"><img src="../support/images/coveralls.io_repos_github_simple-statistics_simple-statistics_badge.svg" alt="Coverage Status" /></a>
+<a href="http://badge.fury.io/js/simple-statistics"><img src="../support/images/badge.fury.io_js_simple-statistics.svg" alt="npm version" /></a></p>
+
+<p>Implemented in literate JavaScript with no dependencies, designed to work
+in all modern browsers (including IE) as well as in <a href="https://nodejs.org/">node.js</a>.</p>
+
+<ul>
+  <li>:green_book: <a href="https://simple-statistics.github.io/">API Documentation</a></li>
+  <li>:chart_with_upwards_trend: <a href="./benchmarks/">Benchmarks</a></li>
+  <li>:kissing: <a href="./SEEALSO.md">A list of other statistics libraries</a></li>
+</ul>
+
+<h2 id="installation">Installation</h2>
+
+<ul>
+  <li><strong>I&#8217;m using Node.js, Webpack, Browserify, Rollup, or another module bundler,
+and install packages from npm.</strong>
+    <ul>
+      <li>First, install the <code>simple-statistics</code> module, using <code>npm install simple-statistics</code>,
+then include the code with require or import:</li>
+      <li><strong>I use the <code>require</code> function to use modules in my project. (most likely)</strong>
+        <ul>
+          <li>When you use <code>require</code>, you have the freedom to assign the module to any
+variable name you want, but you need to specify the module&#8217;s name exactly:
+in this case, &#8216;simple-statistics&#8217;. The <code>require</code> method returns an object
+with all of the module&#8217;s methods attached to it.<br /> &lt;pre&gt;var ss = require(&#8216;simple-statistics&#8217;)&lt;/pre&gt;</li>
+        </ul>
+      </li>
+      <li><strong>I use <code>import</code> to use modules in my project. I&#8217;m probably using Babel, <code>@std/esm</code>, Webpack, or Rollup.</strong>
+        <ul>
+          <li>Import all functions under the ss object: &lt;pre&gt;import * as ss from &#8216;simple-statistics&#8217;&lt;/pre&gt;
+Include a specific named export: &lt;pre&gt;import {min} from &#8216;simple-statistics&#8217;&lt;/pre&gt;
+Simple statistics has <em>only</em> named exports for ES6.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>I&#8217;m using Deno.</strong>
+    <ul>
+      <li>We recommend using Deno&#8217;s first-class <a href="https://docs.deno.com/runtime/fundamentals/node/">NPM compatibility</a> to use simple-statistics from NPM: you&#8217;ll need to import it as <code>npm:simple-statistics</code>.</li>
+    </ul>
+  </li>
+  <li><strong>I&#8217;m not using a module bundler. I&#8217;m writing a web page, and want to include
+simple-statistics using a script tag.</strong>
+    <ul>
+      <li><strong>I want to support all browsers</strong>
+        <ul>
+          <li>When you use simple-statistics from a script tag, you don&#8217;t get to choose
+the variable name it is assigned to: simple-statistics will always become
+available globally as the variable <code>ss</code>. You can reassign this variable to
+another name if you want to, but doing so is optional.
+            <pre><code class="language-HTML">&lt;script src='https://unpkg.com/simple-statistics@7.8.8/dist/simple-statistics.min.js'&gt;
+&lt;/script&gt;
+</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li><strong>I want to use ES6 modules in a browser and I&#8217;m <a href="https://caniuse.com/#feat=es6-module">willing to only support new browsers</a> to do it</strong>
+        <ul>
+          <li>This module works great with the <a href="https://unpkg.com/#/query-parameters"><code>?module</code></a> query parameter of unpkg. If you
+specify <code>type='module'</code> in your script tag, you&#8217;ll be able to import simple-statistics
+directly - through <code>index.js</code> and with true <a href="http://exploringjs.com/es6/ch_modules.html">ES6 import syntax and behavior</a>.
+            <pre><code class="language-js">&lt;script type='module'&gt;
+import {min} from "https://unpkg.com/simple-statistics@7.8.8/index.js?module"
+console.log(min([1, 2, 3]))
+&lt;/script&gt;
+</code></pre>
+            <p>This feature is still experimental in unpkg and very bleeding-edge.</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

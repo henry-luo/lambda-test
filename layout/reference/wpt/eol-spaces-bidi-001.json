@@ -1,5 +1,6 @@
 {
   "test_file": "eol-spaces-bidi-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -667,8 +668,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: \"Hasubi Mono\";\n    src: url(\"/fonts/hasubi-mono/HasubiMono-Regular.woff2\");\n}\n\ndiv {\n    font-family: \"Hasubi Mono\", monospace;\n    border: solid blue;\n    font-size: 1.5em;\n}\n.ref {\n    border-color: orange;\n    white-space: pre;\n}\n.w5 { width: 5.01ch; } /* .01 to cover floating point errors */\n.w6 { width: 6.01ch; }\n.w7 { width: 7.01ch; }\n\n.blue { background: #aaaaff; }\n.red { background: #ffaaaa; }\n.green { background: #aaffaa; }\n.pink { background: #ffaaff; }\n.yellow { background: #ffffaa; }\n",
-                "length": 532,
+                "text": "\n@font-face {\n    font-family: \"Hasubi Mono\";\n    src: url(\"../../../support/fonts/hasubi-mono/HasubiMono-Regular.woff2\");\n}\n\ndiv {\n    font-family: \"Hasubi Mono\", monospace;\n    border: solid blue;\n    font-size: 1.5em;\n}\n.ref {\n    border-color: orange;\n    white-space: pre;\n}\n.w5 { width: 5.01ch; } /* .01 to cover floating point errors */\n.w6 { width: 6.01ch; }\n.w7 { width: 7.01ch; }\n\n.blue { background: #aaaaff; }\n.red { background: #ffaaaa; }\n.green { background: #aaffaa; }\n.pink { background: #ffaaff; }\n.yellow { background: #ffffaa; }\n",
+                "length": 548,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -862,11 +863,11 @@
             "layout": {
               "x": 8,
               "y": 50,
-              "width": 78.38,
+              "width": 67.56,
               "height": 64,
-              "contentWidth": 72,
+              "contentWidth": 62,
               "contentHeight": 58,
-              "scrollWidth": 72,
+              "scrollWidth": 62,
               "scrollHeight": 58
             },
             "computed": {
@@ -925,7 +926,7 @@
                   "x": 11,
                   "y": 53,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -986,10 +987,10 @@
                     {
                       "x": 11,
                       "y": 53,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 81,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 82,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1013,10 +1014,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 53,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1074,12 +1075,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 53,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 81
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 82
                         }
                       ],
                       "hasLayout": true,
@@ -1101,12 +1102,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 53,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 81,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 82,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1130,10 +1131,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 53,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1191,12 +1192,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 53,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 81
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 82
                         }
                       ],
                       "hasLayout": true,
@@ -1218,12 +1219,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 53,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 81,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 82,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1247,10 +1248,10 @@
                   "green"
                 ],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 53,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1311,10 +1312,10 @@
                     {
                       "x": 11,
                       "y": 82,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 25.41,
-                      "bottom": 110,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 111,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1338,10 +1339,10 @@
                   "yellow"
                 ],
                 "layout": {
-                  "x": 25.41,
+                  "x": 23.3,
                   "y": 82,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1406,11 +1407,11 @@
             "layout": {
               "x": 8,
               "y": 114,
-              "width": 78.38,
+              "width": 67.56,
               "height": 64,
-              "contentWidth": 72,
+              "contentWidth": 62,
               "contentHeight": 58,
-              "scrollWidth": 72,
+              "scrollWidth": 62,
               "scrollHeight": 58
             },
             "computed": {
@@ -1467,10 +1468,10 @@
                     {
                       "x": 11,
                       "y": 117,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 145,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 146,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1494,10 +1495,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 117,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1555,12 +1556,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 117,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 145
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 146
                         }
                       ],
                       "hasLayout": true,
@@ -1582,12 +1583,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 117,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 145,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 146,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1611,10 +1612,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 117,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1672,12 +1673,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 117,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 145
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 146
                         }
                       ],
                       "hasLayout": true,
@@ -1699,12 +1700,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 117,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 145,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 146,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1726,10 +1727,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 117,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1790,10 +1791,10 @@
                     {
                       "x": 11,
                       "y": 146,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 25.41,
-                      "bottom": 174,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 175,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1882,11 +1883,11 @@
             "layout": {
               "x": 8,
               "y": 196,
-              "width": 92.83,
+              "width": 79.84,
               "height": 64,
-              "contentWidth": 87,
+              "contentWidth": 74,
               "contentHeight": 58,
-              "scrollWidth": 87,
+              "scrollWidth": 74,
               "scrollHeight": 58
             },
             "computed": {
@@ -1945,7 +1946,7 @@
                   "x": 11,
                   "y": 199,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2006,10 +2007,10 @@
                     {
                       "x": 11,
                       "y": 199,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 227,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 228,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2033,10 +2034,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 199,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2094,12 +2095,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 199,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 227
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 228
                         }
                       ],
                       "hasLayout": true,
@@ -2121,12 +2122,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 199,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 227,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 228,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2150,10 +2151,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 199,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2211,12 +2212,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 199,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 227
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 228
                         }
                       ],
                       "hasLayout": true,
@@ -2238,12 +2239,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 199,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 227,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 228,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2267,10 +2268,10 @@
                   "green"
                 ],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 199,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2331,10 +2332,10 @@
                     {
                       "x": 11,
                       "y": 228,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 25.41,
-                      "bottom": 256,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 257,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2358,10 +2359,10 @@
                   "yellow"
                 ],
                 "layout": {
-                  "x": 25.41,
+                  "x": 23.3,
                   "y": 228,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2426,11 +2427,11 @@
             "layout": {
               "x": 8,
               "y": 260,
-              "width": 92.83,
+              "width": 79.84,
               "height": 64,
-              "contentWidth": 87,
+              "contentWidth": 74,
               "contentHeight": 58,
-              "scrollWidth": 87,
+              "scrollWidth": 74,
               "scrollHeight": 58
             },
             "computed": {
@@ -2487,10 +2488,10 @@
                     {
                       "x": 11,
                       "y": 263,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 291,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 292,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2514,10 +2515,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 263,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2575,12 +2576,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 263,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 291
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 292
                         }
                       ],
                       "hasLayout": true,
@@ -2602,12 +2603,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 263,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 291,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 292,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2631,10 +2632,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 263,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2692,12 +2693,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 263,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 291
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 292
                         }
                       ],
                       "hasLayout": true,
@@ -2719,12 +2720,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 263,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 291,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 292,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2746,10 +2747,10 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 263,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -2810,10 +2811,10 @@
                     {
                       "x": 11,
                       "y": 292,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 25.41,
-                      "bottom": 320,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 321,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1
@@ -2902,11 +2903,11 @@
             "layout": {
               "x": 8,
               "y": 342,
-              "width": 107.28,
+              "width": 92.13,
               "height": 35,
-              "contentWidth": 101,
+              "contentWidth": 86,
               "contentHeight": 29,
-              "scrollWidth": 101,
+              "scrollWidth": 86,
               "scrollHeight": 29
             },
             "computed": {
@@ -2965,7 +2966,7 @@
                   "x": 11,
                   "y": 345,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3026,10 +3027,10 @@
                     {
                       "x": 11,
                       "y": 345,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 373,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 374,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3053,10 +3054,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 345,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3114,12 +3115,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 345,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 373
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 374
                         }
                       ],
                       "hasLayout": true,
@@ -3141,12 +3142,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 345,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 373,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 374,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3170,10 +3171,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 345,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3231,12 +3232,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 345,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 373
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 374
                         }
                       ],
                       "hasLayout": true,
@@ -3258,12 +3259,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 97.67,
+                      "x": 84.78,
                       "y": 345,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 112.08,
-                      "bottom": 373,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 97.08,
+                      "bottom": 374,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3287,10 +3288,10 @@
                   "green"
                 ],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 345,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3348,12 +3349,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 83.22,
+                          "x": 72.48,
                           "y": 345,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 97.67,
-                          "bottom": 373
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 84.78,
+                          "bottom": 374
                         }
                       ],
                       "hasLayout": true,
@@ -3375,12 +3376,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 345,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 373,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 374,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3404,10 +3405,10 @@
                   "yellow"
                 ],
                 "layout": {
-                  "x": 112.08,
+                  "x": 97.08,
                   "y": 345,
                   "width": 0,
-                  "height": 28,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3472,11 +3473,11 @@
             "layout": {
               "x": 8,
               "y": 377,
-              "width": 107.28,
+              "width": 92.13,
               "height": 35,
-              "contentWidth": 101,
+              "contentWidth": 86,
               "contentHeight": 29,
-              "scrollWidth": 101,
+              "scrollWidth": 86,
               "scrollHeight": 29
             },
             "computed": {
@@ -3533,10 +3534,10 @@
                     {
                       "x": 11,
                       "y": 380,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 25.45,
-                      "bottom": 408,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 23.3,
+                      "bottom": 409,
                       "text": "A",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3560,10 +3561,10 @@
                   "blue"
                 ],
                 "layout": {
-                  "x": 25.45,
+                  "x": 23.3,
                   "y": 380,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3621,12 +3622,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 25.45,
+                          "x": 23.3,
                           "y": 380,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 39.91,
-                          "bottom": 408
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 35.59,
+                          "bottom": 409
                         }
                       ],
                       "hasLayout": true,
@@ -3648,12 +3649,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 39.91,
+                      "x": 35.59,
                       "y": 380,
-                      "width": 14.45,
-                      "height": 28,
-                      "right": 54.36,
-                      "bottom": 408,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 47.89,
+                      "bottom": 409,
                       "text": "B",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3677,10 +3678,10 @@
                   "red"
                 ],
                 "layout": {
-                  "x": 54.36,
+                  "x": 47.89,
                   "y": 380,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3738,12 +3739,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.36,
+                          "x": 47.89,
                           "y": 380,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 68.81,
-                          "bottom": 408
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 60.19,
+                          "bottom": 409
                         }
                       ],
                       "hasLayout": true,
@@ -3765,12 +3766,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 97.67,
+                      "x": 84.78,
                       "y": 380,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 112.08,
-                      "bottom": 408,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 97.08,
+                      "bottom": 409,
                       "text": "ا",
                       "startIndex": 0,
                       "endIndex": 1
@@ -3794,10 +3795,10 @@
                   "green"
                 ],
                 "layout": {
-                  "x": 83.22,
+                  "x": 72.48,
                   "y": 380,
-                  "width": 14.45,
-                  "height": 28,
+                  "width": 12.3,
+                  "height": 29,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -3855,12 +3856,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 83.22,
+                          "x": 72.48,
                           "y": 380,
-                          "width": 14.45,
-                          "height": 28,
-                          "right": 97.67,
-                          "bottom": 408
+                          "width": 12.3,
+                          "height": 29,
+                          "right": 84.78,
+                          "bottom": 409
                         }
                       ],
                       "hasLayout": true,
@@ -3882,12 +3883,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 68.81,
+                      "x": 60.19,
                       "y": 380,
-                      "width": 14.41,
-                      "height": 28,
-                      "right": 83.22,
-                      "bottom": 408,
+                      "width": 12.3,
+                      "height": 29,
+                      "right": 72.48,
+                      "bottom": 409,
                       "text": "ب",
                       "startIndex": 0,
                       "endIndex": 1

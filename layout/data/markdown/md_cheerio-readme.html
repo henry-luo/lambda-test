@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cheerio README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>cheerio README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        cheerio README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <h1 align="center">cheerio</h1>
+
+<h5 align="center">The fast, flexible, and elegant library for parsing and manipulating HTML and XML.</h5>
+
+<div align="center">
+  <a href="https://github.com/cheeriojs/cheerio/actions/workflows/ci.yml">
+    <img src="../support/images/github_badge.svg" alt="Build Status" />
+  </a>
+  <a href="https://coveralls.io/github/cheeriojs/cheerio">
+    <img src="../support/images/img.shields.io_coveralls_github_cheeriojs_cheerio_main.svg" alt="Coverage" />
+  </a>
+  <a href="#backers">
+    <img src="../support/images/img.shields.io_opencollective_backers_cheerio.svg" alt="OpenCollective backers" />
+  </a>
+  <a href="#sponsors">
+    <img src="../support/images/img.shields.io_opencollective_sponsors_cheerio.svg" alt="OpenCollective sponsors" />
+  </a>
+</div>
+
+<p><br /></p>
+
+<p><a href="https://github.com/cheeriojs/cheerio/wiki/Chinese-README">中文文档 (Chinese Readme)</a></p>
+
+<pre><code class="language-js">import * as cheerio from 'cheerio';
+const $ = cheerio.load('&lt;h2 class="title"&gt;Hello world&lt;/h2&gt;');
+
+$('h2.title').text('Hello there!');
+$('h2').addClass('welcome');
+
+$.html();
+//=&gt; &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;h2 class="title welcome"&gt;Hello there!&lt;/h2&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+
+<h2 id="installation">Installation</h2>
+
+<p>Install Cheerio using a package manager like npm, yarn, or bun.</p>
+
+<pre><code class="language-bash">npm install cheerio
+# or
+bun add cheerio
+</code></pre>
+
+<h2 id="features">Features</h2>
+
+<p><strong>&#10084; Proven syntax:</strong> Cheerio implements a subset of core jQuery. Cheerio
+removes all the DOM inconsistencies and browser cruft from the jQuery library,
+revealing its truly gorgeous API.</p>
+
+<p><strong>&#991; Blazingly fast:</strong> Cheerio works with a very simple, consistent DOM
+model. As a result parsing, manipulating, and rendering are incredibly
+efficient.</p>
+
+<p><strong>&#10049; Incredibly flexible:</strong> Cheerio wraps around
+<a href="https://github.com/inikulin/parse5">parse5</a> for parsing HTML and can optionally
+use the forgiving <a href="https://github.com/fb55/htmlparser2/">htmlparser2</a>. Cheerio
+can parse nearly any HTML or XML document. Cheerio works in both browser and
+server environments.</p>
+
+<h2 id="api">API</h2>
+
+<h3 id="loading">Loading</h3>
+
+<p>First you need to load in the HTML. This step in jQuery is implicit, since
+jQuery operates on the one, baked-in DOM. With Cheerio, we need to pass in the
+HTML document.</p>
+
+<pre><code class="language-js">// ESM or TypeScript:
+import * as cheerio from 'cheerio';
+
+// In other environments:
+const cheerio = require('cheerio');
+
+const $ = cheerio.load('&lt;ul id="fruits"&gt;...&lt;/ul&gt;');
+
+$.html();
+//=&gt; &lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;ul id="fruits"&gt;...&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+
+<h3 id="selectors">Selectors</h3>
+
+<p>Once you&#8217;ve loaded the HTML, you can use jQuery-style selectors to find elements
+within the document.</p>
+
+<h4 id="-selector-context-root-">$( selector, [context], [root] )</h4>
+
+<p><code>selector</code> searches within the <code>context</code> scope which searches within the <code>root</code>
+scope. <code>selector</code> and <code>context</code> can be a string expression, DOM Element, array
+of DOM elements, or cheerio object. <code>root</code>, if provided, is typically the HTML
+document string.</p>
+
+<p>This selector method is the starting point for traversing and manipulating the
+document. Like in jQuery, it&#8217;s the primary method for selecting elements in the
+document.</p>
+
+<pre><code class="language-js">$('.apple', '#fruits').text();
+//=&gt; Apple
+
+$('ul .pear').attr('class');
+//=&gt; pear
+
+$('li[class=orange]').html();
+//=&gt; Orange
+</code></pre>
+
+<h3 id="rendering">Rendering</h3>
+
+<p>When you&#8217;re ready to render the document, you can call the <code>html</code> method on the
+&#8220;root&#8221; selection:</p>
+
+<pre><code class="language-js">$.root().html();
+//=&gt;  &lt;html&gt;
+//      &lt;head&gt;&lt;/head&gt;
+//      &lt;body&gt;
+//        &lt;ul id="fruits"&gt;
+//          &lt;li class="apple"&gt;Apple&lt;/li&gt;
+//          &lt;li class="orange"&gt;Orange&lt;/li&gt;
+//          &lt;li class="pear"&gt;Pear&lt;/li&gt;
+//        &lt;/ul&gt;
+//      &lt;/body&gt;
+//    &lt;/html&gt;
+</code></pre>
+
+<p>If you want to render the
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML"><code>outerHTML</code></a>
+of a selection, you can use the <code>outerHTML</code> prop:</p>
+
+<pre><code class="language-js">$('.pear').prop('outerHTML');
+//=&gt; &lt;li class="pear"&gt;Pear&lt;/li&gt;
+</code></pre>
+
+<p>You may also render the text content of a Cheerio object using the <code>text</code>
+method:</p>
+
+<pre><code class="language-js">const $ = cheerio.load('This is &lt;em&gt;content&lt;/em&gt;.');
+$('body').text();
+//=&gt; This is content.
+</code></pre>
+
+<h3 id="the-dom-node-object">The &#8220;DOM Node&#8221; object</h3>
+
+<p>Cheerio collections are made up of objects that bear some resemblance to
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">browser-based DOM nodes</a>.
+You can expect them to define the following properties:</p>
+
+<ul>
+  <li><code>tagName</code></li>
+  <li><code>parentNode</code></li>
+  <li><code>previousSibling</code></li>
+  <li><code>nextSibling</code></li>
+  <li><code>nodeValue</code></li>
+  <li><code>firstChild</code></li>
+  <li><code>childNodes</code></li>
+  <li><code>lastChild</code></li>
+</ul>
+
+<h2 id="screencasts">Screencasts</h2>
+
+<p><a href="https://vimeo.com/31950192">https://vimeo.com/31950192</a></p>
+
+<blockquote>
+  <p>This video tutorial is a follow-up to Nettut&#8217;s &#8220;How to Scrape Web Pages with
+Node.js and jQuery&#8221;, using cheerio instead of JSDOM + jQuery. This video shows
+how easy it is to use cheerio and how much faster cheerio is than JSDOM +
+jQuery.</p>
+</blockquote>
+
+<h2 id="cheerio-in-the-real-world">Cheerio in the real world</h2>
+
+<p>Are you using cheerio in production? Add it to the
+<a href="https://github.com/cheeriojs/cheerio/wiki/Cheerio-in-Production">wiki</a>!</p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Does your company use Cheerio in production? Please consider
+<a href="https://github.com/cheeriojs/cheerio?sponsor=1">sponsoring this project</a>! Your
+help will allow maintainers to dedicate more time and resources to its
+development and support.</p>
+
+<p><strong>Headlining Sponsors</strong></p>
+
+<!-- BEGIN SPONSORS: headliner -->
+
+<p><a href="https://github.com/" target="_blank" rel="noopener noreferrer">
+            <img height="128px" width="128px" src="../support/images/humble-imgix-net_https_3A_2F_2Fgithub.com_2Fgithub.png" title="Github" alt="Github" />&lt;/img&gt;
+          </a>
+<a href="https://www.airbnb.com/" target="_blank" rel="noopener noreferrer">
+            <img height="128px" width="128px" src="../support/images/humble-imgix-net_https_3A_2F_2Fgithub.com_2Fairbnb.png" title="AirBnB" alt="AirBnB" />&lt;/img&gt;
+          </a>
+<a href="https://hasdata.com" target="_blank" rel="noopener noreferrer">
+            <img height="128px" width="128px" src="../support/images/humble-imgix-net_https_3A_2F_2Fhasdata.com_2Ffavicon.svg" title="HasData" alt="HasData" />&lt;/img&gt;
+          </a>
+<a href="https://context.dev/" target="_blank" rel="noopener noreferrer">
+            <img height="128px" width="128px" src="../support/images/humble-imgix-net_https_3A_2F_2Fgithub.com_2Fcontext-dot-dev.png" title="context.dev" alt="context.dev" />&lt;/img&gt;
+          </a></p>
+
+<!-- END SPONSORS -->
+
+<p><strong>Other Sponsors</strong></p>
+
+<!-- BEGIN SPONSORS: sponsor -->
+
+<p><a href="https://onlinecasinosspelen.com" target="_blank" rel="noopener noreferrer">
+            <img height="64px" width="64px" src="../support/images/humble-imgix-net_https_3A_2F_2Fimages.opencollective.com_2Fonlinecasinosspelen_2F99ac6a2_2Flogo.png" title="OnlineCasinosSpelen" alt="OnlineCasinosSpelen" />&lt;/img&gt;
+          </a>
+<a href="https://Nieuwe-Casinos.net" target="_blank" rel="noopener noreferrer">
+            <img height="64px" width="64px" src="../support/images/humble-imgix-net_https_3A_2F_2Fimages.opencollective.com_2Fnieuwecasinos_2Fc67d423_2Flogo.png" title="Nieuwe-Casinos.net" alt="Nieuwe-Casinos.net" />&lt;/img&gt;
+          </a></p>
+
+<!-- END SPONSORS -->
+
+<h2 id="backers">Backers</h2>
+
+<p><a href="https://github.com/cheeriojs/cheerio?sponsor=1">Become a backer</a> to show your
+support for Cheerio and help us maintain and improve this open source project.</p>
+
+<!-- BEGIN SPONSORS: backer -->
+
+<p><a href="https://kafidoff.com" target="_blank" rel="noopener noreferrer">
+            <img height="64px" width="64px" src="../support/images/humble-imgix-net_https_3A_2F_2Fimages.opencollective.com_2Fkafidoff-vasy_2Fd7ff85c_2Favatar.png" title="Vasy Kafidoff" alt="Vasy Kafidoff" />&lt;/img&gt;
+          </a></p>
+
+<!-- END SPONSORS -->
+
+<h2 id="license">License</h2>
+
+<p>MIT</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

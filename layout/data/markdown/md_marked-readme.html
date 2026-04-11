@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>marked README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>marked README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        marked README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p><a href="https://marked.js.org">
+  <img width="60px" height="60px" src="../support/images/marked-js_logo-black.svg" align="right" />
+</a></p>
+
+<h1 id="marked">Marked</h1>
+
+<p><a href="https://www.npmjs.com/package/marked"><img src="../support/images/badgen.net_npm_v_marked.svg" alt="npm" /></a>
+<a href="https://packagephobia.now.sh/result?p=marked"><img src="../support/images/badgen.net_packagephobia_install_marked.svg" alt="install size" /></a>
+<a href="https://www.npmjs.com/package/marked"><img src="../support/images/badgen.net_npm_dt_marked.svg" alt="downloads" /></a>
+<a href="https://github.com/markedjs/marked/actions"><img src="../support/images/github_badge.svg" alt="github actions" /></a>
+<a href="https://snyk.io/test/npm/marked"><img src="../support/images/snyk.io_test_npm_marked_badge.svg" alt="snyk" /></a></p>
+
+<ul>
+  <li>⚡ built for speed</li>
+  <li>⬇️ low-level compiler for parsing markdown without caching or blocking for long periods of time</li>
+  <li>⚖️ light-weight while implementing all markdown features from the supported flavors &amp; specifications</li>
+  <li>🌐 works in a browser, on a server, or from a command line interface (CLI)</li>
+</ul>
+
+<h2 id="demo">Demo</h2>
+
+<p>Check out the <a href="https://marked.js.org/demo/">demo page</a> to see Marked in action ⛹️</p>
+
+<h2 id="docs">Docs</h2>
+
+<p>Our <a href="https://marked.js.org">documentation pages</a> are also rendered using marked 💯</p>
+
+<p>Also read about:</p>
+
+<ul>
+  <li><a href="https://marked.js.org/using_advanced">Options</a></li>
+  <li><a href="https://marked.js.org/using_pro">Extensibility</a></li>
+</ul>
+
+<h2 id="compatibility">Compatibility</h2>
+
+<p><strong>Node.js:</strong> Only <a href="https://nodejs.org/en/about/releases/">current and LTS</a> Node.js versions are supported. End of life Node.js versions may become incompatible with Marked at any point in time.</p>
+
+<p><strong>Browser:</strong> <a href="https://developer.mozilla.org/en-US/docs/Glossary/Baseline/Compatibility">Baseline Widely Available</a></p>
+
+<h2 id="installation">Installation</h2>
+
+<p><strong>CLI:</strong></p>
+
+<pre><code class="language-sh">npm install -g marked
+</code></pre>
+
+<p><strong>In-browser:</strong></p>
+
+<pre><code class="language-sh">npm install marked
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="warning--marked-does-not-sanitize-the-output-html-please-use-a-sanitize-library-like-dompurify-recommended-sanitize-html-or-insane-on-the-output-html-">Warning: 🚨 Marked does not <a href="https://marked.js.org/using_advanced#options">sanitize</a> the output HTML. Please use a sanitize library, like <a href="https://github.com/cure53/DOMPurify">DOMPurify</a> (recommended), <a href="https://github.com/apostrophecms/sanitize-html">sanitize-html</a> or <a href="https://github.com/bevacqua/insane">insane</a> on the <em>output</em> HTML! 🚨</h3>
+
+<pre><code>DOMPurify.sanitize(marked.parse(`&lt;img src="x" onerror="alert('not happening')"&gt;`));
+</code></pre>
+
+<p><strong>CLI</strong></p>
+
+<pre><code class="language-bash"># Example with stdin input
+$ marked -o hello.html
+hello world
+^D
+$ cat hello.html
+&lt;p&gt;hello world&lt;/p&gt;
+</code></pre>
+
+<pre><code class="language-bash"># Print all options
+$ marked --help
+</code></pre>
+
+<p><strong>Browser</strong></p>
+
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"/&gt;
+  &lt;title&gt;Marked in the browser&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="content"&gt;&lt;/div&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    document.getElementById('content').innerHTML =
+      marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>or import esm module</p>
+
+<pre><code class="language-html">&lt;script type="module"&gt;
+  import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+  document.getElementById('content').innerHTML =
+    marked.parse('# Marked in the browser\n\nRendered by **marked**.');
+&lt;/script&gt;
+</code></pre>
+
+<h2 id="license">License</h2>
+
+<p>Copyright (c) 2018+, MarkedJS. (MIT License)
+Copyright (c) 2011-2018, Christopher Jeffrey. (MIT License)</p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

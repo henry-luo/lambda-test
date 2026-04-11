@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-no-join-002.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -975,8 +976,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n  table {\n    font-size: 3em;\n    border-spacing: 0 3px;\n  }\n  td {\n    padding: 0 0.5ch;\n    line-height: 1;\n    border: 1px solid;\n  }\n  @font-face {\n    font-family: 'primary';\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n    unicode-range: U+20;\n  }\n  @font-face {\n    font-family: 'joiners';\n    src: url('/fonts/noto/noto-sans-v8-latin-regular.woff') format('woff');\n    unicode-range: U+200C-200D;\n  }\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  table {\n    /*using a primary font with just U+20 (space) to get the baseline right*/\n    font-family: 'primary', 'joiners', 'csstest_noto';\n  }\n",
-                "length": 714,
+                "text": "\n  table {\n    font-size: 3em;\n    border-spacing: 0 3px;\n  }\n  td {\n    padding: 0 0.5ch;\n    line-height: 1;\n    border: 1px solid;\n  }\n  @font-face {\n    font-family: 'primary';\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n    unicode-range: U+20;\n  }\n  @font-face {\n    font-family: 'joiners';\n    src: url('../../../support/fonts/noto/noto-sans-v8-latin-regular.woff') format('woff');\n    unicode-range: U+200C-200D;\n  }\n  @font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoNaskhArabic-regular.woff2') format('woff2');\n  }\n  table {\n    /*using a primary font with just U+20 (space) to get the baseline right*/\n    font-family: 'primary', 'joiners', 'csstest_noto';\n  }\n",
+                "length": 762,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1023,7 +1024,7 @@
           "contentWidth": 1184,
           "contentHeight": 355,
           "scrollWidth": 1184,
-          "scrollHeight": 355
+          "scrollHeight": 367
         },
         "computed": {
           "display": "block",
@@ -1168,12 +1169,12 @@
             "layout": {
               "x": 8,
               "y": 50,
-              "width": 152.5,
+              "width": 177.63,
               "height": 321,
-              "contentWidth": 153,
+              "contentWidth": 178,
               "contentHeight": 321,
-              "scrollWidth": 153,
-              "scrollHeight": 321
+              "scrollWidth": 178,
+              "scrollHeight": 333
             },
             "computed": {
               "display": "table",
@@ -1228,12 +1229,12 @@
                 "layout": {
                   "x": 8,
                   "y": 53,
-                  "width": 152.5,
+                  "width": 177.63,
                   "height": 315,
-                  "contentWidth": 153,
+                  "contentWidth": 178,
                   "contentHeight": 315,
-                  "scrollWidth": 153,
-                  "scrollHeight": 317
+                  "scrollWidth": 178,
+                  "scrollHeight": 330
                 },
                 "computed": {
                   "display": "table-row-group",
@@ -1288,12 +1289,12 @@
                     "layout": {
                       "x": 8,
                       "y": 53,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -1346,14 +1347,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 53,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1363,9 +1364,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1407,12 +1408,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 123.7,
-                                  "y": 50,
-                                  "width": 23.8,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 105,
+                                  "x": 149.41,
+                                  "y": 37,
+                                  "width": 21.5,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 118,
                                   "text": "ـ‌ا\n  ",
                                   "startIndex": 0,
                                   "endIndex": 6
@@ -1438,12 +1439,12 @@
                         "layout": {
                           "x": 8,
                           "y": 53,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1453,9 +1454,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1497,12 +1498,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 47.45,
-                                  "y": 50,
-                                  "width": 23.8,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 105,
+                                  "x": 60.59,
+                                  "y": 37,
+                                  "width": 21.5,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 118,
                                   "text": "ـﺍ\n",
                                   "startIndex": 0,
                                   "endIndex": 3
@@ -1530,12 +1531,12 @@
                     "layout": {
                       "x": 8,
                       "y": 106,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -1588,14 +1589,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 106,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1605,9 +1606,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1649,12 +1650,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 107.05,
-                                  "y": 103,
-                                  "width": 40.45,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 158,
+                                  "x": 123.77,
+                                  "y": 90,
+                                  "width": 47.14,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 171,
                                   "text": "ب‌ـ\n  ",
                                   "startIndex": 0,
                                   "endIndex": 6
@@ -1680,12 +1681,12 @@
                         "layout": {
                           "x": 8,
                           "y": 106,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1695,9 +1696,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1739,12 +1740,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 30.8,
-                                  "y": 103,
-                                  "width": 40.45,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 158,
+                                  "x": 34.95,
+                                  "y": 90,
+                                  "width": 47.14,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 171,
                                   "text": "ﺏـ\n",
                                   "startIndex": 0,
                                   "endIndex": 3
@@ -1772,12 +1773,12 @@
                     "layout": {
                       "x": 8,
                       "y": 159,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -1830,14 +1831,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 159,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1847,9 +1848,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1891,12 +1892,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 97.25,
-                                  "y": 156,
-                                  "width": 50.25,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 211,
+                                  "x": 111.53,
+                                  "y": 143,
+                                  "width": 59.38,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 224,
                                   "text": "ـب‌ـ\n  ",
                                   "startIndex": 0,
                                   "endIndex": 7
@@ -1922,12 +1923,12 @@
                         "layout": {
                           "x": 8,
                           "y": 159,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -1937,9 +1938,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -1981,12 +1982,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 21,
-                                  "y": 156,
-                                  "width": 50.25,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 211,
+                                  "x": 22.72,
+                                  "y": 143,
+                                  "width": 59.38,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 224,
                                   "text": "ـﺐـ\n",
                                   "startIndex": 0,
                                   "endIndex": 4
@@ -2014,12 +2015,12 @@
                     "layout": {
                       "x": 8,
                       "y": 212,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -2072,14 +2073,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 212,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2089,9 +2090,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2133,12 +2134,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 97.3,
-                                  "y": 209,
-                                  "width": 50.2,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 264,
+                                  "x": 113.69,
+                                  "y": 196,
+                                  "width": 57.22,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 277,
                                   "text": "ـ‌ب‌ـ\n  ",
                                   "startIndex": 0,
                                   "endIndex": 8
@@ -2164,12 +2165,12 @@
                         "layout": {
                           "x": 8,
                           "y": 212,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2179,9 +2180,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2223,12 +2224,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 21.05,
-                                  "y": 209,
-                                  "width": 50.2,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 264,
+                                  "x": 24.88,
+                                  "y": 196,
+                                  "width": 57.22,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 277,
                                   "text": "ـﺏـ\n",
                                   "startIndex": 0,
                                   "endIndex": 4
@@ -2256,12 +2257,12 @@
                     "layout": {
                       "x": 8,
                       "y": 265,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -2314,14 +2315,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 265,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2331,9 +2332,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2375,12 +2376,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 113.77,
-                                  "y": 262,
-                                  "width": 33.73,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 317,
+                                  "x": 137.53,
+                                  "y": 249,
+                                  "width": 33.38,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 330,
                                   "text": "ـ‌بـ\n  ",
                                   "startIndex": 0,
                                   "endIndex": 7
@@ -2406,12 +2407,12 @@
                         "layout": {
                           "x": 8,
                           "y": 265,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2421,9 +2422,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2465,12 +2466,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 37.52,
-                                  "y": 262,
-                                  "width": 33.73,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 317,
+                                  "x": 48.72,
+                                  "y": 249,
+                                  "width": 33.38,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 330,
                                   "text": "ـﺑـ\n",
                                   "startIndex": 0,
                                   "endIndex": 4
@@ -2498,12 +2499,12 @@
                     "layout": {
                       "x": 8,
                       "y": 318,
-                      "width": 152.5,
+                      "width": 177.63,
                       "height": 50,
-                      "contentWidth": 153,
+                      "contentWidth": 178,
                       "contentHeight": 50,
-                      "scrollWidth": 153,
-                      "scrollHeight": 52
+                      "scrollWidth": 178,
+                      "scrollHeight": 65
                     },
                     "computed": {
                       "display": "table-row",
@@ -2556,14 +2557,14 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 84.25,
+                          "x": 96.81,
                           "y": 318,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2573,9 +2574,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2617,12 +2618,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 107.05,
-                                  "y": 315,
-                                  "width": 40.45,
-                                  "height": 55,
-                                  "right": 147.5,
-                                  "bottom": 370,
+                                  "x": 123.77,
+                                  "y": 302,
+                                  "width": 47.14,
+                                  "height": 81,
+                                  "right": 170.91,
+                                  "bottom": 383,
                                   "text": "ـ‌ب\n  ",
                                   "startIndex": 0,
                                   "endIndex": 6
@@ -2648,12 +2649,12 @@
                         "layout": {
                           "x": 8,
                           "y": 318,
-                          "width": 76.25,
+                          "width": 88.81,
                           "height": 50,
-                          "contentWidth": 74,
+                          "contentWidth": 87,
                           "contentHeight": 48,
-                          "scrollWidth": 74,
-                          "scrollHeight": 51
+                          "scrollWidth": 87,
+                          "scrollHeight": 64
                         },
                         "computed": {
                           "display": "table-cell",
@@ -2663,9 +2664,9 @@
                           "marginBottom": 0,
                           "marginLeft": 0,
                           "paddingTop": 0,
-                          "paddingRight": 12,
+                          "paddingRight": 13.7227,
                           "paddingBottom": 0,
-                          "paddingLeft": 12,
+                          "paddingLeft": 13.7227,
                           "borderTopWidth": 1,
                           "borderRightWidth": 1,
                           "borderBottomWidth": 1,
@@ -2707,12 +2708,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 30.8,
-                                  "y": 315,
-                                  "width": 40.45,
-                                  "height": 55,
-                                  "right": 71.25,
-                                  "bottom": 370,
+                                  "x": 34.95,
+                                  "y": 302,
+                                  "width": 47.14,
+                                  "height": 81,
+                                  "right": 82.09,
+                                  "bottom": 383,
                                   "text": "ـﺏ\n",
                                   "startIndex": 0,
                                   "endIndex": 3

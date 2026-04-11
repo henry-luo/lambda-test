@@ -1,5 +1,6 @@
 {
   "test_file": "text-autospace-ligature-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -419,8 +420,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n  font-family: ligature-font;\n  src: url('/fonts/Lato-Medium-Liga.ttf');\n}\n#test-container {\n  font-family: ligature-font;\n  font-size: 40px;\n  text-autospace: normal;\n}\n.base {\n  text-autospace: no-autospace;\n}\n",
-                "length": 226,
+                "text": "\n@font-face {\n  font-family: ligature-font;\n  src: url('../../../support/fonts/Lato-Medium-Liga.ttf');\n}\n#test-container {\n  font-family: ligature-font;\n  font-size: 40px;\n  text-autospace: normal;\n}\n.base {\n  text-autospace: no-autospace;\n}\n",
+                "length": 242,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -642,11 +643,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 14,
-                          "width": 67.25,
-                          "height": 46,
-                          "right": 75.25,
-                          "bottom": 60,
+                          "y": 11,
+                          "width": 68.19,
+                          "height": 48,
+                          "right": 76.19,
+                          "bottom": 59,
                           "text": "国fi",
                           "startIndex": 0,
                           "endIndex": 3
@@ -734,11 +735,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 70,
-                          "width": 62.25,
-                          "height": 46,
-                          "right": 70.25,
-                          "bottom": 116,
+                          "y": 67,
+                          "width": 63.19,
+                          "height": 48,
+                          "right": 71.19,
+                          "bottom": 115,
                           "text": "国fi",
                           "startIndex": 0,
                           "endIndex": 3
@@ -824,11 +825,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 126,
-                          "width": 67.25,
-                          "height": 46,
-                          "right": 75.25,
-                          "bottom": 172,
+                          "y": 123,
+                          "width": 68.19,
+                          "height": 48,
+                          "right": 76.19,
+                          "bottom": 171,
                           "text": "fi国",
                           "startIndex": 0,
                           "endIndex": 3
@@ -916,11 +917,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 182,
-                          "width": 62.25,
-                          "height": 46,
-                          "right": 70.25,
-                          "bottom": 228,
+                          "y": 179,
+                          "width": 63.19,
+                          "height": 48,
+                          "right": 71.19,
+                          "bottom": 227,
                           "text": "fi国",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1006,11 +1007,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 238,
-                          "width": 112.25,
-                          "height": 46,
-                          "right": 120.25,
-                          "bottom": 284,
+                          "y": 235,
+                          "width": 113.19,
+                          "height": 48,
+                          "right": 121.19,
+                          "bottom": 283,
                           "text": "国fi国",
                           "startIndex": 0,
                           "endIndex": 4
@@ -1098,11 +1099,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 294,
-                          "width": 102.25,
-                          "height": 46,
-                          "right": 110.25,
-                          "bottom": 340,
+                          "y": 291,
+                          "width": 103.19,
+                          "height": 48,
+                          "right": 111.19,
+                          "bottom": 339,
                           "text": "国fi国",
                           "startIndex": 0,
                           "endIndex": 4

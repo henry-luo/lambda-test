@@ -1,5 +1,6 @@
 {
   "test_file": "shaping-020.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -837,8 +838,8 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('/fonts/noto/NotoSansNko-regular-webfont.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; }\n/* the CSS above is not part of the test */\n.styled { color:blue; }\n",
-                "length": 333,
+                "text": "\n@font-face {\n    font-family: 'csstest_noto';\n    src: url('../../../support/fonts/noto/NotoSansNko-regular-webfont.woff2') format('woff2');\n    }\n.test, .ref { border: 1px solid #02D7F6;  margin: 20px;  padding: 10px; width: 3em; font-size: 120px; font-family: \"csstest_noto\"; }\n/* the CSS above is not part of the test */\n.styled { color:blue; }\n",
+                "length": 349,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [],
@@ -1094,11 +1095,11 @@
                   "rects": [
                     {
                       "x": 333.72,
-                      "y": 85,
+                      "y": 65,
                       "width": 65.28,
-                      "height": 138,
+                      "height": 163,
                       "right": 399,
-                      "bottom": 223,
+                      "bottom": 228,
                       "text": "ߞ",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1123,9 +1124,9 @@
                 ],
                 "layout": {
                   "x": 268.44,
-                  "y": 85,
+                  "y": 65,
                   "width": 65.28,
-                  "height": 138,
+                  "height": 163,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1184,11 +1185,11 @@
                       "rects": [
                         {
                           "x": 268.44,
-                          "y": 85,
+                          "y": 65,
                           "width": 65.28,
-                          "height": 138,
+                          "height": 163,
                           "right": 333.72,
-                          "bottom": 223,
+                          "bottom": 228,
                           "text": "ߞ",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1214,11 +1215,11 @@
                   "rects": [
                     {
                       "x": 203.16,
-                      "y": 85,
+                      "y": 65,
                       "width": 65.28,
-                      "height": 138,
+                      "height": 163,
                       "right": 268.44,
-                      "bottom": 223,
+                      "bottom": 228,
                       "text": "ߞ",
                       "startIndex": 0,
                       "endIndex": 1
@@ -1306,11 +1307,11 @@
                   "rects": [
                     {
                       "x": 333.72,
-                      "y": 290,
+                      "y": 270,
                       "width": 65.28,
-                      "height": 138,
+                      "height": 163,
                       "right": 399,
-                      "bottom": 428,
+                      "bottom": 433,
                       "text": "ߞ‍",
                       "startIndex": 0,
                       "endIndex": 2
@@ -1335,9 +1336,9 @@
                 ],
                 "layout": {
                   "x": 268.44,
-                  "y": 290,
+                  "y": 270,
                   "width": 65.28,
-                  "height": 138,
+                  "height": 163,
                   "contentWidth": 0,
                   "contentHeight": 0,
                   "scrollWidth": 0,
@@ -1396,11 +1397,11 @@
                       "rects": [
                         {
                           "x": 268.44,
-                          "y": 290,
+                          "y": 270,
                           "width": 65.28,
-                          "height": 138,
+                          "height": 163,
                           "right": 333.72,
-                          "bottom": 428,
+                          "bottom": 433,
                           "text": "‍ߞ‍",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1426,11 +1427,11 @@
                   "rects": [
                     {
                       "x": 203.16,
-                      "y": 290,
+                      "y": 270,
                       "width": 65.28,
-                      "height": 138,
+                      "height": 163,
                       "right": 268.44,
-                      "bottom": 428,
+                      "bottom": 433,
                       "text": "‍ߞ",
                       "startIndex": 0,
                       "endIndex": 2

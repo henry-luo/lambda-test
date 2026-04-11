@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>express README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>express README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        express README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p><a href="https://expressjs.com/"><img src="../support/images/i-cloudup_zfY6lL7eFa-3000x3000.png" alt="Express Logo" /></a></p>
+
+<p><strong>Fast, unopinionated, minimalist web framework for <a href="https://nodejs.org">Node.js</a>.</strong></p>
+
+<p><strong>This project has a <a href="https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md">Code of Conduct</a>.</strong></p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#table-of-contents">Table of contents</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#features">Features</a></li>
+  <li><a href="#docs--community">Docs \&amp; Community</a></li>
+  <li><a href="#quick-start">Quick Start</a></li>
+  <li><a href="#philosophy">Philosophy</a></li>
+  <li><a href="#examples">Examples</a></li>
+  <li><a href="#contributing">Contributing</a>
+    <ul>
+      <li><a href="#security-issues">Security Issues</a></li>
+      <li><a href="#running-tests">Running Tests</a></li>
+    </ul>
+  </li>
+  <li><a href="#current-project-team-members">Current project team members</a>
+    <ul>
+      <li><a href="#tc-technical-committee">TC (Technical Committee)</a>
+        <ul>
+          <li><a href="#tc-emeriti-members">TC emeriti members</a></li>
+        </ul>
+      </li>
+      <li><a href="#triagers">Triagers</a>
+        <ul>
+          <li><a href="#emeritus-triagers">Emeritus Triagers</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#license">License</a></li>
+</ul>
+
+<p><a href="https://npmjs.org/package/express"><img src="../support/images/img.shields.io_npm_v_express.svg" alt="NPM Version" /></a>
+<a href="https://npmcharts.com/compare/express?minimal=true"><img src="../support/images/img.shields.io_npm_dm_express.svg" alt="NPM Downloads" /></a>
+<a href="https://github.com/expressjs/express/actions/workflows/ci.yml"><img src="../support/images/img.shields.io_github_actions_workflow_status_expressjs_express_ci.yml.svg" alt="Linux Build" /></a>
+<a href="https://coveralls.io/r/expressjs/express?branch=master"><img src="../support/images/img.shields.io_coverallsCoverage_github_expressjs_express.svg" alt="Test Coverage" /></a>
+<a href="https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express"><img src="../support/images/api.scorecard.dev_projects_github.com_expressjs_express_badge.svg" alt="OpenSSF Scorecard Badge" /></a></p>
+
+<pre><code class="language-js">import express from 'express'
+
+const app = express()
+
+app.get('/', (req, res) =&gt; {
+  res.send('Hello World')
+})
+
+app.listen(3000, () =&gt; {
+  console.log('Server is running on http://localhost:3000')
+})
+</code></pre>
+
+<h2 id="installation">Installation</h2>
+
+<p>This is a <a href="https://nodejs.org/en/">Node.js</a> module available through the
+<a href="https://www.npmjs.com/">npm registry</a>.</p>
+
+<p>Before installing, <a href="https://nodejs.org/en/download/">download and install Node.js</a>.
+Node.js 18 or higher is required.</p>
+
+<p>If this is a brand new project, make sure to create a <code>package.json</code> first with
+the <a href="https://docs.npmjs.com/creating-a-package-json-file"><code>npm init</code> command</a>.</p>
+
+<p>Installation is done using the
+<a href="https://docs.npmjs.com/getting-started/installing-npm-packages-locally"><code>npm install</code> command</a>:</p>
+
+<pre><code class="language-bash">npm install express
+</code></pre>
+
+<p>Follow <a href="https://expressjs.com/en/starter/installing.html">our installing guide</a>
+for more information.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Robust routing</li>
+  <li>Focus on high performance</li>
+  <li>Super-high test coverage</li>
+  <li>HTTP helpers (redirection, caching, etc)</li>
+  <li>View system supporting 14+ template engines</li>
+  <li>Content negotiation</li>
+  <li>Executable for generating applications quickly</li>
+</ul>
+
+<h2 id="docs--community">Docs &amp; Community</h2>
+
+<ul>
+  <li><a href="https://expressjs.com/">Website and Documentation</a> - [<a href="https://github.com/expressjs/expressjs.com">website repo</a>]</li>
+  <li><a href="https://github.com/expressjs">GitHub Organization</a> for Official Middleware &amp; Modules</li>
+  <li><a href="https://github.com/expressjs/discussions">Github Discussions</a> for discussion on the development and usage of Express</li>
+</ul>
+
+<p><strong>PROTIP</strong> Be sure to read the <a href="https://expressjs.com/en/guide/migrating-5">migration guide to v5</a></p>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<p>The quickest way to get started with express is to utilize the executable <a href="https://github.com/expressjs/generator"><code>express(1)</code></a> to generate an application as shown below:</p>
+
+<p>Install the executable. The executable&#8217;s major version will match Express&#8217;s:</p>
+
+<pre><code class="language-bash">npm install -g express-generator@4
+</code></pre>
+
+<p>Create the app:</p>
+
+<pre><code class="language-bash">express /tmp/foo &amp;&amp; cd /tmp/foo
+</code></pre>
+
+<p>Install dependencies:</p>
+
+<pre><code class="language-bash">npm install
+</code></pre>
+
+<p>Start the server:</p>
+
+<pre><code class="language-bash">npm start
+</code></pre>
+
+<p>View the website at: http://localhost:3000</p>
+
+<h2 id="philosophy">Philosophy</h2>
+
+<p>The Express philosophy is to provide small, robust tooling for HTTP servers, making
+  it a great solution for single page applications, websites, hybrids, or public
+  HTTP APIs.</p>
+
+<p>Express does not force you to use any specific ORM or template engine. With support for over
+  14 template engines via <a href="https://github.com/ladjs/consolidate">@ladjs/consolidate</a>,
+  you can quickly craft your perfect framework.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>To view the examples, clone the Express repository:</p>
+
+<pre><code class="language-bash">git clone https://github.com/expressjs/express.git --depth 1 &amp;&amp; cd express
+</code></pre>
+
+<p>Then install the dependencies:</p>
+
+<pre><code class="language-bash">npm install
+</code></pre>
+
+<p>Then run whichever example you want:</p>
+
+<pre><code class="language-bash">node examples/content-negotiation
+</code></pre>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>The Express.js project welcomes all constructive contributions. Contributions take many forms,
+from code for bug fixes and enhancements, to additions and fixes to documentation, additional
+tests, triaging incoming pull requests and issues, and more!</p>
+
+<p>See the <a href="https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md">Contributing Guide</a> for more technical details on contributing.</p>
+
+<h3 id="security-issues">Security Issues</h3>
+
+<p>If you discover a security vulnerability in Express, please see <a href="https://github.com/expressjs/express/security/policy">Security Policies and Procedures</a>.</p>
+
+<h3 id="running-tests">Running Tests</h3>
+
+<p>To run the test suite, first install the dependencies:</p>
+
+<pre><code class="language-bash">npm install
+</code></pre>
+
+<p>Then run <code>npm test</code>:</p>
+
+<pre><code class="language-bash">npm test
+</code></pre>
+
+<h2 id="current-project-team-members">Current project team members</h2>
+
+<p>For information about the governance of the express.js project, see <a href="https://github.com/expressjs/discussions/blob/HEAD/docs/GOVERNANCE.md">GOVERNANCE.md</a>.</p>
+
+<p>The original author of Express is <a href="https://github.com/tj">TJ Holowaychuk</a></p>
+
+<p><a href="https://github.com/expressjs/express/graphs/contributors">List of all contributors</a></p>
+
+<h3 id="tc-technical-committee">TC (Technical Committee)</h3>
+
+<ul>
+  <li><a href="https://github.com/UlisesGascon">UlisesGascon</a> - <strong>Ulises Gascón</strong> (he/him)</li>
+  <li><a href="https://github.com/jonchurch">jonchurch</a> - <strong>Jon Church</strong></li>
+  <li><a href="https://github.com/wesleytodd">wesleytodd</a> - <strong>Wes Todd</strong></li>
+  <li><a href="https://github.com/LinusU">LinusU</a> - <strong>Linus Unnebäck</strong></li>
+  <li><a href="https://github.com/blakeembrey">blakeembrey</a> - <strong>Blake Embrey</strong></li>
+  <li><a href="https://github.com/sheplu">sheplu</a> - <strong>Jean Burellier</strong></li>
+  <li><a href="https://github.com/crandmck">crandmck</a> - <strong>Rand McKinney</strong></li>
+  <li><a href="https://github.com/ctcpip">ctcpip</a> - <strong>Chris de Almeida</strong></li>
+</ul>
+
+<details>
+<summary>TC emeriti members</summary>
+
+#### TC emeriti members
+
+  * [dougwilson](https://github.com/dougwilson) - **Douglas Wilson**
+  * [hacksparrow](https://github.com/hacksparrow) - **Hage Yaapa**
+  * [jonathanong](https://github.com/jonathanong) - **jongleberry**
+  * [niftylettuce](https://github.com/niftylettuce) - **niftylettuce**
+  * [troygoode](https://github.com/troygoode) - **Troy Goode**
+</details>
+
+<h3 id="triagers">Triagers</h3>
+
+<ul>
+  <li><a href="https://github.com/aravindvnair99">aravindvnair99</a> - <strong>Aravind Nair</strong></li>
+  <li><a href="https://github.com/bjohansebas">bjohansebas</a> - <strong>Sebastian Beltran</strong></li>
+  <li><a href="https://github.com/carpasse">carpasse</a> - <strong>Carlos Serrano</strong></li>
+  <li><a href="https://github.com/CBID2">CBID2</a> - <strong>Christine Belzie</strong></li>
+  <li><a href="https://github.com/UlisesGascon">UlisesGascon</a> - <strong>Ulises Gascón</strong> (he/him)</li>
+  <li><a href="https://github.com/IamLizu">IamLizu</a> - <strong>S M Mahmudul Hasan</strong> (he/him)</li>
+  <li><a href="https://github.com/Phillip9587">Phillip9587</a> - <strong>Phillip Barta</strong></li>
+  <li><a href="https://github.com/efekrskl">efekrskl</a> - <strong>Efe Karasakal</strong></li>
+  <li><a href="https://github.com/rxmarbles">rxmarbles</a> - <strong>Rick Markins</strong> (he/him)</li>
+  <li><a href="https://github.com/krzysdz">krzysdz</a></li>
+  <li><a href="https://github.com/GroophyLifefor">GroophyLifefor</a> - <strong>Murat Kirazkaya</strong></li>
+</ul>
+
+<details>
+<summary>Triagers emeriti members</summary>
+
+#### Emeritus Triagers
+
+  * [AuggieH](https://github.com/AuggieH) - **Auggie Hudak**
+  * [G-Rath](https://github.com/G-Rath) - **Gareth Jones**
+  * [MohammadXroid](https://github.com/MohammadXroid) - **Mohammad Ayashi**
+  * [NawafSwe](https://github.com/NawafSwe) - **Nawaf Alsharqi**
+  * [NotMoni](https://github.com/NotMoni) - **Moni**
+  * [VigneshMurugan](https://github.com/VigneshMurugan) - **Vignesh Murugan**
+  * [davidmashe](https://github.com/davidmashe) - **David Ashe**
+  * [digitaIfabric](https://github.com/digitaIfabric) - **David**
+  * [e-l-i-s-e](https://github.com/e-l-i-s-e) - **Elise Bonner**
+  * [fed135](https://github.com/fed135) - **Frederic Charette**
+  * [firmanJS](https://github.com/firmanJS) - **Firman Abdul Hakim**
+  * [getspooky](https://github.com/getspooky) - **Yasser Ameur**
+  * [ghinks](https://github.com/ghinks) - **Glenn**
+  * [ghousemohamed](https://github.com/ghousemohamed) - **Ghouse Mohamed**
+  * [gireeshpunathil](https://github.com/gireeshpunathil) - **Gireesh Punathil**
+  * [jake32321](https://github.com/jake32321) - **Jake Reed**
+  * [jonchurch](https://github.com/jonchurch) - **Jon Church**
+  * [lekanikotun](https://github.com/lekanikotun) - **Troy Goode**
+  * [marsonya](https://github.com/marsonya) - **Lekan Ikotun**
+  * [mastermatt](https://github.com/mastermatt) - **Matt R. Wilson**
+  * [maxakuru](https://github.com/maxakuru) - **Max Edell**
+  * [mlrawlings](https://github.com/mlrawlings) - **Michael Rawlings**
+  * [rodion-arr](https://github.com/rodion-arr) - **Rodion Abdurakhimov**
+  * [sheplu](https://github.com/sheplu) - **Jean Burellier**
+  * [tarunyadav1](https://github.com/tarunyadav1) - **Tarun yadav**
+  * [tunniclm](https://github.com/tunniclm) - **Mike Tunnicliffe**
+  * [enyoghasim](https://github.com/enyoghasim) - **David Enyoghasim**
+  * [0ss](https://github.com/0ss) - **Salah**
+  * [ejcheng](https://github.com/ejcheng)- **Eric Cheng** (he/him)
+  * [dakshkhetan](https://github.com/dakshkhetan) - **Daksh Khetan** (he/him)
+  * [lucasraziel](https://github.com/lucasraziel) - **Lucas Soares Do Rego**
+  * [mertcanaltin](https://github.com/mertcanaltin) - **Mert Can Altin**
+  * [dpopp07](https://github.com/dpopp07) - **Dustin Popp**
+  * [Sushmeet](https://github.com/Sushmeet) - **Sushmeet Sunger**
+  * [3imed-jaberi](https://github.com/3imed-jaberi) - **Imed Jaberi**
+
+</details>
+
+<h2 id="license">License</h2>
+
+<p><a href="LICENSE">MIT</a></p>
+
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

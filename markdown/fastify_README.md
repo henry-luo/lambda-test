@@ -14,22 +14,22 @@
 CI](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/package-manager-ci.yml)
 [![Web
 site](../support/images/github_badge.svg)](https://github.com/fastify/fastify/actions/workflows/website.yml)
-[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-brightgreen?style=flat)](https://github.com/neostandard/neostandard)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/7585/badge)](https://bestpractices.coreinfrastructure.org/projects/7585)
+[![neostandard javascript style](../support/images/img.shields.io_badge_code_style-neostandard-brightgreen.svg)](https://github.com/neostandard/neostandard)
+[![CII Best Practices](../support/images/bestpractices.coreinfrastructure.org_projects_7585_badge.svg)](https://bestpractices.coreinfrastructure.org/projects/7585)
 
 </div>
 
 <div align="center">
 
 [![NPM
-version](https://img.shields.io/npm/v/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+version](../support/images/img.shields.io_npm_v_fastify.svg)](https://www.npmjs.com/package/fastify)
 [![NPM
-downloads](https://img.shields.io/npm/dm/fastify.svg?style=flat)](https://www.npmjs.com/package/fastify)
+downloads](../support/images/img.shields.io_npm_dm_fastify.svg)](https://www.npmjs.com/package/fastify)
 [![Security Responsible
-Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/fastify/fastify/blob/main/SECURITY.md)
-[![Discord](https://img.shields.io/discord/725613461949906985)](https://discord.gg/fastify)
-[![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod&color=blue)](https://gitpod.io/#https://github.com/fastify/fastify)
-[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/fastify)](https://github.com/sponsors/fastify#sponsors)
+Disclosure](../support/images/img.shields.io_badge_Security-Responsible_20Disclosure-yellow.svg)](https://github.com/fastify/fastify/blob/main/SECURITY.md)
+[![Discord](../support/images/img.shields.io_discord_725613461949906985.svg)](https://discord.gg/fastify)
+[![Contribute with Gitpod](../support/images/img.shields.io_badge_Contribute_20with-Gitpod-908a85.svg)](https://gitpod.io/#https://github.com/fastify/fastify)
+[![Open Collective backers and sponsors](../support/images/img.shields.io_opencollective_all_fastify.svg)](https://github.com/sponsors/fastify#sponsors)
 
 </div>
 

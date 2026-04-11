@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Soft Hyphen - Basic Breaking</title>
+    <style>
+        @font-face {
+            font-family: 'Liberation Sans';
+            src: url('../../font/LiberationSans-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * { margin: 0; padding: 0; }
+        body {
+            font-family: 'Liberation Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .narrow {
+            width: 50px;
+            background: #eee;
+            margin: 10px;
+        }
+        .wide {
+            width: 400px;
+            background: #ddd;
+            margin: 10px;
+        }
+        .medium {
+            width: 80px;
+            background: #ccc;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Soft hyphen should cause break with visible hyphen in narrow container -->
+    <div class="narrow"><p>Butter&shy;fly</p></div>
+
+    <!-- Soft hyphen should NOT break in wide container (invisible) -->
+    <div class="wide"><p>Butter&shy;fly</p></div>
+
+    <!-- Force break at soft hyphen in medium container -->
+    <div class="medium"><p>Entertain&shy;ment</p></div>
+
+    <script type="application/json" id="test-metadata">
+    {
+        "test_id": "text_flow_761_soft_hyphen_basic",
+        "category": "text_flow",
+        "features": ["soft-hyphen", "line-break", "shy"],
+        "description": "Basic soft hyphen breaking behavior: break with visible hyphen in narrow, invisible in wide",
+        "complexity": "simple"
+    }
+    </script>
+</body>
+</html>

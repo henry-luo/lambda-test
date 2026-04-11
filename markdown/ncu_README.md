@@ -1,7 +1,7 @@
 # npm-check-updates
 
-[![npm version](https://img.shields.io/npm/v/npm-check-updates)](https://www.npmjs.com/package/npm-check-updates)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/raineorshine/npm-check-updates/test.yml?branch=main&label=tests&logo=github)](https://github.com/raineorshine/npm-check-updates/actions?query=workflow%3ATests+branch%3Amain)
+[![npm version](../support/images/img.shields.io_npm_v_npm-check-updates.svg)](https://www.npmjs.com/package/npm-check-updates)
+[![Build Status](../support/images/img.shields.io_github_actions_workflow_status_raineorshine_npm-check-updates_test.yml.svg)](https://github.com/raineorshine/npm-check-updates/actions?query=workflow%3ATests+branch%3Amain)
 
 **npm-check-updates upgrades your package.json dependencies to the _latest_ versions, ignoring specified versions.**
 
@@ -11,7 +11,7 @@
 - compatible with npm, yarn, pnpm, deno, and bun
 - CLI and module usage
 
-<img width="500" alt="example output" src="https://github.com/user-attachments/assets/4808618b-ac20-4fc0-92e0-a777de70a2b6">
+<img width="500" alt="example output" src="../support/images/github.com_user-attachments_assets_4808618b-ac20-4fc0-92e0-a777de70a2b6.png">
 
 $${\color{red}Red}$$ major upgrade (and all [major version zero](https://semver.org/#spec-item-4))<br/>
 $${\color{cyan}Cyan}$$ minor upgrade<br/>

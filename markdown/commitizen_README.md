@@ -2,8 +2,8 @@
 
 When you commit with Commitizen, you'll be prompted to fill out any required commit fields at commit time. No more waiting until later for a git commit hook to run and reject your commit (though [that](https://github.com/kentcdodds/validate-commit-msg) can still be helpful). No more digging through [CONTRIBUTING.md](CONTRIBUTING.md) to find what the preferred format is. Get instant feedback on your commit message formatting and be prompted for required fields.
 
-[![Backers on Open Collective](../support/images/opencollective_badge.svg)](#backers) [![Sponsors on Open Collective](../support/images/opencollective_badge.svg)](#sponsors) [![travis.ci](https://img.shields.io/travis/commitizen/cz-cli.svg?branch=master)](https://travis-ci.org/commitizen/cz-cli) [![Azure Build Status](https://dev.azure.com/commitizen/cz-cli/_apis/build/status/commitizen.cz-cli?branchName=master)](https://dev.azure.com/commitizen/cz-cli/_build/latest?definitionId=2)
-[![codecov.io](https://img.shields.io/codecov/c/github/commitizen/cz-cli.svg)](https://codecov.io/github/commitizen/cz-cli?branch=master) [![npm monthly downloads](https://img.shields.io/npm/dm/commitizen.svg)](https://www.npmjs.com/package/commitizen) [![current version](https://img.shields.io/npm/v/commitizen.svg)](https://www.npmjs.com/package/commitizen) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![commitizen on stackoverflow](https://img.shields.io/badge/stackoverflow-community-orange.svg?longCache=true&logo=stackoverflow)](https://stackoverflow.com/tags/commitizen)
+[![Backers on Open Collective](../support/images/opencollective_badge.svg)](#backers) [![Sponsors on Open Collective](../support/images/opencollective_badge.svg)](#sponsors) [![travis.ci](../support/images/img.shields.io_travis_commitizen_cz-cli.svg)](https://travis-ci.org/commitizen/cz-cli) [![Azure Build Status](../support/images/dev.azure.com_commitizen_cz-cli_apis_build_status_commitizen.cz-cli.svg)](https://dev.azure.com/commitizen/cz-cli/_build/latest?definitionId=2)
+[![codecov.io](../support/images/img.shields.io_codecov_c_github_commitizen_cz-cli.svg)](https://codecov.io/github/commitizen/cz-cli?branch=master) [![npm monthly downloads](../support/images/img.shields.io_npm_dm_commitizen.svg)](https://www.npmjs.com/package/commitizen) [![current version](../support/images/img.shields.io_npm_v_commitizen.svg)](https://www.npmjs.com/package/commitizen) [![semantic-release](../support/images/img.shields.io_badge_20_20_F0_9F_93_A6_F0_9F_9A_80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![commitizen on stackoverflow](../support/images/img.shields.io_badge_stackoverflow-community-orange.svg)](https://stackoverflow.com/tags/commitizen)
 
 ## Installing the command line tool
 
@@ -178,7 +178,7 @@ Add the "Commitizen friendly" badge to your README using the following markdown:
 
 Your badge will look like this:
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Commitizen friendly](../support/images/img.shields.io_badge_commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 It may also make sense to change your `README.md` or `CONTRIBUTING.md` files to include or link to the Commitizen project so that your new contributors may learn more about installing and using Commitizen.
 

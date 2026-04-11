@@ -1,4 +1,4 @@
-![npm](https://img.shields.io/npm/dm/husky)
+![npm](../support/images/img.shields.io_npm_dm_husky.svg)
 
 > Ultra-fast modern native git hooks
 
@@ -36,13 +36,13 @@ Support this project by becoming a sponsor [here](https://github.com/sponsors/ty
 
 <p align="center">
   <a href="http://git-tower.com/?utm_source=husky&utm_medium=referral">
-    <img height="100" style="height: 100px; width: auto; max-width: none;" alt="Git Tower" src="https://camo.githubusercontent.com/4b4d0ae4ec27fe8591b575c86fe21c562f34926893272dccc05fbf0447d38694/68747470733a2f2f6a736f6e706c616365686f6c6465722e74797069636f64652e636f6d2f746f7765722d69636f6e2d616e642d6c6f676f2d31343030783236302e706e67" />
+    <img height="100" style="height: 100px; width: auto; max-width: none;" alt="Git Tower" src="../support/images/camo.githubusercontent.com_4b4d0ae4ec27fe8591b575c86fe21c562f34926893272dccc05fbf0447d38694_68747470733a2f2f6a7_0c7dce26.png" />
   </a>
 </p>
 
 <p align="center">
   <a href="https://serpapi.com/?utm_source=typicode">
-    <img height="100" style="height: 100px; width: auto; max-width: none;" src="https://github.com/user-attachments/assets/52b3039d-1e4c-4c68-951c-93f0f1e73611" alt="SerpApi" />
+    <img height="100" style="height: 100px; width: auto; max-width: none;" src="../support/images/github.com_user-attachments_assets_52b3039d-1e4c-4c68-951c-93f0f1e73611.png" alt="SerpApi" />
   </a>
 </p>
 
@@ -60,7 +60,7 @@ Support this project by becoming a sponsor [here](https://github.com/sponsors/ty
 <a href="https://opencollective.com/husky/tiers/company/3/website"><img src="../support/images/opencollective_avatar.svg"></a>
 <a href="https://opencollective.com/husky/tiers/company/4/website"><img src="../support/images/opencollective_avatar.svg"></a>
 <a href="https://opencollective.com/husky/tiers/company/5/website"><img src="../support/images/opencollective_avatar.svg"></a>
-[![image](https://github.com/user-attachments/assets/b9c5a918-70fc-4615-ae7d-e7e5bc3c66e8)](https://www.sanity.io/)
+[![image](../support/images/github.com_user-attachments_assets_b9c5a918-70fc-4615-ae7d-e7e5bc3c66e8.png)](https://www.sanity.io/)
 
 ## Used by
 

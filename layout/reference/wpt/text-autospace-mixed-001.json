@@ -1,5 +1,6 @@
 {
   "test_file": "text-autospace-mixed-001.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -798,9 +799,9 @@
                         {
                           "x": 8,
                           "y": 18,
-                          "width": 85,
+                          "width": 235.42,
                           "height": 40,
-                          "right": 93,
+                          "right": 243.42,
                           "bottom": 58,
                           "text": "国国אבג国国",
                           "startIndex": 0,
@@ -1006,9 +1007,9 @@
                         {
                           "x": 93,
                           "y": 74,
-                          "width": 17.09,
+                          "width": 150.42,
                           "height": 40,
-                          "right": 110.09,
+                          "right": 243.42,
                           "bottom": 114,
                           "text": "ג国国",
                           "startIndex": 0,
@@ -1096,9 +1097,9 @@
                         {
                           "x": 8,
                           "y": 130,
-                          "width": 85,
+                          "width": 234.53,
                           "height": 40,
-                          "right": 93,
+                          "right": 242.53,
                           "bottom": 170,
                           "text": "国国مُرَبَّعْ国国",
                           "startIndex": 0,

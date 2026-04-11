@@ -1,5 +1,6 @@
 {
   "test_file": "text-justify-006.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/Jubily/test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/wpt-css-text/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 405,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -1182,9 +1183,9 @@
                     {
                       "x": 8,
                       "y": 70,
-                      "width": 66.67,
+                      "width": 80,
                       "height": 20,
-                      "right": 74.67,
+                      "right": 88,
                       "bottom": 90,
                       "text": "X ",
                       "startIndex": 0,
@@ -1207,9 +1208,9 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 74.67,
+                  "x": 88,
                   "y": 70,
-                  "width": 86.67,
+                  "width": 60,
                   "height": 20,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1268,11 +1269,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 74.67,
+                          "x": 88,
                           "y": 70,
-                          "width": 86.67,
+                          "width": 60,
                           "height": 20,
-                          "right": 161.34,
+                          "right": 148,
                           "bottom": 90,
                           "text": "X X",
                           "startIndex": 0,
@@ -1298,11 +1299,11 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 161.34,
+                      "x": 148,
                       "y": 70,
-                      "width": 66.67,
+                      "width": 80,
                       "height": 20,
-                      "right": 228.02,
+                      "right": 228,
                       "bottom": 90,
                       "text": " X ",
                       "startIndex": 0,

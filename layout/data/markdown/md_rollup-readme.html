@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rollup README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>rollup README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        rollup README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p align="center">
+	<a href="https://rollupjs.org/"><img src="../support/images/rollupjs_rollup-logo.svg" width="150" /></a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/rollup">
+    <img src="../support/images/img.shields.io_npm_v_rollup.svg" alt="npm version" />
+  </a>
+  <a href="https://nodejs.org/en/about/previous-releases">
+    <img src="../support/images/img.shields.io_node_v_rollup.svg" alt="node compatibility" />
+  </a>
+  <a href="https://packagephobia.com/result?p=rollup">
+    <img src="../support/images/packagephobia.com_badge_p_rollup.svg" alt="install size" />
+  </a>
+  <a href="https://codecov.io/gh/rollup/rollup">
+    <img src="../support/images/codecov_badge.svg" alt="code coverage" />
+  </a>
+  <a href="#backers" alt="sponsors on Open Collective">
+    <img src="../support/images/opencollective_badge.svg" alt="backers" />
+  </a> 
+  <a href="#sponsors" alt="Sponsors on Open Collective">
+    <img src="../support/images/opencollective_badge.svg" alt="sponsors" />
+  </a> 
+  <a href="https://github.com/rollup/rollup/blob/master/LICENSE.md">
+    <img src="../support/images/img.shields.io_npm_l_rollup.svg" alt="license" />
+  </a>
+  <a href="https://is.gd/rollup_chat?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge">
+    <img src="../support/images/img.shields.io_discord_466787075518365708.svg" alt="Join the chat at https://is.gd/rollup_chat" />
+  </a>
+</p>
+
+<h1 align="center">Rollup</h1>
+
+<h2 id="overview">Overview</h2>
+
+<p>Rollup is a module bundler for JavaScript which compiles small pieces of code into something larger and more complex, such as a library or application. It uses the standardized ES module format for code, instead of previous idiosyncratic solutions such as CommonJS and AMD. ES modules let you freely and seamlessly combine the most useful individual functions from your favorite libraries. Rollup can optimize ES modules for faster native loading in modern browsers, or output a legacy module format allowing ES module workflows today.</p>
+
+<h2 id="quick-start-guide">Quick Start Guide</h2>
+
+<p>Install with <code>npm install --global rollup</code>. Rollup can be used either through a <a href="https://rollupjs.org/command-line-interface/">command line interface</a> with an optional configuration file or else through its <a href="https://rollupjs.org/javascript-api/">JavaScript API</a>. Run <code>rollup --help</code> to see the available options and parameters. The starter project templates, <a href="https://github.com/rollup/rollup-starter-lib">rollup-starter-lib</a> and <a href="https://github.com/rollup/rollup-starter-app">rollup-starter-app</a>, demonstrate common configuration options, and more detailed instructions are available throughout the <a href="https://rollupjs.org/introduction/">user guide</a>.</p>
+
+<h3 id="commands">Commands</h3>
+
+<p>These commands assume the entry point to your application is named main.js, and that you&#8217;d like all imports compiled into a single file named bundle.js.</p>
+
+<p>For browsers:</p>
+
+<pre><code class="language-bash"># compile to a &lt;script&gt; containing a self-executing function
+rollup main.js --format iife --name "myBundle" --file bundle.js
+</code></pre>
+
+<p>For Node.js:</p>
+
+<pre><code class="language-bash"># compile to a CommonJS module
+rollup main.js --format cjs --file bundle.js
+</code></pre>
+
+<p>For both browsers and Node.js:</p>
+
+<pre><code class="language-bash"># UMD format requires a bundle name
+rollup main.js --format umd --name "myBundle" --file bundle.js
+</code></pre>
+
+<h2 id="why">Why</h2>
+
+<p>Developing software is usually easier if you break your project into smaller separate pieces, since that often removes unexpected interactions and dramatically reduces the complexity of the problems you&#8217;ll need to solve, and simply writing smaller projects in the first place <a href="https://medium.com/@Rich_Harris/small-modules-it-s-not-quite-that-simple-3ca532d65de4">isn&#8217;t necessarily the answer</a>. Unfortunately, JavaScript has not historically included this capability as a core feature in the language.</p>
+
+<p>This finally changed with ES modules support in JavaScript, which provides a syntax for importing and exporting functions and data so they can be shared between separate scripts. Most browsers and Node.js support ES modules. However, Node.js releases before 12.17 support ES modules only behind the <code>--experimental-modules</code> flag, and older browsers like Internet Explorer do not support ES modules at all. Rollup allows you to write your code using ES modules, and run your application even in environments that do not support ES modules natively. For environments that support them, Rollup can output optimized ES modules; for environments that don&#8217;t, Rollup can compile your code to other formats such as CommonJS modules, AMD modules, and IIFE-style scripts. This means that you get to <em>write future-proof code</em>, and you also get the tremendous benefits of&#8230;</p>
+
+<h2 id="tree-shaking">Tree Shaking</h2>
+
+<p>In addition to enabling the use of ES modules, Rollup also statically analyzes and optimizes the code you are importing, and will exclude anything that isn&#8217;t actually used. This allows you to build on top of existing tools and modules without adding extra dependencies or bloating the size of your project.</p>
+
+<p>For example, with CommonJS, the <em>entire tool or library must be imported</em>.</p>
+
+<pre><code class="language-js">// import the entire utils object with CommonJS
+var utils = require('node:utils');
+var query = 'Rollup';
+// use the ajax method of the utils object
+utils.ajax('https://api.example.com?search=' + query).then(handleResponse);
+</code></pre>
+
+<p>But with ES modules, instead of importing the whole <code>utils</code> object, we can just import the one <code>ajax</code> function we need:</p>
+
+<pre><code class="language-js">// import the ajax function with an ES import statement
+import { ajax } from 'node:utils';
+
+var query = 'Rollup';
+// call the ajax function
+ajax('https://api.example.com?search=' + query).then(handleResponse);
+</code></pre>
+
+<p>Because Rollup includes the bare minimum, it results in lighter, faster, and less complicated libraries and applications. Since this approach is based on explicit <code>import</code> and <code>export</code> statements, it is vastly more effective than simply running an automated minifier to detect unused variables in the compiled output code.</p>
+
+<h2 id="compatibility">Compatibility</h2>
+
+<h3 id="importing-commonjs">Importing CommonJS</h3>
+
+<p>Rollup can import existing CommonJS modules <a href="https://github.com/rollup/plugins/tree/master/packages/commonjs">through a plugin</a>.</p>
+
+<h3 id="publishing-es-modules">Publishing ES Modules</h3>
+
+<p>To make sure your ES modules are immediately usable by tools that work with CommonJS such as Node.js and webpack, you can use Rollup to compile to UMD or CommonJS format, and then point to that compiled version with the <code>main</code> property in your <code>package.json</code> file. If your <code>package.json</code> file also has a <code>module</code> field, ES-module-aware tools like Rollup and <a href="https://webpack.js.org/">webpack</a> will <a href="https://github.com/rollup/rollup/wiki/pkg.module">import the ES module version</a> directly.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<p>This project exists thanks to all the people who contribute. [<a href="CONTRIBUTING.md">Contribute</a>]. <a href="https://github.com/rollup/rollup/graphs/contributors"><img src="../support/images/opencollective_contributors.svg" /></a>. If you want to contribute yourself, head over to the <a href="CONTRIBUTING.md">contribution guidelines</a>.</p>
+
+<h2 id="backers">Backers</h2>
+
+<p>Thank you to all our backers! 🙏 [<a href="https://opencollective.com/rollup#backer">Become a backer</a>]</p>
+
+<p><a href="https://opencollective.com/rollup#backers" target="_blank"><img src="../support/images/opencollective_backers.svg" /></a></p>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [<a href="https://opencollective.com/rollup#sponsor">Become a sponsor</a>]</p>
+
+<p><a href="https://opencollective.com/rollup/sponsor/0/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/1/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/2/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/3/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/4/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/5/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/6/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/7/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/8/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/9/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/10/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/11/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/12/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/13/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a> <a href="https://opencollective.com/rollup/sponsor/14/website" target="_blank"><img src="../support/images/opencollective_avatar.svg" /></a></p>
+
+<h2 id="special-sponsor">Special Sponsor</h2>
+
+<p><a href="https://www.tngtech.com/en/index.html" target="_blank"><img src="../support/images/avatars.githubusercontent.com_u_432256.png" alt="TNG Logo" /></a></p>
+
+<p>TNG has been supporting the work of <a href="https://github.com/lukastaegert">Lukas Taegert-Atkinson</a> on Rollup since 2017.</p>
+
+<h2 id="license">License</h2>
+
+<p><a href="https://github.com/rollup/rollup/blob/master/LICENSE.md">MIT</a></p>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>

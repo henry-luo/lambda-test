@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zustand README</title>
+
+  <!-- GitHub Markdown CSS (light theme, matches github.com appearance) -->
+  <link rel="stylesheet" href="../support/github-markdown-light.min.css">
+
+  <!-- highlight.js — GitHub theme for syntax highlighting -->
+  <!-- <link rel="stylesheet" href="../support/highlight-github.min.css"> -->
+
+  <!-- KaTeX — LaTeX math rendering -->
+  <!-- <link rel="stylesheet" href="../support/katex.min.css"> -->
+
+  <style>
+    /* ── Page chrome mimicking github.com ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                   Helvetica, Arial, sans-serif, "Apple Color Emoji",
+                   "Segoe UI Emoji";
+      font-size: 16px;
+      line-height: 1.5;
+      color: #1f2328;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Top breadcrumb bar */
+    .gh-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: #57606a;
+    }
+    .gh-header a {
+      color: #0969da;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .gh-header a:hover { text-decoration: underline; }
+    .gh-header .sep { margin: 0 4px; color: #57606a; }
+
+    /* Centered content area, exactly as GitHub renders READMEs */
+    .gh-content {
+      max-width: 1012px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+
+    /* The rendered markdown box */
+    .gh-box {
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .gh-box-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2328;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gh-box-header .icon {
+      color: #57606a;
+    }
+
+    /* Override markdown-body padding to fit inside box */
+    .gh-box .markdown-body {
+      padding: 32px 40px 24px;
+    }
+
+    @media (max-width: 767px) {
+      .gh-box .markdown-body { padding: 16px; }
+      .gh-content { padding: 16px 12px; }
+    }
+
+    /* ── Syntax highlighting fixes ──────────────────────────────────────── */
+    /* Ensure code blocks have the right background, matching GitHub exactly */
+    .markdown-body pre {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code.hljs {
+      background: transparent;
+      padding: 0;
+      font-size: 85%;
+    }
+
+    /* Inline code — GitHub uses a reddish tint */
+    .markdown-body code:not(pre code) {
+      background-color: #f6f8fa;
+      border-radius: 6px;
+      font-size: 85%;
+      padding: 0.2em 0.4em;
+    }
+
+    /* ── KaTeX display math centering ──────────────────────────────────── */
+    .katex-display {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0;
+    }
+
+    /* ── Table improvements ─────────────────────────────────────────────── */
+    .markdown-body table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    .gh-footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: #57606a;
+    }
+    .gh-footer a { color: #57606a; }
+  </style>
+</head>
+<body>
+
+  <!-- Breadcrumb header -->
+  <div class="gh-header">
+    <a href="md_index.html">Markdown Test Suite</a>
+    <span class="sep">/</span>
+    <span>zustand README</span>
+  </div>
+
+  <div class="gh-content">
+    <div class="gh-box">
+
+      <!-- File name header (mimics GitHub's README box header) -->
+      <div class="gh-box-header">
+        <svg class="icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M2 1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 8 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/>
+        </svg>
+        zustand README
+      </div>
+
+      <!-- Rendered markdown content -->
+      <article class="markdown-body">
+        <p align="center">
+  <img src="./docs/bear.jpg" />
+</p>
+
+<p><a href="https://github.com/pmndrs/zustand/actions?query=workflow%3ATest"><img src="../support/images/img.shields.io_github_actions_workflow_status_pmndrs_zustand_test.yml.svg" alt="Build Status" /></a>
+<a href="https://bundlejs.com/?q=zustand"><img src="../support/images/img.shields.io_badge_dynamic_json.svg" alt="Build Size" /></a>
+<a href="https://www.npmjs.com/package/zustand"><img src="../support/images/img.shields.io_npm_v_zustand.svg" alt="Version" /></a>
+<a href="https://www.npmjs.com/package/zustand"><img src="../support/images/img.shields.io_npm_dt_zustand.svg" alt="Downloads" /></a>
+<a href="https://discord.gg/poimandres"><img src="../support/images/img.shields.io_discord_740090768164651008.svg" alt="Discord Shield" /></a></p>
+
+<p><a href="https://dai-shi.github.io/zustand-banner-sponsorship/sponsors/" target="_blank" rel="noopener"></a></p>
+<p align="center">
+    <img src="../support/images/dai-shi-github_banner.png" />
+  </p>
+<p>&lt;/a&gt;</p>
+
+<p>A small, fast and scalable bearbones state-management solution using simplified flux principles. Has a comfy API based on hooks, isn&#8217;t boilerplatey or opinionated.</p>
+
+<p>Don&#8217;t disregard it because it&#8217;s cute. It has quite the claws, lots of time was spent dealing with common pitfalls, like the dreaded <a href="https://react-redux.js.org/api/hooks#stale-props-and-zombie-children">zombie child problem</a>, <a href="https://github.com/bvaughn/rfcs/blob/useMutableSource/text/0000-use-mutable-source.md">react concurrency</a>, and <a href="https://github.com/facebook/react/issues/13332">context loss</a> between mixed renderers. It may be the one state-manager in the React space that gets all of these right.</p>
+
+<p>You can try a live <a href="https://zustand-demo.pmnd.rs/">demo</a> and read the <a href="https://zustand.docs.pmnd.rs/">docs</a>.</p>
+
+<pre><code class="language-bash">npm install zustand
+</code></pre>
+
+<p>:warning: This readme is written for JavaScript users. If you are a TypeScript user, be sure to check out our <a href="#typescript-usage">TypeScript Usage section</a>.</p>
+
+<h2 id="first-create-a-store">First create a store</h2>
+
+<p>Your store is a hook! You can put anything in it: primitives, objects, functions. State has to be updated immutably and the <code>set</code> function <a href="./docs/guides/immutable-state-and-merging.md">merges state</a> to help it.</p>
+
+<pre><code class="language-jsx">import { create } from 'zustand'
+
+const useBearStore = create((set) =&gt; ({
+  bears: 0,
+  increasePopulation: () =&gt; set((state) =&gt; ({ bears: state.bears + 1 })),
+  removeAllBears: () =&gt; set({ bears: 0 }),
+}))
+</code></pre>
+
+<h2 id="then-bind-your-components-and-thats-it">Then bind your components, and that&#8217;s it!</h2>
+
+<p>Use the hook anywhere, no providers are needed. Select your state and the component will re-render on changes.</p>
+
+<pre><code class="language-jsx">function BearCounter() {
+  const bears = useBearStore((state) =&gt; state.bears)
+  return &lt;h1&gt;{bears} around here ...&lt;/h1&gt;
+}
+
+function Controls() {
+  const increasePopulation = useBearStore((state) =&gt; state.increasePopulation)
+  return &lt;button onClick={increasePopulation}&gt;one up&lt;/button&gt;
+}
+</code></pre>
+
+<h3 id="why-zustand-over-redux">Why zustand over redux?</h3>
+
+<ul>
+  <li>Simple and un-opinionated</li>
+  <li>Makes hooks the primary means of consuming state</li>
+  <li>Doesn&#8217;t wrap your app in context providers</li>
+  <li><a href="#transient-updates-for-often-occurring-state-changes">Can inform components transiently (without causing render)</a></li>
+</ul>
+
+<h3 id="why-zustand-over-context">Why zustand over context?</h3>
+
+<ul>
+  <li>Less boilerplate</li>
+  <li>Renders components only on changes</li>
+  <li>Centralized, action-based state management</li>
+</ul>
+
+<hr />
+
+<h1 id="recipes">Recipes</h1>
+
+<h2 id="fetching-everything">Fetching everything</h2>
+
+<p>You can, but bear in mind that it will cause the component to update on every state change!</p>
+
+<pre><code class="language-jsx">const state = useBearStore()
+</code></pre>
+
+<h2 id="selecting-multiple-state-slices">Selecting multiple state slices</h2>
+
+<p>It detects changes with strict-equality (old === new) by default, this is efficient for atomic state picks.</p>
+
+<pre><code class="language-jsx">const nuts = useBearStore((state) =&gt; state.nuts)
+const honey = useBearStore((state) =&gt; state.honey)
+</code></pre>
+
+<p>If you want to construct a single object with multiple state-picks inside, similar to redux&#8217;s mapStateToProps, you can use <a href="./docs/guides/prevent-rerenders-with-use-shallow.md">useShallow</a> to prevent unnecessary rerenders when the selector output does not change according to shallow equal.</p>
+
+<pre><code class="language-jsx">import { create } from 'zustand'
+import { useShallow } from 'zustand/react/shallow'
+
+const useBearStore = create((set) =&gt; ({
+  nuts: 0,
+  honey: 0,
+  treats: {},
+  // ...
+}))
+
+// Object pick, re-renders the component when either state.nuts or state.honey change
+const { nuts, honey } = useBearStore(
+  useShallow((state) =&gt; ({ nuts: state.nuts, honey: state.honey })),
+)
+
+// Array pick, re-renders the component when either state.nuts or state.honey change
+const [nuts, honey] = useBearStore(
+  useShallow((state) =&gt; [state.nuts, state.honey]),
+)
+
+// Mapped picks, re-renders the component when state.treats changes in order, count or keys
+const treats = useBearStore(useShallow((state) =&gt; Object.keys(state.treats)))
+</code></pre>
+
+<p>For more control over re-rendering, you may provide any custom equality function (this example requires the use of <a href="./docs/migrations/migrating-to-v5.md#using-custom-equality-functions-such-as-shallow"><code>createWithEqualityFn</code></a>).</p>
+
+<pre><code class="language-jsx">const treats = useBearStore(
+  (state) =&gt; state.treats,
+  (oldTreats, newTreats) =&gt; compare(oldTreats, newTreats),
+)
+</code></pre>
+
+<h2 id="overwriting-state">Overwriting state</h2>
+
+<p>The <code>set</code> function has a second argument, <code>false</code> by default. Instead of merging, it will replace the state model. Be careful not to wipe out parts you rely on, like actions.</p>
+
+<pre><code class="language-jsx">const useFishStore = create((set) =&gt; ({
+  salmon: 1,
+  tuna: 2,
+  deleteEverything: () =&gt; set({}, true), // clears the entire store, actions included
+  deleteTuna: () =&gt; set(({ tuna, ...rest }) =&gt; rest, true),
+}))
+</code></pre>
+
+<h2 id="async-actions">Async actions</h2>
+
+<p>Just call <code>set</code> when you&#8217;re ready, zustand doesn&#8217;t care if your actions are async or not.</p>
+
+<pre><code class="language-jsx">const useFishStore = create((set) =&gt; ({
+  fishies: {},
+  fetch: async (pond) =&gt; {
+    const response = await fetch(pond)
+    set({ fishies: await response.json() })
+  },
+}))
+</code></pre>
+
+<h2 id="read-from-state-in-actions">Read from state in actions</h2>
+
+<p><code>set</code> allows fn-updates <code>set(state =&gt; result)</code>, but you still have access to state outside of it through <code>get</code>.</p>
+
+<pre><code class="language-jsx">const useSoundStore = create((set, get) =&gt; ({
+  sound: 'grunt',
+  action: () =&gt; {
+    const sound = get().sound
+    ...
+</code></pre>
+
+<h2 id="readingwriting-state-and-reacting-to-changes-outside-of-components">Reading/writing state and reacting to changes outside of components</h2>
+
+<p>Sometimes you need to access state in a non-reactive way or act upon the store. For these cases, the resulting hook has utility functions attached to its prototype.</p>
+
+<p>:warning: This technique is not recommended for adding state in <a href="https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md">React Server Components</a> (typically in Next.js 13 and above). It can lead to unexpected bugs and privacy issues for your users. For more details, see <a href="https://github.com/pmndrs/zustand/discussions/2200">#2200</a>.</p>
+
+<pre><code class="language-jsx">const useDogStore = create(() =&gt; ({ paw: true, snout: true, fur: true }))
+
+// Getting non-reactive fresh state
+const paw = useDogStore.getState().paw
+// Listening to all changes, fires synchronously on every change
+const unsub1 = useDogStore.subscribe(console.log)
+// Updating state, will trigger listeners
+useDogStore.setState({ paw: false })
+// Unsubscribe listeners
+unsub1()
+
+// You can of course use the hook as you always would
+function Component() {
+  const paw = useDogStore((state) =&gt; state.paw)
+  ...
+</code></pre>
+
+<h3 id="using-subscribe-with-selector">Using subscribe with selector</h3>
+
+<p>If you need to subscribe with a selector,
+<code>subscribeWithSelector</code> middleware will help.</p>
+
+<p>With this middleware <code>subscribe</code> accepts an additional signature:</p>
+
+<pre><code class="language-ts">subscribe(selector, callback, options?: { equalityFn, fireImmediately }): Unsubscribe
+</code></pre>
+
+<pre><code class="language-js">import { subscribeWithSelector } from 'zustand/middleware'
+const useDogStore = create(
+  subscribeWithSelector(() =&gt; ({ paw: true, snout: true, fur: true })),
+)
+
+// Listening to selected changes, in this case when "paw" changes
+const unsub2 = useDogStore.subscribe((state) =&gt; state.paw, console.log)
+// Subscribe also exposes the previous value
+const unsub3 = useDogStore.subscribe(
+  (state) =&gt; state.paw,
+  (paw, previousPaw) =&gt; console.log(paw, previousPaw),
+)
+// Subscribe also supports an optional equality function
+const unsub4 = useDogStore.subscribe(
+  (state) =&gt; [state.paw, state.fur],
+  console.log,
+  { equalityFn: shallow },
+)
+// Subscribe and fire immediately
+const unsub5 = useDogStore.subscribe((state) =&gt; state.paw, console.log, {
+  fireImmediately: true,
+})
+</code></pre>
+
+<h2 id="using-zustand-without-react">Using zustand without React</h2>
+
+<p>Zustand core can be imported and used without the React dependency. The only difference is that the create function does not return a hook, but the API utilities.</p>
+
+<pre><code class="language-jsx">import { createStore } from 'zustand/vanilla'
+
+const store = createStore((set) =&gt; ...)
+const { getState, setState, subscribe, getInitialState } = store
+
+export default store
+</code></pre>
+
+<p>You can use a vanilla store with <code>useStore</code> hook available since v4.</p>
+
+<pre><code class="language-jsx">import { useStore } from 'zustand'
+import { vanillaStore } from './vanillaStore'
+
+const useBoundStore = (selector) =&gt; useStore(vanillaStore, selector)
+</code></pre>
+
+<p>:warning: Note that middlewares that modify <code>set</code> or <code>get</code> are not applied to <code>getState</code> and <code>setState</code>.</p>
+
+<h2 id="transient-updates-for-often-occurring-state-changes">Transient updates (for often occurring state-changes)</h2>
+
+<p>The subscribe function allows components to bind to a state-portion without forcing re-render on changes. Best combine it with useEffect for automatic unsubscribe on unmount. This can make a <a href="https://codesandbox.io/s/peaceful-johnson-txtws">drastic</a> performance impact when you are allowed to mutate the view directly.</p>
+
+<pre><code class="language-jsx">const useScratchStore = create((set) =&gt; ({ scratches: 0, ... }))
+
+const Component = () =&gt; {
+  // Fetch initial state
+  const scratchRef = useRef(useScratchStore.getState().scratches)
+  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
+  useEffect(() =&gt; useScratchStore.subscribe(
+    state =&gt; (scratchRef.current = state.scratches)
+  ), [])
+  ...
+</code></pre>
+
+<h2 id="sick-of-reducers-and-changing-nested-states-use-immer">Sick of reducers and changing nested states? Use Immer!</h2>
+
+<p>Reducing nested structures is tiresome. Have you tried <a href="https://github.com/mweststrate/immer">immer</a>?</p>
+
+<pre><code class="language-jsx">import { produce } from 'immer'
+
+const useLushStore = create((set) =&gt; ({
+  lush: { forest: { contains: { a: 'bear' } } },
+  clearForest: () =&gt;
+    set(
+      produce((state) =&gt; {
+        state.lush.forest.contains = null
+      }),
+    ),
+}))
+
+const clearForest = useLushStore((state) =&gt; state.clearForest)
+clearForest()
+</code></pre>
+
+<p><a href="./docs/guides/updating-state.md#with-immer">Alternatively, there are some other solutions.</a></p>
+
+<h2 id="persist-middleware">Persist middleware</h2>
+
+<p>You can persist your store&#8217;s data using any kind of storage.</p>
+
+<pre><code class="language-jsx">import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
+
+const useFishStore = create(
+  persist(
+    (set, get) =&gt; ({
+      fishes: 0,
+      addAFish: () =&gt; set({ fishes: get().fishes + 1 }),
+    }),
+    {
+      name: 'food-storage', // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() =&gt; sessionStorage), // (optional) by default, 'localStorage' is used
+    },
+  ),
+)
+</code></pre>
+
+<p><a href="./docs/reference/integrations/persisting-store-data.md">See the full documentation for this middleware.</a></p>
+
+<h2 id="immer-middleware">Immer middleware</h2>
+
+<p>Immer is available as middleware too.</p>
+
+<pre><code class="language-jsx">import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
+
+const useBeeStore = create(
+  immer((set) =&gt; ({
+    bees: 0,
+    addBees: (by) =&gt;
+      set((state) =&gt; {
+        state.bees += by
+      }),
+  })),
+)
+</code></pre>
+
+<h2 id="cant-live-without-redux-like-reducers-and-action-types">Can&#8217;t live without redux-like reducers and action types?</h2>
+
+<pre><code class="language-jsx">const types = { increase: 'INCREASE', decrease: 'DECREASE' }
+
+const reducer = (state, { type, by = 1 }) =&gt; {
+  switch (type) {
+    case types.increase:
+      return { grumpiness: state.grumpiness + by }
+    case types.decrease:
+      return { grumpiness: state.grumpiness - by }
+  }
+}
+
+const useGrumpyStore = create((set) =&gt; ({
+  grumpiness: 0,
+  dispatch: (args) =&gt; set((state) =&gt; reducer(state, args)),
+}))
+
+const dispatch = useGrumpyStore((state) =&gt; state.dispatch)
+dispatch({ type: types.increase, by: 2 })
+</code></pre>
+
+<p>Or, just use our redux-middleware. It wires up your main-reducer, sets the initial state, and adds a dispatch function to the state itself and the vanilla API.</p>
+
+<pre><code class="language-jsx">import { redux } from 'zustand/middleware'
+
+const useGrumpyStore = create(redux(reducer, initialState))
+</code></pre>
+
+<h2 id="redux-devtools">Redux devtools</h2>
+
+<p>Install the <a href="https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd">Redux DevTools Chrome extension</a> to use the devtools middleware.</p>
+
+<pre><code class="language-jsx">import { devtools } from 'zustand/middleware'
+
+// Usage with a plain action store, it will log actions as "setState"
+const usePlainStore = create(devtools((set) =&gt; ...))
+// Usage with a redux store, it will log full action types
+const useReduxStore = create(devtools(redux(reducer, initialState)))
+</code></pre>
+
+<p>One redux devtools connection for multiple stores</p>
+
+<pre><code class="language-jsx">import { devtools } from 'zustand/middleware'
+
+// Usage with a plain action store, it will log actions as "setState"
+const usePlainStore1 = create(devtools((set) =&gt; ..., { name, store: storeName1 }))
+const usePlainStore2 = create(devtools((set) =&gt; ..., { name, store: storeName2 }))
+// Usage with a redux store, it will log full action types
+const useReduxStore1 = create(devtools(redux(reducer, initialState)), { name, store: storeName3 })
+const useReduxStore2 = create(devtools(redux(reducer, initialState)), { name, store: storeName4 })
+</code></pre>
+
+<p>Assigning different connection names will separate stores in redux devtools. This also helps group different stores into separate redux devtools connections.</p>
+
+<p>devtools takes the store function as its first argument, optionally you can name the store or configure <a href="https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md#serialize">serialize</a> options with a second argument.</p>
+
+<p>Name store: <code>devtools(..., {name: "MyStore"})</code>, which will create a separate instance named &#8220;MyStore&#8221; in the devtools.</p>
+
+<p>Serialize options: <code>devtools(..., { serialize: { options: true } })</code>.</p>
+
+<h4 id="logging-actions">Logging Actions</h4>
+
+<p>devtools will only log actions from each separated store unlike in a typical <em>combined reducers</em> redux store. See an approach to combining stores https://github.com/pmndrs/zustand/issues/163</p>
+
+<p>You can log a specific action type for each <code>set</code> function by passing a third parameter:</p>
+
+<pre><code class="language-jsx">const useBearStore = create(devtools((set) =&gt; ({
+  ...
+  eatFish: () =&gt; set(
+    (prev) =&gt; ({ fishes: prev.fishes &gt; 1 ? prev.fishes - 1 : 0 }),
+    undefined,
+    'bear/eatFish'
+  ),
+  ...
+</code></pre>
+
+<p>You can also log the action&#8217;s type along with its payload:</p>
+
+<pre><code class="language-jsx">  ...
+  addFishes: (count) =&gt; set(
+    (prev) =&gt; ({ fishes: prev.fishes + count }),
+    undefined,
+    { type: 'bear/addFishes', count, }
+  ),
+  ...
+</code></pre>
+
+<p>If an action type is not provided, it is defaulted to &#8220;anonymous&#8221;. You can customize this default value by providing an <code>anonymousActionType</code> parameter:</p>
+
+<pre><code class="language-jsx">devtools(..., { anonymousActionType: 'unknown', ... })
+</code></pre>
+
+<p>If you wish to disable devtools (on production for instance). You can customize this setting by providing the <code>enabled</code> parameter:</p>
+
+<pre><code class="language-jsx">devtools(..., { enabled: false, ... })
+</code></pre>
+
+<h2 id="react-context">React context</h2>
+
+<p>The store created with <code>create</code> doesn&#8217;t require context providers. In some cases, you may want to use contexts for dependency injection or if you want to initialize your store with props from a component. Because the normal store is a hook, passing it as a normal context value may violate the rules of hooks.</p>
+
+<p>The recommended method available since v4 is to use the vanilla store.</p>
+
+<pre><code class="language-jsx">import { createContext, useContext } from 'react'
+import { createStore, useStore } from 'zustand'
+
+const store = createStore(...) // vanilla store without hooks
+
+const StoreContext = createContext()
+
+const App = () =&gt; (
+  &lt;StoreContext.Provider value={store}&gt;
+    ...
+  &lt;/StoreContext.Provider&gt;
+)
+
+const Component = () =&gt; {
+  const store = useContext(StoreContext)
+  const slice = useStore(store, selector)
+  ...
+</code></pre>
+
+<h2 id="typescript-usage">TypeScript Usage</h2>
+
+<p>Basic typescript usage doesn&#8217;t require anything special except for writing <code>create&lt;State&gt;()(...)</code> instead of <code>create(...)</code>&#8230;</p>
+
+<pre><code class="language-ts">import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
+import type {} from '@redux-devtools/extension' // required for devtools typing
+
+interface BearState {
+  bears: number
+  increase: (by: number) =&gt; void
+}
+
+const useBearStore = create&lt;BearState&gt;()(
+  devtools(
+    persist(
+      (set) =&gt; ({
+        bears: 0,
+        increase: (by) =&gt; set((state) =&gt; ({ bears: state.bears + by })),
+      }),
+      {
+        name: 'bear-storage',
+      },
+    ),
+  ),
+)
+</code></pre>
+
+<p>A more detailed TypeScript guide is <a href="docs/guides/beginner-typescript.md">here</a> and <a href="docs/guides/advanced-typescript.md">there</a>.</p>
+
+<h2 id="best-practices">Best practices</h2>
+
+<ul>
+  <li>You may wonder how to organize your code for better maintenance: <a href="./docs/learn/guides/slices-pattern.md">Splitting the store into separate slices</a>.</li>
+  <li>Recommended usage for this unopinionated library: <a href="./docs/learn/guides/flux-inspired-practice.md">Flux inspired practice</a>.</li>
+  <li><a href="./docs/learn/guides/event-handler-in-pre-react-18.md">Calling actions outside a React event handler in pre-React 18</a>.</li>
+  <li><a href="./docs/learn/guides/testing.md">Testing</a></li>
+  <li>For more, have a look <a href="./docs/index.md">in the docs folder</a></li>
+</ul>
+
+<h2 id="third-party-libraries">Third-Party Libraries</h2>
+
+<p>Some users may want to extend Zustand&#8217;s feature set which can be done using third-party libraries made by the community. For information regarding third-party libraries with Zustand, visit <a href="./docs/reference/integrations/third-party-libraries.md">the doc</a>.</p>
+
+<h2 id="comparison-with-other-libraries">Comparison with other libraries</h2>
+
+<ul>
+  <li><a href="https://zustand.docs.pmnd.rs/learn/getting-started/comparison">Difference between zustand and other state management libraries for React</a></li>
+</ul>
+
+      </article>
+
+    </div><!-- /.gh-box -->
+  </div><!-- /.gh-content -->
+
+  <div class="gh-footer">
+    Generated by <a href="https://jekyllrb.com">Jekyll</a> with
+    <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a>
+    &mdash; <a href="md_index.html">← Back to index</a>
+  </div>
+
+  <!-- highlight.js: syntax highlighting for fenced code blocks -->
+  <!-- <script src="../support/highlight.min.js"></script> -->
+<!--   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // highlight.js processes <pre><code class="language-xxx"> blocks
+      document.querySelectorAll("pre code").forEach(function (block) {
+        hljs.highlightElement(block);
+      });
+    });
+  </script> -->
+
+  <!-- KaTeX: render $...$ inline math and $$...$$ display math -->
+  <!-- <script defer src="../support/katex.min.js"></script> -->
+<!--   <script defer src="../support/katex-auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              { left: '$$',  right: '$$',  display: true  },
+              { left: '$',   right: '$',   display: false },
+              { left: '\\[', right: '\\]', display: true  },
+              { left: '\\(', right: '\\)', display: false }
+            ],
+            throwOnError: false,
+            ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          });">
+  </script> -->
+
+</body>
+</html>
