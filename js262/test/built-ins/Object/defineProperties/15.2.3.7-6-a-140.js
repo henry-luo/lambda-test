@@ -1,0 +1,19 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-140
+description: >
+    Object.defineProperties - 'O' is an Array, 'name' is the length
+    property of 'O', test the [[Value]] field of 'desc' is a string
+    containing an leading zero number (15.4.5.1 step 3.c)
+---*/
+
+var arr = [];
+
+Object.defineProperties(arr, {
+  length: {
+    value: "0002.0"
+  }
+});
+
+assert.sameValue(arr.length, 2, 'arr.length');

@@ -1,0 +1,57 @@
+
+
+/*---
+esid: sec-temporal.plaindatetime.prototype.daysinmonth
+description: Days in each month in the Indian calendar
+features: [Temporal, Intl.Era-monthcode]
+---*/
+
+const calendar = "indian";
+const options = { overflow: "reject" };
+
+
+const sampleYears = {
+  1894: [
+    31,
+    31,
+    31,
+    31,
+    31,
+    31,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+  ],
+  1895: [
+    30,
+    31,
+    31,
+    31,
+    31,
+    31,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+  ]
+};
+
+for (var [year, daysInMonth] of Object.entries(sampleYears)) {
+  for (var month = 1; month < daysInMonth.length; month++) {
+    const date = Temporal.PlainDateTime.from({
+      year,
+      month,
+      day: 1,
+      calendar, hour: 12, minute: 34
+    });
+    assert.sameValue(date.daysInMonth, daysInMonth[month - 1], `${date}`);
+  }
+}
+

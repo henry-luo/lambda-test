@@ -1,0 +1,23 @@
+
+
+/*---
+description: Test exception handling when dispose method throws.
+includes: [asyncHelpers.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+
+asyncTest(async function() {
+  async function TestDisposeMethodThrows() {
+    await using x = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        throw new Test262Error('Symbol.asyncDispose is throwing!');
+      }
+    };
+  };
+  await assert.throwsAsync(
+      Test262Error, () => TestDisposeMethodThrows(),
+      'Symbol.asyncDispose is throwing!');
+});

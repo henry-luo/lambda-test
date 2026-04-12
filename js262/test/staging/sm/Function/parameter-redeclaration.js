@@ -1,0 +1,24 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+function f1(a = 0) {
+  var a;
+}
+
+
+assert.throws(SyntaxError, () => {
+  eval(`function f2(a = 0) {
+    let a;
+  }`);
+});
+assert.throws(SyntaxError, () => {
+  eval(`function f3(a = 0) {
+    const a;
+  }`);
+});
+

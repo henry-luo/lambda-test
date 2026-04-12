@@ -1,0 +1,23 @@
+
+
+/*---
+esid: sec-%typedarray%.from
+description: >
+  "from" cannot be invoked as a function
+info: |
+  22.2.2.1 %TypedArray%.from ( source [ , mapfn [ , thisArg ] ] )
+
+  1. Let C be the this value.
+  2. If IsConstructor(C) is false, throw a TypeError exception.
+  ...
+includes: [testTypedArray.js]
+features: [TypedArray]
+---*/
+
+testWithTypedArrayConstructors(function(TA) {
+  var from = TA.from;
+
+  assert.throws(TypeError, function() {
+    from([]);
+  });
+}, null, ["passthrough"]);

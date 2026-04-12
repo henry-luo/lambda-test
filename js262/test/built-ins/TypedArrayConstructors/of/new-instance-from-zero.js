@@ -1,0 +1,29 @@
+
+
+/*---
+esid: sec-%typedarray%.of
+description: >
+  Return a new TypedArray using -0 and +0 values
+includes: [testTypedArray.js]
+features: [TypedArray]
+---*/
+
+testWithTypedArrayConstructors(function(TA, makeCtorArg) {
+  var result = TA.of(-0, +0);
+  assert.sameValue(result.length, 2);
+  assert.sameValue(result[0], -0, "-0 => 0");
+  assert.sameValue(result[1], 0, "+0 => 0");
+  assert.sameValue(result.constructor, TA);
+  assert.sameValue(Object.getPrototypeOf(result), TA.prototype);
+},
+floatArrayConstructors);
+
+testWithTypedArrayConstructors(function(TA, makeCtorArg) {
+  var result = TA.of(-0, +0);
+  assert.sameValue(result.length, 2);
+  assert.sameValue(result[0], 0, "-0 => 0");
+  assert.sameValue(result[1], 0, "+0 => 0");
+  assert.sameValue(result.constructor, TA);
+  assert.sameValue(Object.getPrototypeOf(result), TA.prototype);
+},
+intArrayConstructors);

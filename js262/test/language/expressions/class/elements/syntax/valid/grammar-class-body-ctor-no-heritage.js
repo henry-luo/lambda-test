@@ -1,0 +1,21 @@
+
+
+/*---
+description: A constructor is valid without a super call in the constructor and heritage (class expression)
+esid: prod-ClassElement
+features: [class]
+flags: [generated]
+info: |
+    ClassTail : ClassHeritageopt { ClassBody }
+
+    It is a Syntax Error if ClassHeritage is not present and the following algorithm evaluates to true:
+      1. Let constructor be ConstructorMethod of ClassBody.
+      2. If constructor is empty, return false.
+      3. Return HasDirectSuper of constructor.
+
+---*/
+
+
+var C = class {
+  constructor() {}
+};

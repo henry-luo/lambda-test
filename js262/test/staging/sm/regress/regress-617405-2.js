@@ -1,0 +1,16 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+function C(){}
+C.prototype = 1;
+
+assert.throws(TypeError, function() {
+  Object.defineProperty(C, "prototype", {get: function() { throw 0; }});
+});
+
+new C; 

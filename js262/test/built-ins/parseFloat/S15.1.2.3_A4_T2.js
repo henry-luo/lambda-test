@@ -1,0 +1,34 @@
+
+
+/*---
+info: |
+    Compute the longest prefix of Result(2), which might be Result(2) itself,
+    which satisfies the syntax of a StrDecimalLiteral
+esid: sec-parsefloat-string
+description: With ExponentIndicator
+---*/
+
+
+if (parseFloat("1ex") !== 1) {
+  throw new Test262Error('#1: parseFloat("1ex") === 1. Actual: ' + (parseFloat("1ex")));
+}
+
+
+if (parseFloat("1e-x") !== 1) {
+  throw new Test262Error('#2: parseFloat("1e-x") === 1. Actual: ' + (parseFloat("1e-x")));
+}
+
+
+if (parseFloat("1e1x") !== 10) {
+  throw new Test262Error('#3: parseFloat("1e1x") === 10. Actual: ' + (parseFloat("1e1x")));
+}
+
+
+if (parseFloat("1e-1x") !== 0.1) {
+  throw new Test262Error('#4: parseFloat("1e-1x") === 0.1. Actual: ' + (parseFloat("1e-1x")));
+}
+
+
+if (parseFloat("0.1e-1x") !== 0.01) {
+  throw new Test262Error('#5: parseFloat("0.1e-1x") === 0.01. Actual: ' + (parseFloat("0.1e-1x")));
+}

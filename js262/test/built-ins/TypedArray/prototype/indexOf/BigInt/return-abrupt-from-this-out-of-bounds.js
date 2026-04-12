@@ -1,0 +1,57 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.indexof
+description: Return abrupt when "this" value fails buffer boundary checks
+includes: [testTypedArray.js]
+features: [ArrayBuffer, BigInt, TypedArray, arrow-function, resizable-arraybuffer]
+---*/
+
+assert.sameValue(
+  typeof TypedArray.prototype.indexOf,
+  'function',
+  'implements TypedArray.prototype.indexOf'
+);
+
+assert.sameValue(
+  typeof ArrayBuffer.prototype.resize,
+  'function',
+  'implements ArrayBuffer.prototype.resize'
+);
+
+testWithBigIntTypedArrayConstructors(TA => {
+  var BPE = TA.BYTES_PER_ELEMENT;
+  var ab = new ArrayBuffer(BPE * 4, {maxByteLength: BPE * 5});
+  var array = new TA(ab, BPE, 2);
+
+  try {
+    ab.resize(BPE * 5);
+  } catch (_) {}
+
+  
+  array.indexOf(0n);
+
+  try {
+    ab.resize(BPE * 3);
+  } catch (_) {}
+
+  
+  array.indexOf(0n);
+
+  var expectedError;
+  try {
+    ab.resize(BPE * 3 - 1);
+    
+    
+    expectedError = TypeError;
+  } catch (_) {
+    
+    
+    expectedError = Test262Error;
+  }
+
+  assert.throws(expectedError, () => {
+    array.indexOf(0n);
+    throw new Test262Error('indexOf completed successfully');
+  });
+}, null, ["passthrough"]);

@@ -1,0 +1,27 @@
+
+
+/*---
+esid: sec-temporal.instant.prototype.add
+description: temporalDurationLike object must contain at least one correctly spelled property
+features: [Temporal]
+---*/
+
+const instance = new Temporal.Instant(1_000_000_000_000_000_000n);
+
+assert.throws(
+  TypeError,
+  () => instance.add({}),
+  "Throws TypeError if no property is present"
+);
+
+assert.throws(
+  TypeError,
+  () => instance.add({ nonsense: true }),
+  "Throws TypeError if no recognized property is present"
+);
+
+assert.throws(
+  TypeError,
+  () => instance.add({ sign: 1 }),
+  "Sign property is not recognized"
+);

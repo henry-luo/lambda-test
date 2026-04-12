@@ -1,0 +1,12 @@
+
+
+/*---
+description: Return value from [[ByteLength]] internal slot
+features: [SharedArrayBuffer]
+---*/
+
+var ab1 = new SharedArrayBuffer(0);
+assert.sameValue(ab1.byteLength, 0);
+
+var ab2 = new SharedArrayBuffer(42);
+assert.sameValue(ab2.byteLength, 42);

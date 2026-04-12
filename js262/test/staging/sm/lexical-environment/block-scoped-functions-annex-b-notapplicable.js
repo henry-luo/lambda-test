@@ -1,0 +1,20 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+
+function f() {
+  var outerX;
+  { function x() {1} outerX = x; }
+  { { function x() {2}; } let x; }
+  { let x; { function x() {3}; } }
+  assert.sameValue(x, outerX);
+}
+f();
+

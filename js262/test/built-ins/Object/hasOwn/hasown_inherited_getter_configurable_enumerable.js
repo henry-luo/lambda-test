@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-object.hasown
+description: >
+    Properties - [[HasOwnProperty]] (configurable, enumerable
+    inherited getter property)
+author: Jamie Kyle
+features: [Object.hasOwn]
+---*/
+
+var base = {};
+Object.defineProperty(base, "foo", {
+  get: function() {
+    return 42;
+  },
+  enumerable: true,
+  configurable: true
+});
+var o = Object.create(base);
+
+assert.sameValue(Object.hasOwn(o, "foo"), false, 'Object.hasOwn(o, "foo")');

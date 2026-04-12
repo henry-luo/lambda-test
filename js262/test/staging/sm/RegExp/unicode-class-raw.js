@@ -1,0 +1,65 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  Implement RegExp unicode flag -- raw unicode.
+info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+esid: pending
+---*/
+
+
+assert.compareArray(eval(`/[\uD83D\uDC38]/u`).exec("\u{1F438}"),
+              ["\u{1F438}"]);
+
+
+assert.compareArray(eval(`/[\uD83D\uDC38]/`).exec("\u{1F438}"),
+              ["\uD83D"]);
+
+
+assert.sameValue(eval(`/[\\uD83D\uDC38]/u`).exec("\u{1F438}"),
+         null);
+assert.sameValue(eval(`/[\\u{D83D}\uDC38]/u`).exec("\u{1F438}"),
+         null);
+
+
+assert.sameValue(eval(`/[\uD83D\\uDC38]/u`).exec("\u{1F438}"),
+         null);
+assert.sameValue(eval(`/[\uD83D\\u{DC38}]/u`).exec("\u{1F438}"),
+         null);
+
+
+assert.compareArray(eval(`/[\\uD83D\uDC38]/`).exec("\u{1F438}"),
+              ["\uD83D"]);
+
+
+assert.compareArray(eval(`/[\uD83D\\uDC38]/`).exec("\u{1F438}"),
+              ["\uD83D"]);
+
+
+assert.compareArray(new RegExp("[\uD83D\uDC38]", "u").exec("\u{1F438}"),
+              ["\u{1F438}"]);
+
+
+assert.compareArray(new RegExp("[\uD83D\uDC38]", "").exec("\u{1F438}"),
+              ["\uD83D"]);
+
+
+assert.sameValue(new RegExp("[\\uD83D\uDC38]", "u").exec("\u{1F438}"),
+         null);
+assert.sameValue(new RegExp("[\\u{D83D}\uDC38]", "u").exec("\u{1F438}"),
+         null);
+
+
+assert.sameValue(new RegExp("[\uD83D\\uDC38]", "u").exec("\u{1F438}"),
+         null);
+assert.sameValue(new RegExp("[\uD83D\\u{DC38}]", "u").exec("\u{1F438}"),
+         null);
+
+
+assert.compareArray(new RegExp("[\\uD83D\uDC38]", "").exec("\u{1F438}"),
+              ["\uD83D"]);
+
+
+assert.compareArray(new RegExp("[\uD83D\\uDC38]", "").exec("\u{1F438}"),
+              ["\uD83D"]);

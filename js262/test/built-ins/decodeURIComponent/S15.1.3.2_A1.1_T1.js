@@ -1,0 +1,53 @@
+
+
+/*---
+info: If string.charAt(k) equal "%" and k + 2 >= string.length, throw URIError
+esid: sec-decodeuricomponent-encodeduricomponent
+description: Complex tests
+---*/
+
+var result = true;
+
+
+try {
+  decodeURIComponent("%");
+  result = false;
+} catch (e) {
+  if ((e instanceof URIError) !== true) {
+    result = false;
+  }
+}
+
+
+try {
+  decodeURIComponent("%A");
+  result = false;
+} catch (e) {
+  if ((e instanceof URIError) !== true) {
+    result = false;
+  }
+}
+
+
+try {
+  decodeURIComponent("%1");
+  result = false;
+} catch (e) {
+  if ((e instanceof URIError) !== true) {
+    result = false;
+  }
+}
+
+
+try {
+  decodeURIComponent("% ");
+  result = false;
+} catch (e) {
+  if ((e instanceof URIError) !== true) {
+    result = false;
+  }
+}
+
+if (result !== true) {
+  throw new Test262Error('#1: If string.charAt(k) equal "%" and k + 2 >= string.length, throw URIError');
+}

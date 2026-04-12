@@ -1,0 +1,126 @@
+
+
+/*---
+info: Operator use ToString
+esid: sec-parseint-string-radix
+description: If Type(value) is Object, evaluate ToPrimitive(value, String)
+---*/
+
+
+var object = {
+  valueOf: function() {
+    return 1
+  }
+};
+assert.sameValue(parseInt(object), NaN, 'parseInt({valueOf: function() {return 1}}) must return NaN');
+
+
+var object = {
+  valueOf: function() {
+    return 1
+  },
+  toString: function() {
+    return 0
+  }
+};
+
+assert.sameValue(
+  parseInt(object),
+  0,
+  'parseInt({valueOf: function() {return 1}, toString: function() {return 0}}) must return 0'
+);
+
+
+var object = {
+  valueOf: function() {
+    return 1
+  },
+  toString: function() {
+    return {}
+  }
+};
+
+assert.sameValue(
+  parseInt(object),
+  1,
+  'parseInt({valueOf: function() {return 1}, toString: function() {return {}}}) must return 1'
+);
+
+
+try {
+  var object = {
+    valueOf: function() {
+      throw "error"
+    },
+    toString: function() {
+      return 1
+    }
+  };
+
+  assert.sameValue(
+    parseInt(object),
+    1,
+    'parseInt({valueOf: function() {throw \\"error\\"}, toString: function() {return 1}}) must return 1'
+  );
+}
+catch (e) {
+  assert.notSameValue(e, "error", 'The value of `e` is not "error"');
+}
+
+
+var object = {
+  toString: function() {
+    return 1
+  }
+};
+assert.sameValue(parseInt(object), 1, 'parseInt({toString: function() {return 1}}) must return 1');
+
+
+var object = {
+  valueOf: function() {
+    return {}
+  },
+  toString: function() {
+    return 1
+  }
+}
+
+assert.sameValue(
+  parseInt(object),
+  1,
+  'parseInt({valueOf: function() {return {}}, toString: function() {return 1}}) must return 1'
+);
+
+
+try {
+  var object = {
+    valueOf: function() {
+      return 1
+    },
+    toString: function() {
+      throw "error"
+    }
+  };
+  parseInt(object);
+  Test262Error.thrower('#7.1: var object = {valueOf: function() {return 1}, toString: function() {throw "error"}}; parseInt(object) throw "error". Actual: ' + (parseInt(object)));
+}
+catch (e) {
+  assert.sameValue(e, "error", 'The value of `e` is "error"');
+}
+
+
+try {
+  var object = {
+    valueOf: function() {
+      return {}
+    },
+    toString: function() {
+      return {}
+    }
+  };
+  parseInt(object);
+  Test262Error.thrower('#8.1: var object = {valueOf: function() {return {}}, toString: function() {return {}}}; parseInt(object) throw TypeError. Actual: ' + (parseInt(object)));
+}
+catch (e) {
+  assert.sameValue(e instanceof TypeError, true, 'The result of `(e instanceof TypeError)` is true');
+}

@@ -1,0 +1,14 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+assert.throws(TypeError, () => new ""(...Array()));
+
+assert.throws(TypeError, () => new ""());
+assert.throws(TypeError, () => new ""(1));
+

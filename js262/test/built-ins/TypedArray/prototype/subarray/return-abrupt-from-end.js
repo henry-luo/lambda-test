@@ -1,0 +1,39 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.subarray
+description: Return abrupt from ToInteger(end)
+info: |
+  22.2.3.27 %TypedArray%.prototype.subarray( begin , end )
+
+  ...
+  9. If end is undefined, let relativeEnd be srcLength; else, let relativeEnd
+  be ? ToInteger(end).
+  ...
+includes: [testTypedArray.js]
+features: [TypedArray]
+---*/
+
+var o1 = {
+  valueOf: function() {
+    throw new Test262Error();
+  }
+};
+
+var o2 = {
+  toString: function() {
+    throw new Test262Error();
+  }
+};
+
+testWithTypedArrayConstructors(function(TA) {
+  var sample = new TA();
+  
+  assert.throws(Test262Error, function() {
+    sample.subarray(0, o1);
+  });
+  
+  assert.throws(Test262Error, function() {
+    sample.subarray(0, o2);
+  });
+}, null, ["passthrough"]);

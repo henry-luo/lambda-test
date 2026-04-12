@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.instant.fromepochnanoseconds
+description: The "fromEpochNanoseconds" property of Temporal.Instant
+includes: [propertyHelper.js]
+features: [Temporal]
+---*/
+
+assert.sameValue(
+  typeof Temporal.Instant.fromEpochNanoseconds,
+  "function",
+  "`typeof Instant.fromEpochNanoseconds` is `function`"
+);
+
+verifyProperty(Temporal.Instant, "fromEpochNanoseconds", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

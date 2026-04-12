@@ -1,0 +1,14 @@
+
+
+/*---
+info: |
+    If thisArg is null or undefined, the called function is passed the global
+    object as the this value
+es5id: 15.3.4.3_A3_T10
+description: Checking by using eval, no any arguments at apply function
+flags: [noStrict]
+---*/
+
+eval(" (function(){this.feat=1}).apply()");
+
+assert.sameValue(this["feat"], 1, 'The value of this["feat"] is expected to be 1');

@@ -1,0 +1,15 @@
+
+
+/*---
+es6id: 14.2
+description: >
+    ArrowFunction[In, Yield] :
+      ArrowParameters[?Yield] [no LineTerminator here] => ConciseBody[?In]
+negative:
+  phase: parse
+  type: SyntaxError
+---*/
+
+$DONOTEVALUATE();
+var af = ()
+=> {};

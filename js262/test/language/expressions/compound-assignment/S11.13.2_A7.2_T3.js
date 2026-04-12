@@ -1,0 +1,26 @@
+
+
+/*---
+info: Compound Assignment Operator evaluates its operands from left to right.
+description: >
+    The left-hand side expression is evaluated before the right-hand side.
+    Left-hand side expression is MemberExpression: base[prop]. Evaluating
+    ToPropertyKey(prop) throws an error.
+    Check operator is "x /= y".
+---*/
+
+function DummyError() { }
+
+assert.throws(DummyError, function() {
+  var base = {};
+  var prop = {
+    toString: function() {
+      throw new DummyError();
+    }
+  };
+  var expr = function() {
+    throw new Test262Error("right-hand side expression evaluated");
+  };
+
+  base[prop] /= expr();
+});

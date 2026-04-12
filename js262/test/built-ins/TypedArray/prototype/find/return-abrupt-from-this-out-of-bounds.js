@@ -1,0 +1,57 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.find
+description: Return abrupt when "this" value fails buffer boundary checks
+includes: [testTypedArray.js]
+features: [TypedArray, resizable-arraybuffer]
+---*/
+
+assert.sameValue(
+  typeof TypedArray.prototype.find,
+  'function',
+  'implements TypedArray.prototype.find'
+);
+
+assert.sameValue(
+  typeof ArrayBuffer.prototype.resize,
+  'function',
+  'implements ArrayBuffer.prototype.resize'
+);
+
+testWithTypedArrayConstructors(TA => {
+  var BPE = TA.BYTES_PER_ELEMENT;
+  var ab = new ArrayBuffer(BPE * 4, {maxByteLength: BPE * 5});
+  var array = new TA(ab, BPE, 2);
+
+  try {
+    ab.resize(BPE * 5);
+  } catch (_) {}
+
+  
+  array.find(() => {});
+
+  try {
+    ab.resize(BPE * 3);
+  } catch (_) {}
+
+  
+  array.find(() => {});
+
+  var expectedError;
+  try {
+    ab.resize(BPE * 3 - 1);
+    
+    
+    expectedError = TypeError;
+  } catch (_) {
+    
+    
+    expectedError = Test262Error;
+  }
+
+  assert.throws(expectedError, () => {
+    array.find(() => {});
+    throw new Test262Error('find completed successfully');
+  });
+}, null, ["passthrough"]);

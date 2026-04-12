@@ -1,0 +1,11 @@
+
+
+/*---
+es5id: 7.6.1.2-14-s
+description: >
+    SyntaxError isn't thrown when 'implements0' occurs
+---*/
+
+var implements0 = 1;
+
+assert.sameValue(implements0, 1, 'implements0');

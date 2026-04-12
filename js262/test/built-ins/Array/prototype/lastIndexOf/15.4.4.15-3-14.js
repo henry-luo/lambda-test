@@ -1,0 +1,16 @@
+
+
+/*---
+esid: sec-array.prototype.lastindexof
+description: >
+    Array.prototype.lastIndexOf - value of 'length' is a string
+    containing -Infinity
+---*/
+
+var objThree = {
+  0: true,
+  1: true,
+  length: "-Infinity"
+};
+
+assert.sameValue(Array.prototype.lastIndexOf.call(objThree, true), -1, 'Array.prototype.lastIndexOf.call(objThree, true)');

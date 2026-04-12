@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.plainyearmonth.prototype.toplaindate
+description: The "toPlainDate" property of Temporal.PlainYearMonth.prototype
+includes: [propertyHelper.js]
+features: [Temporal]
+---*/
+
+assert.sameValue(
+  typeof Temporal.PlainYearMonth.prototype.toPlainDate,
+  "function",
+  "`typeof PlainYearMonth.prototype.toPlainDate` is `function`"
+);
+
+verifyProperty(Temporal.PlainYearMonth.prototype, "toPlainDate", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

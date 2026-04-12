@@ -1,0 +1,22 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+let capturedPrivateAccess;
+class A {
+  
+  static #x = 42;
+
+  static [(
+    
+    class {},
+
+    
+    capturedPrivateAccess = () => A.#x
+  )];
+}
+assert.sameValue(capturedPrivateAccess(), 42);
+

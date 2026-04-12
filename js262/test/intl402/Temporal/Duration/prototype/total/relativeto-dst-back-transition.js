@@ -1,0 +1,52 @@
+
+
+/*---
+description: >
+  Ensures correct total results when relativeTo is within the second wallclock occurence of a
+  DST fall-back transition.
+features: [Temporal]
+---*/
+
+
+{
+  const origin = Temporal.ZonedDateTime.from('2025-11-02T01:00:00-08:00[America/Vancouver]');
+  const dur = Temporal.Duration.from({ hours: 2 });
+  const total = dur.total({ unit: 'days', relativeTo: origin });
+  assert.sameValue(
+    total,
+    2 / 24,
+    'relativeTo in fall-back DST transition, second wallclock time, assumed 24 hour span when +1 day',
+  );
+}
+
+
+{
+  const origin = Temporal.ZonedDateTime.from('2025-11-02T01:00:00-08:00[America/Vancouver]');
+  const dur = Temporal.Duration.from({ hours: -2 });
+  const total = dur.total({ unit: 'days', relativeTo: origin });
+  assert.sameValue(
+    total,
+    -2 / 25,
+    'relativeTo in fall-back DST transition, second wallclock time, assumed 25 hour span when -1 day',
+  );
+}
+
+
+assert.sameValue(
+  Temporal.Duration.from({ minutes: -59 }).total({
+    unit: 'days',
+    relativeTo: '2025-11-02T01:00:00-08:00[America/Vancouver]',
+  }),
+  -59 / (60 * 25), 
+  'negative delta from relativeTo, positive wallclock delta',
+);
+
+
+assert.sameValue(
+  Temporal.Duration.from({ minutes: 59 }).total({
+    unit: 'days',
+    relativeTo: '2025-11-02T01:01:00-07:00[America/Vancouver]',
+  }),
+  59 / (60 * 25), 
+  'positive delta from relativeTo, negative wallclock delta',
+);

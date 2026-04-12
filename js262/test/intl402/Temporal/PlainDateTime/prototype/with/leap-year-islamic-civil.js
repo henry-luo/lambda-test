@@ -1,0 +1,28 @@
+
+
+/*---
+esid: sec-temporal.plaindatetime.prototype.with
+description: Check constraining days when year changes (islamic-civil calendar)
+features: [Temporal, Intl.Era-monthcode]
+includes: [temporalHelpers.js]
+---*/
+
+const calendar = "islamic-civil";
+const options = { overflow: "reject" };
+
+
+const leapDay = Temporal.PlainDateTime.from({ year: 1445, monthCode: "M12", day: 30, hour: 12, minute: 34, calendar }, options);
+
+TemporalHelpers.assertPlainDateTime(
+  leapDay.with({ year: 1442 }, options),
+  1442, 12, "M12", 30, 12, 34, 0, 0, 0, 0, "day not constrained when moving to another leap year",
+  "ah", 1442);
+
+TemporalHelpers.assertPlainDateTime(
+  leapDay.with({ year: 1444 }),
+  1444, 12, "M12", 29, 12, 34, 0, 0, 0, 0, "day constrained when moving to a common year",
+  "ah", 1444);
+
+assert.throws(RangeError, function () {
+  leapDay.with({ year: 1444 }, options);
+}, "reject when moving to a common year");

@@ -1,0 +1,27 @@
+
+
+/*---
+description: Evaluation of DestructuringAssignmentTarget (within many). (AssignmentExpression)
+esid: sec-variable-statement-runtime-semantics-evaluation
+features: [destructuring-binding]
+flags: [generated]
+info: |
+    VariableDeclaration : BindingPattern Initializer
+
+    1. Let rhs be the result of evaluating Initializer.
+    2. Let rval be GetValue(rhs).
+    3. ReturnIfAbrupt(rval).
+    4. Return the result of performing BindingInitialization for
+       BindingPattern passing rval and undefined as arguments.
+---*/
+var x = null;
+var w, y;
+
+var result;
+var vals = { a: 5 };
+
+result = { w, a: x, y } = vals;
+
+assert.sameValue(x, 5);
+
+assert.sameValue(result, vals);

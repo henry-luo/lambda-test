@@ -1,0 +1,53 @@
+
+
+/*---
+esid: sec-temporal.plainyearmonth.prototype.daysinmonth
+description: Days in each month in the Persian calendar
+features: [Temporal, Intl.Era-monthcode]
+---*/
+
+const calendar = "persian";
+const options = { overflow: "reject" };
+
+
+const sampleYears = {
+  1350: [
+    31,
+    31,
+    31,
+    31,
+    31,
+    31,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+  ],
+  1351: [
+    31,
+    31,
+    31,
+    31,
+    31,
+    31,
+    30,
+    30,
+    30,
+    30,
+    30,
+    29,
+  ]
+};
+
+for (var [year, daysInMonth] of Object.entries(sampleYears)) {
+  for (var month = 1; month < daysInMonth.length; month++) {
+    const date = Temporal.PlainYearMonth.from({
+      year,
+      month,
+      calendar
+    });
+    assert.sameValue(date.daysInMonth, daysInMonth[month - 1], `${date}`);
+  }
+}

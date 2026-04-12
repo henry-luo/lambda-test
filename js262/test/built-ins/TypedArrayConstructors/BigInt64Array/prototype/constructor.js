@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-typedarray.prototype.constructor
+description: BigInt64Array.prototype.constructor property descriptor
+info: |
+  22.2.6.2 TypedArray.prototype.constructor
+
+  The initial value of a TypedArray.prototype.constructor is the
+  corresponding %TypedArray% intrinsic object.
+
+  17 ECMAScript Standard Built-in Objects
+includes: [propertyHelper.js]
+features: [BigInt]
+---*/
+
+verifyProperty(BigInt64Array.prototype, "constructor", {
+  value: BigInt64Array,
+  writable: true,
+  enumerable: false,
+  configurable: true
+});

@@ -1,0 +1,3 @@
+
+
+export * as productionNS2 from './get-nested-namespace-dflt-skip-prod-end_FIXTURE.js';

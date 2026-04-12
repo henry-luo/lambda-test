@@ -1,0 +1,24 @@
+
+
+/*---
+es5id: 15.2.3.7-5-b-158
+description: >
+    Object.defineProperties - 'descObj' is a RegExp object which
+    implements its own [[Get]] method to get 'writable' property
+    (8.10.5 step 6.a)
+includes: [propertyHelper.js]
+---*/
+
+var obj = {};
+
+var descObj = new RegExp();
+
+descObj.writable = false;
+
+Object.defineProperties(obj, {
+  property: descObj
+});
+
+verifyProperty(obj, "property", {
+  writable: false,
+});

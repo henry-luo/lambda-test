@@ -1,0 +1,27 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var BUGNUMBER = 162392;
+var summary = 'eval("arguments").length == 0 when no arguments specified';
+var actual = noargslength();
+var expect = 0;
+
+function noargslength()
+{
+  return eval('arguments').length;
+}
+
+
+test();
+
+
+function test()
+{
+  assert.sameValue(expect, actual, summary);
+}

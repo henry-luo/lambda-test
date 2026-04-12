@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.since
+description: >
+    Balancing the resulting duration takes the time zone's UTC offset shifts
+    into account
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+{
+    const start = new Temporal.ZonedDateTime(
+        949132800_000_000_000n ,
+        "America/Vancouver"); 
+    const end = new Temporal.ZonedDateTime(
+        972889200_000_000_000n ,
+        "America/Vancouver"); 
+
+    const duration = start.since(end, { largestUnit: "years" });
+    TemporalHelpers.assertDuration(duration, 0, -9, 0, 0, -24, 0, 0, 0, 0, 0,
+        "24 hours does not balance to 1 day in 25-hour day");
+}

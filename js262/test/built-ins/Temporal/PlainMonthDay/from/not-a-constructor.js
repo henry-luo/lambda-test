@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-temporal.plainmonthday.from
+description: Temporal.PlainMonthDay.from does not implement [[Construct]], is not new-able
+info: |
+    Built-in function objects that are not identified as constructors do not implement the
+    [[Construct]] internal method unless otherwise specified in the description of a particular
+    function.
+includes: [isConstructor.js]
+features: [Reflect.construct, Temporal]
+---*/
+
+assert.throws(TypeError, () => {
+  new Temporal.PlainMonthDay.from();
+}, "Calling as constructor");
+
+assert.sameValue(isConstructor(Temporal.PlainMonthDay.from), false,
+  "isConstructor(Temporal.PlainMonthDay.from)");

@@ -1,0 +1,7 @@
+
+
+globalThis.evaluations.push("2.1.1 start");
+
+await Promise.resolve(0);
+
+globalThis.evaluations.push("2.1.1 end");

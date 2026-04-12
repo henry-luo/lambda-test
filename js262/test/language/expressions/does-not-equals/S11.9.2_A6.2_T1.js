@@ -1,0 +1,47 @@
+
+
+/*---
+info: If one expression is undefined or null and another is not, return false
+es5id: 11.9.2_A6.2_T1
+description: x is null or undefined, y is not
+---*/
+
+
+if ((undefined != true) !== true) {
+  throw new Test262Error('#1: (undefined != true) === true');
+}
+
+
+if ((undefined != 0) !== true) {
+  throw new Test262Error('#2: (undefined != 0) === true');
+}
+
+
+if ((undefined != "undefined") !== true) {
+  throw new Test262Error('#3: (undefined != "undefined") === true');
+}
+
+
+if ((undefined != {}) !== true) {
+  throw new Test262Error('#4: (undefined != {}) === true');
+}
+
+
+if ((null != false) !== true) {
+  throw new Test262Error('#5: (null != false) === true');
+}
+
+
+if ((null != 0) !== true) {
+  throw new Test262Error('#6: (null != 0) === true');
+}
+
+
+if ((null != "null") !== true) {
+  throw new Test262Error('#7: (null != "null") === true');
+}
+
+
+if ((null != {}) !== true) {
+  throw new Test262Error('#8: (null != {}) === true');
+}

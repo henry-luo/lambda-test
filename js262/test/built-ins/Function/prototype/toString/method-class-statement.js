@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-runtime-semantics-definemethod
+description: Function.prototype.toString on a method (class)
+includes: [nativeFunctionMatcher.js]
+---*/
+
+let x = "h";
+class F { f  (  )  {  } }
+class G { [  "g"  ]  (  )  {  } }
+class H { [  x  ]  (  )  {  } }
+
+let f = F.prototype.f;
+let g = G.prototype.g;
+let h = H.prototype.h;
+
+assertToStringOrNativeFunction(f, "f /* a */ ( /* b */ ) /* c */ { /* d */ }");
+assertToStringOrNativeFunction(g, "[ /* a */ \"g\" /* b */ ] /* c */ ( /* d */ ) /* e */ { /* f */ }");
+assertToStringOrNativeFunction(h, "[ /* a */ x /* b */ ] /* c */ ( /* d */ ) /* e */ { /* f */ }");

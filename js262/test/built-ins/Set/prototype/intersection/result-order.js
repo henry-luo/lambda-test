@@ -1,0 +1,52 @@
+
+
+/*---
+esid: sec-set.prototype.intersection
+description: Set.prototype.intersection result ordering
+features: [set-methods]
+includes: [compareArray.js]
+---*/
+
+
+{
+  const s1 = new Set([1, 3, 5]);
+  const s2 = new Set([3, 2, 1]);
+
+  assert.compareArray([...s1.intersection(s2)], [1, 3]);
+}
+
+{
+  const s1 = new Set([3, 2, 1]);
+  const s2 = new Set([1, 3, 5]);
+
+  assert.compareArray([...s1.intersection(s2)], [3, 1]);
+}
+
+{
+  const s1 = new Set([1, 3, 5]);
+  const s2 = new Set([3, 2, 1, 0]);
+
+  assert.compareArray([...s1.intersection(s2)], [1, 3]);
+}
+
+{
+  const s1 = new Set([3, 2, 1]);
+  const s2 = new Set([1, 3, 5, 7]);
+
+  assert.compareArray([...s1.intersection(s2)], [3, 1]);
+}
+
+
+{
+  const s1 = new Set([3, 2, 1, 0]);
+  const s2 = new Set([1, 3, 5]);
+
+  assert.compareArray([...s1.intersection(s2)], [1, 3]);
+}
+
+{
+  const s1 = new Set([1, 3, 5, 7]);
+  const s2 = new Set([3, 2, 1]);
+
+  assert.compareArray([...s1.intersection(s2)], [3, 1]);
+}

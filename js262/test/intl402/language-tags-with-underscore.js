@@ -1,0 +1,32 @@
+
+
+/*---
+es5id: 6.2.2_b
+description: Tests that language tags with "_" are not accepted.
+author: Norbert Lindenberg
+includes: [testIntl.js]
+---*/
+
+var invalidLanguageTags = [
+    "de_DE",
+    "DE_de",
+    "cmn_Hans",
+    "cmn-hans_cn",
+    "es_419",
+    "es-419-u-nu-latn-cu_bob",
+    "i_klingon",
+    "cmn-hans-cn-t-ca-u-ca-x_t-u",
+    "enochian_enochian",
+    "de-gregory_u-ca-gregory",
+    "de-tester-Tester",  
+    "de-DE-u-kn-true-U-kn-true",  
+];
+
+testWithIntlConstructors(function (Constructor) {
+    invalidLanguageTags.forEach(function (tag) {
+        
+        assert.throws(RangeError, function() {
+            var obj = new Constructor([tag]);
+        }, "Invalid language tag " + tag + " was not rejected.");
+    });
+});

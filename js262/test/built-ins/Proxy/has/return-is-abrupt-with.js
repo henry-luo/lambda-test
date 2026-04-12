@@ -1,0 +1,28 @@
+
+
+/*---
+es6id: 9.5.7
+description: >
+    Trap returns abrupt. Using `with`.
+info: |
+    [[HasProperty]] (P)
+
+    ...
+    9. Let booleanTrapResult be ToBoolean(Call(trap, handler, «target, P»)).
+    10. ReturnIfAbrupt(booleanTrapResult).
+    ...
+flags: [noStrict]
+features: [Proxy]
+---*/
+
+var p = new Proxy({}, {
+  has: function() {
+    throw new Test262Error();
+  }
+});
+
+assert.throws(Test262Error, function() {
+  with(p) {
+    (attr);
+  }
+});

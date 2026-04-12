@@ -1,0 +1,15 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  pending
+esid: pending
+---*/
+
+let g2 = $262.createRealm().global;
+assert.compareArray(
+    Int32Array.prototype.sort.call(new g2.Int32Array([3, 2, 1])),
+    new Int32Array([1, 2, 3])
+);
+

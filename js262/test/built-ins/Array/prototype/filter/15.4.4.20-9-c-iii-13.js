@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-array.prototype.filter
+description: >
+    Array.prototype.filter return value of callbackfn is a number
+    (value is NaN)
+---*/
+
+var accessed = false;
+
+function callbackfn(val, idx, obj) {
+  accessed = true;
+  return NaN;
+}
+
+var newArr = [11].filter(callbackfn);
+
+assert.sameValue(newArr.length, 0, 'newArr.length');
+assert(accessed, 'accessed !== true');

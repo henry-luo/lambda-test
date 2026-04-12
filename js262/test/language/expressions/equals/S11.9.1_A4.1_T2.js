@@ -1,0 +1,52 @@
+
+
+/*---
+info: If x or y is NaN, return false
+es5id: 11.9.1_A4.1_T2
+description: y is NaN
+---*/
+
+
+if ((true == Number.NaN) !== false) {
+  throw new Test262Error('#1: (true == NaN) === false');
+}
+
+
+if ((-1 == Number.NaN) !== false) {
+  throw new Test262Error('#2: (-1 == NaN) === false');
+}
+
+
+if ((Number.NaN == Number.NaN) !== false) {
+  throw new Test262Error('#3: (NaN == NaN) === false');
+}
+
+
+if ((Number.POSITIVE_INFINITY == Number.NaN) !== false) {
+  throw new Test262Error('#4: (+Infinity == NaN) === false');
+}
+
+
+if ((Number.NEGATIVE_INFINITY == Number.NaN) !== false) {
+  throw new Test262Error('#5: (-Infinity == NaN) === false');
+}
+
+
+if ((Number.MAX_VALUE == Number.NaN) !== false) {
+  throw new Test262Error('#6: (Number.MAX_VALUE == NaN) === false');
+}
+
+
+if ((Number.MIN_VALUE == Number.NaN) !== false) {
+  throw new Test262Error('#7: (Number.MIN_VALUE == NaN) === false');
+}
+
+
+if (("string" == Number.NaN) !== false) {
+  throw new Test262Error('#8: ("string" == NaN) === false');
+}
+
+
+if ((new Object() == Number.NaN) !== false) {
+  throw new Test262Error('#9: (new Object() == NaN) === false');
+}

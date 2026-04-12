@@ -1,0 +1,35 @@
+
+
+/*---
+es5id: 9.2.2
+description: >
+    Tests that locales that are reported by resolvedOptions  are also
+    reported by supportedLocalesOf.
+author: Norbert Lindenberg
+includes: [testIntl.js]
+---*/
+
+testWithIntlConstructors(function (Constructor) {
+    
+    ["lookup", "best fit"].forEach(function (matcher) {
+        var info = getLocaleSupportInfo(Constructor, {localeMatcher: matcher});
+        var supportedByConstructor = info.supported.concat(info.byFallback);
+        var supported = Constructor.supportedLocalesOf(supportedByConstructor,
+            {localeMatcher: matcher});
+        
+        var i = 0;
+        var limit = Math.min(supportedByConstructor.length, supported.length);
+        while (i < limit && supportedByConstructor[i] === supported[i]) {
+            i++;
+        }
+        assert.sameValue(i < supportedByConstructor.length, false, "Locale " + supportedByConstructor[i] + " is returned by resolvedOptions but not by supportedLocalesOf.");
+        assert.sameValue(i < supported.length, false, "Locale " + supported[i] + " is returned by supportedLocalesOf but not by resolvedOptions.");
+    });
+    
+    
+    var info = getLocaleSupportInfo(Constructor, {localeMatcher: "lookup"});
+    var unsupportedByConstructor = info.unsupported;
+    var supported = Constructor.supportedLocalesOf(unsupportedByConstructor,
+            {localeMatcher: "lookup"});
+    assert.sameValue(supported.length > 0, false, "Locale " + supported[0] + " is returned by supportedLocalesOf but not by resolvedOptions.");
+});

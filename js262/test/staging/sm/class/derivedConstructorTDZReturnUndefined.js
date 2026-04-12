@@ -1,0 +1,19 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+class foo extends null {
+    constructor() {
+        
+        
+        return undefined;
+    }
+}
+
+for (let i = 0; i < 1100; i++)
+    assert.throws(ReferenceError, () => new foo());
+

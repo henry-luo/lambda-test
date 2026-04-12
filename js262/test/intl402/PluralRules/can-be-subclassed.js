@@ -1,0 +1,27 @@
+
+
+/*---
+esid: sec-intl-pluralrules-constructor
+description: Tests that Intl.PluralRules can be subclassed.
+author: Zibi Braniecki
+includes: [compareArray.js]
+---*/
+
+
+var locales = ["tlh", "id", "en"];
+var a = [1, 5, 12];
+
+var referencePluralRules = new Intl.PluralRules(locales);
+var referenceSelected = a.map(referencePluralRules.select.bind(referencePluralRules));
+
+class MyPluralRules extends Intl.PluralRules {
+  constructor(locales, options) {
+    super(locales, options);
+    
+  }
+  
+}
+
+var pr = new MyPluralRules(locales);
+var actual = a.map(pr.select.bind(pr));
+assert.compareArray(actual, referenceSelected);

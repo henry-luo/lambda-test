@@ -1,0 +1,8 @@
+
+
+/*---
+description: Unescaped surrogate pairs
+features: [RegExp.escape]
+---*/
+
+assert.sameValue(RegExp.escape("\ud800\udc00"), "\ud800\udc00", 'Unescaped surrogate pair');

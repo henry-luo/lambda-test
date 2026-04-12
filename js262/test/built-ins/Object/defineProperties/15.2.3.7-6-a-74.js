@@ -1,0 +1,32 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-74
+description: >
+    Object.defineProperties will not throw TypeError if P.configurable
+    is false, P.writalbe is false, P.value is null and
+    properties.value is null (8.12.9 step 10.a.ii.1)
+includes: [propertyHelper.js]
+---*/
+
+
+var obj = {};
+
+Object.defineProperty(obj, "foo", {
+  value: null,
+  writable: false,
+  configurable: false
+});
+
+Object.defineProperties(obj, {
+  foo: {
+    value: null
+  }
+});
+
+verifyProperty(obj, "foo", {
+  value: null,
+  writable: false,
+  enumerable: false,
+  configurable: false,
+});

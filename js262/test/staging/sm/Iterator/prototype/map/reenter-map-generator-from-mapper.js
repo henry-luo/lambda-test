@@ -1,0 +1,20 @@
+
+
+/*---
+features:
+  - iterator-helpers
+description: |
+  pending
+esid: pending
+---*/
+
+
+let iterator;
+function mapper(x) {
+  let n = iterator.next();
+  return x;
+}
+iterator = [0].values().map(mapper);
+
+assert.throws(TypeError, iterator.next);
+

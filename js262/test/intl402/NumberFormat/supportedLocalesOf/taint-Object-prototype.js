@@ -1,0 +1,13 @@
+
+
+/*---
+es5id: 11.2.2_b
+description: >
+    Tests that Intl.NumberFormat.supportedLocalesOf  doesn't access
+    arguments that it's not given.
+author: Norbert Lindenberg
+includes: [testIntl.js]
+---*/
+
+taintDataProperty(Object.prototype, "1");
+new Intl.NumberFormat("und");

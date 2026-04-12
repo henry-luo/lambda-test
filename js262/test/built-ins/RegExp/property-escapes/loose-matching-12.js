@@ -1,0 +1,17 @@
+
+
+/*---
+author: Mathias Bynens
+description: >
+  Loose matching must not be applied when matching properties and values in
+  Unicode property escapes.
+esid: sec-static-semantics-unicodematchproperty-p
+negative:
+  phase: parse
+  type: SyntaxError
+features: [regexp-unicode-property-escapes]
+---*/
+
+$DONOTEVALUATE();
+
+/\p{gc=uppercaseletter}/u;

@@ -1,0 +1,15 @@
+
+
+/*---
+esid: sec-temporal.plainyearmonth.prototype.until
+description: Type conversions for smallestUnit option
+includes: [compareArray.js, temporalHelpers.js]
+features: [Temporal]
+---*/
+
+const earlier = new Temporal.PlainYearMonth(2000, 5);
+const later = new Temporal.PlainYearMonth(2001, 6);
+TemporalHelpers.checkStringOptionWrongType("smallestUnit", "year",
+  (smallestUnit) => earlier.until(later, { smallestUnit }),
+  (result, descr) => TemporalHelpers.assertDuration(result, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, descr),
+);

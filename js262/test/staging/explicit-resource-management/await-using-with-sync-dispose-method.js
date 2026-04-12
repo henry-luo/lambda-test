@@ -1,0 +1,31 @@
+
+
+/*---
+description: Test if Symbol.dispose is called correctly.
+includes: [asyncHelpers.js, compareArray.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+
+asyncTest(async function() {
+  let syncMethodValues = [];
+
+  {
+    await using x = {
+      value: 1,
+      [Symbol.dispose]() {
+        syncMethodValues.push(42);
+      }
+    };
+    await using y = {
+      value: 1,
+      [Symbol.dispose]() {
+        syncMethodValues.push(43);
+      }
+    };
+    syncMethodValues.push(44);
+  }
+
+  assert.compareArray(syncMethodValues, [44, 43, 42]);
+});

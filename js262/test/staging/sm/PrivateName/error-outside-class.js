@@ -1,0 +1,17 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+assert.throws(SyntaxError, () => eval('#x'));
+
+
+assert.throws(SyntaxError, () => eval('this.#x'));
+
+
+assert.throws(SyntaxError, () => eval('function foo() { return this.#x'));
+

@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-arraybuffer-length
+description: >
+  Throws a TypeError if ArrayBuffer is called as a function.
+info: |
+  ArrayBuffer( length )
+
+  ArrayBuffer called with argument length performs the following steps:
+
+  1. If NewTarget is undefined, throw a TypeError exception.
+  ...
+---*/
+
+assert.throws(TypeError, function() {
+  ArrayBuffer();
+});
+
+assert.throws(TypeError, function() {
+  ArrayBuffer(10);
+});

@@ -1,0 +1,16 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+(function({
+    k = class i {
+              [_ => i]()
+              {}
+            }
+} = {}) {
+    var j = 0;
+})()
+

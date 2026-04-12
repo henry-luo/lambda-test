@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.until
+description: >
+  Difference with the endpoint being the end of a skipped hour, chooses the
+  smaller of two possible durations
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+const d1 = new Temporal.ZonedDateTime(957258000_000_000_000n , "America/Vancouver");
+const d2 = new Temporal.ZonedDateTime(954669600_000_000_000n , "America/Vancouver");
+
+
+const result = d1.until(d2, { largestUnit: "months" });
+
+TemporalHelpers.assertDuration(
+  result, 0, 0, 0, -29, -23, 0, 0, 0, 0, 0,
+  "Result should not balance up to months, but pick the smaller of two possible durations"
+);

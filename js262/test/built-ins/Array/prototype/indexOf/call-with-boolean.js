@@ -1,0 +1,9 @@
+
+
+/*---
+esid: sec-array.prototype.indexof
+description: Array.prototype.indexOf applied to boolean primitive
+---*/
+
+assert.sameValue(Array.prototype.indexOf.call(true), -1, 'Array.prototype.indexOf.call(true) must return -1');
+assert.sameValue(Array.prototype.indexOf.call(false), -1, 'Array.prototype.indexOf.call(false) must return -1');

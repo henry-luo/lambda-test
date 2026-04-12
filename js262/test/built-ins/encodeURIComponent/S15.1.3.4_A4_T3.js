@@ -1,0 +1,27 @@
+
+
+/*---
+info: URI tests
+esid: sec-encodeuricomponent-uricomponent
+description: Checking URL with Line Terminator
+---*/
+
+
+if ((encodeURIComponent("http://unipro.ru/\nabout") !== "http%3A%2F%2Funipro.ru%2F%0Aabout") && encodeURIComponent("http://unipro.ru/\nabout") !== "http%3A%2F%2Funipro.ru%2F%0aabout") {
+  throw new Test262Error('#1: http://unipro.ru/\\nabout');
+}
+
+
+if ((encodeURIComponent("http://unipro.ru/\vabout") !== "http%3A%2F%2Funipro.ru%2F%0Babout") && encodeURIComponent("http://unipro.ru/\vabout") !== "http%3A%2F%2Funipro.ru%2F%0babout") {
+  throw new Test262Error('#2: http://unipro.ru/\\vabout');
+}
+
+
+if ((encodeURIComponent("http://unipro.ru/\fabout") !== "http%3A%2F%2Funipro.ru%2F%0Cabout") && encodeURIComponent("http://unipro.ru/\fabout") !== "http%3A%2F%2Funipro.ru%2F%0cabout") {
+  throw new Test262Error('#3: http://unipro.ru/\\fabout');
+}
+
+
+if ((encodeURIComponent("http://unipro.ru/\rabout") !== "http%3A%2F%2Funipro.ru%2F%0Dabout") && encodeURIComponent("http://unipro.ru/\rabout") !== "http%3A%2F%2Funipro.ru%2F%0dabout") {
+  throw new Test262Error('#4: http://unipro.ru/\\rabout');
+}

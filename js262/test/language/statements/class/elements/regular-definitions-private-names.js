@@ -1,0 +1,54 @@
+
+
+/*---
+description: private names (regular fields defintion)
+esid: prod-FieldDefinition
+features: [class-fields-private, class, class-fields-public]
+flags: [generated]
+info: |
+    ClassElement :
+      ...
+      FieldDefinition ;
+
+    FieldDefinition :
+      ClassElementName Initializer_opt
+
+    ClassElementName :
+      PrivateName
+
+    PrivateName :
+      # IdentifierName
+
+---*/
+
+
+class C {
+  #x; #y
+  x() {
+    this.#x = 42;
+    return this.#x;
+  }
+  y() {
+    this.#y = 43;
+    return this.#y;
+  }
+}
+
+var c = new C();
+
+
+assert(!Object.prototype.hasOwnProperty.call(C.prototype, "#x"), "test 1");
+assert(!Object.prototype.hasOwnProperty.call(C, "#x"), "test 2");
+assert(!Object.prototype.hasOwnProperty.call(c, "#x"), "test 3");
+
+assert(!Object.prototype.hasOwnProperty.call(C.prototype, "#y"), "test 4");
+assert(!Object.prototype.hasOwnProperty.call(C, "#y"), "test 5");
+assert(!Object.prototype.hasOwnProperty.call(c, "#y"), "test 6");
+
+
+assert.sameValue(c.x(), 42, "test 7");
+assert.sameValue(c.y(), 43, "test 8");
+
+
+assert(!Object.prototype.hasOwnProperty.call(c, "#x"), "test 9");
+assert(!Object.prototype.hasOwnProperty.call(c, "#y"), "test 10");

@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-array.prototype.reduce
+description: >
+    Array.prototype.reduce - if exception occurs, it occurs after any
+    side-effects that might be produced by step 2
+---*/
+
+var obj = {};
+
+var accessed = false;
+
+Object.defineProperty(obj, "length", {
+  get: function() {
+    accessed = true;
+    return 2;
+  },
+  configurable: true
+});
+assert.throws(TypeError, function() {
+  Array.prototype.reduce.call(obj, function() {});
+});
+assert(accessed, 'accessed !== true');

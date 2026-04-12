@@ -1,0 +1,20 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  pending
+esid: pending
+---*/
+var get = [];
+var fun = function() {}
+var p = new Proxy(fun, {
+    get(target, key) {
+        get.push(key);
+        return target[key];
+    }
+});
+
+assert.sameValue(new fun instanceof p, true);
+assert.compareArray(get, [Symbol.hasInstance, "prototype"]);
+

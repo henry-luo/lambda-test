@@ -1,0 +1,74 @@
+
+
+/*---
+description: yield * (async iterator) is treated as throw value (Static async generator method as a ClassExpression element)
+esid: prod-AsyncGeneratorPrivateMethod
+features: [async-iteration, class-static-methods-private]
+flags: [generated, async]
+info: |
+    ClassElement :
+      static PrivateMethodDefinition
+
+    MethodDefinition :
+      AsyncGeneratorMethod
+
+    Async Generator Function Definitions
+
+    AsyncGeneratorMethod :
+      async [no LineTerminator here] * PropertyName ( UniqueFormalParameters ) { AsyncGeneratorBody }
+
+---*/
+let error = new Error();
+async function * readFile() {
+  yield Promise.reject(error);
+  yield "unreachable";
+}
+
+
+var callCount = 0;
+
+var C = class {
+    static async *#gen() {
+        callCount += 1;
+        yield * readFile();
+
+    }
+    static get gen() { return this.#gen; }
+}
+
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "#gen"),
+  "#gen does not appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "#gen"),
+  "#gen does not appear as an own property on C constructor"
+);
+
+var iter = C.gen();
+
+iter.next().then(() => {
+  throw new Test262Error("Promise incorrectly resolved.");
+}, rejectValue => {
+  
+  assert.sameValue(rejectValue, error);
+
+  iter.next().then(({done, value}) => {
+    
+    assert.sameValue(done, true, "The value of IteratorResult.done is `true`");
+    assert.sameValue(value, undefined, "The value of IteratorResult.value is `undefined`");
+  }).then($DONE, $DONE);
+}, $DONE).catch($DONE);
+
+assert.sameValue(callCount, 1);
+
+
+assert(
+  !Object.prototype.hasOwnProperty.call(C.prototype, "#gen"),
+  "#gen does not appear as an own property on C prototype"
+);
+assert(
+  !Object.prototype.hasOwnProperty.call(C, "#gen"),
+  "#gen does not appear as an own property on C constructor"
+);

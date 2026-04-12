@@ -1,0 +1,57 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.fill
+description: Return abrupt when "this" value fails buffer boundary checks
+includes: [testTypedArray.js]
+features: [TypedArray, resizable-arraybuffer]
+---*/
+
+assert.sameValue(
+  typeof TypedArray.prototype.fill,
+  'function',
+  'implements TypedArray.prototype.fill'
+);
+
+assert.sameValue(
+  typeof ArrayBuffer.prototype.resize,
+  'function',
+  'implements ArrayBuffer.prototype.resize'
+);
+
+testWithTypedArrayConstructors(TA => {
+  var BPE = TA.BYTES_PER_ELEMENT;
+  var ab = new ArrayBuffer(BPE * 4, {maxByteLength: BPE * 5});
+  var array = new TA(ab, BPE, 2);
+
+  try {
+    ab.resize(BPE * 5);
+  } catch (_) {}
+
+  
+  array.fill(0);
+
+  try {
+    ab.resize(BPE * 3);
+  } catch (_) {}
+
+  
+  array.fill(0);
+
+  var expectedError;
+  try {
+    ab.resize(BPE * 3 - 1);
+    
+    
+    expectedError = TypeError;
+  } catch (_) {
+    
+    
+    expectedError = Test262Error;
+  }
+
+  assert.throws(expectedError, () => {
+    array.fill(0);
+    throw new Test262Error('fill completed successfully');
+  });
+}, null, ["passthrough"]);

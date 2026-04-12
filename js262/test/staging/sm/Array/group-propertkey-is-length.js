@@ -1,0 +1,21 @@
+
+
+/*---
+includes: [deepEqual.js]
+description: |
+  pending
+esid: pending
+---*/
+var array = [0];
+
+var grouped = Object.groupBy(array, () => "length");
+
+assert.deepEqual(grouped, Object.create(null, {
+  length: {
+    value: [0],
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  },
+}));
+

@@ -1,0 +1,4 @@
+
+
+import './dfs-invariant-async_FIXTURE.js';
+globalThis.test262 += ':direct-1';

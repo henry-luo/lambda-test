@@ -1,0 +1,28 @@
+
+
+/*---
+esid: sec-arraybuffer.isview
+description: >
+  `isView` can be invoked as a function
+info: |
+  24.1.3.1 ArrayBuffer.isView ( arg )
+
+  1. If Type(arg) is not Object, return false.
+  2. If arg has a [[ViewedArrayBuffer]] internal slot, return true.
+  3. Return false.
+features: [TypedArray, DataView]
+includes: [testTypedArray.js]
+---*/
+
+var isView = ArrayBuffer.isView;
+
+testWithTypedArrayConstructors(function(ctor) {
+  var sample = new ctor();
+  assert.sameValue(isView(sample), true, "instance of TypedArray");
+}, null, ["passthrough"]);
+
+var dv = new DataView(new ArrayBuffer(1), 0, 0);
+assert.sameValue(isView(dv), true, "instance of DataView");
+
+assert.sameValue(isView(), false, "undefined arg");
+assert.sameValue(isView({}), false, "ordinary object");

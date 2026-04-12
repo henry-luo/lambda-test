@@ -1,0 +1,25 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.total
+description: total() throws on disallowed or invalid unit
+features: [Temporal]
+---*/
+
+const d = new Temporal.Duration(5, 5, 5, 5, 5, 5, 5, 5, 5, 5);
+
+
+[
+  "era",
+  "nonsense"
+].forEach(unit => {
+  assert.throws(RangeError, () => d.total({ unit }));
+});
+
+
+[
+  "era",
+  "nonsense"
+].forEach(unit => {
+  assert.throws(RangeError, () => d.total(unit));
+});

@@ -1,0 +1,15 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+assert.throws(SyntaxError, () => eval("() \n => {}"));
+assert.throws(SyntaxError, () => eval("a \n => {}"));
+assert.throws(SyntaxError, () => eval("(a) /*\n*/ => {}"));
+assert.throws(SyntaxError, () => eval("(a, b) \n => {}"));
+assert.throws(SyntaxError, () => eval("(a, b = 1) \n => {}"));
+assert.throws(SyntaxError, () => eval("(a, ...b) \n => {}"));
+assert.throws(SyntaxError, () => eval("(a, b = 1, ...c) \n => {}"));
+

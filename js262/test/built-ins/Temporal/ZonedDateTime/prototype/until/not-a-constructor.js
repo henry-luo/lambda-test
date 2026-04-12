@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.until
+description: >
+  Temporal.ZonedDateTime.prototype.until does not implement [[Construct]], is not new-able
+info: |
+    Built-in function objects that are not identified as constructors do not implement the
+    [[Construct]] internal method unless otherwise specified in the description of a particular
+    function.
+includes: [isConstructor.js]
+features: [Reflect.construct, Temporal]
+---*/
+
+assert.throws(TypeError, () => {
+  new Temporal.ZonedDateTime.prototype.until();
+}, "Calling as constructor");
+
+assert.sameValue(isConstructor(Temporal.ZonedDateTime.prototype.until), false,
+  "isConstructor(Temporal.ZonedDateTime.prototype.until)");

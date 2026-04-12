@@ -1,0 +1,21 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var obj = {a: 1};
+obj[Symbol.for("ponies")] = {toJSON: function () { throw "fit"; }};
+obj[Symbol.iterator] = {toJSON: function () { throw "fit"; }};
+assert.sameValue(JSON.stringify(obj), '{"a":1}');
+
+var replacer = function (k, v) {
+    if (typeof k === "symbol")
+        throw "fit";
+    return v;
+};
+assert.sameValue(JSON.stringify(obj, replacer), '{"a":1}');
+

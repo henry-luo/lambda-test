@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-weakmap.prototype.delete
+description: >
+  Throws TypeError if `this` doesn't have a [[WeakMapData]] internal slot.
+info: |
+  WeakMap.prototype.delete ( value )
+
+  ...
+  3. If M does not have a [[WeakMapData]] internal slot, throw a TypeError
+  exception.
+  ...
+features: [Set]
+---*/
+
+assert.throws(TypeError, function() {
+  WeakMap.prototype.delete.call(new Set(), {});
+});
+
+assert.throws(TypeError, function() {
+  var map = new WeakMap();
+  map.delete.call(new Set(), {});
+});

@@ -1,0 +1,18 @@
+
+
+/*---
+esid: sec-Intl.Segmenter.supportedLocalesOf
+description: Checks handling of an empty locales argument to the supportedLocalesOf function.
+info: |
+    Intl.Segmenter.supportedLocalesOf ( locales [, options ])
+
+    3. Return ? SupportedLocales(availableLocales, requestedLocales, options).
+includes: [compareArray.js]
+features: [Intl.Segmenter]
+---*/
+
+assert.sameValue(typeof Intl.Segmenter.supportedLocalesOf, "function",
+                 "Should support Intl.Segmenter.supportedLocalesOf.");
+
+assert.compareArray(Intl.Segmenter.supportedLocalesOf(), []);
+assert.compareArray(Intl.Segmenter.supportedLocalesOf([]), []);

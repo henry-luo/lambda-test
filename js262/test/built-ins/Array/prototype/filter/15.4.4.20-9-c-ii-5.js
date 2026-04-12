@@ -1,0 +1,31 @@
+
+
+/*---
+esid: sec-array.prototype.filter
+description: >
+    Array.prototype.filter - k values are accessed during each
+    iteration and not prior to starting the loop on an Array
+---*/
+
+var kIndex = [];
+var called = 0;
+
+
+function callbackfn(val, idx, obj) {
+  called++;
+  
+  if (kIndex[idx] === undefined) {
+    
+    if (idx !== 0 && kIndex[idx - 1] === undefined) {
+      return true;
+    }
+    kIndex[idx] = 1;
+    return false;
+  } else {
+    return true;
+  }
+}
+var newArr = [11, 12, 13, 14].filter(callbackfn, undefined);
+
+assert.sameValue(newArr.length, 0, 'newArr.length');
+assert.sameValue(called, 4, 'called');

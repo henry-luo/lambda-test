@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-array.prototype.fill
+description: Array.prototype.fill applied to boolean primitive
+---*/
+
+assert.sameValue(
+  Array.prototype.fill.call(true) instanceof Boolean,
+  true,
+  'The result of `(Array.prototype.fill.call(true) instanceof Boolean)` is true'
+);
+assert.sameValue(
+  Array.prototype.fill.call(false) instanceof Boolean,
+  true,
+  'The result of `(Array.prototype.fill.call(false) instanceof Boolean)` is true'
+);

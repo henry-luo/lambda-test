@@ -1,0 +1,90 @@
+
+
+/*---
+esid: sec-atomics.wait
+description: >
+  New waiters should be applied to the end of the list and woken by order they entered the list (FIFO)
+info: |
+  Atomics.wait( typedArray, index, value, timeout )
+
+  16.Perform AddWaiter(WL, W).
+    ...
+    3.Add W to the end of the list of waiters in WL.
+
+includes: [atomicsHelper.js]
+features: [Atomics, SharedArrayBuffer, TypedArray]
+---*/
+
+var NUMAGENT = 3;
+
+var WAIT_INDEX = 0;
+var RUNNING = 1;
+var LOCK_INDEX = 2;
+
+for (var i = 0; i < NUMAGENT; i++) {
+  var agentNum = i;
+
+  $262.agent.start(`
+    $262.agent.receiveBroadcast(function(sab) {
+      const i32a = new Int32Array(sab);
+      Atomics.add(i32a, ${RUNNING}, 1);
+
+      // Synchronize workers before reporting the initial report.
+      while (Atomics.compareExchange(i32a, ${LOCK_INDEX}, 0, 1) !== 0) ;
+
+      // Report the agent number before waiting.
+      $262.agent.report(${agentNum});
+
+      // Wait until restarted by main thread.
+      var status = Atomics.wait(i32a, ${WAIT_INDEX}, 0);
+
+      // Report wait status.
+      $262.agent.report(status);
+
+      // Report the agent number after waiting.
+      $262.agent.report(${agentNum});
+
+      $262.agent.leaving();
+    });
+  `);
+}
+
+const i32a = new Int32Array(
+  new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT * 4)
+);
+
+$262.agent.safeBroadcast(i32a);
+
+
+$262.agent.waitUntil(i32a, RUNNING, NUMAGENT);
+
+
+const started = [];
+for (var i = 0; i < NUMAGENT; i++) {
+  
+  $262.agent.waitUntil(i32a, LOCK_INDEX, 1);
+
+  
+  started.push($262.agent.getReport());
+
+  
+  $262.agent.tryYield();
+
+  
+  Atomics.store(i32a, LOCK_INDEX, 0);
+}
+
+
+for (var i = 0; i < NUMAGENT; i++) {
+  var woken = 0;
+  while ((woken = Atomics.notify(i32a, WAIT_INDEX, 1)) === 0) ;
+
+  assert.sameValue(woken, 1,
+                   'Atomics.notify(i32a, WAIT_INDEX, 1) returns 1, at index = ' + i);
+
+  assert.sameValue($262.agent.getReport(), 'ok',
+                   '$262.agent.getReport() returns "ok", at index = ' + i);
+
+  assert.sameValue($262.agent.getReport(), started[i],
+                   '$262.agent.getReport() returns the value of `started[' + i + ']`');
+}

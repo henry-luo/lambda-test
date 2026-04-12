@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-get-%typedarray%.prototype-@@tostringtag
+description: The getter method does not throw with a detached buffer
+info: |
+  22.2.3.32 get %TypedArray%.prototype [ @@toStringTag ]
+
+  ...
+  4. Let name be the value of O's [[TypedArrayName]] internal slot.
+  5. Assert: name is a String value.
+  6. Return name.
+includes: [testTypedArray.js, detachArrayBuffer.js]
+features: [BigInt, Symbol.toStringTag, TypedArray]
+---*/
+
+testWithBigIntTypedArrayConstructors(function(TA) {
+  var sample = new TA(1);
+  $DETACHBUFFER(sample.buffer);
+  assert.sameValue(sample[Symbol.toStringTag], TA.name);
+}, null, ["passthrough"]);

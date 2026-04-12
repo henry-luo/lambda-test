@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-array.prototype.lastindexof
+description: >
+    Array.prototype.lastIndexOf - value of 'length' is an Object which
+    has an own toString method
+---*/
+
+
+var targetObj = this;
+var obj = {
+  1: targetObj,
+  2: 2,
+
+  length: {
+    toString: function() {
+      return '2';
+    }
+  }
+};
+
+assert.sameValue(Array.prototype.lastIndexOf.call(obj, targetObj), 1, 'Array.prototype.lastIndexOf.call(obj, targetObj)');
+assert.sameValue(Array.prototype.lastIndexOf.call(obj, 2), -1, 'Array.prototype.lastIndexOf.call(obj, 2)');

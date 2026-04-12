@@ -1,0 +1,13 @@
+
+
+/*---
+esid: sec-math.acosh
+description: >
+  Return Infinity if x is Infinity
+info: |
+  Math.acosh ( x )
+
+  If x is +∞, the result is +∞.
+---*/
+
+assert.sameValue(Math.acosh(Infinity), Infinity);

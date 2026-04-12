@@ -1,0 +1,20 @@
+
+
+/*---
+info: Operator remove leading StrWhiteSpaceChar
+esid: sec-parsefloat-string
+description: "StrWhiteSpaceChar :: LS (U+2028)"
+---*/
+
+
+if (parseFloat("\u20281.1") !== parseFloat("1.1")) {
+  throw new Test262Error('#1: parseFloat("\\u20281.1") === parseFloat("1.1"). Actual: ' + (parseFloat("\u20281.1")));
+}
+
+
+if (parseFloat("\u2028\u2028-1.1") !== parseFloat("-1.1")) {
+  throw new Test262Error('#2: parseFloat("\\u2028\\u2028-1.1") === parseFloat("-1.1"). Actual: ' + (parseFloat("\u2028\u2028-1.1")));
+}
+
+
+assert.sameValue(parseFloat("\u2028"), NaN);

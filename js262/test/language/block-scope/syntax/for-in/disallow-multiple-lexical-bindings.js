@@ -1,0 +1,15 @@
+
+
+/*---
+es6id: 13.1
+description: >
+    for declaration:
+    disallow multiple lexical bindings
+negative:
+  phase: parse
+  type: SyntaxError
+---*/
+
+$DONOTEVALUATE();
+for (let x, y in {}) { }
+

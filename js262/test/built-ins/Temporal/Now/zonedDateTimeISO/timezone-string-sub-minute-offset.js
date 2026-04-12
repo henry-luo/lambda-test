@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-temporal.now.zoneddatetimeiso
+description: >
+  Time zone parsing from ISO strings does not accept sub-minute UTC offset as
+  time zone identifier
+features: [Temporal]
+---*/
+
+for (const timeZone of ["-12:12:59.9", "2021-08-19T17:30:45.123456789-12:12:59.9[-12:12:59.9]"]) {
+  assert.throws(
+    RangeError,
+    () => Temporal.Now.zonedDateTimeISO(timeZone),
+    `${timeZone} is not a valid time zone string`
+  );
+}

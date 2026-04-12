@@ -1,0 +1,48 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.values
+description: >
+  Calling next on an out-of-bounds typedarray throws no error when iterator exhausted.
+features: [TypedArray, resizable-arraybuffer]
+---*/
+
+let rab = new ArrayBuffer(3, {maxByteLength: 5});
+let ta = new Int8Array(rab, 1);
+
+
+assert.sameValue(ta.length, 2);
+assert.sameValue(ta.byteOffset, 1);
+
+ta[0] = 11;
+ta[1] = 22;
+
+let it = ta.values();
+let r;
+
+
+r = it.next();
+assert.sameValue(r.done, false);
+assert.sameValue(r.value, 11);
+
+
+r = it.next();
+assert.sameValue(r.done, false);
+assert.sameValue(r.value, 22);
+
+
+r = it.next();
+assert.sameValue(r.done, true);
+assert.sameValue(r.value, undefined);
+
+
+rab.resize(0);
+
+
+assert.sameValue(ta.length, 0);
+assert.sameValue(ta.byteOffset, 0);
+
+
+r = it.next();
+assert.sameValue(r.done, true);
+assert.sameValue(r.value, undefined);

@@ -1,0 +1,3 @@
+
+
+export * as named from './instn-star-props-dflt-skip-star-as-named-end_FIXTURE.js';

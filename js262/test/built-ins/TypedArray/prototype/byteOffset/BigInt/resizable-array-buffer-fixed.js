@@ -1,0 +1,43 @@
+
+
+/*---
+esid: sec-get-%typedarray%.prototype.byteoffset
+description: |
+  reset to 0 if the underlying ArrayBuffer is resized beyond the boundary of
+  the fixed-sized TypedArray instance
+includes: [testTypedArray.js]
+features: [ArrayBuffer, BigInt, TypedArray, resizable-arraybuffer]
+---*/
+
+
+assert.sameValue(typeof ArrayBuffer.prototype.resize, "function");
+
+testWithBigIntTypedArrayConstructors(function(TA) {
+  var BPE = TA.BYTES_PER_ELEMENT;
+  var ab = new ArrayBuffer(BPE * 4, {maxByteLength: BPE * 5});
+  var array = new TA(ab, BPE, 2);
+
+  assert.sameValue(array.byteOffset, BPE);
+
+  try {
+    ab.resize(BPE * 5);
+  } catch (_) {}
+
+  assert.sameValue(array.byteOffset, BPE, "following grow");
+
+  try {
+    ab.resize(BPE * 3);
+  } catch (_) {}
+
+  assert.sameValue(array.byteOffset, BPE, "following shrink (within bounds)");
+
+  var expected;
+  try {
+    ab.resize(BPE * 3 - 1);
+    expected = 0;
+  } catch (_) {
+    expected = BPE;
+  }
+
+  assert.sameValue(array.byteOffset, expected, "following shrink (out of bounds)");
+}, null, ["passthrough"]);

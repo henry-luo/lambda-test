@@ -1,0 +1,20 @@
+
+
+/*---
+description: >
+    A newline may not precede the `*` token in a `yield` expression.
+features: [generators]
+es6id: 14.4
+negative:
+  phase: parse
+  type: SyntaxError
+---*/
+
+$DONOTEVALUATE();
+
+class A {
+  *g() {
+    yield
+    * 1
+  }
+}

@@ -1,0 +1,65 @@
+
+
+/*---
+info: |
+    If neither x, nor y is a prefix of each other, returned result of strings
+    comparison applies a simple lexicographic ordering to the sequences of
+    code unit value values
+es5id: 11.8.3_A4.12_T1
+description: x and y are string primitives
+---*/
+
+
+if (("xx" <= "xy") !== true) {
+  throw new Test262Error('#1: ("xx" <= "xy") === true');
+}
+
+
+if (("xy" <= "xx") !== false) {
+  throw new Test262Error('#2: ("xy" <= "xx") === false');
+}
+
+
+if (("x" <= "y") !== true) {
+  throw new Test262Error('#3: ("x" <= y") === true');
+}
+
+
+if (("aab" <= "aba") !== true) {
+  throw new Test262Error('#4: ("aab" <= aba") === true');
+}
+
+
+if (("\u0061\u0061\u0061\u0062" <= "\u0061\u0061\u0061\u0061") !== false) {
+  throw new Test262Error('#5: ("\\u0061\\u0061\\u0061\\u0062" <= \\u0061\\u0061\\u0061\\u0061") === false');
+}
+
+
+if (("a\u0000a" <= "a\u0000b") !== true) {
+  throw new Test262Error('#6: ("a\\u0000a" <= "a\\u0000b") === true');
+}
+
+
+if (("aB" <= "aa") !== true) {
+  throw new Test262Error('#7: ("aB" <= aa") === true');
+}
+
+
+if (("\uD7FF" <= "\u{10000}") !== true) {
+  throw new Test262Error('#8: ("\\uD7FF" <= "\\u{10000}") === true');
+}
+
+
+if (("\uD800" <= "\uDC00") !== true) {
+  throw new Test262Error('#9: ("\\uD800" <= "\\uDC00") === true');
+}
+
+
+if (("\u{10000}" <= "\uFFFF") !== true) {
+  throw new Test262Error('#10: ("\\u{10000}" <= "\\uFFFF") === true');
+}
+
+
+if (("\u{10000}" <= "\u{12345}") !== true) {
+  throw new Test262Error('#11: ("\\u{10000}" <= "\\u{12345}") === true');
+}

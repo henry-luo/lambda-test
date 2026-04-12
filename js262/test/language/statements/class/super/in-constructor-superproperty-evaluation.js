@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-makesuperpropertyreference
+description: >
+  SuperProperty evaluation order: super() thisBinding initialization must occur first.
+---*/
+class Derived extends Object {
+  constructor() {
+    super[super()];
+    throw new Test262Error();
+  }
+}
+
+assert.throws(ReferenceError, function() {
+  new Derived();
+}, '`super[super()]` via `new Derived()` throws a ReferenceError');

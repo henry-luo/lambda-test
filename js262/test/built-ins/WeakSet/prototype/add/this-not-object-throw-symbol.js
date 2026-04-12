@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-weakset.prototype.add
+description: Throws TypeError if `this` is not Object.
+info: |
+  WeakSet.prototype.add ( value )
+
+  1. Let S be the this value.
+  2. If Type(S) is not Object, throw a TypeError exception.
+features: [Symbol]
+---*/
+
+assert.throws(TypeError, function() {
+  WeakSet.prototype.add.call(Symbol(), {});
+});
+
+assert.throws(TypeError, function() {
+  var s = new WeakSet();
+  s.add.call(Symbol(), {});
+});

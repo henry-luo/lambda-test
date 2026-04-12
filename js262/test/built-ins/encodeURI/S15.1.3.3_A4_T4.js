@@ -1,0 +1,27 @@
+
+
+/*---
+info: URI tests
+esid: sec-encodeuri-uri
+description: Test some url
+---*/
+
+
+if (encodeURI("") !== "") {
+  throw new Test262Error('#1: ""');
+}
+
+
+if (encodeURI("http://unipro.ru") !== "http://unipro.ru") {
+  throw new Test262Error('#2: http://unipro.ru');
+}
+
+
+if (encodeURI("http://www.google.ru/support/jobs/bin/static.py?page=why-ru.html&sid=liveandwork") !== "http://www.google.ru/support/jobs/bin/static.py?page=why-ru.html&sid=liveandwork") {
+  throw new Test262Error('#3: http://www.google.ru/support/jobs/bin/static.py?page=why-ru.html&sid=liveandwork"');
+}
+
+
+if (encodeURI("http://en.wikipedia.org/wiki/UTF-8#Description") !== "http://en.wikipedia.org/wiki/UTF-8#Description") {
+  throw new Test262Error('#4: http://en.wikipedia.org/wiki/UTF-8#Description');
+}

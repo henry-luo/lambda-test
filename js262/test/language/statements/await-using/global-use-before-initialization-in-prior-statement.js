@@ -1,0 +1,18 @@
+
+
+/*---
+esid: sec-declarative-environment-records-getbindingvalue-n-s
+description: >
+    await using: global use before initialization in prior statement.
+    (TDZ, Temporal Dead Zone)
+
+flags: [async]
+includes: [asyncHelpers.js]
+features: [explicit-resource-management]
+---*/
+
+asyncTest(async function() {
+  await assert.throwsAsync(ReferenceError, async function () {
+    x; await using x = null;
+  });
+});

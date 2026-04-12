@@ -1,0 +1,44 @@
+
+
+/*---
+info: |
+    Type(x) and Type(y) are String-s.
+    Return true, if x and y are exactly the same sequence of characters; otherwise, return false
+es5id: 11.9.2_A5.1
+description: x and y are primitive strings
+---*/
+
+
+if (("" != "") !== false) {
+  throw new Test262Error('#1: ("" != "") === false');
+}
+
+
+if ((" " != " ") !== false) {
+  throw new Test262Error('#2: " (" != " ") === false');
+}
+
+
+if ((" " != "") !== true) {
+  throw new Test262Error('#3: " (" != "") === true');
+}
+
+
+if (("string" != "string") !== false) {
+  throw new Test262Error('#4: ("string" != "string") === false');
+}
+
+
+if ((" string" != "string ") !== true) {
+  throw new Test262Error('#5: (" string" != "string ") === true');
+}
+
+
+if (("1.0" != "1") !== true) {
+  throw new Test262Error('#6: ("1.0" != "1") === true');
+}
+
+
+if (("0xff" != "255") !== true) {
+  throw new Test262Error('#7: ("0xff" != "255") === true');
+}

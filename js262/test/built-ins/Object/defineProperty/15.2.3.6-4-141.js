@@ -1,0 +1,17 @@
+
+
+/*---
+es5id: 15.2.3.6-4-141
+description: >
+    Object.defineProperty - 'O' is an Array, 'name' is the length
+    property of 'O', test RangeError exception is thrown when the
+    [[Value]] field of 'desc' is a string containing -Infinity
+    (15.4.5.1 step 3.c)
+---*/
+
+var arrObj = [];
+assert.throws(RangeError, function() {
+  Object.defineProperty(arrObj, "length", {
+    value: "-Infinity"
+  });
+});

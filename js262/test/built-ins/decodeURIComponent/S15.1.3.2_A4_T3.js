@@ -1,0 +1,27 @@
+
+
+/*---
+info: URI tests
+esid: sec-decodeuricomponent-encodeduricomponent
+description: Checking URL with Line Terminator
+---*/
+
+
+if (decodeURIComponent("http://unipro.ru/%0Aabout") !== "http://unipro.ru/\nabout") {
+  throw new Test262Error('#1: http://unipro.ru/%A0about');
+}
+
+
+if (decodeURIComponent("http://unipro.ru/%0Babout") !== "http://unipro.ru/\vabout") {
+  throw new Test262Error('#2: http://unipro.ru/%0Babout');
+}
+
+
+if (decodeURIComponent("http://unipro.ru/%0Cabout") !== "http://unipro.ru/\fabout") {
+  throw new Test262Error('#3: http://unipro.ru/%0Cabout');
+}
+
+
+if (decodeURIComponent("http://unipro.ru/%0Dabout") !== "http://unipro.ru/\rabout") {
+  throw new Test262Error('#4: http://unipro.ru/%0Dabout');
+}

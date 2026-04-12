@@ -1,0 +1,4 @@
+
+
+import "./dep-3_FIXTURE.js";
+import "./main.js";

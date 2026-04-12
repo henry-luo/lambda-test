@@ -1,0 +1,17 @@
+
+
+/*---
+includes: [compareArray.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+var re = /(?:(f)(o)(o)|(b)(a)(r))*/;
+var str = 'foobar';
+var actual = re.exec(str);
+
+assert.compareArray(actual, ['foobar', undefined, undefined, undefined, 'b', 'a', 'r']);
+assert.sameValue(actual.index, 0);
+assert.sameValue(actual.input, str);

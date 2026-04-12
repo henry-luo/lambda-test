@@ -1,0 +1,17 @@
+
+
+/*---
+es5id: 10.4.3-1-29-s
+description: >
+    Strict Mode - checking 'this' (Anonymous FunctionExpression
+    defined within a FunctionDeclaration inside strict mode)
+flags: [onlyStrict]
+---*/
+
+function f1() {
+    return ((function () {
+        return typeof this;
+    })()==="undefined") && ((typeof this)==="undefined");
+}
+
+assert(f1(), 'f1() !== true');

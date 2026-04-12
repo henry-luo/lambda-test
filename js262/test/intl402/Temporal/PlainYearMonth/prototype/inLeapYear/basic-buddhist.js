@@ -1,0 +1,43 @@
+
+
+/*---
+esid: sec-temporal.plainyearmonth.prototype.inleapyear
+description: Leap years in the Buddhist calendar
+features: [Temporal, Intl.Era-monthcode]
+---*/
+
+const calendar = "buddhist";
+const options = { overflow: "reject" };
+
+
+const leapYears = [
+  2515,
+  2519,
+  2523,
+  2527,
+  2531,
+  2535,
+  2539,
+  2543,
+  2547,
+  2551,
+  2555,
+  2559,
+  2563,
+  2567,
+  2571,
+  2575,
+  2579,
+  2583,
+  2587,
+  2591,
+];
+
+for (var year = 2513; year < 2593; year++) {
+    const date = Temporal.PlainYearMonth.from({
+        year,
+        month: 1,
+        calendar
+    });
+    assert.sameValue(date.inLeapYear, leapYears.includes(year));
+}

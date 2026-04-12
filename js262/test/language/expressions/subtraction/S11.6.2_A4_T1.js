@@ -1,0 +1,37 @@
+
+
+/*---
+info: Operator x - y produces the same result as x + (-y)
+es5id: 11.6.2_A4_T1
+description: If either operand is NaN, the result is NaN
+---*/
+
+
+if (isNaN(Number.NaN - 1) !== true ) {
+  throw new Test262Error('#1: NaN - 1 === Not-a-Number. Actual: ' + (NaN - 1));
+}
+
+
+if (isNaN(1 - Number.NaN) !== true ) {
+  throw new Test262Error('#2: 1 - NaN === Not-a-Number. Actual: ' + (1 - NaN));
+}
+
+
+if (isNaN(Number.NaN - Number.POSITIVE_INFINITY) !== true ) {
+  throw new Test262Error('#3: NaN - Infinity === Not-a-Number. Actual: ' + (NaN - Infinity));
+}
+
+
+if (isNaN(Number.POSITIVE_INFINITY - Number.NaN) !== true ) {
+  throw new Test262Error('#4: Infinity - NaN === Not-a-Number. Actual: ' + (Infinity - NaN));
+}
+
+
+if (isNaN(Number.NaN - Number.NEGATIVE_INFINITY) !== true ) {
+  throw new Test262Error('#5: NaN - Infinity === Not-a-Number. Actual: ' + (NaN - Infinity));
+}
+
+
+if (isNaN(Number.NEGATIVE_INFINITY - Number.NaN) !== true ) {
+  throw new Test262Error('#6: Infinity - NaN === Not-a-Number. Actual: ' + (Infinity - NaN));
+}

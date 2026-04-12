@@ -1,0 +1,30 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime.prototype.with
+description: Property bag with offset property is rejected if offset is in the wrong format
+features: [Temporal]
+---*/
+
+const instance = new Temporal.ZonedDateTime(0n, "UTC");
+
+const offsetOptions = ['use', 'prefer', 'ignore', 'reject'];
+
+const badOffsets = [
+  "00:00",    
+  "+0",       
+  "-000:00",  
+  0,          
+  null,       
+  true,       
+  1000n,      
+];
+offsetOptions.forEach((offsetOption) => {
+  badOffsets.forEach((offset) => {
+    assert.throws(
+      typeof(offset) === 'string' ? RangeError : TypeError,
+      () => instance.with({ offset }, { offset: offsetOption }),
+      `"${offset} is not a valid offset string (with ${offsetOption} offset option)`,
+    );
+  });
+});

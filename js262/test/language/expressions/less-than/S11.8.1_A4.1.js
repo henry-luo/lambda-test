@@ -1,0 +1,47 @@
+
+
+/*---
+info: If x is NaN, return false (if result in 11.8.5 is undefined, return false)
+es5id: 11.8.1_A4.1
+description: y is number primitive
+---*/
+
+
+if ((Number.NaN < 0) !== false) {
+  throw new Test262Error('#1: (NaN < 0) === false');
+}
+
+
+if ((Number.NaN < 1.1) !== false) {
+  throw new Test262Error('#2: (NaN < 1.1) === false');
+}
+
+
+if ((Number.NaN < -1.1) !== false) {
+  throw new Test262Error('#3: (NaN < -1.1) === false');
+}
+
+
+if ((Number.NaN < Number.NaN) !== false) {
+  throw new Test262Error('#4: (NaN < NaN) === false');
+}
+
+
+if ((Number.NaN < Number.POSITIVE_INFINITY) !== false) {
+  throw new Test262Error('#5: (NaN < +Infinity) === false');
+}
+
+
+if ((Number.NaN < Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#6: (NaN < -Infinity) === false');
+}
+
+
+if ((Number.NaN < Number.MAX_VALUE) !== false) {
+  throw new Test262Error('#7: (NaN < Number.MAX_VALUE) === false');
+}
+
+
+if ((Number.NaN < Number.MIN_VALUE) !== false) {
+  throw new Test262Error('#8: (NaN < Number.MIN_VALUE) === false');
+}

@@ -1,0 +1,3 @@
+
+
+throw { someError: "the error from throws_FIXTURE" }

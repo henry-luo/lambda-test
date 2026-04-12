@@ -1,0 +1,63 @@
+
+
+/*---
+description: Computed property name from decimal literal (ComputedPropertyName in ClassDeclaration)
+esid: prod-ComputedPropertyName
+features: [computed-property-names]
+flags: [generated]
+info: |
+    ClassExpression:
+      classBindingIdentifier opt ClassTail
+
+    ClassTail:
+      ClassHeritage opt { ClassBody opt }
+
+    ClassBody:
+      ClassElementList
+
+    ClassElementList:
+      ClassElement
+
+    ClassElement:
+      MethodDefinition
+
+    MethodDefinition:
+      PropertyName ...
+      get PropertyName ...
+      set PropertyName ...
+
+    PropertyName:
+      ComputedPropertyName
+
+    ComputedPropertyName:
+      [ AssignmentExpression ]
+---*/
+
+
+class C {
+  [1.1]() {
+    return 2;
+  }
+  static [1.1]() {
+    return 2;
+  }
+};
+
+let c = new C();
+
+assert.sameValue(
+  c[1.1](),
+  2
+);
+assert.sameValue(
+  C[1.1](),
+  2
+);
+assert.sameValue(
+  c[String(1.1)](),
+  2
+);
+assert.sameValue(
+  C[String(1.1)](),
+  2
+);

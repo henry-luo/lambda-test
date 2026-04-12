@@ -1,0 +1,3 @@
+
+
+export { default } from './instn-star-props-dflt-keep-indirect-def_FIXTURE.js';

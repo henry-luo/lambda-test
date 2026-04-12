@@ -1,0 +1,3 @@
+
+
+export * as namedns2 from './get-nested-namespace-dflt-skip-named-end_FIXTURE.js';

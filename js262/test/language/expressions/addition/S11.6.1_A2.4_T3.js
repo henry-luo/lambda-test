@@ -1,0 +1,18 @@
+
+
+/*---
+info: First expression is evaluated first, and then second expression
+es5id: 11.6.1_A2.4_T3
+description: Checking with undeclarated variables
+---*/
+
+
+try {
+  x + (x = 1);
+  throw new Test262Error('#1.1: x + (x = 1) throw ReferenceError. Actual: ' + (x + (x = 1)));  
+}
+catch (e) {
+  if ((e instanceof ReferenceError) !== true) {
+    throw new Test262Error('#1.2: x + (x = 1) throw ReferenceError. Actual: ' + (e));  
+  }
+}

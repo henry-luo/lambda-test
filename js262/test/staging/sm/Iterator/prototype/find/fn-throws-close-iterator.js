@@ -1,0 +1,30 @@
+
+
+/*---
+features:
+  - iterator-helpers
+info: |
+  Iterator is not enabled unconditionally
+description: |
+  pending
+esid: pending
+---*/
+
+class TestIterator extends Iterator {
+  next() {
+    return { done: this.closed };
+  }
+
+  closed = false;
+  return() {
+    this.closed = true;
+  }
+}
+
+const fn = (value) => { throw new Error(); };
+const iter = new TestIterator();
+
+assert.sameValue(iter.closed, false);
+assert.throws(Error, () => iter.find(fn));
+assert.sameValue(iter.closed, true);
+

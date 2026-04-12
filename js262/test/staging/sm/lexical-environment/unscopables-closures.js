@@ -1,0 +1,30 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+
+let env = {
+    x: 9000,
+    [Symbol.unscopables]: {x: true}
+};
+
+function make_adder(x) {
+    with (env)
+        return function (y) { return x + y; };
+}
+assert.sameValue(make_adder(3)(10), 13);
+
+
+let x = 500;
+function make_adder_with_eval() {
+    with (env)
+        return eval('y => eval("x + y")');
+}
+assert.sameValue(make_adder_with_eval()(10), 510);
+

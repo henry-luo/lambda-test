@@ -1,0 +1,20 @@
+
+
+/*---
+es5id: 15.2.3.7-5-b-185
+description: >
+    Object.defineProperties - value of 'writable' property of
+    'descObj' is Error object (8.10.5 step 6.b)
+---*/
+
+var obj = {};
+
+Object.defineProperties(obj, {
+  property: {
+    writable: new SyntaxError()
+  }
+});
+
+obj.property = "isWritable";
+
+assert.sameValue(obj.property, "isWritable", 'obj.property');

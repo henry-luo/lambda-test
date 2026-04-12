@@ -1,0 +1,27 @@
+
+
+/*---
+description: Syntax error if `super()` used in class field (computed ClassElementName)
+esid: sec-class-definitions-static-semantics-early-errors
+features: [class, class-fields-public]
+flags: [generated]
+negative:
+  phase: parse
+  type: SyntaxError
+info: |
+    Static Semantics: Early Errors
+
+      FieldDefinition:
+        PropertyNameInitializeropt
+
+      - It is a Syntax Error if Initializer is present and Initializer Contains SuperCall is true.
+
+---*/
+
+
+$DONOTEVALUATE();
+
+var x = "string";
+var C = class {
+  [x] = super();
+}

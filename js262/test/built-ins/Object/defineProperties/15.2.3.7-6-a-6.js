@@ -1,0 +1,32 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-6
+description: >
+    Object.defineProperties - 'P' is inherited accessor property
+    (8.12.9 step 1 )
+---*/
+
+var proto = {};
+Object.defineProperty(proto, "prop", {
+  get: function() {
+    return 11;
+  },
+  configurable: false
+});
+var Con = function() {};
+Con.prototype = proto;
+
+var obj = new Con();
+
+Object.defineProperties(obj, {
+  prop: {
+    get: function() {
+      return 12;
+    },
+    configurable: true
+  }
+});
+
+assert(obj.hasOwnProperty("prop"), 'obj.hasOwnProperty("prop") !== true');
+assert.sameValue(obj.prop, 12, 'obj.prop');

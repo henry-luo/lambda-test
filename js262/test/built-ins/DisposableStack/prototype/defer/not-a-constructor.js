@@ -1,0 +1,31 @@
+
+
+/*---
+esid: sec-disposablestack.prototype.defer
+description: >
+  DisposableStack.prototype.defer does not implement [[Construct]], is not new-able
+info: |
+  ECMAScript Function Objects
+
+  Built-in function objects that are not identified as constructors do not
+  implement the [[Construct]] internal method unless otherwise specified in
+  the description of a particular function.
+
+  sec-evaluatenew
+
+  ...
+  7. If IsConstructor(constructor) is false, throw a TypeError exception.
+  ...
+includes: [isConstructor.js]
+features: [Reflect.construct, explicit-resource-management, arrow-function]
+---*/
+
+assert.sameValue(
+  isConstructor(DisposableStack.prototype.defer),
+  false,
+  'isConstructor(DisposableStack.prototype.defer) must return false'
+);
+
+assert.throws(TypeError, () => {
+  let stack = new DisposableStack({}); new stack.defer();
+}, '`let stack = new DisposableStack({}); new stack.defer()` throws TypeError');

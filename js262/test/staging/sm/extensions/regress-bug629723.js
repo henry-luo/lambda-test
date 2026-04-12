@@ -1,0 +1,14 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+function f(foo) {
+    "use strict";
+    foo.bar;
+}
+
+assert.throws(TypeError, f);

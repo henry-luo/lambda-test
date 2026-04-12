@@ -1,0 +1,11 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+var o = {}
+eval('o.\\u82f1 = 42;');
+assert.sameValue(o['\u82f1'], 42);

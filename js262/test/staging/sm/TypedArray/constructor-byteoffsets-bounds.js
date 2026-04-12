@@ -1,0 +1,38 @@
+
+
+/*---
+includes: [sm/non262-TypedArray-shell.js]
+description: |
+  pending
+esid: pending
+---*/
+
+
+const ab = new ArrayBuffer(0);
+
+for (let TA of typedArrayConstructors) {
+    
+    assert.throws(RangeError, () => new TA(ab, 2**31 - TA.BYTES_PER_ELEMENT));
+    assert.throws(RangeError, () => new TA(ab, 2**31 - 1));
+    assert.throws(RangeError, () => new TA(ab, 2**31));
+    assert.throws(RangeError, () => new TA(ab, 2**31 + 1));
+    assert.throws(RangeError, () => new TA(ab, 2**31 + TA.BYTES_PER_ELEMENT));
+
+    
+    assert.throws(RangeError, () => new TA(ab, 2**32 - TA.BYTES_PER_ELEMENT));
+    assert.throws(RangeError, () => new TA(ab, 2**32 - 1));
+    assert.throws(RangeError, () => new TA(ab, 2**32));
+    assert.throws(RangeError, () => new TA(ab, 2**32 + 1));
+    assert.throws(RangeError, () => new TA(ab, 2**32 + TA.BYTES_PER_ELEMENT));
+
+    
+    assert.throws(RangeError, () => new TA(ab, 0, 2**31 - 1));
+    assert.throws(RangeError, () => new TA(ab, 0, 2**31));
+    assert.throws(RangeError, () => new TA(ab, 0, 2**31 + 1));
+
+    
+    assert.throws(RangeError, () => new TA(ab, 0, 2**32 - 1));
+    assert.throws(RangeError, () => new TA(ab, 0, 2**32));
+    assert.throws(RangeError, () => new TA(ab, 0, 2**32 + 1));
+}
+

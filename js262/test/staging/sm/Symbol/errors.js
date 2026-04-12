@@ -1,0 +1,19 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var sym = Symbol();
+
+
+assert.throws(TypeError, () => sym());
+assert.throws(TypeError, () => Function.prototype.call.call(sym));
+
+
+assert.throws(TypeError, () => new sym());
+assert.throws(TypeError, () => new Symbol());
+

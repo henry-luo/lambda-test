@@ -1,0 +1,28 @@
+
+
+/*---
+esid: sec-setintegritylevel
+description: Object.seal - inherited data properties are ignored
+---*/
+
+var proto = {};
+
+Object.defineProperty(proto, "Father", {
+  value: 10,
+  configurable: true
+});
+
+var ConstructFun = function() {};
+ConstructFun.prototype = proto;
+
+var child = new ConstructFun();
+var preCheck = Object.isExtensible(child);
+Object.seal(child);
+
+var beforeDeleted = proto.hasOwnProperty("Father");
+delete proto.Father;
+var afterDeleted = proto.hasOwnProperty("Father");
+
+assert(preCheck, 'preCheck !== true');
+assert(beforeDeleted, 'beforeDeleted !== true');
+assert.sameValue(afterDeleted, false, 'afterDeleted');

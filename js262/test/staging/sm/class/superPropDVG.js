@@ -1,0 +1,23 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+class testNonExistent {
+    constructor() {
+        super["prop"]();
+    }
+}
+
+
+assert.throws(TypeError, () => new testNonExistent());
+
+var ol = { testNonExistent() { super.prop(); } };
+assert.throws(TypeError, () => ol.testNonExistent());
+
+var olElem = { testNonExistent() { var prop = "prop"; super[prop](); } };
+assert.throws(TypeError, () => olElem.testNonExistent());

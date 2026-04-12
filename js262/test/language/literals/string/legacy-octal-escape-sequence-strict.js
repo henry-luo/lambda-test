@@ -1,0 +1,27 @@
+
+
+/*---
+esid: sec-template-literal-lexical-components
+description: LegacyOctalEscapeSequence is not available in template literals
+info: |
+  TemplateCharacter ::
+    $ [lookahead ≠ {]
+    \ TemplateEscapeSequence
+    \ NotEscapeSequence
+    LineContinuation
+    LineTerminatorSequence
+    SourceCharacter but not one of ` or \ or $ or LineTerminator
+  TemplateEscapeSequence ::
+    CharacterEscapeSequence
+    0 [lookahead ∉ DecimalDigit]
+    HexEscapeSequence
+    UnicodeEscapeSequence
+flags: [onlyStrict]
+negative:
+  phase: parse
+  type: SyntaxError
+---*/
+
+$DONOTEVALUATE();
+
+'\1';

@@ -1,0 +1,5 @@
+
+
+import { evaluated } from './verify-dfs.js';
+
+evaluated('B');

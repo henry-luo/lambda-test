@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-weakmap.prototype.set
+description: Throws TypeError if `this` is not Object.
+info: |
+  WeakMap.prototype.set ( key, value )
+
+  1. Let M be the this value.
+  2. If Type(M) is not Object, throw a TypeError exception.
+---*/
+
+assert.throws(TypeError, function() {
+  WeakMap.prototype.set.call(0, {}, 1);
+});
+
+assert.throws(TypeError, function() {
+  var map = new WeakMap();
+  map.set.call(0, {}, 1);
+});

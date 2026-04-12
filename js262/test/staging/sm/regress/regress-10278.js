@@ -1,0 +1,33 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+var BUGNUMBER = 10278;
+var summary = 'Function declarations do not need to be separated by semi-colon';
+var actual;
+var expect;
+
+
+test();
+
+
+function test()
+{
+  expect = 'pass';
+  try
+  {
+    eval("function f(){}function g(){}");
+    actual = "pass";
+  }
+  catch ( e )
+  {
+    actual = "fail";
+  }
+
+  assert.sameValue(expect, actual, summary);
+}

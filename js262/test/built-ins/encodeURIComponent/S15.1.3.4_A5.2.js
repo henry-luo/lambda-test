@@ -1,0 +1,26 @@
+
+
+/*---
+info: |
+    The length property of encodeURIComponent does not have the attribute
+    DontDelete
+esid: sec-encodeuricomponent-uricomponent
+description: Checking use hasOwnProperty, delete
+---*/
+
+
+if (encodeURIComponent.hasOwnProperty('length') !== true) {
+  throw new Test262Error('#1: encodeURIComponent.hasOwnProperty(\'length\') === true. Actual: ' + (encodeURIComponent.hasOwnProperty('length')));
+}
+
+delete encodeURIComponent.length;
+
+
+if (encodeURIComponent.hasOwnProperty('length') !== false) {
+  throw new Test262Error('#2: delete encodeURIComponent.length; encodeURIComponent.hasOwnProperty(\'length\') === false. Actual: ' + (encodeURIComponent.hasOwnProperty('length')));
+}
+
+
+if (encodeURIComponent.length === undefined) {
+  throw new Test262Error('#3: delete encodeURIComponent.length; encodeURIComponent.length !== undefined');
+}

@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-iteratorprototype.forEach
+description: >
+  Iterator.prototype.forEach throws TypeError when its this value is a non-object
+info: |
+  %Iterator.prototype%.forEach ( fn )
+
+features: [iterator-helpers]
+flags: []
+---*/
+assert.throws(TypeError, function () {
+  Iterator.prototype.forEach.call(null, () => {});
+});
+
+Object.defineProperty(Number.prototype, 'next', {
+  get: function () {
+    throw new Test262Error();
+  },
+});
+assert.throws(TypeError, function () {
+  Iterator.prototype.forEach.call(0, () => {});
+});

@@ -1,0 +1,24 @@
+
+
+/*---
+esid: sec-temporal.plaintime.prototype.with
+description: TypeError thrown when options argument is a primitive
+features: [BigInt, Symbol, Temporal]
+---*/
+
+const badOptions = [
+  null,
+  true,
+  "some string",
+  Symbol(),
+  1,
+  2n,
+];
+
+const instance = new Temporal.PlainTime();
+for (const value of badOptions) {
+  assert.throws(TypeError, () => instance.with({ minute: 45 }, value),
+    `TypeError on wrong options type ${typeof value}`);
+  assert.throws(RangeError, () => instance.with({ minute: Infinity }, value),
+    "Partial time processed before throwing TypeError");
+};

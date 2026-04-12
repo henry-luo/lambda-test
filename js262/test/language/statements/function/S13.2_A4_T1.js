@@ -1,0 +1,40 @@
+
+
+/*---
+info: |
+    When Function object(F) is constructed the following steps from 9 to 11 take place
+    9.Create a new object as would be constructed by the expression new Object().
+    10. Set the constructor property of Result(9) to F. This property is given attributes { DontEnum }.
+    11. Set the "prototype" property of F to Result(9).
+es5id: 13.2_A4_T1
+description: >
+    Checking prototype, prototype.constructor properties and
+    {DontEnum} property of a constructor.  Using "function __func(){}"
+    as a FunctionDeclaration
+---*/
+
+function __func(){};
+
+
+if (typeof __func.prototype !== 'object') {
+	throw new Test262Error('#1: typeof __func.prototype === \'object\'. Actual: typeof __gunc.prototype ==='+typeof __gunc.prototype);
+}
+
+
+if (__func.prototype.constructor !== __func) {
+	throw new Test262Error('#2: __func.prototype.constructor === __func. Actual: __gunc.prototype.constructor ==='+__gunc.prototype.constructor);
+}
+
+
+var __constructor_was__enumed;
+
+for (__prop in __func.prototype){
+    if (__prop === 'constructor')
+        __constructor_was__enumed = true;
+}
+
+
+if (__constructor_was__enumed) {
+	throw new Test262Error('#3: __constructor_was__enumed === false. Actual: __constructor_was__enumed ==='+__constructor_was__enumed);
+}
+

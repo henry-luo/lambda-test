@@ -1,0 +1,21 @@
+
+
+/*---
+esid: sec-array.prototype.reduceright
+description: >
+    Array.prototype.reduceRight throws TypeError when elements
+    assigned values are deleted and initialValue is not present
+---*/
+
+function callbackfn(prevVal, curVal, idx, obj)
+{}
+
+var arr = [1, 2, 3, 4, 5];
+delete arr[0];
+delete arr[1];
+delete arr[2];
+delete arr[3];
+delete arr[4];
+assert.throws(TypeError, function() {
+  arr.reduceRight(callbackfn);
+});

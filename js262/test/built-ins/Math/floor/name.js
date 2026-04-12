@@ -1,0 +1,26 @@
+
+
+/*---
+es6id: 20.2.2.16
+description: >
+  Math.floor.name is "floor".
+info: |
+  Math.floor ( x )
+
+  17 ECMAScript Standard Built-in Objects:
+    Every built-in Function object, including constructors, that is not
+    identified as an anonymous function has a name property whose value
+    is a String.
+
+    Unless otherwise specified, the name property of a built-in Function
+    object, if it exists, has the attributes { [[Writable]]: false,
+    [[Enumerable]]: false, [[Configurable]]: true }.
+includes: [propertyHelper.js]
+---*/
+
+verifyProperty(Math.floor, "name", {
+  value: "floor",
+  writable: false,
+  enumerable: false,
+  configurable: true
+});

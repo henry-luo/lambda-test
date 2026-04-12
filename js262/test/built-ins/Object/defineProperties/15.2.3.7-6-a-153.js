@@ -1,0 +1,19 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-153
+description: >
+    Object.defineProperties - 'O' is an Array, 'name' is the length
+    property of 'O', test RangeError is thrown when the [[Value]]
+    field of 'desc' is boundary value 2^32 + 1 (15.4.5.1 step 3.c)
+---*/
+
+var arr = [];
+assert.throws(RangeError, function() {
+  Object.defineProperties(arr, {
+    length: {
+      value: 4294967297
+    }
+  });
+});
+assert.sameValue(arr.length, 0, 'arr.length');

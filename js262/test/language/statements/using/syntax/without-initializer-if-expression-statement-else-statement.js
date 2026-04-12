@@ -1,0 +1,15 @@
+
+
+/*---
+esid: sec-if-statement
+description: >
+    using declarations without initialisers in statement positions:
+    if ( Expression ) Statement else Statement
+negative:
+  phase: parse
+  type: SyntaxError
+features: [explicit-resource-management]
+---*/
+
+$DONOTEVALUATE();
+if (true) {} else using x;

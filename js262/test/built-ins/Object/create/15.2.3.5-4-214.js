@@ -1,0 +1,22 @@
+
+
+/*---
+es5id: 15.2.3.5-4-214
+description: >
+    Object.create - 'writable' property of one property in
+    'Properties' is an empty string (8.10.5 step 6.b)
+includes: [propertyHelper.js]
+---*/
+
+var descObj = {
+  writable: ""
+};
+
+var newObj = Object.create({}, {
+  prop: descObj
+});
+
+verifyProperty(newObj, "prop", {
+  value: undefined,
+  writable: false,
+});

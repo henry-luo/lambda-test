@@ -1,0 +1,13 @@
+
+
+/*---
+info: String.prototype.charCodeAt(pos)
+es5id: 15.5.4.5_A1_T4
+description: Call charCodeAt() function without argument of string object
+---*/
+
+
+if ("smart".charCodeAt() !== 0x73) {
+  throw new Test262Error('#1: "smart".charCodeAt() === 0x73. Actual: "smart".charCodeAt() ===' + ("smart".charCodeAt()));
+}
+

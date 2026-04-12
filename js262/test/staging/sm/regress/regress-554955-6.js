@@ -1,0 +1,45 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+var v="global";
+function f(a) {
+  
+  
+  eval(a);
+  {
+    let b=3;
+    
+    
+    eval("");
+    return v;
+  };
+}
+
+
+assert.sameValue("global", f(""));
+
+
+assert.sameValue("local", f("var v='local'"));
+
+
+function f2(a) {
+  eval(a);
+  {
+    let b=3;
+    {
+      let c=4;
+      eval("");
+      return v;
+    };
+  };
+}
+
+assert.sameValue("global", f2(""));
+assert.sameValue("local",  f2("var v='local'"));
+

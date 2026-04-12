@@ -1,0 +1,42 @@
+
+
+/*---
+info: Operator !x returns !ToBoolean(x)
+es5id: 11.4.9_A3_T2
+description: Type(x) is number primitive or Number object
+---*/
+
+
+if (!0.1 !== false) {
+  throw new Test262Error('#1: !0.1 === false');
+}
+
+
+if (!new Number(-0.1) !== false) {
+  throw new Test262Error('#2: !new Number(-0.1) === false');
+}
+
+
+if (!NaN !== true) {
+  throw new Test262Error('#3: !NaN === true');
+}
+
+
+if (!new Number(NaN) !== false) {
+  throw new Test262Error('#4: !new Number(NaN) === false');
+}
+
+
+if (!0 !== true) {
+  throw new Test262Error('#5: !0 === true');
+}
+
+
+if (!new Number(0) !== false) {
+  throw new Test262Error('#6: !new Number(0) === false');
+}
+
+
+if (!Infinity !== false) {
+  throw new Test262Error('#7: !Infinity === false');
+}

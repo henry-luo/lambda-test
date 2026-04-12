@@ -1,0 +1,32 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+
+function f1() {
+    { function* g() {} }
+    assert.sameValue(typeof g, "undefined");
+}
+f1();
+
+
+{ function* g() {} }
+assert.sameValue(typeof g, "undefined");
+
+
+function f2() {
+    eval("{ function* g() {} }");
+    assert.sameValue(typeof g, "undefined");
+}
+f2();
+
+
+eval("{ function* g() {} }");
+assert.sameValue(typeof g, "undefined");
+

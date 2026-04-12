@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-array.prototype.reduceright
+description: Array.prototype.reduceRight applied to String object
+---*/
+
+var obj = new String("hello\nworld\\!");
+var accessed = false;
+
+function callbackfn(prevVal, curVal, idx, o) {
+  accessed = true;
+  return o instanceof String;
+}
+
+assert(Array.prototype.reduceRight.call(obj, callbackfn, "h"), 'Array.prototype.reduceRight.call(obj, callbackfn, "h") !== true');
+assert(accessed, 'accessed !== true');

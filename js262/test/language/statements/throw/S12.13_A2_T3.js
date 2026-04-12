@@ -1,0 +1,43 @@
+
+
+/*---
+info: |
+    "throw Expression" returns (throw, GetValue(Result(1)), empty), where 1
+    evaluates Expression
+es5id: 12.13_A2_T3
+description: Throwing boolean
+---*/
+
+
+try{
+  throw true;
+}
+catch(e){
+  if (e!==true) throw new Test262Error('#1: Exception ===true. Actual:  Exception ==='+ e  );
+}
+
+
+try{
+  throw false;
+}
+catch(e){
+  if (e!==false) throw new Test262Error('#2: Exception ===false. Actual:  Exception ==='+ e  );
+}
+
+
+var b=false;
+try{
+  throw b;
+}
+catch(e){
+  if (e!==false) throw new Test262Error('#3: Exception ===false. Actual:  Exception ==='+ e  );
+}
+
+
+var b=true;
+try{
+  throw b;
+}
+catch(e){
+  if (e!==true) throw new Test262Error('#4: Exception ===true. Actual:  Exception ==='+ e  );
+}

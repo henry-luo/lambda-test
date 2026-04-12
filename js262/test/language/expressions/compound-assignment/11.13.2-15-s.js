@@ -1,0 +1,13 @@
+
+
+/*---
+es5id: 11.13.2-15-s
+description: >
+    ReferenceError isn't thrown if the LeftHandSideExpression of a Compound
+    Assignment operator(>>>=) evaluates to a resolvable reference
+---*/
+
+        var _11_13_2_15 = 8
+        _11_13_2_15 >>>= 2;
+
+assert.sameValue(_11_13_2_15, 2, '_11_13_2_15');

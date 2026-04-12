@@ -1,0 +1,17 @@
+
+
+/*---
+esid: sec-temporal.plaindatetime.prototype.until
+description: Calendar ID is canonicalized
+features: [Temporal]
+---*/
+
+const instance = new Temporal.PlainDateTime(2024, 7, 2, 12, 34, 0, 0, 0, 0, "islamic-civil");
+
+[
+  "2024-07-02T12:34[u-ca=islamicc]",
+  { year: 1445, month: 12, day: 25, hour: 12, minute: 34, calendar: "islamicc" },
+].forEach((arg) => {
+  const result = instance.until(arg);  
+  assert(result.blank, "calendar ID is canonicalized");
+});

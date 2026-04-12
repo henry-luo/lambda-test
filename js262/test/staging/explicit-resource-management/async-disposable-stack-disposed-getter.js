@@ -1,0 +1,40 @@
+
+
+/*---
+description: Test `disposed` accessor property of AsyncDisposableStack.
+includes: [asyncHelpers.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+asyncTest(async function() {
+  
+  async function TestDisposableStackDisposedTrue() {
+    let stack = new AsyncDisposableStack();
+    const disposable = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        return 42;
+      }
+    };
+    stack.use(disposable);
+    stack.dispose();
+    assert.sameValue(stack.disposed, true, 'disposed should be true');
+  };
+
+  TestDisposableStackDisposedTrue();
+
+  
+  async function TestDisposableStackDisposedFalse() {
+    let stack = new AsyncDisposableStack();
+    const disposable = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        return 42;
+      }
+    };
+    stack.use(disposable);
+    assert.sameValue(stack.disposed, false, 'disposed should be false');
+  };
+  TestDisposableStackDisposedFalse();
+});

@@ -1,0 +1,7 @@
+
+
+globalThis.evaluations.push("tla start");
+
+await Promise.resolve(0);
+
+globalThis.evaluations.push("tla end");

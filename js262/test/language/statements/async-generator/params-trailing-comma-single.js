@@ -1,0 +1,37 @@
+
+
+/*---
+description: A trailing comma should not increase the respective length, using a single parameter (async generator function declaration)
+esid: sec-asyncgenerator-definitions-instantiatefunctionobject
+features: [async-iteration]
+flags: [generated, async]
+info: |
+    AsyncGeneratorDeclaration : async [no LineTerminator here] function * BindingIdentifier
+        ( FormalParameters ) { AsyncGeneratorBody }
+
+        [...]
+        3. Let F be ! AsyncGeneratorFunctionCreate(Normal, FormalParameters, AsyncGeneratorBody,
+            scope, strict).
+        [...]
+
+
+    Trailing comma in the parameters list
+
+    14.1 Function Definitions
+
+    FormalParameters[Yield, Await] : FormalParameterList[?Yield, ?Await] ,
+---*/
+
+
+var callCount = 0;
+
+async function* ref(a,) {
+  assert.sameValue(a, 42);
+  callCount = callCount + 1;
+}
+
+ref(42, 39).next().then(() => {
+    assert.sameValue(callCount, 1, 'generator function invoked exactly once');
+}).then($DONE, $DONE);
+
+assert.sameValue(ref.length, 1, 'length is properly set');

@@ -1,0 +1,31 @@
+
+
+/*---
+description: Test if disposed methods are called correctly with mixed resources
+includes: [asyncHelpers.js, compareArray.js]
+flags: [async]
+features: [explicit-resource-management]
+---*/
+
+
+asyncTest(async function() {
+  let mixValues = [];
+
+  {
+    await using x = {
+      value: 1,
+      [Symbol.asyncDispose]() {
+        mixValues.push(42);
+      }
+    };
+    using y = {
+      value: 1,
+      [Symbol.dispose]() {
+        mixValues.push(43);
+      }
+    };
+    mixValues.push(44);
+  }
+
+  assert.compareArray(mixValues, [44, 43, 42]);
+});

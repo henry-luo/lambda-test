@@ -1,0 +1,13 @@
+
+
+/*---
+esid: sec-temporal.instant.prototype.until
+description: Rounding can cross unit boundaries up to largestUnit
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+const earlier = new Temporal.Instant(0n);
+const later = new Temporal.Instant(7199_000_000_000n);
+const duration = earlier.until(later, { largestUnit: "hours", smallestUnit: "minutes", roundingMode: "expand" });
+TemporalHelpers.assertDuration(duration, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, "1:59 balances to 2 hours");

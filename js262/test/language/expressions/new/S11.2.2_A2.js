@@ -1,0 +1,31 @@
+
+
+/*---
+info: Operator "new" uses GetValue
+es5id: 11.2.2_A2
+description: >
+    If GetBase(NewExpression) or GetBase(MemberExpression) is null,
+    throw ReferenceError
+---*/
+
+
+try {
+  new x;
+  throw new Test262Error('#1.1: new x throw ReferenceError. Actual: ' + (new x));  
+}
+catch (e) {
+  if ((e instanceof ReferenceError) !== true) {
+    throw new Test262Error('#1.2: new x throw ReferenceError. Actual: ' + (e));  
+  }
+}
+
+
+try {
+  new x();
+  throw new Test262Error('#2: new x() throw ReferenceError'); 
+}
+catch (e) {
+  if ((e instanceof ReferenceError) !== true) {
+    throw new Test262Error('#2: new x() throw ReferenceError'); 
+  }
+}

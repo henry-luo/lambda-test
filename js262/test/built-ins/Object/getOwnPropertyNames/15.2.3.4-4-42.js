@@ -1,0 +1,28 @@
+
+
+/*---
+es5id: 15.2.3.4-4-42
+description: >
+    Object.getOwnPropertyNames - own data property of String object
+    'O' is pushed into the returned array
+---*/
+
+var propertyFound = false;
+
+var str = new String("abc");
+
+Object.defineProperty(str, "ownProperty", {
+  value: "ownString",
+  configurable: true
+});
+
+var result = Object.getOwnPropertyNames(str);
+
+for (var p in result) {
+  if (result[p] === "ownProperty") {
+    propertyFound = true;
+    break;
+  }
+}
+
+assert(propertyFound, 'Property not found');

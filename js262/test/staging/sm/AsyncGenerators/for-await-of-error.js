@@ -1,0 +1,23 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+var BUGNUMBER = 1391519;
+var summary = "for-await-of outside of async function should provide better error";
+
+assert.throws(
+    SyntaxError,
+    () => eval("for await (let x of []) {}"),
+    "for await (... of ...) is only valid in"
+);
+
+
+assert.throws(
+    SyntaxError,
+    () => eval("async function f() { for await await (let x of []) {} }"),
+    "missing ( after for"
+);
+

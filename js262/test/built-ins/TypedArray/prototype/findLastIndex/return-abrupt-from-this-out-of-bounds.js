@@ -1,0 +1,57 @@
+
+
+/*---
+esid: sec-%typedarray%.prototype.findlastindex
+description: Return abrupt when "this" value fails buffer boundary checks
+includes: [testTypedArray.js]
+features: [TypedArray, resizable-arraybuffer, array-find-from-last]
+---*/
+
+assert.sameValue(
+  typeof TypedArray.prototype.findLastIndex,
+  'function',
+  'implements TypedArray.prototype.findLastIndex'
+);
+
+assert.sameValue(
+  typeof ArrayBuffer.prototype.resize,
+  'function',
+  'implements ArrayBuffer.prototype.resize'
+);
+
+testWithTypedArrayConstructors(TA => {
+  var BPE = TA.BYTES_PER_ELEMENT;
+  var ab = new ArrayBuffer(BPE * 4, {maxByteLength: BPE * 5});
+  var array = new TA(ab, BPE, 2);
+
+  try {
+    ab.resize(BPE * 5);
+  } catch (_) {}
+
+  
+  array.findLastIndex(() => {});
+
+  try {
+    ab.resize(BPE * 3);
+  } catch (_) {}
+
+  
+  array.findLastIndex(() => {});
+
+  var expectedError;
+  try {
+    ab.resize(BPE * 3 - 1);
+    
+    
+    expectedError = TypeError;
+  } catch (_) {
+    
+    
+    expectedError = Test262Error;
+  }
+
+  assert.throws(expectedError, () => {
+    array.findLastIndex(() => {});
+    throw new Test262Error('findLastIndex completed successfully');
+  });
+}, null, ["passthrough"]);

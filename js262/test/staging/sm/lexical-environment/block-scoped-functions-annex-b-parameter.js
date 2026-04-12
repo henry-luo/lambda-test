@@ -1,0 +1,27 @@
+
+
+/*---
+flags:
+  - noStrict
+description: |
+  pending
+esid: pending
+---*/
+
+
+(function(f) {
+  if (true) function f() {  }
+  assert.sameValue(f, 123);
+}(123));
+
+(function(f) {
+  { function f() {  } }
+  assert.sameValue(f, 123);
+}(123));
+
+(function(f = 123) {
+  assert.sameValue(f, 123);
+  { function f() { } }
+  assert.sameValue(f, 123);
+}());
+

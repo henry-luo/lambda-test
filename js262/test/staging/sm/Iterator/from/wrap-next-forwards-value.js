@@ -1,0 +1,25 @@
+
+
+/*---
+features:
+  - iterator-helpers
+info: |
+  Iterator is not enabled unconditionally
+description: |
+  pending
+esid: pending
+---*/
+class Iter {
+  next(value) {
+    assert.sameValue(arguments.length, 0);
+    return { done: false, value };
+  }
+}
+
+const iter = new Iter();
+const wrap = Iterator.from(iter);
+assert.sameValue(iter !== wrap, true);
+
+assert.sameValue(iter.v, undefined);
+wrap.next(1);
+

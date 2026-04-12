@@ -1,0 +1,18 @@
+
+
+/*---
+info: The length property of the indexOf method is 1
+es5id: 15.5.4.7_A11
+description: Checking String.prototype.indexOf.length
+---*/
+
+
+if (!(String.prototype.indexOf.hasOwnProperty("length"))) {
+  throw new Test262Error('#1: String.prototype.indexOf.hasOwnProperty("length") return true. Actual: ' + String.prototype.indexOf.hasOwnProperty("length"));
+}
+
+
+if (String.prototype.indexOf.length !== 1) {
+  throw new Test262Error('#2: String.prototype.indexOf.length === 1. Actual: ' + String.prototype.indexOf.length);
+}
+

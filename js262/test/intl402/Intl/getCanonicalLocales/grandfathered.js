@@ -1,0 +1,31 @@
+
+
+/*---
+esid: sec-intl.getcanonicallocales
+description: >
+    Verifies canonicalization of specific tags.
+---*/
+
+
+const regularGrandfathered = [
+    {
+        tag: "art-lojban",
+        canonical: "jbo",
+    },
+    {
+        tag: "zh-guoyu",
+        canonical: "zh",
+    },
+    {
+        tag: "zh-hakka",
+        canonical: "hak",
+    },
+    {
+        tag: "zh-xiang",
+        canonical: "hsn",
+    },
+];
+
+for (const {tag, canonical} of regularGrandfathered) {
+    assert.sameValue(Intl.getCanonicalLocales(tag)[0], canonical);
+}

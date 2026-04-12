@@ -1,0 +1,18 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+---*/
+
+
+assert.throws(SyntaxError, () => eval(`var o = {#a: 0};`));
+assert.throws(SyntaxError, () => eval(`var o = {#a};`));
+assert.throws(SyntaxError, () => eval(`var o = {#a(){}};`));
+assert.throws(SyntaxError, () => eval(`var o = {get #a(){}};`));
+assert.throws(SyntaxError, () => eval(`var o = {set #a(v){}};`));
+assert.throws(SyntaxError, () => eval(`var o = {*#a(v){}};`));
+assert.throws(SyntaxError, () => eval(`var o = {async #a(v){}};`));
+assert.throws(SyntaxError, () => eval(`var o = {async *#a(v){}};`));
+

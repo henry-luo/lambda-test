@@ -1,0 +1,41 @@
+
+
+/*---
+description: |
+  pending
+esid: pending
+flags:
+  - module
+---*/
+
+
+assert.throws(TypeError, function() {
+  void (import.meta?.());
+});
+assert.throws(TypeError, function() {
+  void (import.meta?.p());
+});
+
+
+assert.throws(TypeError, function() {
+  void ((import.meta)?.());
+});
+assert.throws(TypeError, function() {
+  void ((import.meta)?.p());
+});
+
+
+assert.throws(TypeError, function() {
+  void (import("./optional-chain-first-expression-module_FIXTURE.js")?.());
+});
+assert.throws(TypeError, function() {
+  void (import("./optional-chain-first-expression-module_FIXTURE.js")?.p());
+});
+
+
+assert.throws(TypeError, function() {
+  void ((import("./optional-chain-first-expression-module_FIXTURE.js"))?.());
+});
+assert.throws(TypeError, function() {
+  void ((import("./optional-chain-first-expression-module_FIXTURE.js"))?.p());
+});

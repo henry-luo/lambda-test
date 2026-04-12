@@ -1,0 +1,11 @@
+
+
+/*---
+es5id: 15.2.3.5-1-4
+description: Object.create throws TypeError if 'O' is a number primitive
+---*/
+
+
+assert.throws(TypeError, function() {
+  Object.create(2);
+});

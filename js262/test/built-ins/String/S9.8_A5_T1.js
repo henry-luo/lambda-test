@@ -1,0 +1,107 @@
+
+
+/*---
+info: |
+    Result of String conversion from Object value is conversion
+    from primitive value
+es5id: 9.8_A5_T1
+description: Some objects convert to String by explicit transformation
+---*/
+
+
+if (String(new Number()) !== "0") {
+  throw new Test262Error('#1: String(new Number()) === "0". Actual: ' + (String(new Number())));
+}
+
+
+if (String(new Number(0)) !== "0") {
+  throw new Test262Error('#2: String(new Number(0)) === "0". Actual: ' + (String(new Number(0))));
+}
+
+
+if (String(new Number(Number.NaN)) !== "NaN") {
+  throw new Test262Error('#3: String(new Number(Number.NaN)) === Not-a-Number. Actual: ' + (String(new Number(Number.NaN))));
+}
+
+
+if (String(new Number(null)) !== "0") {
+  throw new Test262Error('#4: String(new Number(null)) === "0". Actual: ' + (String(new Number(null))));
+}
+
+
+if (String(new Number(void 0)) !== "NaN") {
+  throw new Test262Error('#5: String(new Number(void 0)) === Not-a-Number. Actual: ' + (String(new Number(void 0))));
+}
+
+
+if (String(new Number(true)) !== "1") {
+  throw new Test262Error('#6: String(new Number(true)) === "1". Actual: ' + (String(new Number(true))));
+}
+
+
+if (String(new Number(false)) !== "0") {
+  throw new Test262Error('#7: String(new Number(false)) === "0". Actual: ' + (String(new Number(false))));
+}
+
+
+if (String(new Boolean(true)) !== "true") {
+  throw new Test262Error('#8: String(new Boolean(true)) === "true". Actual: ' + (String(new Boolean(true))));
+}
+
+
+if (String(new Boolean(false)) !== "false") {
+  throw new Test262Error('#9: Number(new Boolean(false)) === "false". Actual: ' + (Number(new Boolean(false))));
+}
+
+
+if (String(new Array(2, 4, 8, 16, 32)) !== "2,4,8,16,32") {
+  throw new Test262Error('#10: String(new Array(2,4,8,16,32)) === "2,4,8,16,32". Actual: ' + (String(new Array(2, 4, 8, 16, 32))));
+}
+
+
+var myobj1 = {
+  toNumber: function() {
+    return 12345;
+  },
+  toString: function() {
+    return 67890;
+  },
+  valueOf: function() {
+    return "[object MyObj]";
+  }
+};
+
+if (String(myobj1) !== "67890") {
+  throw new Test262Error("#11: String(myobj) calls ToPrimitive with hint String");
+}
+
+
+var myobj2 = {
+  toNumber: function() {
+    return 12345;
+  },
+  toString: function() {
+    return {}
+  },
+  valueOf: function() {
+    return "[object MyObj]";
+  }
+};
+
+if (String(myobj2) !== "[object MyObj]") {
+  throw new Test262Error("#12: String(myobj) calls ToPrimitive with hint String");
+}
+
+
+var myobj3 = {
+  toNumber: function() {
+    return 12345;
+  },
+  valueOf: function() {
+    return "[object MyObj]";
+  }
+};
+
+if (String(myobj3) !== "[object Object]") {
+  throw new Test262Error("#13: String(myobj) calls ToPrimitive with hint String");
+}

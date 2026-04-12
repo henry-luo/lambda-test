@@ -1,0 +1,5 @@
+
+
+import defer * as depDeferredNamespace from "./dep_FIXTURE.js";
+
+export { depDeferredNamespace };

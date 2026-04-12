@@ -1,0 +1,46 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-311
+description: >
+    Object.defineProperties - 'O' is an Arguments object, 'P' is
+    generic own accessor property of 'O', test TypeError is thrown
+    when updating the [[Set]] attribute value of 'P' which is not
+    configurable (10.6 [[DefineOwnProperty]] step 4)
+includes: [propertyHelper.js]
+---*/
+
+var arg = (function() {
+  return arguments;
+}(1, 2, 3));
+
+function setFun(value) {
+  arg.genericPropertyString = value;
+}
+Object.defineProperty(arg, "genericProperty", {
+  set: setFun,
+  configurable: false
+});
+
+try {
+  Object.defineProperties(arg, {
+    "genericProperty": {
+      set: function(value) {
+        arg.genericPropertyString1 = value;
+      }
+    }
+  });
+
+  throw new Test262Error("Expected an exception.");
+} catch (e) {
+  verifyWritable(arg, "genericProperty", "genericPropertyString");
+
+  if (!(e instanceof TypeError)) {
+    throw new Test262Error("Expected TypeError, got " + e);
+  }
+}
+
+verifyProperty(arg, "genericProperty", {
+  enumerable: false,
+  configurable: false,
+});

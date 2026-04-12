@@ -1,0 +1,37 @@
+
+
+/*---
+info: If y is -Infinity and x !== y, return false
+es5id: 11.8.3_A4.8
+description: x is number primitive
+---*/
+
+
+if ((0 <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#1: (0 <= -Infinity) === false');
+}
+
+
+if ((1.1 <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#2: (1.1 <= -Infinity) === false');
+}
+
+
+if ((-1.1 <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#3: (-1.1 <= -Infinity) === false');
+}
+
+
+if ((Number.POSITIVE_INFINITY <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#4: (+Infinity <= -Infinity) === false');
+}
+
+
+if ((Number.MAX_VALUE <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#5: (Number.MAX_VALUE <= -Infinity) === false');
+}
+
+
+if ((Number.MIN_VALUE <= Number.NEGATIVE_INFINITY) !== false) {
+  throw new Test262Error('#6: (Number.MIN_VALUE <= -Infinity) === false');
+}

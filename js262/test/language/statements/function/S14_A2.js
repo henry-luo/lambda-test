@@ -1,0 +1,23 @@
+
+
+/*---
+info: FunctionDeclaration cannot be localed inside an Expression
+es5id: 14_A2
+description: Declaring a function within an "if" Expression
+---*/
+
+
+if (typeof f !== 'undefined') {
+	throw new Test262Error('#1: typeof f === \'undefined\'. Actual:  typeof f ==='+ typeof f  );
+}
+
+
+if (function f(arg){
+	if (arg===0)
+	   return 1;
+	else
+	   return f(arg-1)*arg;
+}(3)!==6) {
+	throw new Test262Error('#2: FunctionDeclaration cannot be localed inside an Expression');
+};
+

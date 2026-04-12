@@ -1,0 +1,22 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.add
+description: >
+  AddDuration computes on exact mathematical number values.
+includes: [temporalHelpers.js]
+features: [Temporal]
+---*/
+
+
+let duration1 = Temporal.Duration.from({microseconds: Number.MAX_SAFE_INTEGER + 1, nanoseconds: 0});
+let duration2 = Temporal.Duration.from({microseconds: 1, nanoseconds: 1000});
+
+TemporalHelpers.assertDuration(
+  duration1.add(duration2),
+  0, 0, 0, 0,
+  0, 0, 0, 0,
+  9007199254740994,
+  0,
+  "duration1.add(duration2)"
+);

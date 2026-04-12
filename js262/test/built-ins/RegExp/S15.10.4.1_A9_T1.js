@@ -1,0 +1,20 @@
+
+
+/*---
+info: |
+    If P's characters do not have the form Pattern, then throw a SyntaxError
+    exception
+es5id: 15.10.4.1_A9_T1
+description: Pattern is "??"
+---*/
+
+try {
+    throw new Test262Error('#1.1: new RegExp("??") throw SyntaxError. Actual: ' + (new RegExp("??")));
+} catch (e) {
+  assert.sameValue(
+    e instanceof SyntaxError,
+    true,
+    'The result of evaluating (e instanceof SyntaxError) is expected to be true'
+  );
+}
+

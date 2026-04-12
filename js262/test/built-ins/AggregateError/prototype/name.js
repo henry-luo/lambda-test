@@ -1,0 +1,23 @@
+
+
+/*---
+esid: sec-aggregate-error.prototype.name
+description: >
+  The `AggregateError.prototype.name` property descriptor.
+info: |
+  The initial value of AggregateError.prototype.name is "AggregateError".
+
+  17 ECMAScript Standard Built-in Objects:
+
+  Every other data property described (...) has the attributes { [[Writable]]: true,
+    [[Enumerable]]: false, [[Configurable]]: true } unless otherwise specified.
+includes: [propertyHelper.js]
+features: [AggregateError]
+---*/
+
+verifyProperty(AggregateError.prototype, 'name', {
+  value: 'AggregateError',
+  enumerable: false,
+  writable: true,
+  configurable: true
+});

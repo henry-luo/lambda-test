@@ -1,0 +1,54 @@
+
+
+/*---
+info: |
+    Type(x) and Type(y) are Object-s.
+    Return true, if x and y are references to the same Object; otherwise, return false
+es5id: 11.9.2_A7.1
+description: >
+    Checking Boolean object, Number object, String object, Object
+    object
+---*/
+
+
+if ((new Boolean(true) != new Boolean(true)) !== true) {
+  throw new Test262Error('#1: (new Boolean(true) != new Boolean(true)) === true');
+}
+
+
+if ((new Number(1) != new Number(1)) !== true) {
+  throw new Test262Error('#2: (new Number(1) != new Number(1)) === true');
+}
+
+
+if ((new String("x") != new String("x")) !== true) {
+  throw new Test262Error('#3: (new String("x") != new String("x")) === true');
+}
+
+
+if ((new Object() != new Object()) !== true) {
+  throw new Test262Error('#4: (new Object() != new Object()) === true');
+}
+
+
+var x, y;
+x = {}; 
+y = x;
+if ((x != y) !== false) {
+  throw new Test262Error('#5: x = {}; y = x; (x != y) === false');
+}
+
+
+if ((new Boolean(true) != new Number(1)) !== true) {
+  throw new Test262Error('#6 (new Boolean(true) != new Number(1)) === true');
+}
+
+
+if ((new Number(1) != new String("1")) !== true) {
+  throw new Test262Error('#7: (new Number(1) != new String("1")) === true');
+}
+
+
+if ((new String("1") != new Boolean(true)) !== true) {
+  throw new Test262Error('#8: (new String("x") != new Boolean(true)) === true');
+}

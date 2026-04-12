@@ -1,0 +1,7 @@
+
+
+import { evaluated, check } from './verify-dfs.js';
+
+check(import('./verify-dfs-b_FIXTURE.js'));
+
+evaluated('A');

@@ -1,0 +1,42 @@
+
+
+/*---
+info: Operator ~x returns ~ToInt32(x)
+es5id: 11.4.8_A3_T2
+description: Type(x) is number primitive or Number object
+---*/
+
+
+if (~0.1 !== -1) {
+  throw new Test262Error('#1: ~0.1 === -1. Actual: ' + (~0.1));
+}
+
+
+if (~new Number(-0.1) !== -1) {
+  throw new Test262Error('#2: ~new Number(-0.1) === -1. Actual: ' + (~new Number(-0.1)));
+}
+
+
+if (~NaN !== -1) {
+  throw new Test262Error('#3: ~NaN === -1. Actual: ' + (~NaN));
+}
+
+
+if (~new Number(NaN) !== -1) {
+  throw new Test262Error('#4: ~new Number(NaN) === -1. Actual: ' + (~new Number(NaN)));
+}
+
+
+if (~1 !== -2) {
+  throw new Test262Error('#5: ~1 === -2. Actual: ' + (~1));
+}
+
+
+if (~new Number(-2) !== 1) {
+  throw new Test262Error('#6: ~new Number(-2) === 1. Actual: ' + (~new Number(-2)));
+}
+
+
+if (~Infinity !== -1) {
+  throw new Test262Error('#7: ~Infinity === -1. Actual: ' + (~Infinity));
+}

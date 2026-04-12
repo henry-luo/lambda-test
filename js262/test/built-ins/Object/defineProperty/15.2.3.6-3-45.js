@@ -1,0 +1,24 @@
+
+
+/*---
+es5id: 15.2.3.6-3-45
+description: >
+    Object.defineProperty - 'Attributes' is the global object that
+    uses Object's [[Get]] method to access the 'enumerable' property
+    (8.10.5 step 3.a)
+---*/
+
+var obj = {};
+var accessed = false;
+
+this.enumerable = true;
+
+Object.defineProperty(obj, "property", this);
+
+for (var prop in obj) {
+  if (prop === "property") {
+    accessed = true;
+  }
+}
+
+assert(accessed, 'accessed !== true');

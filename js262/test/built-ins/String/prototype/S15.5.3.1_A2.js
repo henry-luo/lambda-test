@@ -1,0 +1,29 @@
+
+
+/*---
+info: The String.prototype property has the attribute DontEnum
+es5id: 15.5.3.1_A2
+description: Checking if enumerating the String.prototype property fails
+---*/
+
+
+if (!(String.hasOwnProperty('prototype'))) {
+  throw new Test262Error('#0: String.hasOwnProperty(\'prototype\') return true. Actual: ' + String.hasOwnProperty('prototype'));
+}
+
+
+if (String.propertyIsEnumerable('prototype')) {
+  throw new Test262Error('#1: String.propertyIsEnumerable(\'prototype\') return false. Actual: ' + String.propertyIsEnumerable('prototype'));
+}
+
+
+var count = 0;
+
+for (var p in String) {
+  if (p === "prototype") count++;
+}
+
+if (count !== 0) {
+  throw new Test262Error('#2: count=0; for (p in String){ if (p==="prototype") count++;}; count === 0. Actual: count ===' + count);
+}
+

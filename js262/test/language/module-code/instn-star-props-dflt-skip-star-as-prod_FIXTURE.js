@@ -1,0 +1,3 @@
+
+
+export * as production from './instn-star-props-dflt-skip-star-as-prod-end_FIXTURE.js';

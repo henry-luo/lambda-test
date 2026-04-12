@@ -1,0 +1,20 @@
+
+
+/*---
+esid: sec-temporal.plaindatetime.prototype.withcalendar
+description: The "withCalendar" property of Temporal.PlainDateTime.prototype
+includes: [propertyHelper.js]
+features: [Temporal]
+---*/
+
+assert.sameValue(
+  typeof Temporal.PlainDateTime.prototype.withCalendar,
+  "function",
+  "`typeof PlainDateTime.prototype.withCalendar` is `function`"
+);
+
+verifyProperty(Temporal.PlainDateTime.prototype, "withCalendar", {
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});

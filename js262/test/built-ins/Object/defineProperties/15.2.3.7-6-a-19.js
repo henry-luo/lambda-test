@@ -1,0 +1,38 @@
+
+
+/*---
+es5id: 15.2.3.7-6-a-19
+description: >
+    Object.defineProperties - 'O' is a RegExp object which implements
+    its own [[GetOwnProperty]] method to get 'P' (8.12.9 step 1 )
+includes: [propertyHelper.js]
+---*/
+
+
+var obj = new RegExp();
+
+Object.defineProperty(obj, "prop", {
+  value: 11,
+  configurable: false
+});
+
+try {
+  Object.defineProperties(obj, {
+    prop: {
+      value: 12,
+      configurable: true
+    }
+  });
+  throw new Test262Error("Expected an exception.");
+} catch (e) {
+  if (!(e instanceof TypeError)) {
+    throw new Test262Error("Expected TypeError, got " + e);
+  }
+}
+
+verifyProperty(obj, "prop", {
+  value: 11,
+  writable: false,
+  enumerable: false,
+  configurable: false,
+});
