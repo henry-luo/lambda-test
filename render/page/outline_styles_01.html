@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 3px; }
+  .box { margin-bottom: 3px; }
+  .o1 {
+    width: 40px; height: 18px;
+    background: #3498db;
+    outline: 2px solid #e74c3c;
+    margin: 5px;
+  }
+  .o2 {
+    width: 40px; height: 18px;
+    background: #2ecc71;
+    outline: 2px dashed #8e44ad;
+    outline-offset: 3px;
+    margin: 8px;
+  }
+  .o3 {
+    width: 70px; height: 18px;
+    background: #f39c12;
+    outline: 3px dotted #2c3e50;
+    outline-offset: -2px;
+    margin: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="box o1"></div>
+  <div class="box o2"></div>
+  <div class="box o3"></div>
+</body>
+</html>

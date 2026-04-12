@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  svg { width: 90px; height: 90px; margin: 5px; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+    <!-- Translate -->
+    <rect x="0" y="0" width="15" height="15" fill="#e74c3c"
+          transform="translate(5,5)"/>
+    <!-- Rotate -->
+    <rect x="0" y="0" width="15" height="15" fill="#3498db"
+          transform="translate(50,20) rotate(30)"/>
+    <!-- Scale -->
+    <rect x="0" y="0" width="10" height="10" fill="#2ecc71"
+          transform="translate(10,50) scale(2)"/>
+    <!-- Combined -->
+    <circle cx="0" cy="0" r="8" fill="#f39c12"
+            transform="translate(70,65) scale(1.2)"/>
+  </svg>
+</body>
+</html>

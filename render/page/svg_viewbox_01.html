@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  svg { width: 90px; height: 45px; margin: 5px 5px 0 5px; }
+</style>
+</head>
+<body>
+  <!-- viewBox smaller than viewport: scales up -->
+  <svg viewBox="0 0 30 15" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="2" width="10" height="10" fill="#e74c3c"/>
+    <circle cx="22" cy="7" r="5" fill="#3498db"/>
+  </svg>
+  <!-- viewBox with different aspect ratio -->
+  <svg viewBox="0 0 90 15" xmlns="http://www.w3.org/2000/svg"
+       width="90px" height="45px" preserveAspectRatio="xMidYMid meet">
+    <rect x="0" y="0" width="90" height="15" fill="#ecf0f1"/>
+    <rect x="5" y="2" width="20" height="10" fill="#2ecc71"/>
+    <rect x="35" y="2" width="20" height="10" fill="#f39c12"/>
+    <rect x="65" y="2" width="20" height="10" fill="#9b59b6"/>
+  </svg>
+</body>
+</html>

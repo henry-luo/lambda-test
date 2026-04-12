@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  svg { width: 90px; height: 90px; margin: 5px; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+    <!-- Path with lines -->
+    <path d="M5,5 L40,5 L40,40 Z" fill="#e74c3c"/>
+    <!-- Path with curves -->
+    <path d="M50,5 C60,5 85,20 85,40" stroke="#3498db" stroke-width="2" fill="none"/>
+    <!-- Closed path -->
+    <path d="M10,55 L30,50 L45,65 L35,85 L15,80 Z" fill="#2ecc71"/>
+    <!-- Polyline -->
+    <polyline points="55,55 65,50 75,60 85,55 85,85 55,85"
+              fill="none" stroke="#8e44ad" stroke-width="2"/>
+  </svg>
+</body>
+</html>
