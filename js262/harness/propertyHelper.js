@@ -120,6 +120,7 @@ function verifyProperty(obj, name, desc, options) {
 }
 
 function isConfigurable(obj, name) {
+  var desc = Object.getOwnPropertyDescriptor(obj, name);
   try {
     delete obj[name];
   } catch (e) {
@@ -127,7 +128,13 @@ function isConfigurable(obj, name) {
       throw new Test262Error("Expected TypeError, got " + e);
     }
   }
-  return !__hasOwnProperty(obj, name);
+  var configurable = !__hasOwnProperty(obj, name);
+  // Restore the property if it was actually deleted, so that
+  // subsequent tests in the same batch process are not affected.
+  if (configurable && desc) {
+    __defineProperty(obj, name, desc);
+  }
+  return configurable;
 }
 
 function isEnumerable(obj, name) {
