@@ -346,9 +346,47 @@ async function main() {
         }
     }
 
+    // Remove moved tests from source baseline.txt if it exists
+    const sourceBaselinePath = path.join(dataSourceDir, 'baseline.txt');
+    let baselineRemoved = 0;
+    if (fs.existsSync(sourceBaselinePath)) {
+        const movedNames = new Set(movable.filter((_, i) => i < movedCount).map(m => m.testName));
+        // Re-check: use the actual moved set (all movable entries up to movedCount were moved in order)
+        const movedSet = new Set();
+        for (let i = 0, moved = 0; i < movable.length && moved < movedCount; i++) {
+            const targetPath = path.join(dataTargetDir, movable[i].htmlFile);
+            if (fs.existsSync(targetPath)) {
+                movedSet.add(movable[i].testName);
+                moved++;
+            }
+        }
+
+        const lines = fs.readFileSync(sourceBaselinePath, 'utf8').split('\n');
+        const filtered = [];
+        for (const line of lines) {
+            const name = line.trim();
+            if (name && movedSet.has(name)) {
+                baselineRemoved++;
+            } else {
+                filtered.push(line);
+            }
+        }
+        if (baselineRemoved > 0) {
+            // Remove trailing empty lines, keep single trailing newline
+            while (filtered.length > 0 && filtered[filtered.length - 1].trim() === '') {
+                filtered.pop();
+            }
+            fs.writeFileSync(sourceBaselinePath, filtered.join('\n') + '\n');
+            log(GREEN, `  ✓ Removed ${baselineRemoved} entry(s) from ${sourceBaselinePath}`);
+        }
+    }
+
     console.log('');
     log(BLUE, '═══════════════════════════════════════════════════════════');
     log(GREEN, `✓ Successfully moved ${movedCount} test(s)`);
+    if (baselineRemoved > 0) {
+        log(GREEN, `✓ Removed ${baselineRemoved} entry(s) from source baseline.txt`);
+    }
     if (skippable.length > 0) {
         log(YELLOW, `⊘ Skipped ${skippable.length} test(s) with external dependencies`);
     }

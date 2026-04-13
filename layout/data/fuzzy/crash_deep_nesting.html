@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- Regression test: deeply nested DOM caused stack overflow (SIGSEGV in layout_flow_node recursion) -->
+<html>
+<head><meta charset="utf-8">
+<style>div { padding: 1px; }</style>
+</head>
+<body>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+deep content
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</body>
+</html>

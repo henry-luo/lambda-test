@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- Regression test: nested flex containers caused infinite multipass recursion (timeout in layout_flex_container_with_nested_content) -->
+<html>
+<head><meta charset="utf-8">
+<style>
+.flex { display: flex; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="flex" style="width: 200px;">
+  <div class="flex" style="flex: 1;">
+    <div class="flex" style="flex: 1;">
+      <div class="flex" style="flex: 1;">
+        <div class="flex" style="flex: 1;">
+          <div class="flex" style="flex: 1;">
+            <div class="flex" style="flex: 1;">
+              <div class="flex" style="flex: 1;">
+                <div class="flex" style="flex: 1;">
+                  <div class="flex" style="flex: 1;">
+                    <div class="flex" style="flex: 1;">
+                      <div class="flex" style="flex: 1;">
+                        <div class="flex" style="flex: 1;">
+                          <div class="flex" style="flex: 1;">
+                            <div class="flex" style="flex: 1;">
+                              <div class="flex" style="flex: 1;">
+                                <div class="flex" style="flex: 1;">
+                                  <div>Deeply nested flex</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

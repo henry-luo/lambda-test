@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  /* Outer container clips with overflow hidden + border-radius */
+  .outer {
+    width: 80px; height: 80px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #ecf0f1;
+  }
+  /* Inner container with its own clip + overflow hidden */
+  .inner {
+    width: 60px; height: 60px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #3498db;
+  }
+  /* Content that exceeds inner bounds */
+  .deep {
+    width: 100px; height: 100px;
+    background: linear-gradient(45deg, #e74c3c, #f39c12);
+  }
+</style>
+</head>
+<body>
+  <div class="outer">
+    <div class="inner">
+      <div class="deep"></div>
+    </div>
+  </div>
+</body>
+</html>

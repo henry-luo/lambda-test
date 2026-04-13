@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 5px; }
+  .box { width: 80px; height: 18px; margin-bottom: 4px; }
+  .r1 { border-radius: 5px; background: #e74c3c; border: 2px solid #c0392b; }
+  .r2 { border-radius: 10px; background: #3498db; border: 2px solid #2980b9; }
+  .r3 { border-radius: 50%; background: #2ecc71; border: 3px solid #27ae60;
+        width: 30px; height: 30px; }
+  .r4 { border-radius: 10px; background: #f39c12; border: 2px solid #e67e22;
+        width: 80px; height: 14px; }
+</style>
+</head>
+<body>
+  <div class="box r1"></div>
+  <div class="box r2"></div>
+  <div style="display: flex; align-items: center; gap: 5px;">
+    <div class="r3"></div>
+    <div class="r4"></div>
+  </div>
+</body>
+</html>
