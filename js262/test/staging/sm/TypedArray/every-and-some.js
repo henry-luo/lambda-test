@@ -1,16 +1,13 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js, deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js, deepEqual.js]
 flags:
   - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
-var otherGlobal = $262.createRealm().global;
-
 
 for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(constructor.prototype.every.length, 1);
@@ -88,14 +85,14 @@ for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(count, 3);
 
     
-    assert.throws(TypeError, () => {
+    assertThrowsInstanceOf(() => {
         arr.every();
-    });
+    }, TypeError);
     var invalidCallbacks = [undefined, null, 1, false, "", Symbol(), [], {}, /./];
     invalidCallbacks.forEach(callback => {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             arr.every(callback);
-        });
+        }, TypeError);
     })
 
     
@@ -104,18 +101,20 @@ for (var constructor of anyTypedArrayConstructors) {
     });
 
     
-    var every = otherGlobal[constructor.name].prototype.every;
-    var sum = 0;
-    assert.sameValue(every.call(new constructor([1, 2, 3]), v => sum += v), true);
-    assert.sameValue(sum, 6);
+    if (typeof createNewGlobal === "function") {
+        var every = createNewGlobal()[constructor.name].prototype.every;
+        var sum = 0;
+        assert.sameValue(every.call(new constructor([1, 2, 3]), v => sum += v), true);
+        assert.sameValue(sum, 6);
+    }
 
     
     var invalidReceivers = [undefined, null, 1, false, "", Symbol(), [], {}, /./,
                             new Proxy(new constructor(), {})];
     invalidReceivers.forEach(invalidReceiver => {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             constructor.prototype.every.call(invalidReceiver, () => true);
-        }, "Assert that every fails if this value is not a TypedArray");
+        }, TypeError, "Assert that every fails if this value is not a TypedArray");
     });
 
     
@@ -209,14 +208,14 @@ for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(count, 3);
 
     
-    assert.throws(TypeError, () => {
+    assertThrowsInstanceOf(() => {
         arr.some();
-    });
+    }, TypeError);
     var invalidCallbacks = [undefined, null, 1, false, "", Symbol(), [], {}, /./];
     invalidCallbacks.forEach(callback => {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             arr.some(callback);
-        });
+        }, TypeError);
     })
 
     
@@ -225,21 +224,23 @@ for (var constructor of anyTypedArrayConstructors) {
     });
 
     
-    var some = otherGlobal[constructor.name].prototype.some;
-    var sum = 0;
-    assert.sameValue(some.call(new constructor([1, 2, 3]), v => {
-        sum += v;
-        return false;
-    }), false);
-    assert.sameValue(sum, 6);
+    if (typeof createNewGlobal === "function") {
+        var some = createNewGlobal()[constructor.name].prototype.some;
+        var sum = 0;
+        assert.sameValue(some.call(new constructor([1, 2, 3]), v => {
+            sum += v;
+            return false;
+        }), false);
+        assert.sameValue(sum, 6);
+    }
 
     
     var invalidReceivers = [undefined, null, 1, false, "", Symbol(), [], {}, /./,
                             new Proxy(new constructor(), {})];
     invalidReceivers.forEach(invalidReceiver => {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             constructor.prototype.some.call(invalidReceiver, () => true);
-        }, "Assert that some fails if this value is not a TypedArray");
+        }, TypeError, "Assert that some fails if this value is not a TypedArray");
     });
 
     

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimend
+esid: sec-string.prototype.trimEnd
 description: >
   String.prototype.trimEnd.name is "trimEnd".
 info: >

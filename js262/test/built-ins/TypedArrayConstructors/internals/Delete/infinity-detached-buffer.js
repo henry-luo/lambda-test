@@ -29,4 +29,4 @@ testWithTypedArrayConstructors(function(TA) {
   $DETACHBUFFER(sample.buffer);
 
   assert.sameValue(delete sample.Infinity, true, 'The value of `delete sample.Infinity` is true');
-}, null, ["passthrough"]);
+});

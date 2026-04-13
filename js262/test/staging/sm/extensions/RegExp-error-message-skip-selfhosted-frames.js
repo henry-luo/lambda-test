@@ -1,16 +1,18 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 for (let name of ["test", Symbol.match, Symbol.replace, Symbol.search]) {
     let methodName = typeof name === "symbol" ? `[${name.description}]` : name;
-    assert.throws(
-        TypeError,
+    assertThrowsInstanceOfWithMessage(
         () => RegExp.prototype[name].call({}),
+        TypeError,
         `${methodName} method called on incompatible Object`);
 }
 

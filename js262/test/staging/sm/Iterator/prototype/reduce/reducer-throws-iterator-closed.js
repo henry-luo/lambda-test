@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -25,6 +28,6 @@ const reducer = (x, y) => { throw new Error(); };
 const iter = new TestIterator();
 
 assert.sameValue(iter.closed, false);
-assert.throws(Error, () => iter.reduce(reducer));
+assertThrowsInstanceOf(() => iter.reduce(reducer), Error);
 assert.sameValue(iter.closed, true);
 

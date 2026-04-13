@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -13,5 +16,6 @@ class A {
   }
 }
 
-var a = new A;
+a = new A;
 assert.sameValue(a.g(), 14);
+

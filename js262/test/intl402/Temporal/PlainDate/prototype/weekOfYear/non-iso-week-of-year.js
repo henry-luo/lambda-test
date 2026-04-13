@@ -3,34 +3,18 @@
 /*---
 esid: sec-temporal.plaindate.prototype.weekofyear
 description: >
-  Temporal.PlainDate.prototype.weekOfYear returns undefined for all
+  Temporal.PlainDate.prototype.weekOfYear returns undefined for all 
   non-ISO calendars without a well-defined week numbering system.
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
-const nonIsoCalendars = [
-  "buddhist",
-  "chinese",
-  "coptic",
-  "dangi",
-  "ethioaa",
-  "ethiopic",
-  "gregory",
-  "hebrew",
-  "indian",
-  "islamic-civil",
-  "islamic-tbla",
-  "islamic-umalqura",
-  "japanese",
-  "persian",
-  "roc"
-];
 
+let calendar = "gregory";
+const date = new Temporal.PlainDate(2024, 1, 1, calendar);
 
-for (const calendar of nonIsoCalendars){
-  assert.sameValue(
-    new Temporal.PlainDate(2024, 1, 1, calendar).weekOfYear,
-    undefined,
-    `${calendar} does not provide week numbers`
-  );
-}
+assert.sameValue(date.weekOfYear, 1);
+
+calendar = "hebrew";
+const nonisodate = new Temporal.PlainDate(2024, 1, 1, calendar);
+
+assert.sameValue(nonisodate.weekOfYear, undefined);

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.at
+esid: sec-String.prototype.at
 description: >
   Returns the item value at the specified relative index
 info: |

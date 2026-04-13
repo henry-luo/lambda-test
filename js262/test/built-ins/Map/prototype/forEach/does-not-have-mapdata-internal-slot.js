@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   Throws a TypeError if `this` object does not have a [[MapData]] internal slot.
 info: |

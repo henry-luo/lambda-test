@@ -20,9 +20,9 @@ features: [Reflect]
 var o = {};
 assert.sameValue(
   Reflect.preventExtensions(o), true,
-  'returns true after preventing extensions on an object'
+  'returns true after preventing extentions on an object'
 );
 assert.sameValue(
   Reflect.preventExtensions(o), true,
-  'returns true even if the object already prevents extensions'
+  'returns true even if the object already prevents extentions'
 );

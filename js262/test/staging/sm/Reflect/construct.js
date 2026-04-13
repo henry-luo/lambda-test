@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/non262-Reflect-shell.js, deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -47,7 +49,7 @@ g = Derived.bind(null, "q");
 assert.deepEqual(Reflect.construct(g, [8, 9]), new g(8, 9));
 
 
-var g = $262.createRealm().global;
+var g = createNewGlobal();
 var local = {here: this};
 g.eval("function F(arg) { this.arg = arg }");
 assert.deepEqual(Reflect.construct(g.F, [local]), new g.F(local));
@@ -64,8 +66,8 @@ var nonConstructors = [
     new Proxy(Reflect.construct, {construct(){}}),
 ];
 for (var obj of nonConstructors) {
-    assert.throws(TypeError, () => Reflect.construct(obj, []));
-    assert.throws(TypeError, () => Reflect.construct(obj, [], Object));
+    assertThrowsInstanceOf(() => Reflect.construct(obj, []), TypeError);
+    assertThrowsInstanceOf(() => Reflect.construct(obj, [], Object), TypeError);
 }
 
 
@@ -86,7 +88,7 @@ for (var ctor of constructors) {
 
 
 for (var v of SOME_PRIMITIVE_VALUES.concat(nonConstructors)) {
-    assert.throws(TypeError, () => Reflect.construct(checkNewTarget, [], v));
+    assertThrowsInstanceOf(() => Reflect.construct(checkNewTarget, [], v), TypeError);
 }
 
 

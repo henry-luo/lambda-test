@@ -13,7 +13,7 @@ info: |
     b. Let kValue be ? Get(O, Pk).
     c. Let selected be ToBoolean(? Call(callbackfn, T, « kValue, k, O »)).
   ...
-includes: [detachArrayBuffer.js, testTypedArray.js]
+includes: [detachArrayBuffer.js, testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
@@ -33,4 +33,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   });
 
   assert.sameValue(loops, 2);
-}, null, ["passthrough"]);
+});

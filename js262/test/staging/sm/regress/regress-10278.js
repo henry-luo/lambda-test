@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -18,15 +21,20 @@ test();
 
 function test()
 {
+  printBugNumber(BUGNUMBER);
+  printStatus (summary);
+
   expect = 'pass';
   try
   {
     eval("function f(){}function g(){}");
     actual = "pass";
+    printStatus('no exception thrown');
   }
   catch ( e )
   {
     actual = "fail";
+    printStatus('exception ' + e.toString() + ' thrown');
   }
 
   assert.sameValue(expect, actual, summary);

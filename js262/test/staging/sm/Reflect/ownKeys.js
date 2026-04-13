@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -32,11 +34,11 @@ var cases = [
      keys: ["0", "8", "773",  
             "str", "-1", "second str", 
             sym, sym2]}, 
-    {object: $262.createRealm().global.Math,  
+    {object: createNewGlobal().Math,  
      keys: Reflect.ownKeys(Math)}
 ];
 for (var {object, keys} of cases)
-    assert.compareArray(Reflect.ownKeys(object), keys);
+    assert.deepEqual(Reflect.ownKeys(object), keys);
 
 
 var object = {}, keys = [];
@@ -53,7 +55,7 @@ proxy = new Proxy(obj, {
     ownKeys() { return keys; }
 });
 var actual = Reflect.ownKeys(proxy);
-assert.compareArray(actual, keys);  
+assert.deepEqual(actual, keys);  
 assert.sameValue(actual !== keys, true);  
 
 
@@ -61,5 +63,5 @@ var obj = Object.preventExtensions({});
 var proxy = new Proxy(obj, {
     ownKeys() { return ["something"]; }
 });
-assert.throws(TypeError, () => Reflect.ownKeys(proxy));
+assertThrowsInstanceOf(() => Reflect.ownKeys(proxy), TypeError);
 

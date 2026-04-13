@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -19,11 +22,11 @@ assert.sameValue(Object.getPrototypeOf(obj), null);
 
 
 obj = {};
-assert.throws(TypeError, () => Reflect.setPrototypeOf(obj));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(obj), TypeError);
 
 
 for (proto of [undefined, false, 0, 1.6, "that", Symbol.iterator]) {
-    assert.throws(TypeError, () => Reflect.setPrototypeOf(obj, proto));
+    assertThrowsInstanceOf(() => Reflect.setPrototypeOf(obj, proto), TypeError);
 }
 
 

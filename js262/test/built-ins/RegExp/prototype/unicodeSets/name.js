@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-get-regexp.prototype.unicodesets
+esid: sec-get-regexp.prototype.unicodeSets
 description: >
   RegExp.prototype.unicodeSets name
 info: |

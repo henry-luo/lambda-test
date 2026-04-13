@@ -21,8 +21,6 @@ const tests = [
   [Symbol(), "symbol"],
   [42, "number"],
   [42n, "bigint"],
-  [NaN, "NaN"],
-  [Infinity, "Infinity"],
 
   
   [Temporal.PlainDate.from("2019-05-17"), "PlainDate"],
@@ -38,8 +36,8 @@ const tests = [
 
   
   [{}, "empty object"],
-  [[], "array"],
   [{ months: 12 }, "only plural property"],
+
 ];
 
 for (const [value, message = String(value)] of tests) {

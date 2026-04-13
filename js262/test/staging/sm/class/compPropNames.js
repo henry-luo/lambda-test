@@ -1,27 +1,37 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js]
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Computed Property Names
-info: bugzilla.mozilla.org/show_bug.cgi?id=924688
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 924688;
+var summary = 'Computed Property Names';
+
+print(BUGNUMBER + ": " + summary);
 
 
 function syntaxError (script) {
-    assert.throws(SyntaxError, function() {
+    try {
         Function(script);
-    });
+    } catch (e) {
+        if (e instanceof SyntaxError) {
+            return;
+        }
+    }
+    throw new Error('Expected syntax error: ' + script);
 }
 
 
-assert.throws(ReferenceError, function() { var a = {[field1]: "a", [field2]: "b"}; });
+assertThrowsInstanceOf(function() { var a = {[field1]: "a", [field2]: "b"}; }, ReferenceError);
 
-assert.throws(ReferenceError, function() {
+assertThrowsInstanceOf(function() {
                            field1 = 1;
                            var a = {[field1]: "a", [field2]: "b"};
-                       });
+                       }, ReferenceError);
 
 var f1 = 1;
 var f2 = 2;
@@ -67,13 +77,13 @@ syntaxError("({[if (0) 0;]})");
 syntaxError("function f() { {[x]: 1} }");  
 syntaxError("function f() { [x]: 1 }");    
 syntaxError('a = {[f1@]: "a", [f2]: "b"}'); 
-assert.throws(SyntaxError, function() {
-    JSON.parse('{["a"]:4}');
-});
+try { JSON.parse('{["a"]:4}'); } catch(e) {
+    if (!(e instanceof SyntaxError)) throw new Error('Expected syntax error');
+}
 
 
 a = { ["b"] : 4 };
-var b = Object.getOwnPropertyDescriptor(a, "b");
+b = Object.getOwnPropertyDescriptor(a, "b");
 assert.sameValue(b.configurable, true);
 assert.sameValue(b.enumerable, true);
 assert.sameValue(b.writable, true);
@@ -218,7 +228,7 @@ assert.sameValue(a[expr], 5);
 assertThrowsValue(() => { a[expr] = 7; }, 4);
 
 
-var log = "";
+log = "";
 obj = {
     "a": log += 'a',
     get [log += 'b']() {},
@@ -236,3 +246,4 @@ obj = {
 assert.sameValue(obj.hey, 1);
 assert.sameValue(obj[4], 2);
 assertThrowsValue(() => { obj.x = 7; }, 3);
+

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.compareexchange
+esid: sec-atomics.compareExchange
 description: >
   TypedArray type is validated before `expectedValue` argument is coerced.
 info: |

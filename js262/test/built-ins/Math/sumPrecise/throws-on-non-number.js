@@ -48,14 +48,14 @@ assert.throws(TypeError, function () {
 assert.sameValue(coercions, 0);
 
 var nextCalls = 0;
-var returnCalls = 0;
+var closed = false;
 var iterator = {
   next: function () {
     ++nextCalls;
     return { done: false, value: objectWithValueOf };
   },
   return: function () {
-    ++returnCalls;
+    closed = true;
     return {};
   }
 };
@@ -70,4 +70,4 @@ assert.throws(TypeError, function () {
 });
 assert.sameValue(coercions, 0);
 assert.sameValue(nextCalls, 1);
-assert.sameValue(returnCalls, 1);
+assert.sameValue(closed, true);

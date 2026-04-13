@@ -1,21 +1,33 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
-  Object.getOwnPropertyNames: array objects
-info: bugzilla.mozilla.org/show_bug.cgi?id=518663
+  pending
 esid: pending
 ---*/
 
+var BUGNUMBER = 518663;
+var summary = 'Object.getOwnPropertyNames: array objects';
+
+print(BUGNUMBER + ": " + summary);
+
+
 var a, names, expected;
+
+function arraysEqual(a1, a2)
+{
+  return a1.length === a2.length &&
+         a1.every(function(v, i) { return v === a2[i]; });
+}
+
 
 a = [0, 1, 2];
 
 names = Object.getOwnPropertyNames(a).sort();
 expected = ["0", "1", "2", "length"].sort();
-assert.compareArray(names, expected);
-
 
 a = [1, , , 7];
 a.p = 2;
@@ -23,11 +35,14 @@ Object.defineProperty(a, "q", { value: 42, enumerable: false });
 
 names = Object.getOwnPropertyNames(a).sort();
 expected = ["0", "3", "p", "q", "length"].sort();
-assert.compareArray(names, expected);
+assert.sameValue(arraysEqual(names, expected), true);
 
 
 a = [];
 
 names = Object.getOwnPropertyNames(a).sort();
 expected = ["length"];
-assert.compareArray(names, expected);
+assert.sameValue(arraysEqual(names, expected), true);
+
+
+print("All tests passed!");

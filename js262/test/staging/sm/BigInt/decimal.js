@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -31,3 +34,4 @@ for (const [power, offset, sign, result] of decimalTests) {
     assert.sameValue(((2n**power+offset)*sign).toString(),
              result);
 }
+

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -18,5 +21,5 @@ class TestIterator extends Iterator {
 
 const iter = new TestIterator();
 
-assert.throws(Error, () => iter.toArray());
+assertThrowsInstanceOf(() => iter.toArray(), Error);
 

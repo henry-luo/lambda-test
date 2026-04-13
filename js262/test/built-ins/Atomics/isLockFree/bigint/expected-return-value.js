@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.islockfree
+esid: sec-atomics.isLockFree
 description: >
   Atomics.isLockFree returns a boolean that indicates whether
   operations on datum of size will be performed without the agent
@@ -18,7 +18,7 @@ info: |
   7. Return false.
 
 features: [Atomics, BigInt, SharedArrayBuffer, TypedArray]
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 ---*/
 
 testWithBigIntTypedArrayConstructors(function(TA) {
@@ -29,5 +29,5 @@ testWithBigIntTypedArrayConstructors(function(TA) {
     observed,
     'Atomics.isLockFree(TA.BYTES_PER_ELEMENT) returns the value of `observed` (Atomics.isLockFree(TA.BYTES_PER_ELEMENT))'
   );
-}, null, ["passthrough"]);
+});
 

@@ -1,17 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 var obj = { method() { } };
-assert.throws(TypeError, () => {
+assertThrowsInstanceOf(() => {
     new obj.method;
-});
+}, TypeError);
 
 obj = { constructor() { } };
-assert.throws(TypeError, () => {
+assertThrowsInstanceOf(() => {
     new obj.constructor;
-});
+}, TypeError);
 

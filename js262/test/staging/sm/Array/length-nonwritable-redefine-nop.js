@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  No-op array length redefinition
-info: bugzilla.mozilla.org/show_bug.cgi?id=858381
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 858381;
+var summary = "No-op array length redefinition";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var arr;
 
@@ -49,3 +57,6 @@ Object.defineProperty(arr, "length", { writable: false, configurable: false });
 Object.defineProperty(arr, "length", { writable: false, value: 8 });
 Object.defineProperty(arr, "length", { configurable: false, value: 8 });
 Object.defineProperty(arr, "length", { writable: false, configurable: false, value: 8 });
+
+
+print("Tests complete");

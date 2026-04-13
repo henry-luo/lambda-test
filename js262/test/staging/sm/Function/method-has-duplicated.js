@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -10,16 +13,16 @@ function f0(a) {
 }
 
 
-assert.throws(SyntaxError, () => eval(`
+assertThrowsInstanceOf(() => eval(`
 ({
   m1(a, a) {
   }
 });
-`));
-assert.throws(SyntaxError, () => eval(`
+`), SyntaxError);
+assertThrowsInstanceOf(() => eval(`
 ({
   m2(a, ...a) {
   }
 });
-`));
+`), SyntaxError);
 

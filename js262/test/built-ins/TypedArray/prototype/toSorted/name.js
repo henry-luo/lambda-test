@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.tosorted
+esid: sec-%typedarray%.prototype.toSorted
 description: >
   %TypedArray%.prototype.toSorted.name is "toSorted".
 info: |

@@ -1,13 +1,31 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
-  Function.prototype.call
-info: bugzilla.mozilla.org/show_bug.cgi?id=575535
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 575535;
+var summary = 'Function.prototype.call';
+print(BUGNUMBER + ": " + summary);
+
+
+function expectTypeError(fun, msg)
+{
+  try
+  {
+    fun();
+    assert.sameValue(true, false, "should have thrown a TypeError");
+  }
+  catch (e)
+  {
+    assert.sameValue(e instanceof TypeError, true, msg + "; instead threw " + e);
+  }
+}
 
 function fun() { }
 
@@ -25,7 +43,7 @@ for (var i = 0, sz = nonfuns.length; i < sz; i++)
   };
   var msg =
     "expected TypeError calling Function.prototype.call with uncallable this";
-  assert.throws(TypeError, f, msg);
+  expectTypeError(f, msg);
 }
 
 
@@ -104,3 +122,6 @@ strictSome.call("foo", obj);
 
 seenThis = obj;
 strictSome.call(obj, obj);
+
+
+print("All tests passed!");

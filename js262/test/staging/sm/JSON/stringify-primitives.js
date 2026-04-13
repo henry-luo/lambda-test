@@ -1,11 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 
 var x = JSON.stringify({});
 assert.sameValue(x, "{}");
@@ -38,3 +40,6 @@ assert.sameValue(x, '"asdf"');
 assert.sameValue(JSON.stringify(undefined), undefined);
 assert.sameValue(JSON.stringify(function(){}), undefined);
 assert.sameValue(JSON.stringify(JSON.stringify), undefined);
+
+
+print("Tests complete");

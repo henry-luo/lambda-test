@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.prototype.normalize - normalize no String object
-info: bugzilla.mozilla.org/show_bug.cgi?id=918987
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 918987;
+var summary = 'String.prototype.normalize - normalize no String object';
+
+print(BUGNUMBER + ": " + summary);
 
 function test() {
   var myobj = {
@@ -19,3 +25,4 @@ if ("normalize" in String.prototype) {
   
   test();
 }
+

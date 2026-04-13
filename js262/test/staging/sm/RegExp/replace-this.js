@@ -1,12 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  RegExp.prototype[@@replace] should check |this| value.
-info: bugzilla.mozilla.org/show_bug.cgi?id=887016
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 887016;
+var summary = "RegExp.prototype[@@replace] should check |this| value.";
+
+print(BUGNUMBER + ": " + summary);
 
 for (var v of [null, 1, true, undefined, "", Symbol.iterator]) {
-  assert.throws(TypeError, () => RegExp.prototype[Symbol.replace].call(v));
+  assertThrowsInstanceOf(() => RegExp.prototype[Symbol.replace].call(v),
+                         TypeError);
 }
+

@@ -6,7 +6,6 @@ description: |
     property descriptors.
 defines:
   - verifyProperty
-  - verifyCallableProperty
   - verifyEqualTo # deprecated
   - verifyWritable # deprecated
   - verifyNotWritable # deprecated
@@ -15,14 +14,11 @@ defines:
   - verifyConfigurable # deprecated
   - verifyNotConfigurable # deprecated
   - verifyPrimordialProperty
-  - verifyPrimordialCallableProperty
 ---*/
 
 
 var __isArray = Array.isArray;
 var __defineProperty = Object.defineProperty;
-var __getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-var __getOwnPropertyNames = Object.getOwnPropertyNames;
 var __join = Function.prototype.call.bind(Array.prototype.join);
 var __push = Function.prototype.call.bind(Array.prototype.push);
 var __hasOwnProperty = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
@@ -36,7 +32,7 @@ function verifyProperty(obj, name, desc, options) {
     'verifyProperty should receive at least 3 arguments: obj, name, and descriptor'
   );
 
-  var originalDesc = __getOwnPropertyDescriptor(obj, name);
+  var originalDesc = Object.getOwnPropertyDescriptor(obj, name);
   var nameStr = String(name);
 
   
@@ -68,7 +64,7 @@ function verifyProperty(obj, name, desc, options) {
     "The desc argument should be an object or undefined, " + String(desc)
   );
 
-  var names = __getOwnPropertyNames(desc);
+  var names = Object.getOwnPropertyNames(desc);
   for (var i = 0; i < names.length; i++) {
     assert(
       names[i] === "value" ||
@@ -85,38 +81,36 @@ function verifyProperty(obj, name, desc, options) {
 
   if (__hasOwnProperty(desc, 'value')) {
     if (!isSameValue(desc.value, originalDesc.value)) {
-      __push(failures, "obj['" + nameStr + "'] descriptor value should be " + desc.value);
+      __push(failures, "descriptor value should be " + desc.value);
     }
     if (!isSameValue(desc.value, obj[name])) {
-      __push(failures, "obj['" + nameStr + "'] value should be " + desc.value);
+      __push(failures, "object value should be " + desc.value);
     }
   }
 
-  if (__hasOwnProperty(desc, 'enumerable') && desc.enumerable !== undefined) {
+  if (__hasOwnProperty(desc, 'enumerable')) {
     if (desc.enumerable !== originalDesc.enumerable ||
         desc.enumerable !== isEnumerable(obj, name)) {
-      __push(failures, "obj['" + nameStr + "'] descriptor should " + (desc.enumerable ? '' : 'not ') + "be enumerable");
+      __push(failures, 'descriptor should ' + (desc.enumerable ? '' : 'not ') + 'be enumerable');
     }
   }
 
   
-  if (__hasOwnProperty(desc, 'writable') && desc.writable !== undefined) {
+  if (__hasOwnProperty(desc, 'writable')) {
     if (desc.writable !== originalDesc.writable ||
         desc.writable !== isWritable(obj, name)) {
-      __push(failures, "obj['" + nameStr + "'] descriptor should " + (desc.writable ? '' : 'not ') + "be writable");
+      __push(failures, 'descriptor should ' + (desc.writable ? '' : 'not ') + 'be writable');
     }
   }
 
-  if (__hasOwnProperty(desc, 'configurable') && desc.configurable !== undefined) {
+  if (__hasOwnProperty(desc, 'configurable')) {
     if (desc.configurable !== originalDesc.configurable ||
         desc.configurable !== isConfigurable(obj, name)) {
-      __push(failures, "obj['" + nameStr + "'] descriptor should " + (desc.configurable ? '' : 'not ') + "be configurable");
+      __push(failures, 'descriptor should ' + (desc.configurable ? '' : 'not ') + 'be configurable');
     }
   }
 
-  if (failures.length) {
-    assert(false, __join(failures, '; '));
-  }
+  assert(!failures.length, __join(failures, '; '));
 
   if (options && options.restore) {
     __defineProperty(obj, name, originalDesc);
@@ -197,52 +191,6 @@ function isWritable(obj, name, verifyProp, value) {
 }
 
 
-function verifyCallableProperty(obj, name, functionName, functionLength, desc, options) {
-  var value = obj[name];
-
-  assert.sameValue(typeof value, "function",
-    "obj['" + String(name) + "'] descriptor should be a function");
-
-  
-  if (desc === undefined) {
-    desc = {
-      writable: true,
-      enumerable: false,
-      configurable: true,
-      value: value
-    };
-  } else if (!__hasOwnProperty(desc, "value") && !__hasOwnProperty(desc, "get")) {
-    desc.value = value;
-  }
-
-  verifyProperty(obj, name, desc, options);
-
-  if (functionName === undefined) {
-    if (typeof name === "symbol") {
-      functionName = "[" + name.description + "]";
-    } else {
-      functionName = name;
-    }
-  }
-  
-  
-  verifyProperty(value, "name", {
-    value: functionName,
-    writable: false,
-    enumerable: false,
-    configurable: desc.configurable
-  }, options);
-
-  
-  verifyProperty(value, "length", {
-    value: functionLength,
-    writable: false,
-    enumerable: false,
-    configurable: desc.configurable
-  }, options);
-}
-
-
 function verifyEqualTo(obj, name, value) {
   if (!isSameValue(obj[name], value)) {
     throw new Test262Error("Expected obj[" + String(name) + "] to equal " + value +
@@ -253,7 +201,7 @@ function verifyEqualTo(obj, name, value) {
 
 function verifyWritable(obj, name, verifyProp, value) {
   if (!verifyProp) {
-    assert(__getOwnPropertyDescriptor(obj, name).writable,
+    assert(Object.getOwnPropertyDescriptor(obj, name).writable,
          "Expected obj[" + String(name) + "] to have writable:true.");
   }
   if (!isWritable(obj, name, verifyProp, value)) {
@@ -264,7 +212,7 @@ function verifyWritable(obj, name, verifyProp, value) {
 
 function verifyNotWritable(obj, name, verifyProp, value) {
   if (!verifyProp) {
-    assert(!__getOwnPropertyDescriptor(obj, name).writable,
+    assert(!Object.getOwnPropertyDescriptor(obj, name).writable,
          "Expected obj[" + String(name) + "] to have writable:false.");
   }
   if (isWritable(obj, name, verifyProp)) {
@@ -274,7 +222,7 @@ function verifyNotWritable(obj, name, verifyProp, value) {
 
 
 function verifyEnumerable(obj, name) {
-  assert(__getOwnPropertyDescriptor(obj, name).enumerable,
+  assert(Object.getOwnPropertyDescriptor(obj, name).enumerable,
        "Expected obj[" + String(name) + "] to have enumerable:true.");
   if (!isEnumerable(obj, name)) {
     throw new Test262Error("Expected obj[" + String(name) + "] to be enumerable, but was not.");
@@ -283,7 +231,7 @@ function verifyEnumerable(obj, name) {
 
 
 function verifyNotEnumerable(obj, name) {
-  assert(!__getOwnPropertyDescriptor(obj, name).enumerable,
+  assert(!Object.getOwnPropertyDescriptor(obj, name).enumerable,
        "Expected obj[" + String(name) + "] to have enumerable:false.");
   if (isEnumerable(obj, name)) {
     throw new Test262Error("Expected obj[" + String(name) + "] NOT to be enumerable, but was.");
@@ -292,7 +240,7 @@ function verifyNotEnumerable(obj, name) {
 
 
 function verifyConfigurable(obj, name) {
-  assert(__getOwnPropertyDescriptor(obj, name).configurable,
+  assert(Object.getOwnPropertyDescriptor(obj, name).configurable,
        "Expected obj[" + String(name) + "] to have configurable:true.");
   if (!isConfigurable(obj, name)) {
     throw new Test262Error("Expected obj[" + String(name) + "] to be configurable, but was not.");
@@ -301,7 +249,7 @@ function verifyConfigurable(obj, name) {
 
 
 function verifyNotConfigurable(obj, name) {
-  assert(!__getOwnPropertyDescriptor(obj, name).configurable,
+  assert(!Object.getOwnPropertyDescriptor(obj, name).configurable,
        "Expected obj[" + String(name) + "] to have configurable:false.");
   if (isConfigurable(obj, name)) {
     throw new Test262Error("Expected obj[" + String(name) + "] NOT to be configurable, but was.");
@@ -310,6 +258,3 @@ function verifyNotConfigurable(obj, name) {
 
 
 var verifyPrimordialProperty = verifyProperty;
-
-
-var verifyPrimordialCallableProperty = verifyCallableProperty;

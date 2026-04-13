@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimend
+esid: sec-string.prototype.trimEnd
 description: TrimEnd removes all line terminators from the end of a string.
 info: |
   Runtime Symantics: TrimString ( string, where )

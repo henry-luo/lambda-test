@@ -1,11 +1,22 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Don't assert when JSON.stringify is passed a revocable proxy to an array, then that proxy is revoked midflight during stringification
-info: bugzilla.mozilla.org/show_bug.cgi?id=1196497
+  pending
 esid: pending
 ---*/
+var gTestfile = "json-stringify-replacer-array-revocable-proxy.js";
+
+var BUGNUMBER = 1196497;
+var summary =
+  "Don't assert when JSON.stringify is passed a revocable proxy to an array, " +
+  "then that proxy is revoked midflight during stringification";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var arr = [];
 var { proxy, revoke } = Proxy.revocable(arr, {
@@ -22,3 +33,6 @@ var { proxy, revoke } = Proxy.revocable(arr, {
 });
 
 assert.sameValue(JSON.stringify({a: 0}, proxy), "{}");
+
+
+print("Tests complete");

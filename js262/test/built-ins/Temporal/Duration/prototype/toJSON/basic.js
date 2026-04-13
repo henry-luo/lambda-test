@@ -11,7 +11,7 @@ features: [Temporal]
 ---*/
 
 let d = new Temporal.Duration();
-assert.sameValue(d.toJSON(), "PT0S", "blank duration");
+assert.sameValue(d.toJSON(), "PT0S", "zero duration");
 
 d = new Temporal.Duration(1);
 assert.sameValue(d.toJSON(), "P1Y", "positive small years");

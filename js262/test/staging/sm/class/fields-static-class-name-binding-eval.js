@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -21,11 +24,11 @@ esid: pending
 
 
 {
-  assert.throws(ReferenceError, () => {
+  assertThrowsInstanceOf(() => {
     let C = class {
       static field = eval("C");
     };
-  });
+  }, ReferenceError);
 }
 
 

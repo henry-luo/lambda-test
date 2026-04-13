@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  async name token in property and object destructuring pattern
-info: bugzilla.mozilla.org/show_bug.cgi?id=1185106
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1185106;
+var summary = "async name token in property and object destructuring pattern";
+
+print(BUGNUMBER + ": " + summary);
 
 {
   let a = { async: 10 };
@@ -48,3 +54,4 @@ esid: pending
   assert.sameValue(a.async, 15);
   assert.sameValue(a.other, 16);
 }
+

@@ -1,11 +1,22 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Object.defineProperty sets arguments.length without setting the length-overridden bit
-info: bugzilla.mozilla.org/show_bug.cgi?id=539766
+  pending
 esid: pending
 ---*/
+var gTestfile = 'redefine-arguments-length.js';
+
+var BUGNUMBER = 539766;
+var summary =
+  "Object.defineProperty sets arguments.length without setting the " +
+  "length-overridden bit";
+
+print(BUGNUMBER + ": " + summary);
+
 
 function test_JSOP_ARGCNT()
 {
@@ -47,3 +58,6 @@ function test_array_toString_sub_2()
   assert.sameValue([].toLocaleString.call(arguments), "1");
 }
 test_array_toString_sub_2(1, 2);
+
+
+print("All tests passed!");

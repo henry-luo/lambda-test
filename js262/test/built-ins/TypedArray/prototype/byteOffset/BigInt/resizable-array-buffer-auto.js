@@ -5,7 +5,7 @@ esid: sec-get-%typedarray%.prototype.byteoffset
 description: |
   reset to 0 if the underlying ArrayBuffer is resized beyond the boundary of
   the dynamically-sized TypedArray instance
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [ArrayBuffer, BigInt, TypedArray, resizable-arraybuffer]
 ---*/
 
@@ -50,4 +50,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   } catch (_) {}
 
   assert.sameValue(array.byteOffset, expected, "following shrink (out of bounds)");
-}, null, ["passthrough"]);
+});

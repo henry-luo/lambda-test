@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -10,5 +11,5 @@ esid: pending
 
 
 with ({x: 1, [Symbol.unscopables]: {x: true}})
-    assert.throws(ReferenceError, () => x);
+    assertThrowsInstanceOf(() => x, ReferenceError);
 

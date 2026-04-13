@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Date-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -8,8 +11,8 @@ esid: pending
 
 
 var toPrimitive = Date.prototype[Symbol.toPrimitive];
-assert.throws(TypeError, () => toPrimitive.call(undefined, "default"));
-assert.throws(TypeError, () => toPrimitive.call(3, "default"));
+assertThrowsInstanceOf(() => toPrimitive.call(undefined, "default"), TypeError);
+assertThrowsInstanceOf(() => toPrimitive.call(3, "default"), TypeError);
 
 
 var obj = {
@@ -21,11 +24,11 @@ assert.sameValue(toPrimitive.call(obj, "string"), "str");
 assert.sameValue(toPrimitive.call(obj, "default"), "str");
 
 
-assert.throws(TypeError, () => toPrimitive.call(obj));
-assert.throws(TypeError, () => toPrimitive.call(obj, undefined));
-assert.throws(TypeError, () => toPrimitive.call(obj, "boolean"));
-assert.throws(TypeError, () => toPrimitive.call(obj, ["number"]));
-assert.throws(TypeError, () => toPrimitive.call(obj, {toString() { throw "FAIL"; }}));
+assertThrowsInstanceOf(() => toPrimitive.call(obj), TypeError);
+assertThrowsInstanceOf(() => toPrimitive.call(obj, undefined), TypeError);
+assertThrowsInstanceOf(() => toPrimitive.call(obj, "boolean"), TypeError);
+assertThrowsInstanceOf(() => toPrimitive.call(obj, ["number"]), TypeError);
+assertThrowsInstanceOf(() => toPrimitive.call(obj, {toString() { throw "FAIL"; }}), TypeError);
 
 
 var dateobj = new Date();
@@ -53,7 +56,7 @@ assert.sameValue(dateobj[Symbol.toPrimitive]("number"), 15);
 
 
 Date.prototype.toString = "ponies";
-assert.throws(TypeError, () => dateobj[Symbol.toPrimitive]("default"));
+assertThrowsInstanceOf(() => dateobj[Symbol.toPrimitive]("default"), TypeError);
 
 
 assert.sameValue(toPrimitive.name, "[Symbol.toPrimitive]");

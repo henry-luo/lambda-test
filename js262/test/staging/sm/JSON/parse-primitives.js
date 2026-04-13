@@ -1,11 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 var x;
 
 
@@ -61,3 +63,6 @@ assert.sameValue(x, "\uabcd");
 
 x = JSON.parse('"\\f"');
 assert.sameValue(x, "\f");
+
+
+print("Tests complete");

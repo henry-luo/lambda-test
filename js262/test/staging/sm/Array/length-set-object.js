@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Various quirks of setting array length properties to objects
-info: bugzilla.mozilla.org/show_bug.cgi?id=657298
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 657298;
+var summary = 'Various quirks of setting array length properties to objects';
+
+print(BUGNUMBER + ": " + summary);
+
 
 function invokeConversionTwice1()
 {
@@ -25,9 +33,16 @@ invokeConversionTwice2();
 
 function dontOverwriteError1()
 {
-  assert.throws(TypeError, function() {
+  try
+  {
     [].length = { valueOf: {}, toString: {} };
-  }, "expected a TypeError running out of conversion options");
+    throw new Error("didn't throw a TypeError");
+  }
+  catch (e)
+  {
+    assert.sameValue(e instanceof TypeError, true,
+             "expected a TypeError running out of conversion options, got " + e);
+  }
 }
 dontOverwriteError1();
 
@@ -44,3 +59,6 @@ function dontOverwriteError2()
   }
 }
 dontOverwriteError2();
+
+
+print("All tests passed!");

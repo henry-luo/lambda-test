@@ -3,7 +3,7 @@
 /*---
 esid: sec-ecmascript-standard-built-in-objects
 description: >
-  String.prototype.toWellFormed does not implement [[Construct]], is not new-able
+  String.prototype.includes does not implement [[Construct]], is not new-able
 info: |
   ECMAScript Function Objects
 

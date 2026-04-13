@@ -15,7 +15,7 @@ info: |
   ...
   6. Perform ? AllocateTypedArrayBuffer(O, len).
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
@@ -27,4 +27,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   assert.throws(RangeError, function() {
     new TA(obj);
   });
-}, null, ["passthrough"]);
+});

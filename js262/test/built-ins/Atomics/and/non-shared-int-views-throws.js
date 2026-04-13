@@ -14,4 +14,4 @@ testWithNonAtomicsFriendlyTypedArrayConstructors(TA => {
   assert.throws(TypeError, function() {
     Atomics.and(view, 0, 1);
   }, `Atomics.and(new ${TA.name}(buffer), 0, 1) throws TypeError`);
-}, null, ["passthrough"]);
+});

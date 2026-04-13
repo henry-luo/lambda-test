@@ -1,11 +1,25 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
-  When setting a typed array from an overlapping typed array of different element type, copy the source elements into properly-sized temporary memory, and properly copy them into the target without overflow (of either source *or* target) when finished
-info: bugzilla.mozilla.org/show_bug.cgi?id=896116
+  pending
 esid: pending
 ---*/
+
+
+var gTestfile = "set-same-buffer-different-source-target-types.js";
+
+var BUGNUMBER = 896116;
+var summary =
+  "When setting a typed array from an overlapping typed array of different " +
+  "element type, copy the source elements into properly-sized temporary " +
+  "memory, and properly copy them into the target without overflow (of " +
+  "either source *or* target) when finished";
+
+print(BUGNUMBER + ": " + summary);
 
 
 var srclen = 65536;
@@ -17,3 +31,6 @@ ta.set(ta2);
 
 for (var i = 0, len = ta.length; i < len; i++)
   assert.sameValue(ta[i], 0, "zero-bits double should convert to zero");
+
+
+print("Tests complete");

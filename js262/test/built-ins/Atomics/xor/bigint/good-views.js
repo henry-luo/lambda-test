@@ -3,7 +3,7 @@
 /*---
 esid: sec-atomics.xor
 description: Test Atomics.xor on arrays that allow atomic operations
-includes: [testAtomics.js, testTypedArray.js]
+includes: [testAtomics.js, testBigIntTypedArray.js]
 features: [ArrayBuffer, Atomics, BigInt, DataView, SharedArrayBuffer, Symbol, TypedArray]
 ---*/
 
@@ -96,4 +96,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
     Atomics.store(view, Idx, 37n);
     assert.sameValue(Atomics.xor(view, Idx, 0n), 37n, 'Atomics.xor(view, Idx, 0n) returns 37n');
   });
-}, null, ["passthrough"]);
+});

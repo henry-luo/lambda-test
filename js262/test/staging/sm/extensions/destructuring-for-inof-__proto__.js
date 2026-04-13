@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  __proto__ should work in destructuring patterns as the targets of for-in/for-of loops
-info: bugzilla.mozilla.org/show_bug.cgi?id=963641
+  pending
 esid: pending
 ---*/
+var gTestfile = 'destructuring-for-inof-__proto__.js';
+var BUGNUMBER = 963641;
+var summary =
+  "__proto__ should work in destructuring patterns as the targets of " +
+  "for-in/for-of loops";
+
+print(BUGNUMBER + ": " + summary);
+
 
 function objectWithProtoProperty(v)
 {
@@ -68,3 +78,6 @@ function nested()
     assert.sameValue(target, String.prototype);
 }
 nested();
+
+
+print("Tests complete");

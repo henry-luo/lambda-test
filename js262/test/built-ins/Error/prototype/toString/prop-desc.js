@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-error.prototype.tostring
+esid: sec-error.prototype.toString
 description: Property descriptor of Error.prototype.toString
 includes: [propertyHelper.js]
 ---*/

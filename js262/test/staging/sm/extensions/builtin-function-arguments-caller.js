@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  Built-in functions defined in ECMAScript pick up arguments/caller properties from Function.prototype
-info: bugzilla.mozilla.org/show_bug.cgi?id=929642
+  pending
 esid: pending
 ---*/
+var gTestfile = 'builtin-function-arguments-caller.js';
+var BUGNUMBER = 929642;
+var summary =
+  "Built-in functions defined in ECMAScript pick up arguments/caller " +
+  "properties from Function.prototype";
+
+print(BUGNUMBER + ": " + summary);
+
 
 function expectNoProperty(obj, prop)
 {
@@ -42,3 +52,6 @@ expectNoProperty(callerGet, "arguments");
 expectNoProperty(callerGet, "caller");
 expectNoProperty(callerSet, "arguments");
 expectNoProperty(callerSet, "caller");
+
+
+print("Tests complete");

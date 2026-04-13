@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -11,17 +14,20 @@ var summary = 'Crash with JIT in js_FillPropertyCache';
 var actual = 'No Crash';
 var expect = 'No Crash';
 
+printBugNumber(BUGNUMBER);
+printStatus (summary);
+
 
 if (typeof navigator == 'undefined')
 {
-  var navigator = {
+  navigator = {
     userAgent: "Firefox",
     vendor: "Mozilla",
     platform: "Mac"
   };
 }
 
-var global = this;
+global = this;
 
 var BrowserDetect = {
     init: function _init()

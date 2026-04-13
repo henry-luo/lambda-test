@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -28,6 +31,6 @@ class TestIterator extends Iterator {
 
 const iterator = new TestIterator();
 assert.sameValue(iterator.closed, false, 'iterator starts unclosed');
-assert.throws(TestError, () => iterator.toArray());
+assertThrowsInstanceOf(() => iterator.toArray(), TestError);
 assert.sameValue(iterator.closed, false, 'iterator remains unclosed');
 

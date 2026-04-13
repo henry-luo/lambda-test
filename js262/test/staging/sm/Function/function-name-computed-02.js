@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -45,7 +48,7 @@ let dummy = class {
   set [12](x) {}
 };
 
-let dum = new dummy();
+dum = new dummy();
 
 assert.sameValue(dum[1].name, "1");
 assert.sameValue(dum[2].name, "2");

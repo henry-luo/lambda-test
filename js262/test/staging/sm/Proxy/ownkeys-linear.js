@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Scripted proxies' [[OwnPropertyKeys]] should have linear complexity
-info: bugzilla.mozilla.org/show_bug.cgi?id=1257779
+  pending
 esid: pending
 ---*/
+var gTestfile = 'ownkeys-linear.js';
+var BUGNUMBER = 1257779;
+var summary =
+  "Scripted proxies' [[OwnPropertyKeys]] should have linear complexity";
+
+print(BUGNUMBER + ": " + summary);
 
 
 const HALF_COUNT = 7500;
@@ -47,3 +55,6 @@ var p = new Proxy(target, handler);
 
 
 assert.sameValue(Object.getOwnPropertyNames(p).length, HALF_COUNT * 2);
+
+
+print("Tests complete");

@@ -15,7 +15,7 @@ info: |
 
   1. Let newTypedArray be ? Construct(constructor, argumentList).
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
@@ -31,4 +31,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   });
 
   assert.sameValue(called, 1);
-}, null, ["passthrough"]);
+});

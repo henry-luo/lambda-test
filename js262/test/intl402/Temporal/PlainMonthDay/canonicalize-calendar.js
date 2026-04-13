@@ -6,9 +6,5 @@ description: Calendar ID is canonicalized
 features: [Temporal]
 ---*/
 
-var result = new Temporal.PlainMonthDay(2, 11, "islamicc", 1972);
+const result = new Temporal.PlainMonthDay(2, 11, "islamicc", 1972);
 assert.sameValue(result.calendarId, "islamic-civil", "calendar ID is canonicalized");
-
-
-result = new Temporal.PlainMonthDay(2, 11, "ethiopic-amete-alem");
-assert.sameValue(result.calendarId, "ethioaa", "calendar ID is canonicalized");

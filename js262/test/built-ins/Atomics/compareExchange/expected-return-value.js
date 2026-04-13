@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.compareexchange
+esid: sec-atomics.compareExchange
 description: >
   Atomics.compareExchange returns the value that existed at the
   index prior to the operation.

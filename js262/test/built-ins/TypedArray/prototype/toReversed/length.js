@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.toreversed
+esid: sec-%typedarray%.prototype.toReversed
 description: >
   The "length" property of %TypedArray%.prototype.toReversed
 info: |

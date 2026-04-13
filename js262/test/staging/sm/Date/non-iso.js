@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Date-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -53,3 +56,6 @@ assert.sameValue(new Date("1997-03-08T1:1:01").getTime(),
          new Date(NaN).getTime());
 assert.sameValue(new Date("1997-03-08T1:1:1").getTime(),
          new Date(NaN).getTime());
+
+
+print("Tests complete");

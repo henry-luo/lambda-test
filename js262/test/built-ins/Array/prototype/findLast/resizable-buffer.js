@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.findlast
+esid: sec-array.prototype.findLast
 description: >
   Array.p.findLast behaves correctly when receiver is backed by resizable
   buffer

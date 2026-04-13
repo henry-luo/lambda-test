@@ -1,17 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
-assert.throws(SyntaxError, () => eval('#x'));
+assertThrowsInstanceOf(() => eval('#x'), SyntaxError);
 
 
-assert.throws(SyntaxError, () => eval('this.#x'));
+assertThrowsInstanceOf(() => eval('this.#x'), SyntaxError);
 
 
-assert.throws(SyntaxError, () => eval('function foo() { return this.#x'));
+assertThrowsInstanceOf(
+    () => eval('function foo() { return this.#x'), SyntaxError);
 

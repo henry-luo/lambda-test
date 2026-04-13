@@ -1,11 +1,12 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
-features: [Symbol]
 ---*/
 
 
@@ -28,36 +29,39 @@ function logProxy(object) {
     return {proxy, log};
 }
 
-var properties = ["string-property", Symbol("symbol-property")];
+var properties = ["string-property"];
+if (typeof Symbol === 'function')
+    properties.push(Symbol("symbol-property"));
 
 for (var property of properties) {
     
     var {proxy, log} = logProxy({});
     var result = Object.prototype.propertyIsEnumerable.call(proxy, property);
     assert.sameValue(result, false);
-    assert.compareArray(log, [property]);
+    assert.deepEqual(log, [property]);
 
     
     var {proxy, log} = logProxy({[property]: 0});
     var result = Object.prototype.propertyIsEnumerable.call(proxy, property);
     assert.sameValue(result, true);
-    assert.compareArray(log, [property]);
+    assert.deepEqual(log, [property]);
 
     
     var {proxy, log} = logProxy(Object.defineProperty({[property]: 0}, property, {enumerable: false}));
     var result = Object.prototype.propertyIsEnumerable.call(proxy, property);
     assert.sameValue(result, false);
-    assert.compareArray(log, [property]);
+    assert.deepEqual(log, [property]);
 
     
     var {proxy, log} = logProxy(Object.create({[property]: 0}));
     var result = Object.prototype.propertyIsEnumerable.call(proxy, property);
     assert.sameValue(result, false);
-    assert.compareArray(log, [property]);
+    assert.deepEqual(log, [property]);
 
     
     var {proxy, log} = logProxy({[property]: 0});
     var result = Object.prototype.propertyIsEnumerable.call(Object.create(proxy), property);
     assert.sameValue(result, false);
-    assert.compareArray(log, []);
+    assert.deepEqual(log, []);
 }
+

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -16,7 +19,7 @@ function a() {
         }
     };
 
-    assert.throws(TypeError, () => "a".replace(/a/, X));
+    assertThrowsInstanceOf(() => "a".replace(/a/, X), TypeError);
 }
 
 function b() {
@@ -26,7 +29,7 @@ function b() {
         }
     }
 
-    assert.throws(TypeError, () => [1, 2, 3].sort(X));
+    assertThrowsInstanceOf(() => [1, 2, 3].sort(X), TypeError);
 }
 
 a();

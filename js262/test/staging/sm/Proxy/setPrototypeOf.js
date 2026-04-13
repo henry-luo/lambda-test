@@ -1,12 +1,19 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js]
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Scripted proxies' [[SetPrototypeOf]] behavior
-info: bugzilla.mozilla.org/show_bug.cgi?id=888969
+  pending
 esid: pending
 ---*/
+var gTestfile = "setPrototypeOf.js";
+var BUGNUMBER = 888969;
+var summary = "Scripted proxies' [[SetPrototypeOf]] behavior";
+
+print(BUGNUMBER + ": " + summary);
+
 
 const log = [];
 
@@ -32,33 +39,43 @@ var originalProto = Reflect.getPrototypeOf(p);
 assert.sameValue(originalProto, Object.prototype);
 
 rev.revoke();
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, originalProto));
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, originalProto),
+                       TypeError);
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 
 p = new Proxy({}, { setPrototypeOf: 9 });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: -3.7 });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: NaN });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: Infinity });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: true });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: /x/ });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: Symbol(42) });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, { setPrototypeOf: class X {} });
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 p = new Proxy({}, observe({}));
 
@@ -212,7 +229,11 @@ var newProto;
 p = new Proxy(Object.preventExtensions(Object.create(Math)),
               { setPrototypeOf(t, p) { return true; } });
 
-assert.throws(TypeError, () => Reflect.setPrototypeOf(p, null));
+assertThrowsInstanceOf(() => Reflect.setPrototypeOf(p, null),
+                       TypeError);
 
 
 assert.sameValue(Reflect.setPrototypeOf(p, Math), true);
+
+
+print("Tests complete");

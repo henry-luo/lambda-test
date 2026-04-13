@@ -3,10 +3,12 @@
 /*---
 flags:
   - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
 description: |
   pending
 esid: pending
 ---*/
+"use strict";
 
 
 assert.sameValue(Object.isSealed(new Int32Array(2)), false);
@@ -26,9 +28,9 @@ assert.sameValue(Object.isSealed(array), false);
 
 array = new Int32Array(2);
 array.b = "test";
-assert.throws(TypeError, () => Object.seal(array));
+assertThrowsInstanceOf(() => Object.seal(array), TypeError);
 assert.sameValue(Object.isSealed(array), false);
-assert.throws(TypeError, () => array.c = 15);
+assertThrowsInstanceOf(() => array.c = 15, TypeError);
 
 
 assert.sameValue(Object.isFrozen(new Int32Array(2)), false);
@@ -49,6 +51,7 @@ assert.sameValue(Object.isFrozen(array), true);
 
 
 array = new Int32Array(1);
-assert.throws(TypeError, () => Object.freeze(array));
+assertThrowsInstanceOf(() => Object.freeze(array), TypeError);
 assert.sameValue(Object.isExtensible(array), false);
 assert.sameValue(Object.isFrozen(array), false);
+

@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp.prototype[@@split].
-info: bugzilla.mozilla.org/show_bug.cgi?id=887016
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 887016;
+var summary = "Implement RegExp.prototype[@@split].";
+
+print(BUGNUMBER + ": " + summary);
 
 assert.sameValue(RegExp.prototype[Symbol.split].name, "[Symbol.split]");
 assert.sameValue(RegExp.prototype[Symbol.split].length, 2);
@@ -29,3 +35,4 @@ assert.sameValue(JSON.stringify(v), `["a","cA","cA","C"]`);
 re = /b/ig;
 v = re[Symbol.split]("abcAbcABC", 2);
 assert.sameValue(JSON.stringify(v), `["a","cA"]`);
+

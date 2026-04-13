@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -75,7 +78,7 @@ child.testStaticLookups();
 assert.sameValue(new Proxy(({ method() { return super.hasOwnProperty("method"); } }), {}).method(), true);
 
 
-var g = $262.createRealm().global;
+var g = createNewGlobal();
 var wrappedSuper = g.eval("({ method() { return super.hasOwnProperty('method'); } })");
 assert.sameValue(wrappedSuper.method(), true);
 

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -24,5 +27,5 @@ var nonsymbols = [
     undefined, null, "not-ok", new String("still-not-ok"), {}, []
 ];
 for (var nonsym of nonsymbols)
-    assert.throws(TypeError, () => Symbol.prototype.toString.call(nonsym));
+    assertThrowsInstanceOf(() => Symbol.prototype.toString.call(nonsym), TypeError);
 

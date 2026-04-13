@@ -1,17 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
-assert.throws(TypeError, () => eval(`class a extends Math.sin {
+assertThrowsInstanceOf(() => eval(`class a extends Math.sin {
                                         constructor() { }
-                                    }`));
-assert.throws(TypeError, () => eval(`(class a extends Math.sin {
+                                    }`), TypeError);
+assertThrowsInstanceOf(() => eval(`(class a extends Math.sin {
                                         constructor() { }
-                                    })`));
+                                    })`), TypeError);
 
 
 class basic {
@@ -81,8 +84,8 @@ function nopeExpr() {
         constructor() { }
      });
 }
-assert.throws(TypeError, nope);
-assert.throws(TypeError, nopeExpr);
+assertThrowsInstanceOf(nope, TypeError);
+assertThrowsInstanceOf(nopeExpr, TypeError);
 
 
 nope.prototype = "not really, no";
@@ -96,6 +99,6 @@ function stillNoExpr() {
         constructor() { }
      });
 }
-assert.throws(TypeError, stillNo);
-assert.throws(TypeError, stillNoExpr);
+assertThrowsInstanceOf(stillNo, TypeError);
+assertThrowsInstanceOf(stillNoExpr, TypeError);
 

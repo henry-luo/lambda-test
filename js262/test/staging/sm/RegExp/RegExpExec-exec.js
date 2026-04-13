@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  RegExpExec should throw if exec property of non-RegExp is not callable
-info: bugzilla.mozilla.org/show_bug.cgi?id=887016
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 887016;
+var summary = "RegExpExec should throw if exec property of non-RegExp is not callable";
+
+print(BUGNUMBER + ": " + summary);
 
 for (var exec of [null, 0, false, undefined, ""]) {
   
@@ -14,5 +20,7 @@ for (var exec of [null, 0, false, undefined, ""]) {
   RegExp.prototype[Symbol.match].call(re, "foo");
 
   
-  assert.throws(TypeError, () => RegExp.prototype[Symbol.match].call({ exec }, "foo"));
+  assertThrowsInstanceOf(() => RegExp.prototype[Symbol.match].call({ exec }, "foo"),
+                         TypeError);
 }
+

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -28,5 +31,5 @@ class beforeThrow extends base {
 Object.setPrototypeOf(beforeThrow, Math.sin);
 
 
-assert.throws(MyError, () => new beforeThrow());
+assertThrowsInstanceOf(() => new beforeThrow(), MyError);
 

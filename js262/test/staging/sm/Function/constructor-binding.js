@@ -1,12 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  A function created by Function constructor shouldn't have anonymous binding
-info: bugzilla.mozilla.org/show_bug.cgi?id=636635
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 636635;
+var summary = "A function created by Function constructor shouldn't have anonymous binding";
+
+print(BUGNUMBER + ": " + summary);
 
 assert.sameValue(new Function("return typeof anonymous")(), "undefined");
 assert.sameValue(new Function("return function() { return typeof anonymous; }")()(), "undefined");
 assert.sameValue(new Function("return function() { eval(''); return typeof anonymous; }")()(), "undefined");
+

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.foreach
+esid: sec-array.prototype.forEach
 description: Array.prototype.forEach applied to boolean primitive
 ---*/
 

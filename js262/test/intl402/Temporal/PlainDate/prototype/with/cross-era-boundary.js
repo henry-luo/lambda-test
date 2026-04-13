@@ -3,7 +3,7 @@
 /*---
 esid: sec-temporal.plaindate.prototype.with
 description: Behaviour when property bag forms a date out of bounds of the current era
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 

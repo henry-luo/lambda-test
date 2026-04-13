@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 description: |
@@ -8,7 +11,7 @@ description: |
 esid: pending
 ---*/
 
-const otherIteratorProto = $262.createRealm().global.Iterator.prototype;
+const otherIteratorProto = createNewGlobal({newCompartment: true}).Iterator.prototype;
 
 const methods = [
   ["map", x => x],

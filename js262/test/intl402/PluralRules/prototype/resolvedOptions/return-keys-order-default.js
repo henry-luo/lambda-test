@@ -10,7 +10,6 @@ includes: [compareArray.js]
 const allKeys = [
     'locale',
     'type',
-    'notation',
     'minimumIntegerDigits',
     'minimumFractionDigits',
     'maximumFractionDigits',

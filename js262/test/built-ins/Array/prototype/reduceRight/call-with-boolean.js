@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.reduceright
+esid: sec-array.prototype.reduceRight
 description: Array.prototype.reduceRight applied to boolean primitive
 ---*/
 

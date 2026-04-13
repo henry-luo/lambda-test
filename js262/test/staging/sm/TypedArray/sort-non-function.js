@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -11,7 +14,7 @@ const typedArray = new Int32Array(0);
 
 
 for (let invalidComparator of [null, 0, true, Symbol(), {}, []]) {
-    assert.throws(TypeError, () => typedArray.sort(invalidComparator));
+    assertThrowsInstanceOf(() => typedArray.sort(invalidComparator), TypeError);
 }
 
 

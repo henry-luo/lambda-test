@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.toreversed
+esid: sec-%typedarray%.prototype.toReversed
 description: >
   %TypedArray%.prototype.toReversed throws if the receiver is not a valid TypedArray
 info: |
@@ -40,4 +40,4 @@ testWithTypedArrayConstructors(function(TA) {
   assert.throws(TypeError, () => {
     sample.toReversed();
   }, `array has a detached buffer`);
-}, null, ["passthrough"]);
+});

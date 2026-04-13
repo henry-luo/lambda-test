@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-get-%typedarray%.prototype.bytelength
+esid: sec-get-%typedarray%.prototype.byteLength
 description: >
   TypedArray.p.byteLength behaves as expected when the underlying resizable
   buffer is resized such that the TypedArray becomes out of bounds.

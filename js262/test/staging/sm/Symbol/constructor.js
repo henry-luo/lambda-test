@@ -1,13 +1,16 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 var sym = Symbol();
-assert.throws(TypeError, () => Symbol(sym));
+assertThrowsInstanceOf(() => Symbol(sym), TypeError);
 
 
 assert.sameValue(Symbol(undefined).toString(), "Symbol()");
@@ -18,7 +21,7 @@ assert.sameValue(Symbol(true).toString(), "Symbol(true)");
 assert.sameValue(Symbol(null).toString(), "Symbol(null)");
 assert.sameValue(Symbol([1, 2]).toString(), "Symbol(1,2)");
 var symobj = Object(sym);
-assert.throws(TypeError, () => Symbol(symobj));
+assertThrowsInstanceOf(() => Symbol(symobj), TypeError);
 
 var hits = 0;
 var obj = {
@@ -33,5 +36,5 @@ assert.sameValue(hits, 1);
 assert.sameValue(Object.getPrototypeOf(Symbol.prototype), Object.prototype);
 
 
-assert.throws(TypeError, () => Symbol.prototype.valueOf());
+assertThrowsInstanceOf(() => Symbol.prototype.valueOf(), TypeError);
 

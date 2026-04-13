@@ -13,7 +13,7 @@ info: |
     ...
   4. Return OrdinaryDefineOwnProperty(O, P, Desc).
   ...
-includes: [testTypedArray.js, propertyHelper.js]
+includes: [testBigIntTypedArray.js, propertyHelper.js]
 features: [BigInt, Reflect, TypedArray]
 ---*/
 
@@ -95,4 +95,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
     );
     assert.sameValue(Object.getOwnPropertyDescriptor(sample4, key), undefined);
   });
-}, null, ["passthrough"]);
+});

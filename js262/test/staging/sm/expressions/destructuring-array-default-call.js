@@ -1,12 +1,18 @@
 
 
 /*---
-includes: [sm/non262-expressions-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  Array destructuring with various default values in various context - call/new expression
-info: bugzilla.mozilla.org/show_bug.cgi?id=1184922
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1184922;
+var summary = "Array destructuring with various default values in various context - call/new expression";
+
+print(BUGNUMBER + ": " + summary);
 
 testDestructuringArrayDefault("func()");
 testDestructuringArrayDefault("new func()");
+

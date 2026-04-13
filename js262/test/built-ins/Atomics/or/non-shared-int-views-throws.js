@@ -1,9 +1,9 @@
 
 
 /*---
-esid: sec-atomics.or
+esid: sec-atomics.and
 description: >
-  Atomics.or throws when operating on non-sharable integer TypedArrays
+  Atomics.and throws when operating on non-sharable integer TypedArrays
 includes: [testTypedArray.js]
 features: [ArrayBuffer, Atomics, TypedArray]
 ---*/
@@ -12,6 +12,6 @@ testWithNonAtomicsFriendlyTypedArrayConstructors(TA => {
   const view = new TA(buffer);
 
   assert.throws(TypeError, function() {
-    Atomics.or(view, 0, 1);
-  }, `Atomics.or(new ${TA.name}(buffer), 0, 1) throws TypeError`);
-}, null, ["passthrough"]);
+    Atomics.and(view, 0, 1);
+  }, `Atomics.and(new ${TA.name}(buffer), 0, 1) throws TypeError`);
+});

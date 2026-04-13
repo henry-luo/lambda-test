@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: Array.prototype.toSpliced(number, undefined) returns a copy of the original array
 info: |
   22.1.3.25 Array.prototype.toSpliced (start, deleteCount , ...items )

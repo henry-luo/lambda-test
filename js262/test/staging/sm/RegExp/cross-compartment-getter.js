@@ -1,11 +1,14 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-const otherGlobal = $262.createRealm().global;
+const otherGlobal = createNewGlobal({newCompartment: true});
 
 let regExp = otherGlobal.eval("/a(b|c)/iy");
 

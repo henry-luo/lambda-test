@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  JSON.stringify shouldn't use context-wide cycle detection
-info: bugzilla.mozilla.org/show_bug.cgi?id=1197097
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 1197097;
+var summary = "JSON.stringify shouldn't use context-wide cycle detection";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var arr;
 
@@ -25,3 +33,6 @@ arr = [{
   }
 }];
 assert.sameValue(arr.join(), "[{}]");
+
+
+print("Tests complete");

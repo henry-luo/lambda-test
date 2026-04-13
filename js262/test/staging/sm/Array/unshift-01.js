@@ -1,11 +1,18 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Array.prototype.unshift without args
-info: bugzilla.mozilla.org/show_bug.cgi?id=614070
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 614070;
+var summary = 'Array.prototype.unshift without args';
+
+print(BUGNUMBER + ": " + summary);
 
 
 var MAX_LENGTH = 2**53 - 1;
@@ -29,3 +36,6 @@ testGetSet("1", 1);
 testGetSet(null, 0);
 testGetSet(MAX_LENGTH + 2, MAX_LENGTH);
 testGetSet(-5, 0);
+
+
+print("All tests passed!");

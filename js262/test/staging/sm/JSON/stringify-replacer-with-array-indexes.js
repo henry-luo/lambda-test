@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  Call the replacer function for array elements with stringified indexes
-info: bugzilla.mozilla.org/show_bug.cgi?id=584909
+  pending
 esid: pending
 ---*/
+var gTestfile = 'stringify-replacer-with-array-indexes.js';
+
+var BUGNUMBER = 584909;
+var summary =
+  "Call the replacer function for array elements with stringified indexes";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var arr = [0, 1, 2, 3, 4];
 
@@ -41,3 +51,6 @@ function replacer()
 }
 
 assert.sameValue(JSON.stringify(arr, replacer), '[0,1,2,3,4]');
+
+
+print("Tests complete");

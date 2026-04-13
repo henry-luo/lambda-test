@@ -1,14 +1,13 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
-var otherGlobal = $262.createRealm().global;
-
 for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(constructor.prototype.at.length, 1);
 
@@ -32,16 +31,18 @@ for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(new constructor([0, 1]).at(NaN), 0); 
 
     
-    var at = otherGlobal[constructor.name].prototype.at;
-    assert.sameValue(at.call(new constructor([1, 2, 3]), 2), 3);
+    if (typeof createNewGlobal === "function") {
+        var at = createNewGlobal()[constructor.name].prototype.at;
+        assert.sameValue(at.call(new constructor([1, 2, 3]), 2), 3);
+    }
 
     
     var invalidReceivers = [undefined, null, 1, false, "", Symbol(), [], {}, /./,
                             new Proxy(new constructor(), {})];
     invalidReceivers.forEach(invalidReceiver => {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             constructor.prototype.at.call(invalidReceiver);
-        }, "Assert that 'at' fails if this value is not a TypedArray");
+        }, TypeError, "Assert that 'at' fails if this value is not a TypedArray");
     });
 
     
