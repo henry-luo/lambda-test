@@ -28,3 +28,13 @@ form-indexed-element-shadow
 # Segfault crashes: text-autospace dynamic tests with JS DOM manipulation
 text-autospace-dynamic-text-*
 text-autospace-edit-001
+# Segment break transformation Rule 2 (CSS Text 3 §4.1.2): Radiant correctly removes
+# segment breaks between EA Wide/Fullwidth chars (not Hangul). Chrome 147 does not
+# implement Rule 2 yet, so browser references show spaces where Radiant (correctly) has none.
+# Re-test when Chrome implements Rule 2 and re-capture references.
+# ignorable-1 also tests default-ignorable char handling (VS, IVS, SHY, LRM) — future gap.
+segment-break-transformation-rules-003
+segment-break-transformation-rules-015
+segment-break-transformation-rules-017
+segment-break-transformation-currency-001
+segment-break-transformation-ignorable-1
