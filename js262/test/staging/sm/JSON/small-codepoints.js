@@ -1,11 +1,20 @@
 
 
 /*---
-includes: [sm/non262-JSON-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  JSON.parse should reject U+0000 through U+001F
+  pending
 esid: pending
 ---*/
+var gTestfile = 'small-codepoints.js';
+
+var BUGNUMBER = 554079;
+var summary = 'JSON.parse should reject U+0000 through U+001F';
+
+print(BUGNUMBER + ": " + summary);
+
 
 for (var i = 0; i <= 0x1F; i++)
-  testJSONSyntaxError('["a' + String.fromCharCode(i) + 'c"]');
+  testJSON('["a' + String.fromCharCode(i) + 'c"]', true);

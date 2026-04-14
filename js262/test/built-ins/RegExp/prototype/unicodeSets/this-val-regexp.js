@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-get-regexp.prototype.unicodesets
+esid: sec-get-regexp.prototype.unicodeSets
 description: >
     `unicodeSets` accessor function invoked on a RegExp instance
 info: |

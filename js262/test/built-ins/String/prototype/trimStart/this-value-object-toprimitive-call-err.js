@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: >
   Abrupt completion when getting Symbol.toPrimitive method
 info: |

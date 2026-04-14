@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  __proto__ in object literals in non-__proto__:v contexts doesn't modify [[Prototype]]
-info: bugzilla.mozilla.org/show_bug.cgi?id=1061853
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 1061853;
+var summary =
+  "__proto__ in object literals in non-__proto__:v contexts doesn't modify " +
+  "[[Prototype]]";
+
+print(BUGNUMBER + ": " + summary);
+
 
 function hasOwn(obj, prop)
 {
@@ -252,3 +262,6 @@ for (var first in members)
     }
   }
 }
+
+
+print("Tests complete");

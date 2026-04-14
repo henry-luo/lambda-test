@@ -1,11 +1,18 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  RegExp lastIndex property set should not coerce type to number
-info: bugzilla.mozilla.org/show_bug.cgi?id=465199
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 465199;
+var summary = "RegExp lastIndex property set should not coerce type to number";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var called = false;
 var o = { valueOf: function() { called = true; return 1; } };
@@ -56,3 +63,6 @@ assert.sameValue(Array.isArray(m), true);
 assert.sameValue(m.length, 1);
 assert.sameValue(m[0], "a");
 assert.sameValue(r.lastIndex, 2);
+
+
+print("All tests passed!");

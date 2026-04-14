@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.waitasync
+esid: sec-atomics.notify
 description: >
   TypedArray type is validated before `value` argument is coerced.
 info: |

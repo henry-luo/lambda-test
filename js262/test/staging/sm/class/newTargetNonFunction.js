@@ -1,14 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
-assert.throws(TypeError, () => new ""(...Array()));
+assertThrowsInstanceOf(() => new ""(...Array()), TypeError);
 
-assert.throws(TypeError, () => new ""());
-assert.throws(TypeError, () => new ""(1));
+assertThrowsInstanceOf(() => new ""(), TypeError);
+assertThrowsInstanceOf(() => new ""(1), TypeError);
 

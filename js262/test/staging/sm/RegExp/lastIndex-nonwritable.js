@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  Regexp.prototype.test/exec shouldn't change lastIndex if not writable.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1168416
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1168416;
+var summary = "Regexp.prototype.test/exec shouldn't change lastIndex if not writable.";
+
+print(BUGNUMBER + ": " + summary);
 
 var regex = /0/g;
 Object.freeze(regex);
@@ -15,14 +21,15 @@ var desc = Object.getOwnPropertyDescriptor(regex, "lastIndex");
 assert.sameValue(desc.writable, false);
 assert.sameValue(desc.value, 0);
 
-assert.throws(TypeError, () => regex.test(str));
+assertThrowsInstanceOf(() => regex.test(str), TypeError);
 
 desc = Object.getOwnPropertyDescriptor(regex, "lastIndex");
 assert.sameValue(desc.writable, false);
 assert.sameValue(desc.value, 0);
 
-assert.throws(TypeError, () => regex.exec(str));
+assertThrowsInstanceOf(() => regex.exec(str), TypeError);
 
 desc = Object.getOwnPropertyDescriptor(regex, "lastIndex");
 assert.sameValue(desc.writable, false);
 assert.sameValue(desc.value, 0);
+

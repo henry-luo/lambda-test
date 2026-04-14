@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: >
   Assert behavior if this value has a custom object constructor property species
 info: |

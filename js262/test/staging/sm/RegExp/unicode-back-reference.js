@@ -1,12 +1,17 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- back reference should not match lead surrogate that has corresponding trail surrogate.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- back reference should not match lead surrogate that has corresponding trail surrogate.";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.compareArray(/foo(.+)bar\1/u.exec("fooAbarA\uDC00"),
@@ -39,3 +44,4 @@ assert.compareArray(/foo(.+)bar\1/u.exec("foo\uDC00bar\uDC00"),
 
 
 assert.sameValue(/^(.+)\1$/u.exec("\uDC00foobar\uD834\uDC00foobar\uD834"), null);
+

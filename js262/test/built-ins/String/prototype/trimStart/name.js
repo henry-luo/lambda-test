@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: >
   String.prototype.trimStart.name is "trimStart".
 info: >

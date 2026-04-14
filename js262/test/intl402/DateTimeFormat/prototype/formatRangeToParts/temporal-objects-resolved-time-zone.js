@@ -11,7 +11,7 @@ features: [Temporal, Intl.DateTimeFormat-formatRange]
 
 const usDayPeriodSpace =
   new Intl.DateTimeFormat('en-US', { timeStyle: 'short' })
-    .formatRangeToParts(0, 86400)
+    .formatToParts(0)
     .find((part, i, parts) => part.type === 'literal' && parts[i + 1].type === 'dayPeriod')?.value || '';
 const usDateRangeSeparator = new Intl.DateTimeFormat('en-US', { dateStyle: 'short' })
   .formatRangeToParts(1 * 86400 * 1000, 366 * 86400 * 1000)

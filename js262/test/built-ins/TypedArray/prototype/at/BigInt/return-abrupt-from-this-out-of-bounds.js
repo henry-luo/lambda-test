@@ -3,7 +3,7 @@
 /*---
 esid: sec-%typedarray%.prototype.at
 description: Return abrupt when "this" value fails buffer boundary checks
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [ArrayBuffer, BigInt, TypedArray, TypedArray.prototype.at, arrow-function, resizable-arraybuffer]
 ---*/
 
@@ -54,4 +54,4 @@ testWithBigIntTypedArrayConstructors(TA => {
     array.at(0);
     throw new Test262Error('at completed successfully');
   });
-}, null, ["passthrough"]);
+});

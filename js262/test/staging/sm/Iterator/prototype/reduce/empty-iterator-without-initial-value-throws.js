@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -11,5 +14,5 @@ esid: pending
 ---*/
 
 const iter = [].values();
-assert.throws(TypeError, () => iter.reduce((x, y) => x + y));
+assertThrowsInstanceOf(() => iter.reduce((x, y) => x + y), TypeError);
 

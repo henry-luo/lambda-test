@@ -4,7 +4,7 @@
 esid: sec-temporal.plaindate.from
 description: era and eraYear are ignored (for calendars not using eras)
 includes: [temporalHelpers.js]
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 const result = Temporal.PlainDate.from({
@@ -26,22 +26,22 @@ assert.throws(TypeError, () => Temporal.PlainDate.from({
   calendar: "iso8601",
 }), "era and eraYear cannot replace year for calendar not using eras (iso8601)");
 
-const resultChinese = Temporal.PlainDate.from({
+const resultHebrew = Temporal.PlainDate.from({
   era: "foobar",
   eraYear: 1,
-  year: 2025,
+  year: 5780,
   monthCode: "M01",
   day: 1,
-  calendar: "chinese",
+  calendar: "hebrew",
 });
-TemporalHelpers.assertPlainDate(resultChinese, 2025, 1, "M01", 1,
-  "era and eraYear are ignored for calendar not using eras (Chinese)");
-assert.sameValue(resultChinese.calendarId, "chinese");
+TemporalHelpers.assertPlainDate(resultHebrew, 5780, 1, "M01", 1,
+  "era and eraYear are ignored for calendar not using eras (Hebrew)");
+assert.sameValue(resultHebrew.calendarId, "hebrew");
 
 assert.throws(TypeError, () => Temporal.PlainDate.from({
   era: "foobar",
   eraYear: 1,
   monthCode: "M01",
   day: 1,
-  calendar: "chinese",
-}), "era and eraYear cannot replace year for calendar not using eras (Chinese)");
+  calendar: "hebrew",
+}), "era and eraYear cannot replace year for calendar not using eras (Hebrew)");

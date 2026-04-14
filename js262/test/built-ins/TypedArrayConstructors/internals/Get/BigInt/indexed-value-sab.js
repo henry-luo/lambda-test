@@ -4,7 +4,7 @@
 esid: sec-integer-indexed-exotic-objects-get-p-receiver
 description: >
   Return value from valid numeric index, with SharedArrayBuffer
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray, SharedArrayBuffer]
 ---*/
 
@@ -24,4 +24,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
 
   assert.sameValue(sample["0"], 42n);
   assert.sameValue(sample["1"], 1n);
-}, null, ["passthrough"]);
+});

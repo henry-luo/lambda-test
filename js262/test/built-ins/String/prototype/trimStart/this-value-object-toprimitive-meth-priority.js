@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: >
   Priority of Symbol[toPrimitive] when converting object to string for trimming
 info: |

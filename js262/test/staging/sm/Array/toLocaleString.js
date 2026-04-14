@@ -3,10 +3,12 @@
 /*---
 flags:
   - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js]
 description: |
   pending
 esid: pending
 ---*/
+"use strict";
 
 Object.defineProperty(String.prototype, "toLocaleString", {
     get() {
@@ -17,3 +19,4 @@ Object.defineProperty(String.prototype, "toLocaleString", {
 })
 
 assert.sameValue(["test"].toLocaleString(), "string");
+

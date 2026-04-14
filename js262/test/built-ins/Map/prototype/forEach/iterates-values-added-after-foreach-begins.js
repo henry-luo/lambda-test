@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   New keys are visited if created during forEach execution.
 info: |

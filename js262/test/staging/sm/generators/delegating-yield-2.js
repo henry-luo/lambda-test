@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js, sm/non262-generators-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-generators-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -50,7 +52,7 @@ assertIteratorNext(outer, 1);
 delete GeneratorObjectPrototype.throw;
 var outer_throw_42 = GeneratorObjectPrototype_throw.bind(outer, 42);
 
-assert.throws(TypeError, outer_throw_42);
+assertThrowsInstanceOf(outer_throw_42, TypeError);
 
 assertThrowsValue(outer_throw_42, 42);
 

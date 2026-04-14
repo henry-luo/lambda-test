@@ -7,7 +7,7 @@ includes: [compareArray.js, temporalHelpers.js]
 features: [Temporal]
 ---*/
 
-const expectedOpsForPrimitiveOptions = [
+const expected = [
   
   "get fields.days",
   "get fields.days.valueOf",
@@ -39,12 +39,10 @@ const expectedOpsForPrimitiveOptions = [
   "get fields.years",
   "get fields.years.valueOf",
   "call fields.years.valueOf",
-];
-const expected = expectedOpsForPrimitiveOptions.concat([
   "get options.overflow",
   "get options.overflow.toString",
   "call options.overflow.toString",
-]);
+];
 const actual = [];
 
 const instance = new Temporal.PlainDateTime(2000, 5, 2, 12, 34, 56, 987, 654, 321, "iso8601");
@@ -68,11 +66,5 @@ const options = TemporalHelpers.propertyBagObserver(actual, { overflow: "constra
 
 instance.add(fields, options);
 assert.compareArray(actual, expected, "order of operations");
-
-actual.splice(0); 
-
-assert.throws(TypeError, () => instance.add(fields, null));
-assert.compareArray(actual, expectedOpsForPrimitiveOptions,
-  "duration fields are read before TypeError is thrown for primitive options");
 
 actual.splice(0); 

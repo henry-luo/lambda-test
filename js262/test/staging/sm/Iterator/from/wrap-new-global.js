@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -9,7 +12,7 @@ description: |
   pending
 esid: pending
 ---*/
-const otherGlobal = $262.createRealm().global;
+const otherGlobal = createNewGlobal({newCompartment: true});
 
 const iter = [1, 2, 3].values();
 assert.sameValue(iter, Iterator.from(iter));

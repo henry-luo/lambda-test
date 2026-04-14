@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -36,7 +38,7 @@ assert.sameValue(getter("unicode"), undefined);
 assert.sameValue(t.toString(), "/(?:)/");
 
 
-assert.throws(TypeError, () => t.compile("b", "i"));
-assert.throws(TypeError, () => t.test("x"));
-assert.throws(TypeError, () => t.exec("x"));
+assertThrowsInstanceOf(() => t.compile("b", "i"), TypeError);
+assertThrowsInstanceOf(() => t.test("x"), TypeError);
+assertThrowsInstanceOf(() => t.exec("x"), TypeError);
 

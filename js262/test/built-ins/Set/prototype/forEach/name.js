@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-set.prototype.foreach
+esid: sec-set.prototype.forEach
 description: >
     Set.prototype.forEach ( callbackfn [ , thisArg ] )
 

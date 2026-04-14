@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -18,6 +21,9 @@ test();
 
 function test()
 {
+  printBugNumber(BUGNUMBER);
+  printStatus (summary);
+
   try {
     new (this.prototype = this);
   } catch (e) {

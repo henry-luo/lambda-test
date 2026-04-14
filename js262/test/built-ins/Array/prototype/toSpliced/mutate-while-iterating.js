@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: >
   Array.prototype.toSpliced gets array elements one at a time.
 info: |

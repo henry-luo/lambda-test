@@ -1,16 +1,18 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js, sm/non262-TypedArray-shell.js, deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 for (var constructor of anyTypedArrayConstructors) {
     
-    assert.throws(TypeError, () => constructor.from());
-    assert.throws(TypeError, () => constructor.from(undefined));
-    assert.throws(TypeError, () => constructor.from(null));
+    assertThrowsInstanceOf(() => constructor.from(), TypeError);
+    assertThrowsInstanceOf(() => constructor.from(undefined), TypeError);
+    assertThrowsInstanceOf(() => constructor.from(null), TypeError);
 
     
     function ObjectWithThrowingLengthGetterSetter(...rest) {
@@ -26,12 +28,12 @@ for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(ObjectWithThrowingLengthGetterSetter.from([123])[0], 123);
 
     
-    assert.throws(TypeError, () => constructor.from([3, 4, 5], {}));
-    assert.throws(TypeError, () => constructor.from([3, 4, 5], "also not a function"));
-    assert.throws(TypeError, () => constructor.from([3, 4, 5], null));
+    assertThrowsInstanceOf(() => constructor.from([3, 4, 5], {}), TypeError);
+    assertThrowsInstanceOf(() => constructor.from([3, 4, 5], "also not a function"), TypeError);
+    assertThrowsInstanceOf(() => constructor.from([3, 4, 5], null), TypeError);
 
     
-    assert.throws(TypeError, () => constructor.from([], JSON));
+    assertThrowsInstanceOf(() => constructor.from([], JSON), TypeError);
 
     
     var log = "";
@@ -46,7 +48,7 @@ for (var constructor of anyTypedArrayConstructors) {
         get: function () { log += "2"; },
         getOwnPropertyDescriptor: function () { log += "3"; }
     });
-    assert.throws(TypeError, () => constructor.from.call(C, p, {}));
+    assertThrowsInstanceOf(() => constructor.from.call(C, p, {}), TypeError);
     assert.sameValue(log, "");
 
     
@@ -62,19 +64,20 @@ for (var constructor of anyTypedArrayConstructors) {
 
     
     for (var primitive of ["foo", 17, Symbol(), true]) {
-        assert.throws(TypeError, () => constructor.from({[Symbol.iterator] : primitive}));
+        assertThrowsInstanceOf(() => constructor.from({[Symbol.iterator] : primitive}), TypeError);
     }
     assert.deepEqual(constructor.from({[Symbol.iterator]: null}), new constructor());
     assert.deepEqual(constructor.from({[Symbol.iterator]: undefined}), new constructor());
 
     
     for (var primitive of [undefined, null, "foo", 17, Symbol(), true]) {
-        assert.throws(TypeError,
+        assertThrowsInstanceOf(
             () => constructor.from({
                 [Symbol.iterator]() {
                     return {next() { return primitive; }};
                 }
-            }));
+            }),
+        TypeError);
     }
 }
 

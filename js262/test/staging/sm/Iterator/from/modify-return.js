@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -21,7 +24,7 @@ assert.sameValue(done, true);
 assert.sameValue(value, "old return");
 
 iter.return = () => { throw new Error(); };
-assert.throws(Error, () => wrap.return());
+assertThrowsInstanceOf(() => wrap.return(), Error);
 
 iter.return = null;
 let nullResult = wrap.return("return argument ignored");

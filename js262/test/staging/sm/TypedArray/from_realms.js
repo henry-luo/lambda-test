@@ -1,18 +1,19 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
-var g = $262.createRealm().global;
-var h = $262.createRealm().global;
-
 for (var constructor of anyTypedArrayConstructors) {
+    if (typeof createNewGlobal !== 'function')
+        break;
+
     
-    
+    var g = createNewGlobal();
     var ga = g[constructor.name].from([1, 2, 3]);
     assert.sameValue(ga instanceof g[constructor.name], true);
 
@@ -23,7 +24,7 @@ for (var constructor of anyTypedArrayConstructors) {
     assert.sameValue(q instanceof constructor, true);
 
     
-    var result = undefined;
+    var h = createNewGlobal(), result = undefined;
     h.mainGlobal = this;
     h.eval("function f() { mainGlobal.result = this; }");
     g[constructor.name].from.call(constructor, [5, 6, 7], h.f);

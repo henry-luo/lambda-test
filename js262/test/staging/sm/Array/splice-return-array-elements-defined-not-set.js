@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Array.prototype.splice should define, not set, the elements of the array it returns
-info: bugzilla.mozilla.org/show_bug.cgi?id=668024
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 668024;
+var summary =
+  'Array.prototype.splice should define, not set, the elements of the array ' +
+  'it returns';
+
+print(BUGNUMBER + ": " + summary);
+
 
 Object.defineProperty(Object.prototype, 2,
   {
@@ -29,3 +39,6 @@ assert.sameValue(removed[2], 2);
 assert.sameValue(removed[3], 3);
 assert.sameValue(removed[4], 4);
 assert.sameValue(removed[5], 5);
+
+
+print("Tests complete");

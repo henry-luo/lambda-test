@@ -1,17 +1,34 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  { get x(v) { } } and { set x(v, v2) { } } should be syntax errors
-info: bugzilla.mozilla.org/show_bug.cgi?id=536472
+  pending
 esid: pending
 ---*/
+var gTestfile = 'object-literal-accessor-arguments.js';
+
+var BUGNUMBER = 536472;
+var summary =
+  'ES5: { get x(v) { } } and { set x(v, v2) { } } should be syntax errors';
+
+print(BUGNUMBER + ": " + summary);
+
 
 function expectSyntaxError(s)
 {
-  assert.throws(SyntaxError, function() {
+  try
+  {
     eval(s);
-  }, "expected syntax error parsing '" + s + "'");
+    throw new Error("no error thrown");
+  }
+  catch (e)
+  {
+    assert.sameValue(e instanceof SyntaxError, true,
+             "expected syntax error parsing '" + s + "', got: " + e);
+  }
 }
 
 expectSyntaxError("({ get x(a) { } })");
@@ -25,3 +42,4 @@ expectSyntaxError("({ set x(a, a) { } })");
 expectSyntaxError("({ set x(a, b) { } })");
 expectSyntaxError("({ set x(a, a, b) { } })");
 expectSyntaxError("({ set x(a, b, c) { } })");
+

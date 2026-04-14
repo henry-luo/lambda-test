@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.tosorted
+esid: sec-%typedarray%.prototype.toSorted
 description: >
   %TypedArray%.prototype.toSorted throws if the receiver is not a valid TypedArray
 info: |
@@ -40,4 +40,4 @@ testWithTypedArrayConstructors(function(TA) {
   assert.throws(TypeError, () => {
     sample.toSorted();
   }, `array has a detached buffer`);
-}, null, ["passthrough"]);
+});

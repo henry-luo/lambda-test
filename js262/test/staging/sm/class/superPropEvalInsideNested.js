@@ -1,18 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
-assert.throws(SyntaxError, () =>
+assertThrowsInstanceOf(() =>
 ({
     method() {
         (function () {
             eval('super.toString');
         })();
     }
-}).method());
+}).method(), SyntaxError);
 

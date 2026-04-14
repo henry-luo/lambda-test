@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.toreversed
+esid: sec-array.prototype.toReversed
 description: >
   Array.prototype.toReversed limits the length to 2 ** 32 - 1
 info: |

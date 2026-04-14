@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   Throws a TypeError if `this` is a WeakMap object.
 info: |

@@ -1,0 +1,31 @@
+
+
+/*---
+esid: sec-temporal.zoneddatetime
+description: ZonedDateTime constructor accepts link names as time zone ID input
+features: [Temporal, canonical-tz]
+---*/
+
+const testCases = [
+  "Europe/Jersey",  
+  "Europe/Guernsey",  
+  "Europe/Isle_of_Man",  
+  "Europe/Mariehamn",  
+  "Europe/Busingen",  
+  "Europe/Vatican",  
+  "Europe/San_Marino",  
+  "Europe/Vaduz",  
+  "Arctic/Longyearbyen",  
+  "Europe/Ljubljana",  
+  "Europe/Podgorica",  
+  "Europe/Sarajevo",  
+  "Europe/Skopje",  
+  "Europe/Zagreb",  
+  "Europe/Bratislava",  
+  "Asia/Istanbul",  
+];
+
+for (let id of testCases) {
+  const instance = new Temporal.ZonedDateTime(0n, id);
+  assert.sameValue(instance.timeZoneId, id);
+}

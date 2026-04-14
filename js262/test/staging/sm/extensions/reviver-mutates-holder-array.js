@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  Behavior when the JSON.parse reviver mutates the holder array
-info: bugzilla.mozilla.org/show_bug.cgi?id=901351
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 901351;
+var summary = "Behavior when the JSON.parse reviver mutates the holder array";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var proxyObj = null;
 
@@ -22,3 +30,6 @@ assert.sameValue(arr[0], 0);
 assert.sameValue(arr[1], proxyObj);
 assert.sameValue(arr[1].c, 17);
 assert.sameValue(arr[1].d, 42);
+
+
+print("Tests complete");

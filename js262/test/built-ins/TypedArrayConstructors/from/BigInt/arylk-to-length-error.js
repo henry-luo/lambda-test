@@ -9,7 +9,7 @@ info: |
   ...
   7. Let len be ? ToLength(? Get(arrayLike, "length")).
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
@@ -25,4 +25,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   assert.throws(Test262Error, function() {
     TA.from(arrayLike);
   });
-}, null, ["passthrough"]);
+});

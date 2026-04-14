@@ -16,18 +16,6 @@ assert.throws(
 
 assert.throws(
   TypeError,
-  () => instance.with([]),
-  "Throws TypeError if no property is present (with array)"
-);
-
-assert.throws(
-  TypeError,
-  () => instance.with(() => {}),
-  "Throws TypeError if no property is present (with function)"
-);
-
-assert.throws(
-  TypeError,
   () => instance.with({ nonsense: true }),
   "Throws TypeError if no recognized property is present"
 );

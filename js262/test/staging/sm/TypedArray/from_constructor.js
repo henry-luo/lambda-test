@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -21,9 +23,9 @@ for (var constructor of anyTypedArrayConstructors) {
         () => ({})  
     ];
     for (var v of nonconstructors) {
-        assert.throws(TypeError, () => {
+        assertThrowsInstanceOf(() => {
             constructor.from.call(v, arr);
-        });
+        }, TypeError);
     }
 
     

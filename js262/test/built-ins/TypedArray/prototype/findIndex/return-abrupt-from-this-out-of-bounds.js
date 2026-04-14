@@ -54,4 +54,4 @@ testWithTypedArrayConstructors(TA => {
     array.findIndex(() => {});
     throw new Test262Error('findIndex completed successfully');
   });
-}, null, ["passthrough"]);
+});

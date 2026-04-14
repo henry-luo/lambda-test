@@ -1,26 +1,36 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
+"use strict";
+
+function assertThrowsTypeErrorIncludes(f, propStr, details) {
+  assertThrowsInstanceOfWithMessageCheck(f, TypeError,
+    message => message.includes(propStr) && (!details || message.includes(details)));
+}
+
 const STR = "one", STR_NAME = `"one"`;
 const SYM = Symbol("two"), SYM_NAME = `'Symbol("two")'`;
 
 function errorHasPropertyTests(test) {
-  assert.throws(TypeError, () => test(STR));
-  assert.throws(TypeError, () => test(SYM));
+  assertThrowsTypeErrorIncludes(() => test(STR), STR_NAME);
+  assertThrowsTypeErrorIncludes(() => test(SYM), SYM_NAME);
 }
 
 function errorHasPropertyTestsWithDetails(test) {
   let [throwable, details] = test(STR);
-  assert.throws(TypeError, throwable, details);
+  assertThrowsTypeErrorIncludes(throwable, STR_NAME, details);
 
   [throwable, details] = test(SYM);
-  assert.throws(TypeError, throwable, details);
+  assertThrowsTypeErrorIncludes(throwable, SYM_NAME, details);
 }
 
 

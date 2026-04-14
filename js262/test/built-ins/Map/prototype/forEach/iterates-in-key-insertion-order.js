@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   Repeats for each non-empty record, in original key insertion order.
 info: |

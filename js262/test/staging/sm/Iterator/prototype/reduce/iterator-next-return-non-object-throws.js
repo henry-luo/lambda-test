@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -24,15 +27,15 @@ class TestIterator extends Iterator {
 const sum = (x, y) => x + y;
 
 let iter = new TestIterator(undefined);
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 iter = new TestIterator(null);
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 iter = new TestIterator(0);
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 iter = new TestIterator(false);
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 iter = new TestIterator('');
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 iter = new TestIterator(Symbol(''));
-assert.throws(TypeError, () => iter.reduce(sum));
+assertThrowsInstanceOf(() => iter.reduce(sum), TypeError);
 

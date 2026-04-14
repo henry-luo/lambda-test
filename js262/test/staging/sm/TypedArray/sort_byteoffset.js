@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -11,8 +13,10 @@ esid: pending
 var sortFunctions = [Int32Array.prototype.sort];
 
 
-var otherGlobal = $262.createRealm().global;
-sortFunctions.push(otherGlobal.Int32Array.prototype.sort);
+if (typeof createNewGlobal === "function") {
+    var otherGlobal = createNewGlobal();
+    sortFunctions.push(createNewGlobal().Int32Array.prototype.sort);
+}
 
 
 for (var ctor of anyTypedArrayConstructors) {

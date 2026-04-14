@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -15,7 +18,7 @@ try {
 }
 
 
-assert.throws(SyntaxError, () => eval('new.target'));
+assertThrowsInstanceOf(() => eval('new.target'), SyntaxError);
 
 
 let ieval = eval;

@@ -1,5 +1,6 @@
 /*---
 defines: [SOME_PRIMITIVE_VALUES]
+allow_unused: True
 ---*/
 
 

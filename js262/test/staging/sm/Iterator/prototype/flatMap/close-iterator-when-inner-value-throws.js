@@ -14,6 +14,9 @@ info: |
         2. IfAbruptCloseIterator(innerValue, iterated).
 features:
   - iterator-helpers
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 ---*/
 class TestIterator extends Iterator {
   next() {
@@ -43,6 +46,6 @@ const iter = new TestIterator();
 const mapped = iter.flatMap(x => new InnerIterator());
 
 assert.sameValue(iter.closed, false);
-assert.throws(TestError, () => mapped.next());
+assertThrowsInstanceOf(() => mapped.next(), TestError);
 assert.sameValue(iter.closed, true);
 

@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -51,5 +53,5 @@ assertThrowsValue(() => Reflect.isExtensible(proxy), "oops");
 proxy = new Proxy({}, {
     isExtensible() { return false; }
 });
-assert.throws(TypeError, () => Reflect.isExtensible(proxy));
+assertThrowsInstanceOf(() => Reflect.isExtensible(proxy), TypeError);
 

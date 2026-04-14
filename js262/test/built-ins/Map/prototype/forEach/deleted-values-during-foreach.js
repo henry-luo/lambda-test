@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   Map state with deleted values during forEach.
 info: |

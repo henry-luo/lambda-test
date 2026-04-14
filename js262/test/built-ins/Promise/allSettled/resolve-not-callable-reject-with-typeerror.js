@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-promise.allsettled
+esid: sec-promise.allSettled
 description: >
   If the constructor's `resolve` method is not callable, reject with a TypeError.
 info: |

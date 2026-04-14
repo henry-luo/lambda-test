@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -11,7 +14,7 @@ const array = new Array(0);
 
 
 for (let invalidComparator of [null, 0, true, Symbol(), {}, []]) {
-    assert.throws(TypeError, () => array.sort(invalidComparator));
+    assertThrowsInstanceOf(() => array.sort(invalidComparator), TypeError);
 }
 
 

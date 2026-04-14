@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.prototype.replace with non-regexp searchValue
-info: bugzilla.mozilla.org/show_bug.cgi?id=587366
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 587366;
+var summary = "String.prototype.replace with non-regexp searchValue";
+
+print(BUGNUMBER + ": " + summary);
 
 
 /(a|(b)|c)+/.exec('abcabc');
@@ -48,3 +54,6 @@ assert.sameValue(result, 'I once was lost but now am $1found$2.$3.');
 
 for (var ident in before)
     assert.sameValue(RegExp[ident], before[ident]);
+
+
+print("All tests passed!");

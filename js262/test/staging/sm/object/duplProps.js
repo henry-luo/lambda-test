@@ -1,13 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
-
-var a;
 
 
 a = function() { "use strict"; return { foo: 0, foo : 1 }};

@@ -1,11 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  new Int8Array([1, 2, 3]).subarray(1).subarray(1)[0] === 3
-info: bugzilla.mozilla.org/show_bug.cgi?id=637643
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 637643;
+var summary =
+  "new Int8Array([1, 2, 3]).subarray(1).subarray(1)[0] === 3";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var ta = new Int8Array([1, 2, 3]);
 assert.sameValue(ta.length, 3);
@@ -21,3 +30,5 @@ assert.sameValue(sa1[1], 3);
 var sa2 = sa1.subarray(1);
 assert.sameValue(sa2.length, 1);
 assert.sameValue(sa2[0], 3);
+
+print("All tests passed!");

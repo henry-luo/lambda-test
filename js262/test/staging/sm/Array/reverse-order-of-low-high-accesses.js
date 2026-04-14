@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  [].reverse should swap elements low to high using accesses to low elements, then accesses to high elements
-info: bugzilla.mozilla.org/show_bug.cgi?id=858677
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 858677;
+var summary =
+  "[].reverse should swap elements low to high using accesses to low " +
+  "elements, then accesses to high elements";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var observed = [];
 
@@ -46,7 +56,7 @@ var expectedObserved =
    "index 6 get",
    "index 2 get"
    ];
-
+print(observed);
 
 assert.sameValue(observed.length, expectedObserved.length);
 for (var i = 0; i < expectedObserved.length; i++)
@@ -60,3 +70,6 @@ assert.sameValue(4 in arr, false);
 assert.sameValue(arr[5], "index 2 get"); 
 assert.sameValue(6 in arr, false); 
 assert.sameValue(arr[7], "index 7 get"); 
+
+
+print("Tests complete");

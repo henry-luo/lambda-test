@@ -1,13 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 {
   assert.sameValue(f(), 4);
   function f() { return 3; }
@@ -46,27 +46,41 @@ function test() {
 
 test();
 
+var log = '';
 
-assert.throws(SyntaxError, function() {
+try {
+  
   eval(`"use strict";
   {
     function f() { }
     function f() { }
   }`);
-});
+} catch (e) {
+  assert.sameValue(e instanceof SyntaxError, true);
+  log += 'e';
+}
 
-
-assert.throws(SyntaxError, function() {
+try {
+  
   eval(`{
     let x = 42;
     function x() {}
   }`);
-});
+} catch (e) {
+  assert.sameValue(e instanceof SyntaxError, true);
+  log += 'e';
+}
 
-
-assert.throws(SyntaxError, function() {
+try {
+  
   eval(`{
     const x = 42;
     function x() {}
   }`);
-});
+} catch (e) {
+  assert.sameValue(e instanceof SyntaxError, true);
+  log += 'e';
+}
+
+assert.sameValue(log, 'eee');
+

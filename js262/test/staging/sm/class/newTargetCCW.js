@@ -1,12 +1,15 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
-var g = $262.createRealm().global;
+var g = createNewGlobal();
 
 let f = g.eval('(function (expected) { this.accept = new.target === expected; })');
 

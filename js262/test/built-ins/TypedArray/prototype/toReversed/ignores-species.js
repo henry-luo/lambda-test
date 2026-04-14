@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.toreversed
+esid: sec-%typedarray%.prototype.toReversed
 description: >
   %TypedArray%.prototype.toReversed ignores @@species
 info: |
@@ -37,4 +37,4 @@ testWithTypedArrayConstructors(TA => {
     }
   });
   ta.toReversed();
-}, null, ["passthrough"]);
+});

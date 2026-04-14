@@ -3,11 +3,12 @@
 /*---
 flags:
   - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js]
 description: |
   pending
 esid: pending
 ---*/
-
+"use strict"; 
 
 var emptyIterator = {
   next() {
@@ -29,3 +30,4 @@ Object.defineProperty(Number.prototype, Symbol.iterator, {
 Promise.all(0);
 Promise.allSettled(0);
 Promise.race(0);
+

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.toreversed
+esid: sec-array.prototype.toReversed
 description: >
   "toReversed" property of Array.prototype
 info: |

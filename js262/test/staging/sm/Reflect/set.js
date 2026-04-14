@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js, sm/non262-Reflect-shell.js, deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -105,7 +107,7 @@ assert.sameValue(Reflect.set(proxy, "prop", "value"), true);
 assert.sameValue(log, "sp");
 
 
-var g = $262.createRealm().global;
+var g = createNewGlobal();
 if (!("assert" in g) && "assert" in globalThis)
     g.assert = assert;  
 if (!("assert.sameValue" in g))
@@ -210,7 +212,7 @@ for (obj of [{a: 0}, {get a() { return 0; }}]) {
     proxy = new Proxy(obj, {
         set(t, k, v, r) { return true; }
     });
-    assert.throws(TypeError, () => Reflect.set(proxy, "a", "b"));
+    assertThrowsInstanceOf(() => Reflect.set(proxy, "a", "b"), TypeError);
 }
 
 

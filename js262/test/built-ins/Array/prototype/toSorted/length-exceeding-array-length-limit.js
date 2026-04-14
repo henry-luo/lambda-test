@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tosorted
+esid: sec-array.prototype.toSorted
 description: >
   Array.prototype.toSorted limits the length to 2 ** 32 - 1
 info: |

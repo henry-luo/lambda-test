@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  async function constructor and prototype
-info: bugzilla.mozilla.org/show_bug.cgi?id=1185106
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1185106;
+var summary = "async function constructor and prototype";
+
+print(BUGNUMBER + ": " + summary);
 
 var f1 = async function() {};
 
@@ -32,3 +38,4 @@ var f4 = AsyncFunction("a", "b", "c", "await 1");
 assert.sameValue(f4.constructor, AsyncFunction);
 assert.sameValue(f4.length, 3);
 assert.sameValue(Object.getPrototypeOf(f4), AsyncFunctionPrototype);
+

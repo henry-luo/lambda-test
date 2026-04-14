@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  Slash and LineTerminator should be escaped correctly.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1130860
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1130860;
+var summary = 'Slash and LineTerminator should be escaped correctly.';
+
+print(BUGNUMBER + ": " + summary);
 
 function test(re, source) {
   assert.sameValue(re.source, source);
@@ -69,3 +75,4 @@ test(RegExp("\\[\/\\]"),    "\\[\\/\\]");
 test(RegExp("\\[\\/\\]"),   "\\[\\/\\]");
 test(RegExp("\\[\\\/\\]"),  "\\[\\/\\]");
 test(RegExp("\\[\\\\/\\]"), "\\[\\\\\\/\\]");
+

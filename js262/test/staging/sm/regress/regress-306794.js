@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -11,6 +14,9 @@ var summary = 'Do not assert: parsing foo getter';
 var actual = 'No Assertion';
 var expect = 'No Assertion';
 
+printBugNumber(BUGNUMBER);
+printStatus (summary);
+ 
 try
 {
   eval('getter\n');

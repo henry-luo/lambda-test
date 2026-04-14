@@ -4,7 +4,7 @@
 esid: sec-atomics.load
 description: >
   Test range checking of Atomics.load on arrays that allow atomic operations
-includes: [testAtomics.js, testTypedArray.js]
+includes: [testAtomics.js, testBigIntTypedArray.js]
 features: [ArrayBuffer, Atomics, BigInt, DataView, SharedArrayBuffer, Symbol, TypedArray]
 ---*/
 
@@ -17,4 +17,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
       Atomics.load(view, IdxGen(view));
     });
   });
-}, null, ["passthrough"]);
+});

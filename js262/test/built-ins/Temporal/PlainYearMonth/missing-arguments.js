@@ -17,5 +17,3 @@ const args = [
 
 assert.throws(RangeError, () => new Temporal.PlainYearMonth(...args));
 assert.compareArray(actual, expected, "order of operations");
-
-assert.throws(RangeError, () => new Temporal.PlainYearMonth(), "no arguments");

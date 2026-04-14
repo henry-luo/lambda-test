@@ -14,12 +14,12 @@ info: |
       ...
   4. Return OrdinaryGetOwnProperty(O, P).
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
-testWithBigIntTypedArrayConstructors(function(TA, makeCtorArg) {
-  var sample = new TA(makeCtorArg([42n, 43n]));
+testWithBigIntTypedArrayConstructors(function(TA) {
+  var sample = new TA([42n, 43n]);
 
   assert.sameValue(
     Object.getOwnPropertyDescriptor(sample, "undef"),
@@ -34,4 +34,4 @@ testWithBigIntTypedArrayConstructors(function(TA, makeCtorArg) {
     "bar",
     "return value from a String key"
   );
-}, null, ["passthrough"]);
+});

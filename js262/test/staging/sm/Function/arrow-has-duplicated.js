@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -12,12 +13,12 @@ function f0(a, a) {
 }
 
 
-assert.throws(SyntaxError, () => eval(`
+assertThrowsInstanceOf(() => eval(`
 (a, a) => {
 };
-`));
-assert.throws(SyntaxError, () => eval(`
+`), SyntaxError);
+assertThrowsInstanceOf(() => eval(`
 (a, ...a) => {
 };
-`));
+`), SyntaxError);
 

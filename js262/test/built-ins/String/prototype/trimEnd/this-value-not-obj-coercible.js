@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimend
+esid: sec-string.prototype.trimEnd
 description: The "this" value must be object-coercible
 info: |
   1. Let O be ? RequireObjectCoercible(this value).

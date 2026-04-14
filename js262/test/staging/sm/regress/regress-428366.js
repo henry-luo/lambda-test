@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -12,6 +13,9 @@ var BUGNUMBER = 428366;
 var summary = 'Do not assert deleting eval 16 times';
 var actual = '';
 var expect = '';
+
+printBugNumber(BUGNUMBER);
+printStatus (summary);
 
 this.__proto__.x = eval;
 for (i = 0; i < 16; ++i) delete eval;

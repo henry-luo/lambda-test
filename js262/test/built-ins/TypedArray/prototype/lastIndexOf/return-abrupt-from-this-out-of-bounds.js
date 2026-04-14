@@ -54,4 +54,4 @@ testWithTypedArrayConstructors(TA => {
     array.lastIndexOf(0);
     throw new Test262Error('lastIndexOf completed successfully');
   });
-}, null, ["passthrough"]);
+});

@@ -1,13 +1,18 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-strict-shell.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
-  JSOP_CALLEE should push undefined, not null, for this
-info: bugzilla.mozilla.org/show_bug.cgi?id=611276
+  pending
 esid: pending
 ---*/
+var gTestfile = 'this-for-function-expression-recursion.js';
+var BUGNUMBER = 611276;
+var summary = "JSOP_CALLEE should push undefined, not null, for this";
+
+print(BUGNUMBER + ": " + summary);
 
 
 var calleeThisFun =
@@ -28,3 +33,6 @@ var calleeThisStrictFun =
     return calleeThisStrictFun(true);
   };
 assert.sameValue(calleeThisStrictFun(false), undefined);
+
+
+print("All tests passed!");

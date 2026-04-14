@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: Type error when "this" value is a Symbol
 info: |
   Runtime Semantics: TrimString ( string, where )

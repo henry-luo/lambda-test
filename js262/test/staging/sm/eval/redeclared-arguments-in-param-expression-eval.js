@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -12,33 +13,33 @@ assert.sameValue("arguments" in this, false);
 
 
 function f1(p = eval("var arguments")) {}
-assert.throws(SyntaxError, f1);
+assertThrowsInstanceOf(f1, SyntaxError);
 
 
 function f2(p = eval("var arguments")) {
   var arguments;
 }
-assert.throws(SyntaxError, f2);
+assertThrowsInstanceOf(f2, SyntaxError);
 
 
 function f3(p = eval("var arguments")) {
   function arguments() {}
 }
-assert.throws(SyntaxError, f3);
+assertThrowsInstanceOf(f3, SyntaxError);
 
 
 function f4(p = eval("var arguments")) {
   let arguments;
 }
-assert.throws(SyntaxError, f4);
+assertThrowsInstanceOf(f4, SyntaxError);
 
 
 function f5(p = eval("var arguments"), arguments) {}
-assert.throws(SyntaxError, f5);
+assertThrowsInstanceOf(f5, SyntaxError);
 
 
 function f6(arguments, p = eval("var arguments")) {}
-assert.throws(SyntaxError, f6);
+assertThrowsInstanceOf(f6, SyntaxError);
 
 
 var a1 = (p = eval("var arguments = 'param'")) => {
@@ -72,11 +73,11 @@ a4();
 
 
 var a5 = (p = eval("var arguments"), arguments) => {};
-assert.throws(SyntaxError, a5);
+assertThrowsInstanceOf(a5, SyntaxError);
 
 
 var a6 = (arguments, p = eval("var arguments")) => {};
-assert.throws(SyntaxError, a6);
+assertThrowsInstanceOf(a6, SyntaxError);
 
 
 assert.sameValue("arguments" in this, false);

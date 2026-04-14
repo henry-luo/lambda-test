@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -25,6 +26,9 @@ function scope1() {
 }
 
 function test() {
+    printBugNumber(BUGNUMBER);
+    printStatus (summary);
+
     
     actual = eval('x', scope1());
     expect = 0;

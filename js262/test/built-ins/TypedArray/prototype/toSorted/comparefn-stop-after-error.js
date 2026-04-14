@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.tosorted
+esid: sec-%typedarray%.prototype.toSorted
 description: >
   %TypedArray%.prototype.toSorted doesn't call copmareFn if there is an error
 info: |
@@ -17,9 +17,9 @@ includes: [testTypedArray.js]
 features: [TypedArray, change-array-by-copy]
 ---*/
 
-testWithTypedArrayConstructors((TA, makeCtorArg) => {
+testWithTypedArrayConstructors(TA => {
   var calls = 0;
-  var ta = new TA(makeCtorArg([3, 1, 2]));
+  var ta = new TA([3, 1, 2]);
   try {
     ta.toSorted(() => {
       ++calls;

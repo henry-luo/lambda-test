@@ -1,11 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 
 var testStr = `
 class C extends Object {
@@ -17,8 +19,5 @@ class C extends Object {
   }
 }
 new C;`
-
-assert.throws(ReferenceError, function() {
-  eval(testStr);
-});
+assert.sameValue(raisesException(ReferenceError)(testStr), true);
 

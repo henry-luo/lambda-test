@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   If a thisArg parameter is provided, it will be used as the this value for each
   invocation of callbackfn.

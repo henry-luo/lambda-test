@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: >
   Array.prototype.toSpliced treats negative Infinity as zero for start.
 info: |

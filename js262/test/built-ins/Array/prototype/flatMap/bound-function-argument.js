@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: >
     Behavior when given a bound function
 includes: [compareArray.js]

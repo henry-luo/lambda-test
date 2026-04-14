@@ -8,6 +8,9 @@ info: |
   Iterator Helpers proposal 2.1.5
 features:
   - iterator-helpers
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 ---*/
 
 
@@ -36,7 +39,7 @@ const methods = [
 for (const method of methods) {
   const iter = new TestIterator();
   assert.sameValue(iter.closed, false);
-  assert.throws(TestError, () => method(iter).next());
+  assertThrowsInstanceOf(() => method(iter).next(), TestError);
   assert.sameValue(iter.closed, true);
 }
 

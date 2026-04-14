@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -8,25 +11,25 @@ esid: pending
 
 
 {
-  assert.throws(ReferenceError, () => {
+  assertThrowsInstanceOf(() => {
     const Null = null;
     Null?.[b];
     b = 0;
     let b;
-  });
+  }, ReferenceError);
 
-  assert.throws(ReferenceError, () => {
+  assertThrowsInstanceOf(() => {
     const Null = null;
     Null?.[b]();
     b = 0;
     let b;
-  });
+  }, ReferenceError);
 
-  assert.throws(ReferenceError, () => {
+  assertThrowsInstanceOf(() => {
     const Null = null;
     delete Null?.[b];
     b = 0;
     let b;
-  });
+  }, ReferenceError);
 }
 

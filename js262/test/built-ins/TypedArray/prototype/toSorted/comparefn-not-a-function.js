@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.tosorted
+esid: sec-%typedarray%.prototype.toSorted
 description: >
   %TypedArray%.prototype.toSorted verifies that the comparator is callable before reading the length.
 info: |
@@ -16,8 +16,8 @@ features: [TypedArray, change-array-by-copy]
 
 var invalidComparators = [null, true, false, "", /a/g, 42, 42n, [], {}, Symbol()];
 
-testWithTypedArrayConstructors((TA, makeCtorArg) => {
-  const ta = new TA(makeCtorArg([1]));
+testWithTypedArrayConstructors(TA => {
+  const ta = new TA([1]);
   for (var i = 0; i < invalidComparators.length; i++) {
     assert.throws(TypeError, function() {
       ta.toSorted(invalidComparators[i]);

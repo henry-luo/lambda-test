@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.prototype.split with regexp separator
-info: bugzilla.mozilla.org/show_bug.cgi?id=614608
+  pending
 esid: pending
 ---*/
+
+
+var BUGNUMBER = 614608;
+var summary = "String.prototype.split with regexp separator";
+
+print(BUGNUMBER + ": " + summary);
 
 
 var ecmaSampleRe = /<(\/)?([^<>]+)>/;
@@ -87,3 +95,5 @@ function testSplit() {
 }
 
 testSplit();
+
+print("All tests passed!");

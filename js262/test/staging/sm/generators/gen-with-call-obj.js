@@ -1,10 +1,12 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-generators-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
-features: [host-gc-required]
 ---*/
 var foo;
 
@@ -16,7 +18,7 @@ function* gen() {
 }
 
 var j = 0;
-for (var i of gen())
+for (i of gen())
     assert.sameValue(i, j++);
 
 

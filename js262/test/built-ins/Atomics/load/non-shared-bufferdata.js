@@ -13,4 +13,4 @@ testWithAtomicsFriendlyTypedArrayConstructors(TA => {
   );
 
   assert.sameValue(Atomics.load(view, 0), 0, 'Atomics.load(view, 0) returns 0');
-}, null, ["passthrough"]);
+});

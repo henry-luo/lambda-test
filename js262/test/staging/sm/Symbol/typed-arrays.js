@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -9,11 +12,11 @@ esid: pending
 
 for (var T of [Uint8Array, Uint8ClampedArray, Int16Array, Float32Array]) {
     
-    assert.throws(TypeError, () => new T([Symbol("a")]));
+    assertThrowsInstanceOf(() => new T([Symbol("a")]), TypeError);
 
     
     var arr = new T([1]);
-    assert.throws(TypeError, () => { arr[0] = Symbol.iterator; });
+    assertThrowsInstanceOf(() => { arr[0] = Symbol.iterator; }, TypeError);
     assert.sameValue(arr[0], 1);
 }
 

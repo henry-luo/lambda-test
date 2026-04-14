@@ -5,7 +5,7 @@ esid: sec-temporal.plaindate.from
 description: >
   Throw a TypeError if only one of era/eraYear fields is present (for calendar
   using eras)
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 const base = { year: 2000, month: 5, day: 2, era: "ce", calendar: "gregory" };

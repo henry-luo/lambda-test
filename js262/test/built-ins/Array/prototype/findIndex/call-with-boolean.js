@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.findindex
+esid: sec-array.prototype.findIndex
 description: Array.prototype.findIndex applied to boolean primitive
 ---*/
 

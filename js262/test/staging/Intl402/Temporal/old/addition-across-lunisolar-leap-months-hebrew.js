@@ -1,0 +1,46 @@
+
+
+/*---
+esid: sec-temporal-intl
+description: Addition across lunisolar leap months
+features: [Temporal]
+---*/
+
+
+var date = Temporal.PlainDate.from({
+  year: 5783,
+  monthCode: "M08",
+  day: 2,
+  calendar: "hebrew"
+});
+var added = date.add({ years: 1 });
+assert.sameValue(added.day, date.day);
+assert.sameValue(added.monthCode, date.monthCode);
+assert.sameValue(added.year, date.year + 1);
+
+
+var date = Temporal.PlainDate.from({
+  year: 5783,
+  monthCode: "M08",
+  day: 2,
+  calendar: "hebrew"
+});
+var added = date.add({ months: 13 });
+assert.sameValue(added.day, date.day);
+assert.sameValue(added.monthCode, date.monthCode);
+assert.sameValue(added.year, date.year + 1);
+
+
+var date = Temporal.PlainDate.from({
+  year: 5783,
+  monthCode: "M08",
+  day: 2,
+  calendar: "hebrew"
+});
+var added = date.add({
+  years: 1,
+  months: 12
+});
+assert.sameValue(added.day, date.day);
+assert.sameValue(added.monthCode, date.monthCode);
+assert.sameValue(added.year, date.year + 2);

@@ -1,11 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
-  Object.getOwnPropertyNames should play nicely with enumerator caching
-info: bugzilla.mozilla.org/show_bug.cgi?id=518663
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 518663;
+var summary =
+  'Object.getOwnPropertyNames should play nicely with enumerator caching';
+
+print(BUGNUMBER + ": " + summary);
+
 
 for (var p in JSON);
 var names = Object.getOwnPropertyNames(JSON);
@@ -13,3 +22,6 @@ assert.sameValue(names.length >= 2, true,
          "wrong number of property names?  [" + names + "]");
 assert.sameValue(names.indexOf("parse") >= 0, true);
 assert.sameValue(names.indexOf("stringify") >= 0, true);
+
+
+print("All tests passed!");

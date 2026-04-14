@@ -1,7 +1,7 @@
 
 
 /*---
-includes: [sm/non262-generators-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-generators-shell.js]
 flags:
   - noStrict
 description: |
@@ -13,10 +13,17 @@ esid: pending
 function assertSyntaxError(str) {
     var msg;
     var evil = eval;
-    assert.throws(SyntaxError, function() {
+    try {
         
         evil(str);
-    });
+    } catch (exc) {
+        if (exc instanceof SyntaxError)
+            return;
+        msg = "Assertion failed: expected SyntaxError, got " + exc;
+    }
+    if (msg === undefined)
+        msg = "Assertion failed: expected SyntaxError, but no exception thrown";
+    throw new Error(msg + " - " + str);
 }
 
 
@@ -48,14 +55,14 @@ function* g() {
     yield *
     foo
 }
-assert.throws(SyntaxError, () => Function("function* g() { yield\n* foo }"));
+assertThrowsInstanceOf(() => Function("function* g() { yield\n* foo }"), SyntaxError);
 assertIteratorNext(function*(){
                        yield
                        3
                    }(), undefined)
 
 
-assert.throws(SyntaxError, () => Function("function* g() { yield ? yield : yield }"));
+assertThrowsInstanceOf(() => Function("function* g() { yield ? yield : yield }"), SyntaxError);
 
 
 function* g() { "use strict"; yield 3; yield 4; }

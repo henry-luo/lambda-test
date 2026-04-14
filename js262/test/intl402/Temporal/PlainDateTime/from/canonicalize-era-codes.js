@@ -4,12 +4,12 @@
 esid: sec-temporal.plaindatetime.from
 description: Calendar era code is canonicalized
 includes: [temporalHelpers.js]
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 const date1 = Temporal.PlainDateTime.from({
   calendar: "gregory",
-  era: "ad",
+  era: "ce",
   eraYear: 2024,
   year: 2024,
   month: 1,
@@ -18,13 +18,13 @@ const date1 = Temporal.PlainDateTime.from({
 TemporalHelpers.assertPlainDateTime(
   date1,
   2024, 1, "M01", 1, 0, 0, 0, 0, 0, 0,
-  "'ad' is accepted as alias for 'ce'",
-  "ce", 2024
+  "'ce' is accepted as alias for 'gregory'",
+  "gregory", 2024
 );
 
 const date2 = Temporal.PlainDateTime.from({
   calendar: "gregory",
-  era: "bc",
+  era: "bce",
   eraYear: 44,
   year: -43,
   month: 3,
@@ -33,6 +33,6 @@ const date2 = Temporal.PlainDateTime.from({
 TemporalHelpers.assertPlainDateTime(
   date2,
   -43, 3, "M03", 15, 0, 0, 0, 0, 0, 0,
-  "'bc' is accepted as alias for 'bce'",
-  "bce", 44
+  "'bce' is accepted as alias for 'gregory-inverse'",
+  "gregory-inverse", 44
 );

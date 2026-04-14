@@ -1,0 +1,19 @@
+
+
+/*---
+esid: sec-temporal.duration.prototype.round
+description: The relativeTo option accepts a ZonedDateTime-like ISO 8601 string
+features: [Temporal]
+includes: [temporalHelpers.js]
+---*/
+
+[
+  '2000-01-01[UTC]',
+  '2000-01-01T00:00[UTC]',
+  '2000-01-01T00:00+00:00[UTC]',
+  '2000-01-01T00:00+00:00[UTC][u-ca=iso8601]',
+].forEach((relativeTo) => {
+  const duration = new Temporal.Duration(0, 0, 0, 31);
+  const result = duration.round({ largestUnit: "months", relativeTo });
+  TemporalHelpers.assertDuration(result, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+});

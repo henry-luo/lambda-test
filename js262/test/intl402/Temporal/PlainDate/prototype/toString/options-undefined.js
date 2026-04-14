@@ -18,7 +18,4 @@ const date2 = new Temporal.PlainDate(2000, 5, 2, "gregory");
 
   const implicit = date.toString();
   assert.sameValue(implicit, expected, "default calendarName option is auto");
-
-  const lambda = date.toString(() => {});
-  assert.sameValue(lambda, expected, "default calendarName option is auto");
 });

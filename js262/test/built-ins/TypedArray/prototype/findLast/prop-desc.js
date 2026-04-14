@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.findlast
+esid: sec-%typedarray%.prototype.findLast
 description: >
   "findLast" property of TypedArrayPrototype
 info: |

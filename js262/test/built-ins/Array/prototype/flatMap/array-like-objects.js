@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: >
   array-like objects can be flattened
 info: |

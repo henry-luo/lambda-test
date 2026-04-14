@@ -27,18 +27,18 @@ assert.throws(TypeError, () => Temporal.ZonedDateTime.from({
   calendar: "iso8601",
 }), "era and eraYear cannot replace year for calendar not using eras (iso8601)");
 
-const resultChinese = Temporal.ZonedDateTime.from({
+const resultHebrew = Temporal.ZonedDateTime.from({
   era: "foobar",
   eraYear: 1,
-  year: 1969,
-  monthCode: "M11",
-  day: 24,
+  year: 5730,
+  monthCode: "M04",
+  day: 23,
   timeZone: "UTC",
-  calendar: "chinese",
+  calendar: "hebrew",
 });
-assert.sameValue(resultChinese.epochNanoseconds, 0n,
-  "era and eraYear are ignored for calendar not using eras (Chinese)");
-assert.sameValue(resultChinese.calendarId, "chinese");
+assert.sameValue(resultHebrew.epochNanoseconds, 0n,
+  "era and eraYear are ignored for calendar not using eras (Hebrew)");
+assert.sameValue(resultHebrew.calendarId, "hebrew");
 
 assert.throws(TypeError, () => Temporal.ZonedDateTime.from({
   era: "foobar",
@@ -46,5 +46,5 @@ assert.throws(TypeError, () => Temporal.ZonedDateTime.from({
   monthCode: "M01",
   day: 1,
   timeZone: "UTC",
-  calendar: "chinese",
-}), "era and eraYear cannot replace year for calendar not using eras (Chinese)");
+  calendar: "hebrew",
+}), "era and eraYear cannot replace year for calendar not using eras (Hebrew)");

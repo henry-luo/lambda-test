@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.prototype.split should call ToUint32(limit) before ToString(separator).
-info: bugzilla.mozilla.org/show_bug.cgi?id=1287521
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1287521;
+var summary = 'String.prototype.split should call ToUint32(limit) before ToString(separator).';
+
+print(BUGNUMBER + ": " + summary);
 
 var log = [];
 "abba".split({
@@ -21,3 +27,4 @@ var log = [];
 });
 
 assert.sameValue(log.join(","), "limit-valueOf,separator-tostring");
+

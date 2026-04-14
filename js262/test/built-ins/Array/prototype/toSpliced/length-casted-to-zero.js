@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: >
   Array.prototype.toSpliced treats its `this` value's `length` property as zero if the
   property's value is not a positive integer.

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.tosorted
+esid: sec-%typedarray%.prototype.toSorted
 description: >
   %TypedArray%.prototype.toSorted ignores @@species
 info: |
@@ -37,4 +37,4 @@ testWithTypedArrayConstructors(TA => {
     }
   });
   ta.toSorted();
-}, null, ["passthrough"]);
+});

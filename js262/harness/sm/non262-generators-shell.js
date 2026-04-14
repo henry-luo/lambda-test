@@ -1,12 +1,16 @@
 
 
 /*---
-defines: [assertIteratorResult, assertIteratorNext, assertIteratorDone]
+defines: [assertFalse, assertTrue, assertNotEq, assertIteratorResult, assertIteratorNext, assertIteratorDone]
+allow_unused: True
 ---*/
 
+function assertFalse(a) { assertEq(a, false) }
+function assertTrue(a) { assertEq(a, true) }
+function assertNotEq(found, not_expected) { assertEq(Object.is(found, not_expected), false) }
 function assertIteratorResult(result, value, done) {
-    assert.sameValue(result.value, value);
-    assert.sameValue(result.done, done);
+    assertDeepEq(result.value, value);
+    assertEq(result.done, done);
 }
 function assertIteratorNext(iter, value) {
     assertIteratorResult(iter.next(), value, false);

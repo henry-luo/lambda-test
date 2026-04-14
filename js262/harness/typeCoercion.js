@@ -148,8 +148,6 @@ function testPrimitiveWrappers(primitiveValue, hint, test) {
 }
 
 function testCoercibleToPrimitiveWithMethod(hint, method, test) {
-  var supportsToPrimitive = typeof Symbol !== "undefined" && !!Symbol.toPrimitive;
-
   var methodNames;
   if (hint === "number") {
     methodNames = ["valueOf", "toString"];
@@ -159,13 +157,11 @@ function testCoercibleToPrimitiveWithMethod(hint, method, test) {
     throw new Test262Error();
   }
   
-  if (supportsToPrimitive) {
-    test({
-      [Symbol.toPrimitive]: method,
-      [methodNames[0]]: function() { throw new Test262Error(); },
-      [methodNames[1]]: function() { throw new Test262Error(); },
-    });
-  }
+  test({
+    [Symbol.toPrimitive]: method,
+    [methodNames[0]]: function() { throw new Test262Error(); },
+    [methodNames[1]]: function() { throw new Test262Error(); },
+  });
   test({
     [methodNames[0]]: method,
     [methodNames[1]]: function() { throw new Test262Error(); },
@@ -180,18 +176,16 @@ function testCoercibleToPrimitiveWithMethod(hint, method, test) {
   }
 
   
-  if (supportsToPrimitive) {
-    test({
-      [Symbol.toPrimitive]: undefined,
-      [methodNames[0]]: method,
-      [methodNames[1]]: method,
-    });
-    test({
-      [Symbol.toPrimitive]: null,
-      [methodNames[0]]: method,
-      [methodNames[1]]: method,
-    });
-  }
+  test({
+    [Symbol.toPrimitive]: undefined,
+    [methodNames[0]]: method,
+    [methodNames[1]]: method,
+  });
+  test({
+    [Symbol.toPrimitive]: null,
+    [methodNames[0]]: method,
+    [methodNames[1]]: method,
+  });
 
   
   test({
@@ -256,9 +250,7 @@ function testNotCoercibleToNumber(test) {
   }
 
   
-  if (typeof Symbol !== "undefined") {
-    testPrimitiveValue(Symbol("1"));
-  }
+  testPrimitiveValue(Symbol("1"));
 
   if (typeof BigInt !== "undefined") {
     
@@ -270,22 +262,18 @@ function testNotCoercibleToNumber(test) {
 }
 
 function testNotCoercibleToPrimitive(hint, test) {
-  var supportsToPrimitive = typeof Symbol !== "undefined" && !!Symbol.toPrimitive;
-
   function MyError() {}
 
   
-  if (supportsToPrimitive) {
-    test(TypeError, {[Symbol.toPrimitive]: 1});
-    test(TypeError, {[Symbol.toPrimitive]: {}});
+  test(TypeError, {[Symbol.toPrimitive]: 1});
+  test(TypeError, {[Symbol.toPrimitive]: {}});
 
-    
-    test(TypeError, {[Symbol.toPrimitive]: function() { return Object(1); }});
-    test(TypeError, {[Symbol.toPrimitive]: function() { return {}; }});
+  
+  test(TypeError, {[Symbol.toPrimitive]: function() { return Object(1); }});
+  test(TypeError, {[Symbol.toPrimitive]: function() { return {}; }});
 
-    
-    test(MyError, {[Symbol.toPrimitive]: function() { throw new MyError(); }});
-  }
+  
+  test(MyError, {[Symbol.toPrimitive]: function() { throw new MyError(); }});
 
   
   testCoercibleToPrimitiveWithMethod(hint, function() {
@@ -350,9 +338,7 @@ function testNotCoercibleToString(test) {
   }
 
   
-  if (typeof Symbol !== "undefined") {
-    testPrimitiveValue(Symbol("1"));
-  }
+  testPrimitiveValue(Symbol("1"));
 
   
   testNotCoercibleToPrimitive("string", test);
@@ -362,9 +348,7 @@ function testCoercibleToBooleanTrue(test) {
   test(true);
   test(1);
   test("string");
-  if (typeof Symbol !== "undefined") {
-    test(Symbol("1"));
-  }
+  test(Symbol("1"));
   test({});
 }
 
@@ -447,9 +431,7 @@ function testNotCoercibleToBigInt(test) {
   testPrimitiveValue(TypeError, 0);
   testPrimitiveValue(TypeError, NaN);
   testPrimitiveValue(TypeError, Infinity);
-  if (typeof Symbol !== "undefined") {
-    testPrimitiveValue(TypeError, Symbol("1"));
-  }
+  testPrimitiveValue(TypeError, Symbol("1"));
 
   
   function testStringValue(string) {

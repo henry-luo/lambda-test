@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -69,7 +72,7 @@ function reset() {
 }
 
 let instance = new derived();
-assert.throws(TypeError, () => instance.testElem());
+assertThrowsInstanceOf(() => instance.testElem(), TypeError);
 reset();
 
 instance.testProp();

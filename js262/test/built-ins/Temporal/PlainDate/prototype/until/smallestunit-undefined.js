@@ -14,5 +14,3 @@ const explicit = earlier.until(later, { smallestUnit: undefined });
 TemporalHelpers.assertDuration(explicit, 0, 0, 0, 397, 0, 0, 0, 0, 0, 0, "default smallestUnit is day");
 const implicit = earlier.until(later, {});
 TemporalHelpers.assertDuration(implicit, 0, 0, 0, 397, 0, 0, 0, 0, 0, 0, "default smallestUnit is day");
-const lambda = earlier.until(later, () => {});
-TemporalHelpers.assertDuration(lambda, 0, 0, 0, 397, 0, 0, 0, 0, 0, 0, "default smallestUnit is day");

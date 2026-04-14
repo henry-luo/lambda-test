@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: deleteCount is clamped between zero and len - actualStart
 info: |
   22.1.3.25 Array.prototype.toSpliced (start, deleteCount , ...items )

@@ -1,25 +1,28 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 var obj = { get a() { return 1; } };
-assert.throws(TypeError, () => {
+assertThrowsInstanceOf(() => {
     new Object.getOwnPropertyDescriptor(obj, "a").get
-});
+}, TypeError);
 
 obj = { set a(b) { } };
-assert.throws(TypeError, () => {
+assertThrowsInstanceOf(() => {
     new Object.getOwnPropertyDescriptor(obj, "a").set
-});
+}, TypeError);
 
 obj = { get a() { return 1; }, set a(b) { } };
-assert.throws(TypeError, () => {
+assertThrowsInstanceOf(() => {
     new Object.getOwnPropertyDescriptor(obj, "a").get
-});
-assert.throws(TypeError, () => {
+}, TypeError);
+assertThrowsInstanceOf(() => {
     new Object.getOwnPropertyDescriptor(obj, "a").set
-});
+}, TypeError);
 

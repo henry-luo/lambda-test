@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -9,6 +12,9 @@ var BUGNUMBER = 518103;
 var summary = 'lambda constructor "method" vs. instanceof';
 var actual;
 var expect;
+
+printBugNumber(BUGNUMBER);
+printStatus(summary);
 
 var Y = {widget: {}};
 
@@ -22,3 +28,5 @@ actual = J instanceof Y.widget.DataSource;
 expect = true;
 
 assert.sameValue(expect, actual, summary);
+
+printStatus("All tests passed!");

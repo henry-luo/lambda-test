@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-get-regexp.prototype.unicodesets
+esid: sec-get-regexp.prototype.unicodeSets
 description: RegExp#unicodeSets invoked on a cross-realm object
 info: |
     get RegExp.prototype.unicodeSets -> RegExpHasFlag

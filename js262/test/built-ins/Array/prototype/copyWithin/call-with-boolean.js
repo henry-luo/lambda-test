@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.copywithin
+esid: sec-array.prototype.copyWithin
 description: Array.prototype.copyWithin applied to boolean primitive
 ---*/
 

@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -66,14 +68,14 @@ for (let a of [testClass,
     assert.sameValue(aGetDesc.configurable, true);
     assert.sameValue(aGetDesc.enumerable, false);
     aGetDesc.get();
-    assert.throws(TypeError, () => new aGetDesc.get);
+    assertThrowsInstanceOf(() => new aGetDesc.get, TypeError);
     assert.sameValue(getterCalled, true);
 
     var aSetDesc = Object.getOwnPropertyDescriptor(a.prototype, "setter");
     assert.sameValue(aSetDesc.configurable, true);
     assert.sameValue(aSetDesc.enumerable, false);
     aSetDesc.set();
-    assert.throws(TypeError, () => new aSetDesc.set);
+    assertThrowsInstanceOf(() => new aSetDesc.set, TypeError);
     assert.sameValue(setterCalled, true);
     assert.deepEqual(aSetDesc, Object.getOwnPropertyDescriptor(a.prototype, "setter"));
 
@@ -83,7 +85,7 @@ for (let a of [testClass,
     assert.sameValue(aStaticMethDesc.enumerable, false);
     assert.sameValue(aStaticMethDesc.writable, true);
     aStaticMethDesc.value();
-    assert.throws(TypeError, () => new aStaticMethDesc.value);
+    assertThrowsInstanceOf(() => new aStaticMethDesc.value, TypeError);
     assert.sameValue(staticMethodCalled, true);
 
     assert.sameValue(Object.getOwnPropertyDescriptor(new a(), "staticGetter"), undefined);
@@ -91,7 +93,7 @@ for (let a of [testClass,
     assert.sameValue(aStaticGetDesc.configurable, true);
     assert.sameValue(aStaticGetDesc.enumerable, false);
     aStaticGetDesc.get();
-    assert.throws(TypeError, () => new aStaticGetDesc.get);
+    assertThrowsInstanceOf(() => new aStaticGetDesc.get, TypeError);
     assert.sameValue(staticGetterCalled, true);
 
     assert.sameValue(Object.getOwnPropertyDescriptor(new a(), "staticSetter"), undefined);
@@ -99,7 +101,7 @@ for (let a of [testClass,
     assert.sameValue(aStaticSetDesc.configurable, true);
     assert.sameValue(aStaticSetDesc.enumerable, false);
     aStaticSetDesc.set();
-    assert.throws(TypeError, () => new aStaticSetDesc.set);
+    assertThrowsInstanceOf(() => new aStaticSetDesc.set, TypeError);
     assert.sameValue(staticSetterCalled, true);
 
     assert.sameValue([...new a()].join(), "cow,pig");

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -9,5 +12,5 @@ esid: pending
     assert.sameValue(Object.getPrototypeOf(Object.create(null, props)), null);
 });
 
-assert.throws(TypeError, () => Object.create(null, null));
+assertThrowsInstanceOf(() => Object.create(null, null), TypeError);
 

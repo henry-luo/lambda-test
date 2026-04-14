@@ -1,12 +1,17 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- everything Atom.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- everything Atom.";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.compareArray(/./u.exec("ABC"),
@@ -56,3 +61,4 @@ assert.compareArray(/.*A/u.exec("\u{1F438}\u{1F438}\u{1F438}A"),
 
 assert.compareArray(/A.*/u.exec("A\u{1F438}\u{1F438}\u{1F438}"),
               ["A\u{1F438}\u{1F438}\u{1F438}"]);
+

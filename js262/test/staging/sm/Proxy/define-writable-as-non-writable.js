@@ -1,10 +1,14 @@
 
 
 /*---
+flags:
+  - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js]
 description: |
   pending
 esid: pending
 ---*/
+"use strict";
 
 var target = {};
 Object.defineProperty(target, "test", {configurable: false, writable: true, value: 5});
@@ -16,6 +20,9 @@ var proxy = new Proxy(target, {
     }
 });
 
-assert.throws(TypeError, () => Object.defineProperty(proxy, "test", {writable: false}));
+assertThrowsInstanceOf(
+    () => Object.defineProperty(proxy, "test", {writable: false}), TypeError);
 
-assert.throws(TypeError, () => Reflect.defineProperty(proxy, "test", {writable: false}));
+assertThrowsInstanceOf(
+    () => Reflect.defineProperty(proxy, "test", {writable: false}), TypeError);
+

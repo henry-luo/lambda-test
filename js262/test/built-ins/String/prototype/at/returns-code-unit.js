@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.at
+esid: sec-String.prototype.at
 description: >
   The method should return an Iterator instance.
 info: |

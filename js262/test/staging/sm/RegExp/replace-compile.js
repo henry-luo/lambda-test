@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  RegExp.prototype[@@replace] should call replacer function after collecting all matches.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1287524
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1287524;
+var summary = 'RegExp.prototype[@@replace] should call replacer function after collecting all matches.';
+
+print(BUGNUMBER + ": " + summary);
 
 var rx = RegExp("a", "g");
 var r = rx[Symbol.replace]("abba", function() {
@@ -20,3 +26,4 @@ r = "abba".replace(rx, function() {
     return "?";
 });
 assert.sameValue(r, "?bb?");
+

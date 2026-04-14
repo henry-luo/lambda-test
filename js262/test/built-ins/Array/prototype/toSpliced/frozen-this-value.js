@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: >
   Array.prototype.toSpliced works on frozen objects
 features: [change-array-by-copy]

@@ -10,4 +10,8 @@ info: |
 includes: [propertyHelper.js]
 ---*/
 
-verifyPrimordialCallableProperty(this, "parseInt", "parseInt", 2);
+verifyProperty(this, "parseInt", {
+  writable: true,
+  enumerable: false,
+  configurable: true
+});

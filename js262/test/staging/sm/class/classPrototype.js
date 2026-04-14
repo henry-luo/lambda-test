@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -29,40 +31,41 @@ for (let test of [a,b]) {
 }
 
 
-assert.throws(TypeError, () => eval(`
+assertThrowsInstanceOf(() => eval(`
                                   class a {
                                     constructor() { };
                                     static ["prototype"]() { }
                                   }
-                                  `));
-assert.throws(TypeError, () => eval(`
+                                  `), TypeError);
+assertThrowsInstanceOf(() => eval(`
                                   class a {
                                     constructor() { };
                                     static get ["prototype"]() { }
                                   }
-                                  `));
-assert.throws(TypeError, () => eval(`
+                                  `), TypeError);
+assertThrowsInstanceOf(() => eval(`
                                   class a {
                                     constructor() { };
                                     static set ["prototype"](x) { }
                                   }
-                                  `));
+                                  `), TypeError);
 
-assert.throws(TypeError, () => eval(`(
+assertThrowsInstanceOf(() => eval(`(
                                   class a {
                                     constructor() { };
                                     static ["prototype"]() { }
                                   }
-                                  )`));
-assert.throws(TypeError, () => eval(`(
+                                  )`), TypeError);
+assertThrowsInstanceOf(() => eval(`(
                                   class a {
                                     constructor() { };
                                     static get ["prototype"]() { }
                                   }
-                                  )`));
-assert.throws(TypeError, () => eval(`(
+                                  )`), TypeError);
+assertThrowsInstanceOf(() => eval(`(
                                   class a {
                                     constructor() { };
                                     static set ["prototype"](x) { }
                                   }
-                                  )`));
+                                  )`), TypeError);
+

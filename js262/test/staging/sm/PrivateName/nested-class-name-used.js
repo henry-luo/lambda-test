@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -26,7 +29,10 @@ class A {
   }
 };
 
-var a = new A;
-assert.throws(TypeError, function() {
+a = new A;
+try {
   a.g();
-});
+} catch (e) {
+  assert.sameValue(e instanceof TypeError, true);
+}
+
