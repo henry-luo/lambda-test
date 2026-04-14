@@ -61,7 +61,7 @@ class RadiantLayoutTester {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
             const args = ['layout', htmlFile, '-vw', '1200', '-vh', '800',
-                          '--font-dir', 'test/layout/data/font'];
+                          '--font-dir', 'test/layout/data/font', '--no-log'];
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -114,7 +114,7 @@ class RadiantLayoutTester {
         return new Promise((resolve, reject) => {
             // Build command: layout file1.html file2.html ... --output-dir /tmp/layout_batch/
             const args = ['layout', ...htmlFiles, '--output-dir', this.batchOutputDir, '--continue-on-error',
-                          '--font-dir', 'test/layout/data/font'];
+                          '--font-dir', 'test/layout/data/font', '--no-log'];
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
