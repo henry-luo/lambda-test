@@ -11,6 +11,7 @@
  *   node generate_corpus_tests.js                    # generate Phase 1 (en-gatsby + mixed-app)
  *   node generate_corpus_tests.js --phase 2          # generate Phase 2 (Thai)
  *   node generate_corpus_tests.js --phase 3          # generate Phase 3 (Hindi, Myanmar)
+ *   node generate_corpus_tests.js --phase 4          # generate Phase 4 (CJK: Chinese, Japanese, Korean)
  *   node generate_corpus_tests.js --corpus en-gatsby-opening  # single corpus
  *   node generate_corpus_tests.js --clean            # remove generated .html files
  */
@@ -47,6 +48,7 @@ const PHASE_CORPORA = {
     1: ['en-gatsby-opening', 'mixed-app-text'],
     2: ['th-nithan-vetal-story-1', 'th-nithan-vetal-story-7'],
     3: ['hi-eidgah', 'my-cunning-heron-teacher', 'my-bad-deeds-return-to-you-teacher'],
+    4: ['zh-guxiang', 'zh-zhufu', 'ja-kumo-no-ito', 'ja-rashomon', 'ko-sonagi', 'ko-unsu-joh-eun-nal'],
 };
 
 // Short IDs for filenames (avoid very long names)
@@ -58,11 +60,27 @@ const CORPUS_SHORT_ID = {
     'hi-eidgah': 'hi_eidgah',
     'my-cunning-heron-teacher': 'my_heron',
     'my-bad-deeds-return-to-you-teacher': 'my_deeds',
+    'zh-guxiang': 'zh_guxiang',
+    'zh-zhufu': 'zh_zhufu',
+    'ja-kumo-no-ito': 'ja_kumo',
+    'ja-rashomon': 'ja_rashomon',
+    'ko-sonagi': 'ko_sonagi',
+    'ko-unsu-joh-eun-nal': 'ko_unsu',
+};
+
+// Language metadata for corpus files (used in HTML lang attribute and font selection)
+const CORPUS_LANG = {
+    'zh-guxiang': 'zh',
+    'zh-zhufu': 'zh',
+    'ja-kumo-no-ito': 'ja',
+    'ja-rashomon': 'ja',
+    'ko-sonagi': 'ko',
+    'ko-unsu-joh-eun-nal': 'ko',
 };
 
 // ─── HTML Template ──────────────────────────────────────────────────────────
 
-function generateHTML(corpusText, width) {
+function generateHTML(corpusText, width, lang) {
     // Split into paragraphs (one or more blank lines)
     const paragraphs = corpusText
         .split(/\n{2,}/)
@@ -80,18 +98,35 @@ function generateHTML(corpusText, width) {
         return `<p>${escaped}</p>`;
     }).join('\n');
 
+    const htmlLang = lang || 'en';
+    const isCJK = ['zh', 'ja', 'ko'].includes(htmlLang);
+    const isKorean = htmlLang === 'ko';
+
+    // Per-language font selection:
+    //   ko → Noto Sans KR (has Hangul syllables)
+    //   zh/ja → Noto Sans SC (has CJK Unified + Kana)
+    //   en/other → Liberation Sans
+    let fontFace, fontFamily;
+    if (isKorean) {
+        fontFace = `@font-face {\n    font-family: 'Noto Sans KR';\n    src: url('../font/NotoSansKR-Subset.otf') format('opentype');\n}`;
+        fontFamily = "font-family: 'Noto Sans KR', sans-serif;";
+    } else if (isCJK) {
+        fontFace = `@font-face {\n    font-family: 'Noto Sans SC';\n    src: url('../font/NotoSansSC-Subset.otf') format('opentype');\n}`;
+        fontFamily = "font-family: 'Noto Sans SC', sans-serif;";
+    } else {
+        fontFace = `@font-face {\n    font-family: 'Liberation Sans';\n    src: url('../font/LiberationSans-Regular.ttf') format('truetype');\n}`;
+        fontFamily = "font-family: 'Liberation Sans', sans-serif;";
+    }
+
     return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${htmlLang}">
 <head>
 <meta charset="UTF-8">
 <title>Pretext corpus: width ${width}px</title>
 <style>
-@font-face {
-    font-family: 'Liberation Sans';
-    src: url('../font/LiberationSans-Regular.ttf') format('truetype');
-}
+${fontFace}
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Liberation Sans', sans-serif; font-size: 16px; line-height: 1.5; }
+body { ${fontFamily} font-size: 16px; line-height: 1.5;${isCJK ? ' font-kerning: none; text-spacing-trim: space-all;' : ''} }
 </style>
 </head>
 <body>
@@ -137,7 +172,7 @@ function main() {
     } else if (phase) {
         corpora = PHASE_CORPORA[phase];
         if (!corpora) {
-            console.error(`Unknown phase: ${phase}. Valid: 1, 2, 3`);
+            console.error(`Unknown phase: ${phase}. Valid: 1, 2, 3, 4`);
             process.exit(1);
         }
     } else {
@@ -161,7 +196,8 @@ function main() {
 
         for (let w = WIDTH_MIN; w <= WIDTH_MAX; w += WIDTH_STEP) {
             const filename = `pretext_${shortId}_w${w}.html`;
-            const html = generateHTML(corpusText, w);
+            const lang = CORPUS_LANG[corpusName] || null;
+            const html = generateHTML(corpusText, w, lang);
             fs.writeFileSync(path.join(OUTPUT_DIR, filename), html);
             totalFiles++;
         }

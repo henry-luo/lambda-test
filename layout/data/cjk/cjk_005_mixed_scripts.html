@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>CJK: Mixed CJK and Latin Text</title>
+<style>
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../font/NotoSansSC-Subset.otf') format('opentype');
+}
+* { margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', sans-serif; font-size: 16px; line-height: 1.5; }
+div { border: 1px solid #ccc; margin: 10px; padding: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Test 1: CJK with embedded Latin words -->
+<div id="t1" style="width: 200px;">
+<p>使用Python編寫的Lambda腳本語言支持JSON、XML和HTML等格式。</p>
+</div>
+
+<!-- Test 2: CJK with numbers -->
+<div id="t2" style="width: 200px;">
+<p>距離大約2000公里，分別了20多年。溫度是-5°C。</p>
+</div>
+
+<!-- Test 3: Fullwidth and halfwidth mixed -->
+<div id="t3" style="width: 200px;">
+<p>全角：ＡＢＣ１２３　半角：ABC123</p>
+</div>
+
+<!-- Test 4: CJK text-align: center -->
+<div id="t4" style="width: 300px; text-align: center;">
+<p>居中對齊的中文文本</p>
+</div>
+
+<!-- Test 5: CJK text-align: right -->
+<div id="t5" style="width: 300px; text-align: right;">
+<p>右對齊的中文文本</p>
+</div>
+
+</body>
+</html>
