@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tosorted
+esid: sec-array.prototype.toSorted
 description: >
   Array.prototype.toSorted.name is "toSorted".
 info: |

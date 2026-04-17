@@ -8,11 +8,14 @@ features:
   - Symbol
   - Symbol.iterator
   - iterator-helpers
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 info: |
   Iterator is not enabled unconditionally
 ---*/
 Symbol = undefined;
-assert.throws(TypeError, () => Symbol.iterator);
+assertThrowsInstanceOf(() => Symbol.iterator, TypeError);
 
 const iterator = [0].values();
 assert.sameValue(

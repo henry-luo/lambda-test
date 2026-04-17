@@ -1,12 +1,17 @@
 
 
 /*---
-includes: [sm/non262-expressions-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  Array destructuring with various default values in various context - yield expression
-info: bugzilla.mozilla.org/show_bug.cgi?id=1184922
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1184922;
+var summary = "Array destructuring with various default values in various context - yield expression";
+
+print(BUGNUMBER + ": " + summary);
 
 var opt = {
     no_plain: true,
@@ -22,3 +27,4 @@ var opt = {
     no_gen: false,
 };
 testDestructuringArrayDefault("yield 1", opt);
+

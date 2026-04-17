@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -9,7 +12,7 @@ esid: pending
 new Function('(() => new.target)()');
 
 
-assert.throws(SyntaxError, () => eval('() => new.target'));
+assertThrowsInstanceOf(() => eval('() => new.target'), SyntaxError);
 
 function assertNewTarget(expected) {
     assert.sameValue((()=>new.target)(), expected);

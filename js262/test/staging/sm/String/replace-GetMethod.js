@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.prototype.replace should call GetMethod.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1290655
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1290655;
+var summary = "String.prototype.replace should call GetMethod.";
+
+print(BUGNUMBER + ": " + summary);
 
 function create(value) {
     return {
@@ -21,5 +27,6 @@ for (let v of [null, undefined]) {
 }
 
 for (let v of [1, true, Symbol.iterator, "", {}, []]) {
-    assert.throws(TypeError, () => "a-a".replace(create(v)));
+    assertThrowsInstanceOf(() => "a-a".replace(create(v)), TypeError);
 }
+

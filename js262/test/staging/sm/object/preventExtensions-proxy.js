@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -21,9 +23,9 @@ function logProxy(object = {}, handler = {}) {
 
 var {proxy, log} = logProxy();
 Object.preventExtensions(proxy);
-assert.compareArray(log, ["preventExtensions"]);
+assert.deepEqual(log, ["preventExtensions"]);
 
 var {proxy, log} = logProxy();
 Object.preventExtensions(Object.preventExtensions(proxy));
-assert.compareArray(log, ["preventExtensions", "preventExtensions"]);
+assert.deepEqual(log, ["preventExtensions", "preventExtensions"]);
 

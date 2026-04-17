@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.toreversed
+esid: sec-%typedarray%.prototype.toReversed
 description: >
   %TypedArray%.prototype.toReversed.name is "toReversed".
 info: |

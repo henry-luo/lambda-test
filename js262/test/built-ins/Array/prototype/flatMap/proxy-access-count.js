@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: >
   properties are accessed correct number of times by .flatMap
 info: |

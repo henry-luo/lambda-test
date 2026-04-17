@@ -14,7 +14,6 @@ const options = new Intl.PluralRules([], {
 const expected = [
   "locale",
   "type",
-  "notation",
   "minimumIntegerDigits",
   "minimumSignificantDigits",
   "maximumSignificantDigits",

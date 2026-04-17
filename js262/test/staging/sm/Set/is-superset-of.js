@@ -1,17 +1,19 @@
 
 
 /*---
-includes: [sm/non262-Set-shell.js, compareArray.js, propertyHelper.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Set-shell.js, deepEqual.js, compareArray.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 assert.sameValue(typeof Set.prototype.isSupersetOf, "function");
-verifyProperty(Set.prototype.isSupersetOf, "length", {
+assert.deepEqual(Object.getOwnPropertyDescriptor(Set.prototype.isSupersetOf, "length"), {
   value: 1, writable: false, enumerable: false, configurable: true,
 });
-verifyProperty(Set.prototype.isSupersetOf, "name", {
+assert.deepEqual(Object.getOwnPropertyDescriptor(Set.prototype.isSupersetOf, "name"), {
   value: "isSupersetOf", writable: false, enumerable: false, configurable: true,
 });
 
@@ -133,7 +135,7 @@ for (let values of [
   }, log);
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -148,7 +150,7 @@ for (let values of [
   setLikeObj.keys = () => 123;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -161,7 +163,7 @@ for (let values of [
   setLikeObj.keys = nonCallable;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -174,7 +176,7 @@ for (let values of [
   setLikeObj.has = nonCallable;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -186,7 +188,7 @@ for (let values of [
   sizeValue = NaN;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -197,7 +199,7 @@ for (let values of [
   sizeValue = undefined;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.isSupersetOf(setLike));
+  assertThrowsInstanceOf(() => emptySet.isSupersetOf(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -206,7 +208,7 @@ for (let values of [
 }
 
 
-assert.throws(TypeError, () => emptySet.isSupersetOf([]));
+assertThrowsInstanceOf(() => emptySet.isSupersetOf([]), TypeError);
 
 
 {
@@ -237,7 +239,7 @@ assert.throws(TypeError, () => emptySet.isSupersetOf([]));
 for (let thisValue of [
   null, undefined, true, "", {}, new Map, new Proxy(new Set, {}),
 ]) {
-  assert.throws(TypeError, () => Set.prototype.isSupersetOf.call(thisValue, emptySet));
+  assertThrowsInstanceOf(() => Set.prototype.isSupersetOf.call(thisValue, emptySet), TypeError);
 }
 
 

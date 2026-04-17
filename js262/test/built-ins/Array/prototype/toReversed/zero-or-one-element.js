@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.toreversed
+esid: sec-array.prototype.toReversed
 description: >
   Array.prototype.toReversed returns a new array even if it has zero or one elements
 features: [change-array-by-copy]

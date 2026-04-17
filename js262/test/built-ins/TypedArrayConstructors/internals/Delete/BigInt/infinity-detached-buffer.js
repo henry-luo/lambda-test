@@ -20,7 +20,7 @@ info: |
     If SameValue(! ToString(n), argument) is false, return undefined.
     Return n.
 
-includes: [testTypedArray.js, detachArrayBuffer.js]
+includes: [testBigIntTypedArray.js, detachArrayBuffer.js]
 features: [align-detached-buffer-semantics-with-web-reality, BigInt, TypedArray]
 ---*/
 
@@ -29,4 +29,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   $DETACHBUFFER(sample.buffer);
 
   assert.sameValue(delete sample.Infinity, true, 'The value of `delete sample.Infinity` is true');
-}, null, ["passthrough"]);
+});

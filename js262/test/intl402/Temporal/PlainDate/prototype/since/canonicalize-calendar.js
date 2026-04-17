@@ -3,7 +3,7 @@
 /*---
 esid: sec-temporal.plaindate.prototype.since
 description: Calendar ID is canonicalized
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 const instance = new Temporal.PlainDate(2024, 7, 2, "islamic-civil");

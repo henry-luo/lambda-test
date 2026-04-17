@@ -1,7 +1,7 @@
 
 
 /*---
-includes: [compareArray.js, propertyHelper.js]
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
 flags:
   - noStrict
 description: |
@@ -10,58 +10,55 @@ esid: pending
 ---*/
 let Array_unscopables = Array.prototype[Symbol.unscopables];
 
-verifyProperty(Array.prototype, Symbol.unscopables, {
+let desc = Reflect.getOwnPropertyDescriptor(Array.prototype, Symbol.unscopables);
+assert.deepEqual(desc, {
     value: Array_unscopables,
     writable: false,
     enumerable: false,
     configurable: true
-}, {
-    restore: true
 });
 
 assert.sameValue(Reflect.getPrototypeOf(Array_unscopables), null);
 
-verifyProperty(Array_unscopables, "values", {
+let desc2 = Object.getOwnPropertyDescriptor(Array_unscopables, "values");
+assert.deepEqual(desc2, {
     value: true,
     writable: true,
     enumerable: true,
     configurable: true
-}, {
-    restore: true
 });
 
 let keys = Reflect.ownKeys(Array_unscopables);
 
-let expectedKeys = [
-    "at",
-    "copyWithin",
-    "entries",
-    "fill",
-    "find",
-    "findIndex",
-    "findLast",
-    "findLastIndex",
-    "flat",
-    "flatMap",
-    "includes",
-    "keys",
-    "toReversed",
-    "toSorted",
-    "toSpliced",
-    "values"
-];
 
-assert.compareArray(keys, expectedKeys);
+let expectedKeys = ["at",
+		    "copyWithin",
+		    "entries",
+		    "fill",
+		    "find",
+		    "findIndex",
+		    "findLast",
+		    "findLastIndex",
+		    "flat",
+		    "flatMap",
+		    "includes",
+		    "keys",
+            "toReversed",
+            "toSorted",
+            "toSpliced",
+		    "values"];
+
+assert.deepEqual(keys, expectedKeys);
 
 for (let key of keys)
     assert.sameValue(Array_unscopables[key], true);
 
 
-assert.throws(ReferenceError, () => {
+assertThrowsInstanceOf(() => {
     with ([]) {
         return entries;
     }
-});
+}, ReferenceError);
 
 {
     let fill = 33;

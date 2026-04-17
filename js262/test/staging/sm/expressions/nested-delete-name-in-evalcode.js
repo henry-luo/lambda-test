@@ -1,13 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
 flags:
   - noStrict
 description: |
-  |delete x| inside a function in eval code, where that eval code includes |var x| at top level, actually does delete the binding for x
-info: bugzilla.mozilla.org/show_bug.cgi?id=616294
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 616294;
+var summary =
+  "|delete x| inside a function in eval code, where that eval code includes " +
+  "|var x| at top level, actually does delete the binding for x";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var f;
 
@@ -149,3 +157,6 @@ function testFunctionLocal()
 f = testFunctionLocal();
 
 assert.sameValue(f(), false); 
+
+
+print("All tests passed!");

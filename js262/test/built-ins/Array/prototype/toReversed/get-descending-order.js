@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.toreversed
+esid: sec-array.prototype.toReversed
 description: >
   Array.prototype.toReversed gets the array elements from the last one to the first one.
 info: |

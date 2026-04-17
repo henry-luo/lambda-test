@@ -1,12 +1,22 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  Computed property names must be considered as always effectful even when the name expression isn't effectful, because calling ToPropertyKey on some non-effectful expressions has user-modifiable behavior
-info: bugzilla.mozilla.org/show_bug.cgi?id=1199695
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 1199695;
+var summary =
+  "Computed property names must be considered as always effectful even when " +
+  "the name expression isn't effectful, because calling ToPropertyKey on " +
+  "some non-effectful expressions has user-modifiable behavior";
+
+print(BUGNUMBER + ": " + summary);
+
 
 RegExp.prototype.toString = () => { throw 42; };
 assertThrowsValue(function() {
@@ -20,3 +30,6 @@ Q.toString = () => { throw 17; };
 assertThrowsValue(function() {
   new Q;
 }, 17);
+
+
+print("Tests complete");

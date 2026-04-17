@@ -1,11 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  Arguments when an object's toJSON method is called
-info: bugzilla.mozilla.org/show_bug.cgi?id=584909
+  pending
 esid: pending
 ---*/
+var gTestfile = 'stringify-toJSON-arguments.js';
+
+var BUGNUMBER = 584909;
+var summary = "Arguments when an object's toJSON method is called";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var obj =
   {
@@ -20,3 +29,6 @@ var obj =
   };
 
 assert.sameValue(JSON.stringify(obj), '{"p":17}');
+
+
+print("Tests complete");

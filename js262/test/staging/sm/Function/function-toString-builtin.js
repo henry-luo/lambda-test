@@ -1,29 +1,51 @@
 
 
 /*---
-includes: [nativeFunctionMatcher.js]
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
-assertNativeFunction(function(){}.bind());
-assertNativeFunction(function fn(){}.bind());
+var propertyName = [
+    
+    "\\w+",
+
+    
+    "(?:'[^']*')",
+    "(?:\"[^\"]*\")",
+
+    
+    "\\d+",
+
+    
+    "(?:\\[[^\\]]+\\])",
+].join("|")
+
+var nativeCode = RegExp([
+    "^", "function", "(get|set)?", ("(" + propertyName + ")?"), "\\(", "\\)", "\\{", "\\[native code\\]", "\\}", "$"
+].join("\\s*"));
 
 
-assertNativeFunction(Array);
-assertNativeFunction(Object.prototype.toString);
-assertNativeFunction(decodeURI);
+reportMatch(nativeCode, function(){}.bind().toString());
+reportMatch(nativeCode, function fn(){}.bind().toString());
 
 
-assertNativeFunction(Math.asin);
-assertNativeFunction(String.prototype.blink);
-assertNativeFunction(RegExp.prototype[Symbol.split]);
+reportMatch(nativeCode, Array.toString());
+reportMatch(nativeCode, Object.prototype.toString.toString());
+reportMatch(nativeCode, decodeURI.toString());
 
 
-assertNativeFunction(Object.getOwnPropertyDescriptor(RegExp.prototype, "flags").get);
-assertNativeFunction(Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").get);
+reportMatch(nativeCode, Math.asin.toString());
+reportMatch(nativeCode, String.prototype.blink.toString());
+reportMatch(nativeCode, RegExp.prototype[Symbol.split].toString());
 
 
-assertNativeFunction(Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").set);
+reportMatch(nativeCode, Object.getOwnPropertyDescriptor(RegExp.prototype, "flags").get.toString());
+reportMatch(nativeCode, Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").get.toString());
+
+
+reportMatch(nativeCode, Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").set.toString());

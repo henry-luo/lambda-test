@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Returning non-object from @@iterator should throw
-info: bugzilla.mozilla.org/show_bug.cgi?id=1021835
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1021835;
+var summary = "Returning non-object from @@iterator should throw";
+
+print(BUGNUMBER + ": " + summary);
 
 let ctors = [
     Map,
@@ -30,6 +36,7 @@ for (let ctor of ctors) {
                 return primitive;
             }
         };
-        assert.throws(TypeError, () => new ctor(arg));
+        assertThrowsInstanceOf(() => new ctor(arg), TypeError);
     }
 }
+

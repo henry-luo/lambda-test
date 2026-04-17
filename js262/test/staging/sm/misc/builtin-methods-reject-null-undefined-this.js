@@ -1,11 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  ECMAScript built-in methods that immediately throw when |this| is |undefined| or |null| (due to CheckObjectCoercible, ToObject, or ToString)
-info: bugzilla.mozilla.org/show_bug.cgi?id=619283
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 619283;
+var summary =
+  "ECMAScript built-in methods that immediately throw when |this| is " +
+  "|undefined| or |null| (due to CheckObjectCoercible, ToObject, or ToString)";
+
+print(BUGNUMBER + ": " + summary);
 
 
 var ClassToMethodMap =
@@ -68,23 +77,43 @@ function testMethod(Class, className, method)
     var badThis = badThisValues[i];
 
     expr = className + ".prototype." + method + ".call(" + badThis + ")";
-    assert.throws(TypeError, function() {
+    try
+    {
       Class.prototype[method].call(badThis);
-    }, "wrong error for " + expr);
-
+      throw new Error(expr + " didn't throw a TypeError");
+    }
+    catch (e)
+    {
+      assert.sameValue(e instanceof TypeError, true,
+               "wrong error for " + expr + ", instead threw " + e);
+    }
 
     expr = className + ".prototype." + method + ".apply(" + badThis + ")";
-    assert.throws(TypeError, function() {
+    try
+    {
       Class.prototype[method].apply(badThis);
-    }, "wrong error for " + expr);
+      throw new Error(expr + " didn't throw a TypeError");
+    }
+    catch (e)
+    {
+      assert.sameValue(e instanceof TypeError, true,
+               "wrong error for " + expr + ", instead threw " + e);
+    }
   }
 
   
-  expr = "(0, " + className + ".prototype." + method + ")()";
-  assert.throws(TypeError, function() {
+  expr = "(0, " + className + ".prototype." + method + ")()"
+  try
+  {
     
     (0, Class.prototype[method])();
-  }, "wrong error for " + expr);
+    throw new Error(expr + " didn't throw a TypeError");
+  }
+  catch (e)
+  {
+    assert.sameValue(e instanceof TypeError, true,
+             "wrong error for " + expr + ", instead threw " + e);
+  }
 }
 
 for (var className in ClassToMethodMap)
@@ -98,3 +127,6 @@ for (var className in ClassToMethodMap)
     testMethod(Class, className, method);
   }
 }
+
+
+print("All tests passed!");

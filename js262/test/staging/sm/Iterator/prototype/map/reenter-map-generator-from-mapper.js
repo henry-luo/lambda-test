@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 description: |
@@ -16,5 +19,5 @@ function mapper(x) {
 }
 iterator = [0].values().map(mapper);
 
-assert.throws(TypeError, iterator.next);
+assertThrowsInstanceOf(iterator.next, TypeError);
 

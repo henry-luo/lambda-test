@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -19,7 +22,7 @@ const descriptors = [
 ];
 
 for (const descriptor of descriptors) {
-    assert.throws(TypeError, () => Object.create(null, {x: descriptor}));
-    assert.throws(TypeError, () => Object.defineProperties({}, {x: descriptor}));
+    assertThrowsInstanceOf(() => Object.create(null, {x: descriptor}), TypeError);
+    assertThrowsInstanceOf(() => Object.defineProperties({}, {x: descriptor}), TypeError);
 }
 

@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -9,6 +12,9 @@ var BUGNUMBER = 524826;
 var summary = 'null-closure property initialiser mis-brands object literal scope';
 var actual;
 var expect;
+
+printBugNumber(BUGNUMBER);
+printStatus(summary);
 
 function make(g) {
     var o = {f: function(a,b) { return a*b; }, g: g};
@@ -23,3 +29,5 @@ actual = callg(x, 1);
 expect = -callg(y, 1);
 
 assert.sameValue(expect, actual, summary);
+
+printStatus("All tests passed!");

@@ -1,11 +1,18 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Number.EPSILON
-info: bugzilla.mozilla.org/show_bug.cgi?id=885798
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 885798;
+var summary = "ES6 (draft May 2013) 15.7.3.7 Number.EPSILON";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.sameValue(Number.EPSILON, Math.pow(2, -52));
@@ -15,3 +22,4 @@ var descriptor = Object.getOwnPropertyDescriptor(Number, 'EPSILON');
 assert.sameValue(descriptor.writable, false);
 assert.sameValue(descriptor.configurable, false);
 assert.sameValue(descriptor.enumerable, false);
+

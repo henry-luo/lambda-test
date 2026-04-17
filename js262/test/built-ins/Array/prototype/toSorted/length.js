@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tosorted
+esid: sec-array.prototype.toSorted
 description: >
   The "length" property of Array.prototype.toSorted
 info: |

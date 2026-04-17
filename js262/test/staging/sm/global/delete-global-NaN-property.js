@@ -3,11 +3,19 @@
 /*---
 flags:
   - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js]
 description: |
-  |delete window.NaN| should throw a TypeError
-info: bugzilla.mozilla.org/show_bug.cgi?id=649570
+  pending
 esid: pending
 ---*/
+"use strict"
+
+
+var BUGNUMBER = 649570;
+var summary = "|delete window.NaN| should throw a TypeError";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var g = this, v = false;
 try
@@ -20,3 +28,6 @@ catch (e)
   assert.sameValue(e instanceof TypeError, true,
            "Expected a TypeError, got: " + e);
 }
+
+
+print("Tests complete");

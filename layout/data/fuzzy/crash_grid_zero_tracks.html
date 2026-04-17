@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!-- Regression test: grid with zero explicit rows/columns caused OOB access (SIGSEGV in position_grid_items) -->
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div style="display: grid; grid-template-rows: none; grid-template-columns: none;">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+<div style="display: grid; grid-template-rows: 0fr; grid-template-columns: 0fr;">
+  <div style="grid-row: 1 / 3; grid-column: 1 / 3;">Spanning</div>
+</div>
+<div style="display: grid; grid-template: none / none;">
+  <div style="grid-area: 1 / 1 / 5 / 5;">Large span in empty grid</div>
+</div>
+</body>
+</html>

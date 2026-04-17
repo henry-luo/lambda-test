@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tostring
+esid: sec-array.prototype.toString
 description: Array.prototype.toString applied to boolean primitive
 ---*/
 

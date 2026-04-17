@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -37,7 +40,7 @@ var obj = new Proxy(x, {
 assert.sameValue(Reflect.get(obj, "mood"), "moodful");
 
 
-assert.throws(TypeError, () => Reflect.get(obj, Symbol()));
+assertThrowsInstanceOf(() => Reflect.get(obj, Symbol()), TypeError);
 
 
 obj = {set name(x) {}};

@@ -1,16 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 
-var gw = $262.createRealm().global;
+var gw = createNewGlobal();
 
 var obj = {};
 var w = gw.Object.create(obj);
-assert.throws(TypeError, () => Object.setPrototypeOf(obj, w));
-assert.throws(gw.TypeError, () => gw.Object.setPrototypeOf(obj, w));
+assertThrowsInstanceOf(() => Object.setPrototypeOf(obj, w), TypeError);
+assertThrowsInstanceOf(() => gw.Object.setPrototypeOf(obj, w), gw.TypeError);
 

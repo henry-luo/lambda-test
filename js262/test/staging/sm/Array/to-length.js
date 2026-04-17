@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/assertThrowsValue.js]
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -28,7 +30,7 @@ assertThrowsValue(() => Array.prototype.copyWithin.call({length: Infinity, get [
 assert.sameValue(Array.prototype.includes.call({length: Infinity, [max - 1]: "test"}, "test", max - 3), true);
 
 
-assert.throws(RangeError, () => Array.from({length: Infinity}));
+assertThrowsInstanceOf(() => Array.from({length: Infinity}), RangeError);
 
 
 var proxy = new Proxy([], {

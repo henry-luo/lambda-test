@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
 flags:
   - noStrict
 description: |
@@ -20,7 +21,7 @@ function notEvaluated() {
   assert.sameValue(a, false);
 
   const b = true;
-  assert.throws(TypeError, () => { b &&= 1; });
+  assertThrowsInstanceOf(() => { b &&= 1; }, TypeError);
   assert.sameValue(b, true);
 }
 
@@ -34,7 +35,7 @@ function notEvaluated() {
 
   let g = function fn() {
     "use strict";
-    assert.throws(TypeError, () => { fn &&= 1; });
+    assertThrowsInstanceOf(() => { fn &&= 1; }, TypeError);
     assert.sameValue(fn, g);
   };
   g();
@@ -47,7 +48,7 @@ function notEvaluated() {
   assert.sameValue(a, true);
 
   const b = false;
-  assert.throws(TypeError, () => { b ||= 0; });
+  assertThrowsInstanceOf(() => { b ||= 0; }, TypeError);
   assert.sameValue(b, false);
 }
 
@@ -74,7 +75,7 @@ function notEvaluated() {
   assert.sameValue(a, true);
 
   const b = null;
-  assert.throws(TypeError, () => { b ??= 0; });
+  assertThrowsInstanceOf(() => { b ??= 0; }, TypeError);
   assert.sameValue(b, null);
 }
 

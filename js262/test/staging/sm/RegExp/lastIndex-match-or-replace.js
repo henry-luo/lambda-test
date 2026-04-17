@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -85,7 +88,7 @@ for (let method of [RegExp.prototype[Symbol.match], RegExp.prototype[Symbol.repl
             let re = new Constructor(regExp);
             Object.defineProperty(re, "lastIndex", { value: lastIndex, writable: false });
             if (re.global || re.sticky) {
-                assert.throws(TypeError, () => Reflect.apply(method, re, [input]));
+                assertThrowsInstanceOf(() => Reflect.apply(method, re, [input]), TypeError);
             } else {
                 Reflect.apply(method, re, [input]);
             }
@@ -105,7 +108,7 @@ for (let method of [RegExp.prototype[Symbol.match], RegExp.prototype[Symbol.repl
                 }
             };
             if (re.sticky) {
-                assert.throws(TypeError, () => Reflect.apply(method, re, [input]));
+                assertThrowsInstanceOf(() => Reflect.apply(method, re, [input]), TypeError);
                 assert.sameValue(called, true);
                 assert.sameValue(re.lastIndex, 9000);
             } else if (re.global) {

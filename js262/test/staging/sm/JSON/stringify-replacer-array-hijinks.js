@@ -1,11 +1,22 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  Better/more correct handling for replacer arrays with getter array index properties
-info: bugzilla.mozilla.org/show_bug.cgi?id=648471
+  pending
 esid: pending
 ---*/
+var gTestfile = 'stringify-replacer-array-hijinks.js';
+
+var BUGNUMBER = 648471;
+var summary =
+  "Better/more correct handling for replacer arrays with getter array index " +
+  "properties";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var replacer = [0, 1, 2, 3];
 Object.prototype[3] = 3;
@@ -39,3 +50,6 @@ Object.defineProperty(replacer, 0, {
 
 assert.sameValue(JSON.stringify({ 0: 0, 1: 1, 2: 2, 3: 3 }, replacer),
          '{"3":3}');
+
+
+print("Tests complete");

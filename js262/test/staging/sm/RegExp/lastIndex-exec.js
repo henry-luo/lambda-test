@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -50,7 +53,7 @@ for (let {regExp, lastIndex, input} of testCases) {
     let re = new RegExp(regExp);
     Object.defineProperty(re, "lastIndex", { value: lastIndex, writable: false });
     if (re.global || re.sticky) {
-        assert.throws(TypeError, () => re.exec(input));
+        assertThrowsInstanceOf(() => re.exec(input), TypeError);
     } else {
         re.exec(input);
     }
@@ -70,7 +73,7 @@ for (let {regExp, lastIndex, input} of testCases) {
         }
     };
     if (re.global || re.sticky) {
-        assert.throws(TypeError, () => re.exec(input));
+        assertThrowsInstanceOf(() => re.exec(input), TypeError);
     } else {
         re.exec(input);
     }

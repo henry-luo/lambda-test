@@ -6,13 +6,13 @@ description: Stability of %TypedArray%.prototype.sort.
 info: |
   https://github.com/tc39/ecma262/pull/1433
 includes: [testTypedArray.js, compareArray.js]
-features: [TypedArray, stable-typedarray-sort]
+features: [TypedArray]
 ---*/
 
 
 const compare = (a, b) => (a / 4 | 0) - (b / 4 | 0);
 
-testWithTypedArrayConstructors(TA => {
+testWithTypedArrayConstructors((TA) => {
   
   const array = Array.from({ length: 128 }, (_, i) => i);
 
@@ -42,4 +42,4 @@ testWithTypedArrayConstructors(TA => {
       123, 122, 121, 120,   127, 126, 125, 124,
     ]
   ), 'not presorted');
-}, null, ["passthrough"]);
+});

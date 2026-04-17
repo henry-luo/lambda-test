@@ -1,31 +1,10 @@
 
 
 /*---
-defines: [completesNormally, raisesException, testLenientAndStrict, parsesSuccessfully, parseRaisesException, returns]
+defines: [testLenientAndStrict, parsesSuccessfully, parseRaisesException, returns]
+allow_unused: True
 ---*/
 (function(global) {
-
-  
-  globalThis.completesNormally = function completesNormally(code) {
-    try {
-      eval(code);
-      return true;
-    } catch (exception) {
-      return false;
-    }
-  }
-
-  
-  globalThis.raisesException = function raisesException(exception) {
-    return function (code) {
-      try {
-        eval(code);
-        return false;
-      } catch (actual) {
-        return actual instanceof exception;
-      }
-    };
-  };
 
   
   global.testLenientAndStrict = function testLenientAndStrict(code, lenient_pred, strict_pred) {

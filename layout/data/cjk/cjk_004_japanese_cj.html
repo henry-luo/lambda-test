@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>CJK: Japanese Conditional Starters (CJ Class)</title>
+<style>
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../font/NotoSansSC-Subset.otf') format('opentype');
+}
+* { margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', sans-serif; font-size: 16px; line-height: 1.5; }
+div { border: 1px solid #ccc; margin: 10px; padding: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Test 1: CJ class chars (small kana) as non-starters in Japanese (normal) -->
+<!-- Small kana ッ(U+30C3), ャ(U+30E3) should NOT start a line in ja + normal -->
+<div id="t1" style="width: 160px;">
+<p>東京タワーのレストランでランチッセットを食べました。</p>
+</div>
+
+<!-- Test 2: line-break: loose makes CJ breakable (even in Japanese) -->
+<div id="t2" style="width: 160px; line-break: loose;">
+<p>東京タワーのレストランでランチッセットを食べました。</p>
+</div>
+
+<!-- Test 3: line-break: strict always treats CJ as NS -->
+<div id="t3" style="width: 160px; line-break: strict;">
+<p>東京タワーのレストランでランチッセットを食べました。</p>
+</div>
+
+<!-- Test 4: Mixed CJK + Latin text -->
+<div id="t4" style="width: 200px;">
+<p>HTML5とCSS3を使ってWebページを作成する。JavaScriptでインタラクティブな機能を追加する。</p>
+</div>
+
+</body>
+</html>

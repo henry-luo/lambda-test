@@ -14,12 +14,12 @@ info: |
       ...
   4. Return OrdinaryGetOwnProperty(O, P).
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, Symbol, TypedArray]
 ---*/
 
-testWithBigIntTypedArrayConstructors(function(TA, makeCtorArg) {
-  var sample = new TA(makeCtorArg([42n, 43n]));
+testWithBigIntTypedArrayConstructors(function(TA) {
+  var sample = new TA([42n, 43n]);
 
   var s = Symbol("foo");
   Object.defineProperty(sample, s, { value: "baz" });
@@ -28,4 +28,4 @@ testWithBigIntTypedArrayConstructors(function(TA, makeCtorArg) {
     "baz",
     "return value from a Symbol key"
   );
-}, null, ["passthrough"]);
+});

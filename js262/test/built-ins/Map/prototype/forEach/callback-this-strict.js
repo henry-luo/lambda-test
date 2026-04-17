@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-map.prototype.foreach
+esid: sec-map.prototype.forEach
 description: >
   If a thisArg is not provided, undefined will be used as the this value for
   each invocation of callbackfn.

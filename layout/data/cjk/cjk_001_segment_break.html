@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>CJK: Segment Break Transformation Rule 2</title>
+<style>
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../font/NotoSansSC-Subset.otf') format('opentype');
+}
+* { margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', sans-serif; font-size: 16px; line-height: 1.5; }
+div { width: 400px; border: 1px solid #ccc; margin: 10px; padding: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Test 1: Segment break between CJK ideographs should be REMOVED (no space) -->
+<div id="t1"><p>這是一段
+很長的文字</p></div>
+
+<!-- Test 2: Segment break between CJK + Latin should become a space -->
+<div id="t2"><p>這是hello
+world測試</p></div>
+
+<!-- Test 3: Segment break between two Hangul should become a space (not removed) -->
+<div id="t3"><p>소년은 개울가에서
+소녀를 보자</p></div>
+
+<!-- Test 4: Segment break between CJK ideograph and Kana (both EA Wide) → removed -->
+<div id="t4"><p>漢字から
+ひらがなへ</p></div>
+
+<!-- Test 5: Multiple consecutive segment breaks between CJK → all removed -->
+<div id="t5"><p>第一行
+第二行
+第三行</p></div>
+
+<!-- Test 6: ZWSP adjacent to segment break (Rule 1) → removed -->
+<div id="t6"><p>前文&#x200B;
+后文</p></div>
+
+</body>
+</html>

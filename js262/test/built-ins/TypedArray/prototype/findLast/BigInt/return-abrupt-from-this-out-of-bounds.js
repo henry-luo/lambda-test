@@ -3,7 +3,7 @@
 /*---
 esid: sec-%typedarray%.prototype.findlast
 description: Return abrupt when "this" value fails buffer boundary checks
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [ArrayBuffer, BigInt, TypedArray, array-find-from-last, arrow-function, resizable-arraybuffer]
 ---*/
 
@@ -54,4 +54,4 @@ testWithBigIntTypedArrayConstructors(TA => {
     array.findLast(() => {});
     throw new Test262Error('findLast completed successfully');
   });
-}, null, ["passthrough"]);
+});

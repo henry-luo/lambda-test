@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-dataview.prototype.getfloat16
+esid: sec-dataview.prototype.getFloat16
 description: >
   ToIndex conversions on byteOffset
 features: [Float16Array, DataView.prototype.setUint8]

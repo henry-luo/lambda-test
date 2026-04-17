@@ -1,13 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
 flags:
   - noStrict
 description: |
-  f.arguments must trigger an arguments object in non-strict mode functions
-info: bugzilla.mozilla.org/show_bug.cgi?id=721322
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 721322;
+var summary =
+  'f.arguments must trigger an arguments object in non-strict mode functions';
+
+print(BUGNUMBER + ": " + summary);
+
 
 var obj =
   {
@@ -28,9 +35,20 @@ var sobj =
     {
      "use strict";
 
-      assert.throws(TypeError, function() {
-        sobj.test.arguments;
-      }, "access to arguments property of strict mode function");
+      try
+      {
+        var args = sobj.test.arguments;
+        throw new Error("access to arguments property of strict mode " +
+                        "function didn't throw");
+      }
+      catch (e)
+      {
+        assert.sameValue(e instanceof TypeError, true,
+                 "should have thrown TypeError, instead got: " + e);
+      }
     }
   };
 sobj.test(5, undefined);
+
+
+print("Tests complete");

@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimend
+esid: sec-string.prototype.trimEnd
 description: Type error when "this" value is a Symbol
 info: |
   Runtime Semantics: TrimString ( string, where )

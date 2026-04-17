@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: Array.prototype.toSpliced deletes the elements after start when called with one argument
 info: |
   22.1.3.25 Array.prototype.toSpliced (start, deleteCount , ...items )

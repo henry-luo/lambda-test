@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -20,5 +23,5 @@ let obj = {
 };
 
 
-assert.throws(SyntaxError, () => ta.set(obj));
+assertThrowsInstanceOf(() => ta.set(obj), SyntaxError);
 

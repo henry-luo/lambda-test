@@ -1,11 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  Call RegExp.prototype[@@replace] from String.prototype.replace.
-info: bugzilla.mozilla.org/show_bug.cgi?id=887016
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 887016;
+var summary = "Call RegExp.prototype[@@replace] from String.prototype.replace.";
+
+print(BUGNUMBER + ": " + summary);
 
 var called = 0;
 var myRegExp = {
@@ -18,3 +24,4 @@ var myRegExp = {
 };
 assert.sameValue("abcAbcABC".replace(myRegExp, "foo"), 42);
 assert.sameValue(called, 1);
+

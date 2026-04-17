@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Support computed property names in destructuring declarations in for-in/of loop heads
-info: bugzilla.mozilla.org/show_bug.cgi?id=1233767
+  pending
 esid: pending
 ---*/
+var gTestfile = "for-loop-declaration-contains-computed-name.js";
+var BUGNUMBER = 1233767;
+var summary =
+  "Support computed property names in destructuring declarations in " +
+  "for-in/of loop heads";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var count;
 
@@ -31,3 +41,6 @@ for (var { length: x, [x - 1]: y } in "foo")
 
   count++;
 }
+
+
+print("Tests complete");

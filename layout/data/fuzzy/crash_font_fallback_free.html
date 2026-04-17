@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!-- Regression test: font fallback path free/mem_free mismatch (SIGABRT in font_handle_release) -->
+<!-- Triggers font codepoint fallback search for CJK + emoji + rare unicode -->
+<html>
+<head><meta charset="utf-8">
+<style>
+body { font-family: "NonExistentFont", serif; }
+.cjk { font-family: "AlsoNotReal", sans-serif; }
+</style>
+</head>
+<body>
+<p>Latin text mixed with CJK: 你好世界</p>
+<p class="cjk">日本語テキスト Korean: 한국어</p>
+<p>Emoji fallback: 😀🎉🚀💥🌍</p>
+<p>Rare Unicode: ℃ ℉ ← → ↑ ↓ ∞ ≠ ≤ ≥</p>
+<p style="font-family: monospace;">Mixed: ABC 中文 αβγ العربية</p>
+<div style="font-size: 72px; font-family: fantasy;">Large fallback: 漢字</div>
+</body>
+</html>

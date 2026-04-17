@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -78,7 +81,7 @@ let invalidOffsets = [
 
 for (let offset of invalidOffsets) {
     for (let source of sources) {
-        assert.throws(RangeError, () => ta.set(source, offset));
+        assertThrowsInstanceOf(() => ta.set(source, offset), RangeError);
     }
 }
 
@@ -88,12 +91,12 @@ for (let source of emptySources) {
     ta.set(source, 4.9);
 }
 for (let source of nonEmptySource) {
-    assert.throws(RangeError, () => ta.set(source, 4));
-    assert.throws(RangeError, () => ta.set(source, 4.9));
+    assertThrowsInstanceOf(() => ta.set(source, 4), RangeError);
+    assertThrowsInstanceOf(() => ta.set(source, 4.9), RangeError);
 }
 
 
 for (let source of sources) {
-    assert.throws(TypeError, () => ta.set(source, Symbol()));
+    assertThrowsInstanceOf(() => ta.set(source, Symbol()), TypeError);
 }
 

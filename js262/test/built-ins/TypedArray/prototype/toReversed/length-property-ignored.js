@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-%typedarray%.prototype.toreversed
+esid: sec-%typedarray%.prototype.toReversed
 description: >
   %TypedArray%.prototype.toReversed does not read a "length" property
 info: |
@@ -14,19 +14,19 @@ includes: [testTypedArray.js, compareArray.js]
 features: [TypedArray, change-array-by-copy]
 ---*/
 
-testWithTypedArrayConstructors((TA, makeCtorArg) => {
-  var ta = new TA(makeCtorArg([0, 1, 2]));
+testWithTypedArrayConstructors(TA => {
+  var ta = new TA([0, 1, 2]);
   Object.defineProperty(ta, "length", { value: 2 })
   var res = ta.toReversed();
   assert.compareArray(res, [2, 1, 0]);
   assert.sameValue(res.length, 3);
 
-  ta = new TA(makeCtorArg([0, 1, 2]));
+  ta = new TA([0, 1, 2]);
   Object.defineProperty(ta, "length", { value: 5 });
   res = ta.toReversed();
   assert.compareArray(res, [2, 1, 0]);
   assert.sameValue(res.length, 3);
-}, null, ["passthrough"]);
+});
 
 function setLength(length) {
     Object.defineProperty(TypedArray.prototype, "length", {
@@ -34,8 +34,8 @@ function setLength(length) {
     });
 }
 
-testWithTypedArrayConstructors((TA, makeCtorArg) => {
-  var ta = new TA(makeCtorArg([0, 1, 2]));
+testWithTypedArrayConstructors(TA => {
+  var ta = new TA([0, 1, 2]);
 
   setLength(2);
   var res = ta.toReversed();
@@ -46,4 +46,4 @@ testWithTypedArrayConstructors((TA, makeCtorArg) => {
   res = ta.toReversed();
   setLength(3);
   assert.compareArray(res, [2, 1, 0]);
-}, null, ["passthrough"]);
+});

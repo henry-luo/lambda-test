@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [sm/non262-Reflect-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Reflect-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -36,11 +38,11 @@ for (const name of Object.keys(methodInfo)) {
     var args = methodInfo[name];
 
     
-    assert.throws(TypeError, Reflect[name]);
+    assertThrowsInstanceOf(Reflect[name], TypeError);
 
     
     for (var value of SOME_PRIMITIVE_VALUES) {
-        assert.throws(TypeError, () => Reflect[name](value, ...args));
+        assertThrowsInstanceOf(() => Reflect[name](value, ...args), TypeError);
     }
 }
 

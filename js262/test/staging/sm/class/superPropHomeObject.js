@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -57,4 +59,5 @@ for (let exprBase of [base1, base2])
         constructor() { super(); }
         test() { animals.push(super["test"]()); }
     }().test();
-assert.compareArray(animals, ["llama", "alpaca"]);
+assert.deepEqual(animals, ["llama", "alpaca"]);
+

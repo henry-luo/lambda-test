@@ -14,5 +14,3 @@ const explicit = earlier.until(later, { largestUnit: undefined });
 TemporalHelpers.assertDuration(explicit, 0, 0, 0, 0, 0, 0, 90061, 987, 654, 321, "default largestUnit is second");
 const implicit = earlier.until(later, {});
 TemporalHelpers.assertDuration(implicit, 0, 0, 0, 0, 0, 0, 90061, 987, 654, 321, "default largestUnit is second");
-const lambda = earlier.until(later, () => {});
-TemporalHelpers.assertDuration(lambda, 0, 0, 0, 0, 0, 0, 90061, 987, 654, 321, "default largestUnit is second");

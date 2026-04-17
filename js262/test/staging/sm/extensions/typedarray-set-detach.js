@@ -1,12 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  Uint8Array.prototype.set issues when this array changes during setting
-info: bugzilla.mozilla.org/show_bug.cgi?id=983344
+  pending
 esid: pending
-features: [host-gc-required]
 ---*/
+
+var BUGNUMBER = 983344;
+var summary =
+  "Uint8Array.prototype.set issues when this array changes during setting";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var ab = new ArrayBuffer(200);
 var a = new Uint8Array(ab);
@@ -32,3 +40,6 @@ Object.defineProperty(src, 4, {
 });
 
 a.set(src);
+
+
+print("Tests complete");

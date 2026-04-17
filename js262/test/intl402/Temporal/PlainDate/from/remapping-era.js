@@ -17,7 +17,7 @@ info: |
   calendars with regnal eras.
 
 includes: [temporalHelpers.js]
-features: [Temporal, Intl.Era-monthcode]
+features: [Temporal]
 ---*/
 
 

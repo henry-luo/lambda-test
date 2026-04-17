@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!-- Regression test: deeply nested fixed-position flex containers (timeout from positioned element processing) -->
+<html>
+<head><meta charset="utf-8">
+<style>
+div {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+<div><div><div><div><div><div><div><div><div><div>
+nested fixed flex content
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</div></div></div></div></div></div></div></div></div></div>
+</body>
+</html>

@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  Number.parseInt(string, radix)
-info: bugzilla.mozilla.org/show_bug.cgi?id=886949
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 886949;
+var summary = "ES6 (draft May 2013) 15.7.3.9 Number.parseInt(string, radix)";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var str, radix;
 var upvar;
@@ -109,3 +117,6 @@ assert.sameValue(Number.parseInt("00A", 17), 10);
 
 
 assert.sameValue(Number.parseInt, parseInt);
+
+
+print("All tests passed!");

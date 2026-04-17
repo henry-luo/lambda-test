@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.tospliced
+esid: sec-array.prototype.toSpliced
 description: >
   Length is clamped to 2^53-1 when they exceed the integer limit.
 info: |

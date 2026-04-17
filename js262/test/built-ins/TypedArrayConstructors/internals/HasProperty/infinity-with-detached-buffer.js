@@ -46,4 +46,4 @@ testWithTypedArrayConstructors(function(TA) {
     Infinity;
     assert.sameValue(counter, 1, 'The value of `counter` is 1');
   }
-}, null, ["passthrough"]);
+});

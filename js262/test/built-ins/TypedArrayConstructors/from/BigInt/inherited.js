@@ -9,7 +9,7 @@ info: |
 
   The %TypedArray% intrinsic object is a constructor function object that all of
   the TypedArray constructor object inherit from.
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, TypedArray]
 ---*/
 
@@ -22,4 +22,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
     TA.hasOwnProperty("from"), false,
     "constructor does not define an own property named 'from'"
   );
-}, null, ["passthrough"]);
+});

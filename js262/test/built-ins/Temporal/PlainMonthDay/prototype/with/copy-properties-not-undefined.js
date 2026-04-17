@@ -19,4 +19,3 @@ TemporalHelpers.assertPlainMonthDay(plainMonthDay.with({ day: 1, monthCode: unde
   "M10", 1,
   "only the properties that are present and defined in the plain object are copied"
 );
-

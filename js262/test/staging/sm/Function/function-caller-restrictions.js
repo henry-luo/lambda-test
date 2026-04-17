@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -30,3 +31,7 @@ assert.sameValue([0].map(caller)[0], null);
 assert.sameValue(function*() {
     yield caller();
 }().next().value, null);
+
+
+if (typeof assert.sameValue === "function") {
+}

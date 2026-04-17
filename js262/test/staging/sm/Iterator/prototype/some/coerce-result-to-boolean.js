@@ -4,6 +4,9 @@
 features:
   - IsHTMLDDA
   - iterator-helpers
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 info: |
   Iterator is not enabled unconditionally
 description: |
@@ -27,6 +30,6 @@ assert.sameValue([NaN].values().some(fn), false);
 assert.sameValue([-0].values().some(fn), false);
 assert.sameValue([0n].values().some(fn), false);
 
-const htmlDDA = $262.IsHTMLDDA;
+const htmlDDA = createIsHTMLDDA();
 assert.sameValue([htmlDDA].values().some(fn), false);
 

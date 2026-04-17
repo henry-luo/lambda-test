@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- Regression test: text node's rect was NULL during JSON serialization (SIGSEGV in print_text_json) -->
+<html>
+<head><meta charset="utf-8">
+<style>
+.truncate {
+  width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<div class="truncate">This is a very long text that should be truncated by overflow hidden</div>
+<div style="width: 0; overflow: hidden;">Zero width text node</div>
+<div style="width: 1px; height: 0; overflow: hidden;">
+  <span>Text in collapsed container</span>
+</div>
+</body>
+</html>

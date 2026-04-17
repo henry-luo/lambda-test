@@ -3,11 +3,17 @@
 /*---
 features:
   - IsHTMLDDA
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-expressions-shell.js]
+flags:
+  - noStrict
 description: |
-  Implement the Nullish Coalescing operator (??) proposal
-info: bugzilla.mozilla.org/show_bug.cgi?id=1566141
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1566141;
+var summary = "Implement the Nullish Coalescing operator (??) proposal";
+
+print(BUGNUMBER + ": " + summary);
 
 
 function shouldBe(actual, expected) {
@@ -20,9 +26,15 @@ function shouldNotThrow(script) {
 }
 
 function shouldThrowSyntaxError(script) {
-  assert.throws(SyntaxError, function() {
+  let error;
+  try {
     eval(script);
-  });
+  } catch (e) {
+    error = e;
+  }
+
+  if (!(error instanceof SyntaxError))
+    throw new Error('Expected SyntaxError!');
 }
 
 function testBasicCases() {
@@ -39,7 +51,7 @@ function testBasicCases() {
   shouldBe(([] ?? 3) instanceof Array, true);
   shouldBe((['hi'] ?? 3)[0], 'hi');
   
-  shouldBe(typeof($262.IsHTMLDDA ?? 3), "undefined");
+  shouldBe(typeof(createIsHTMLDDA() ?? 3), "undefined");
 }
 
 for (let i = 0; i < 1e5; i++)
@@ -102,3 +114,6 @@ shouldBe(null?.() ?? 3, 3);
 shouldBe((() => 0)?.() ?? 3, 0);
 shouldBe(({ x: 0 })?.[null?.a ?? 'x'] ?? 3, 0);
 shouldBe((() => 0)?.(null?.a ?? 'x') ?? 3, 0);
+
+print("Tests complete");
+

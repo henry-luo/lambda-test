@@ -1,57 +1,111 @@
 /*---
-defines: [testJSON, testJSONSyntaxError]
+defines: [testJSON]
+allow_unused: True
 ---*/
-
-function testJSON(str) {
+function testJSON(str, expectSyntaxError)
+{
   
   
-  try {
+  try
+  {
     JSON.parse(str);
-  } catch (e) {
-    throw new Test262Error("string <" + str + "> should have parsed as JSON");
+    reportCompare(false, expectSyntaxError,
+                  "string <" + str + "> " +
+                  "should" + (expectSyntaxError ? "n't" : "") + " " +
+                  "have parsed as JSON");
+  }
+  catch (e)
+  {
+    if (!(e instanceof SyntaxError))
+    {
+      reportCompare(true, false,
+                    "parsing string <" + str + "> threw a non-SyntaxError " +
+                    "exception: " + e);
+    }
+    else
+    {
+      reportCompare(true, expectSyntaxError,
+                    "string <" + str + "> " +
+                    "should" + (expectSyntaxError ? "n't" : "") + " " +
+                    "have parsed as JSON, exception: " + e);
+    }
   }
 
   
-  try {
+  try
+  {
     JSON.parse(str + " ");
-  } catch (e) {
-    throw new Test262Error("string <" + str + " > should have parsed as JSON");
+    reportCompare(false, expectSyntaxError,
+                  "string <" + str + " > " +
+                  "should" + (expectSyntaxError ? "n't" : "") + " " +
+                  "have parsed as JSON");
+  }
+  catch (e)
+  {
+    if (!(e instanceof SyntaxError))
+    {
+      reportCompare(true, false,
+                    "parsing string <" + str + " > threw a non-SyntaxError " +
+                    "exception: " + e);
+    }
+    else
+    {
+      reportCompare(true, expectSyntaxError,
+                    "string <" + str + " > " +
+                    "should" + (expectSyntaxError ? "n't" : "") + " " +
+                    "have parsed as JSON, exception: " + e);
+    }
   }
 
   
-  try {
+  try
+  {
     JSON.parse(" " + str);
-  } catch (e) {
-    throw new Test262Error("string < " + str + "> should have parsed as JSON");
+    reportCompare(false, expectSyntaxError,
+                  "string < " + str + "> " +
+                  "should" + (expectSyntaxError ? "n't" : "") + " " +
+                  "have parsed as JSON");
+  }
+  catch (e)
+  {
+    if (!(e instanceof SyntaxError))
+    {
+      reportCompare(true, false,
+                    "parsing string < " + str + "> threw a non-SyntaxError " +
+                    "exception: " + e);
+    }
+    else
+    {
+      reportCompare(true, expectSyntaxError,
+                    "string < " + str + "> " +
+                    "should" + (expectSyntaxError ? "n't" : "") + " " +
+                    "have parsed as JSON, exception: " + e);
+    }
   }
 
   
-  try {
+  try
+  {
     JSON.parse(" " + str + " ");
-  } catch (e) {
-    throw new Test262Error("string < " + str + " > should have parsed as JSON");
+    reportCompare(false, expectSyntaxError,
+                  "string < " + str + " > " +
+                  "should" + (expectSyntaxError ? "n't" : "") + " " +
+                  "have parsed as JSON");
   }
-}
-
-function testJSONSyntaxError(str) {
-  
-  
-  assert.throws(SyntaxError, function() {
-    JSON.parse(str);
-  }, "string <" + str + "> shouldn't have parsed as JSON");
-
-  
-  assert.throws(SyntaxError, function() {
-    JSON.parse(str + " ");
-  }, "string <" + str + " > shouldn't have parsed as JSON");
-
-  
-  assert.throws(SyntaxError, function() {
-    JSON.parse(" " + str);
-  }, "string < " + str + "> shouldn't have parsed as JSON");
-
-  
-  assert.throws(SyntaxError, function() {
-    JSON.parse(" " + str + " ");
-  }, "string < " + str + " > shouldn't have parsed as JSON");
+  catch (e)
+  {
+    if (!(e instanceof SyntaxError))
+    {
+      reportCompare(true, false,
+                    "parsing string < " + str + " > threw a non-SyntaxError " +
+                    "exception: " + e);
+    }
+    else
+    {
+      reportCompare(true, expectSyntaxError,
+                    "string < " + str + " > " +
+                    "should" + (expectSyntaxError ? "n't" : "") + " " +
+                    "have parsed as JSON, exception: " + e);
+    }
+  }
 }

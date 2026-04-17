@@ -16,9 +16,9 @@ includes: [testTypedArray.js]
 features: [TypedArray]
 ---*/
 
-testWithTypedArrayConstructors(function(TA, makeCtorArg) {
+testWithTypedArrayConstructors(function(TA) {
   var result;
-  var custom = new TA(makeCtorArg(3));
+  var custom = new TA(3);
   var ctor = function() {
     return custom;
   };

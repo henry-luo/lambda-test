@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>CJK: Line Breaking (Kinsoku)</title>
+<style>
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../font/NotoSansSC-Subset.otf') format('opentype');
+}
+* { margin: 0; padding: 0; }
+body { font-family: 'Noto Sans SC', sans-serif; font-size: 16px; line-height: 1.5; }
+div { border: 1px solid #ccc; margin: 10px; padding: 5px; }
+</style>
+</head>
+<body>
+
+<!-- Test 1: Basic CJK line wrapping at narrow width -->
+<div id="t1" style="width: 160px;">
+<p>我冒了嚴寒，回到相隔二千餘里的故鄕去。</p>
+</div>
+
+<!-- Test 2: No break before closing punctuation (CL class) -->
+<div id="t2" style="width: 160px;">
+<p>他說「這件事情很重要」然後就走了。</p>
+</div>
+
+<!-- Test 3: No break after opening punctuation (OP class) -->
+<div id="t3" style="width: 160px;">
+<p>書名是《紅樓夢》作者是曹雪芹。</p>
+</div>
+
+<!-- Test 4: word-break: keep-all suppresses CJK breaks -->
+<div id="t4" style="width: 160px; word-break: keep-all;">
+<p>這段文字不能在漢字之間斷行只能在空格處斷行 這裡可以斷</p>
+</div>
+
+<!-- Test 5: word-break: break-all on Latin text -->
+<div id="t5" style="width: 100px; word-break: break-all;">
+<p>Supercalifragilisticexpialidocious</p>
+</div>
+
+<!-- Test 6: Ideographic space (U+3000) as break opportunity -->
+<div id="t6" style="width: 160px;">
+<p>姓名　住所　電話番号　メールアドレス</p>
+</div>
+
+</body>
+</html>

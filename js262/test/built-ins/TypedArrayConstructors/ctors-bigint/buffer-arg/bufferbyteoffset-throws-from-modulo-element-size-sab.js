@@ -15,7 +15,7 @@ info: |
   13. If length is undefined, then
     a. If bufferByteLength modulo elementSize ≠ 0, throw a RangeError exception.
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, SharedArrayBuffer, TypedArray]
 ---*/
 
@@ -29,4 +29,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   assert.throws(RangeError, function() {
     new TA(buffer, 0, undefined);
   });
-}, null, ["passthrough"]);
+});

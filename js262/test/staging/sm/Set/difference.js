@@ -1,17 +1,19 @@
 
 
 /*---
-includes: [sm/non262-Set-shell.js, compareArray.js, propertyHelper.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Set-shell.js, deepEqual.js, compareArray.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 
 assert.sameValue(typeof Set.prototype.difference, "function");
-verifyProperty(Set.prototype.difference, "length", {
+assert.deepEqual(Object.getOwnPropertyDescriptor(Set.prototype.difference, "length"), {
   value: 1, writable: false, enumerable: false, configurable: true,
 });
-verifyProperty(Set.prototype.difference, "name", {
+assert.deepEqual(Object.getOwnPropertyDescriptor(Set.prototype.difference, "name"), {
   value: "difference", writable: false, enumerable: false, configurable: true,
 });
 
@@ -157,7 +159,7 @@ for (let values of [
   ]);
 
   log.length = 0;
-  assert.throws(TypeError, () => new Set([1]).difference(setLike));
+  assertThrowsInstanceOf(() => new Set([1]).difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -182,7 +184,7 @@ for (let values of [
   ]);
 
   log.length = 0;
-  assert.throws(TypeError, () => new Set([1]).difference(setLike));
+  assertThrowsInstanceOf(() => new Set([1]).difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -195,7 +197,7 @@ for (let values of [
   setLikeObj.keys = nonCallable;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.difference(setLike));
+  assertThrowsInstanceOf(() => emptySet.difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -208,7 +210,7 @@ for (let values of [
   setLikeObj.has = nonCallable;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.difference(setLike));
+  assertThrowsInstanceOf(() => emptySet.difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -220,7 +222,7 @@ for (let values of [
   sizeValue = NaN;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.difference(setLike));
+  assertThrowsInstanceOf(() => emptySet.difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -231,7 +233,7 @@ for (let values of [
   sizeValue = undefined;
 
   log.length = 0;
-  assert.throws(TypeError, () => emptySet.difference(setLike));
+  assertThrowsInstanceOf(() => emptySet.difference(setLike), TypeError);
 
   assert.compareArray(log, [
     "[[get]]", "size",
@@ -240,7 +242,7 @@ for (let values of [
 }
 
 
-assert.throws(TypeError, () => emptySet.difference([]));
+assertThrowsInstanceOf(() => emptySet.difference([]), TypeError);
 
 
 {
@@ -271,7 +273,7 @@ assert.throws(TypeError, () => emptySet.difference([]));
 for (let thisValue of [
   null, undefined, true, "", {}, new Map, new Proxy(new Set, {}),
 ]) {
-  assert.throws(TypeError, () => Set.prototype.difference.call(thisValue, emptySet));
+  assertThrowsInstanceOf(() => Set.prototype.difference.call(thisValue, emptySet), TypeError);
 }
 
 

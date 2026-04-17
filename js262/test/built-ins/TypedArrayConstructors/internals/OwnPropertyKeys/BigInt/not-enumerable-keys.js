@@ -12,7 +12,7 @@ info: |
   4. For each integer i starting with 0 such that i < len, in ascending order,
     a. Add ! ToString(i) as the last element of keys.
   ...
-includes: [testTypedArray.js, compareArray.js]
+includes: [testBigIntTypedArray.js, compareArray.js]
 features: [BigInt, Reflect, Symbol, TypedArray]
 ---*/
 
@@ -31,4 +31,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   });
   var result = Reflect.ownKeys(sample);
   assert(compareArray(result, ["test262", s]));
-}, null, ["passthrough"]);
+});

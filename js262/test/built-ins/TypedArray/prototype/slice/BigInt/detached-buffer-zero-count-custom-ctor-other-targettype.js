@@ -13,7 +13,7 @@ info: |
     ...
   Return A
 
-includes: [testTypedArray.js, detachArrayBuffer.js]
+includes: [testBigIntTypedArray.js, detachArrayBuffer.js]
 features: [align-detached-buffer-semantics-with-web-reality, BigInt, Symbol.species, TypedArray]
 ---*/
 
@@ -42,4 +42,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   sample.constructor = ctor;
   sample.slice(1, 1); 
   assert.sameValue(counter, 2, 'The value of `counter` is 2');
-}, null, ["passthrough"]);
+});

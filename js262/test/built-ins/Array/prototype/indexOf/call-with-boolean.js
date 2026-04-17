@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.indexof
+esid: sec-array.prototype.indexOf
 description: Array.prototype.indexOf applied to boolean primitive
 ---*/
 

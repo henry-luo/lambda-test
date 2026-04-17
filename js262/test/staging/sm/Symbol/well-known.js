@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -19,8 +22,6 @@ var names = [
     "asyncIterator"
 ];
 
-var g = $262.createRealm().global;
-
 for (var name of names) {
     
     assert.sameValue(typeof Symbol[name], "symbol");
@@ -29,7 +30,12 @@ for (var name of names) {
     assert.sameValue(Symbol[name] !== Symbol.for("Symbol." + name), true);
 
     
-    assert.sameValue(Symbol[name], g.Symbol[name]);
+    if (typeof Realm === 'function')
+        throw new Error("please update this test to use Realms");
+    if (typeof createNewGlobal === 'function') {
+        var g = createNewGlobal();
+        assert.sameValue(Symbol[name], g.Symbol[name]);
+    }
 
     
     var desc = Object.getOwnPropertyDescriptor(Symbol, name);

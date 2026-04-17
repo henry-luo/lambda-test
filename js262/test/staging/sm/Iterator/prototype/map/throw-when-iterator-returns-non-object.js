@@ -6,6 +6,9 @@ description: |
   Throw TypeError if `next` call returns non-object.
 features:
   - iterator-helpers
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 ---*/
 
 
@@ -14,10 +17,10 @@ const iterator = returnValue => Object.setPrototypeOf({
 }, Iterator.prototype);
 const mapper = x => x;
 
-assert.throws(TypeError, () => iterator(undefined).map(mapper).next());
-assert.throws(TypeError, () => iterator(null).map(mapper).next());
-assert.throws(TypeError, () => iterator(0).map(mapper).next());
-assert.throws(TypeError, () => iterator(false).map(mapper).next());
-assert.throws(TypeError, () => iterator('').map(mapper).next());
-assert.throws(TypeError, () => iterator(Symbol()).map(mapper).next());
+assertThrowsInstanceOf(() => iterator(undefined).map(mapper).next(), TypeError);
+assertThrowsInstanceOf(() => iterator(null).map(mapper).next(), TypeError);
+assertThrowsInstanceOf(() => iterator(0).map(mapper).next(), TypeError);
+assertThrowsInstanceOf(() => iterator(false).map(mapper).next(), TypeError);
+assertThrowsInstanceOf(() => iterator('').map(mapper).next(), TypeError);
+assertThrowsInstanceOf(() => iterator(Symbol()).map(mapper).next(), TypeError);
 

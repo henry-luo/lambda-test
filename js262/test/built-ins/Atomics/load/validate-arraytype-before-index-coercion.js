@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.load
+esid: sec-atomics.store
 description: >
   TypedArray type is validated before `index` argument is coerced.
 info: |

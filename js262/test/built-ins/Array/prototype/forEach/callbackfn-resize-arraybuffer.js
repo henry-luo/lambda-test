@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.foreach
+esid: sec-array.prototype.forEach
 description: TypedArray instance buffer can be resized during iteration
 includes: [testTypedArray.js, compareArray.js]
 features: [TypedArray, resizable-arraybuffer]
@@ -63,4 +63,4 @@ testWithTypedArrayConstructors(function(TA) {
   assert.compareArray(indices, expectedIndices, 'indices (grow)');
   assert.compareArray(arrays, expectedArrays, 'arrays (grow)');
   assert.sameValue(result, undefined, 'result (grow)');
-}, null, ["passthrough"]);
+});

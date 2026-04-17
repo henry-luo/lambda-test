@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 description: |
@@ -23,7 +26,7 @@ for (const method of methods) {
     if (x == 2) {
       
       reentered = true;
-      assert.throws(TypeError, () => iterHelper.next());
+      assertThrowsInstanceOf(() => iterHelper.next(), TypeError);
     }
     return method[1](x);
   });

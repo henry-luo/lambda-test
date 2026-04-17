@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  JSON.parse with a reviver which elides array elements
-info: bugzilla.mozilla.org/show_bug.cgi?id=999999
+  pending
 esid: pending
 ---*/
+var gTestfile = 'parse-reviver-array-delete.js';
+
+var BUGNUMBER = 999999;
+var summary = "JSON.parse with a reviver which elides array elements";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.sameValue(JSON.parse('[1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0]',
@@ -67,3 +75,6 @@ assert.sameValue(JSON.parse(str,
                       return undefined;
                     }) + "",
          expected2);
+
+
+print("Tests complete");

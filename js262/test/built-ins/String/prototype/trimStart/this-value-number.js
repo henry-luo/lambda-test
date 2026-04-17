@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: Behavoir when "this" value is a number.
 info: |
   Runtime Semantics: TrimString ( string, where )

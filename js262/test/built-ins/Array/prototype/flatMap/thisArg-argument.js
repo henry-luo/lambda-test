@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: >
     Behavior when thisArg is provided
     Array.prototype.flatMap ( mapperFunction [ , thisArg ] )

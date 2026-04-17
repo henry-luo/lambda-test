@@ -26,7 +26,7 @@ info: |
     If IsDetachedBuffer(buffer) is true, throw a TypeError exception.
     ...
 
-includes: [testTypedArray.js, detachArrayBuffer.js]
+includes: [testBigIntTypedArray.js, detachArrayBuffer.js]
 features: [align-detached-buffer-semantics-with-web-reality, BigInt, Symbol.species, TypedArray]
 ---*/
 
@@ -48,4 +48,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   }, '`sample.slice()` throws TypeError');
 
   assert.sameValue(counter, 2, 'The value of `counter` is 2');
-}, null, ["passthrough"]);
+});

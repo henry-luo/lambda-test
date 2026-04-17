@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: Property type and descriptor.
 info: >
   17 ECMAScript Standard Built-in Objects

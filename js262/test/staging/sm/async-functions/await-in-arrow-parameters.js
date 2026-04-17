@@ -1,11 +1,13 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 var ieval = eval;
 var AsyncFunction = async function(){}.constructor;
 
@@ -27,14 +29,14 @@ function assertSyntaxError(kind, code) {
     var body = toSourceBody(code);
     var parameter = toSourceParameter(code);
 
-    assert.throws(SyntaxError, () => { constructor(code); }, constructor.name + ":" + code);
-    assert.throws(SyntaxError, () => { constructor(`x = ${code}`, ""); }, constructor.name + ":" + code);
+    assertThrowsInstanceOf(() => { constructor(code); }, SyntaxError, constructor.name + ":" + code);
+    assertThrowsInstanceOf(() => { constructor(`x = ${code}`, ""); }, SyntaxError, constructor.name + ":" + code);
 
-    assert.throws(SyntaxError, () => { eval(body); }, "eval:" + body);
-    assert.throws(SyntaxError, () => { ieval(body); }, "indirect eval:" + body);
+    assertThrowsInstanceOf(() => { eval(body); }, SyntaxError, "eval:" + body);
+    assertThrowsInstanceOf(() => { ieval(body); }, SyntaxError, "indirect eval:" + body);
 
-    assert.throws(SyntaxError, () => { eval(parameter); }, "eval:" + parameter);
-    assert.throws(SyntaxError, () => { ieval(parameter); }, "indirect eval:" + parameter);
+    assertThrowsInstanceOf(() => { eval(parameter); }, SyntaxError, "eval:" + parameter);
+    assertThrowsInstanceOf(() => { ieval(parameter); }, SyntaxError, "indirect eval:" + parameter);
 }
 
 function assertNoSyntaxError(kind, code) {
@@ -89,3 +91,4 @@ assertSyntaxErrorAsync("(a = (b, ...await) => {}) => {}");
 assertSyntaxErrorBoth("(a = async(b, ...await) => {}) => {}");
 assertSyntaxErrorBoth("async(a = (b, ...await) => {}) => {}");
 assertSyntaxErrorBoth("async(a = async(b, ...await) => {}) => {}");
+

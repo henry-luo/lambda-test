@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-array.prototype.flatmap
+esid: sec-array.prototype.flatMap
 description: Array.prototype.flatMap applied to boolean primitive
 includes: [compareArray.js]
 ---*/

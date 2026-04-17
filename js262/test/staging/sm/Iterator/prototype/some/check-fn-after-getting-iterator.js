@@ -1,7 +1,9 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, compareArray.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 info: |
@@ -25,7 +27,7 @@ class TestIterator extends Iterator {
 }
 
 const iter = new Proxy(new TestIterator(), handlerProxy);
-assert.throws(TypeError, () => iter.some(1));
+assertThrowsInstanceOf(() => iter.some(1), TypeError);
 
 assert.compareArray(
   log,

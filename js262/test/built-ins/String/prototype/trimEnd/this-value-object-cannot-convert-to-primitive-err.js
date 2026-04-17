@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimend
+esid: sec-string.prototype.trimEnd
 description: >
   This value is an object which cannot be converted to a primitive
 info: |

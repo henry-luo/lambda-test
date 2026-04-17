@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
-  U+2028 LINE SEPARATOR and U+2029 PARAGRAPH SEPARATOR must match the LineTerminator production when parsing code
-info: bugzilla.mozilla.org/show_bug.cgi?id=663331
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 663331;
+var summary =
+  "U+2028 LINE SEPARATOR and U+2029 PARAGRAPH SEPARATOR must match the " +
+  "LineTerminator production when parsing code";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var hidden = 17;
 var assigned;
@@ -35,3 +45,6 @@ function t2()
   assert.sameValue(assigned, 5);
 }
 t2();
+
+
+print("All tests passed!");

@@ -14,7 +14,7 @@ info: |
   ...
   10. If offset modulo elementSize ≠ 0, throw a RangeError exception.
   ...
-includes: [testTypedArray.js]
+includes: [testBigIntTypedArray.js]
 features: [BigInt, SharedArrayBuffer, TypedArray]
 ---*/
 
@@ -24,4 +24,4 @@ testWithBigIntTypedArrayConstructors(function(TA) {
   assert.throws(RangeError, function() {
     new TA(buffer, 7);
   });
-}, null, ["passthrough"]);
+});

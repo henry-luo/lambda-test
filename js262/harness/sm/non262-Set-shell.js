@@ -1,5 +1,6 @@
 /*---
 defines: [assertSetContainsExactOrderedItems, SetLike, SetIteratorLike, LoggingProxy]
+allow_unused: True
 ---*/
 (function(global) {
   
@@ -17,10 +18,10 @@ defines: [assertSetContainsExactOrderedItems, SetLike, SetIteratorLike, LoggingP
   const SetIteratorPrototypeNext = new Set().values().next;
 
   function assertSetContainsExactOrderedItems(actual, expected) {
-    assert.sameValue(ReflectGetPrototypeOf(actual), SetPrototype, "actual is a native Set object");
-    assert.sameValue(ArrayIsArray(expected), true, "expected is an Array object");
+    assertEq(ReflectGetPrototypeOf(actual), SetPrototype, "actual is a native Set object");
+    assertEq(ArrayIsArray(expected), true, "expected is an Array object");
 
-    assert.sameValue(ReflectApply(SetPrototypeSize, actual, []), expected.length);
+    assertEq(ReflectApply(SetPrototypeSize, actual, []), expected.length);
 
     let index = 0;
     let keys = ReflectApply(SetPrototypeKeys, actual, []);
@@ -30,7 +31,7 @@ defines: [assertSetContainsExactOrderedItems, SetLike, SetIteratorLike, LoggingP
       if (done) {
         break;
       }
-      assert.sameValue(item, expected[index], `Element at index ${index}:`);
+      assertEq(item, expected[index], `Element at index ${index}:`);
       index++;
     }
   }
@@ -81,7 +82,7 @@ defines: [assertSetContainsExactOrderedItems, SetLike, SetIteratorLike, LoggingP
   }
 
   function LoggingProxy(obj, log) {
-    assert.sameValue(ArrayIsArray(log), true);
+    assertEq(ArrayIsArray(log), true);
 
     let handler = new Proxy({
       get(t, pk, r) {

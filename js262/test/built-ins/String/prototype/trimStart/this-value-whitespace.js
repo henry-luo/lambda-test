@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-string.prototype.trimstart
+esid: sec-string.prototype.trimStart
 description: TrimStart removes all whitespace from the start of a string.
 info: |
   Runtime Symantics: TrimString ( string, where )

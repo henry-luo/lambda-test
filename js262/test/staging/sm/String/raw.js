@@ -1,18 +1,24 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-String-shell.js]
+flags:
+  - noStrict
 description: |
-  String.raw
-info: bugzilla.mozilla.org/show_bug.cgi?id=1039774
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1039774;
+var summary = 'String.raw';
 
-assert.throws(TypeError, function() { String.raw(); });
+print(BUGNUMBER + ": " + summary);
+
+assertThrowsInstanceOf(function() { String.raw(); }, TypeError);
 
 assert.sameValue(String.raw.length, 1);
 
 var cooked = [];
-assert.throws(TypeError, function() { String.raw(cooked); });
+assertThrowsInstanceOf(function() { String.raw(cooked); }, TypeError);
 
 cooked.raw = {};
 assert.sameValue(String.raw(cooked), "");
@@ -55,3 +61,4 @@ assert.sameValue(String.raw(cooked, "x", "y"), "axb");
 
 cooked.raw = {length: 4, '0':"a", '1':"b", '2':"c"};
 assert.sameValue(String.raw(cooked, "x", "y"), "axbycundefined");
+

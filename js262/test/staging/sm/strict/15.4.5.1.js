@@ -1,7 +1,7 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-strict-shell.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -30,12 +30,53 @@ function strict1(out)
 
 out.array = null;
 nonStrict1(out);
-assert.compareArray(out.array, [1, 2, 3]);
+assert.sameValue(deepEqual(out.array, [1, 2, 3]), true);
 
 out.array = null;
-
-assert.throws(TypeError, function() {
+try
+{
   strict1(out);
-});
+  throw "no error";
+}
+catch (e)
+{
+  assert.sameValue(e instanceof TypeError, true, "expected TypeError, got " + e);
+}
+assert.sameValue(deepEqual(out.array, [1, 2, 3]), true);
 
-assert.compareArray(out.array, [1, 2, 3]);
+
+function addx(obj) {
+  obj.x = 5;
+  return obj;
+}
+
+function nonStrict2(out)
+{
+  var a = out.array = addx(arr());
+  a.length = 2;
+}
+
+function strict2(out)
+{
+  "use strict";
+  var a = out.array = addx(arr());
+  a.length = 2;
+}
+
+out.array = null;
+nonStrict2(out);
+assert.sameValue(deepEqual(out.array, addx([1, 2, 3])), true);
+
+out.array = null;
+try
+{
+  strict2(out);
+  throw "no error";
+}
+catch (e)
+{
+  assert.sameValue(e instanceof TypeError, true, "expected TypeError, got " + e);
+}
+assert.sameValue(deepEqual(out.array, addx([1, 2, 3])), true);
+
+print("Tests complete");

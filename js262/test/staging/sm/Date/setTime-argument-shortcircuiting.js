@@ -1,10 +1,16 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-Date-shell.js]
+flags:
+  - noStrict
 description: |
-  Test for correct short-circuiting implementation of Date.set methods
+  pending
 esid: pending
 ---*/
+
+print("Test for correct short-circuiting implementation of Date.set methods");
+
 
 var global = 0;
 var date;
@@ -131,3 +137,6 @@ assert.sameValue(global, 45);
 
 date = new Date(NaN).setYear({valueOf:function(){global = 46}});
 assert.sameValue(global, 46);
+
+
+print("Tests complete");

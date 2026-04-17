@@ -1,11 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-JSON-shell.js]
+flags:
+  - noStrict
 description: |
-  JSON.stringify(_1, _2, numberGreaterThanOne) produces wrong output
-info: bugzilla.mozilla.org/show_bug.cgi?id=584909
+  pending
 esid: pending
 ---*/
+var gTestfile = 'stringify-gap.js';
+
+var BUGNUMBER = 584909;
+var summary =
+  "JSON.stringify(_1, _2, numberGreaterThanOne) produces wrong output";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var LF = "\n";
 var GAP = "   ";
@@ -46,3 +56,6 @@ assert.sameValue(JSON.stringify(obj, null, new String("  ")), "[\n--1,\n--2,\n--
 Number.prototype.valueOf = function() { return 0; };
 
 assert.sameValue(JSON.stringify(obj, null, new Number(3)), "[1,2,3]");
+
+
+print("All tests passed!");

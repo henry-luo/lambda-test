@@ -1,15 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-
 if (typeof window === "undefined") {
     
     
-    var window = this;
+    window = this;
 }
 
 var res = false;
@@ -24,3 +26,4 @@ Object.defineProperty(this, "foo", {configurable: true,
 	assert.sameValue(window.foo, true, "getter");
     }
 })();
+

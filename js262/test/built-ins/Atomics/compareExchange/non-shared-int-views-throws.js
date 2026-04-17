@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-atomics.compareexchange
+esid: sec-atomics.compareExchange
 description: >
   Atomics.compareExchange throws when operating on non-sharable integer TypedArrays
 includes: [testTypedArray.js]
@@ -14,4 +14,4 @@ testWithNonAtomicsFriendlyTypedArrayConstructors(TA => {
   assert.throws(TypeError, function() {
     Atomics.compareExchange(view, 0, 0, 0);
   }, `Atomics.compareExchange(new ${TA.name}(buffer), 0, 0, 0) throws TypeError`);
-}, null, ["passthrough"]);
+});

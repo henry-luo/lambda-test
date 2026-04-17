@@ -1,13 +1,21 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
 flags:
   - noStrict
 description: |
-  Don't assert anything about a shape from the property cache until it's known the cache entry matches
-info: bugzilla.mozilla.org/show_bug.cgi?id=713944
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 713944;
+var summary =
+  "Don't assert anything about a shape from the property cache until it's " +
+  "known the cache entry matches";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var accDesc = { set: function() {} };
 var dataDesc = { value: 3 };
@@ -41,3 +49,4 @@ for (var i = 0; i < 2; i++)
 }
 assert.sameValue(b.p1, 3);
 assert.sameValue(a.p1, 3);
+

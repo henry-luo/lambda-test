@@ -54,4 +54,4 @@ testWithTypedArrayConstructors(TA => {
     array.keys();
     throw new Test262Error('keys completed successfully');
   });
-}, null, ["passthrough"]);
+});

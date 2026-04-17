@@ -1,6 +1,9 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
@@ -32,3 +35,4 @@ for (let bits of [UINT32_MAX-1, UINT32_MAX, UINT32_MAX+1, Number.MAX_SAFE_INTEGE
     test(() => BigInt.asUintN(bits, 0n), 0n);
     
 }
+

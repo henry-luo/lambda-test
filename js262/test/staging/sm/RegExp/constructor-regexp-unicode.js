@@ -1,10 +1,17 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  RegExp constructor should check the pattern syntax again when adding unicode flag.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1274393
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1274393;
+var summary = "RegExp constructor should check the pattern syntax again when adding unicode flag.";
 
-assert.throws(SyntaxError, () => RegExp(/\-/, "u"));
+print(BUGNUMBER + ": " + summary);
+
+assertThrowsInstanceOf(() => RegExp(/\-/, "u"), SyntaxError);
+

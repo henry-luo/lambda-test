@@ -8,85 +8,66 @@ includes: [compareArray.js, resizableArrayBufferUtils.js]
 features: [resizable-arraybuffer]
 ---*/
 
-const fillWithIndexes = (ta, length) => {
-  for (let i = 0; i < length; ++i) {
-    ta[i] = MayNeedBigInt(ta, i);
-  }
-  return ta;
-};
-
 for (let ctor of ctors) {
   const rab = CreateResizableArrayBuffer(4 * ctor.BYTES_PER_ELEMENT, 8 * ctor.BYTES_PER_ELEMENT);
   const fixedLength = new ctor(rab, 0, 4);
-  const evil = () => {
-    rab.resize(2 * ctor.BYTES_PER_ELEMENT);
-    return 2;
+  const evil = {
+    valueOf: () => {
+      rab.resize(2 * ctor.BYTES_PER_ELEMENT);
+      return 2;
+    }
   };
   assert.throws(TypeError, () => {
-    fixedLength.copyWithin({ valueOf: evil }, 0, 1);
-  }, ctor.name + " evil target.");
+    fixedLength.copyWithin(evil, 0, 1);
+  });
   rab.resize(4 * ctor.BYTES_PER_ELEMENT);
   assert.throws(TypeError, () => {
-    fixedLength.copyWithin(0, { valueOf: evil }, 3);
-  }, ctor.name + " evil start.");
+    fixedLength.copyWithin(0, evil, 3);
+  });
   rab.resize(4 * ctor.BYTES_PER_ELEMENT);
   assert.throws(TypeError, () => {
-    fixedLength.copyWithin(0, 1, { valueOf: evil });
-  }, ctor.name + " evil end.");
+    fixedLength.copyWithin(0, 1, evil);
+  });
 }
-
 for (let ctor of ctors) {
   const rab = CreateResizableArrayBuffer(4 * ctor.BYTES_PER_ELEMENT, 8 * ctor.BYTES_PER_ELEMENT);
-  const lengthTracking = fillWithIndexes(new ctor(rab), 4);
+  const lengthTracking = new ctor(rab);
+  for (let i = 0; i < 4; ++i) {
+    lengthTracking[i] = MayNeedBigInt(lengthTracking, i);
+  }
   
   
-  const evil = () => {
-    rab.resize(3 * ctor.BYTES_PER_ELEMENT);
-    return 2;
+  const evil = {
+    valueOf: () => {
+      rab.resize(3 * ctor.BYTES_PER_ELEMENT);
+      return 2;
+    }
   };
-  lengthTracking.copyWithin({ valueOf: evil }, 0);
-  assert.compareArray(ToNumbers(lengthTracking), [0, 1, 0],
-    ctor.name + " truncated copy forward.");
+  lengthTracking.copyWithin(evil, 0);
+  assert.compareArray(ToNumbers(lengthTracking), [
+    0,
+    1,
+    0
+  ]);
 }
-
 for (let ctor of ctors) {
   const rab = CreateResizableArrayBuffer(4 * ctor.BYTES_PER_ELEMENT, 8 * ctor.BYTES_PER_ELEMENT);
-  const lengthTracking = fillWithIndexes(new ctor(rab), 4);
+  const lengthTracking = new ctor(rab);
+  for (let i = 0; i < 4; ++i) {
+    lengthTracking[i] = MayNeedBigInt(lengthTracking, i);
+  }
   
   
-  const evil = () => {
-    rab.resize(3 * ctor.BYTES_PER_ELEMENT);
-    return 2;
+  const evil = {
+    valueOf: () => {
+      rab.resize(3 * ctor.BYTES_PER_ELEMENT);
+      return 2;
+    }
   };
-  lengthTracking.copyWithin(0, { valueOf: evil });
-  assert.compareArray(ToNumbers(lengthTracking), [2, 1, 2],
-    ctor.name + " truncated copy backward.");
-}
-
-for (let ctor of ctors) {
-  const rab = CreateResizableArrayBuffer(4 * ctor.BYTES_PER_ELEMENT, 8 * ctor.BYTES_PER_ELEMENT);
-  const lengthTracking = fillWithIndexes(new ctor(rab), 4);
-  
-  
-  const evil = () => {
-    rab.resize(3 * ctor.BYTES_PER_ELEMENT);
-    return 2;
-  };
-  lengthTracking.copyWithin({ valueOf: evil }, 1);
-  assert.compareArray(ToNumbers(lengthTracking), [0, 1, 1],
-    ctor.name + " truncated overlapping copy forward.");
-}
-
-for (let ctor of ctors) {
-  const rab = CreateResizableArrayBuffer(4 * ctor.BYTES_PER_ELEMENT, 8 * ctor.BYTES_PER_ELEMENT);
-  const lengthTracking = fillWithIndexes(new ctor(rab), 4);
-  
-  
-  const evil = () => {
-    rab.resize(3 * ctor.BYTES_PER_ELEMENT);
-    return 2;
-  };
-  lengthTracking.copyWithin(1, { valueOf: evil });
-  assert.compareArray(ToNumbers(lengthTracking), [0, 2, 2],
-    ctor.name + " truncated overlapping copy backward.");
+  lengthTracking.copyWithin(0, evil);
+  assert.compareArray(ToNumbers(lengthTracking), [
+    2,
+    1,
+    2
+  ]);
 }

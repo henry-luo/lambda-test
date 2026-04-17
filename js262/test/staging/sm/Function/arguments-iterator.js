@@ -1,14 +1,17 @@
 
 
 /*---
-includes: [deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
 flags:
   - noStrict
 description: |
-  Implement arguments[@@iterator].
-info: bugzilla.mozilla.org/show_bug.cgi?id=992617
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 992617;
+var summary = "Implement arguments[@@iterator].";
+
+print(BUGNUMBER + ": " + summary);
 
 
 let mapped = [
@@ -82,7 +85,7 @@ for (let f of mapped) {
   f(10, 20, 30);
 }
 
-var g1 = $262.createRealm().global;
+var g1 = createNewGlobal();
 assert.sameValue(g1.eval(`
 function f(a, b, c) {
   return arguments[Symbol.iterator].name;
@@ -162,10 +165,11 @@ for (let f of unmapped) {
   f([10], 20, 30);
 }
 
-var g2 = $262.createRealm().global;
+var g2 = createNewGlobal();
 assert.sameValue(g2.eval(`
 function f([a], b, c) {
   return arguments[Symbol.iterator].name;
 }
 f([1], 2, 3);
 `), "values");
+

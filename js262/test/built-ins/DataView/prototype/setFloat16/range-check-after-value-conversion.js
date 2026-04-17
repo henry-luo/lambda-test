@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-dataview.prototype.setfloat16
+esid: sec-dataview.prototype.setFloat16
 description: >
   Index bounds checks are performed after value conversion.
 features: [Float16Array]

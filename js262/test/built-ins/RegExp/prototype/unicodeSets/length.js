@@ -1,7 +1,7 @@
 
 
 /*---
-esid: sec-get-regexp.prototype.unicodesets
+esid: sec-get-regexp.prototype.unicodeSets
 description: >
   get RegExp.prototype.unicodeSets.length is 0.
 info: |

@@ -1,16 +1,18 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
 for (var constructor of anyTypedArrayConstructors) {
-    assert.throws(TypeError, () => constructor());
-    assert.throws(TypeError, () => constructor(1));
-    assert.throws(TypeError, () => constructor.call(null));
-    assert.throws(TypeError, () => constructor.apply(null, []));
-    assert.throws(TypeError, () => Reflect.apply(constructor, null, []));
+    assertThrowsInstanceOf(() => constructor(), TypeError);
+    assertThrowsInstanceOf(() => constructor(1), TypeError);
+    assertThrowsInstanceOf(() => constructor.call(null), TypeError);
+    assertThrowsInstanceOf(() => constructor.apply(null, []), TypeError);
+    assertThrowsInstanceOf(() => Reflect.apply(constructor, null, []), TypeError);
 }
 

@@ -1,0 +1,32 @@
+
+
+/*---
+description: |
+    Collection of functions used to assert the correctness of BigInt TypedArray objects.
+defines:
+  - TypedArray
+  - testWithBigIntTypedArrayConstructors
+---*/
+
+
+var TypedArray = Object.getPrototypeOf(Int8Array);
+
+
+function testWithBigIntTypedArrayConstructors(f, selected) {
+  
+
+  var constructors = selected || [
+    BigInt64Array,
+    BigUint64Array
+  ];
+
+  for (var i = 0; i < constructors.length; ++i) {
+    var constructor = constructors[i];
+    try {
+      f(constructor);
+    } catch (e) {
+      e.message += " (Testing with " + constructor.name + ".)";
+      throw e;
+    }
+  }
+}

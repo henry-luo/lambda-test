@@ -1,12 +1,14 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js, compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
   pending
 esid: pending
 ---*/
-const otherGlobal = $262.createRealm().global;
+const otherGlobal = createNewGlobal();
 
 
 for (var constructor of typedArrayConstructors) {

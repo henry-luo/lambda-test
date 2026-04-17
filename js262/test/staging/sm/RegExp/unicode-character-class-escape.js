@@ -1,12 +1,17 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- CharacterClassEscape.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- CharacterClassEscape.";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.compareArray(/\d+/u.exec("abcxyzABCXYZ0123456789_\t\r\n\v\x0c\xa0\uFEFF*"),
@@ -73,3 +78,4 @@ testNonBMP(/\W/u);
 testNonBMP(/[\D]/u);
 testNonBMP(/[\S]/u);
 testNonBMP(/[\W]/u);
+

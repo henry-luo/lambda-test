@@ -1,13 +1,19 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- ignoreCase flag.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
 
+
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- ignoreCase flag.";
+
+print(BUGNUMBER + ": " + summary);
 
 function test(code, ...equivs) {
   var codeRe = new RegExp(String.fromCodePoint(code) + "+", "iu");
@@ -2954,3 +2960,4 @@ test(0x1E940, 0x1E91E);
 test(0x1E941, 0x1E91F); 
 test(0x1E942, 0x1E920); 
 test(0x1E943, 0x1E921); 
+

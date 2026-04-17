@@ -1,12 +1,17 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- raw unicode.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- raw unicode.";
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.compareArray(eval(`/\uD83D\uDC38/u`).exec("\u{1F438}"),
@@ -135,3 +140,4 @@ assert.sameValue(new RegExp("\uD83D\uDC38?", "").exec(""),
 
 assert.compareArray(new RegExp("\uD83D\uDC38?", "").exec("\uD83D"),
               ["\uD83D"]);
+

@@ -14,17 +14,17 @@ function formatPropertyName(propertyKey, objectName = "") {
     case "symbol":
       if (Symbol.keyFor(propertyKey) !== undefined) {
         return `${objectName}[Symbol.for('${Symbol.keyFor(propertyKey)}')]`;
-      } else if (propertyKey.description.startsWith("Symbol.")) {
+      } else if (propertyKey.description.startsWith('Symbol.')) {
         return `${objectName}[${propertyKey.description}]`;
       } else {
-        return `${objectName}[Symbol('${propertyKey.description}')]`;
+        return `${objectName}[Symbol('${propertyKey.description}')]`
       }
     case "string":
       if (propertyKey !== String(Number(propertyKey))) {
         if (ASCII_IDENTIFIER.test(propertyKey)) {
           return objectName ? `${objectName}.${propertyKey}` : propertyKey;
         }
-        return `${objectName}['${propertyKey.replace(/'/g, "\\'")}']`;
+        return `${objectName}['${propertyKey.replace(/'/g, "\\'")}']`
       }
       
     default:
@@ -56,55 +56,65 @@ var TemporalHelpers = {
   
   CalendarEras: {
     buddhist: [
-      { era: "be" },
+      { era: "buddhist", aliases: ["be"] },
+    ],
+    chinese: [
+      { era: "chinese" },
     ],
     coptic: [
-      { era: "am" },
+      { era: "coptic" },
+      { era: "coptic-inverse" },
+    ],
+    dangi: [
+      { era: "dangi" },
     ],
     ethiopic: [
-      { era: "aa" },
-      { era: "am" },
+      { era: "ethiopic", aliases: ["incar"] },
+      { era: "ethioaa", aliases: ["ethiopic-amete-alem", "mundi"] },
     ],
     ethioaa: [
-      { era: "aa" },
+      { era: "ethioaa", aliases: ["ethiopic-amete-alem", "mundi"] },
     ],
     gregory: [
-      { era: "bce", aliases: ["bc"] },
-      { era: "ce", aliases: ["ad"] },
+      { era: "gregory", aliases: ["ce", "ad"] },
+      { era: "gregory-inverse", aliases: ["bc", "bce"] },
     ],
     hebrew: [
-      { era: "am" },
+      { era: "hebrew", aliases: ["am"] },
     ],
     indian: [
-      { era: "shaka" },
+      { era: "indian", aliases: ["saka"] },
+    ],
+    islamic: [
+      { era: "islamic", aliases: ["ah"] },
     ],
     "islamic-civil": [
-      { era: "bh" },
-      { era: "ah" },
+      { era: "islamic-civil", aliases: ["islamicc", "ah"] },
+    ],
+    "islamic-rgsa": [
+      { era: "islamic-rgsa", aliases: ["ah"] },
     ],
     "islamic-tbla": [
-      { era: "bh" },
-      { era: "ah" },
+      { era: "islamic-tbla", aliases: ["ah"] },
     ],
     "islamic-umalqura": [
-      { era: "bh" },
-      { era: "ah" },
+      { era: "islamic-umalqura", aliases: ["ah"] },
     ],
     japanese: [
-      { era: "bce", aliases: ["bc"] },
-      { era: "ce", aliases: ["ad"] },
       { era: "heisei" },
+      { era: "japanese", aliases: ["gregory", "ad", "ce"] },
+      { era: "japanese-inverse", aliases: ["gregory-inverse", "bc", "bce"] },
       { era: "meiji" },
       { era: "reiwa" },
       { era: "showa" },
       { era: "taisho" },
     ],
     persian: [
-      { era: "ap" },
+      { era: "persian", aliases: ["ap"] },
     ],
     roc: [
-      { era: "roc" },
-      { era: "broc" },
+      { era: "roc", aliases: ["minguo"] },
+      { era: "roc-inverse", aliases: ["before-roc"] },
     ],
   },
 
@@ -112,11 +122,15 @@ var TemporalHelpers = {
   canonicalizeCalendarEra(calendarId, eraName) {
     assert.sameValue(typeof calendarId, "string", "calendar must be string in canonicalizeCalendarEra");
 
-    if (!Object.prototype.hasOwnProperty.call(TemporalHelpers.CalendarEras, calendarId)) {
+    if (calendarId === "iso8601") {
       assert.sameValue(eraName, undefined);
       return undefined;
     }
+    assert(Object.hasOwn(TemporalHelpers.CalendarEras, calendarId));
 
+    if (eraName === undefined) {
+      return undefined;
+    }
     assert.sameValue(typeof eraName, "string", "eraName must be string or undefined in canonicalizeCalendarEra");
 
     for (let {era, aliases = []} of TemporalHelpers.CalendarEras[calendarId]) {
@@ -213,19 +227,6 @@ var TemporalHelpers = {
   },
 
   
-  assertPlainDatesEqual(actual, expected, description = "") {
-    const prefix = description ? `${description}: ` : "";
-    assert(expected instanceof Temporal.PlainDate, `${prefix}expected value should be a Temporal.PlainDate`);
-    assert(actual instanceof Temporal.PlainDate, `${prefix}instanceof`);
-    assert(actual.equals(expected), `${prefix}equals method`);
-    assert.sameValue(
-      actual.calendarId,
-      expected.calendarId,
-      `${prefix}calendar same value:`
-    );
-  },
-
-  
   assertPlainDateTimesEqual(actual, expected, description = "") {
     const prefix = description ? `${description}: ` : "";
     assert(expected instanceof Temporal.PlainDateTime, `${prefix}expected value should be a Temporal.PlainDateTime`);
@@ -271,8 +272,6 @@ var TemporalHelpers = {
   
   assertPlainYearMonth(yearMonth, year, month, monthCode, description = "", era = undefined, eraYear = undefined, referenceISODay = 1) {
     const prefix = description ? `${description}: ` : "";
-    assert(typeof referenceISODay === "number" || referenceISODay === null,
-      `TemporalHelpers.assertPlainYearMonth() referenceISODay argument should be a number or null, not ${referenceISODay}`);
     assert(yearMonth instanceof Temporal.PlainYearMonth, `${prefix}instanceof`);
     assert.sameValue(
       TemporalHelpers.canonicalizeCalendarEra(yearMonth.calendarId, yearMonth.era),
@@ -283,9 +282,8 @@ var TemporalHelpers = {
     assert.sameValue(yearMonth.year, year, `${prefix}year result:`);
     assert.sameValue(yearMonth.month, month, `${prefix}month result:`);
     assert.sameValue(yearMonth.monthCode, monthCode, `${prefix}monthCode result:`);
-    const isoDay = Number(yearMonth.toString({ calendarName: "always" }).slice(1).split("-")[2].slice(0, 2));
-    const expectedISODay = referenceISODay ?? yearMonth.toPlainDate({ day: 1 }).withCalendar("iso8601").day;
-    assert.sameValue(isoDay, expectedISODay, `${prefix}referenceISODay result:`);
+    const isoDay = Number(yearMonth.toString({ calendarName: "always" }).slice(1).split('-')[2].slice(0, 2));
+    assert.sameValue(isoDay, referenceISODay, `${prefix}referenceISODay result:`);
   },
 
   
@@ -294,7 +292,7 @@ var TemporalHelpers = {
     assert(expected instanceof Temporal.ZonedDateTime, `${prefix}expected value should be a Temporal.ZonedDateTime`);
     assert(actual instanceof Temporal.ZonedDateTime, `${prefix}instanceof`);
     assert(actual.equals(expected), `${prefix}equals method`);
-    assert.sameValue(actual.timeZoneId, expected.timeZoneId, `${prefix}time zone same value:`);
+    assert.sameValue(actual.timeZone, expected.timeZone, `${prefix}time zone same value:`);
     assert.sameValue(
       actual.calendarId,
       expected.calendarId,
@@ -351,16 +349,16 @@ var TemporalHelpers = {
   
   checkPluralUnitsAccepted(func, validSingularUnits) {
     const plurals = {
-      year: "years",
-      month: "months",
-      week: "weeks",
-      day: "days",
-      hour: "hours",
-      minute: "minutes",
-      second: "seconds",
-      millisecond: "milliseconds",
-      microsecond: "microseconds",
-      nanosecond: "nanoseconds",
+      year: 'years',
+      month: 'months',
+      week: 'weeks',
+      day: 'days',
+      hour: 'hours',
+      minute: 'minutes',
+      second: 'seconds',
+      millisecond: 'milliseconds',
+      microsecond: 'microseconds',
+      nanosecond: 'nanoseconds',
     };
 
     validSingularUnits.forEach((unit) => {
@@ -703,18 +701,18 @@ var TemporalHelpers = {
     const zonedDateTime = new Temporal.ZonedDateTime(1_000_000_000_000_000_000n, "UTC", "iso8601");
 
     [plainDate, plainDateTime, plainMonthDay, plainYearMonth, zonedDateTime].forEach((temporalObject) => {
+      const actual = [];
+      const expected = [];
+
       Object.defineProperty(temporalObject, "calendar", {
         get() {
-          throw new Test262Error("should not get 'calendar' property");
-        },
-      });
-      Object.defineProperty(temporalObject, "calendarId", {
-        get() {
-          throw new Test262Error("should not get 'calendarId' property");
+          actual.push("get calendar");
+          return calendar;
         },
       });
 
       func(temporalObject);
+      assert.compareArray(actual, expected, "calendar getter not called");
     });
   },
 
@@ -723,7 +721,7 @@ var TemporalHelpers = {
     const expected = [];
 
     const datetime = new Temporal.ZonedDateTime(1_000_000_000_987_654_321n, "UTC");
-    Object.defineProperty(datetime, "toString", {
+    Object.defineProperty(datetime, 'toString', {
       get() {
         actual.push("get toString");
         return function (options) {
@@ -778,7 +776,7 @@ var TemporalHelpers = {
         calls.push(`get ${formatPropertyName(propertyName, objectName)}`);
         return value;
       },
-      set() {
+      set(v) {
         calls.push(`set ${formatPropertyName(propertyName, objectName)}`);
       }
     });
@@ -932,7 +930,7 @@ var TemporalHelpers = {
       ];
       
       
-      const stringsWithCalendar = ambiguousStrings.map((s) => s + "[u-ca=iso8601]");
+      const stringsWithCalendar = ambiguousStrings.map((s) => s + '[u-ca=iso8601]');
       return ambiguousStrings.concat(stringsWithCalendar);
     },
 

@@ -1,11 +1,14 @@
 
 
 /*---
-includes: [compareArray.js]
+flags:
+  - onlyStrict
+includes: [sm/non262.js, sm/non262-shell.js, deepEqual.js]
 description: |
   pending
 esid: pending
 ---*/
+"use strict";
 
 
 let primitives = [
@@ -28,10 +31,11 @@ for (let value of primitives) {
     });
 
     let x = [1, 2].concat(value);
-    assert.compareArray(x, [1, 2, value]);
+    assert.deepEqual(x, [1, 2, value]);
 
     delete prototype[Symbol.isConcatSpreadable];
     delete prototype.length;
 
     prototype.length;
 }
+

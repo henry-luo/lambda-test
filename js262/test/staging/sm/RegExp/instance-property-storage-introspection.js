@@ -1,11 +1,20 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js]
+flags:
+  - noStrict
 description: |
-  Represent /a/.{lastIndex,global,source,multiline,sticky,ignoreCase} with plain old data properties
-info: bugzilla.mozilla.org/show_bug.cgi?id=640072
+  pending
 esid: pending
 ---*/
+var BUGNUMBER = 640072;
+var summary =
+  "Represent /a/.{lastIndex,global,source,multiline,sticky,ignoreCase} with " +
+  "plain old data properties";
+
+print(BUGNUMBER + ": " + summary);
+
 
 function checkDataProperty(obj, p, expect, msg)
 {
@@ -105,3 +114,6 @@ do
   assert.sameValue(Object.getOwnPropertyDescriptor(r, "lastIndex").writable, false);
 }
 while (Math.random() > 17); 
+
+
+print("All tests passed!");

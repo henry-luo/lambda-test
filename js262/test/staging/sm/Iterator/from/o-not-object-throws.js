@@ -5,15 +5,18 @@ info: |
   Iterator.from throws when called with a non-object.
 
   Iterator is not enabled unconditionally
+includes: [sm/non262.js, sm/non262-shell.js]
+flags:
+  - noStrict
 features:
   - iterator-helpers
 description: |
   pending
 esid: pending
 ---*/
-assert.throws(TypeError, () => Iterator.from(undefined));
-assert.throws(TypeError, () => Iterator.from(null));
-assert.throws(TypeError, () => Iterator.from(0));
-assert.throws(TypeError, () => Iterator.from(false));
-assert.throws(TypeError, () => Iterator.from(Symbol('')));
+assertThrowsInstanceOf(() => Iterator.from(undefined), TypeError);
+assertThrowsInstanceOf(() => Iterator.from(null), TypeError);
+assertThrowsInstanceOf(() => Iterator.from(0), TypeError);
+assertThrowsInstanceOf(() => Iterator.from(false), TypeError);
+assertThrowsInstanceOf(() => Iterator.from(Symbol('')), TypeError);
 

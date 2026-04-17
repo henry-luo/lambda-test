@@ -1,12 +1,19 @@
 
 
 /*---
-includes: [compareArray.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-RegExp-shell.js, compareArray.js]
+flags:
+  - noStrict
 description: |
-  Implement RegExp unicode flag -- ignoreCase flag with character class escape.
-info: bugzilla.mozilla.org/show_bug.cgi?id=1135377
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 1135377;
+var summary = "Implement RegExp unicode flag -- ignoreCase flag with character class escape.";
+
+
+print(BUGNUMBER + ": " + summary);
 
 
 assert.compareArray(/\w/iu.exec("S"),
@@ -65,3 +72,4 @@ assert.sameValue(/[^\w]/iu.exec("k"),
          null);
 assert.sameValue(/[^\w]/iu.exec("\u212A"),
          null);
+

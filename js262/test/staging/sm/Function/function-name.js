@@ -1,6 +1,7 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js]
 flags:
   - noStrict
 description: |
@@ -22,17 +23,25 @@ function testFunctionName(f) {
 function testFunctionNameStrict(f) {
     "use strict";
     var name = f.name;
-    assert.throws(TypeError, function() {
+    var error;
+    try {
         f.name = 'g';
-    });
+    } catch (e) {
+        error = e;
+    }
     assert.sameValue(f.name, name);
+    assert.sameValue(error instanceof TypeError, true);
     assert.sameValue(delete f.name, true);
     assert.sameValue(f.name, '');
     assert.sameValue(f.hasOwnProperty('name'), false);
-    assert.throws(TypeError, function() {
+    error = null;
+    try {
         f.name = 'g';
-    });
+    } catch (e) {
+        error = e;
+    }
     assert.sameValue(f.name, '');
+    assert.sameValue(error instanceof TypeError, true);
     Object.defineProperty(f, 'name', {value: 'g'});
     assert.sameValue(f.name, 'g');
 }

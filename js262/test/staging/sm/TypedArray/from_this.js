@@ -1,7 +1,7 @@
 
 
 /*---
-includes: [sm/non262-TypedArray-shell.js, deepEqual.js]
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-TypedArray-shell.js, deepEqual.js]
 flags:
   - noStrict
 description: |

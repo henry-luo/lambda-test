@@ -1,11 +1,19 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-object-shell.js]
+flags:
+  - noStrict
 description: |
-  Object.getOwnPropertyNames: regular expression objects
-info: bugzilla.mozilla.org/show_bug.cgi?id=518663
+  pending
 esid: pending
 ---*/
+
+var BUGNUMBER = 518663;
+var summary = 'Object.getOwnPropertyNames: regular expression objects';
+
+print(BUGNUMBER + ": " + summary);
+
 
 var actual = Object.getOwnPropertyNames(/a/);
 var expected = ["lastIndex"];
@@ -15,3 +23,6 @@ for (var i = 0; i < expected.length; i++)
   assert.sameValue(actual.indexOf(expected[i]) >= 0, true,
                 expected[i] + " should be a property name on a RegExp");
 }
+
+
+print("All tests passed!");

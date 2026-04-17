@@ -1,20 +1,40 @@
 
 
 /*---
+includes: [sm/non262.js, sm/non262-shell.js, sm/non262-extensions-shell.js]
+flags:
+  - noStrict
 description: |
-  Redefining an array's |length| property when redefining the |length| property on a proxy with an array as target
-info: bugzilla.mozilla.org/show_bug.cgi?id=905947
+  pending
 esid: pending
 ---*/
+var gTestfile = 'proxy-array-target-length-definition.js';
+var BUGNUMBER = 905947;
+var summary =
+  "Redefining an array's |length| property when redefining the |length| " +
+  "property on a proxy with an array as target";
+
+print(BUGNUMBER + ": " + summary);
+
 
 var arr = [];
 var p = new Proxy(arr, {});
 
+function assertThrowsTypeError(f)
+{
+    try {
+        f();
+        assert.sameValue(false, true, "Must have thrown");
+    } catch (e) {
+        assert.sameValue(e instanceof TypeError, true, "Must have thrown TypeError");
+    }
+}
 
-assert.throws(TypeError, function () { Object.defineProperty(p, "length", { value: 17, configurable: true }); });
+
+assertThrowsTypeError(function () { Object.defineProperty(p, "length", { value: 17, configurable: true }); });
 
 
-assert.throws(TypeError, function () { Object.defineProperty(p, "length", { value: 42, enumerable: true }); });
+assertThrowsTypeError(function () { Object.defineProperty(p, "length", { value: 42, enumerable: true }); });
 
 
 var pd = Object.getOwnPropertyDescriptor(p, "length");
@@ -28,3 +48,6 @@ assert.sameValue(ad.value, 0);
 assert.sameValue(ad.writable, true);
 assert.sameValue(ad.enumerable, false);
 assert.sameValue(ad.configurable, false);
+
+
+print("Tests complete");
