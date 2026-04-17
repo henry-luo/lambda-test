@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fuzzy: extreme CSS values (crash regression)</title>
+<style>
+@font-face {
+    font-family: 'Liberation Sans';
+    src: url('../font/LiberationSans-Regular.ttf') format('truetype');
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Liberation Sans', sans-serif; font-size: 500px; line-height: 0.5; }
+</style>
+</head>
+<body>
+<div style="width: -9999px; margin: -999px; line-height: 99999">
+<p>Extreme font size with negative width and huge column count.</p>
+<p>This should not crash during layout or cleanup.</p>
+</div>
+</body>
+</html>

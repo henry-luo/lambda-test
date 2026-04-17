@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fuzzy: template after head close (crash regression)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; font-size: 16px; }
+</style>
+</head>
+<template id="orphan">
+  <audio controls></audio>
+  <video controls></video>
+  <iframe></iframe>
+  <embed>
+  <img usemap="">
+  <details><summary>Summary</summary>Details</details>
+</template>
+<body>
+<p>Template appeared between head and body</p>
+</body>
+</html>
