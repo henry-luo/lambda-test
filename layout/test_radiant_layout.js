@@ -690,30 +690,75 @@ class RadiantLayoutTester {
                 });
             }
         } else {
-            // Browser format: elements in children array, text nodes in separate textNodes array
-            // We need to combine them in document order
+            // Browser format: elements in children array, text nodes may be
+            // inline (nodeType='text') or in a separate textNodes array (legacy format).
+            // When textNodes exists, interleave with element children in DOM order
+            // using the parent's textContent as the ordering reference.
 
-            // First, collect element children
+            // Collect element children from children array
+            const elemChildren = [];
             if (node.children && Array.isArray(node.children)) {
-                node.children.forEach((child, index) => {
-                    children.push({
+                node.children.forEach((child) => {
+                    elemChildren.push({
                         type: child.nodeType === 'text' ? 'text' : 'element',
                         node: child,
-                        index: index
+                        matchText: child.nodeType === 'text' ? (child.text || '') : (child.textContent || '')
                     });
                 });
             }
 
-            // Then, add text nodes from the textNodes array
-            // Text nodes are stored separately in browser format and need to be included
-            if (node.textNodes && Array.isArray(node.textNodes)) {
-                node.textNodes.forEach((textNode, index) => {
-                    // Mark it as a text node with nodeType for comparison
-                    children.push({
-                        type: 'text',
-                        node: { ...textNode, nodeType: 'text' },
-                        index: children.length + index
-                    });
+            // If there are separate textNodes, interleave them with element children
+            if (node.textNodes && Array.isArray(node.textNodes) && node.textNodes.length > 0) {
+                const textChildren = node.textNodes.map(textNode => ({
+                    type: 'text',
+                    node: { ...textNode, nodeType: 'text' },
+                    matchText: textNode.text || ''
+                }));
+
+                // Use parent's textContent to determine DOM order
+                const fullText = node.textContent || '';
+                const allCandidates = [...elemChildren, ...textChildren];
+
+                // Find each candidate's position in the parent's textContent
+                // by scanning sequentially (handles duplicates correctly)
+                let scanPos = 0;
+                const positioned = [];
+                const remaining = [...allCandidates];
+
+                while (remaining.length > 0) {
+                    let bestIdx = -1;
+                    let bestPos = Infinity;
+
+                    for (let i = 0; i < remaining.length; i++) {
+                        const txt = remaining[i].matchText;
+                        if (txt && txt.length > 0) {
+                            const pos = fullText.indexOf(txt, scanPos);
+                            if (pos >= 0 && pos < bestPos) {
+                                bestPos = pos;
+                                bestIdx = i;
+                            }
+                        }
+                    }
+
+                    if (bestIdx >= 0) {
+                        const matched = remaining.splice(bestIdx, 1)[0];
+                        matched.foundPos = bestPos;
+                        positioned.push(matched);
+                        scanPos = bestPos + matched.matchText.length;
+                    } else {
+                        // Remaining candidates couldn't be matched; append them
+                        positioned.push(...remaining);
+                        break;
+                    }
+                }
+
+                positioned.forEach((c, i) => {
+                    children.push({ type: c.type, node: c.node, index: i });
+                });
+            } else {
+                // No separate textNodes — children are already in DOM order
+                elemChildren.forEach((c, i) => {
+                    children.push({ type: c.type, node: c.node, index: i });
                 });
             }
         }
@@ -772,7 +817,8 @@ class RadiantLayoutTester {
             }
 
             // For elements, skip non-layout tags
-            const skipTags = ['head', 'script', 'style', 'meta', 'title', 'link'];
+            const skipTags = ['head', 'script', 'style', 'meta', 'title', 'link',
+                              'option', 'optgroup', 'map', 'area'];
             if (skipTags.includes(child.node.tag)) return false;
 
             // Skip display: none elements - Radiant doesn't create views for these
@@ -1220,6 +1266,12 @@ class RadiantLayoutTester {
         const currentTag = radiantNode?.tag || browserNode?.tag;
         if (currentTag === 'details' && radiantChildren.length < browserChildren.length) {
             maxChildren = radiantChildren.length;
+        }
+
+        // SVG is a CSS replaced element — its internal elements (text, path, g, etc.)
+        // are rendered by the SVG renderer, not the CSS layout engine. Skip children.
+        if (currentTag === 'svg') {
+            maxChildren = 0;
         }
 
         if (this.verbose && maxChildren > 0) {
