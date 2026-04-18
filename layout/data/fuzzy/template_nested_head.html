@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fuzzy: nested templates in head (crash regression)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; font-size: 16px; }
+</style>
+<template id="outer">
+  <template id="inner">
+    <div>nested template content</div>
+  </template>
+</template>
+</head>
+<body>
+<p>Page with nested templates in head</p>
+</body>
+</html>

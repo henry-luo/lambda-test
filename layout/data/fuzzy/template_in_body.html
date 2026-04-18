@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fuzzy: template element in body (crash regression)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; font-size: 16px; }
+</style>
+</head>
+<body>
+<p>Before template</p>
+<template id="tpl">
+  <a href="#">link</a>
+  <button>btn</button>
+  <input>
+  <label>label</label>
+  <select><option>opt</option></select>
+  <textarea>text</textarea>
+</template>
+<p>After template</p>
+</body>
+</html>
