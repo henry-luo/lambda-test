@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  svg { width: 90px; height: 90px; margin: 5px; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+    <!-- tspan with dy for multiline -->
+    <text x="5" y="14" font-family="Arial" font-size="10" fill="#333">
+      <tspan x="5" dy="0">Line one</tspan>
+      <tspan x="5" dy="13">Line two</tspan>
+      <tspan x="5" dy="13">Line three</tspan>
+    </text>
+
+    <!-- tspan with absolute x,y positioning -->
+    <text font-family="Arial" font-size="10">
+      <tspan x="5" y="58" fill="#e74c3c">Red here</tspan>
+      <tspan x="5" y="70" fill="#2980b9">Blue here</tspan>
+    </text>
+
+    <!-- inline colored tspans -->
+    <text x="55" y="58" font-family="Arial" font-size="12" font-weight="bold">
+      <tspan fill="#e74c3c">R</tspan>
+      <tspan fill="#27ae60">G</tspan>
+      <tspan fill="#2980b9">B</tspan>
+    </text>
+
+    <!-- text in transformed group -->
+    <g transform="translate(50, 10)">
+      <text x="0" y="12" font-family="Arial" font-size="10" fill="#8e44ad">Top</text>
+      <text x="0" y="25" font-family="Arial" font-size="10" fill="#2c3e50">Grp</text>
+    </g>
+  </svg>
+</body>
+</html>
