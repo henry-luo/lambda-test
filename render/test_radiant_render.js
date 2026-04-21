@@ -56,8 +56,8 @@ function findProjectRoot() {
 
 // ─── Defaults ───────────────────────────────────────────────────────────────
 
-const VIEWPORT_WIDTH  = 100;
-const VIEWPORT_HEIGHT = 100;
+const DEFAULT_VIEWPORT_WIDTH  = 100;
+const DEFAULT_VIEWPORT_HEIGHT = 100;
 const PIXEL_RATIO     = 1.0;
 const THRESHOLD_NO_TEXT = 1.5;               // ≤1.5% for tests without visible text
 const THRESHOLD_TEXT    = 5.0;               // ≤5% for tests containing text
@@ -126,13 +126,13 @@ function parseArgs() {
 
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
-function renderWithRadiant(exePath, htmlFile, outputPng) {
+function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight) {
     return new Promise((resolve, reject) => {
         const args = [
             'render', htmlFile,
             '-o', outputPng,
-            '-vw', String(VIEWPORT_WIDTH),
-            '-vh', String(VIEWPORT_HEIGHT),
+            '-vw', String(viewportWidth || DEFAULT_VIEWPORT_WIDTH),
+            '-vh', String(viewportHeight || DEFAULT_VIEWPORT_HEIGHT),
             '--pixel-ratio', String(PIXEL_RATIO)
         ];
 
@@ -232,9 +232,14 @@ async function runSingleTest(testName, opts) {
         return { testName, status: 'skip', reason: 'no reference image' };
     }
 
+    // per-test viewport size
+    const testConfig = getTestConfig(testName);
+    const vw = testConfig.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
+    const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
     // render with Radiant
     try {
-        await renderWithRadiant(opts.exe, htmlFile, outputPng);
+        await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh);
     } catch (err) {
         return { testName, status: 'error', reason: err.message };
     }
@@ -251,7 +256,6 @@ async function runSingleTest(testName, opts) {
     }
 
     // Determine threshold: CLI override > per-test config > auto (text/no-text)
-    const testConfig = getTestConfig(testName);
     let maxMismatch;
     if (opts.threshold != null) {
         maxMismatch = opts.threshold;                         // CLI --threshold
