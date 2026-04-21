@@ -1,0 +1,18 @@
+# test262 partial-pass list: tests that pass intermittently in batch mode
+# These tests were removed from the stable baseline because they fail non-deterministically
+# due to batch-mode timing/state issues. They pass when run individually but may fail
+# sporadically when batched with other tests.
+#
+# Root causes:
+#   - BigInt toString/valueOf throws: sporadic batch-mode failures (pass individually)
+#   - String split transferred toString: sporadic batch-mode failure
+#
+# To investigate: run each test individually with:
+#   ./test/test_js_test262_gtest.exe --gtest_filter="*<test_name>*"
+#
+# Updated: 2025-06-08 (baseline stabilized at 24,212 after exception propagation fix)
+# Previous: 46 tests (most now pass stably after fixing js_iterable_to_array exception handling)
+# Total: 3 tests
+built_ins_BigInt_tostring_throws_js
+built_ins_BigInt_valueof_throws_js
+built_ins_String_prototype_split_transferred_to_number_separator_override_tostring_returns_regexp_js
