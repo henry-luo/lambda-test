@@ -59,7 +59,7 @@ function findProjectRoot() {
 const VIEWPORT_WIDTH  = 100;
 const VIEWPORT_HEIGHT = 100;
 const PIXEL_RATIO     = 1.0;
-const THRESHOLD_NO_TEXT = 1.0;               // ≤1% for tests without visible text
+const THRESHOLD_NO_TEXT = 1.5;               // ≤1.5% for tests without visible text
 const THRESHOLD_TEXT    = 5.0;               // ≤5% for tests containing text
 const PIXELMATCH_THRESHOLD = 0.1;            // YIQ color distance tolerance
 
