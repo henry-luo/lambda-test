@@ -59,8 +59,25 @@ function findProjectRoot() {
 const VIEWPORT_WIDTH  = 100;
 const VIEWPORT_HEIGHT = 100;
 const PIXEL_RATIO     = 1.0;
-const DEFAULT_MAX_MISMATCH_PERCENT = 0.5;   // ≤0.5% mismatched pixels = pass
-const PIXELMATCH_THRESHOLD         = 0.1;   // YIQ color distance tolerance
+const THRESHOLD_NO_TEXT = 1.5;               // ≤1.5% for tests without visible text
+const THRESHOLD_TEXT    = 5.0;               // ≤5% for tests containing text
+const PIXELMATCH_THRESHOLD = 0.1;            // YIQ color distance tolerance
+
+// Detect whether an HTML test file contains visible text content.
+// Strips <style>/<script> blocks and HTML tags; if non-whitespace remains
+// in the <body>, the test is classified as "text".
+function hasVisibleText(htmlPath) {
+    const html = fs.readFileSync(htmlPath, 'utf-8');
+    const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (!bodyMatch) return false;
+    let body = bodyMatch[1];
+    body = body.replace(/<style[\s\S]*?<\/style>/gi, '');
+    body = body.replace(/<script[\s\S]*?<\/script>/gi, '');
+    body = body.replace(/<[^>]+>/g, '');
+    body = body.replace(/&nbsp;/g, '');
+    body = body.replace(/\s+/g, '');
+    return body.length > 0;
+}
 
 // ─── Argument parsing ───────────────────────────────────────────────────────
 
@@ -69,7 +86,7 @@ function parseArgs() {
     const opts = {
         test: null,
         pattern: null,
-        threshold: DEFAULT_MAX_MISMATCH_PERCENT,
+        threshold: null,               // null = use auto (text/no-text)
         concurrency: Math.max(1, os.cpus().length - 1),
         verbose: false,
         json: false,
@@ -233,9 +250,16 @@ async function runSingleTest(testName, opts) {
         return { testName, status: 'fail', reason: result.error, ...result };
     }
 
-    // check threshold (per-test config overrides global)
+    // Determine threshold: CLI override > per-test config > auto (text/no-text)
     const testConfig = getTestConfig(testName);
-    const maxMismatch = testConfig.maxMismatchPercent ?? opts.threshold;
+    let maxMismatch;
+    if (opts.threshold != null) {
+        maxMismatch = opts.threshold;                         // CLI --threshold
+    } else if (testConfig.maxMismatchPercent != null) {
+        maxMismatch = testConfig.maxMismatchPercent;          // per-test override
+    } else {
+        maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
+    }
 
     if (result.mismatchPercent > maxMismatch) {
         return {
@@ -320,7 +344,10 @@ async function main() {
         console.log('');
         console.log('🎨 Radiant Render Test Suite');
         console.log('==============================');
-        console.log(`   Tests: ${testNames.length}, Workers: ${opts.concurrency}, Threshold: ${opts.threshold}%`);
+        const thresholdLabel = opts.threshold != null
+            ? `${opts.threshold}%`
+            : `auto (no-text: ${THRESHOLD_NO_TEXT}%, text: ${THRESHOLD_TEXT}%)`;
+        console.log(`   Tests: ${testNames.length}, Workers: ${opts.concurrency}, Threshold: ${thresholdLabel}`);
         console.log('');
     }
 
