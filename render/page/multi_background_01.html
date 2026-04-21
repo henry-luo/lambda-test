@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .multi-bg {
+    width: 80px;
+    height: 40px;
+    margin: 5px 10px;
+    background:
+      linear-gradient(45deg, transparent 40%, #e74c3c 40%, #e74c3c 60%, transparent 60%),
+      linear-gradient(-45deg, transparent 40%, #3498db 40%, #3498db 60%, transparent 60%),
+      #ecf0f1;
+  }
+  .stacked {
+    width: 80px;
+    height: 40px;
+    margin: 5px 10px;
+    background:
+      linear-gradient(to right, rgba(231,76,60,0.7), transparent),
+      linear-gradient(to bottom, rgba(52,152,219,0.7), transparent),
+      #2ecc71;
+  }
+</style>
+</head>
+<body>
+  <div class="multi-bg"></div>
+  <div class="stacked"></div>
+</body>
+</html>

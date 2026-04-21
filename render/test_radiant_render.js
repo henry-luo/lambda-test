@@ -158,6 +158,56 @@ function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewport
     });
 }
 
+// ─── Batch render via lambda.exe render-batch ───────────────────────────────
+//
+// Spawns ONE lambda.exe render-batch process for ALL tests.
+// Sends render jobs via stdin (tab-separated), reads OK/FAIL results from stdout.
+// Saves ~70MB of per-process overhead by sharing UiContext across all renders.
+
+function renderBatchWithRadiant(exePath, jobs) {
+    // jobs: [{htmlFile, outputPng, viewportWidth, viewportHeight}]
+    return new Promise((resolve, reject) => {
+        const proc = spawn(exePath, ['render-batch', '--pixel-ratio', String(PIXEL_RATIO)], {
+            cwd: PROJECT_ROOT,
+            stdio: ['pipe', 'pipe', 'pipe'],
+            timeout: jobs.length * 10000 + 30000  // generous timeout
+        });
+
+        let stdout = '';
+        let stderr = '';
+        proc.stdout.on('data', (data) => { stdout += data.toString(); });
+        proc.stderr.on('data', (data) => { stderr += data.toString(); });
+
+        proc.on('close', () => {
+            // Parse results: each line is "OK\t<file>" or "FAIL\t<file>\t<reason>"
+            const results = new Map();
+            for (const line of stdout.split('\n')) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+                const parts = trimmed.split('\t');
+                if (parts[0] === 'OK' && parts[1]) {
+                    results.set(parts[1], { ok: true });
+                } else if (parts[0] === 'FAIL' && parts[1]) {
+                    results.set(parts[1], { ok: false, reason: parts[2] || 'unknown error' });
+                }
+            }
+            resolve(results);
+        });
+
+        proc.on('error', (error) => {
+            reject(error);
+        });
+
+        // Write all jobs to stdin then close it
+        for (const job of jobs) {
+            const vw = job.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+            const vh = job.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+            proc.stdin.write(`${job.htmlFile}\t${job.outputPng}\t${vw}\t${vh}\n`);
+        }
+        proc.stdin.end();
+    });
+}
+
 // ─── Image comparison ───────────────────────────────────────────────────────
 
 function compareImages(radiantPath, referencePath, diffPath) {
@@ -281,21 +331,111 @@ async function runSingleTest(testName, opts) {
 // ─── Parallel runner ────────────────────────────────────────────────────────
 
 async function runTestsParallel(testNames, opts) {
-    const results = [];
-    const queue = [...testNames];
+    // Phase 1: Batch render all tests in a single lambda.exe process
+    const jobs = [];
+    const skipResults = [];
 
-    async function worker() {
-        while (queue.length > 0) {
-            const testName = queue.shift();
-            if (!testName) break;
-            const result = await runSingleTest(testName, opts);
-            results.push(result);
+    for (const testName of testNames) {
+        const htmlFile = path.join(PAGE_DIR, `${testName}.html`);
+        const outputPng = path.join(OUTPUT_DIR, `${testName}.png`);
+
+        // check reference exists
+        const platform = opts.platform || process.platform;
+        const platformRef = path.join(REF_DIR, `${testName}.${platform}.png`);
+        const genericRef = path.join(REF_DIR, `${testName}.png`);
+
+        if (!fs.existsSync(platformRef) && !fs.existsSync(genericRef)) {
+            skipResults.push({ testName, status: 'skip', reason: 'no reference image' });
+            continue;
+        }
+
+        const testConfig = getTestConfig(testName);
+        const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+        const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
+        jobs.push({ testName, htmlFile, outputPng, viewportWidth: vw, viewportHeight: vh });
+    }
+
+    let batchResults = new Map();
+    if (jobs.length > 0) {
+        try {
+            batchResults = await renderBatchWithRadiant(opts.exe, jobs);
+        } catch (err) {
+            // batch process failed entirely — mark all as error
+            return [
+                ...skipResults,
+                ...jobs.map(j => ({ testName: j.testName, status: 'error', reason: `batch render failed: ${err.message}` }))
+            ];
         }
     }
 
+    // Phase 2: Compare images (parallelized)
+    const results = [...skipResults];
+    const compareQueue = [...jobs];
+
+    async function compareWorker() {
+        while (compareQueue.length > 0) {
+            const job = compareQueue.shift();
+            if (!job) break;
+
+            const { testName, htmlFile, outputPng } = job;
+            const batchResult = batchResults.get(htmlFile);
+
+            if (!batchResult || !batchResult.ok) {
+                const reason = batchResult ? batchResult.reason : 'not in batch output';
+                results.push({ testName, status: 'error', reason: `render failed: ${reason}` });
+                continue;
+            }
+
+            if (!fs.existsSync(outputPng)) {
+                results.push({ testName, status: 'error', reason: 'Radiant produced no output file' });
+                continue;
+            }
+
+            // find reference
+            const platform = opts.platform || process.platform;
+            const platformRef = path.join(REF_DIR, `${testName}.${platform}.png`);
+            const genericRef = path.join(REF_DIR, `${testName}.png`);
+            const refPng = fs.existsSync(platformRef) ? platformRef : genericRef;
+
+            const diffPng = path.join(DIFF_DIR, `${testName}.png`);
+            const result = compareImages(outputPng, refPng, diffPng);
+
+            if (result.error) {
+                results.push({ testName, status: 'fail', reason: result.error, ...result });
+                continue;
+            }
+
+            // Determine threshold
+            const testConfig = getTestConfig(testName);
+            let maxMismatch;
+            if (opts.threshold != null) {
+                maxMismatch = opts.threshold;
+            } else if (testConfig.maxMismatchPercent != null) {
+                maxMismatch = testConfig.maxMismatchPercent;
+            } else {
+                maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
+            }
+
+            if (result.mismatchPercent > maxMismatch) {
+                results.push({
+                    testName,
+                    status: 'fail',
+                    reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
+                    ...result,
+                    diffPath: diffPng
+                });
+            } else {
+                results.push({ testName, status: 'pass', ...result });
+            }
+        }
+    }
+
+    // Run image comparisons in parallel (CPU-bound, no spawning)
     const workers = [];
-    for (let i = 0; i < Math.min(opts.concurrency, testNames.length); i++) {
-        workers.push(worker());
+    const compareConcurrency = Math.min(opts.concurrency, compareQueue.length);
+    for (let i = 0; i < compareConcurrency; i++) {
+        workers.push(compareWorker());
     }
     await Promise.all(workers);
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .angle45 {
+    width: 80px; height: 20px;
+    margin: 5px 10px;
+    background: linear-gradient(45deg, #e74c3c, #f39c12);
+  }
+  .angle135 {
+    width: 80px; height: 20px;
+    margin: 5px 10px;
+    background: linear-gradient(135deg, #3498db, #2ecc71, #3498db);
+  }
+  .repeating {
+    width: 80px; height: 20px;
+    margin: 5px 10px;
+    background: repeating-linear-gradient(90deg, #9b59b6 0px, #9b59b6 10px, #ecf0f1 10px, #ecf0f1 20px);
+  }
+  .angle180 {
+    width: 80px; height: 20px;
+    margin: 5px 10px;
+    background: linear-gradient(to bottom, #e74c3c, #ecf0f1);
+  }
+</style>
+</head>
+<body>
+  <div class="angle45"></div>
+  <div class="angle135"></div>
+  <div class="repeating"></div>
+  <div class="angle180"></div>
+</body>
+</html>

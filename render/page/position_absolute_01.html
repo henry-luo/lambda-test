@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .rel {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    background: #ecf0f1;
+  }
+  .abs-tl {
+    position: absolute;
+    top: 5px; left: 5px;
+    width: 25px; height: 25px;
+    background: #e74c3c;
+  }
+  .abs-br {
+    position: absolute;
+    bottom: 5px; right: 5px;
+    width: 25px; height: 25px;
+    background: #3498db;
+  }
+  .abs-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px; height: 20px;
+    background: #2ecc71;
+  }
+</style>
+</head>
+<body>
+  <div class="rel">
+    <div class="abs-tl"></div>
+    <div class="abs-center"></div>
+    <div class="abs-br"></div>
+  </div>
+</body>
+</html>

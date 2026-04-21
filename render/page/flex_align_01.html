@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .flex {
+    display: flex;
+    width: 90px;
+    margin: 5px;
+    gap: 5px;
+  }
+  .center { justify-content: center; }
+  .between { justify-content: space-between; }
+  .end { justify-content: flex-end; }
+  .valign { align-items: center; height: 30px; }
+  .flex div { width: 20px; height: 20px; }
+  .red { background: #e74c3c; }
+  .blue { background: #3498db; }
+  .green { background: #2ecc71; }
+  .tall { height: 30px; }
+</style>
+</head>
+<body>
+  <div class="flex center">
+    <div class="red"></div><div class="blue"></div>
+  </div>
+  <div class="flex between">
+    <div class="red"></div><div class="blue"></div><div class="green"></div>
+  </div>
+  <div class="flex end">
+    <div class="red"></div><div class="blue"></div>
+  </div>
+  <div class="flex valign">
+    <div class="red"></div><div class="blue tall"></div><div class="green"></div>
+  </div>
+</body>
+</html>

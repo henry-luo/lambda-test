@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .container { width: 90px; margin: 5px; }
+  .inline-block {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+  }
+  .r { background: #e74c3c; }
+  .b { background: #3498db; }
+  .g { background: #2ecc71; }
+  .min-max {
+    min-width: 30px;
+    max-width: 60px;
+    min-height: 15px;
+    max-height: 30px;
+    width: 100px;
+    height: 100px;
+    background: #9b59b6;
+    margin-top: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="inline-block r"></div>
+    <div class="inline-block b"></div>
+    <div class="inline-block g"></div>
+    <div class="min-max"></div>
+  </div>
+</body>
+</html>
