@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 3px; }
+  .row { display: flex; gap: 3px; margin-bottom: 3px; }
+  iframe { border: 1px solid #bdc3c7; }
+  .small { width: 44px; height: 40px; }
+  .wide { width: 92px; height: 20px; border: none; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <iframe class="small" src="res/iframe_content_blue.html" width="44" height="40"></iframe>
+    <iframe class="small" src="res/iframe_content_gray.html" width="44" height="40"></iframe>
+  </div>
+  <iframe class="wide" src="res/iframe_content_banner.html" width="92" height="20"></iframe>
+</body>
+</html>

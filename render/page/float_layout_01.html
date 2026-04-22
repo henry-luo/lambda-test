@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .container { width: 90px; margin: 5px; overflow: hidden; }
+  .float-left {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: #e74c3c;
+    margin-right: 5px;
+  }
+  .float-right {
+    float: right;
+    width: 25px;
+    height: 25px;
+    background: #3498db;
+  }
+  .text {
+    font-size: 9px;
+    font-family: sans-serif;
+    line-height: 1.3;
+  }
+  .clear { clear: both; height: 20px; background: #2ecc71; margin-top: 3px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="float-left"></div>
+    <div class="float-right"></div>
+    <div class="text">Text wraps around the floated boxes here.</div>
+    <div class="clear"></div>
+  </div>
+</body>
+</html>

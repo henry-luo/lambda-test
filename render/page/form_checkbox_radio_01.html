@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 5px; font: 8px Arial, Helvetica, sans-serif; color: #2c3e50; }
+  .group { margin-bottom: 4px; }
+  .group label { display: block; font-size: 7px; color: #7f8c8d; margin-bottom: 1px; }
+  .option {
+    display: flex; align-items: center; gap: 3px;
+    margin-bottom: 2px;
+  }
+  input[type="checkbox"], input[type="radio"] {
+    width: 10px; height: 10px;
+    accent-color: #3498db;
+  }
+  .option span { font-size: 8px; }
+</style>
+</head>
+<body>
+  <div class="group">
+    <label>Options</label>
+    <div class="option"><input type="checkbox" checked><span>Red</span></div>
+    <div class="option"><input type="checkbox"><span>Blue</span></div>
+  </div>
+  <div class="group">
+    <label>Size</label>
+    <div class="option"><input type="radio" name="sz" checked><span>Small</span></div>
+    <div class="option"><input type="radio" name="sz"><span>Large</span></div>
+  </div>
+</body>
+</html>

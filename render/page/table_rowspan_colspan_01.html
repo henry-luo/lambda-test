@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  table {
+    border-collapse: collapse;
+    margin: 5px;
+  }
+  td {
+    font: 7px Arial, Helvetica, sans-serif;
+    padding: 2px;
+    border: 1px solid #bdc3c7;
+    color: #2c3e50;
+  }
+  .span2 { background: #ecf0f1; }
+  .span3 { background: #d5dbdb; }
+  .hi { background: #3498db; color: white; }
+</style>
+</head>
+<body>
+  <table>
+    <tr>
+      <td rowspan="2" class="hi">R2</td>
+      <td colspan="2" class="span2">C2</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <td colspan="3" class="span3">Full</td>
+    </tr>
+    <tr>
+      <td>x</td>
+      <td rowspan="2" class="hi">R2</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <td>z</td>
+      <td>w</td>
+    </tr>
+  </table>
+</body>
+</html>

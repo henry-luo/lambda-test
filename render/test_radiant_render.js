@@ -14,6 +14,7 @@
  *   node test_radiant_render.js -j 4                    # Parallel workers
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
+ *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
  */
 
 const { spawn } = require('child_process');
@@ -56,8 +57,8 @@ function findProjectRoot() {
 
 // ─── Defaults ───────────────────────────────────────────────────────────────
 
-const VIEWPORT_WIDTH  = 100;
-const VIEWPORT_HEIGHT = 100;
+const DEFAULT_VIEWPORT_WIDTH  = 100;
+const DEFAULT_VIEWPORT_HEIGHT = 100;
 const PIXEL_RATIO     = 1.0;
 const THRESHOLD_NO_TEXT = 1.5;               // ≤1.5% for tests without visible text
 const THRESHOLD_TEXT    = 5.0;               // ≤5% for tests containing text
@@ -90,6 +91,7 @@ function parseArgs() {
         concurrency: Math.max(1, os.cpus().length - 1),
         verbose: false,
         json: false,
+        baseline: false,               // only fail on baseline-listed regressions
         exe: LAMBDA_EXE,
         platform: null
     };
@@ -119,6 +121,9 @@ function parseArgs() {
             case '--platform':
                 opts.platform = args[++i];
                 break;
+            case '--baseline':
+                opts.baseline = true;
+                break;
         }
     }
     return opts;
@@ -126,13 +131,13 @@ function parseArgs() {
 
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
-function renderWithRadiant(exePath, htmlFile, outputPng) {
+function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight) {
     return new Promise((resolve, reject) => {
         const args = [
             'render', htmlFile,
             '-o', outputPng,
-            '-vw', String(VIEWPORT_WIDTH),
-            '-vh', String(VIEWPORT_HEIGHT),
+            '-vw', String(viewportWidth || DEFAULT_VIEWPORT_WIDTH),
+            '-vh', String(viewportHeight || DEFAULT_VIEWPORT_HEIGHT),
             '--pixel-ratio', String(PIXEL_RATIO)
         ];
 
@@ -155,6 +160,56 @@ function renderWithRadiant(exePath, htmlFile, outputPng) {
         proc.on('error', (error) => {
             reject(error);
         });
+    });
+}
+
+// ─── Batch render via lambda.exe render-batch ───────────────────────────────
+//
+// Spawns ONE lambda.exe render-batch process for ALL tests.
+// Sends render jobs via stdin (tab-separated), reads OK/FAIL results from stdout.
+// Saves ~70MB of per-process overhead by sharing UiContext across all renders.
+
+function renderBatchWithRadiant(exePath, jobs) {
+    // jobs: [{htmlFile, outputPng, viewportWidth, viewportHeight}]
+    return new Promise((resolve, reject) => {
+        const proc = spawn(exePath, ['render-batch', '--pixel-ratio', String(PIXEL_RATIO)], {
+            cwd: PROJECT_ROOT,
+            stdio: ['pipe', 'pipe', 'pipe'],
+            timeout: jobs.length * 10000 + 30000  // generous timeout
+        });
+
+        let stdout = '';
+        let stderr = '';
+        proc.stdout.on('data', (data) => { stdout += data.toString(); });
+        proc.stderr.on('data', (data) => { stderr += data.toString(); });
+
+        proc.on('close', () => {
+            // Parse results: each line is "OK\t<file>" or "FAIL\t<file>\t<reason>"
+            const results = new Map();
+            for (const line of stdout.split('\n')) {
+                const trimmed = line.trim();
+                if (!trimmed) continue;
+                const parts = trimmed.split('\t');
+                if (parts[0] === 'OK' && parts[1]) {
+                    results.set(parts[1], { ok: true });
+                } else if (parts[0] === 'FAIL' && parts[1]) {
+                    results.set(parts[1], { ok: false, reason: parts[2] || 'unknown error' });
+                }
+            }
+            resolve(results);
+        });
+
+        proc.on('error', (error) => {
+            reject(error);
+        });
+
+        // Write all jobs to stdin then close it
+        for (const job of jobs) {
+            const vw = job.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+            const vh = job.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+            proc.stdin.write(`${job.htmlFile}\t${job.outputPng}\t${vw}\t${vh}\n`);
+        }
+        proc.stdin.end();
     });
 }
 
@@ -232,9 +287,14 @@ async function runSingleTest(testName, opts) {
         return { testName, status: 'skip', reason: 'no reference image' };
     }
 
+    // per-test viewport size
+    const testConfig = getTestConfig(testName);
+    const vw = testConfig.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
+    const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
     // render with Radiant
     try {
-        await renderWithRadiant(opts.exe, htmlFile, outputPng);
+        await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh);
     } catch (err) {
         return { testName, status: 'error', reason: err.message };
     }
@@ -250,13 +310,10 @@ async function runSingleTest(testName, opts) {
         return { testName, status: 'fail', reason: result.error, ...result };
     }
 
-    // Determine threshold: CLI override > per-test config > auto (text/no-text)
-    const testConfig = getTestConfig(testName);
+    // Determine threshold: CLI override > auto (text/no-text)
     let maxMismatch;
     if (opts.threshold != null) {
         maxMismatch = opts.threshold;                         // CLI --threshold
-    } else if (testConfig.maxMismatchPercent != null) {
-        maxMismatch = testConfig.maxMismatchPercent;          // per-test override
     } else {
         maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
     }
@@ -277,27 +334,196 @@ async function runSingleTest(testName, opts) {
 // ─── Parallel runner ────────────────────────────────────────────────────────
 
 async function runTestsParallel(testNames, opts) {
-    const results = [];
-    const queue = [...testNames];
+    // Phase 1: Batch render all tests in a single lambda.exe process
+    const jobs = [];
+    const skipResults = [];
 
-    async function worker() {
-        while (queue.length > 0) {
-            const testName = queue.shift();
-            if (!testName) break;
-            const result = await runSingleTest(testName, opts);
-            results.push(result);
+    for (const testName of testNames) {
+        const htmlFile = path.join(PAGE_DIR, `${testName}.html`);
+        const outputPng = path.join(OUTPUT_DIR, `${testName}.png`);
+
+        // check reference exists
+        const platform = opts.platform || process.platform;
+        const platformRef = path.join(REF_DIR, `${testName}.${platform}.png`);
+        const genericRef = path.join(REF_DIR, `${testName}.png`);
+
+        if (!fs.existsSync(platformRef) && !fs.existsSync(genericRef)) {
+            skipResults.push({ testName, status: 'skip', reason: 'no reference image' });
+            continue;
+        }
+
+        const testConfig = getTestConfig(testName);
+        const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+        const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
+        jobs.push({ testName, htmlFile, outputPng, viewportWidth: vw, viewportHeight: vh });
+    }
+
+    let batchResults = new Map();
+    if (jobs.length > 0) {
+        try {
+            batchResults = await renderBatchWithRadiant(opts.exe, jobs);
+        } catch (err) {
+            // batch process failed entirely — mark all as error
+            return [
+                ...skipResults,
+                ...jobs.map(j => ({ testName: j.testName, status: 'error', reason: `batch render failed: ${err.message}` }))
+            ];
         }
     }
 
+    // Phase 2: Compare images (parallelized)
+    const results = [...skipResults];
+    const compareQueue = [...jobs];
+
+    async function compareWorker() {
+        while (compareQueue.length > 0) {
+            const job = compareQueue.shift();
+            if (!job) break;
+
+            const { testName, htmlFile, outputPng } = job;
+            const batchResult = batchResults.get(htmlFile);
+
+            if (!batchResult || !batchResult.ok) {
+                const reason = batchResult ? batchResult.reason : 'not in batch output';
+                results.push({ testName, status: 'error', reason: `render failed: ${reason}` });
+                continue;
+            }
+
+            if (!fs.existsSync(outputPng)) {
+                results.push({ testName, status: 'error', reason: 'Radiant produced no output file' });
+                continue;
+            }
+
+            // find reference
+            const platform = opts.platform || process.platform;
+            const platformRef = path.join(REF_DIR, `${testName}.${platform}.png`);
+            const genericRef = path.join(REF_DIR, `${testName}.png`);
+            const refPng = fs.existsSync(platformRef) ? platformRef : genericRef;
+
+            const diffPng = path.join(DIFF_DIR, `${testName}.png`);
+            const result = compareImages(outputPng, refPng, diffPng);
+
+            if (result.error) {
+                results.push({ testName, status: 'fail', reason: result.error, ...result });
+                continue;
+            }
+
+            // Determine threshold
+            let maxMismatch;
+            if (opts.threshold != null) {
+                maxMismatch = opts.threshold;
+            } else {
+                maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
+            }
+
+            if (result.mismatchPercent > maxMismatch) {
+                results.push({
+                    testName,
+                    status: 'fail',
+                    reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
+                    ...result,
+                    diffPath: diffPng
+                });
+            } else {
+                results.push({ testName, status: 'pass', ...result });
+            }
+        }
+    }
+
+    // Run image comparisons in parallel (CPU-bound, no spawning)
     const workers = [];
-    for (let i = 0; i < Math.min(opts.concurrency, testNames.length); i++) {
-        workers.push(worker());
+    const compareConcurrency = Math.min(opts.concurrency, compareQueue.length);
+    for (let i = 0; i < compareConcurrency; i++) {
+        workers.push(compareWorker());
     }
     await Promise.all(workers);
 
     return results;
 }
+// ─── Baseline support ───────────────────────────────────────────────────
 
+/**
+ * Load baseline.txt — returns a Map of test names to their expected mismatch
+ * percentage, or null if no baseline file exists.
+ *
+ * Format: each line starts with a test_name, followed by optional columns
+ * separated by whitespace.  Lines starting with '#' are comments.
+ * Example: "form_buttons_01  452  2.01%  150x150"
+ */
+function loadBaseline() {
+    const baselinePath = path.join(TEST_DIR, 'baseline.txt');
+    if (!fs.existsSync(baselinePath)) return null;
+
+    const content = fs.readFileSync(baselinePath, 'utf-8');
+    const entries = new Map();
+    for (const rawLine of content.split('\n')) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#')) continue;
+        const cols = line.split(/\s+/);
+        const name = cols[0];
+        // Parse mismatch percent from third column (e.g., "2.01%" or "0.00%")
+        let pct = 0;
+        if (cols.length >= 3) {
+            const pctStr = cols[2].replace('%', '');
+            const parsed = parseFloat(pctStr);
+            if (!isNaN(parsed)) pct = parsed;
+        }
+        entries.set(name, pct);
+    }
+    return entries;
+}
+
+/**
+ * Check results against the baseline and print a regression report.
+ * A baseline regression is when a test's mismatch exceeds its recorded
+ * baseline percentage by more than a small tolerance (0.5%).
+ * Returns the number of baseline regressions (used as exit code signal).
+ */
+function checkBaselineRegressions(results, baselineMap, opts) {
+    const REGRESSION_TOLERANCE = 0.5;  // allow up to 0.5% above baseline
+
+    const resultMap = new Map(results.map(r => [r.testName, r]));
+
+    const regressions = [];
+    for (const [name, baselinePct] of baselineMap) {
+        const result = resultMap.get(name);
+        if (!result) {
+            regressions.push({ name, result: null });
+            continue;
+        }
+        if (result.status === 'error') {
+            regressions.push({ name, result });
+            continue;
+        }
+        const actualPct = result.mismatchPercent != null ? result.mismatchPercent : 0;
+        if (actualPct > baselinePct + REGRESSION_TOLERANCE) {
+            regressions.push({ name, result, baselinePct });
+        }
+    }
+
+    if (!opts.json) {
+        if (regressions.length > 0) {
+            console.log(`\n🚨 Baseline Regressions (${regressions.length}):`);
+            for (const { name, result, baselinePct } of regressions) {
+                if (!result) {
+                    console.log(`   ❌ ${name}  (not in test results — missing HTML or reference?)`);
+                } else if (result.status === 'error') {
+                    console.log(`   ❌ ${name}  (${result.reason || result.status})`);
+                } else {
+                    const actual = result.mismatchPercent != null ? result.mismatchPercent.toFixed(2) : '?';
+                    console.log(`   ❌ ${name}  (${actual}% > baseline ${baselinePct.toFixed(2)}%)`);
+                }
+            }
+            console.log('');
+        } else {
+            const totalBaseline = baselineMap.size;
+            console.log(`\n✅ All ${totalBaseline} baseline tests passed.`);
+        }
+    }
+
+    return regressions.length;
+}
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -364,9 +590,21 @@ async function main() {
         outputConsole(results, opts);
     }
 
-    // exit code
-    const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
-    process.exit(failures.length > 0 ? 1 : 0);
+    // exit code: in baseline mode, only baseline regressions cause failure
+    if (opts.baseline) {
+        const baselineMap = loadBaseline();
+        if (baselineMap) {
+            const baselineRegressions = checkBaselineRegressions(results, baselineMap, opts);
+            process.exit(baselineRegressions > 0 ? 1 : 0);
+        } else {
+            // no baseline file — fall back to reporting all failures
+            const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
+            process.exit(failures.length > 0 ? 1 : 0);
+        }
+    } else {
+        const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
+        process.exit(failures.length > 0 ? 1 : 0);
+    }
 }
 
 // ─── Output formatters ──────────────────────────────────────────────────────

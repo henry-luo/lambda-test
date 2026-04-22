@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  table {
+    border-collapse: collapse;
+    margin: 5px;
+    width: 90px;
+  }
+  thead td {
+    background: #34495e;
+    height: 10px;
+    border: 1px solid #2c3e50;
+  }
+  tbody td {
+    height: 14px;
+    border: 1px solid #bdc3c7;
+  }
+  tfoot td {
+    background: #ecf0f1;
+    height: 10px;
+    border: 1px solid #bdc3c7;
+    border-top: 2px solid #2c3e50;
+  }
+  tbody tr:nth-child(odd) td { background: #eaf2f8; }
+  tbody tr:nth-child(even) td { background: white; }
+  td:first-child { width: 50px; }
+  td:last-child { width: 40px; }
+</style>
+</head>
+<body>
+  <table>
+    <thead><tr><td></td><td></td></tr></thead>
+    <tbody>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
+    </tbody>
+    <tfoot><tr><td></td><td></td></tr></tfoot>
+  </table>
+</body>
+</html>

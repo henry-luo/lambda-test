@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  table {
+    border-collapse: collapse;
+  }
+  .outer {
+    margin: 5px;
+  }
+  .outer td {
+    border: 1px solid #bdc3c7;
+    padding: 2px;
+    vertical-align: top;
+  }
+  .outer td.hdr {
+    background: #3498db; height: 10px;
+  }
+  .inner {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .inner td {
+    border: 1px solid #95a5a6;
+    background: #ecf0f1;
+    width: 18px; height: 14px;
+  }
+</style>
+</head>
+<body>
+  <table class="outer">
+    <tr><td class="hdr"></td><td class="hdr"></td></tr>
+    <tr>
+      <td>
+        <table class="inner">
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+        </table>
+      </td>
+      <td style="background:#f8f9f9;width:20px;"></td>
+    </tr>
+    <tr>
+      <td style="background:#f8f9f9;height:14px;"></td>
+      <td>
+        <table class="inner">
+          <tr><td></td><td></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

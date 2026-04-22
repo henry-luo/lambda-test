@@ -20,8 +20,17 @@ const os = require('os');
 const PAGE_DIR = path.join(__dirname, 'page');
 const REF_DIR  = path.join(__dirname, 'reference');
 
-const VIEWPORT_WIDTH  = 100;
-const VIEWPORT_HEIGHT = 100;
+const DEFAULT_VIEWPORT_WIDTH  = 100;
+const DEFAULT_VIEWPORT_HEIGHT = 100;
+
+function getTestConfig(testName) {
+    const configPath = path.join(PAGE_DIR, `${testName}.config.json`);
+    if (fs.existsSync(configPath)) {
+        try { return JSON.parse(fs.readFileSync(configPath, 'utf-8')); }
+        catch (e) { /* ignore */ }
+    }
+    return {};
+}
 
 function parseArgs() {
     const args = process.argv.slice(2);
@@ -109,9 +118,13 @@ async function main() {
     for (const { file, testName } of toCapture) {
         const page = await browser.newPage();
         try {
+            const cfg = getTestConfig(testName);
+            const vw = cfg.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
+            const vh = cfg.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
             await page.setViewport({
-                width: VIEWPORT_WIDTH,
-                height: VIEWPORT_HEIGHT,
+                width: vw,
+                height: vh,
                 deviceScaleFactor: 1
             });
 
@@ -125,7 +138,7 @@ async function main() {
             await page.screenshot({
                 path: refPath,
                 type: 'png',
-                clip: { x: 0, y: 0, width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT }
+                clip: { x: 0, y: 0, width: vw, height: vh }
             });
 
             console.log(`  ✅ ${testName}`);

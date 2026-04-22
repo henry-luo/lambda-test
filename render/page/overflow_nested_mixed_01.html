@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .outer {
+    width: 80px; height: 80px;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #ecf0f1;
+    border: 1px solid #bdc3c7;
+  }
+  .mid {
+    width: 60px; height: 60px;
+    margin: 5px;
+    overflow: hidden;
+    clip-path: inset(2px round 8px);
+    background: #3498db;
+  }
+  .inner {
+    padding: 4px;
+    font: bold 9px Arial, Helvetica, sans-serif;
+    color: white;
+  }
+  .bar {
+    width: 100px; height: 8px;
+    background: linear-gradient(90deg, #e74c3c, #f39c12, #2ecc71);
+    margin-top: 3px;
+  }
+  svg { display: block; margin-top: 2px; }
+</style>
+</head>
+<body>
+  <div class="outer">
+    <div class="mid">
+      <div class="inner">
+        Clip
+        <div class="bar"></div>
+        <svg width="50" height="15"><circle cx="8" cy="8" r="6" fill="#e74c3c"/><circle cx="22" cy="8" r="6" fill="#f39c12"/><circle cx="36" cy="8" r="6" fill="#2ecc71"/></svg>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

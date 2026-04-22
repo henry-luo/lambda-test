@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; font-size: 10px; font-family: sans-serif; }
+  .indent {
+    text-indent: 20px;
+    width: 80px;
+    margin: 5px 10px;
+    background: #ecf0f1;
+    padding: 3px;
+  }
+  .nowrap {
+    white-space: nowrap;
+    width: 80px;
+    margin: 5px 10px;
+    background: #ecf0f1;
+    padding: 3px;
+    overflow: hidden;
+  }
+  .pre {
+    white-space: pre;
+    width: 80px;
+    margin: 5px 10px;
+    background: #ecf0f1;
+    padding: 3px;
+    overflow: hidden;
+    font-family: monospace;
+    font-size: 9px;
+  }
+</style>
+</head>
+<body>
+  <div class="indent">indented text here flows</div>
+  <div class="nowrap">no wrap long text here</div>
+  <div class="pre">pre  spaced
+  two</div>
+</body>
+</html>
