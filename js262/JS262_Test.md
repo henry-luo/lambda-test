@@ -4,8 +4,8 @@
 
 ```bash
 # Build
-make build                # Debug build (lambda.exe + test executables)
-make build-test           # Build test executables only
+make build                # Debug build (lambda.exe only — does NOT rebuild test executables)
+make build-test           # Build test executables (test_js_test262_gtest.exe, etc.)
 
 # Run test262 (batch mode — the standard way)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only
@@ -66,6 +66,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 | `--batch-only` | Standard batch mode. Enables Phase 4 regression retry. |
 | `--update-baseline` | Updates baseline if all gate conditions pass (regressions=0, batch-lost=0, crashes=0, count≥21824). |
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
+| `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 
 ## Diagnosing Failures
 
@@ -99,6 +100,29 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 # With debug logging (check log.txt after)
 ./lambda.exe js test/js262/test262/test/built-ins/Array/from/some-test.js
 cat log.txt | tail -50
+```
+
+### Running a subset via --batch-file
+```bash
+# Create a file with test names (one per line)
+echo 'built-ins/Number/prototype/valueOf/...' > temp/mytest.txt
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --batch-file=temp/mytest.txt
+```
+
+### Testing engine bugs directly via stdin pipe
+```bash
+# Pipe harness + test source directly to the batch handler
+# Protocol: harness:<len>\n<blob>\nsource:<name>:<len>\n<blob>\n
+printf 'harness:%d\n%ssource:%s:%d\n%s' \
+  $(wc -c < harness_blob.js) "$(cat harness_blob.js)" \
+  "test_name" $(wc -c < test.js) "$(cat test.js)" \
+  | ./lambda.exe js-test-batch
+```
+
+### Checking per-test timing
+```bash
+# Timing data saved per optimization level (default is o0 for debug builds)
+cat temp/_t262_timing_o0.tsv | sort -t$'\t' -k2 -rn | head -20  # slowest tests
 ```
 
 ## Key Architecture
@@ -138,3 +162,4 @@ source:<test_name>:<length>\n<test_blob>
 | `temp/_t262_partial.txt` | Non-fully-passing list with tags |
 | `temp/_t262_batch_kills.txt` | Phase 4 batch kill diagnostics |
 | `temp/test262_metadata.tsv` | Cached YAML metadata for all test files |
+| `temp/_t262_timing_o0.tsv` | Per-test timing data (debug build); `_o1.tsv`/`_o2.tsv` for release |
