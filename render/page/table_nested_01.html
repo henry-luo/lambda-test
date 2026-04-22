@@ -5,55 +5,52 @@
 <style>
   * { margin: 0; padding: 0; }
   html, body { width: 100px; height: 100px; overflow: hidden; }
-  body { background: white; padding: 3px; }
-  .outer {
-    border: 1px solid #bdc3c7;
-    font: 7px Arial, Helvetica, sans-serif;
-    color: #2c3e50;
-  }
-  .outer table {
+  body { background: white; }
+  table {
     border-collapse: collapse;
-    width: 100%;
+  }
+  .outer {
+    margin: 5px;
   }
   .outer td {
     border: 1px solid #bdc3c7;
-    padding: 1px 2px;
+    padding: 2px;
+    vertical-align: top;
+  }
+  .outer td.hdr {
+    background: #3498db; height: 10px;
   }
   .inner {
     border-collapse: collapse;
     width: 100%;
-    background: #ecf0f1;
   }
   .inner td {
     border: 1px solid #95a5a6;
-    padding: 1px;
-    font: 6px Arial, Helvetica, sans-serif;
+    background: #ecf0f1;
+    width: 18px; height: 14px;
   }
-  .hdr { background: #3498db; color: white; font-weight: bold; }
 </style>
 </head>
 <body>
-  <div class="outer">
-    <table>
-      <tr><td class="hdr">A</td><td class="hdr">B</td></tr>
-      <tr>
-        <td>
-          <table class="inner">
-            <tr><td>1</td><td>2</td></tr>
-            <tr><td>3</td><td>4</td></tr>
-          </table>
-        </td>
-        <td>X</td>
-      </tr>
-      <tr>
-        <td>Y</td>
-        <td>
-          <table class="inner">
-            <tr><td>5</td><td>6</td></tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </div>
+  <table class="outer">
+    <tr><td class="hdr"></td><td class="hdr"></td></tr>
+    <tr>
+      <td>
+        <table class="inner">
+          <tr><td></td><td></td></tr>
+          <tr><td></td><td></td></tr>
+        </table>
+      </td>
+      <td style="background:#f8f9f9;width:20px;"></td>
+    </tr>
+    <tr>
+      <td style="background:#f8f9f9;height:14px;"></td>
+      <td>
+        <table class="inner">
+          <tr><td></td><td></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

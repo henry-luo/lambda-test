@@ -8,48 +8,40 @@
   body { background: white; }
   table {
     border-collapse: collapse;
-    margin: 3px;
-    width: 94px;
+    margin: 5px;
+    width: 90px;
   }
-  caption {
-    font: bold 8px Arial, Helvetica, sans-serif;
-    color: #2c3e50;
-    padding: 2px;
-    text-align: left;
-  }
-  thead th {
-    font: bold 7px Arial, Helvetica, sans-serif;
+  thead td {
     background: #34495e;
-    color: white;
-    padding: 2px;
+    height: 10px;
     border: 1px solid #2c3e50;
   }
   tbody td {
-    font: 7px Arial, Helvetica, sans-serif;
-    padding: 2px;
+    height: 14px;
     border: 1px solid #bdc3c7;
-    color: #2c3e50;
   }
   tfoot td {
-    font: bold 7px Arial, Helvetica, sans-serif;
     background: #ecf0f1;
-    padding: 2px;
+    height: 10px;
     border: 1px solid #bdc3c7;
     border-top: 2px solid #2c3e50;
   }
-  tbody tr:nth-child(even) { background: #f8f9f9; }
+  tbody tr:nth-child(odd) td { background: #eaf2f8; }
+  tbody tr:nth-child(even) td { background: white; }
+  td:first-child { width: 50px; }
+  td:last-child { width: 40px; }
 </style>
 </head>
 <body>
   <table>
-    <caption>Data</caption>
-    <thead><tr><th>Name</th><th>Val</th></tr></thead>
+    <thead><tr><td></td><td></td></tr></thead>
     <tbody>
-      <tr><td>Alpha</td><td>10</td></tr>
-      <tr><td>Beta</td><td>20</td></tr>
-      <tr><td>Gamma</td><td>30</td></tr>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
+      <tr><td></td><td></td></tr>
     </tbody>
-    <tfoot><tr><td>Sum</td><td>60</td></tr></tfoot>
+    <tfoot><tr><td></td><td></td></tr></tfoot>
   </table>
 </body>
 </html>

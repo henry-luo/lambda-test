@@ -5,12 +5,12 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100px; height: 100px; overflow: hidden; }
-  body { background: white; padding: 3px; font: 8px Arial, Helvetica, sans-serif; }
+  body { background: white; padding: 4px; font: 8px Arial, Helvetica, sans-serif; }
   fieldset {
     border: 1px solid #bdc3c7;
     border-radius: 3px;
     padding: 4px;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
   legend {
     font: bold 7px Arial, Helvetica, sans-serif;
@@ -25,24 +25,23 @@
     margin: 1px 0;
     display: block;
   }
-  fieldset.disabled {
+  .disabled {
     opacity: 0.5;
   }
-  fieldset.disabled input {
+  .disabled input {
     background: #ecf0f1;
   }
 </style>
 </head>
 <body>
   <fieldset>
-    <legend>Contact</legend>
-    <input type="text" value="Alice" placeholder="Name">
-    <input type="text" value="alice@mail.co" placeholder="Email">
+    <legend>Info</legend>
+    <input type="text" value="Alice">
+    <input type="text" value="alice@mail.co">
   </fieldset>
   <fieldset class="disabled">
-    <legend>Locked</legend>
+    <legend>Off</legend>
     <input type="text" value="Read only" disabled>
-    <input type="text" value="Disabled" disabled>
   </fieldset>
 </body>
 </html>

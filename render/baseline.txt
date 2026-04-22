@@ -1,6 +1,6 @@
 # Radiant Render Test Baseline
-# Generated: 2026-04-21
-# 93/93 passed
+# Generated: 2026-04-22
+# 112/112 passed
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -29,6 +29,7 @@ border_styles_01                 11       0.11%  100x100
 box_shadow_01                    exact    0.00%  100x100
 box_shadow_inset_01              12       0.12%  100x100
 box_shadow_rounded_01            exact    0.00%  100x100
+clip_mixed_content_01            110      1.10%  100x100
 clip_path_circle_01              exact    0.00%  100x100
 clip_path_polygon_01             exact    0.00%  100x100
 clip_path_polygon_complex_01     exact    0.00%  100x100
@@ -43,9 +44,17 @@ filter_grayscale_01              exact    0.00%  100x100
 filter_hue_rotate_01             exact    0.00%  100x100
 filter_invert_01                 exact    0.00%  100x100
 filter_saturate_01               exact    0.00%  100x100
+form_buttons_01                  781      7.81%  100x100
+form_checkbox_radio_01           613      6.13%  100x100
+form_fieldset_01                 863      8.63%  100x100
+form_input_text_01               704      7.04%  100x100
+form_select_textarea_01          1619     16.19% 100x100
 glyph_quality                    548      3.81%  120x120
 h2_baseline_01                   84       0.84%  100x100
 h2_direction                     10       0.10%  100x100
+iframe_basic_01                  1747     17.47% 100x100
+iframe_sizes_01                  1468     14.68% 100x100
+iframe_styled_01                 995      9.95%  100x100
 image_rendering_01               exact    0.00%  100x100
 line_clamp_01                    390      3.90%  100x100
 list_inside_outside_01           407      4.07%  100x100
@@ -64,6 +73,9 @@ overflow_clip_nested_01          exact    0.00%  100x100
 overflow_clip_rounded_01         5        0.05%  100x100
 overflow_clip_shapes_01          36       0.36%  100x100
 overflow_hidden_01               exact    0.00%  100x100
+overflow_modes_01                3        0.03%  100x100
+overflow_nested_mixed_01         57       0.57%  100x100
+overflow_text_clip_01            607      6.07%  100x100
 svg_clippath_01                  exact    0.00%  100x100
 svg_file_bg_01                   exact    0.00%  100x100
 svg_file_img_01                  54       0.54%  100x100
@@ -82,6 +94,13 @@ svg_transform_01                 exact    0.00%  100x100
 svg_use_symbol_01                exact    0.00%  100x100
 svg_viewbox_01                   exact    0.00%  100x100
 table_border_collapse_01         4        0.04%  100x100
+table_border_colors_01           41       0.41%  100x100
+table_border_mixed_01            131      1.31%  100x100
+table_border_separate_01         exact    0.00%  100x100
+table_cell_borders_01            490      4.90%  100x100
+table_nested_01                  807      8.07%  100x100
+table_rowspan_colspan_01         441      4.41%  100x100
+table_thead_tfoot_01             1        0.01%  100x100
 text_align_01                    290      2.90%  100x100
 text_color_01                    129      1.29%  100x100
 text_deco_color_01               1907     4.77%  200x200
