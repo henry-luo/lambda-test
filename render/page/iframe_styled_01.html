@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: #ecf0f1; display: flex; align-items: center; justify-content: center; }
+  iframe {
+    width: 70px; height: 70px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.15);
+  }
+</style>
+</head>
+<body>
+  <iframe srcdoc="
+    <style>*{margin:0;padding:0;}body{background:white;font:8px Arial,sans-serif;color:#2c3e50;padding:4px;}</style>
+    <body>
+      <div style='font-weight:bold;font-size:9px;color:#e74c3c;margin-bottom:3px;'>Title</div>
+      <div>Embedded content inside an iframe with styled body.</div>
+      <div style='margin-top:4px;width:60px;height:6px;background:linear-gradient(90deg,#3498db,#2ecc71);border-radius:3px;'></div>
+    </body>
+  "></iframe>
+</body>
+</html>

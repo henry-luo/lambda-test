@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 4px; font: 8px Arial, Helvetica, sans-serif; color: #2c3e50; }
+  select {
+    width: 90px; height: 14px;
+    border: 1px solid #bdc3c7;
+    font: 8px Arial, Helvetica, sans-serif;
+    background: white;
+    margin-bottom: 3px;
+    display: block;
+  }
+  textarea {
+    width: 90px; height: 30px;
+    border: 1px solid #bdc3c7;
+    padding: 2px;
+    font: 8px Arial, Helvetica, sans-serif;
+    resize: none;
+    margin-bottom: 3px;
+    display: block;
+  }
+  label { display: block; font-size: 7px; color: #7f8c8d; margin-bottom: 1px; }
+  .btns { display: flex; gap: 3px; }
+  button {
+    padding: 2px 6px;
+    font: bold 7px Arial, Helvetica, sans-serif;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+  }
+  .primary { background: #3498db; color: white; }
+  .secondary { background: #ecf0f1; color: #2c3e50; border: 1px solid #bdc3c7; }
+  .danger { background: #e74c3c; color: white; }
+</style>
+</head>
+<body>
+  <label>Category</label>
+  <select>
+    <option>Option A</option>
+    <option selected>Option B</option>
+    <option>Option C</option>
+  </select>
+  <label>Notes</label>
+  <textarea>Some text content here</textarea>
+  <div class="btns">
+    <button class="primary">Save</button>
+    <button class="secondary">Cancel</button>
+    <button class="danger">Delete</button>
+  </div>
+</body>
+</html>

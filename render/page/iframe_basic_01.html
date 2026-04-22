@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 5px; }
+  iframe {
+    width: 88px; height: 40px;
+    border: 2px solid #2c3e50;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .label {
+    font: 7px Arial, Helvetica, sans-serif;
+    color: #7f8c8d;
+    margin-bottom: 1px;
+  }
+</style>
+</head>
+<body>
+  <div class="label">With border</div>
+  <iframe srcdoc="<body style='margin:0;background:#3498db;color:white;font:bold 10px Arial;padding:5px;'>Hello</body>"></iframe>
+  <div class="label">No border</div>
+  <iframe srcdoc="<body style='margin:0;background:#ecf0f1;color:#2c3e50;font:10px Arial;padding:5px;'>World</body>" style="border:none;"></iframe>
+</body>
+</html>

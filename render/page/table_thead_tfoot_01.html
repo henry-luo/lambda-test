@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  table {
+    border-collapse: collapse;
+    margin: 3px;
+    width: 94px;
+  }
+  caption {
+    font: bold 8px Arial, Helvetica, sans-serif;
+    color: #2c3e50;
+    padding: 2px;
+    text-align: left;
+  }
+  thead th {
+    font: bold 7px Arial, Helvetica, sans-serif;
+    background: #34495e;
+    color: white;
+    padding: 2px;
+    border: 1px solid #2c3e50;
+  }
+  tbody td {
+    font: 7px Arial, Helvetica, sans-serif;
+    padding: 2px;
+    border: 1px solid #bdc3c7;
+    color: #2c3e50;
+  }
+  tfoot td {
+    font: bold 7px Arial, Helvetica, sans-serif;
+    background: #ecf0f1;
+    padding: 2px;
+    border: 1px solid #bdc3c7;
+    border-top: 2px solid #2c3e50;
+  }
+  tbody tr:nth-child(even) { background: #f8f9f9; }
+</style>
+</head>
+<body>
+  <table>
+    <caption>Data</caption>
+    <thead><tr><th>Name</th><th>Val</th></tr></thead>
+    <tbody>
+      <tr><td>Alpha</td><td>10</td></tr>
+      <tr><td>Beta</td><td>20</td></tr>
+      <tr><td>Gamma</td><td>30</td></tr>
+    </tbody>
+    <tfoot><tr><td>Sum</td><td>60</td></tr></tfoot>
+  </table>
+</body>
+</html>

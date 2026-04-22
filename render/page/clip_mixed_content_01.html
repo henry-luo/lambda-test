@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; }
+  .box {
+    width: 40px; height: 40px;
+    position: absolute;
+    overflow: hidden;
+  }
+  .circle {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: #e74c3c;
+  }
+  .label {
+    font: bold 8px Arial, Helvetica, sans-serif;
+    color: white;
+    text-align: center;
+    padding-top: 6px;
+  }
+  .a { left: 5px; top: 5px; border: 1px solid #2c3e50; }
+  .b { left: 50px; top: 5px; border-radius: 8px; border: 1px solid #27ae60; }
+  .c { left: 5px; top: 50px; clip-path: circle(50%); }
+  .d { left: 50px; top: 50px; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+</style>
+</head>
+<body>
+  <div class="box a">
+    <div class="circle"></div>
+    <div class="label">AB</div>
+  </div>
+  <div class="box b">
+    <div class="circle" style="background:#3498db;"></div>
+    <div class="label">CD</div>
+  </div>
+  <div class="box c">
+    <div style="width:40px;height:40px;background:#2ecc71;">
+      <div class="label">EF</div>
+    </div>
+  </div>
+  <div class="box d">
+    <div style="width:40px;height:40px;background:#f39c12;">
+      <div class="label">GH</div>
+    </div>
+  </div>
+</body>
+</html>

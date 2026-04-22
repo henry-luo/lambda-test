@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 3px; font: 8px Arial, Helvetica, sans-serif; }
+  fieldset {
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+    padding: 4px;
+    margin-bottom: 3px;
+  }
+  legend {
+    font: bold 7px Arial, Helvetica, sans-serif;
+    color: #2c3e50;
+    padding: 0 2px;
+  }
+  input[type="text"] {
+    width: 80px; height: 12px;
+    border: 1px solid #bdc3c7;
+    padding: 1px 2px;
+    font: 7px Arial, Helvetica, sans-serif;
+    margin: 1px 0;
+    display: block;
+  }
+  fieldset.disabled {
+    opacity: 0.5;
+  }
+  fieldset.disabled input {
+    background: #ecf0f1;
+  }
+</style>
+</head>
+<body>
+  <fieldset>
+    <legend>Contact</legend>
+    <input type="text" value="Alice" placeholder="Name">
+    <input type="text" value="alice@mail.co" placeholder="Email">
+  </fieldset>
+  <fieldset class="disabled">
+    <legend>Locked</legend>
+    <input type="text" value="Read only" disabled>
+    <input type="text" value="Disabled" disabled>
+  </fieldset>
+</body>
+</html>

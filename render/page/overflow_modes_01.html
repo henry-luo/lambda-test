@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 5px; }
+  .row { display: flex; gap: 4px; margin-bottom: 4px; }
+  .cell {
+    width: 28px; height: 28px;
+    overflow: hidden;
+    position: relative;
+    font: 7px Arial, Helvetica, sans-serif;
+    color: white;
+    text-align: center;
+    line-height: 28px;
+  }
+  .cell .bg {
+    position: absolute; inset: 0;
+  }
+  .a { overflow: visible; }
+  .a .bg { background: #e74c3c; width: 40px; height: 40px; }
+  .b { overflow: hidden; border-radius: 50%; }
+  .b .bg { background: #3498db; width: 40px; height: 40px; }
+  .c { overflow: scroll; border: 1px solid #95a5a6; }
+  .c .bg { background: #2ecc71; width: 50px; height: 50px; }
+  .d { overflow: auto; }
+  .d .bg { background: #f39c12; width: 50px; height: 50px; }
+  .e { overflow: clip; }
+  .e .bg { background: #9b59b6; width: 40px; height: 40px; }
+  .f { overflow: hidden; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); }
+  .f .bg { background: #1abc9c; width: 28px; height: 28px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="cell a"><div class="bg"></div><span style="position:relative;">V</span></div>
+    <div class="cell b"><div class="bg"></div><span style="position:relative;">H</span></div>
+    <div class="cell c"><div class="bg"></div><span style="position:relative;">S</span></div>
+  </div>
+  <div class="row">
+    <div class="cell d"><div class="bg"></div><span style="position:relative;">A</span></div>
+    <div class="cell e"><div class="bg"></div><span style="position:relative;">C</span></div>
+    <div class="cell f"><div class="bg"></div><span style="position:relative;">P</span></div>
+  </div>
+</body>
+</html>

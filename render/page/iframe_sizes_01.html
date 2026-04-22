@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 100px; height: 100px; overflow: hidden; }
+  body { background: white; padding: 3px; }
+  .row { display: flex; gap: 3px; margin-bottom: 3px; }
+  iframe {
+    border: 1px solid #bdc3c7;
+  }
+  .small { width: 44px; height: 44px; }
+  .wide { width: 92px; height: 20px; border: none; }
+  .rounded { border-radius: 8px; overflow: hidden; width: 44px; height: 44px; border: 2px solid #3498db; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <iframe class="small" srcdoc="<body style='margin:0;background:#e74c3c;'></body>"></iframe>
+    <iframe class="small" srcdoc="<body style='margin:0;background:linear-gradient(135deg,#3498db,#2ecc71);'></body>"></iframe>
+  </div>
+  <iframe class="wide" srcdoc="<body style='margin:0;background:#f39c12;color:white;font:bold 8px Arial;padding:4px;text-align:center;'>Banner</body>"></iframe>
+  <div class="row">
+    <iframe class="rounded" srcdoc="<body style='margin:0;background:#9b59b6;'></body>"></iframe>
+    <iframe class="rounded" srcdoc="<body style='margin:0;background:#1abc9c;'></body>"></iframe>
+  </div>
+</body>
+</html>
