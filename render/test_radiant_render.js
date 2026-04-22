@@ -310,12 +310,10 @@ async function runSingleTest(testName, opts) {
         return { testName, status: 'fail', reason: result.error, ...result };
     }
 
-    // Determine threshold: CLI override > per-test config > auto (text/no-text)
+    // Determine threshold: CLI override > auto (text/no-text)
     let maxMismatch;
     if (opts.threshold != null) {
         maxMismatch = opts.threshold;                         // CLI --threshold
-    } else if (testConfig.maxMismatchPercent != null) {
-        maxMismatch = testConfig.maxMismatchPercent;          // per-test override
     } else {
         maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
     }
@@ -412,12 +410,9 @@ async function runTestsParallel(testNames, opts) {
             }
 
             // Determine threshold
-            const testConfig = getTestConfig(testName);
             let maxMismatch;
             if (opts.threshold != null) {
                 maxMismatch = opts.threshold;
-            } else if (testConfig.maxMismatchPercent != null) {
-                maxMismatch = testConfig.maxMismatchPercent;
             } else {
                 maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
             }
@@ -449,54 +444,80 @@ async function runTestsParallel(testNames, opts) {
 // ─── Baseline support ───────────────────────────────────────────────────
 
 /**
- * Load baseline.txt — returns a Set of test names that must pass,
- * or null if no baseline file exists.
+ * Load baseline.txt — returns a Map of test names to their expected mismatch
+ * percentage, or null if no baseline file exists.
  *
  * Format: each line starts with a test_name, followed by optional columns
  * separated by whitespace.  Lines starting with '#' are comments.
+ * Example: "form_buttons_01  452  2.01%  150x150"
  */
 function loadBaseline() {
     const baselinePath = path.join(TEST_DIR, 'baseline.txt');
     if (!fs.existsSync(baselinePath)) return null;
 
     const content = fs.readFileSync(baselinePath, 'utf-8');
-    const names = content.split('\n')
-        .map(line => line.trim())
-        .filter(line => line && !line.startsWith('#'))
-        .map(line => line.split(/\s+/)[0]);  // first column = test name
-    return new Set(names);
+    const entries = new Map();
+    for (const rawLine of content.split('\n')) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#')) continue;
+        const cols = line.split(/\s+/);
+        const name = cols[0];
+        // Parse mismatch percent from third column (e.g., "2.01%" or "0.00%")
+        let pct = 0;
+        if (cols.length >= 3) {
+            const pctStr = cols[2].replace('%', '');
+            const parsed = parseFloat(pctStr);
+            if (!isNaN(parsed)) pct = parsed;
+        }
+        entries.set(name, pct);
+    }
+    return entries;
 }
 
 /**
  * Check results against the baseline and print a regression report.
+ * A baseline regression is when a test's mismatch exceeds its recorded
+ * baseline percentage by more than a small tolerance (0.5%).
  * Returns the number of baseline regressions (used as exit code signal).
  */
-function checkBaselineRegressions(results, baselineNames, opts) {
-    const passedNames = new Set(
-        results.filter(r => r.status === 'pass').map(r => r.testName)
-    );
+function checkBaselineRegressions(results, baselineMap, opts) {
+    const REGRESSION_TOLERANCE = 0.5;  // allow up to 0.5% above baseline
+
+    const resultMap = new Map(results.map(r => [r.testName, r]));
 
     const regressions = [];
-    for (const name of baselineNames) {
-        if (!passedNames.has(name)) {
-            const result = results.find(r => r.testName === name);
+    for (const [name, baselinePct] of baselineMap) {
+        const result = resultMap.get(name);
+        if (!result) {
+            regressions.push({ name, result: null });
+            continue;
+        }
+        if (result.status === 'error') {
             regressions.push({ name, result });
+            continue;
+        }
+        const actualPct = result.mismatchPercent != null ? result.mismatchPercent : 0;
+        if (actualPct > baselinePct + REGRESSION_TOLERANCE) {
+            regressions.push({ name, result, baselinePct });
         }
     }
 
     if (!opts.json) {
         if (regressions.length > 0) {
             console.log(`\n🚨 Baseline Regressions (${regressions.length}):`);
-            for (const { name, result } of regressions) {
-                if (result) {
+            for (const { name, result, baselinePct } of regressions) {
+                if (!result) {
+                    console.log(`   ❌ ${name}  (not in test results — missing HTML or reference?)`);
+                } else if (result.status === 'error') {
                     console.log(`   ❌ ${name}  (${result.reason || result.status})`);
                 } else {
-                    console.log(`   ❌ ${name}  (not in test results — missing HTML or reference?)`);
+                    const actual = result.mismatchPercent != null ? result.mismatchPercent.toFixed(2) : '?';
+                    console.log(`   ❌ ${name}  (${actual}% > baseline ${baselinePct.toFixed(2)}%)`);
                 }
             }
             console.log('');
         } else {
-            const totalBaseline = baselineNames.size;
+            const totalBaseline = baselineMap.size;
             console.log(`\n✅ All ${totalBaseline} baseline tests passed.`);
         }
     }
@@ -571,9 +592,9 @@ async function main() {
 
     // exit code: in baseline mode, only baseline regressions cause failure
     if (opts.baseline) {
-        const baselineNames = loadBaseline();
-        if (baselineNames) {
-            const baselineRegressions = checkBaselineRegressions(results, baselineNames, opts);
+        const baselineMap = loadBaseline();
+        if (baselineMap) {
+            const baselineRegressions = checkBaselineRegressions(results, baselineMap, opts);
             process.exit(baselineRegressions > 0 ? 1 : 0);
         } else {
             // no baseline file — fall back to reporting all failures
