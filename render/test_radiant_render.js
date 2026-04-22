@@ -14,6 +14,7 @@
  *   node test_radiant_render.js -j 4                    # Parallel workers
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
+ *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
  */
 
 const { spawn } = require('child_process');
@@ -90,6 +91,7 @@ function parseArgs() {
         concurrency: Math.max(1, os.cpus().length - 1),
         verbose: false,
         json: false,
+        baseline: false,               // only fail on baseline-listed regressions
         exe: LAMBDA_EXE,
         platform: null
     };
@@ -118,6 +120,9 @@ function parseArgs() {
                 break;
             case '--platform':
                 opts.platform = args[++i];
+                break;
+            case '--baseline':
+                opts.baseline = true;
                 break;
         }
     }
@@ -441,7 +446,63 @@ async function runTestsParallel(testNames, opts) {
 
     return results;
 }
+// ─── Baseline support ───────────────────────────────────────────────────
 
+/**
+ * Load baseline.txt — returns a Set of test names that must pass,
+ * or null if no baseline file exists.
+ *
+ * Format: each line starts with a test_name, followed by optional columns
+ * separated by whitespace.  Lines starting with '#' are comments.
+ */
+function loadBaseline() {
+    const baselinePath = path.join(TEST_DIR, 'baseline.txt');
+    if (!fs.existsSync(baselinePath)) return null;
+
+    const content = fs.readFileSync(baselinePath, 'utf-8');
+    const names = content.split('\n')
+        .map(line => line.trim())
+        .filter(line => line && !line.startsWith('#'))
+        .map(line => line.split(/\s+/)[0]);  // first column = test name
+    return new Set(names);
+}
+
+/**
+ * Check results against the baseline and print a regression report.
+ * Returns the number of baseline regressions (used as exit code signal).
+ */
+function checkBaselineRegressions(results, baselineNames, opts) {
+    const passedNames = new Set(
+        results.filter(r => r.status === 'pass').map(r => r.testName)
+    );
+
+    const regressions = [];
+    for (const name of baselineNames) {
+        if (!passedNames.has(name)) {
+            const result = results.find(r => r.testName === name);
+            regressions.push({ name, result });
+        }
+    }
+
+    if (!opts.json) {
+        if (regressions.length > 0) {
+            console.log(`\n🚨 Baseline Regressions (${regressions.length}):`);
+            for (const { name, result } of regressions) {
+                if (result) {
+                    console.log(`   ❌ ${name}  (${result.reason || result.status})`);
+                } else {
+                    console.log(`   ❌ ${name}  (not in test results — missing HTML or reference?)`);
+                }
+            }
+            console.log('');
+        } else {
+            const totalBaseline = baselineNames.size;
+            console.log(`\n✅ All ${totalBaseline} baseline tests passed.`);
+        }
+    }
+
+    return regressions.length;
+}
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -508,9 +569,21 @@ async function main() {
         outputConsole(results, opts);
     }
 
-    // exit code
-    const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
-    process.exit(failures.length > 0 ? 1 : 0);
+    // exit code: in baseline mode, only baseline regressions cause failure
+    if (opts.baseline) {
+        const baselineNames = loadBaseline();
+        if (baselineNames) {
+            const baselineRegressions = checkBaselineRegressions(results, baselineNames, opts);
+            process.exit(baselineRegressions > 0 ? 1 : 0);
+        } else {
+            // no baseline file — fall back to reporting all failures
+            const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
+            process.exit(failures.length > 0 ? 1 : 0);
+        }
+    } else {
+        const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
+        process.exit(failures.length > 0 ? 1 : 0);
+    }
 }
 
 // ─── Output formatters ──────────────────────────────────────────────────────
