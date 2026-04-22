@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Forms - Puppertino</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="res/puppertino.css">
+  <link rel="stylesheet" href="res/doc.css">
+</head>
+<body class="p-layout">
+  <h1>Forms</h1>
+
+  <!-- Select -->
+  <div style="margin-top:30px">
+    <h2>Select</h2>
+    <div class="p-form-select">
+      <select>
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Text Fields -->
+  <div style="margin-top:30px">
+    <h2>Text Fields</h2>
+    <input type="email" class="p-form-text" placeholder="Normal validated input (email)">
+    <input type="name" class="p-form-text p-form-no-validate" placeholder="Normal no-validated input">
+    <input type="name" class="p-form-text p-form-no-validate p-form-truncated" placeholder="Truncated Text">
+    <label class="p-form-label">Email:<input type="email" class="p-form-text" name="Name" placeholder="example@gmail.com"></label>
+  </div>
+
+  <!-- Alternate Inputs -->
+  <div style="margin-top:30px">
+    <h2>Alternate Inputs</h2>
+    <input type="email" class="p-form-text-alt" placeholder="Normal validated input (email)" value="edgar@codedgar.com" disabled="">
+    <input type="name" class="p-form-text-alt p-form-no-validate" placeholder="Normal no-validated input">
+    <input type="name" class="p-form-text-alt p-form-no-validate p-form-truncated" placeholder="Truncated Text">
+    <label class="p-form-label">Email:<input type="email" class="p-form-text-alt" name="Name" placeholder="example@gmail.com"></label>
+    <label class="p-form-label-inline">Email:<input type="email" class="p-form-text-alt" name="Name" placeholder="example@gmail.com"></label>
+  </div>
+
+  <!-- Radio Buttons -->
+  <div style="margin-top:30px">
+    <h2>Radio Buttons</h2>
+    <label class="p-form-radio-cont">
+      <input type="radio" name="thingy">
+      <span></span>
+      Thing one
+    </label>
+    <label class="p-form-radio-cont">
+      <input type="radio" name="thingy">
+      <span></span>
+      Thing two
+    </label>
+  </div>
+
+  <!-- Checkboxes -->
+  <div style="margin-top:30px">
+    <h2>Checkboxes</h2>
+    <label class="p-form-checkbox-cont">
+      <input type="checkbox" name="thingy_second">
+      <span></span>
+      Thing one
+    </label>
+    <label class="p-form-checkbox-cont">
+      <input type="checkbox" name="thingy_second">
+      <span></span>
+      Thing two
+    </label>
+  </div>
+
+  <!-- Chips -->
+  <div style="margin-top:30px">
+    <h2>Chips</h2>
+    <label class="p-chip">
+      <input type="checkbox" name="thingy_second">
+      <span>Default</span>
+    </label>
+    <label class="p-chip p-chip-dark p-chip-radius-b">
+      <input type="checkbox" name="thingy_second">
+      <span>Border</span>
+    </label>
+    <label class="p-chip p-chip-outline">
+      <input type="checkbox" name="thingy_third">
+      <span>Outline</span>
+    </label>
+    <label class="p-chip p-chip-outline-to-bg">
+      <input type="checkbox" name="thingy_third">
+      <span>Outline to bg</span>
+    </label>
+    <label class="p-chip p-chip-radius-b">
+      <input type="checkbox" name="thingy_fourth">
+      <span>Combined</span>
+    </label>
+    <label class="p-chip">
+      <input type="checkbox" name="thingy_fourth" disabled>
+      <span>Disabled</span>
+    </label>
+    <label class="p-chip p-chip-big">
+      <input type="checkbox" name="thingy_fourth">
+      <span>
+        <svg viewBox="0 0 24 24" width="50" height="50" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-3.19"></path><line x1="23" y1="13" x2="23" y2="11"></line><polyline points="11 6 7 12 13 12 9 18"></polyline></svg>
+        Icon
+      </span>
+    </label>
+  </div>
+
+  <!-- Switches -->
+  <div style="margin-top:30px">
+    <h2>Switches</h2>
+    <label class="p-form-switch">
+      <input type="checkbox">
+      <span></span>
+    </label>
+  </div>
+
+  <!-- Form Buttons (Deprecated) -->
+  <div style="margin-top:30px">
+    <h2>Form Buttons</h2>
+    <input type="submit" class="p-form-button p-form-send" value="Send">
+    <input type="reset" class="p-form-button" value="Cancel">
+  </div>
+
+  <!-- Custom Validation -->
+  <div style="margin-top:30px">
+    <h2>Custom Validation</h2>
+    <input type="text" class="p-form-text p-form-invalid" placeholder="Invalid Input">
+    <input type="text" class="p-form-text p-form-valid" placeholder="Valid Input">
+  </div>
+</body>
+</html>

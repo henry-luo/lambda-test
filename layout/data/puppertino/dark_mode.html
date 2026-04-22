@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Dark Mode - Puppertino</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="res/puppertino.css">
+  <link rel="stylesheet" href="res/doc.css">
+  <style>
+    .content_smol { display:flex; justify-content:center; flex-wrap:wrap; gap:20px; }
+    .mw-450 { width:450px; position:relative; background:var(--white-or-black); }
+    .p-mobile-tabs { position:static; }
+    .p-mobile-tabs--content { padding:10px; }
+  </style>
+</head>
+<body class="p-layout">
+  <h1>Dark Mode</h1>
+
+  <!-- Side-by-side Dark vs Light -->
+  <div class="content_smol" style="margin-top:30px">
+    <div class="mw-450 p-dark-mode dark_theme">
+      <div class="p-mobile-tabs-content">
+        <div class="p-mobile-tabs--content active" id="dark-demo">
+          <h1 style="color:#fff;">Dark theme</h1>
+          <a href="#" class="p-btn p-prim-col">Primary</a>
+          <a href="#" class="p-btn">Second</a>
+          <input type="email" class="p-form-text" placeholder="Normal validated input (email)">
+        </div>
+        <div class="p-mobile-tabs">
+          <div>
+            <a href="#" class="active">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mw-450">
+      <div class="p-mobile-tabs-content">
+        <div class="p-mobile-tabs--content active" id="light-demo">
+          <h1>Default theme</h1>
+          <a href="#" class="p-btn p-prim-col">Primary</a>
+          <a href="#" class="p-btn">Second</a>
+          <input type="email" class="p-form-text" placeholder="Normal validated input (email)">
+        </div>
+        <div class="p-mobile-tabs">
+          <div>
+            <a href="#" class="active">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="res/dakmode_manager.js"></script>
+</body>
+</html>

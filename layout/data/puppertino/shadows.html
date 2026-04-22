@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Shadows &amp; Blur - Puppertino</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="res/puppertino.css">
+  <link rel="stylesheet" href="res/doc.css">
+  <style>
+    .shadow_shower {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .shadow_shower div {
+      height: 200px;
+      background: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card_blur {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    .blur_elm {
+      height: 70%; width: 70%;
+      border-radius: 10px;
+      position: absolute; bottom: 1%; left: 1%;
+      z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .blur_img {
+      height: 70%; width: 70%;
+      border-radius: 10px;
+      background: #3689e6;
+      position: absolute; top: 1%; right: 1%;
+    }
+    .center_row { justify-content: center; }
+    .pad_15_row > div { margin-top: 15px; }
+    .col-w { color: #fff; }
+    .row { display:flex; flex-wrap:wrap; }
+    .col-xs-10 { flex:0 0 auto; width:83.333%; }
+    .col-sm-3 { flex:0 0 auto; width:25%; }
+  </style>
+</head>
+<body class="p-layout">
+  <h1>Shadows &amp; Blur</h1>
+
+  <!-- Shadows -->
+  <div style="margin-top:30px">
+    <h2>Shadows</h2>
+    <div class="shadow_shower">
+      <div class="p-shadow-1">p-shadow-1</div>
+      <div class="p-shadow-2">p-shadow-2</div>
+      <div class="p-shadow-3">p-shadow-3</div>
+      <div class="p-shadow-4">p-shadow-4</div>
+    </div>
+  </div>
+
+  <!-- Shadow Transitions -->
+  <div style="margin-top:30px">
+    <h2>Shadow Transitions</h2>
+    <div class="shadow_shower">
+      <div class="p-to-shadow-1">p-to-shadow-1</div>
+      <div class="p-to-shadow-2">p-to-shadow-2</div>
+      <div class="p-to-shadow-3">p-to-shadow-3</div>
+      <div class="p-to-shadow-4">p-to-shadow-4</div>
+    </div>
+  </div>
+
+  <!-- Blur -->
+  <div style="margin-top:30px">
+    <h2>Blur</h2>
+    <div class="row pad_15_row center_row">
+      <div class="col-xs-10 col-sm-3">
+        <div class="card_blur">
+          <div class="blur_elm p-blur-1"><p class="col-w">p-blur-1</p></div>
+          <div class="blur_img"></div>
+        </div>
+      </div>
+      <div class="col-xs-10 col-sm-3">
+        <div class="card_blur">
+          <div class="blur_elm p-blur-2"><p>p-blur-2</p></div>
+          <div class="blur_img"></div>
+        </div>
+      </div>
+      <div class="col-xs-10 col-sm-3">
+        <div class="card_blur">
+          <div class="blur_elm p-blur-3"><p>p-blur-3</p></div>
+          <div class="blur_img"></div>
+        </div>
+      </div>
+      <div class="col-xs-10 col-sm-3">
+        <div class="card_blur">
+          <div class="blur_elm p-blur-4"><p>p-blur-4</p></div>
+          <div class="blur_img"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
