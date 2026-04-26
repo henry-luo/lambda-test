@@ -25,7 +25,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 - **Batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
 - **Parallel workers**: 12
 - **Preamble**: harness files (sta.js, assert.js, nativeFunctionMatcher.js) compiled once via MIR JIT
-- **Non-fully-passing list**: `temp/_t262_partial.txt` (crash, slow, batch-unstable from previous run)
+- **Non-fully-passing list**: `test/js262/t262_partial.txt` (crash, slow, batch-unstable from previous run)
 - **Minimum baseline gate**: 21,824 (STABLE_BASELINE_MIN)
 
 ## Test Phases
@@ -90,7 +90,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 ### If non-fully-passing count is high (>2)
 - Usually means slow tests fluctuating around the 3s threshold
 - Or a new crash is killing batch processes, creating batch-lost collateral
-- Check `temp/_t262_partial.txt` for the list and their tags (SLOW, CRASH, BATCH_KILL, etc.)
+- Check `test/js262/t262_partial.txt` for the list and their tags (SLOW, CRASH, BATCH_KILL, etc.)
 
 ### Running a single test
 ```bash
@@ -159,7 +159,7 @@ source:<test_name>:<length>\n<test_blob>
 | `test/test_js_test262_gtest.cpp` | Test runner with batch mode, phases, retry logic |
 | `lambda/main.cpp` | `js-test-batch` command handler |
 | `lambda/js/js_runtime.cpp` | `js_batch_reset_to()`, `js_batch_reset()` |
-| `temp/_t262_partial.txt` | Non-fully-passing list with tags |
+| `test/js262/t262_partial.txt` | Non-fully-passing list with tags |
 | `temp/_t262_batch_kills.txt` | Phase 4 batch kill diagnostics |
 | `temp/test262_metadata.tsv` | Cached YAML metadata for all test files |
 | `temp/_t262_timing_o0.tsv` | Per-test timing data (debug build); `_o1.tsv`/`_o2.tsv` for release |
