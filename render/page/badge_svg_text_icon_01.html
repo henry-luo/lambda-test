@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 200px; height: 100px; overflow: hidden; background: white; }
+  .row { display: block; padding: 4px 6px; }
+  svg { vertical-align: middle; }
+</style>
+</head>
+<body>
+  <!-- shields.io style badge: icon + label + value, exercising
+       inline SVG text rendering, path icon rendering, and rounded
+       rect halves with different fills. -->
+  <div class="row">
+    <svg width="120" height="20" viewBox="0 0 120 20" xmlns="http://www.w3.org/2000/svg">
+      <linearGradient id="s" x2="0" y2="100%">
+        <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+        <stop offset="1" stop-opacity=".1"/>
+      </linearGradient>
+      <clipPath id="r"><rect width="120" height="20" rx="3" fill="#fff"/></clipPath>
+      <g clip-path="url(#r)">
+        <rect width="60" height="20" fill="#555"/>
+        <rect x="60" width="60" height="20" fill="#4c1"/>
+        <rect width="120" height="20" fill="url(#s)"/>
+      </g>
+      <!-- simple star icon as path -->
+      <g transform="translate(4,4) scale(0.6)" fill="#fff">
+        <path d="M10 0 L12 7 L20 7 L13 11 L16 18 L10 14 L4 18 L7 11 L0 7 L8 7 Z"/>
+      </g>
+      <g fill="#fff" font-family="Verdana,Arial,sans-serif" font-size="11">
+        <text x="40" y="14">build</text>
+        <text x="68" y="14">passing</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="row">
+    <!-- second badge: tests a different color, longer text and a
+         circular icon to cover <circle> + <text> rendering -->
+    <svg width="140" height="20" viewBox="0 0 140 20" xmlns="http://www.w3.org/2000/svg">
+      <clipPath id="r2"><rect width="140" height="20" rx="3" fill="#fff"/></clipPath>
+      <g clip-path="url(#r2)">
+        <rect width="70" height="20" fill="#444"/>
+        <rect x="70" width="70" height="20" fill="#007ec6"/>
+      </g>
+      <circle cx="10" cy="10" r="5" fill="#fff"/>
+      <circle cx="10" cy="10" r="2" fill="#444"/>
+      <g fill="#fff" font-family="Verdana,Arial,sans-serif" font-size="11">
+        <text x="22" y="14">version</text>
+        <text x="78" y="14">v1.2.3</text>
+      </g>
+    </svg>
+  </div>
+</body>
+</html>

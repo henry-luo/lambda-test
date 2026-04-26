@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 160px; height: 100px; overflow: hidden; background: white; }
+  body { padding: 8px; }
+  svg { display: block; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+  <!-- External SVG file containing an <image> element whose href is a base64
+       PNG data URI. Mirrors the opencollective_avatar.svg pattern that
+       previously failed to render: ThorVG's tvg_picture_load() expects a file
+       path, so render_svg_image() must detect data URIs, decode them, and
+       feed the bytes via tvg_picture_load_data(). The SVG must be loaded
+       from an external file because Lambda's HTML5 parser converts inline
+       <image> tags into <img>.
+
+       NOTE: a sibling file embedded_png_bogus_mime.svg exercises the
+       data:false;base64,... case (sniff PNG magic bytes when mime is
+       wrong). It is not included in this visual regression because Chrome
+       renders that case as a broken-image icon. -->
+  <img src="res/embedded_png.svg" width="64" height="32">
+</body>
+</html>

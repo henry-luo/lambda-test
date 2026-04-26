@@ -15,6 +15,7 @@
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
  *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
+ *   node test_radiant_render.js --suite puppertino       # Run tests from a suite subdirectory
  */
 
 const { spawn } = require('child_process');
@@ -29,7 +30,7 @@ const { PNG } = require('pngjs');
 
 const TEST_DIR    = __dirname;
 const PROJECT_ROOT = findProjectRoot();
-const PAGE_DIR    = path.join(TEST_DIR, 'page');
+let   PAGE_DIR    = path.join(TEST_DIR, 'page');
 const REF_DIR     = path.join(TEST_DIR, 'reference');
 const OUTPUT_DIR  = path.join(TEST_DIR, 'output');
 const DIFF_DIR    = path.join(TEST_DIR, 'diff');
@@ -93,7 +94,8 @@ function parseArgs() {
         json: false,
         baseline: false,               // only fail on baseline-listed regressions
         exe: LAMBDA_EXE,
-        platform: null
+        platform: null,
+        suite: null
     };
     for (let i = 0; i < args.length; i++) {
         switch (args[i]) {
@@ -123,6 +125,9 @@ function parseArgs() {
                 break;
             case '--baseline':
                 opts.baseline = true;
+                break;
+            case '--suite': case '-s':
+                opts.suite = args[++i];
                 break;
         }
     }
@@ -533,6 +538,15 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     fs.mkdirSync(DIFF_DIR, { recursive: true });
 
+    // apply suite override
+    if (opts.suite) {
+        PAGE_DIR = path.join(TEST_DIR, opts.suite);
+        if (!fs.existsSync(PAGE_DIR)) {
+            console.error(`❌ Suite directory not found: ${PAGE_DIR}`);
+            process.exit(1);
+        }
+    }
+
     // check binary exists
     if (!fs.existsSync(opts.exe)) {
         console.error(`❌ Lambda executable not found: ${opts.exe}`);
@@ -568,7 +582,8 @@ async function main() {
 
     if (!opts.json) {
         console.log('');
-        console.log('🎨 Radiant Render Test Suite');
+        const suiteLabel = opts.suite ? ` [${opts.suite}]` : '';
+        console.log(`🎨 Radiant Render Test Suite${suiteLabel}`);
         console.log('==============================');
         const thresholdLabel = opts.threshold != null
             ? `${opts.threshold}%`
