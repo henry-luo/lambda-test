@@ -33,11 +33,23 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 | Phase | What it does |
 |-------|-------------|
 | **Phase 1** | Parse YAML metadata, partition into CLEAN (batchable) and PARTIAL (known problematic). |
-| **Phase 2** | Execute CLEAN tests: 50/process, 12 parallel workers. Main execution phase. |
-| **Phase 2a** | Execute PARTIAL tests individually (batch=1). Previously crashed/slow/timed-out tests. |
-| **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. |
+| **Phase 2** | Execute CLEAN tests: 50/process, 12 parallel workers. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. |
+| **Phase 2a** | **Removed.** Previously ran PARTIAL tests individually. Now PARTIAL tests are skipped by default; their entries in `t262_partial.txt` are preserved verbatim each run. Use `--run-partial` to promote them into Phase 2. |
+| **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
 | **Phase 4** | Retry regressions individually. If a regression recovers → it's batch-unstable, marked non-fully-passing. |
+
+### Graduating a partial test into the baseline
+
+A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_KILL`, `CRASH_<n>`) is preserved verbatim. To promote a fix:
+
+1. Verify the test now passes individually: `./lambda.exe js test/js262/test262/test/...`
+2. Run with `--run-partial` so the test enters Phase 2:
+   ```bash
+   ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-partial --update-baseline
+   ```
+3. If the test passes cleanly in Phase 2 (elapsed < 3s, no crash), it gets added to the baseline and removed from `t262_partial.txt` automatically by `clean_partial_list_after_baseline_update`.
+4. Alternatively, hand-edit `t262_partial.txt` to delete the line — next `--run-partial` run will (re)classify it. Hand-deletion without `--run-partial` does nothing this run (test stays skipped) but the entry is gone next round.
 
 ## Test Result Categories
 
@@ -66,6 +78,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 | `--batch-only` | Standard batch mode. Enables Phase 4 regression retry. |
 | `--update-baseline` | Updates baseline if all gate conditions pass (regressions=0, batch-lost=0, crashes=0, count≥21824). |
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
+| `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 
 ## Diagnosing Failures
