@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form State - Test 1: :hover state</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+            color: #444;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* ============================================
+           TEST 1: :hover state
+           ============================================ */
+        .hover-test {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .hover-box {
+            width: 120px;
+            height: 80px;
+            background-color: #e0e0e0;
+            border: 2px solid #999;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .hover-box:hover {
+            background-color: #4a90d9;
+            border-color: #2d6bb3;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .hover-nested {
+            padding: 15px;
+            background-color: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+        }
+        
+        .hover-nested:hover {
+            background-color: #e8f4fd;
+            border-color: #4a90d9;
+        }
+        
+        .hover-nested .hover-inner {
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .hover-nested .hover-inner:hover {
+            background-color: #4a90d9;
+            color: white;
+            border-color: #2d6bb3;
+        }
+        
+        /* ============================================
+           Instructions panel
+           ============================================ */
+        .instructions {
+            background-color: #e8f4fd;
+            border: 1px solid #b3d7f2;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #2d6bb3;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            font-size: 14px;
+            color: #444;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .instructions code {
+            background-color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form State - Test 1: :hover state</h1>
+    <div class="instructions">
+        <h3>Testing Instructions</h3>
+        <ul>
+            <li>Use <code>Tab</code> and <code>Shift+Tab</code> to navigate between focusable elements</li>
+            <li>Use <code>Arrow keys</code> to move the caret in text fields</li>
+            <li>Hold <code>Shift + Arrow keys</code> to extend selection</li>
+            <li>Use <code>Ctrl/Cmd + A</code> to select all text in a focused input</li>
+            <li>Use <code>Home/End</code> to move to line start/end</li>
+            <li>Click to focus, observe <code>:focus</code> styles</li>
+            <li>Tab to focus, observe <code>:focus-visible</code> outline (dashed orange)</li>
+        </ul>
+    </div>
+    <div class="section">
+<h2>Test 1: :hover State</h2>
+        <p class="description">Move mouse over the boxes. They should change color and scale up.</p>
+        <div class="hover-test">
+            <div class="hover-box">Hover me</div>
+            <div class="hover-box">Hover me</div>
+            <div class="hover-box">Hover me</div>
+        </div>
+        <p class="description" style="margin-top: 15px;">Nested hover - parent and child both respond:</p>
+        <div class="hover-nested">
+            <span>Parent (hover turns blue border)</span>
+            <div class="hover-inner">Child (hover turns blue)</div>
+        </div>
+    
+    </div>
+</body>
+</html>
