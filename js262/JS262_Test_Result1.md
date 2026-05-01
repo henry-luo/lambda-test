@@ -1,18 +1,11 @@
 # Test262 ES2020 Compliance Analysis
 
-**Date**: 2026-04-23
-**Baseline**: `test262_baseline.txt` (commit fa4cf1889)
+**Date**: 2026-04-27
+**Baseline**: `test262_baseline.txt` (commit ec62ac2d9)
 
-## Summary
+## Historical Snapshot (2026-04-23, commit `fa4cf1889`)
 
-| Metric | Count |
-|---|---|
-| Total discovered tests | 42,219 |
-| Skipped (ES2021+ features) | ~7,663 |
-| In-scope (batched) | 34,094 |
-| **Passing** | **25,272** |
-| **Failing** | **8,822** |
-| **Pass rate (in-scope)** | **74.1%** |
+Retained for trend reference. The detailed per-category drill-downs below reflect the older baseline (25,272 passing / 8,822 failing).
 
 ## Non-Passing Tests by Category
 
