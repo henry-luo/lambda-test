@@ -1,6 +1,6 @@
 # Radiant Render Test Baseline
-# Generated: 2026-04-22
-# 112/112 passed
+# Generated: 2026-04-22 (updated 2026-05-02 with puppertino suite)
+# page suite: 112/112 passed; puppertino suite: 13 entries
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -117,3 +117,18 @@ transform_scale_01                exact   0.00%  100x100
 visibility_hidden_01              exact   0.00%  100x100
 z_index_order_01                  exact   0.00%  100x100
 z_index_stacking_01               exact   0.00%  100x100
+
+# ── Puppertino suite (test/render/puppertino/) ─────────────────────────────
+pp_blur_01                         4352  43.52%  100x100
+pp_btn_colors_01                    111   0.77%  120x120
+pp_btn_default_01                   717   4.98%  120x120
+pp_btn_outline_01                   717   4.98%  120x120
+pp_btn_primary_01                   686   4.76%  120x120
+pp_btn_shapes_01                    740   5.14%  120x120
+pp_card_01                            7   0.07%  100x100
+pp_chip_01                          265   2.65%  100x100
+pp_segmented_01                     161   1.61%  100x100
+pp_select_01                        535   4.86%  100x110
+pp_shadow_01                        471   4.71%  100x100
+pp_tabs_01                          823   5.72%  120x120
+pp_typography_01                    387   2.69%  120x120
