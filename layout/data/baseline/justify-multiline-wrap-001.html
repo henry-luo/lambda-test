@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSS Test: text-align justify across wrapped lines in a single text view</title>
+  <link rel="help" href="https://www.w3.org/TR/css-text-3/#text-align-property">
+  <link rel="help" href="https://www.w3.org/TR/css-text-3/#justification">
+  <meta name="assert" content="When a paragraph with text-align:justify wraps into multiple TextRects within a single text view, only the rects on the current line are justified. Rects from previously justified lines must not be shifted again, and spaces in them must not be re-counted, so wrapped lines must not show cumulative leading whitespace.">
+  <style>
+    body { margin: 0; padding: 0; }
+    p {
+      width: 300px;
+      margin: 0;
+      padding: 0;
+      font: 14px/1.2 "Lucida Grande", sans-serif;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  <!-- Source contains "\n  " (newline + two spaces) between lines, which collapses to a single
+       space. Wrapping must occur at multiple word boundaries inside one continuous text node so
+       the layout produces a single ViewText with multiple TextRects. -->
+  <p>FFmpeg is the leading multimedia framework able to decode encode transcode mux demux
+    stream filter and play pretty much anything that humans and machines have created. It
+    supports the most obscure ancient formats up to the cutting edge.</p>
+</body>
+</html>
