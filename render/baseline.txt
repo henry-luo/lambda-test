@@ -1,6 +1,6 @@
 # Radiant Render Test Baseline
-# Generated: 2026-04-22
-# 112/112 passed
+# Generated: 2026-04-22 (updated 2026-05-02 with puppertino suite)
+# page suite: 112/112 passed; puppertino suite: 13 entries
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -46,9 +46,9 @@ filter_invert_01                  exact   0.00%  100x100
 filter_saturate_01                exact   0.00%  100x100
 form_buttons_01                     267   1.19%  150x150
 form_checkbox_radio_01              625   6.25%  100x100
-form_fieldset_01                    731   7.31%  100x100
-form_input_text_01                  668   6.68%  100x100
-form_select_textarea_01            1631  16.31%  100x100
+form_fieldset_01                    823   8.23%  100x100
+form_input_text_01                  365   3.65%  100x100
+form_select_textarea_01            1514  15.14%  100x100
 glyph_quality                       315   2.19%  120x120
 h2_baseline_01                        8   0.08%  100x100
 h2_direction                          7   0.07%  100x100
@@ -79,7 +79,7 @@ overflow_nested_mixed_01             28   0.28%  100x100
 overflow_text_clip_01               261   2.61%  100x100
 svg_clippath_01                   exact   0.00%  100x100
 svg_file_bg_01                    exact   0.00%  100x100
-svg_file_img_01                      54   0.54%  100x100
+svg_file_img_01                     390   3.90%  100x100
 svg_file_sizes_01                   110   1.10%  100x100
 svg_gradient_01                   exact   0.00%  100x100
 svg_inline_01                     exact   0.00%  100x100
@@ -87,8 +87,8 @@ svg_inline_shapes_01              exact   0.00%  100x100
 svg_opacity_01                    exact   0.00%  100x100
 svg_path_01                       exact   0.00%  100x100
 svg_stroke_01                     exact   0.00%  100x100
-svg_text_anchor_01                   47   0.47%  100x100
-svg_text_basic_01                   156   1.56%  100x100
+svg_text_anchor_01                  151   1.51%  100x100
+svg_text_basic_01                   246   2.46%  100x100
 svg_text_color_01                   158   1.58%  100x100
 svg_text_tspan_01                   324   3.24%  100x100
 svg_transform_01                  exact   0.00%  100x100
@@ -117,3 +117,18 @@ transform_scale_01                exact   0.00%  100x100
 visibility_hidden_01              exact   0.00%  100x100
 z_index_order_01                  exact   0.00%  100x100
 z_index_stacking_01               exact   0.00%  100x100
+
+# ── Puppertino suite (test/render/puppertino/) ─────────────────────────────
+pp_blur_01                         4352  43.52%  100x100
+pp_btn_colors_01                    111   0.77%  120x120
+pp_btn_default_01                   717   4.98%  120x120
+pp_btn_outline_01                   717   4.98%  120x120
+pp_btn_primary_01                   686   4.76%  120x120
+pp_btn_shapes_01                    740   5.14%  120x120
+pp_card_01                            7   0.07%  100x100
+pp_chip_01                          265   2.65%  100x100
+pp_segmented_01                     161   1.61%  100x100
+pp_select_01                        535   4.86%  100x110
+pp_shadow_01                        471   4.71%  100x100
+pp_tabs_01                          823   5.72%  120x120
+pp_typography_01                    387   2.69%  120x120

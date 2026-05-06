@@ -15,7 +15,8 @@
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
  *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
- *   node test_radiant_render.js --suite puppertino       # Run tests from a suite subdirectory
+ *   node test_radiant_render.js --suite puppertino       # Run tests from one suite subdirectory
+ *   node test_radiant_render.js --suite page,puppertino   # Run tests from multiple suites (default)
  */
 
 const { spawn } = require('child_process');
@@ -30,10 +31,20 @@ const { PNG } = require('pngjs');
 
 const TEST_DIR    = __dirname;
 const PROJECT_ROOT = findProjectRoot();
-let   PAGE_DIR    = path.join(TEST_DIR, 'page');
+// Default suites: include both 'page' (general regression) and 'puppertino' (component library).
+const DEFAULT_SUITES = ['page', 'puppertino'];
+// Active suite directories (populated in main()). Each entry is an absolute path.
+let   PAGE_DIRS   = [path.join(TEST_DIR, 'page')];
+// Map from test name to its source suite directory (populated during discovery).
+const TEST_DIR_MAP = new Map();
 const REF_DIR     = path.join(TEST_DIR, 'reference');
 const OUTPUT_DIR  = path.join(TEST_DIR, 'output');
 const DIFF_DIR    = path.join(TEST_DIR, 'diff');
+
+// Resolve the source suite directory for a given test name.
+function suiteDirFor(testName) {
+    return TEST_DIR_MAP.get(testName) || PAGE_DIRS[0];
+}
 
 const LAMBDA_EXE  = path.join(PROJECT_ROOT, 'lambda.exe');
 
@@ -260,7 +271,7 @@ function compareImages(radiantPath, referencePath, diffPath) {
 // ─── Per-test config sidecar ────────────────────────────────────────────────
 
 function getTestConfig(testName) {
-    const configPath = path.join(PAGE_DIR, `${testName}.config.json`);
+    const configPath = path.join(suiteDirFor(testName), `${testName}.config.json`);
     if (fs.existsSync(configPath)) {
         try {
             return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -274,7 +285,7 @@ function getTestConfig(testName) {
 // ─── Single test execution ──────────────────────────────────────────────────
 
 async function runSingleTest(testName, opts) {
-    const htmlFile   = path.join(PAGE_DIR, `${testName}.html`);
+    const htmlFile   = path.join(suiteDirFor(testName), `${testName}.html`);
     const outputPng  = path.join(OUTPUT_DIR, `${testName}.png`);
     const diffPng    = path.join(DIFF_DIR, `${testName}.png`);
 
@@ -344,7 +355,7 @@ async function runTestsParallel(testNames, opts) {
     const skipResults = [];
 
     for (const testName of testNames) {
-        const htmlFile = path.join(PAGE_DIR, `${testName}.html`);
+        const htmlFile = path.join(suiteDirFor(testName), `${testName}.html`);
         const outputPng = path.join(OUTPUT_DIR, `${testName}.png`);
 
         // check reference exists
@@ -538,13 +549,26 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     fs.mkdirSync(DIFF_DIR, { recursive: true });
 
-    // apply suite override
-    if (opts.suite) {
-        PAGE_DIR = path.join(TEST_DIR, opts.suite);
-        if (!fs.existsSync(PAGE_DIR)) {
-            console.error(`❌ Suite directory not found: ${PAGE_DIR}`);
-            process.exit(1);
+    // resolve active suites — comma-separated list, or default to DEFAULT_SUITES
+    const suiteNames = opts.suite
+        ? opts.suite.split(',').map(s => s.trim()).filter(Boolean)
+        : DEFAULT_SUITES.slice();
+    PAGE_DIRS = [];
+    for (const suite of suiteNames) {
+        const dir = path.join(TEST_DIR, suite);
+        if (!fs.existsSync(dir)) {
+            // skip missing default suites silently; error on explicit missing suite
+            if (opts.suite) {
+                console.error(`❌ Suite directory not found: ${dir}`);
+                process.exit(1);
+            }
+            continue;
         }
+        PAGE_DIRS.push(dir);
+    }
+    if (PAGE_DIRS.length === 0) {
+        console.error(`❌ No suite directories available under ${TEST_DIR}`);
+        process.exit(1);
     }
 
     // check binary exists
@@ -554,20 +578,35 @@ async function main() {
         process.exit(1);
     }
 
-    // discover test files
+    // discover test files across all active suites
     let testNames;
     if (opts.test) {
-        const htmlPath = path.join(PAGE_DIR, `${opts.test}.html`);
-        if (!fs.existsSync(htmlPath)) {
-            console.error(`❌ Test file not found: ${htmlPath}`);
+        let foundDir = null;
+        for (const dir of PAGE_DIRS) {
+            const htmlPath = path.join(dir, `${opts.test}.html`);
+            if (fs.existsSync(htmlPath)) { foundDir = dir; break; }
+        }
+        if (!foundDir) {
+            console.error(`❌ Test file not found in any suite: ${opts.test}.html`);
             process.exit(1);
         }
+        TEST_DIR_MAP.set(opts.test, foundDir);
         testNames = [opts.test];
     } else {
-        testNames = fs.readdirSync(PAGE_DIR)
-            .filter(f => f.endsWith('.html'))
-            .map(f => f.replace(/\.html$/, ''))
-            .sort();
+        const collected = [];
+        for (const dir of PAGE_DIRS) {
+            for (const f of fs.readdirSync(dir)) {
+                if (!f.endsWith('.html')) continue;
+                const name = f.replace(/\.html$/, '');
+                if (TEST_DIR_MAP.has(name)) {
+                    console.error(`⚠️  Duplicate test name across suites: ${name} (using first occurrence)`);
+                    continue;
+                }
+                TEST_DIR_MAP.set(name, dir);
+                collected.push(name);
+            }
+        }
+        testNames = collected.sort();
 
         if (opts.pattern) {
             const re = new RegExp(opts.pattern, 'i');
@@ -582,7 +621,7 @@ async function main() {
 
     if (!opts.json) {
         console.log('');
-        const suiteLabel = opts.suite ? ` [${opts.suite}]` : '';
+        const suiteLabel = ` [${suiteNames.join(', ')}]`;
         console.log(`🎨 Radiant Render Test Suite${suiteLabel}`);
         console.log('==============================');
         const thresholdLabel = opts.threshold != null

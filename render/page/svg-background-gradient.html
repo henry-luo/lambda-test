@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Background Gradient Test</title>
+  <style>
+    body { background: #eee; }
+    .test-panel {
+      margin: 40px auto;
+      width: 420px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 32px;
+      text-align: center;
+    }
+    svg.hero {
+      width: 400px;
+      height: 150px;
+      display: block;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-panel">
+    <h2>SVG with CSS Gradient Background</h2>
+    <svg class="hero">
+      <text x="200" y="75" font-size="32" fill="white" text-anchor="middle" dominant-baseline="central">Hero Image</text>
+    </svg>
+    <p>The SVG above should have a purple gradient background behind the text.</p>
+  </div>
+</body>
+</html>
