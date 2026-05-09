@@ -1,5 +1,6 @@
 {
   "test_file": "text_flow_712_liberation_serif_bold.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -7,6 +8,7 @@
     }
   },
   "layout_tree": {
+    "nodeType": "element",
     "selector": "html",
     "tag": "html",
     "id": null,
@@ -62,13 +64,11 @@
       "overflowX": "visible",
       "overflowY": "visible"
     },
-    "textContent": "Liberation Serif Bold Font Test\n    \n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            font-weight: bold;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 2px solid #666;\n        }\n        \n        .bold-heading {\n            font-size: 20px;\n            margin-bottom: 10px;\n        }\n    \n\n\n    \n        Liberation Serif Bold Font Test\n        This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional character shapes while adding emphasis through increased stroke weight.\n        This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy in document layout. The increased weight should be clearly visible while preserving serif characteristics.\n        Bold Serif Numbers: 1234567890\n        Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-    "hasTextNodes": false,
-    "textNodes": [],
-    "childCount": 2,
     "depth": 0,
+    "elementIndex": 0,
     "children": [
       {
+        "nodeType": "element",
         "selector": "head",
         "tag": "head",
         "id": null,
@@ -124,13 +124,27 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Serif Bold Font Test\n    \n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            font-weight: bold;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 2px solid #666;\n        }\n        \n        .bold-heading {\n            font-size: 20px;\n            margin-bottom: 10px;\n        }",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 4,
         "depth": 1,
+        "elementIndex": 0,
         "children": [
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 0,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(1)",
             "tag": "meta",
             "id": null,
@@ -186,14 +200,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 1,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 2,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(2)",
             "tag": "meta",
             "id": null,
@@ -249,14 +277,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 3,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 4,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "title",
             "tag": "title",
             "id": null,
@@ -312,14 +354,45 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Serif Bold Font Test",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 5,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "Liberation Serif Bold Font Test",
+                "length": 31,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 6,
             "children": []
           },
           {
+            "nodeType": "element",
             "selector": "style",
             "tag": "style",
             "id": null,
@@ -375,16 +448,47 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "@font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            font-weight: bold;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 2px solid #666;\n        }\n        \n        .bold-heading {\n            font-size: 20px;\n            margin-bottom: 10px;\n        }",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 7,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../font/LiberationSerif-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            font-weight: bold;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 2px solid #666;\n        }\n        \n        .bold-heading {\n            font-size: 20px;\n            margin-bottom: 10px;\n        }\n    ",
+                "length": 748,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n",
+            "length": 1,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 8,
             "children": []
           }
         ]
       },
       {
+        "nodeType": "element",
         "selector": "body",
         "tag": "body",
         "id": null,
@@ -440,13 +544,11 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Serif Bold Font Test\n        This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional character shapes while adding emphasis through increased stroke weight.\n        This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy in document layout. The increased weight should be clearly visible while preserving serif characteristics.\n        Bold Serif Numbers: 1234567890\n        Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 1,
         "depth": 1,
+        "elementIndex": 2,
         "children": [
           {
+            "nodeType": "element",
             "selector": "div.test-container",
             "tag": "div",
             "id": null,
@@ -504,13 +606,11 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Serif Bold Font Test\n        This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional character shapes while adding emphasis through increased stroke weight.\n        This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy in document layout. The increased weight should be clearly visible while preserving serif characteristics.\n        Bold Serif Numbers: 1234567890\n        Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 5,
             "depth": 2,
+            "elementIndex": 1,
             "children": [
               {
+                "nodeType": "element",
                 "selector": "h1.bold-heading",
                 "tag": "h1",
                 "id": null,
@@ -568,33 +668,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Liberation Serif Bold Font Test",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 1,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Liberation Serif Bold Font Test",
-                    "parentElement": "h1",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 60.39,
-                        "width": 266.7,
-                        "height": 22,
-                        "right": 308.7,
-                        "bottom": 82.39
-                      }
-                    ],
                     "length": 31,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 31
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 60.39,
+                          "width": 266.7,
+                          "height": 22,
+                          "right": 308.7,
+                          "bottom": 82.39,
+                          "text": "Liberation Serif Bold Font Test",
+                          "startIndex": 0,
+                          "endIndex": 31
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "p:nth-of-type(1)",
                 "tag": "p",
                 "id": null,
@@ -650,49 +758,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional character shapes while adding emphasis through increased stroke weight.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional character shapes while adding emphasis through increased stroke weight.",
-                    "parentElement": "p",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 107.39,
-                        "width": 579.27,
-                        "height": 17,
-                        "right": 621.27,
-                        "bottom": 124.39
-                      },
-                      {
-                        "x": 42,
-                        "y": 132.98,
-                        "width": 599.59,
-                        "height": 17,
-                        "right": 641.59,
-                        "bottom": 149.98
-                      },
-                      {
-                        "x": 42,
-                        "y": 158.58,
-                        "width": 500.63,
-                        "height": 17,
-                        "right": 542.63,
-                        "bottom": 175.58
-                      }
-                    ],
-                    "length": 246,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 246
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 3,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. ",
+                    "length": 86,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 107.39,
+                          "width": 579.27,
+                          "height": 17,
+                          "right": 621.27,
+                          "bottom": 124.39,
+                          "text": "This paragraph tests the Liberation Serif bold font with heavyweight serif rendering. ",
+                          "startIndex": 0,
+                          "endIndex": 86
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional ",
+                    "length": 89,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 132.98,
+                          "width": 599.59,
+                          "height": 17,
+                          "right": 641.59,
+                          "bottom": 149.98,
+                          "text": "The quick brown fox jumps over the lazy dog. Bold serif fonts maintain their traditional ",
+                          "startIndex": 0,
+                          "endIndex": 89
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "character shapes while adding emphasis through increased stroke weight.",
+                    "length": 71,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 158.58,
+                          "width": 500.63,
+                          "height": 17,
+                          "right": 542.63,
+                          "bottom": 175.58,
+                          "text": "character shapes while adding emphasis through increased stroke weight.",
+                          "startIndex": 0,
+                          "endIndex": 71
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "p:nth-of-type(2)",
                 "tag": "p",
                 "id": null,
@@ -748,49 +904,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy in document layout. The increased weight should be clearly visible while preserving serif characteristics.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy in document layout. The increased weight should be clearly visible while preserving serif characteristics.",
-                    "parentElement": "p",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 200.17,
-                        "width": 592.3,
-                        "height": 17,
-                        "right": 634.3,
-                        "bottom": 217.17
-                      },
-                      {
-                        "x": 42,
-                        "y": 225.77,
-                        "width": 568.03,
-                        "height": 17,
-                        "right": 610.03,
-                        "bottom": 242.77
-                      },
-                      {
-                        "x": 42,
-                        "y": 251.36,
-                        "width": 137.72,
-                        "height": 17,
-                        "right": 179.72,
-                        "bottom": 268.36
-                      }
-                    ],
-                    "length": 193,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 193
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 5,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy ",
+                    "length": 87,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 200.17,
+                          "width": 592.3,
+                          "height": 17,
+                          "right": 634.3,
+                          "bottom": 217.17,
+                          "text": "This text demonstrates how bold serif fonts affect reading rhythm and visual hierarchy ",
+                          "startIndex": 0,
+                          "endIndex": 87
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "in document layout. The increased weight should be clearly visible while preserving ",
+                    "length": 84,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 225.77,
+                          "width": 568.03,
+                          "height": 17,
+                          "right": 610.03,
+                          "bottom": 242.77,
+                          "text": "in document layout. The increased weight should be clearly visible while preserving ",
+                          "startIndex": 0,
+                          "endIndex": 84
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "serif characteristics.",
+                    "length": 22,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 251.36,
+                          "width": 137.72,
+                          "height": 17,
+                          "right": 179.72,
+                          "bottom": 268.36,
+                          "text": "serif characteristics.",
+                          "startIndex": 0,
+                          "endIndex": 22
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(1)",
                 "tag": "div",
                 "id": null,
@@ -846,33 +1050,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold Serif Numbers: 1234567890",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 7,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold Serif Numbers: 1234567890",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 292.95,
-                        "width": 225.33,
-                        "height": 17,
-                        "right": 267.33,
-                        "bottom": 309.95
-                      }
-                    ],
                     "length": 30,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 30
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 292.95,
+                          "width": 225.33,
+                          "height": 17,
+                          "right": 267.33,
+                          "bottom": 309.95,
+                          "text": "Bold Serif Numbers: 1234567890",
+                          "startIndex": 0,
+                          "endIndex": 30
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(2)",
                 "tag": "div",
                 "id": null,
@@ -928,31 +1140,38 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 9,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 318.55,
-                        "width": 358.97,
-                        "height": 17,
-                        "right": 400.97,
-                        "bottom": 335.55
-                      }
-                    ],
                     "length": 50,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 50
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 318.55,
+                          "width": 358.97,
+                          "height": 17,
+                          "right": 400.97,
+                          "bottom": 335.55,
+                          "text": "Bold Serif Symbols: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
+                          "startIndex": 0,
+                          "endIndex": 50
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               }
             ]
           }
