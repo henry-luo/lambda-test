@@ -1,5 +1,6 @@
 {
   "test_file": "text_flow_731_open_sans_regular.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -7,6 +8,7 @@
     }
   },
   "layout_tree": {
+    "nodeType": "element",
     "selector": "html",
     "tag": "html",
     "id": null,
@@ -62,13 +64,11 @@
       "overflowX": "visible",
       "overflowY": "visible"
     },
-    "textContent": "Open Sans Regular Font Test\n    \n        @font-face {\n            font-family: 'Open Sans';\n            src: url('../../font/OpenSans-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;\n            font-size: 16px;\n            line-height: 1.5;\n            margin: 20px;\n            background-color: white;\n            color: #333;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 25px;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .modern-heading {\n            color: #2c3e50;\n            font-size: 24px;\n            margin-bottom: 20px;\n        }\n        \n        .ui-text {\n            background-color: #f8f9fa;\n            padding: 15px;\n            border-radius: 6px;\n            margin: 15px 0;\n        }\n    \n\n\n    \n        Open Sans Regular Font Test\n        Open Sans is a humanist sans-serif typeface designed by Steve Matteson and commissioned by Google. This paragraph demonstrates its clean, modern appearance and excellent web readability. The quick brown fox jumps over the lazy dog.\n        \n        \n            This section simulates modern web interface text using Open Sans. The font provides excellent readability at various sizes and is optimized for both screen and print display.\n        \n        \n        Open Sans features friendly and open curves with excellent character distinction. It works well for both body text and user interface elements in modern web applications.\n        \n        Open Sans Numbers: 1234567890\n        Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Unicode Test: áéíóú ñ ç ü ß € £ ¥",
-    "hasTextNodes": false,
-    "textNodes": [],
-    "childCount": 2,
     "depth": 0,
+    "elementIndex": 0,
     "children": [
       {
+        "nodeType": "element",
         "selector": "head",
         "tag": "head",
         "id": null,
@@ -124,13 +124,27 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Open Sans Regular Font Test\n    \n        @font-face {\n            font-family: 'Open Sans';\n            src: url('../../font/OpenSans-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;\n            font-size: 16px;\n            line-height: 1.5;\n            margin: 20px;\n            background-color: white;\n            color: #333;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 25px;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .modern-heading {\n            color: #2c3e50;\n            font-size: 24px;\n            margin-bottom: 20px;\n        }\n        \n        .ui-text {\n            background-color: #f8f9fa;\n            padding: 15px;\n            border-radius: 6px;\n            margin: 15px 0;\n        }",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 4,
         "depth": 1,
+        "elementIndex": 0,
         "children": [
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 0,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(1)",
             "tag": "meta",
             "id": null,
@@ -186,14 +200,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 1,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 2,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(2)",
             "tag": "meta",
             "id": null,
@@ -249,14 +277,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 3,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 4,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "title",
             "tag": "title",
             "id": null,
@@ -312,14 +354,45 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Open Sans Regular Font Test",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 5,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "Open Sans Regular Font Test",
+                "length": 27,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 6,
             "children": []
           },
           {
+            "nodeType": "element",
             "selector": "style",
             "tag": "style",
             "id": null,
@@ -375,16 +448,47 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "@font-face {\n            font-family: 'Open Sans';\n            src: url('../../font/OpenSans-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;\n            font-size: 16px;\n            line-height: 1.5;\n            margin: 20px;\n            background-color: white;\n            color: #333;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 25px;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .modern-heading {\n            color: #2c3e50;\n            font-size: 24px;\n            margin-bottom: 20px;\n        }\n        \n        .ui-text {\n            background-color: #f8f9fa;\n            padding: 15px;\n            border-radius: 6px;\n            margin: 15px 0;\n        }",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 7,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n        @font-face {\n            font-family: 'Open Sans';\n            src: url('../font/OpenSans-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;\n            font-size: 16px;\n            line-height: 1.5;\n            margin: 20px;\n            background-color: white;\n            color: #333;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 25px;\n            border: 1px solid #ddd;\n            border-radius: 8px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n        }\n        \n        .modern-heading {\n            color: #2c3e50;\n            font-size: 24px;\n            margin-bottom: 20px;\n        }\n        \n        .ui-text {\n            background-color: #f8f9fa;\n            padding: 15px;\n            border-radius: 6px;\n            margin: 15px 0;\n        }\n    ",
+                "length": 988,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n",
+            "length": 1,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 8,
             "children": []
           }
         ]
       },
       {
+        "nodeType": "element",
         "selector": "body",
         "tag": "body",
         "id": null,
@@ -440,13 +544,11 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Open Sans Regular Font Test\n        Open Sans is a humanist sans-serif typeface designed by Steve Matteson and commissioned by Google. This paragraph demonstrates its clean, modern appearance and excellent web readability. The quick brown fox jumps over the lazy dog.\n        \n        \n            This section simulates modern web interface text using Open Sans. The font provides excellent readability at various sizes and is optimized for both screen and print display.\n        \n        \n        Open Sans features friendly and open curves with excellent character distinction. It works well for both body text and user interface elements in modern web applications.\n        \n        Open Sans Numbers: 1234567890\n        Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Unicode Test: áéíóú ñ ç ü ß € £ ¥",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 1,
         "depth": 1,
+        "elementIndex": 2,
         "children": [
           {
+            "nodeType": "element",
             "selector": "div.test-container",
             "tag": "div",
             "id": null,
@@ -504,13 +606,11 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Open Sans Regular Font Test\n        Open Sans is a humanist sans-serif typeface designed by Steve Matteson and commissioned by Google. This paragraph demonstrates its clean, modern appearance and excellent web readability. The quick brown fox jumps over the lazy dog.\n        \n        \n            This section simulates modern web interface text using Open Sans. The font provides excellent readability at various sizes and is optimized for both screen and print display.\n        \n        \n        Open Sans features friendly and open curves with excellent character distinction. It works well for both body text and user interface elements in modern web applications.\n        \n        Open Sans Numbers: 1234567890\n        Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Unicode Test: áéíóú ñ ç ü ß € £ ¥",
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 7,
             "depth": 2,
+            "elementIndex": 1,
             "children": [
               {
+                "nodeType": "element",
                 "selector": "h1.modern-heading",
                 "tag": "h1",
                 "id": null,
@@ -568,33 +668,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Open Sans Regular Font Test",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 1,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Open Sans Regular Font Test",
-                    "parentElement": "h1",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 66.08,
-                        "width": 332.5,
-                        "height": 28,
-                        "right": 378.5,
-                        "bottom": 94.08
-                      }
-                    ],
                     "length": 27,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 27
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 63.08,
+                          "width": 321.17,
+                          "height": 33,
+                          "right": 367.17,
+                          "bottom": 96.08,
+                          "text": "Open Sans Regular Font Test",
+                          "startIndex": 0,
+                          "endIndex": 27
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "p:nth-of-type(1)",
                 "tag": "p",
                 "id": null,
@@ -650,57 +758,125 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Open Sans is a humanist sans-serif typeface designed by Steve Matteson and commissioned by Google. This paragraph demonstrates its clean, modern appearance and excellent web readability. The quick brown fox jumps over the lazy dog.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "Open Sans is a humanist sans-serif typeface designed by Steve Matteson and commissioned by Google. This paragraph demonstrates its clean, modern appearance and excellent web readability. The quick brown fox jumps over the lazy dog.",
-                    "parentElement": "p",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 121.08,
-                        "width": 559.27,
-                        "height": 18,
-                        "right": 605.27,
-                        "bottom": 139.08
-                      },
-                      {
-                        "x": 46,
-                        "y": 145.08,
-                        "width": 529.91,
-                        "height": 18,
-                        "right": 575.91,
-                        "bottom": 163.08
-                      },
-                      {
-                        "x": 46,
-                        "y": 169.08,
-                        "width": 593.25,
-                        "height": 18,
-                        "right": 639.25,
-                        "bottom": 187.08
-                      },
-                      {
-                        "x": 46,
-                        "y": 193.08,
-                        "width": 32.31,
-                        "height": 18,
-                        "right": 78.31,
-                        "bottom": 211.08
-                      }
-                    ],
-                    "length": 231,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 231
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 3,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "Open Sans is a humanist sans-serif typeface designed by Steve Matteson and ",
+                    "length": 75,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 119.08,
+                          "width": 573.19,
+                          "height": 22,
+                          "right": 619.19,
+                          "bottom": 141.08,
+                          "text": "Open Sans is a humanist sans-serif typeface designed by Steve Matteson and ",
+                          "startIndex": 0,
+                          "endIndex": 75
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "commissioned by Google. This paragraph demonstrates its clean, modern ",
+                    "length": 70,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 143.08,
+                          "width": 548.98,
+                          "height": 22,
+                          "right": 594.98,
+                          "bottom": 165.08,
+                          "text": "commissioned by Google. This paragraph demonstrates its clean, modern ",
+                          "startIndex": 0,
+                          "endIndex": 70
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "appearance and excellent web readability. The quick brown fox jumps over the ",
+                    "length": 77,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 167.08,
+                          "width": 585.72,
+                          "height": 22,
+                          "right": 631.72,
+                          "bottom": 189.08,
+                          "text": "appearance and excellent web readability. The quick brown fox jumps over the ",
+                          "startIndex": 0,
+                          "endIndex": 77
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "lazy dog.",
+                    "length": 9,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 191.08,
+                          "width": 64.91,
+                          "height": 22,
+                          "right": 110.91,
+                          "bottom": 213.08,
+                          "text": "lazy dog.",
+                          "startIndex": 0,
+                          "endIndex": 9
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div.ui-text:nth-of-type(1)",
                 "tag": "div",
                 "id": null,
@@ -758,49 +934,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "This section simulates modern web interface text using Open Sans. The font provides excellent readability at various sizes and is optimized for both screen and print display.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "\n            This section simulates modern web interface text using Open Sans. The font provides excellent readability at various sizes and is optimized for both screen and print display.\n        ",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 61,
-                        "y": 248.08,
-                        "width": 545.3,
-                        "height": 18,
-                        "right": 606.3,
-                        "bottom": 266.08
-                      },
-                      {
-                        "x": 61,
-                        "y": 272.08,
-                        "width": 556.8,
-                        "height": 18,
-                        "right": 617.8,
-                        "bottom": 290.08
-                      },
-                      {
-                        "x": 61,
-                        "y": 296.08,
-                        "width": 122.13,
-                        "height": 18,
-                        "right": 183.13,
-                        "bottom": 314.08
-                      }
-                    ],
-                    "length": 196,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 196
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 5,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "\n            This section simulates modern web interface text using Open Sans. The font ",
+                    "length": 88,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 61,
+                          "y": 246.08,
+                          "width": 564.94,
+                          "height": 22,
+                          "right": 625.94,
+                          "bottom": 268.08,
+                          "text": "\n            This section simulates modern web interface text using Open Sans. The font ",
+                          "startIndex": 0,
+                          "endIndex": 88
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "provides excellent readability at various sizes and is optimized for both ",
+                    "length": 74,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 61,
+                          "y": 270.08,
+                          "width": 527.06,
+                          "height": 22,
+                          "right": 588.06,
+                          "bottom": 292.08,
+                          "text": "provides excellent readability at various sizes and is optimized for both ",
+                          "startIndex": 0,
+                          "endIndex": 74
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "screen and print display.\n        ",
+                    "length": 34,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 61,
+                          "y": 294.08,
+                          "width": 182.84,
+                          "height": 22,
+                          "right": 243.84,
+                          "bottom": 316.08,
+                          "text": "screen and print display.\n        ",
+                          "startIndex": 0,
+                          "endIndex": 34
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "p:nth-of-type(2)",
                 "tag": "p",
                 "id": null,
@@ -856,49 +1080,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Open Sans features friendly and open curves with excellent character distinction. It works well for both body text and user interface elements in modern web applications.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "Open Sans features friendly and open curves with excellent character distinction. It works well for both body text and user interface elements in modern web applications.",
-                    "parentElement": "p",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 351.08,
-                        "width": 592.39,
-                        "height": 18,
-                        "right": 638.39,
-                        "bottom": 369.08
-                      },
-                      {
-                        "x": 46,
-                        "y": 375.08,
-                        "width": 521.83,
-                        "height": 18,
-                        "right": 567.83,
-                        "bottom": 393.08
-                      },
-                      {
-                        "x": 46,
-                        "y": 399.08,
-                        "width": 90.98,
-                        "height": 18,
-                        "right": 136.98,
-                        "bottom": 417.08
-                      }
-                    ],
-                    "length": 170,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 170
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 7,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "Open Sans features friendly and open curves with excellent character ",
+                    "length": 69,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 349.08,
+                          "width": 516.61,
+                          "height": 22,
+                          "right": 562.61,
+                          "bottom": 371.08,
+                          "text": "Open Sans features friendly and open curves with excellent character ",
+                          "startIndex": 0,
+                          "endIndex": 69
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "distinction. It works well for both body text and user interface elements in ",
+                    "length": 77,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 373.08,
+                          "width": 548.88,
+                          "height": 22,
+                          "right": 594.88,
+                          "bottom": 395.08,
+                          "text": "distinction. It works well for both body text and user interface elements in ",
+                          "startIndex": 0,
+                          "endIndex": 77
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "modern web applications.",
+                    "length": 24,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 397.08,
+                          "width": 193.16,
+                          "height": 22,
+                          "right": 239.16,
+                          "bottom": 419.08,
+                          "text": "modern web applications.",
+                          "startIndex": 0,
+                          "endIndex": 24
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(2)",
                 "tag": "div",
                 "id": null,
@@ -954,33 +1226,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Open Sans Numbers: 1234567890",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 9,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Open Sans Numbers: 1234567890",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 439.08,
-                        "width": 247.25,
-                        "height": 18,
-                        "right": 293.25,
-                        "bottom": 457.08
-                      }
-                    ],
                     "length": 29,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 29
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 437.08,
+                          "width": 253.91,
+                          "height": 22,
+                          "right": 299.91,
+                          "bottom": 459.08,
+                          "text": "Open Sans Numbers: 1234567890",
+                          "startIndex": 0,
+                          "endIndex": 29
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(3)",
                 "tag": "div",
                 "id": null,
@@ -1036,33 +1316,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 11,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 463.08,
-                        "width": 353.59,
-                        "height": 18,
-                        "right": 399.59,
-                        "bottom": 481.08
-                      }
-                    ],
                     "length": 49,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 49
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 461.08,
+                          "width": 360.61,
+                          "height": 22,
+                          "right": 406.61,
+                          "bottom": 483.08,
+                          "text": "Open Sans Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
+                          "startIndex": 0,
+                          "endIndex": 49
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(4)",
                 "tag": "div",
                 "id": null,
@@ -1118,31 +1406,38 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Unicode Test: áéíóú ñ ç ü ß € £ ¥",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 13,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Unicode Test: áéíóú ñ ç ü ß € £ ¥",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 46,
-                        "y": 487.08,
-                        "width": 234.17,
-                        "height": 18,
-                        "right": 280.17,
-                        "bottom": 505.08
-                      }
-                    ],
                     "length": 33,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 33
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 46,
+                          "y": 485.08,
+                          "width": 240.36,
+                          "height": 22,
+                          "right": 286.36,
+                          "bottom": 507.08,
+                          "text": "Unicode Test: áéíóú ñ ç ü ß € £ ¥",
+                          "startIndex": 0,
+                          "endIndex": 33
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               }
             ]
           }

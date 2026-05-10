@@ -1,5 +1,6 @@
 {
   "test_file": "text_flow_711_liberation_serif_regular.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -7,6 +8,7 @@
     }
   },
   "layout_tree": {
+    "nodeType": "element",
     "selector": "html",
     "tag": "html",
     "id": null,
@@ -62,13 +64,11 @@
       "overflowX": "visible",
       "overflowY": "visible"
     },
-    "textContent": "Liberation Serif Regular Font Test\n    \n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 1px solid #999;\n        }\n        \n        .article-text {\n            text-align: justify;\n            margin-bottom: 15px;\n        }\n    \n\n\n    \n        Liberation Serif Regular Font Test\n        \n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed materials due to their enhanced readability.\n        \n        \n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        \n        Serif Numbers: 1234567890\n        Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-    "hasTextNodes": false,
-    "textNodes": [],
-    "childCount": 2,
     "depth": 0,
+    "elementIndex": 0,
     "children": [
       {
+        "nodeType": "element",
         "selector": "head",
         "tag": "head",
         "id": null,
@@ -124,13 +124,27 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Serif Regular Font Test\n    \n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 1px solid #999;\n        }\n        \n        .article-text {\n            text-align: justify;\n            margin-bottom: 15px;\n        }",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 4,
         "depth": 1,
+        "elementIndex": 0,
         "children": [
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 0,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(1)",
             "tag": "meta",
             "id": null,
@@ -186,14 +200,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 1,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 2,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(2)",
             "tag": "meta",
             "id": null,
@@ -249,14 +277,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 3,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 4,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "title",
             "tag": "title",
             "id": null,
@@ -312,14 +354,45 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Serif Regular Font Test",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 5,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "Liberation Serif Regular Font Test",
+                "length": 34,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 6,
             "children": []
           },
           {
+            "nodeType": "element",
             "selector": "style",
             "tag": "style",
             "id": null,
@@ -375,16 +448,47 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "@font-face {\n            font-family: 'Liberation Serif';\n            src: url('../../font/LiberationSerif-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 1px solid #999;\n        }\n        \n        .article-text {\n            text-align: justify;\n            margin-bottom: 15px;\n        }",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 7,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n        @font-face {\n            font-family: 'Liberation Serif';\n            src: url('../font/LiberationSerif-Regular.ttf') format('truetype');\n            font-weight: normal;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Serif', 'Times New Roman', serif;\n            font-size: 16px;\n            line-height: 1.6;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 600px;\n            padding: 20px;\n            border: 1px solid #999;\n        }\n        \n        .article-text {\n            text-align: justify;\n            margin-bottom: 15px;\n        }\n    ",
+                "length": 726,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n",
+            "length": 1,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 8,
             "children": []
           }
         ]
       },
       {
+        "nodeType": "element",
         "selector": "body",
         "tag": "body",
         "id": null,
@@ -440,13 +544,11 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Serif Regular Font Test\n        \n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed materials due to their enhanced readability.\n        \n        \n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        \n        Serif Numbers: 1234567890\n        Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 1,
         "depth": 1,
+        "elementIndex": 2,
         "children": [
           {
+            "nodeType": "element",
             "selector": "div.test-container",
             "tag": "div",
             "id": null,
@@ -504,13 +606,11 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Serif Regular Font Test\n        \n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed materials due to their enhanced readability.\n        \n        \n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        \n        Serif Numbers: 1234567890\n        Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 5,
             "depth": 2,
+            "elementIndex": 1,
             "children": [
               {
+                "nodeType": "element",
                 "selector": "h1",
                 "tag": "h1",
                 "id": null,
@@ -566,33 +666,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Liberation Serif Regular Font Test",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 1,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Liberation Serif Regular Font Test",
-                    "parentElement": "h1",
-                    "rects": [
-                      {
-                        "x": 41,
-                        "y": 69.44,
-                        "width": 472.3,
-                        "height": 36,
-                        "right": 513.3,
-                        "bottom": 105.44
-                      }
-                    ],
                     "length": 34,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 34
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 69.44,
+                          "width": 439.75,
+                          "height": 36,
+                          "right": 480.75,
+                          "bottom": 105.44,
+                          "text": "Liberation Serif Regular Font Test",
+                          "startIndex": 0,
+                          "endIndex": 34
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div.article-text:nth-of-type(1)",
                 "tag": "div",
                 "id": null,
@@ -650,49 +758,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed materials due to their enhanced readability.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "\n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed materials due to their enhanced readability.\n        ",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 41,
-                        "y": 139.06,
-                        "width": 600,
-                        "height": 17,
-                        "right": 641,
-                        "bottom": 156.06
-                      },
-                      {
-                        "x": 41,
-                        "y": 164.66,
-                        "width": 600,
-                        "height": 17,
-                        "right": 641,
-                        "bottom": 181.66
-                      },
-                      {
-                        "x": 41,
-                        "y": 190.25,
-                        "width": 275.3,
-                        "height": 17,
-                        "right": 316.3,
-                        "bottom": 207.25
-                      }
-                    ],
-                    "length": 258,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 258
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 3,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "\n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick ",
+                    "length": 110,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 139.06,
+                          "width": 600,
+                          "height": 17,
+                          "right": 641,
+                          "bottom": 156.06,
+                          "text": "\n            This paragraph tests the Liberation Serif regular font with traditional serif styling. The quick ",
+                          "startIndex": 0,
+                          "endIndex": 110
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed ",
+                    "length": 95,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 164.66,
+                          "width": 600,
+                          "height": 17,
+                          "right": 641,
+                          "bottom": 181.66,
+                          "text": "brown fox jumps over the lazy dog. Serif fonts are traditionally used for body text in printed ",
+                          "startIndex": 0,
+                          "endIndex": 95
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "materials due to their enhanced readability.\n        ",
+                    "length": 53,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 190.25,
+                          "width": 275.3,
+                          "height": 17,
+                          "right": 316.3,
+                          "bottom": 207.25,
+                          "text": "materials due to their enhanced readability.\n        ",
+                          "startIndex": 0,
+                          "endIndex": 53
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div.article-text:nth-of-type(2)",
                 "tag": "div",
                 "id": null,
@@ -750,49 +906,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n        ",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 41,
-                        "y": 230.84,
-                        "width": 600,
-                        "height": 17,
-                        "right": 641,
-                        "bottom": 247.84
-                      },
-                      {
-                        "x": 41,
-                        "y": 256.44,
-                        "width": 600,
-                        "height": 17,
-                        "right": 641,
-                        "bottom": 273.44
-                      },
-                      {
-                        "x": 41,
-                        "y": 282.03,
-                        "width": 312.83,
-                        "height": 17,
-                        "right": 353.83,
-                        "bottom": 299.03
-                      }
-                    ],
-                    "length": 253,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 253
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 5,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut ",
+                    "length": 106,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 230.84,
+                          "width": 600,
+                          "height": 17,
+                          "right": 641,
+                          "bottom": 247.84,
+                          "text": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut ",
+                          "startIndex": 0,
+                          "endIndex": 106
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco ",
+                    "length": 90,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 256.44,
+                          "width": 600,
+                          "height": 17,
+                          "right": 641,
+                          "bottom": 273.44,
+                          "text": "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco ",
+                          "startIndex": 0,
+                          "endIndex": 90
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "laboris nisi ut aliquip ex ea commodo consequat.\n        ",
+                    "length": 57,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 282.03,
+                          "width": 312.83,
+                          "height": 17,
+                          "right": 353.83,
+                          "bottom": 299.03,
+                          "text": "laboris nisi ut aliquip ex ea commodo consequat.\n        ",
+                          "startIndex": 0,
+                          "endIndex": 57
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(3)",
                 "tag": "div",
                 "id": null,
@@ -848,33 +1052,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Serif Numbers: 1234567890",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 7,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Serif Numbers: 1234567890",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 41,
-                        "y": 322.63,
-                        "width": 182.2,
-                        "height": 17,
-                        "right": 223.2,
-                        "bottom": 339.63
-                      }
-                    ],
                     "length": 25,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 25
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 322.63,
+                          "width": 182.2,
+                          "height": 17,
+                          "right": 223.2,
+                          "bottom": 339.63,
+                          "text": "Serif Numbers: 1234567890",
+                          "startIndex": 0,
+                          "endIndex": 25
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(4)",
                 "tag": "div",
                 "id": null,
@@ -930,31 +1142,38 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 9,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 41,
-                        "y": 348.22,
-                        "width": 328.92,
-                        "height": 17,
-                        "right": 369.92,
-                        "bottom": 365.22
-                      }
-                    ],
                     "length": 49,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 49
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 41,
+                          "y": 348.22,
+                          "width": 328.92,
+                          "height": 17,
+                          "right": 369.92,
+                          "bottom": 365.22,
+                          "text": "Serif Punctuation: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
+                          "startIndex": 0,
+                          "endIndex": 49
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               }
             ]
           }
