@@ -10,6 +10,7 @@ make build-test           # Build test executables (test_js_test262_gtest.exe, e
 # Run test262 (batch mode — the standard way)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --update-baseline
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --write-failures=temp/js262_failures.tsv --feature-summary
 
 # Run baseline-only (faster, verifies no regressions)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --baseline-only
@@ -80,6 +81,28 @@ A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_K
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
 | `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
+| `--write-failures=<path>` | Write a TSV manifest for failed tests. The row count matches the reported Failed count, excluding skipped and non-fully-passing tests. |
+| `--feature-summary` | Write failure summaries grouped by feature and category/subcategory. If no manifest path is given, uses `temp/js262_failures.tsv`. |
+
+## Failure Artifacts
+
+Use failure artifacts when starting a compliance phase so the current failure set can be queried without scraping terminal output:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --batch-only \
+  --write-failures=temp/js262_failures.tsv \
+  --feature-summary \
+  --js-timeout=30
+```
+
+The manifest columns are:
+
+```text
+test_name	path	status	failure_kind	message	category	subcategory	features	includes	native_harness	elapsed_us	rss_delta_kb
+```
+
+The runner also writes `temp/js262_failures_by_feature.tsv` and `temp/js262_failures_by_path.tsv` when the manifest path is `temp/js262_failures.tsv`. For a custom manifest path, the summary files use the same base name, for example `temp/my_failures_by_feature.tsv`.
 
 ## Diagnosing Failures
 
@@ -118,7 +141,7 @@ cat log.txt | tail -50
 ### Running a subset via --batch-file
 ```bash
 # Create a file with test names (one per line)
-echo 'built-ins/Number/prototype/valueOf/...' > temp/mytest.txt
+echo 'built_ins_Number_prototype_valueOf_some_test_js' > temp/mytest.txt
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --batch-file=temp/mytest.txt
 ```
 
