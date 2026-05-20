@@ -17,7 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const PAGE_DIR = path.join(__dirname, 'page');
+let   PAGE_DIR = path.join(__dirname, 'page');
 const REF_DIR  = path.join(__dirname, 'reference');
 
 const DEFAULT_VIEWPORT_WIDTH  = 100;
@@ -34,7 +34,7 @@ function getTestConfig(testName) {
 
 function parseArgs() {
     const args = process.argv.slice(2);
-    const opts = { force: false, test: null, platform: null };
+    const opts = { force: false, test: null, platform: null, suite: null };
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--force' || args[i] === '-f') {
             opts.force = true;
@@ -42,6 +42,8 @@ function parseArgs() {
             opts.test = args[++i].replace(/\.html$/, '');
         } else if ((args[i] === '--platform' || args[i] === '-p') && args[i + 1]) {
             opts.platform = args[++i];
+        } else if ((args[i] === '--suite' || args[i] === '-s') && args[i + 1]) {
+            opts.suite = args[++i];
         }
     }
     return opts;
@@ -56,6 +58,15 @@ function getRefPath(testName, platform) {
 
 async function main() {
     const opts = parseArgs();
+
+    // apply suite override
+    if (opts.suite) {
+        PAGE_DIR = path.join(__dirname, opts.suite);
+        if (!fs.existsSync(PAGE_DIR)) {
+            console.error(`\u274c Suite directory not found: ${PAGE_DIR}`);
+            process.exit(1);
+        }
+    }
 
     // ensure reference dir exists
     if (!fs.existsSync(REF_DIR)) {

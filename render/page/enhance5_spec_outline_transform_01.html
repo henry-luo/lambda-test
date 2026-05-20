@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .stage {
+    position: absolute; left: 18px; top: 18px;
+    width: 124px; height: 82px;
+    background: #dbeafe;
+    border: 3px solid #1e3a8a;
+  }
+  .outlined {
+    position: absolute; left: 28px; top: 22px;
+    width: 70px; height: 38px;
+    border-radius: 8px;
+    background: #22c55e;
+    outline: 5px dashed #fb7185;
+    outline-offset: 5px;
+    transform: rotate(-8deg);
+  }
+  .outlined::after {
+    content: "";
+    position: absolute; right: 10px; top: 9px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #fde047;
+  }
+</style>
+</head>
+<body>
+  <div class="stage"><div class="outlined"></div></div>
+</body>
+</html>

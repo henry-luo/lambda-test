@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  svg {
+    display: block;
+    margin: 10px 12px;
+    width: 136px; height: 98px;
+    background: #e2e8f0;
+    border: 3px solid #334155;
+  }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 136 98" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3"
+              orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L0,6 L9,3 z" fill="#ef4444"/>
+      </marker>
+    </defs>
+    <path d="M18 72 C38 22 72 96 118 28"
+          fill="none" stroke="#1d4ed8" stroke-width="6"
+          stroke-linecap="round" marker-end="url(#arrow)"/>
+    <circle cx="30" cy="30" r="14" fill="#22c55e" opacity="0.75"/>
+  </svg>
+</body>
+</html>

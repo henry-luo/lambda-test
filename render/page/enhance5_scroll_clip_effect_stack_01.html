@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 170px; height: 130px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .viewport {
+    position: absolute; left: 20px; top: 14px;
+    width: 130px; height: 100px;
+    border: 4px solid #1e293b;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #e2e8f0;
+    box-shadow: 0 5px 0 rgba(15, 23, 42, 0.18);
+  }
+  .content {
+    position: absolute; left: 0; top: 0;
+    width: 122px; height: 150px;
+    transform: translateY(-20px);
+    filter: drop-shadow(5px 5px 0 rgba(15, 23, 42, 0.24));
+  }
+  .row {
+    position: relative;
+    height: 32px;
+    border-bottom: 2px solid rgba(15, 23, 42, 0.16);
+  }
+  .row::before {
+    content: "";
+    position: absolute; left: 12px; top: 10px;
+    width: 34px; height: 10px;
+    border-radius: 5px;
+    background: rgba(15, 23, 42, 0.34);
+  }
+  .r1 { background: #bae6fd; }
+  .r2 { background: #bbf7d0; }
+  .r3 { background: #fed7aa; }
+  .r4 { background: #fecdd3; }
+  .r5 { background: #ddd6fe; }
+</style>
+</head>
+<body>
+  <div class="viewport">
+    <div class="content">
+      <div class="row r1"></div>
+      <div class="row r2"></div>
+      <div class="row r3"></div>
+      <div class="row r4"></div>
+      <div class="row r5"></div>
+    </div>
+  </div>
+</body>
+</html>

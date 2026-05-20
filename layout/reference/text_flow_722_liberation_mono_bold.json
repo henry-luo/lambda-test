@@ -1,5 +1,6 @@
 {
   "test_file": "text_flow_722_liberation_mono_bold.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -7,6 +8,7 @@
     }
   },
   "layout_tree": {
+    "nodeType": "element",
     "selector": "html",
     "tag": "html",
     "id": null,
@@ -62,13 +64,11 @@
       "overflowX": "visible",
       "overflowY": "visible"
     },
-    "textContent": "Liberation Mono Bold Font Test\n    \n        @font-face {\n            font-family: 'Liberation Mono';\n            src: url('../../font/LiberationMono-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Mono', 'Courier New', monospace;\n            font-size: 14px;\n            font-weight: bold;\n            line-height: 1.4;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 700px;\n            padding: 20px;\n            border: 2px solid #555;\n        }\n        \n        .terminal-block {\n            background-color: #000;\n            color: #0f0;\n            padding: 15px;\n            border-radius: 5px;\n            margin: 10px 0;\n        }\n        \n        .data-table {\n            white-space: pre;\n            font-size: 12px;\n            border: 1px solid #999;\n            padding: 10px;\n            margin: 10px 0;\n        }\n    \n\n\n    \n        Liberation Mono Bold Font Test\n        Bold monospace maintains equal character width with increased stroke weight.\n        \n        \n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff   192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        \n        \n        Data Alignment Test:\nName      | Size  | Type | Status\n----------|-------|------|--------\nfile1.txt |  1024 | TEXT | READY  \ndata.json | 65536 | JSON | PROC   \napp.exe   |  4096 | EXEC | DONE   \n        \n        Bold Mono Numbers: 1234567890\n        Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
-    "hasTextNodes": false,
-    "textNodes": [],
-    "childCount": 2,
     "depth": 0,
+    "elementIndex": 0,
     "children": [
       {
+        "nodeType": "element",
         "selector": "head",
         "tag": "head",
         "id": null,
@@ -124,13 +124,27 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Mono Bold Font Test\n    \n        @font-face {\n            font-family: 'Liberation Mono';\n            src: url('../../font/LiberationMono-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Mono', 'Courier New', monospace;\n            font-size: 14px;\n            font-weight: bold;\n            line-height: 1.4;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 700px;\n            padding: 20px;\n            border: 2px solid #555;\n        }\n        \n        .terminal-block {\n            background-color: #000;\n            color: #0f0;\n            padding: 15px;\n            border-radius: 5px;\n            margin: 10px 0;\n        }\n        \n        .data-table {\n            white-space: pre;\n            font-size: 12px;\n            border: 1px solid #999;\n            padding: 10px;\n            margin: 10px 0;\n        }",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 4,
         "depth": 1,
+        "elementIndex": 0,
         "children": [
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 0,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(1)",
             "tag": "meta",
             "id": null,
@@ -186,14 +200,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 1,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 2,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "meta:nth-of-type(2)",
             "tag": "meta",
             "id": null,
@@ -249,14 +277,28 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": null,
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 3,
             "children": []
           },
           {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 4,
+            "children": []
+          },
+          {
+            "nodeType": "element",
             "selector": "title",
             "tag": "title",
             "id": null,
@@ -312,14 +354,45 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Mono Bold Font Test",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 5,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "Liberation Mono Bold Font Test",
+                "length": 30,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n    ",
+            "length": 5,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 6,
             "children": []
           },
           {
+            "nodeType": "element",
             "selector": "style",
             "tag": "style",
             "id": null,
@@ -375,16 +448,47 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "@font-face {\n            font-family: 'Liberation Mono';\n            src: url('../../font/LiberationMono-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Mono', 'Courier New', monospace;\n            font-size: 14px;\n            font-weight: bold;\n            line-height: 1.4;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 700px;\n            padding: 20px;\n            border: 2px solid #555;\n        }\n        \n        .terminal-block {\n            background-color: #000;\n            color: #0f0;\n            padding: 15px;\n            border-radius: 5px;\n            margin: 10px 0;\n        }\n        \n        .data-table {\n            white-space: pre;\n            font-size: 12px;\n            border: 1px solid #999;\n            padding: 10px;\n            margin: 10px 0;\n        }",
-            "hasTextNodes": true,
-            "textNodes": [],
-            "childCount": 0,
             "depth": 2,
+            "elementIndex": 7,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n        @font-face {\n            font-family: 'Liberation Mono';\n            src: url('../font/LiberationMono-Bold.ttf') format('truetype');\n            font-weight: bold;\n            font-style: normal;\n        }\n        \n        body {\n            font-family: 'Liberation Mono', 'Courier New', monospace;\n            font-size: 14px;\n            font-weight: bold;\n            line-height: 1.4;\n            margin: 20px;\n            background-color: white;\n            color: black;\n        }\n        \n        .test-container {\n            max-width: 700px;\n            padding: 20px;\n            border: 2px solid #555;\n        }\n        \n        .terminal-block {\n            background-color: #000;\n            color: #0f0;\n            padding: 15px;\n            border-radius: 5px;\n            margin: 10px 0;\n        }\n        \n        .data-table {\n            white-space: pre;\n            font-size: 12px;\n            border: 1px solid #999;\n            padding: 10px;\n            margin: 10px 0;\n        }\n    ",
+                "length": 1024,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "text",
+            "text": "\n",
+            "length": 1,
+            "isWhitespaceOnly": true,
+            "layout": {
+              "rects": [],
+              "hasLayout": false,
+              "parentVisible": false,
+              "parentDisplay": "none",
+              "parentVisibility": "visible"
+            },
+            "depth": 2,
+            "nodeIndex": 8,
             "children": []
           }
         ]
       },
       {
+        "nodeType": "element",
         "selector": "body",
         "tag": "body",
         "id": null,
@@ -440,13 +544,11 @@
           "overflowX": "visible",
           "overflowY": "visible"
         },
-        "textContent": "Liberation Mono Bold Font Test\n        Bold monospace maintains equal character width with increased stroke weight.\n        \n        \n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff   192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        \n        \n        Data Alignment Test:\nName      | Size  | Type | Status\n----------|-------|------|--------\nfile1.txt |  1024 | TEXT | READY  \ndata.json | 65536 | JSON | PROC   \napp.exe   |  4096 | EXEC | DONE   \n        \n        Bold Mono Numbers: 1234567890\n        Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
-        "hasTextNodes": false,
-        "textNodes": [],
-        "childCount": 1,
         "depth": 1,
+        "elementIndex": 2,
         "children": [
           {
+            "nodeType": "element",
             "selector": "div.test-container",
             "tag": "div",
             "id": null,
@@ -504,13 +606,11 @@
               "overflowX": "visible",
               "overflowY": "visible"
             },
-            "textContent": "Liberation Mono Bold Font Test\n        Bold monospace maintains equal character width with increased stroke weight.\n        \n        \n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff   192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        \n        \n        Data Alignment Test:\nName      | Size  | Type | Status\n----------|-------|------|--------\nfile1.txt |  1024 | TEXT | READY  \ndata.json | 65536 | JSON | PROC   \napp.exe   |  4096 | EXEC | DONE   \n        \n        Bold Mono Numbers: 1234567890\n        Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?\n        Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
-            "hasTextNodes": false,
-            "textNodes": [],
-            "childCount": 7,
             "depth": 2,
+            "elementIndex": 1,
             "children": [
               {
+                "nodeType": "element",
                 "selector": "h1",
                 "tag": "h1",
                 "id": null,
@@ -566,33 +666,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Liberation Mono Bold Font Test",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 1,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Liberation Mono Bold Font Test",
-                    "parentElement": "h1",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 64.75,
-                        "width": 504.09,
-                        "height": 31,
-                        "right": 546.09,
-                        "bottom": 95.75
-                      }
-                    ],
                     "length": 30,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 30
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 64.75,
+                          "width": 504.09,
+                          "height": 31,
+                          "right": 546.09,
+                          "bottom": 95.75,
+                          "text": "Liberation Mono Bold Font Test",
+                          "startIndex": 0,
+                          "endIndex": 30
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "p",
                 "tag": "p",
                 "id": null,
@@ -648,33 +756,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold monospace maintains equal character width with increased stroke weight.",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 3,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold monospace maintains equal character width with increased stroke weight.",
-                    "parentElement": "p",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 119.69,
-                        "width": 638.52,
-                        "height": 16,
-                        "right": 680.52,
-                        "bottom": 135.69
-                      }
-                    ],
                     "length": 76,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 76
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 119.69,
+                          "width": 638.52,
+                          "height": 16,
+                          "right": 680.52,
+                          "bottom": 135.69,
+                          "text": "Bold monospace maintains equal character width with increased stroke weight.",
+                          "startIndex": 0,
+                          "endIndex": 76
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div.terminal-block:nth-of-type(1)",
                 "tag": "div",
                 "id": null,
@@ -732,49 +848,97 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff   192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-xr-x   1 user  staff  2048 Sep 29 10:30 script.sh",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "\n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff   192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        ",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 57,
-                        "y": 168.28,
-                        "width": 638.52,
-                        "height": 16,
-                        "right": 695.52,
-                        "bottom": 184.28
-                      },
-                      {
-                        "x": 57,
-                        "y": 187.88,
-                        "width": 646.91,
-                        "height": 16,
-                        "right": 703.91,
-                        "bottom": 203.88
-                      },
-                      {
-                        "x": 57,
-                        "y": 207.47,
-                        "width": 378.06,
-                        "height": 16,
-                        "right": 435.06,
-                        "bottom": 223.47
-                      }
-                    ],
-                    "length": 226,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 226
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 5,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "\n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff ",
+                    "length": 85,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 57,
+                          "y": 168.28,
+                          "width": 638.52,
+                          "height": 16,
+                          "right": 695.52,
+                          "bottom": 184.28,
+                          "text": "\n$ ls -la\ndrwxr-xr-x  12 user  staff   384 Sep 29 10:30 .\ndrwxr-xr-x   6 user  staff ",
+                          "startIndex": 0,
+                          "endIndex": 85
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "  192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-",
+                    "length": 83,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 57,
+                          "y": 187.88,
+                          "width": 646.91,
+                          "height": 16,
+                          "right": 703.91,
+                          "bottom": 203.88,
+                          "text": "  192 Sep 29 09:15 ..\n-rw-r--r--   1 user  staff  1024 Sep 29 10:29 data.txt\n-rwxr-",
+                          "startIndex": 0,
+                          "endIndex": 83
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        ",
+                    "length": 58,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 57,
+                          "y": 207.47,
+                          "width": 378.06,
+                          "height": 16,
+                          "right": 435.06,
+                          "bottom": 223.47,
+                          "text": "xr-x   1 user  staff  2048 Sep 29 10:30 script.sh\n        ",
+                          "startIndex": 0,
+                          "endIndex": 58
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div.data-table:nth-of-type(2)",
                 "tag": "div",
                 "id": null,
@@ -832,113 +996,181 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Data Alignment Test:\nName      | Size  | Type | Status\n----------|-------|------|--------\nfile1.txt |  1024 | TEXT | READY  \ndata.json | 65536 | JSON | PROC   \napp.exe   |  4096 | EXEC | DONE",
-                "hasTextNodes": true,
-                "textNodes": [
-                  {
-                    "text": "Data Alignment Test:\nName      | Size  | Type | Status\n----------|-------|------|--------\nfile1.txt |  1024 | TEXT | READY  \ndata.json | 65536 | JSON | PROC   \napp.exe   |  4096 | EXEC | DONE   ",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 53,
-                        "y": 263.06,
-                        "width": 144.03,
-                        "height": 14,
-                        "right": 197.03,
-                        "bottom": 277.06
-                      },
-                      {
-                        "x": 197.03,
-                        "y": 263.06,
-                        "width": 0,
-                        "height": 14,
-                        "right": 197.03,
-                        "bottom": 277.06
-                      },
-                      {
-                        "x": 53,
-                        "y": 279.86,
-                        "width": 237.64,
-                        "height": 14,
-                        "right": 290.64,
-                        "bottom": 293.86
-                      },
-                      {
-                        "x": 290.64,
-                        "y": 279.86,
-                        "width": 0,
-                        "height": 14,
-                        "right": 290.64,
-                        "bottom": 293.86
-                      },
-                      {
-                        "x": 53,
-                        "y": 296.66,
-                        "width": 244.84,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 310.66
-                      },
-                      {
-                        "x": 297.84,
-                        "y": 296.66,
-                        "width": 0,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 310.66
-                      },
-                      {
-                        "x": 53,
-                        "y": 313.45,
-                        "width": 244.84,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 327.45
-                      },
-                      {
-                        "x": 297.84,
-                        "y": 313.45,
-                        "width": 0,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 327.45
-                      },
-                      {
-                        "x": 53,
-                        "y": 330.25,
-                        "width": 244.84,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 344.25
-                      },
-                      {
-                        "x": 297.84,
-                        "y": 330.25,
-                        "width": 0,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 344.25
-                      },
-                      {
-                        "x": 53,
-                        "y": 347.05,
-                        "width": 244.84,
-                        "height": 14,
-                        "right": 297.84,
-                        "bottom": 361.05
-                      }
-                    ],
-                    "length": 194,
-                    "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 194
-                  }
-                ],
-                "childCount": 0,
                 "depth": 3,
-                "children": []
+                "elementIndex": 7,
+                "children": [
+                  {
+                    "nodeType": "text",
+                    "text": "Data Alignment Test:\n",
+                    "length": 21,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 263.06,
+                          "width": 144.03,
+                          "height": 14,
+                          "right": 197.03,
+                          "bottom": 277.06,
+                          "text": "Data Alignment Test:\n",
+                          "startIndex": 0,
+                          "endIndex": 21
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "Name      | Size  | Type | Status\n",
+                    "length": 34,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 279.86,
+                          "width": 237.64,
+                          "height": 14,
+                          "right": 290.64,
+                          "bottom": 293.86,
+                          "text": "Name      | Size  | Type | Status\n",
+                          "startIndex": 0,
+                          "endIndex": 34
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "----------|-------|------|--------\n",
+                    "length": 35,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 296.66,
+                          "width": 244.84,
+                          "height": 14,
+                          "right": 297.84,
+                          "bottom": 310.66,
+                          "text": "----------|-------|------|--------\n",
+                          "startIndex": 0,
+                          "endIndex": 35
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "file1.txt |  1024 | TEXT | READY  \n",
+                    "length": 35,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 313.45,
+                          "width": 244.84,
+                          "height": 14,
+                          "right": 297.84,
+                          "bottom": 327.45,
+                          "text": "file1.txt |  1024 | TEXT | READY  \n",
+                          "startIndex": 0,
+                          "endIndex": 35
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "data.json | 65536 | JSON | PROC   \n",
+                    "length": 35,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 330.25,
+                          "width": 244.84,
+                          "height": 14,
+                          "right": 297.84,
+                          "bottom": 344.25,
+                          "text": "data.json | 65536 | JSON | PROC   \n",
+                          "startIndex": 0,
+                          "endIndex": 35
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "app.exe   |  4096 | EXEC | DONE   ",
+                    "length": 34,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 53,
+                          "y": 347.05,
+                          "width": 244.84,
+                          "height": 14,
+                          "right": 297.84,
+                          "bottom": 361.05,
+                          "text": "app.exe   |  4096 | EXEC | DONE   ",
+                          "startIndex": 0,
+                          "endIndex": 34
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  }
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(3)",
                 "tag": "div",
                 "id": null,
@@ -994,33 +1226,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold Mono Numbers: 1234567890",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 9,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold Mono Numbers: 1234567890",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 384.84,
-                        "width": 243.64,
-                        "height": 16,
-                        "right": 285.64,
-                        "bottom": 400.84
-                      }
-                    ],
                     "length": 29,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 29
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 384.84,
+                          "width": 243.64,
+                          "height": 16,
+                          "right": 285.64,
+                          "bottom": 400.84,
+                          "text": "Bold Mono Numbers: 1234567890",
+                          "startIndex": 0,
+                          "endIndex": 29
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(4)",
                 "tag": "div",
                 "id": null,
@@ -1076,33 +1316,41 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 11,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 404.44,
-                        "width": 411.67,
-                        "height": 16,
-                        "right": 453.67,
-                        "bottom": 420.44
-                      }
-                    ],
                     "length": 49,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 49
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 404.44,
+                          "width": 411.67,
+                          "height": 16,
+                          "right": 453.67,
+                          "bottom": 420.44,
+                          "text": "Bold Mono Special: !@#$%^&*()_+-={}[]|;':\\\",./<>?",
+                          "startIndex": 0,
+                          "endIndex": 49
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               },
               {
+                "nodeType": "element",
                 "selector": "div:nth-of-type(5)",
                 "tag": "div",
                 "id": null,
@@ -1158,31 +1406,38 @@
                   "overflowX": "visible",
                   "overflowY": "visible"
                 },
-                "textContent": "Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
-                "hasTextNodes": true,
-                "textNodes": [
+                "depth": 3,
+                "elementIndex": 13,
+                "children": [
                   {
+                    "nodeType": "text",
                     "text": "Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
-                    "parentElement": "div",
-                    "rects": [
-                      {
-                        "x": 42,
-                        "y": 424.03,
-                        "width": 369.67,
-                        "height": 16,
-                        "right": 411.67,
-                        "bottom": 440.03
-                      }
-                    ],
                     "length": 44,
                     "isWhitespaceOnly": false,
-                    "startOffset": 0,
-                    "endOffset": 44
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 42,
+                          "y": 424.03,
+                          "width": 369.67,
+                          "height": 16,
+                          "right": 411.67,
+                          "bottom": 440.03,
+                          "text": "Bold Width Test: |i|W|1|!|@|m|M|8|0|(|)|[|]|",
+                          "startIndex": 0,
+                          "endIndex": 44
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
                   }
-                ],
-                "childCount": 0,
-                "depth": 3,
-                "children": []
+                ]
               }
             ]
           }

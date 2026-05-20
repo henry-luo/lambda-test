@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 150px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .box {
+    position: absolute; left: 22px; top: 16px;
+    width: 106px; height: 88px;
+    border: 6px solid rgba(15, 23, 42, 0.75);
+    border-radius: 18px;
+    background: #ef4444, #ffffff;
+    background-blend-mode: multiply;
+    overflow: hidden;
+  }
+  .dot {
+    position: absolute; left: 13px; top: 13px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.72);
+  }
+  .chip {
+    position: absolute; left: 38px; top: 51px;
+    width: 46px; height: 14px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.78);
+  }
+</style>
+</head>
+<body>
+  <div class="box"><div class="dot"></div><div class="chip"></div></div>
+</body>
+</html>

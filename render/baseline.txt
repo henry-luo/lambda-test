@@ -1,6 +1,6 @@
 # Radiant Render Test Baseline
-# Generated: 2026-04-22
-# 112/112 passed
+# Generated: 2026-04-22 (updated 2026-05-02 with puppertino suite)
+# page suite: 112/112 passed; puppertino suite: 13 entries
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -38,6 +38,54 @@ clip_path_with_effects_01         exact   0.00%  100x100
 color_hsl_01                      exact   0.00%  100x100
 composite_card_01                   255   1.77%  120x120
 css_clamp_01                      exact   0.00%  100x100
+enhance5_abspos_effect_zorder_01    23   0.11%  170x125
+enhance5_backdrop_clip_filter_01 exact   0.00%  130x120
+enhance5_backdrop_filter_tiled_clip_01 exact 0.00%  340x160
+enhance5_background_blend_clip_01 exact 0.00%  150x120
+enhance5_background_image_clip_round_01 239   1.42%  140x120
+enhance5_clip_inset_mixed_01         38   0.24%  130x120
+enhance5_clip_polygon_transform_media_01 1161   6.45%  150x120
+enhance5_clipped_element_nested_effects_01 807 4.14%  150x130
+enhance5_dirty_repaint_clipped_fixed_area_01 168 0.67%  190x132
+enhance5_dirty_caret_selection_overlay_01 917 4.55%  180x112
+enhance5_dirty_repaint_transform_filter_01 2461 4.02%  340x180
+enhance5_external_svg_picture_stack_01 67   0.44%  140x110
+enhance5_filter_color_matrix_chain_01 70   0.33%  170x125
+enhance5_filter_transparent_shadow_01 1474  10.24%  120x120
+enhance5_form_controls_paint_stack_01 1128 3.76%  200x150
+enhance5_fractional_transform_hidpi_01 63 0.27%  180x130
+enhance5_inline_svg_gradient_text_01 398   2.21%  150x120
+enhance5_inset_shadow_text_01         82   0.49%  140x120
+enhance5_mix_blend_parent_01          20   0.14%  120x120
+enhance5_filter_chain_overlap_01     108   0.64%  140x120
+enhance5_multi_background_clip_01     104   0.62%  140x120
+enhance5_multi_shadow_rounded_clip_01 952   5.29%  150x120
+enhance5_negative_zindex_isolation_01 exact 0.00%  140x120
+enhance5_nested_clip_filter_shadow_02 677   3.21%  160x132
+enhance5_nested_effect_stack_01      3102  18.46%  140x120
+enhance5_object_fit_raster_01        1174   7.53%  130x120
+enhance5_opacity_text_effect_01       20   0.12%  140x120
+enhance5_outline_transform_opacity_01 376 1.96%  160x120
+enhance5_overflow_radius_media_text_01 1914  11.39%  140x120
+enhance5_pdf_svg_blend_order_01      1480   6.37%  176x132
+enhance5_paint_order_media_svg_01    1103   5.74%  160x120
+enhance5_pdf_svg_paint_order_stack_01 1411  6.48%  170x128
+enhance5_scroll_clip_effect_stack_01 1323 5.99%  170x130
+enhance5_selection_rounded_overflow_transform_01 1362 6.31%  180x120
+enhance5_svg_clip_gradient_text_01      6   0.03%  150x120
+enhance5_svg_data_uri_image_stack_01     1   0.00%  170x120
+enhance5_svg_image_payload_order_01 139 0.63%  170x130
+enhance5_svg_stroke_gradient_dash_01 3399 17.70%  160x120
+enhance5_table_cell_svg_text_order_01 1018  5.30%  160x120
+enhance5_text_decoration_clip_layers_01 1037 4.80%  180x120
+enhance5_text_shadow_skip_ink_01      471   2.94%  160x100
+enhance5_tiled_boundary_clip_shadow_01 1481  2.90%  340x150
+enhance5_tiled_boundary_svg_text_shadow_01 845 1.58%  356x150
+enhance5_transform_dirty_offscreen_shadow_01 1849 7.90%  180x130
+enhance5_transform_border_background_01 2550  15.18%  140x120
+enhance5_transform_clip_circle_01      1   0.01%  120x120
+enhance5_wrapped_inline_bg_radius_01 2991  19.17%  130x120
+enhance5_zindex_opacity_isolation_01  130   0.83%  130x120
 filter_blur_01                    exact   0.00%  100x100
 filter_drop_shadow_01             exact   0.00%  100x100
 filter_grayscale_01               exact   0.00%  100x100
@@ -46,9 +94,9 @@ filter_invert_01                  exact   0.00%  100x100
 filter_saturate_01                exact   0.00%  100x100
 form_buttons_01                     267   1.19%  150x150
 form_checkbox_radio_01              625   6.25%  100x100
-form_fieldset_01                    731   7.31%  100x100
-form_input_text_01                  668   6.68%  100x100
-form_select_textarea_01            1631  16.31%  100x100
+form_fieldset_01                    823   8.23%  100x100
+form_input_text_01                  365   3.65%  100x100
+form_select_textarea_01            1514  15.14%  100x100
 glyph_quality                       315   2.19%  120x120
 h2_baseline_01                        8   0.08%  100x100
 h2_direction                          7   0.07%  100x100
@@ -79,7 +127,7 @@ overflow_nested_mixed_01             28   0.28%  100x100
 overflow_text_clip_01               261   2.61%  100x100
 svg_clippath_01                   exact   0.00%  100x100
 svg_file_bg_01                    exact   0.00%  100x100
-svg_file_img_01                      54   0.54%  100x100
+svg_file_img_01                     390   3.90%  100x100
 svg_file_sizes_01                   110   1.10%  100x100
 svg_gradient_01                   exact   0.00%  100x100
 svg_inline_01                     exact   0.00%  100x100
@@ -87,8 +135,8 @@ svg_inline_shapes_01              exact   0.00%  100x100
 svg_opacity_01                    exact   0.00%  100x100
 svg_path_01                       exact   0.00%  100x100
 svg_stroke_01                     exact   0.00%  100x100
-svg_text_anchor_01                   47   0.47%  100x100
-svg_text_basic_01                   156   1.56%  100x100
+svg_text_anchor_01                  151   1.51%  100x100
+svg_text_basic_01                   301   3.01%  100x100
 svg_text_color_01                   158   1.58%  100x100
 svg_text_tspan_01                   324   3.24%  100x100
 svg_transform_01                  exact   0.00%  100x100
@@ -117,3 +165,18 @@ transform_scale_01                exact   0.00%  100x100
 visibility_hidden_01              exact   0.00%  100x100
 z_index_order_01                  exact   0.00%  100x100
 z_index_stacking_01               exact   0.00%  100x100
+
+# ── Puppertino suite (test/render/puppertino/) ─────────────────────────────
+pp_blur_01                         4352  43.52%  100x100
+pp_btn_colors_01                    111   0.77%  120x120
+pp_btn_default_01                   717   4.98%  120x120
+pp_btn_outline_01                   717   4.98%  120x120
+pp_btn_primary_01                   686   4.76%  120x120
+pp_btn_shapes_01                    740   5.14%  120x120
+pp_card_01                            7   0.07%  100x100
+pp_chip_01                          265   2.65%  100x100
+pp_segmented_01                     161   1.61%  100x100
+pp_select_01                        535   4.86%  100x110
+pp_shadow_01                        471   4.71%  100x100
+pp_tabs_01                          823   5.72%  120x120
+pp_typography_01                    387   2.69%  120x120

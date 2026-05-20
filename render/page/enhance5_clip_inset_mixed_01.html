@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 130px; height: 120px; overflow: hidden; }
+  body { background: white; font: 700 14px Arial, sans-serif; }
+  .clip {
+    position: absolute; left: 10px; top: 10px;
+    width: 108px; height: 92px;
+    padding: 12px;
+    border: 8px solid #2f6f8f;
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    clip-path: inset(9px 14px 13px 8px round 16px);
+  }
+  .word {
+    position: absolute; left: 16px; top: 18px;
+    color: #243042;
+  }
+  svg {
+    position: absolute; left: 42px; top: 34px;
+    width: 58px; height: 44px;
+  }
+</style>
+</head>
+<body>
+  <div class="clip">
+    <div class="word">CLIP</div>
+    <svg viewBox="0 0 58 44">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2b6cb0"/>
+          <stop offset="1" stop-color="#9f7aea"/>
+        </linearGradient>
+      </defs>
+      <rect x="4" y="4" width="50" height="36" rx="10" fill="url(#g)"/>
+      <circle cx="31" cy="22" r="11" fill="#f7fafc" opacity="0.8"/>
+    </svg>
+  </div>
+</body>
+</html>

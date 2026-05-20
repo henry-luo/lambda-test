@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 150px; height: 120px; overflow: hidden; }
+  body { background: #fbfaf8; font: 700 14px Arial, sans-serif; }
+  .clip {
+    position: absolute; left: 18px; top: 14px;
+    width: 112px; height: 88px;
+    background: #fef3c7;
+    border: 5px solid #92400e;
+    clip-path: polygon(50% 0, 100% 22%, 88% 100%, 12% 100%, 0 22%);
+    overflow: hidden;
+  }
+  img {
+    position: absolute; left: 12px; top: 20px;
+    width: 72px; height: 44px;
+    object-fit: cover;
+    transform: rotate(-14deg) scale(1.15);
+    transform-origin: 50% 50%;
+  }
+  .label {
+    position: absolute; left: 50px; top: 53px;
+    color: #111827;
+    text-shadow: 1px 1px 0 #fff7ed;
+  }
+</style>
+</head>
+<body>
+  <div class="clip">
+    <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAY0lEQVR4nGN87mPzn4EC4OsznxLtDEwMAwyYRrwDWMjVKLH5MJg+DeWbzrxDvxCQgFqODE6nq9DHARJYLKfEEUwMAwyYRh3AQCJ44WuLU46cnMBEsg4cjiA3GzKO1gUMI90BALsxF3CC7Y+eAAAAAElFTkSuQmCC">
+    <div class="label">poly</div>
+  </div>
+</body>
+</html>

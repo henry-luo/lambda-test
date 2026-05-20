@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 170px; height: 125px; overflow: hidden; }
+  body { background: #f8fafc; font: 600 11px Arial, sans-serif; color: #172554; }
+  .clip {
+    position: absolute; left: 18px; top: 16px;
+    width: 134px; height: 92px;
+    border: 5px solid rgba(30, 41, 59, 0.82);
+    border-radius: 17px;
+    overflow: hidden;
+    background: #e0f2fe;
+  }
+  .filtered {
+    position: absolute; left: -8px; top: -4px;
+    width: 142px; height: 96px;
+    background: #22c55e;
+    filter: grayscale(60%) brightness(1.18) contrast(0.9) sepia(25%) hue-rotate(18deg);
+  }
+  .wedge {
+    position: absolute; left: 0; top: 0;
+    width: 76px; height: 96px;
+    background: #ef4444;
+    clip-path: polygon(0 0, 72px 0, 0 70px);
+  }
+  .slab {
+    position: absolute; right: 0; bottom: 0;
+    width: 82px; height: 58px;
+    background: #2563eb;
+    clip-path: polygon(28px 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .dot {
+    position: absolute; left: 23px; top: 15px;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #fef08a;
+  }
+  .stripe {
+    position: absolute; left: 24px; top: 62px;
+    width: 82px; height: 11px;
+    background: rgba(255, 255, 255, 0.78);
+    border-radius: 8px;
+  }
+  .label {
+    position: absolute; left: 34px; top: 43px;
+    padding: 2px 5px;
+    background: rgba(248, 250, 252, 0.72);
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+  <div class="clip">
+    <div class="filtered">
+      <div class="wedge"></div>
+      <div class="slab"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="stripe"></div>
+    <div class="label">filter</div>
+  </div>
+</body>
+</html>

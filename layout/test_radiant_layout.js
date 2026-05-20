@@ -40,6 +40,7 @@ class RadiantLayoutTester {
         this.testIdCounter = 0; // Counter for unique test IDs
         this.singleTestMode = options.singleTestMode || false; // Single test mode for detailed failure reports
         this.batchSize = options.batchSize || 0; // Batch size for layout (0 = disabled, use single file mode)
+        this.parallelOutputDir = path.join(this.projectRoot, 'temp', 'layout');
         this.batchOutputDir = path.join(
             this.projectRoot,
             'temp',
@@ -48,11 +49,52 @@ class RadiantLayoutTester {
     }
 
     /**
-     * Generate a unique output file path for parallel test execution
+     * Generate a unique output file path for isolated retry execution.
      */
     getUniqueOutputFile() {
         const testId = ++this.testIdCounter;
         return path.join(this.projectRoot, 'temp', `view_tree_${process.pid}_${testId}.json`);
+    }
+
+    /**
+     * Generate the standardized per-test output path for parallel execution.
+     * Matches C++ generate_output_path(): <parentdir>__<basename>.json.
+     */
+    getParallelOutputFile(htmlFile, outputDir = this.parallelOutputDir) {
+        const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
+        const parentDir = path.basename(path.dirname(htmlFile));
+        const outputName = parentDir ? `${parentDir}__${basename}` : basename;
+        return path.join(outputDir, `${outputName}.json`);
+    }
+
+    /**
+     * CSS 2.1/WPT Ahem tests expect the Ahem family to be installed. Browser
+     * references inject @font-face for those tests; mirror that only for files
+     * that mention Ahem so DOM/CSSOM tests using document.styleSheets[0] are not disturbed.
+     */
+    async fileNeedsAhem(htmlFile) {
+        try {
+            const htmlContent = await fs.readFile(htmlFile, 'utf8');
+            return /\bahem\b/i.test(htmlContent);
+        } catch {
+            return false;
+        }
+    }
+
+    buildLayoutArgs(htmlFiles, options = {}) {
+        const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
+        const args = ['layout', ...files];
+        if (options.batch) {
+            args.push('--output-dir', options.outputDir || this.batchOutputDir, '--continue-on-error');
+        } else {
+            args.push('-vw', '1200', '-vh', '800');
+        }
+        args.push('--font-dir', 'test/layout/data/font');
+        if (options.includeAhem) {
+            args.push('--css', 'test/layout/data/support/fonts/ahem.css');
+        }
+        args.push('--no-log');
+        return args;
     }
 
     /**
@@ -64,11 +106,11 @@ class RadiantLayoutTester {
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
         }
+        const includeAhem = await this.fileNeedsAhem(htmlFile);
         return new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = ['layout', htmlFile, '-vw', '1200', '-vh', '800',
-                          '--font-dir', 'test/layout/data/font', '--no-log'];
+            const args = this.buildLayoutArgs(htmlFile, { includeAhem });
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -119,13 +161,39 @@ class RadiantLayoutTester {
      */
     async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
         await fs.mkdir(batchOutputDir, { recursive: true });
+        const ahemFiles = [];
+        const regularFiles = [];
+        for (const htmlFile of htmlFiles) {
+            if (await this.fileNeedsAhem(htmlFile)) {
+                ahemFiles.push(htmlFile);
+            } else {
+                regularFiles.push(htmlFile);
+            }
+        }
+
+        const outputMap = new Map();
+        const appendResults = (partial) => {
+            for (const [input, output] of partial.entries()) {
+                outputMap.set(input, output);
+            }
+        };
+
+        if (regularFiles.length > 0) {
+            appendResults(await this.runBatchLayoutGroup(regularFiles, false, batchOutputDir));
+        }
+        if (ahemFiles.length > 0) {
+            appendResults(await this.runBatchLayoutGroup(ahemFiles, true, batchOutputDir));
+        }
+        return outputMap;
+    }
+
+    async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
         return new Promise((resolve, reject) => {
             // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
-            const args = ['layout', ...htmlFiles, '--output-dir', batchOutputDir, '--continue-on-error',
-                          '--font-dir', 'test/layout/data/font', '--no-log'];
+            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
 
             if (this.verbose) {
-                console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
+                console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
             }
 
             const proc = spawn(this.radiantExe, args, {
@@ -178,11 +246,7 @@ class RadiantLayoutTester {
                 // Use parentdir__basename naming to match C++ generate_output_path
                 const outputMap = new Map();
                 for (const htmlFile of htmlFiles) {
-                    const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
-                    const parentDir = path.basename(path.dirname(htmlFile));
-                    const outputName = parentDir ? `${parentDir}__${basename}` : basename;
-                    const outputFile = path.join(batchOutputDir, `${outputName}.json`);
-                    outputMap.set(htmlFile, outputFile);
+                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
                 }
                 // We continue even on non-zero exit code since --continue-on-error was used
                 resolve(outputMap);
@@ -196,7 +260,7 @@ class RadiantLayoutTester {
     }
 
     /**
-     * Load Radiant output from specified file or default /tmp/view_tree.json
+     * Load Radiant output from specified file or default ./temp/view_tree.json
      * @param {string} testContext - Context for error messages
      * @param {string} outputFile - Optional specific output file to read
      */
@@ -1623,8 +1687,8 @@ class RadiantLayoutTester {
         console.log(`${c.bold}[TEST OVERVIEW]${c.reset}`);
         console.log(line('-', 40));
         console.log(`├─ Test: ${report.htmlFile || report.testName}`);
-        console.log(`├─ Result: ${report.resultFile || '/tmp/view_tree.json'}`);
-        console.log(`├─ View: ${report.viewFile || '/tmp/view_tree.txt'}`);
+        console.log(`├─ Result: ${report.resultFile || './temp/view_tree.json'}`);
+        console.log(`├─ View: ${report.viewFile || './view_tree.txt'}`);
         console.log(`├─ Tolerance: ${report.tolerance}px`);
         console.log(`└─ Reference: test/layout/reference/${report.testName}.json`);
         console.log();
@@ -1804,15 +1868,6 @@ class RadiantLayoutTester {
             const layoutResult = await this.runRadiantLayout(htmlFile, outputFile);
             const actualOutputFile = layoutResult.outputFile || this.outputFile;
             const radiantData = await this.loadRadiantOutput(testFileName, actualOutputFile);
-
-            // Clean up unique output file if used
-            if (outputFile) {
-                try {
-                    await fs.unlink(outputFile);
-                } catch (e) {
-                    // Ignore cleanup errors
-                }
-            }
 
             // Load browser reference
             const browserData = await this.loadBrowserReference(testName, category, htmlFile);
@@ -2077,7 +2132,7 @@ class RadiantLayoutTester {
                     console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getUniqueOutputFile();
+                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
@@ -2092,7 +2147,7 @@ class RadiantLayoutTester {
                     console.log(`   🔄 Entire batch failed, retrying ${missingTasks.length} files individually`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getUniqueOutputFile();
+                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
@@ -2176,6 +2231,18 @@ class RadiantLayoutTester {
             return this.runTestsInBatchMode(testTasks);
         }
 
+        // Parallel single-file mode writes one JSON file per test under ./temp/layout/.
+        try {
+            await fs.rm(this.parallelOutputDir, { recursive: true, force: true });
+        } catch (e) {
+            // Ignore if it does not exist
+        }
+        try {
+            await fs.mkdir(this.parallelOutputDir, { recursive: true });
+        } catch (e) {
+            // Directory may already exist
+        }
+
         // Original single-file parallel mode
         const results = [];
         const pool = new Map(); // Map of testId -> Promise
@@ -2186,8 +2253,8 @@ class RadiantLayoutTester {
             if (taskIndex >= testTasks.length) return null;
 
             const task = testTasks[taskIndex++];
-            const outputFile = this.getUniqueOutputFile();
-            const testId = this.testIdCounter;
+            const testId = ++this.testIdCounter;
+            const outputFile = this.getParallelOutputFile(task.htmlFile);
 
             const testPromise = this.testSingleFile(task.htmlFile, task.category, outputFile)
                 .then(result => ({ testId, result }))
@@ -2706,7 +2773,7 @@ Options:
   --element-threshold <pct> Element match threshold percentage (default: 80.0)
   --text-threshold <pct>   Text match threshold percentage (default: 70.0)
   --concurrency, -j <n>    Number of parallel tests to run (default: 5)
-  --batch-size, -b <n>     Batch size for layout processing (default: 20, 0 to disable)
+  --batch-size, -b <n>     Batch size for layout processing (default: 100, 0 to disable)
   --no-batch               Disable batch mode (same as --batch-size 0)
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
@@ -2714,7 +2781,7 @@ Options:
   --help, -h               Show this help message
 
 Batch Mode:
-  By default, tests are processed in batches of 20 files to improve performance.
+  By default, tests are processed in batches of 100 files to improve performance.
   The layout engine's UiContext is initialized once per batch, reducing overhead.
   Use --no-batch to disable batch mode and process files individually.
 

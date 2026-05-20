@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 170px; height: 128px; overflow: hidden; }
+  body { background: #ffffff; font: 700 16px Arial, sans-serif; }
+  .stage {
+    position: absolute; left: 14px; top: 14px;
+    width: 142px; height: 96px;
+    border: 6px solid #312e81;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e0e7ff, #fef3c7);
+    overflow: hidden;
+  }
+  .raster {
+    position: absolute; left: 18px; top: 18px;
+    width: 54px; height: 46px;
+    background: linear-gradient(45deg, #ef4444 0 50%, #22c55e 50% 100%);
+    opacity: 0.82;
+  }
+  svg {
+    position: absolute; left: 48px; top: 22px;
+    width: 60px; height: 46px;
+  }
+  .text {
+    position: absolute; left: 38px; top: 48px;
+    color: #111827;
+    text-shadow: 1px 1px 0 #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="raster"></div>
+    <svg viewBox="0 0 60 46">
+      <rect x="6" y="5" width="38" height="28" rx="9" fill="#38bdf8" opacity="0.72"/>
+      <circle cx="38" cy="24" r="15" fill="#f59e0b" opacity="0.76"/>
+    </svg>
+    <div class="text">order</div>
+  </div>
+</body>
+</html>

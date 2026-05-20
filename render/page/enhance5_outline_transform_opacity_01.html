@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .base {
+    position: absolute; left: 18px; top: 18px;
+    width: 124px; height: 82px;
+    padding: 16px 0 0 20px;
+    background: #dbeafe;
+    border: 3px solid #1e3a8a;
+  }
+  .panel {
+    position: relative;
+    width: 74px; height: 42px;
+    background: #22c55e;
+    border-radius: 8px;
+    outline: 5px dashed rgba(244, 63, 94, 0.88);
+    outline-offset: 5px;
+    opacity: 0.86;
+  }
+  .panel::after {
+    content: "";
+    position: absolute; right: 11px; top: 10px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #fde047;
+  }
+  .tilt {
+    position: absolute; left: 94px; top: 27px;
+    width: 26px; height: 52px;
+    background: rgba(37, 99, 235, 0.42);
+    transform: rotate(13deg);
+  }
+</style>
+</head>
+<body>
+  <div class="base"><div class="panel"></div></div>
+  <div class="tilt"></div>
+</body>
+</html>

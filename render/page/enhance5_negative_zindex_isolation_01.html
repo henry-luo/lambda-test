@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 140px; height: 120px; overflow: hidden; }
+  body { background: #f1f5f9; }
+  .stack {
+    position: absolute; left: 18px; top: 15px;
+    width: 104px; height: 88px;
+    background: #e2e8f0;
+    border: 4px solid #475569;
+    border-radius: 12px;
+    isolation: isolate;
+  }
+  .behind {
+    position: absolute; left: 14px; top: 13px;
+    width: 72px; height: 52px;
+    background: #f97316;
+    border-radius: 14px;
+    z-index: -1;
+  }
+  .mid {
+    position: absolute; left: 28px; top: 26px;
+    width: 62px; height: 42px;
+    background: rgba(34, 197, 94, 0.72);
+    border-radius: 10px;
+    z-index: 1;
+  }
+  .front {
+    position: absolute; left: 48px; top: 9px;
+    width: 36px; height: 66px;
+    background: rgba(59, 130, 246, 0.68);
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="behind"></div>
+    <div class="mid"></div>
+    <div class="front"></div>
+  </div>
+</body>
+</html>

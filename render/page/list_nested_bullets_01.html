@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 200px; height: 200px; overflow: hidden; background: white; }
+  body { padding: 6px 6px 6px 24px; }
+  ul {
+    /* Intentionally NO list-style-type set anywhere — verifies UA
+       stylesheet defaults: outer disc, second-level circle,
+       third-level square (per HTML/CSS spec). */
+    margin-left: 16px;
+    font: 11px/1.3 serif;
+    color: #2c3e50;
+  }
+</style>
+</head>
+<body>
+  <ul>
+    <li>Level 1 disc
+      <ul>
+        <li>Level 2 circle
+          <ul>
+            <li>Level 3 square</li>
+            <li>Level 3 square</li>
+          </ul>
+        </li>
+        <li>Level 2 circle</li>
+      </ul>
+    </li>
+    <li>Level 1 disc</li>
+  </ul>
+</body>
+</html>

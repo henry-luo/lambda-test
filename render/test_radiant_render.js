@@ -15,6 +15,9 @@
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
  *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
+ *   node test_radiant_render.js --suite puppertino       # Run tests from one suite subdirectory
+ *   node test_radiant_render.js --suite page,puppertino   # Run tests from multiple suites (default)
+ *   node test_radiant_render.js --replay-parity --test clip_path_with_effects_01
  */
 
 const { spawn } = require('child_process');
@@ -29,10 +32,20 @@ const { PNG } = require('pngjs');
 
 const TEST_DIR    = __dirname;
 const PROJECT_ROOT = findProjectRoot();
-const PAGE_DIR    = path.join(TEST_DIR, 'page');
+// Default suites: include both 'page' (general regression) and 'puppertino' (component library).
+const DEFAULT_SUITES = ['page', 'puppertino'];
+// Active suite directories (populated in main()). Each entry is an absolute path.
+let   PAGE_DIRS   = [path.join(TEST_DIR, 'page')];
+// Map from test name to its source suite directory (populated during discovery).
+const TEST_DIR_MAP = new Map();
 const REF_DIR     = path.join(TEST_DIR, 'reference');
 const OUTPUT_DIR  = path.join(TEST_DIR, 'output');
 const DIFF_DIR    = path.join(TEST_DIR, 'diff');
+
+// Resolve the source suite directory for a given test name.
+function suiteDirFor(testName) {
+    return TEST_DIR_MAP.get(testName) || PAGE_DIRS[0];
+}
 
 const LAMBDA_EXE  = path.join(PROJECT_ROOT, 'lambda.exe');
 
@@ -92,8 +105,10 @@ function parseArgs() {
         verbose: false,
         json: false,
         baseline: false,               // only fail on baseline-listed regressions
+        replayParity: false,
         exe: LAMBDA_EXE,
-        platform: null
+        platform: null,
+        suite: null
     };
     for (let i = 0; i < args.length; i++) {
         switch (args[i]) {
@@ -124,6 +139,12 @@ function parseArgs() {
             case '--baseline':
                 opts.baseline = true;
                 break;
+            case '--replay-parity':
+                opts.replayParity = true;
+                break;
+            case '--suite': case '-s':
+                opts.suite = args[++i];
+                break;
         }
     }
     return opts;
@@ -132,6 +153,10 @@ function parseArgs() {
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
 function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight) {
+    return renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, null);
+}
+
+function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, envOverrides) {
     return new Promise((resolve, reject) => {
         const args = [
             'render', htmlFile,
@@ -143,6 +168,7 @@ function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewport
 
         const proc = spawn(exePath, args, {
             cwd: PROJECT_ROOT,
+            env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
             timeout: 30000
         });
 
@@ -255,7 +281,7 @@ function compareImages(radiantPath, referencePath, diffPath) {
 // ─── Per-test config sidecar ────────────────────────────────────────────────
 
 function getTestConfig(testName) {
-    const configPath = path.join(PAGE_DIR, `${testName}.config.json`);
+    const configPath = path.join(suiteDirFor(testName), `${testName}.config.json`);
     if (fs.existsSync(configPath)) {
         try {
             return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -266,10 +292,29 @@ function getTestConfig(testName) {
     return {};
 }
 
+function applyExpectedFailure(testConfig, result) {
+    if (!testConfig || testConfig.expectedFail !== true) {
+        return result;
+    }
+
+    const expectedReason = testConfig.expectedFailReason || 'expected failure';
+    if (result.status === 'fail' || result.status === 'error') {
+        return { ...result, status: 'xfail', reason: expectedReason };
+    }
+    if (result.status === 'pass') {
+        return {
+            ...result,
+            status: 'fail',
+            reason: `expected failure passed: ${expectedReason}`
+        };
+    }
+    return result;
+}
+
 // ─── Single test execution ──────────────────────────────────────────────────
 
 async function runSingleTest(testName, opts) {
-    const htmlFile   = path.join(PAGE_DIR, `${testName}.html`);
+    const htmlFile   = path.join(suiteDirFor(testName), `${testName}.html`);
     const outputPng  = path.join(OUTPUT_DIR, `${testName}.png`);
     const diffPng    = path.join(DIFF_DIR, `${testName}.png`);
 
@@ -289,6 +334,7 @@ async function runSingleTest(testName, opts) {
 
     // per-test viewport size
     const testConfig = getTestConfig(testName);
+    const finalize = (result) => applyExpectedFailure(testConfig, result);
     const vw = testConfig.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
     const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
 
@@ -296,39 +342,105 @@ async function runSingleTest(testName, opts) {
     try {
         await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh);
     } catch (err) {
-        return { testName, status: 'error', reason: err.message };
+        return finalize({ testName, status: 'error', reason: err.message });
     }
 
     // verify output was created
     if (!fs.existsSync(outputPng)) {
-        return { testName, status: 'error', reason: 'Radiant produced no output file' };
+        return finalize({ testName, status: 'error', reason: 'Radiant produced no output file' });
     }
 
     // compare
     const result = compareImages(outputPng, refPng, diffPng);
     if (result.error) {
-        return { testName, status: 'fail', reason: result.error, ...result };
+        return finalize({ testName, status: 'fail', reason: result.error, ...result });
     }
 
     // Determine threshold: CLI override > auto (text/no-text)
     let maxMismatch;
     if (opts.threshold != null) {
         maxMismatch = opts.threshold;                         // CLI --threshold
+    } else if (testConfig.threshold != null) {
+        maxMismatch = testConfig.threshold;
     } else {
         maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
     }
 
     if (result.mismatchPercent > maxMismatch) {
-        return {
+        return finalize({
             testName,
             status: 'fail',
             reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
+            ...result,
+            diffPath: diffPng
+        });
+    }
+
+    return finalize({ testName, status: 'pass', ...result });
+}
+
+// ─── Replay parity runner ──────────────────────────────────────────────────
+
+async function runReplayParityTest(testName, opts) {
+    const htmlFile = path.join(suiteDirFor(testName), `${testName}.html`);
+    const singlePng = path.join(OUTPUT_DIR, `${testName}.single.png`);
+    const tiledPng = path.join(OUTPUT_DIR, `${testName}.tiled.png`);
+    const diffPng = path.join(DIFF_DIR, `${testName}.replay_parity.png`);
+    const testConfig = getTestConfig(testName);
+    const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+    const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
+    try {
+        await renderWithRadiantEnv(opts.exe, htmlFile, singlePng, vw, vh,
+                                   { RADIANT_RENDER_THREADS: '1' });
+        await renderWithRadiantEnv(opts.exe, htmlFile, tiledPng, vw, vh,
+                                   { RADIANT_RENDER_THREADS: '2' });
+    } catch (err) {
+        return { testName, status: 'error', reason: err.message };
+    }
+
+    if (!fs.existsSync(singlePng) || !fs.existsSync(tiledPng)) {
+        return { testName, status: 'error', reason: 'Radiant produced no parity output file' };
+    }
+
+    const result = compareImages(tiledPng, singlePng, diffPng);
+    if (result.error) {
+        return { testName, status: 'fail', reason: result.error, ...result };
+    }
+
+    const maxMismatch = opts.threshold != null ? opts.threshold : 0.0;
+    if (result.mismatchPercent > maxMismatch) {
+        return {
+            testName,
+            status: 'fail',
+            reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% replay parity threshold`,
             ...result,
             diffPath: diffPng
         };
     }
 
     return { testName, status: 'pass', ...result };
+}
+
+async function runReplayParityTests(testNames, opts) {
+    const queue = [...testNames];
+    const results = [];
+
+    async function worker() {
+        while (queue.length > 0) {
+            const testName = queue.shift();
+            if (!testName) break;
+            results.push(await runReplayParityTest(testName, opts));
+        }
+    }
+
+    const workers = [];
+    const count = Math.min(opts.concurrency, queue.length);
+    for (let i = 0; i < count; i++) {
+        workers.push(worker());
+    }
+    await Promise.all(workers);
+    return results;
 }
 
 // ─── Parallel runner ────────────────────────────────────────────────────────
@@ -339,7 +451,7 @@ async function runTestsParallel(testNames, opts) {
     const skipResults = [];
 
     for (const testName of testNames) {
-        const htmlFile = path.join(PAGE_DIR, `${testName}.html`);
+        const htmlFile = path.join(suiteDirFor(testName), `${testName}.html`);
         const outputPng = path.join(OUTPUT_DIR, `${testName}.png`);
 
         // check reference exists
@@ -383,15 +495,17 @@ async function runTestsParallel(testNames, opts) {
 
             const { testName, htmlFile, outputPng } = job;
             const batchResult = batchResults.get(htmlFile);
+            const testConfig = getTestConfig(testName);
+            const finalize = (result) => applyExpectedFailure(testConfig, result);
 
             if (!batchResult || !batchResult.ok) {
                 const reason = batchResult ? batchResult.reason : 'not in batch output';
-                results.push({ testName, status: 'error', reason: `render failed: ${reason}` });
+                results.push(finalize({ testName, status: 'error', reason: `render failed: ${reason}` }));
                 continue;
             }
 
             if (!fs.existsSync(outputPng)) {
-                results.push({ testName, status: 'error', reason: 'Radiant produced no output file' });
+                results.push(finalize({ testName, status: 'error', reason: 'Radiant produced no output file' }));
                 continue;
             }
 
@@ -405,7 +519,7 @@ async function runTestsParallel(testNames, opts) {
             const result = compareImages(outputPng, refPng, diffPng);
 
             if (result.error) {
-                results.push({ testName, status: 'fail', reason: result.error, ...result });
+                results.push(finalize({ testName, status: 'fail', reason: result.error, ...result }));
                 continue;
             }
 
@@ -413,20 +527,22 @@ async function runTestsParallel(testNames, opts) {
             let maxMismatch;
             if (opts.threshold != null) {
                 maxMismatch = opts.threshold;
+            } else if (testConfig.threshold != null) {
+                maxMismatch = testConfig.threshold;
             } else {
                 maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
             }
 
             if (result.mismatchPercent > maxMismatch) {
-                results.push({
+                results.push(finalize({
                     testName,
                     status: 'fail',
                     reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
                     ...result,
                     diffPath: diffPng
-                });
+                }));
             } else {
-                results.push({ testName, status: 'pass', ...result });
+                results.push(finalize({ testName, status: 'pass', ...result }));
             }
         }
     }
@@ -496,6 +612,9 @@ function checkBaselineRegressions(results, baselineMap, opts) {
             regressions.push({ name, result });
             continue;
         }
+        if (result.status === 'xfail') {
+            continue;
+        }
         const actualPct = result.mismatchPercent != null ? result.mismatchPercent : 0;
         if (actualPct > baselinePct + REGRESSION_TOLERANCE) {
             regressions.push({ name, result, baselinePct });
@@ -533,6 +652,28 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
     fs.mkdirSync(DIFF_DIR, { recursive: true });
 
+    // resolve active suites — comma-separated list, or default to DEFAULT_SUITES
+    const suiteNames = opts.suite
+        ? opts.suite.split(',').map(s => s.trim()).filter(Boolean)
+        : DEFAULT_SUITES.slice();
+    PAGE_DIRS = [];
+    for (const suite of suiteNames) {
+        const dir = path.join(TEST_DIR, suite);
+        if (!fs.existsSync(dir)) {
+            // skip missing default suites silently; error on explicit missing suite
+            if (opts.suite) {
+                console.error(`❌ Suite directory not found: ${dir}`);
+                process.exit(1);
+            }
+            continue;
+        }
+        PAGE_DIRS.push(dir);
+    }
+    if (PAGE_DIRS.length === 0) {
+        console.error(`❌ No suite directories available under ${TEST_DIR}`);
+        process.exit(1);
+    }
+
     // check binary exists
     if (!fs.existsSync(opts.exe)) {
         console.error(`❌ Lambda executable not found: ${opts.exe}`);
@@ -540,20 +681,35 @@ async function main() {
         process.exit(1);
     }
 
-    // discover test files
+    // discover test files across all active suites
     let testNames;
     if (opts.test) {
-        const htmlPath = path.join(PAGE_DIR, `${opts.test}.html`);
-        if (!fs.existsSync(htmlPath)) {
-            console.error(`❌ Test file not found: ${htmlPath}`);
+        let foundDir = null;
+        for (const dir of PAGE_DIRS) {
+            const htmlPath = path.join(dir, `${opts.test}.html`);
+            if (fs.existsSync(htmlPath)) { foundDir = dir; break; }
+        }
+        if (!foundDir) {
+            console.error(`❌ Test file not found in any suite: ${opts.test}.html`);
             process.exit(1);
         }
+        TEST_DIR_MAP.set(opts.test, foundDir);
         testNames = [opts.test];
     } else {
-        testNames = fs.readdirSync(PAGE_DIR)
-            .filter(f => f.endsWith('.html'))
-            .map(f => f.replace(/\.html$/, ''))
-            .sort();
+        const collected = [];
+        for (const dir of PAGE_DIRS) {
+            for (const f of fs.readdirSync(dir)) {
+                if (!f.endsWith('.html')) continue;
+                const name = f.replace(/\.html$/, '');
+                if (TEST_DIR_MAP.has(name)) {
+                    console.error(`⚠️  Duplicate test name across suites: ${name} (using first occurrence)`);
+                    continue;
+                }
+                TEST_DIR_MAP.set(name, dir);
+                collected.push(name);
+            }
+        }
+        testNames = collected.sort();
 
         if (opts.pattern) {
             const re = new RegExp(opts.pattern, 'i');
@@ -568,17 +724,24 @@ async function main() {
 
     if (!opts.json) {
         console.log('');
-        console.log('🎨 Radiant Render Test Suite');
+        const suiteLabel = ` [${suiteNames.join(', ')}]`;
+        console.log(`🎨 Radiant Render Test Suite${suiteLabel}`);
         console.log('==============================');
         const thresholdLabel = opts.threshold != null
             ? `${opts.threshold}%`
-            : `auto (no-text: ${THRESHOLD_NO_TEXT}%, text: ${THRESHOLD_TEXT}%)`;
+            : (opts.replayParity ? 'replay parity exact' :
+               `auto (no-text: ${THRESHOLD_NO_TEXT}%, text: ${THRESHOLD_TEXT}%)`);
         console.log(`   Tests: ${testNames.length}, Workers: ${opts.concurrency}, Threshold: ${thresholdLabel}`);
+        if (opts.replayParity) {
+            console.log('   Mode: single-thread replay vs tiled replay');
+        }
         console.log('');
     }
 
     // run tests
-    const results = await runTestsParallel(testNames, opts);
+    const results = opts.replayParity
+        ? await runReplayParityTests(testNames, opts)
+        : await runTestsParallel(testNames, opts);
 
     // sort results by test name for consistent output
     results.sort((a, b) => a.testName.localeCompare(b.testName));
@@ -610,7 +773,7 @@ async function main() {
 // ─── Output formatters ──────────────────────────────────────────────────────
 
 function outputConsole(results, opts) {
-    let passed = 0, failed = 0, skipped = 0, errors = 0;
+    let passed = 0, failed = 0, skipped = 0, errors = 0, xfailed = 0;
 
     for (const r of results) {
         switch (r.status) {
@@ -633,6 +796,13 @@ function outputConsole(results, opts) {
                 skipped++;
                 console.log(`  ⚠️  SKIP  ${r.testName.padEnd(32)} (${r.reason})`);
                 break;
+            case 'xfail':
+                xfailed++;
+                console.log(`  🟨 XFAIL ${r.testName.padEnd(32)} (${r.reason})`);
+                if (r.diffPath) {
+                    console.log(`           → Diff: ${path.relative(PROJECT_ROOT, r.diffPath)}`);
+                }
+                break;
             case 'error':
                 errors++;
                 console.log(`  💥 ERROR ${r.testName.padEnd(32)} (${r.reason})`);
@@ -643,6 +813,7 @@ function outputConsole(results, opts) {
     console.log('');
     console.log(`Results: ${passed}/${results.length} passed` +
         (failed > 0 ? `, ${failed} failed` : '') +
+        (xfailed > 0 ? `, ${xfailed} expected failures` : '') +
         (skipped > 0 ? `, ${skipped} skipped` : '') +
         (errors > 0 ? `, ${errors} errors` : ''));
     console.log('');
@@ -653,6 +824,7 @@ function outputJson(results) {
         total: results.length,
         passed: results.filter(r => r.status === 'pass').length,
         failed: results.filter(r => r.status === 'fail').length,
+        xfailed: results.filter(r => r.status === 'xfail').length,
         skipped: results.filter(r => r.status === 'skip').length,
         errors: results.filter(r => r.status === 'error').length,
         tests: results.map(r => ({

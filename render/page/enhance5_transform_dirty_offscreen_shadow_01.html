@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 180px; height: 130px; overflow: hidden; }
+  body { background: #eff6ff; }
+  .moved {
+    position: absolute; left: -18px; top: 34px;
+    width: 104px; height: 58px;
+    border: 5px solid #1d4ed8;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #bfdbfe, #fde68a);
+    box-shadow: 16px 8px 12px rgba(30, 64, 175, 0.30);
+    transform: translateX(44px) rotate(8deg);
+  }
+  .dot {
+    position: absolute; right: 16px; top: 16px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #f97316;
+  }
+</style>
+</head>
+<body>
+  <div class="moved"><div class="dot"></div></div>
+</body>
+</html>
