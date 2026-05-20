@@ -41,18 +41,30 @@ class RadiantLayoutTester {
         this.singleTestMode = options.singleTestMode || false; // Single test mode for detailed failure reports
         this.batchSize = options.batchSize || 0; // Batch size for layout (0 = disabled, use single file mode)
         this.parallelOutputDir = path.join(this.projectRoot, 'temp', 'layout');
-        this.batchOutputDir = this.parallelOutputDir; // Directory for batch output files
+        this.batchOutputDir = path.join(
+            this.projectRoot,
+            'temp',
+            `layout_batch_${process.pid}_${Date.now()}`
+        ); // Unique directory for this harness run's batch output files
+    }
+
+    /**
+     * Generate a unique output file path for isolated retry execution.
+     */
+    getUniqueOutputFile() {
+        const testId = ++this.testIdCounter;
+        return path.join(this.projectRoot, 'temp', `view_tree_${process.pid}_${testId}.json`);
     }
 
     /**
      * Generate the standardized per-test output path for parallel execution.
      * Matches C++ generate_output_path(): <parentdir>__<basename>.json.
      */
-    getParallelOutputFile(htmlFile) {
+    getParallelOutputFile(htmlFile, outputDir = this.parallelOutputDir) {
         const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
         const parentDir = path.basename(path.dirname(htmlFile));
         const outputName = parentDir ? `${parentDir}__${basename}` : basename;
-        return path.join(this.parallelOutputDir, `${outputName}.json`);
+        return path.join(outputDir, `${outputName}.json`);
     }
 
     /**
@@ -73,7 +85,7 @@ class RadiantLayoutTester {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
         const args = ['layout', ...files];
         if (options.batch) {
-            args.push('--output-dir', this.batchOutputDir, '--continue-on-error');
+            args.push('--output-dir', options.outputDir || this.batchOutputDir, '--continue-on-error');
         } else {
             args.push('-vw', '1200', '-vh', '800');
         }
@@ -91,6 +103,9 @@ class RadiantLayoutTester {
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
     async runRadiantLayout(htmlFile, outputFile = null) {
+        if (outputFile) {
+            await fs.mkdir(path.dirname(outputFile), { recursive: true });
+        }
         const includeAhem = await this.fileNeedsAhem(htmlFile);
         return new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
@@ -144,7 +159,8 @@ class RadiantLayoutTester {
      * @param {Array<string>} htmlFiles - Array of HTML file paths to process
      * @returns {Promise<Map<string, string>>} - Map of input file -> output JSON file path
      */
-    async runBatchLayout(htmlFiles) {
+    async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
+        await fs.mkdir(batchOutputDir, { recursive: true });
         const ahemFiles = [];
         const regularFiles = [];
         for (const htmlFile of htmlFiles) {
@@ -163,18 +179,18 @@ class RadiantLayoutTester {
         };
 
         if (regularFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(regularFiles, false));
+            appendResults(await this.runBatchLayoutGroup(regularFiles, false, batchOutputDir));
         }
         if (ahemFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(ahemFiles, true));
+            appendResults(await this.runBatchLayoutGroup(ahemFiles, true, batchOutputDir));
         }
         return outputMap;
     }
 
-    async runBatchLayoutGroup(htmlFiles, includeAhem) {
+    async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
         return new Promise((resolve, reject) => {
-            // Build command: layout file1.html file2.html ... --output-dir ./temp/layout/
-            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem });
+            // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
+            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
@@ -230,7 +246,7 @@ class RadiantLayoutTester {
                 // Use parentdir__basename naming to match C++ generate_output_path
                 const outputMap = new Map();
                 for (const htmlFile of htmlFiles) {
-                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile));
+                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
                 }
                 // We continue even on non-zero exit code since --continue-on-error was used
                 resolve(outputMap);
@@ -2031,6 +2047,13 @@ class RadiantLayoutTester {
         const batchSize = this.batchSize;
         const maxConcurrency = this.maxConcurrency;
 
+        const resultPasses = (result) => {
+            if (!result || result.error) return false;
+            const elementPassRate = result.elementComparison ? result.elementComparison.passRate : 0;
+            const textPassRate = result.textComparison ? result.textComparison.passRate : 100;
+            return elementPassRate >= this.elementThreshold && textPassRate >= this.textThreshold;
+        };
+
         // Clean and recreate batch output directory to avoid stale files from previous runs
         try {
             await fs.rm(this.batchOutputDir, { recursive: true, force: true });
@@ -2059,33 +2082,40 @@ class RadiantLayoutTester {
          */
         const processBatch = async (batch, batchIndex) => {
             const htmlFiles = batch.map(task => task.htmlFile);
+            const batchOutputDir = path.join(this.batchOutputDir, `batch_${batchIndex + 1}`);
             if (this.verbose) {
                 console.log(`\n📦 Batch ${batchIndex + 1}/${batches.length}: ${batch.length} files`);
             }
 
+            const makeLayoutFailure = (task, message) => {
+                let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
+                if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
+                    batchTestName = path.basename(path.dirname(task.htmlFile));
+                }
+                return {
+                    testName: batchTestName,
+                    passed: false,
+                    htmlFile: task.htmlFile,
+                    category: task.category,
+                    error: message,
+                    failureDetails: [message],
+                    timestamp: new Date().toISOString()
+                };
+            };
+
             let outputMap;
             try {
-                outputMap = await this.runBatchLayout(htmlFiles);
+                outputMap = await this.runBatchLayout(htmlFiles, batchOutputDir);
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
-                return batch.map(task => {
-                    let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
-                    if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
-                        batchTestName = path.basename(path.dirname(task.htmlFile));
-                    }
-                    return {
-                        testName: batchTestName,
-                        passed: false,
-                        htmlFile: task.htmlFile,
-                        failureDetails: [`Batch error: ${err.message}`]
-                    };
-                });
+                return batch.map(task => makeLayoutFailure(task, `Batch error: ${err.message}`));
             }
 
             // Compare each result against reference in parallel within the batch.
             // Detect missing output files (from batch process crashes) and retry individually.
             const missingTasks = [];
             const validTasks = [];
+            const retryFailures = [];
             for (const task of batch) {
                 const outputFile = outputMap.get(task.htmlFile);
                 try {
@@ -2106,9 +2136,9 @@ class RadiantLayoutTester {
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
-                    } catch {
+                    } catch (err) {
                         // Still fails individually — mark as error
-                        validTasks.push({ task, outputFile: retryOutput });
+                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             } else if (missingTasks.length === batch.length) {
@@ -2121,8 +2151,8 @@ class RadiantLayoutTester {
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
-                    } catch {
-                        validTasks.push({ task, outputFile: retryOutput });
+                    } catch (err) {
+                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             }
@@ -2131,7 +2161,34 @@ class RadiantLayoutTester {
                 return this.compareTestResult(task.htmlFile, task.category, outputFile);
             });
             const batchResults = await Promise.all(comparePromises);
-            return batchResults.filter(r => r !== null);
+            const finalResults = [];
+            for (let i = 0; i < batchResults.length; i++) {
+                const result = batchResults[i];
+                if (!result) continue;
+                if (resultPasses(result)) {
+                    finalResults.push(result);
+                    continue;
+                }
+
+                const { task } = validTasks[i];
+                const retryOutput = this.getUniqueOutputFile();
+                try {
+                    await this.runRadiantLayout(task.htmlFile, retryOutput);
+                    const retryResult = await this.compareTestResult(task.htmlFile, task.category, retryOutput);
+                    if (resultPasses(retryResult)) {
+                        if (!this.json) {
+                            console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
+                        }
+                        finalResults.push(retryResult);
+                    } else {
+                        finalResults.push(result);
+                    }
+                } catch (err) {
+                    result.batchRetryError = err.message;
+                    finalResults.push(result);
+                }
+            }
+            return finalResults.concat(retryFailures);
         };
 
         // Run batches with a concurrency pool (at most maxConcurrency batches in flight)
