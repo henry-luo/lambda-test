@@ -35,6 +35,7 @@ class RadiantLayoutTester {
         this.outputFile = path.join(options.projectRoot || process.cwd(), 'temp', 'view_tree.json');
         this.verbose = options.verbose || false;
         this.json = options.json || false; // JSON output mode
+        this.updateBaseline = options.updateBaseline || false;
         this.projectRoot = options.projectRoot || process.cwd();
         this.maxConcurrency = options.maxConcurrency || DEFAULT_CONCURRENCY; // Max parallel tests (auto-detect: cores - 1)
         this.testIdCounter = 0; // Counter for unique test IDs
@@ -455,20 +456,158 @@ class RadiantLayoutTester {
     /**
      * Check if a test name matches the skip list (exact or prefix match).
      */
+    parseBaselineLine(line) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return null;
+
+        const match = trimmed.match(/^(\S+)(?:\s+(.*))?$/);
+        if (!match) return null;
+
+        const name = match[1];
+        const scoreText = match[2] || '';
+        const scores = {};
+        const scoreRegex = /\b(Elements|Spans|Text)\s+([0-9]+(?:\.[0-9]+)?)%/gi;
+        let scoreMatch;
+        while ((scoreMatch = scoreRegex.exec(scoreText)) !== null) {
+            const metric = scoreMatch[1].toLowerCase();
+            const score = parseFloat(scoreMatch[2]);
+            if (!Number.isNaN(score)) scores[metric] = score;
+        }
+
+        return {
+            name,
+            scores,
+            isPartial: Object.keys(scores).length > 0
+        };
+    }
+
+    getResultScores(result) {
+        return {
+            elements: result?.elementComparison?.passRate ?? 0,
+            spans: result?.spanComparison?.passRate ?? 100,
+            text: result?.textComparison?.passRate ?? 100
+        };
+    }
+
+    formatBaselineEntry(name, scores) {
+        return `${name} Elements ${scores.elements.toFixed(1)}%, Spans ${scores.spans.toFixed(1)}%, Text ${scores.text.toFixed(1)}%.`;
+    }
+
     /**
      * Load baseline.txt from a category directory.
-     * Returns a Set of test names that must pass, or null if no baseline file.
+     * Supports the old format:
+     *   test-name
+     * and the scored format:
+     *   test-name Elements 94.6%, Spans 66.7%, Text 100.0%.
      */
     async loadBaseline(category) {
         const baselinePath = path.join(this.testDataDir, category, 'baseline.txt');
         try {
             const content = await fs.readFile(baselinePath, 'utf8');
-            const names = content.split('\n')
-                .map(line => line.trim())
-                .filter(line => line && !line.startsWith('#'));
-            return new Set(names);
+            const lines = content.split('\n');
+            const entries = [];
+            const byName = new Map();
+            for (let i = 0; i < lines.length; i++) {
+                const entry = this.parseBaselineLine(lines[i]);
+                if (!entry) continue;
+                entry.lineIndex = i;
+                entries.push(entry);
+                byName.set(entry.name, entry);
+            }
+            return { path: baselinePath, lines, entries, byName, size: entries.length };
         } catch (e) {
             return null; // no baseline file
+        }
+    }
+
+    checkBaselineResults(baseline, results) {
+        const resultByName = new Map();
+        for (const result of results) {
+            resultByName.set(result.testName || result.testFile, result);
+        }
+
+        const baselineFailures = [];
+        const legacyPassedNames = new Set(results
+            .filter(r => !r.error &&
+                (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
+                (r.textComparison?.passRate || 100) >= this.textThreshold)
+            .map(r => r.testName || r.testFile));
+
+        for (const entry of baseline.entries) {
+            const result = resultByName.get(entry.name);
+            if (!entry.isPartial) {
+                if (!legacyPassedNames.has(entry.name)) {
+                    baselineFailures.push({ name: entry.name, reason: 'required pass missing or failed' });
+                }
+                continue;
+            }
+
+            if (!result) {
+                baselineFailures.push({ name: entry.name, reason: 'test missing from current run' });
+                continue;
+            }
+            if (result.error) {
+                baselineFailures.push({ name: entry.name, reason: `Error: ${result.error}` });
+                continue;
+            }
+
+            const current = this.getResultScores(result);
+            const regressions = [];
+            for (const metric of ['elements', 'spans', 'text']) {
+                if (entry.scores[metric] == null) continue;
+                const floor = entry.scores[metric] - 10.0;
+                if (current[metric] < floor) {
+                    regressions.push(`${metric} ${entry.scores[metric].toFixed(1)}% → ${current[metric].toFixed(1)}%`);
+                }
+            }
+            if (regressions.length > 0) {
+                baselineFailures.push({ name: entry.name, reason: regressions.join(', ') });
+            }
+        }
+
+        return baselineFailures;
+    }
+
+    async updateBaselineScores(baseline, results) {
+        const resultByName = new Map();
+        for (const result of results) {
+            if (!result || result.error) continue;
+            resultByName.set(result.testName || result.testFile, result);
+        }
+
+        let updated = 0;
+        for (const entry of baseline.entries) {
+            if (!entry.isPartial) continue;
+            const result = resultByName.get(entry.name);
+            if (!result) continue;
+
+            const current = this.getResultScores(result);
+            const next = {
+                elements: entry.scores.elements ?? current.elements,
+                spans: entry.scores.spans ?? current.spans,
+                text: entry.scores.text ?? current.text
+            };
+            let changed = false;
+            for (const metric of ['elements', 'spans', 'text']) {
+                if (current[metric] > next[metric]) {
+                    next[metric] = current[metric];
+                    changed = true;
+                }
+            }
+            if (!changed) continue;
+
+            baseline.lines[entry.lineIndex] = this.formatBaselineEntry(entry.name, next);
+            updated++;
+        }
+
+        if (updated === 0) {
+            if (!this.json) console.log(`\nℹ️  Baseline update: no score improvements found`);
+            return;
+        }
+
+        await fs.writeFile(baseline.path, baseline.lines.join('\n'), 'utf8');
+        if (!this.json) {
+            console.log(`\n✅ Baseline update: improved scores for ${updated} test${updated === 1 ? '' : 's'}`);
         }
     }
 
@@ -702,16 +841,32 @@ class RadiantLayoutTester {
             const normalizedRadiant = normalizeValue(radiantValue, browserProperty);
             const normalizedBrowser = normalizeValue(browserValue, browserProperty);
 
-            // Special comparison for font family - check if one contains the other
-            // Browser may report "Arial, sans-serif" while Radiant reports "sans-serif"
+            // Special comparison for font family - check if one contains the other.
+            // Browser computed style serializes platform system font aliases
+            // (-apple-system/system-ui) while Radiant reports the resolved native
+            // face (for example BlinkMacSystemFont). Treat those aliases as the
+            // same selected system font.
             let match;
             if (browserProperty === 'fontFamily' && normalizedRadiant && normalizedBrowser) {
                 const radiantFamily = normalizedRadiant.toLowerCase();
                 const browserFamily = normalizedBrowser.toLowerCase();
+                const splitFamilies = (value) => value.split(',').map(f => f.trim()).filter(Boolean);
+                const systemFontAliases = new Set([
+                    '-apple-system',
+                    'blinkmacsystemfont',
+                    'system-ui',
+                    '-system-ui',
+                    'ui-sans-serif'
+                ]);
+                const radiantFamilies = splitFamilies(radiantFamily);
+                const browserFamilies = splitFamilies(browserFamily);
+                const radiantHasSystemAlias = radiantFamilies.some(f => systemFontAliases.has(f));
+                const browserHasSystemAlias = browserFamilies.some(f => systemFontAliases.has(f));
                 // Match if either starts with the other, or if one is contained in the other's list
                 match = browserFamily.startsWith(radiantFamily) ||
                         radiantFamily.startsWith(browserFamily) ||
                         browserFamily.includes(radiantFamily) ||
+                        (radiantHasSystemAlias && browserHasSystemAlias) ||
                         normalizedRadiant === normalizedBrowser;
             } else {
                 match = normalizedRadiant === normalizedBrowser;
@@ -2393,6 +2548,7 @@ class RadiantLayoutTester {
                         name: r.testName || r.testFile,
                         passed: !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold && (r.textComparison?.passRate || 100) >= this.textThreshold,
                         elementPassRate: r.elementComparison?.passRate || 0,
+                        spanPassRate: r.spanComparison?.passRate ?? 100,
                         textPassRate: r.textComparison?.passRate || 100,
                         error: r.error || null
                     }))
@@ -2420,26 +2576,24 @@ class RadiantLayoutTester {
                 }
             }
 
-            // Baseline enforcement: if baseline.txt exists, all listed tests must pass
+            // Baseline enforcement: old baseline lines must pass; scored lines may not regress by more than 10 percentage points.
             const baseline = await this.loadBaseline(category);
             if (baseline && baseline.size > 0) {
-                const passedNames = new Set(results
-                    .filter(r => !r.error &&
-                        (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
-                        (r.textComparison?.passRate || 100) >= this.textThreshold)
-                    .map(r => r.testName || r.testFile));
-                const baselineFailures = [];
-                for (const name of baseline) {
-                    if (!passedNames.has(name)) baselineFailures.push(name);
-                }
+                const baselineFailures = this.checkBaselineResults(baseline, results);
                 if (baselineFailures.length > 0) {
-                    console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
-                    baselineFailures.forEach(name => console.log(`   - ${name}`));
+                    if (!this.json) {
+                        console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
+                        baselineFailures.forEach(failure => console.log(`   - ${failure.name}: ${failure.reason}`));
+                    }
                     // Signal failure for CI
                     if (!this._baselineRegressions) this._baselineRegressions = [];
                     this._baselineRegressions.push(...baselineFailures);
                 } else {
-                    console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
+                    if (!this.json) console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
+                }
+
+                if (this.updateBaseline) {
+                    await this.updateBaselineScores(baseline, results);
                 }
             }
 
@@ -2641,6 +2795,7 @@ class RadiantLayoutTester {
                     name: r.testName || r.testFile,
                     passed: !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold && (r.textComparison?.passRate || 100) >= this.textThreshold,
                     elementPassRate: r.elementComparison?.passRate || 0,
+                    spanPassRate: r.spanComparison?.passRate ?? 100,
                     textPassRate: r.textComparison?.passRate || 100,
                     error: r.error || null
                 }))
@@ -2733,6 +2888,9 @@ async function main() {
             case '--json':
                 options.json = true;
                 break;
+            case '--update-baseline':
+                options.updateBaseline = true;
+                break;
             case '--concurrency':
             case '-j':
                 options.maxConcurrency = parseInt(args[++i], 10);
@@ -2777,6 +2935,7 @@ Options:
   --no-batch               Disable batch mode (same as --batch-size 0)
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
+  --update-baseline        Update scored baseline entries, raising each metric only when current is better
   --radiant-exe <path>     Path to layout engine executable (default: ./lambda.exe)
   --help, -h               Show this help message
 
@@ -2801,6 +2960,7 @@ Examples:
   node test/layout/test_radiant_layout.js -j 10                        # Run 10 tests in parallel
   node test/layout/test_radiant_layout.js -b 50                        # Process layout in batches of 50
   node test/layout/test_radiant_layout.js --no-batch                   # Disable batch mode
+  node test/layout/test_radiant_layout.js -c page --update-baseline    # Raise scored page baseline metrics only on improvement
   node test/layout/test_radiant_layout.js -v                           # Verbose output
 
 Note: Run this script from the project root directory.
