@@ -19,9 +19,68 @@ const os = require('os');
 
 let   PAGE_DIR = path.join(__dirname, 'page');
 const REF_DIR  = path.join(__dirname, 'reference');
+const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
 
 const DEFAULT_VIEWPORT_WIDTH  = 100;
 const DEFAULT_VIEWPORT_HEIGHT = 100;
+
+function localTempDir(name) {
+    const tempRoot = path.join(LAMBDA_ROOT, 'temp');
+    fs.mkdirSync(tempRoot, { recursive: true });
+    const dir = path.join(tempRoot, `${name}-${process.pid}`);
+    fs.mkdirSync(dir, { recursive: true });
+    return dir;
+}
+
+function findChromeHeadlessShell() {
+    const explicitPath = process.env.CHROME_HEADLESS_SHELL || process.env.PUPPETEER_EXECUTABLE_PATH;
+    if (explicitPath && fs.existsSync(explicitPath)) {
+        return explicitPath;
+    }
+
+    if (os.platform() !== 'darwin') {
+        return null;
+    }
+
+    const cacheRoot = path.join(os.homedir(), '.cache', 'puppeteer', 'chrome-headless-shell');
+    const archDir = os.arch() === 'arm64'
+        ? 'chrome-headless-shell-mac-arm64'
+        : 'chrome-headless-shell-mac-x64';
+
+    try {
+        const versions = fs.readdirSync(cacheRoot).sort().reverse();
+        for (const version of versions) {
+            const candidate = path.join(cacheRoot, version, archDir, 'chrome-headless-shell');
+            if (fs.existsSync(candidate)) {
+                return candidate;
+            }
+        }
+    } catch (e) {
+        // fall through to Puppeteer's default executable.
+    }
+    return null;
+}
+
+function browserLaunchOptions() {
+    const launchOptions = {
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-gpu',
+            '--font-render-hinting=none',
+            '--disable-lcd-text',
+            '--disable-font-subpixel-positioning'
+        ],
+        userDataDir: localTempDir('puppeteer-render-profile')
+    };
+
+    const headlessShell = findChromeHeadlessShell();
+    if (headlessShell) {
+        console.log(`📦 Using Chrome headless shell: ${headlessShell}`);
+        launchOptions.executablePath = headlessShell;
+    }
+    return launchOptions;
+}
 
 function getTestConfig(testName) {
     const configPath = path.join(PAGE_DIR, `${testName}.config.json`);
@@ -112,16 +171,7 @@ async function main() {
 
     console.log(`\n🖼️  Capturing ${toCapture.length} browser reference(s)...\n`);
 
-    const browser = await puppeteer.launch({
-        headless: true,
-        args: [
-            '--no-sandbox',
-            '--disable-gpu',
-            '--font-render-hinting=none',
-            '--disable-lcd-text',
-            '--disable-font-subpixel-positioning'
-        ]
-    });
+    const browser = await puppeteer.launch(browserLaunchOptions());
 
     let captured = 0;
     let failed = 0;

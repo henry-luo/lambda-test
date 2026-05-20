@@ -7,7 +7,48 @@
 
 const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
+const fsSync = require('fs');
+const os = require('os');
 const path = require('path');
+
+const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
+
+function localTempDir(name) {
+    const tempRoot = path.join(LAMBDA_ROOT, 'temp');
+    fsSync.mkdirSync(tempRoot, { recursive: true });
+    const dir = path.join(tempRoot, `${name}-${process.pid}`);
+    fsSync.mkdirSync(dir, { recursive: true });
+    return dir;
+}
+
+function findChromeHeadlessShell() {
+    const explicitPath = process.env.CHROME_HEADLESS_SHELL || process.env.PUPPETEER_EXECUTABLE_PATH;
+    if (explicitPath && fsSync.existsSync(explicitPath)) {
+        return explicitPath;
+    }
+
+    if (os.platform() !== 'darwin') {
+        return null;
+    }
+
+    const cacheRoot = path.join(os.homedir(), '.cache', 'puppeteer', 'chrome-headless-shell');
+    const archDir = os.arch() === 'arm64'
+        ? 'chrome-headless-shell-mac-arm64'
+        : 'chrome-headless-shell-mac-x64';
+
+    try {
+        const versions = fsSync.readdirSync(cacheRoot).sort().reverse();
+        for (const version of versions) {
+            const candidate = path.join(cacheRoot, version, archDir, 'chrome-headless-shell');
+            if (fsSync.existsSync(candidate)) {
+                return candidate;
+            }
+        }
+    } catch (e) {
+        // fall through to Puppeteer's default executable.
+    }
+    return null;
+}
 
 async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null) {
     console.log(`🔍 Checking layout extraction for: ${htmlFilePath}`);
@@ -75,11 +116,11 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 '--no-first-run',
                 '--disable-default-apps'
             ],
+            userDataDir: localTempDir('puppeteer-layout-profile'),
             timeout: 30000
         };
 
         // On ARM Linux, use system Chromium instead of Puppeteer's bundled Chrome
-        const os = require('os');
         const { execSync } = require('child_process');
         if (os.arch() === 'arm64' && os.platform() === 'linux') {
             try {
@@ -93,13 +134,22 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
         }
 
-        // On macOS, fall back to system Chrome if bundled Chrome is not available
+        // On macOS, prefer chrome-headless-shell. Regular .app Chrome can abort
+        // during application registration in non-GUI automation contexts.
+        if (os.platform() === 'darwin' && !launchOptions.executablePath) {
+            const headlessShell = findChromeHeadlessShell();
+            if (headlessShell) {
+                console.log(`📦 Using Chrome headless shell: ${headlessShell}`);
+                launchOptions.executablePath = headlessShell;
+            }
+        }
+
+        // Fall back to system Chrome if a dedicated headless shell is unavailable.
         if (os.platform() === 'darwin' && !launchOptions.executablePath) {
             const systemChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
             try {
-                const fs_sync = require('fs');
-                if (fs_sync.existsSync(systemChrome)) {
-                    console.log(`📦 Using system Chrome: ${systemChrome}`);
+                if (fsSync.existsSync(systemChrome)) {
+                    console.log(`📦 Using system Chrome fallback: ${systemChrome}`);
                     launchOptions.executablePath = systemChrome;
                 }
             } catch (e) {
