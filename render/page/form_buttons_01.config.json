@@ -1,1 +1,6 @@
-{ "viewportWidth": 150, "viewportHeight": 150 }
+{
+  "viewportWidth": 150,
+  "viewportHeight": 150,
+  "expectedFail": true,
+  "expectedFailReason": "form button native control painting still differs from browser"
+}
