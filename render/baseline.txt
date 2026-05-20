@@ -1,7 +1,7 @@
 # Radiant Render Test Baseline
 # Generated: 2026-05-20 from full default render suite
 # page suite: 192 entries; puppertino suite: 13 entries
-# latest run: 175/205 passed; 15 failed; 15 xfailed; 0 skipped
+# latest run: 177/205 passed; 15 failed; 13 xfailed; 0 skipped
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -72,7 +72,7 @@ enhance5_overflow_radius_media_text_01       145   0.86%  140x120
 enhance5_paint_order_media_svg_01            189   0.98%  160x120
 enhance5_pdf_svg_blend_order_01               89   0.38%  176x132
 enhance5_pdf_svg_paint_order_stack_01         96   0.44%  170x128
-enhance5_repeating_gradient_radius_clip_01  2945  16.36%  150x120
+enhance5_repeating_gradient_radius_clip_01 exact   0.00%  150x120
 enhance5_scroll_clip_effect_stack_01         732   3.31%  170x130
 enhance5_selection_rounded_overflow_transform_01  1362   6.31%  180x120
 enhance5_spec_3d_transform_perspective_01    754   3.41%  170x130
@@ -81,7 +81,7 @@ enhance5_spec_border_image_gradient_01      3689  19.21%  160x120
 enhance5_spec_clip_path_path_01             2603  13.56%  160x120
 enhance5_spec_css_mask_gradient_01          3719  19.37%  160x120
 enhance5_spec_outline_transform_01           615   3.20%  160x120
-enhance5_spec_repeating_gradient_angle_01   4253  23.63%  150x120
+enhance5_spec_repeating_gradient_angle_01 exact   0.00%  150x120
 enhance5_spec_svg_fill_rule_evenodd_01      2687  14.93%  150x120
 enhance5_spec_svg_filter_gaussian_blur_01   2810  14.64%  160x120
 enhance5_spec_svg_marker_arrow_01           2537  13.21%  160x120
@@ -113,7 +113,7 @@ flex_align_01                              exact   0.00%  100x100
 flex_layout_01                             exact   0.00%  100x100
 float_layout_01                              694   6.94%  100x100
 form_buttons_01                             3600  16.00%  150x150
-form_checkbox_radio_01                       529   5.29%  100x100
+form_checkbox_radio_01                       601   6.01%  100x100
 form_fieldset_01                             461   4.61%  100x100
 form_input_text_01                           365   3.65%  100x100
 form_select_textarea_01                     1488  14.88%  100x100
