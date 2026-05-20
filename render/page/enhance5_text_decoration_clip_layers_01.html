@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 180px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; font: 700 18px Arial, sans-serif; color: #172554; }
+  .clip {
+    position: absolute; left: 16px; top: 18px;
+    width: 148px; height: 82px;
+    border: 4px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #bfdbfe, #dcfce7);
+  }
+  .text {
+    position: absolute; left: 12px; top: 24px;
+    width: 170px;
+    text-decoration-line: underline overline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 3px;
+    text-decoration-color: #f97316;
+    text-shadow: 3px 3px 0 rgba(15, 23, 42, 0.18);
+  }
+  .bar {
+    position: absolute; left: 0; bottom: 0;
+    width: 148px; height: 18px;
+    background: rgba(37, 99, 235, 0.18);
+  }
+</style>
+</head>
+<body>
+  <div class="clip">
+    <div class="text">Decorated</div>
+    <div class="bar"></div>
+  </div>
+</body>
+</html>

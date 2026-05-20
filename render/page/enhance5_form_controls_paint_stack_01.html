@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 200px; height: 150px; overflow: hidden; }
+  body { background: #f1f5f9; font: 12px Arial, sans-serif; }
+  .card {
+    position: absolute; left: 15px; top: 12px;
+    width: 170px; height: 126px;
+    padding: 10px;
+    border: 3px solid #334155;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 4px 0 rgba(15, 23, 42, 0.15);
+  }
+  input, select, textarea, button {
+    font: 12px Arial, sans-serif;
+    color: #0f172a;
+    border: 2px solid #64748b;
+    background: #f8fafc;
+  }
+  input { position: absolute; left: 10px; top: 10px; width: 92px; height: 24px; padding: 2px 5px; }
+  select { position: absolute; left: 108px; top: 10px; width: 52px; height: 24px; }
+  textarea { position: absolute; left: 10px; top: 42px; width: 98px; height: 48px; padding: 4px; resize: none; overflow: hidden; }
+  button {
+    position: absolute; left: 116px; top: 48px;
+    width: 44px; height: 30px;
+    background: #22c55e;
+    border-color: #166534;
+    color: #052e16;
+  }
+  .badge {
+    position: absolute; left: 118px; top: 86px;
+    width: 36px; height: 16px;
+    border-radius: 8px;
+    background: #f97316;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <input value="alpha">
+    <select><option>Go</option></select>
+    <textarea>note</textarea>
+    <button>OK</button>
+    <div class="badge"></div>
+  </div>
+</body>
+</html>

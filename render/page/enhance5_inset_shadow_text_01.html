@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 140px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; font: 700 17px Arial, sans-serif; }
+  .panel {
+    position: absolute; left: 18px; top: 18px;
+    width: 104px; height: 78px;
+    border-radius: 18px;
+    border: 5px solid #1d4ed8;
+    background: linear-gradient(135deg, #bfdbfe, #fef08a);
+    box-shadow:
+      inset 9px 8px 12px rgba(30, 64, 175, 0.42),
+      inset -8px -7px 10px rgba(146, 64, 14, 0.28);
+  }
+  .panel span {
+    position: absolute; left: 18px; top: 28px;
+    color: #172554;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.7);
+  }
+</style>
+</head>
+<body>
+  <div class="panel"><span>inset</span></div>
+</body>
+</html>

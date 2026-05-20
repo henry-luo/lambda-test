@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 140px; height: 110px; overflow: hidden; }
+  body { background: #fbfbff; }
+  .wrap {
+    position: absolute; left: 12px; top: 10px;
+    width: 116px; height: 86px;
+    background: #e0f2fe;
+    border: 4px solid #0369a1;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .one, .two {
+    position: absolute;
+    width: 54px; height: 54px;
+  }
+  .one { left: 10px; top: 14px; }
+  .two {
+    left: 46px; top: 17px;
+    opacity: 0.82;
+    transform: rotate(10deg);
+    transform-origin: 50% 50%;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="one" alt="" src="res/icon_card.svg">
+    <img class="two" alt="" src="res/gradient_circle.svg">
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 132px; overflow: hidden; }
+  body { background: #f8fafc; font: 700 14px Arial, sans-serif; }
+  .outer {
+    position: absolute; left: 14px; top: 12px;
+    width: 132px; height: 102px;
+    border: 5px solid #1e3a8a;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #dbeafe, #fef9c3);
+    clip-path: inset(0 round 22px);
+  }
+  .inner {
+    position: absolute; left: 17px; top: 18px;
+    width: 118px; height: 52px;
+    border-radius: 18px;
+    background: rgba(14, 165, 233, 0.72);
+    box-shadow: 10px 8px 10px rgba(30, 58, 138, 0.30);
+    filter: saturate(1.25) blur(0.35px);
+    transform: rotate(-8deg);
+  }
+  .caption {
+    position: absolute; left: 42px; top: 46px;
+    color: #172554;
+    text-shadow: 1px 1px 0 #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="outer">
+    <div class="inner"></div>
+    <div class="caption">fx clip</div>
+  </div>
+</body>
+</html>

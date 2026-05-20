@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant float avoidance for BFC roots</title>
+<style>
+body {
+  margin: 0;
+  font: 16px Arial, sans-serif;
+}
+.stage {
+  width: 260px;
+  margin: 20px;
+  border: 2px solid #333;
+}
+.float {
+  float: left;
+  width: 100px;
+  height: 80px;
+  background: #d9ecff;
+}
+.bfc-fit {
+  overflow: hidden;
+  width: 140px;
+  height: 34px;
+  background: #fff4bf;
+}
+.bfc-wrap {
+  overflow: hidden;
+  width: 190px;
+  height: 34px;
+  background: #f6d1d8;
+}
+.tail {
+  clear: both;
+  height: 10px;
+  background: #d7edd0;
+}
+</style>
+<div class="stage">
+  <div class="float"></div>
+  <div class="bfc-fit"></div>
+  <div class="bfc-wrap"></div>
+  <div class="tail"></div>
+</div>

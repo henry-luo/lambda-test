@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 356px; height: 150px; overflow: hidden; }
+  body { background: #f0fdf4; font: 700 17px Arial, sans-serif; }
+  .tileline {
+    position: absolute; left: 256px; top: 0;
+    width: 1px; height: 150px;
+    background: rgba(21, 128, 61, 0.45);
+  }
+  .card {
+    position: absolute; left: 218px; top: 28px;
+    width: 106px; height: 82px;
+    border: 5px solid #166534;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #dcfce7, #bae6fd);
+    overflow: hidden;
+    box-shadow: 14px 8px 12px rgba(20, 83, 45, 0.25);
+  }
+  svg {
+    position: absolute; left: 10px; top: 10px;
+    width: 56px; height: 42px;
+  }
+  .label {
+    position: absolute; left: 30px; top: 40px;
+    color: #052e16;
+    text-shadow: 1px 1px 0 #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="tileline"></div>
+  <div class="card">
+    <svg viewBox="0 0 56 42">
+      <rect x="4" y="7" width="34" height="24" rx="8" fill="#22c55e" opacity="0.75"/>
+      <circle cx="35" cy="22" r="13" fill="#f97316" opacity="0.7"/>
+    </svg>
+    <div class="label">tile</div>
+  </div>
+</body>
+</html>

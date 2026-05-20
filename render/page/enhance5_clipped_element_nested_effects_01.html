@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 150px; height: 130px; overflow: hidden; }
+  body { background: #fff7ed; font: 700 14px Arial, sans-serif; }
+  .clipper {
+    position: absolute; left: 16px; top: 14px;
+    width: 118px; height: 96px;
+    border: 5px solid #7c2d12;
+    border-radius: 18px;
+    overflow: hidden;
+    clip-path: inset(0 round 18px);
+    background: linear-gradient(135deg, #fed7aa, #bae6fd);
+  }
+  .effect {
+    position: absolute; left: -12px; top: 18px;
+    width: 118px; height: 54px;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.76);
+    box-shadow: 12px 3px 10px rgba(124, 45, 18, 0.35);
+    filter: blur(0.5px);
+    transform: rotate(-11deg);
+  }
+  .label {
+    position: absolute; left: 42px; top: 37px;
+    color: #431407;
+    text-shadow: 1px 1px 0 #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="clipper">
+    <div class="effect"></div>
+    <div class="label">clip</div>
+  </div>
+</body>
+</html>

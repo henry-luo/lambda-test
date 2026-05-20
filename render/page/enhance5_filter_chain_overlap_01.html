@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 140px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .base {
+    position: absolute; left: 14px; top: 14px;
+    width: 112px; height: 88px;
+    background: linear-gradient(135deg, #f97316, #3b82f6);
+  }
+  .filtered {
+    position: absolute; left: 30px; top: 25px;
+    width: 72px; height: 52px;
+    background: #22c55e;
+    border-radius: 14px;
+    filter: blur(1px) saturate(1.45) opacity(0.82);
+  }
+  .dot {
+    position: absolute; left: 28px; top: 16px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: #fef08a;
+  }
+</style>
+</head>
+<body>
+  <div class="base"></div>
+  <div class="filtered"><div class="dot"></div></div>
+</body>
+</html>

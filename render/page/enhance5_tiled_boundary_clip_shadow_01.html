@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 340px; height: 150px; overflow: hidden; }
+  body { background: #ecfeff; }
+  .line {
+    position: absolute; left: 256px; top: 0;
+    width: 1px; height: 150px;
+    background: #0e7490;
+    opacity: 0.55;
+  }
+  .card {
+    position: absolute; left: 206px; top: 28px;
+    width: 94px; height: 78px;
+    border: 5px solid #164e63;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #67e8f9, #fef08a);
+    box-shadow: 18px 8px 14px rgba(8, 47, 73, 0.28);
+  }
+  .stripe {
+    position: absolute; left: -15px; top: 31px;
+    width: 130px; height: 18px;
+    background: rgba(244, 63, 94, 0.72);
+    transform: rotate(17deg);
+  }
+</style>
+</head>
+<body>
+  <div class="line"></div>
+  <div class="card"><div class="stripe"></div></div>
+</body>
+</html>

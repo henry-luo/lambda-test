@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 190px; height: 132px; overflow: hidden; }
+  body { background: #f1f5f9; font: 700 15px Arial, sans-serif; }
+  .root {
+    position: absolute; left: 18px; top: 16px;
+    width: 154px; height: 94px;
+    border: 5px solid #334155;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e2e8f0, #fef08a);
+  }
+  .dirty {
+    position: absolute; left: 72px; top: 16px;
+    width: 70px; height: 50px;
+    border-radius: 14px;
+    background: rgba(59, 130, 246, 0.74);
+    box-shadow: -12px 8px 10px rgba(15, 23, 42, 0.25);
+  }
+  .label {
+    position: absolute; left: 51px; top: 40px;
+    color: #0f172a;
+    text-shadow: 1px 1px 0 #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="root">
+    <div class="dirty"></div>
+    <div class="label">dirty clip</div>
+  </div>
+</body>
+</html>

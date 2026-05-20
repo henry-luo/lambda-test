@@ -1,0 +1,36 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant abspos flex reverse static position</title>
+<style>
+body {
+  margin: 0;
+  font: 16px Arial, sans-serif;
+}
+.flex {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  width: 360px;
+  height: 120px;
+  padding: 12px;
+  border: 4px solid #333;
+  box-sizing: content-box;
+}
+.anchor {
+  width: 90px;
+  height: 60px;
+  margin: 6px;
+  background: #dce8f2;
+}
+.abs {
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  background: #e67461;
+}
+</style>
+<div class="flex">
+  <div class="anchor">A</div>
+  <div class="anchor">B</div>
+  <div class="abs"></div>
+</div>

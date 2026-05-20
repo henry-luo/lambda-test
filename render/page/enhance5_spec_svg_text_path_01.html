@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 180px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  svg {
+    display: block;
+    margin: 10px 12px;
+    width: 156px; height: 98px;
+    background: #e2e8f0;
+    border: 3px solid #334155;
+    font: 700 14px Arial, sans-serif;
+  }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 156 98" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <path id="curve" d="M16 64 C46 20 96 90 140 34"/>
+    </defs>
+    <path d="M16 64 C46 20 96 90 140 34" fill="none" stroke="#93c5fd" stroke-width="4"/>
+    <text fill="#172554">
+      <textPath href="#curve" startOffset="6">Text follows the curve</textPath>
+    </text>
+  </svg>
+</body>
+</html>
