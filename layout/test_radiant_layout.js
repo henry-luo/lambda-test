@@ -524,6 +524,17 @@ class RadiantLayoutTester {
         }
     }
 
+    createEmptyBaseline(category) {
+        const baselinePath = path.join(this.testDataDir, category, 'baseline.txt');
+        return {
+            path: baselinePath,
+            lines: [],
+            entries: [],
+            byName: new Map(),
+            size: 0
+        };
+    }
+
     checkBaselineResults(baseline, results) {
         const resultByName = new Map();
         for (const result of results) {
@@ -2622,10 +2633,10 @@ class RadiantLayoutTester {
                 } else {
                     if (!this.json) console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
                 }
+            }
 
-                if (this.updateBaseline) {
-                    await this.updateBaselineScores(baseline, results);
-                }
+            if (this.updateBaseline) {
+                await this.updateBaselineScores(baseline || this.createEmptyBaseline(category), results);
             }
 
             return results;
