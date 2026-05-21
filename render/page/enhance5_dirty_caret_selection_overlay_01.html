@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 180px; height: 112px; overflow: hidden; }
+  body { background: #f1f5f9; font: 16px Arial, sans-serif; }
+  .editor {
+    position: absolute; left: 14px; top: 18px;
+    width: 150px; height: 70px;
+    border: 4px solid #334155;
+    border-radius: 10px;
+    background: #ffffff;
+    overflow: hidden;
+    padding: 12px 10px;
+    line-height: 22px;
+    color: #111827;
+  }
+  .sel {
+    background: rgba(147, 197, 253, 0.95);
+    color: #0f172a;
+  }
+  .caret {
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    margin-left: 1px;
+    vertical-align: -4px;
+    background: #0f172a;
+  }
+</style>
+</head>
+<body>
+  <div class="editor">The <span class="sel">quick</span><span class="caret"></span><br>selection</div>
+</body>
+</html>

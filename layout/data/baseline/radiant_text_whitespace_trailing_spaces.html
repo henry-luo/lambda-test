@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant text whitespace trailing spaces</title>
+<style>
+body {
+  margin: 0;
+  font: 16px Arial, sans-serif;
+}
+.box {
+  width: 180px;
+  margin: 20px;
+  border: 1px solid #333;
+  line-height: 22px;
+  white-space: pre-wrap;
+}
+.nowrap {
+  white-space: nowrap;
+}
+</style>
+<div class="box">alpha   beta   
+trail </div>
+<div class="box nowrap">keep   spaces end   </div>

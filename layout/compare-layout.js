@@ -148,8 +148,8 @@ class LayoutComparator {
       proc.on('close', (code) => {
         clearTimeout(timeout);
         if (code === 0) {
-          // Lambda outputs to /tmp/view_tree.json
-          const outputPath = '/tmp/view_tree.json';
+          // Lambda outputs to ./temp/view_tree.json
+          const outputPath = path.join(this.projectRoot, 'temp', 'view_tree.json');
           if (!fs.existsSync(outputPath)) {
             reject(new Error(`Lambda did not generate output at ${outputPath}`));
             return;

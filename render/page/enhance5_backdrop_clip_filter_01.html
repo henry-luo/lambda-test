@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 130px; height: 120px; overflow: hidden; }
+  body { background: white; }
+  .scene {
+    position: absolute; left: 12px; top: 10px;
+    width: 106px; height: 96px;
+    background:
+      linear-gradient(135deg, #ef4444, #3b82f6),
+      repeating-linear-gradient(90deg, transparent 0 8px, rgba(255,255,255,0.35) 8px 16px);
+  }
+  .glass {
+    position: absolute; left: 21px; top: 20px;
+    width: 64px; height: 54px;
+    border: 3px solid rgba(255,255,255,0.55);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(4px);
+    clip-path: inset(3px 5px 5px 3px round 12px);
+  }
+</style>
+</head>
+<body>
+  <div class="scene"><div class="glass"></div></div>
+</body>
+</html>

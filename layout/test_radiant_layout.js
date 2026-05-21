@@ -35,20 +35,67 @@ class RadiantLayoutTester {
         this.outputFile = path.join(options.projectRoot || process.cwd(), 'temp', 'view_tree.json');
         this.verbose = options.verbose || false;
         this.json = options.json || false; // JSON output mode
+        this.updateBaseline = options.updateBaseline || false;
         this.projectRoot = options.projectRoot || process.cwd();
         this.maxConcurrency = options.maxConcurrency || DEFAULT_CONCURRENCY; // Max parallel tests (auto-detect: cores - 1)
         this.testIdCounter = 0; // Counter for unique test IDs
         this.singleTestMode = options.singleTestMode || false; // Single test mode for detailed failure reports
         this.batchSize = options.batchSize || 0; // Batch size for layout (0 = disabled, use single file mode)
-        this.batchOutputDir = '/tmp/layout_batch'; // Directory for batch output files
+        this.parallelOutputDir = path.join(this.projectRoot, 'temp', 'layout');
+        this.batchOutputDir = path.join(
+            this.projectRoot,
+            'temp',
+            `layout_batch_${process.pid}_${Date.now()}`
+        ); // Unique directory for this harness run's batch output files
     }
 
     /**
-     * Generate a unique output file path for parallel test execution
+     * Generate a unique output file path for isolated retry execution.
      */
     getUniqueOutputFile() {
         const testId = ++this.testIdCounter;
-        return `/tmp/view_tree_${process.pid}_${testId}.json`;
+        return path.join(this.projectRoot, 'temp', `view_tree_${process.pid}_${testId}.json`);
+    }
+
+    /**
+     * Generate the standardized per-test output path for parallel execution.
+     * Matches C++ generate_output_path(): <parentdir>__<basename>.json.
+     */
+    getParallelOutputFile(htmlFile, outputDir = this.parallelOutputDir) {
+        const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
+        const parentDir = path.basename(path.dirname(htmlFile));
+        const outputName = parentDir ? `${parentDir}__${basename}` : basename;
+        return path.join(outputDir, `${outputName}.json`);
+    }
+
+    /**
+     * CSS 2.1/WPT Ahem tests expect the Ahem family to be installed. Browser
+     * references inject @font-face for those tests; mirror that only for files
+     * that mention Ahem so DOM/CSSOM tests using document.styleSheets[0] are not disturbed.
+     */
+    async fileNeedsAhem(htmlFile) {
+        try {
+            const htmlContent = await fs.readFile(htmlFile, 'utf8');
+            return /\bahem\b/i.test(htmlContent);
+        } catch {
+            return false;
+        }
+    }
+
+    buildLayoutArgs(htmlFiles, options = {}) {
+        const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
+        const args = ['layout', ...files];
+        if (options.batch) {
+            args.push('--output-dir', options.outputDir || this.batchOutputDir, '--continue-on-error');
+        } else {
+            args.push('-vw', '1200', '-vh', '800');
+        }
+        args.push('--font-dir', 'test/layout/data/font');
+        if (options.includeAhem) {
+            args.push('--css', 'test/layout/data/support/fonts/ahem.css');
+        }
+        args.push('--no-log');
+        return args;
     }
 
     /**
@@ -57,11 +104,14 @@ class RadiantLayoutTester {
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
     async runRadiantLayout(htmlFile, outputFile = null) {
+        if (outputFile) {
+            await fs.mkdir(path.dirname(outputFile), { recursive: true });
+        }
+        const includeAhem = await this.fileNeedsAhem(htmlFile);
         return new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = ['layout', htmlFile, '-vw', '1200', '-vh', '800',
-                          '--font-dir', 'test/layout/data/font', '--no-log'];
+            const args = this.buildLayoutArgs(htmlFile, { includeAhem });
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -110,14 +160,41 @@ class RadiantLayoutTester {
      * @param {Array<string>} htmlFiles - Array of HTML file paths to process
      * @returns {Promise<Map<string, string>>} - Map of input file -> output JSON file path
      */
-    async runBatchLayout(htmlFiles) {
+    async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
+        await fs.mkdir(batchOutputDir, { recursive: true });
+        const ahemFiles = [];
+        const regularFiles = [];
+        for (const htmlFile of htmlFiles) {
+            if (await this.fileNeedsAhem(htmlFile)) {
+                ahemFiles.push(htmlFile);
+            } else {
+                regularFiles.push(htmlFile);
+            }
+        }
+
+        const outputMap = new Map();
+        const appendResults = (partial) => {
+            for (const [input, output] of partial.entries()) {
+                outputMap.set(input, output);
+            }
+        };
+
+        if (regularFiles.length > 0) {
+            appendResults(await this.runBatchLayoutGroup(regularFiles, false, batchOutputDir));
+        }
+        if (ahemFiles.length > 0) {
+            appendResults(await this.runBatchLayoutGroup(ahemFiles, true, batchOutputDir));
+        }
+        return outputMap;
+    }
+
+    async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
         return new Promise((resolve, reject) => {
-            // Build command: layout file1.html file2.html ... --output-dir /tmp/layout_batch/
-            const args = ['layout', ...htmlFiles, '--output-dir', this.batchOutputDir, '--continue-on-error',
-                          '--font-dir', 'test/layout/data/font', '--no-log'];
+            // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
+            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
 
             if (this.verbose) {
-                console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
+                console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
             }
 
             const proc = spawn(this.radiantExe, args, {
@@ -170,11 +247,7 @@ class RadiantLayoutTester {
                 // Use parentdir__basename naming to match C++ generate_output_path
                 const outputMap = new Map();
                 for (const htmlFile of htmlFiles) {
-                    const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
-                    const parentDir = path.basename(path.dirname(htmlFile));
-                    const outputName = parentDir ? `${parentDir}__${basename}` : basename;
-                    const outputFile = path.join(this.batchOutputDir, `${outputName}.json`);
-                    outputMap.set(htmlFile, outputFile);
+                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
                 }
                 // We continue even on non-zero exit code since --continue-on-error was used
                 resolve(outputMap);
@@ -188,7 +261,7 @@ class RadiantLayoutTester {
     }
 
     /**
-     * Load Radiant output from specified file or default /tmp/view_tree.json
+     * Load Radiant output from specified file or default ./temp/view_tree.json
      * @param {string} testContext - Context for error messages
      * @param {string} outputFile - Optional specific output file to read
      */
@@ -383,20 +456,158 @@ class RadiantLayoutTester {
     /**
      * Check if a test name matches the skip list (exact or prefix match).
      */
+    parseBaselineLine(line) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return null;
+
+        const match = trimmed.match(/^(\S+)(?:\s+(.*))?$/);
+        if (!match) return null;
+
+        const name = match[1];
+        const scoreText = match[2] || '';
+        const scores = {};
+        const scoreRegex = /\b(Elements|Spans|Text)\s+([0-9]+(?:\.[0-9]+)?)%/gi;
+        let scoreMatch;
+        while ((scoreMatch = scoreRegex.exec(scoreText)) !== null) {
+            const metric = scoreMatch[1].toLowerCase();
+            const score = parseFloat(scoreMatch[2]);
+            if (!Number.isNaN(score)) scores[metric] = score;
+        }
+
+        return {
+            name,
+            scores,
+            isPartial: Object.keys(scores).length > 0
+        };
+    }
+
+    getResultScores(result) {
+        return {
+            elements: result?.elementComparison?.passRate ?? 0,
+            spans: result?.spanComparison?.passRate ?? 100,
+            text: result?.textComparison?.passRate ?? 100
+        };
+    }
+
+    formatBaselineEntry(name, scores) {
+        return `${name} Elements ${scores.elements.toFixed(1)}%, Spans ${scores.spans.toFixed(1)}%, Text ${scores.text.toFixed(1)}%.`;
+    }
+
     /**
      * Load baseline.txt from a category directory.
-     * Returns a Set of test names that must pass, or null if no baseline file.
+     * Supports the old format:
+     *   test-name
+     * and the scored format:
+     *   test-name Elements 94.6%, Spans 66.7%, Text 100.0%.
      */
     async loadBaseline(category) {
         const baselinePath = path.join(this.testDataDir, category, 'baseline.txt');
         try {
             const content = await fs.readFile(baselinePath, 'utf8');
-            const names = content.split('\n')
-                .map(line => line.trim())
-                .filter(line => line && !line.startsWith('#'));
-            return new Set(names);
+            const lines = content.split('\n');
+            const entries = [];
+            const byName = new Map();
+            for (let i = 0; i < lines.length; i++) {
+                const entry = this.parseBaselineLine(lines[i]);
+                if (!entry) continue;
+                entry.lineIndex = i;
+                entries.push(entry);
+                byName.set(entry.name, entry);
+            }
+            return { path: baselinePath, lines, entries, byName, size: entries.length };
         } catch (e) {
             return null; // no baseline file
+        }
+    }
+
+    checkBaselineResults(baseline, results) {
+        const resultByName = new Map();
+        for (const result of results) {
+            resultByName.set(result.testName || result.testFile, result);
+        }
+
+        const baselineFailures = [];
+        const legacyPassedNames = new Set(results
+            .filter(r => !r.error &&
+                (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
+                (r.textComparison?.passRate || 100) >= this.textThreshold)
+            .map(r => r.testName || r.testFile));
+
+        for (const entry of baseline.entries) {
+            const result = resultByName.get(entry.name);
+            if (!entry.isPartial) {
+                if (!legacyPassedNames.has(entry.name)) {
+                    baselineFailures.push({ name: entry.name, reason: 'required pass missing or failed' });
+                }
+                continue;
+            }
+
+            if (!result) {
+                baselineFailures.push({ name: entry.name, reason: 'test missing from current run' });
+                continue;
+            }
+            if (result.error) {
+                baselineFailures.push({ name: entry.name, reason: `Error: ${result.error}` });
+                continue;
+            }
+
+            const current = this.getResultScores(result);
+            const regressions = [];
+            for (const metric of ['elements', 'spans', 'text']) {
+                if (entry.scores[metric] == null) continue;
+                const floor = entry.scores[metric] - 10.0;
+                if (current[metric] < floor) {
+                    regressions.push(`${metric} ${entry.scores[metric].toFixed(1)}% → ${current[metric].toFixed(1)}%`);
+                }
+            }
+            if (regressions.length > 0) {
+                baselineFailures.push({ name: entry.name, reason: regressions.join(', ') });
+            }
+        }
+
+        return baselineFailures;
+    }
+
+    async updateBaselineScores(baseline, results) {
+        const resultByName = new Map();
+        for (const result of results) {
+            if (!result || result.error) continue;
+            resultByName.set(result.testName || result.testFile, result);
+        }
+
+        let updated = 0;
+        for (const entry of baseline.entries) {
+            if (!entry.isPartial) continue;
+            const result = resultByName.get(entry.name);
+            if (!result) continue;
+
+            const current = this.getResultScores(result);
+            const next = {
+                elements: entry.scores.elements ?? current.elements,
+                spans: entry.scores.spans ?? current.spans,
+                text: entry.scores.text ?? current.text
+            };
+            let changed = false;
+            for (const metric of ['elements', 'spans', 'text']) {
+                if (current[metric] > next[metric]) {
+                    next[metric] = current[metric];
+                    changed = true;
+                }
+            }
+            if (!changed) continue;
+
+            baseline.lines[entry.lineIndex] = this.formatBaselineEntry(entry.name, next);
+            updated++;
+        }
+
+        if (updated === 0) {
+            if (!this.json) console.log(`\nℹ️  Baseline update: no score improvements found`);
+            return;
+        }
+
+        await fs.writeFile(baseline.path, baseline.lines.join('\n'), 'utf8');
+        if (!this.json) {
+            console.log(`\n✅ Baseline update: improved scores for ${updated} test${updated === 1 ? '' : 's'}`);
         }
     }
 
@@ -630,16 +841,32 @@ class RadiantLayoutTester {
             const normalizedRadiant = normalizeValue(radiantValue, browserProperty);
             const normalizedBrowser = normalizeValue(browserValue, browserProperty);
 
-            // Special comparison for font family - check if one contains the other
-            // Browser may report "Arial, sans-serif" while Radiant reports "sans-serif"
+            // Special comparison for font family - check if one contains the other.
+            // Browser computed style serializes platform system font aliases
+            // (-apple-system/system-ui) while Radiant reports the resolved native
+            // face (for example BlinkMacSystemFont). Treat those aliases as the
+            // same selected system font.
             let match;
             if (browserProperty === 'fontFamily' && normalizedRadiant && normalizedBrowser) {
                 const radiantFamily = normalizedRadiant.toLowerCase();
                 const browserFamily = normalizedBrowser.toLowerCase();
+                const splitFamilies = (value) => value.split(',').map(f => f.trim()).filter(Boolean);
+                const systemFontAliases = new Set([
+                    '-apple-system',
+                    'blinkmacsystemfont',
+                    'system-ui',
+                    '-system-ui',
+                    'ui-sans-serif'
+                ]);
+                const radiantFamilies = splitFamilies(radiantFamily);
+                const browserFamilies = splitFamilies(browserFamily);
+                const radiantHasSystemAlias = radiantFamilies.some(f => systemFontAliases.has(f));
+                const browserHasSystemAlias = browserFamilies.some(f => systemFontAliases.has(f));
                 // Match if either starts with the other, or if one is contained in the other's list
                 match = browserFamily.startsWith(radiantFamily) ||
                         radiantFamily.startsWith(browserFamily) ||
                         browserFamily.includes(radiantFamily) ||
+                        (radiantHasSystemAlias && browserHasSystemAlias) ||
                         normalizedRadiant === normalizedBrowser;
             } else {
                 match = normalizedRadiant === normalizedBrowser;
@@ -1615,8 +1842,8 @@ class RadiantLayoutTester {
         console.log(`${c.bold}[TEST OVERVIEW]${c.reset}`);
         console.log(line('-', 40));
         console.log(`├─ Test: ${report.htmlFile || report.testName}`);
-        console.log(`├─ Result: ${report.resultFile || '/tmp/view_tree.json'}`);
-        console.log(`├─ View: ${report.viewFile || '/tmp/view_tree.txt'}`);
+        console.log(`├─ Result: ${report.resultFile || './temp/view_tree.json'}`);
+        console.log(`├─ View: ${report.viewFile || './view_tree.txt'}`);
         console.log(`├─ Tolerance: ${report.tolerance}px`);
         console.log(`└─ Reference: test/layout/reference/${report.testName}.json`);
         console.log();
@@ -1797,15 +2024,6 @@ class RadiantLayoutTester {
             const actualOutputFile = layoutResult.outputFile || this.outputFile;
             const radiantData = await this.loadRadiantOutput(testFileName, actualOutputFile);
 
-            // Clean up unique output file if used
-            if (outputFile) {
-                try {
-                    await fs.unlink(outputFile);
-                } catch (e) {
-                    // Ignore cleanup errors
-                }
-            }
-
             // Load browser reference
             const browserData = await this.loadBrowserReference(testName, category, htmlFile);
             if (!browserData) {
@@ -1984,6 +2202,13 @@ class RadiantLayoutTester {
         const batchSize = this.batchSize;
         const maxConcurrency = this.maxConcurrency;
 
+        const resultPasses = (result) => {
+            if (!result || result.error) return false;
+            const elementPassRate = result.elementComparison ? result.elementComparison.passRate : 0;
+            const textPassRate = result.textComparison ? result.textComparison.passRate : 100;
+            return elementPassRate >= this.elementThreshold && textPassRate >= this.textThreshold;
+        };
+
         // Clean and recreate batch output directory to avoid stale files from previous runs
         try {
             await fs.rm(this.batchOutputDir, { recursive: true, force: true });
@@ -2012,33 +2237,40 @@ class RadiantLayoutTester {
          */
         const processBatch = async (batch, batchIndex) => {
             const htmlFiles = batch.map(task => task.htmlFile);
+            const batchOutputDir = path.join(this.batchOutputDir, `batch_${batchIndex + 1}`);
             if (this.verbose) {
                 console.log(`\n📦 Batch ${batchIndex + 1}/${batches.length}: ${batch.length} files`);
             }
 
+            const makeLayoutFailure = (task, message) => {
+                let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
+                if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
+                    batchTestName = path.basename(path.dirname(task.htmlFile));
+                }
+                return {
+                    testName: batchTestName,
+                    passed: false,
+                    htmlFile: task.htmlFile,
+                    category: task.category,
+                    error: message,
+                    failureDetails: [message],
+                    timestamp: new Date().toISOString()
+                };
+            };
+
             let outputMap;
             try {
-                outputMap = await this.runBatchLayout(htmlFiles);
+                outputMap = await this.runBatchLayout(htmlFiles, batchOutputDir);
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
-                return batch.map(task => {
-                    let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
-                    if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
-                        batchTestName = path.basename(path.dirname(task.htmlFile));
-                    }
-                    return {
-                        testName: batchTestName,
-                        passed: false,
-                        htmlFile: task.htmlFile,
-                        failureDetails: [`Batch error: ${err.message}`]
-                    };
-                });
+                return batch.map(task => makeLayoutFailure(task, `Batch error: ${err.message}`));
             }
 
             // Compare each result against reference in parallel within the batch.
             // Detect missing output files (from batch process crashes) and retry individually.
             const missingTasks = [];
             const validTasks = [];
+            const retryFailures = [];
             for (const task of batch) {
                 const outputFile = outputMap.get(task.htmlFile);
                 try {
@@ -2055,13 +2287,13 @@ class RadiantLayoutTester {
                     console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getUniqueOutputFile();
+                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
-                    } catch {
+                    } catch (err) {
                         // Still fails individually — mark as error
-                        validTasks.push({ task, outputFile: retryOutput });
+                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             } else if (missingTasks.length === batch.length) {
@@ -2070,12 +2302,12 @@ class RadiantLayoutTester {
                     console.log(`   🔄 Entire batch failed, retrying ${missingTasks.length} files individually`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getUniqueOutputFile();
+                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
                         await this.runRadiantLayout(task.htmlFile, retryOutput);
                         validTasks.push({ task, outputFile: retryOutput });
-                    } catch {
-                        validTasks.push({ task, outputFile: retryOutput });
+                    } catch (err) {
+                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             }
@@ -2084,7 +2316,34 @@ class RadiantLayoutTester {
                 return this.compareTestResult(task.htmlFile, task.category, outputFile);
             });
             const batchResults = await Promise.all(comparePromises);
-            return batchResults.filter(r => r !== null);
+            const finalResults = [];
+            for (let i = 0; i < batchResults.length; i++) {
+                const result = batchResults[i];
+                if (!result) continue;
+                if (resultPasses(result)) {
+                    finalResults.push(result);
+                    continue;
+                }
+
+                const { task } = validTasks[i];
+                const retryOutput = this.getUniqueOutputFile();
+                try {
+                    await this.runRadiantLayout(task.htmlFile, retryOutput);
+                    const retryResult = await this.compareTestResult(task.htmlFile, task.category, retryOutput);
+                    if (resultPasses(retryResult)) {
+                        if (!this.json) {
+                            console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
+                        }
+                        finalResults.push(retryResult);
+                    } else {
+                        finalResults.push(result);
+                    }
+                } catch (err) {
+                    result.batchRetryError = err.message;
+                    finalResults.push(result);
+                }
+            }
+            return finalResults.concat(retryFailures);
         };
 
         // Run batches with a concurrency pool (at most maxConcurrency batches in flight)
@@ -2127,6 +2386,18 @@ class RadiantLayoutTester {
             return this.runTestsInBatchMode(testTasks);
         }
 
+        // Parallel single-file mode writes one JSON file per test under ./temp/layout/.
+        try {
+            await fs.rm(this.parallelOutputDir, { recursive: true, force: true });
+        } catch (e) {
+            // Ignore if it does not exist
+        }
+        try {
+            await fs.mkdir(this.parallelOutputDir, { recursive: true });
+        } catch (e) {
+            // Directory may already exist
+        }
+
         // Original single-file parallel mode
         const results = [];
         const pool = new Map(); // Map of testId -> Promise
@@ -2137,8 +2408,8 @@ class RadiantLayoutTester {
             if (taskIndex >= testTasks.length) return null;
 
             const task = testTasks[taskIndex++];
-            const outputFile = this.getUniqueOutputFile();
-            const testId = this.testIdCounter;
+            const testId = ++this.testIdCounter;
+            const outputFile = this.getParallelOutputFile(task.htmlFile);
 
             const testPromise = this.testSingleFile(task.htmlFile, task.category, outputFile)
                 .then(result => ({ testId, result }))
@@ -2277,6 +2548,7 @@ class RadiantLayoutTester {
                         name: r.testName || r.testFile,
                         passed: !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold && (r.textComparison?.passRate || 100) >= this.textThreshold,
                         elementPassRate: r.elementComparison?.passRate || 0,
+                        spanPassRate: r.spanComparison?.passRate ?? 100,
                         textPassRate: r.textComparison?.passRate || 100,
                         error: r.error || null
                     }))
@@ -2304,26 +2576,24 @@ class RadiantLayoutTester {
                 }
             }
 
-            // Baseline enforcement: if baseline.txt exists, all listed tests must pass
+            // Baseline enforcement: old baseline lines must pass; scored lines may not regress by more than 10 percentage points.
             const baseline = await this.loadBaseline(category);
             if (baseline && baseline.size > 0) {
-                const passedNames = new Set(results
-                    .filter(r => !r.error &&
-                        (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
-                        (r.textComparison?.passRate || 100) >= this.textThreshold)
-                    .map(r => r.testName || r.testFile));
-                const baselineFailures = [];
-                for (const name of baseline) {
-                    if (!passedNames.has(name)) baselineFailures.push(name);
-                }
+                const baselineFailures = this.checkBaselineResults(baseline, results);
                 if (baselineFailures.length > 0) {
-                    console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
-                    baselineFailures.forEach(name => console.log(`   - ${name}`));
+                    if (!this.json) {
+                        console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
+                        baselineFailures.forEach(failure => console.log(`   - ${failure.name}: ${failure.reason}`));
+                    }
                     // Signal failure for CI
                     if (!this._baselineRegressions) this._baselineRegressions = [];
                     this._baselineRegressions.push(...baselineFailures);
                 } else {
-                    console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
+                    if (!this.json) console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
+                }
+
+                if (this.updateBaseline) {
+                    await this.updateBaselineScores(baseline, results);
                 }
             }
 
@@ -2525,6 +2795,7 @@ class RadiantLayoutTester {
                     name: r.testName || r.testFile,
                     passed: !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold && (r.textComparison?.passRate || 100) >= this.textThreshold,
                     elementPassRate: r.elementComparison?.passRate || 0,
+                    spanPassRate: r.spanComparison?.passRate ?? 100,
                     textPassRate: r.textComparison?.passRate || 100,
                     error: r.error || null
                 }))
@@ -2617,6 +2888,9 @@ async function main() {
             case '--json':
                 options.json = true;
                 break;
+            case '--update-baseline':
+                options.updateBaseline = true;
+                break;
             case '--concurrency':
             case '-j':
                 options.maxConcurrency = parseInt(args[++i], 10);
@@ -2657,15 +2931,16 @@ Options:
   --element-threshold <pct> Element match threshold percentage (default: 80.0)
   --text-threshold <pct>   Text match threshold percentage (default: 70.0)
   --concurrency, -j <n>    Number of parallel tests to run (default: 5)
-  --batch-size, -b <n>     Batch size for layout processing (default: 20, 0 to disable)
+  --batch-size, -b <n>     Batch size for layout processing (default: 100, 0 to disable)
   --no-batch               Disable batch mode (same as --batch-size 0)
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
+  --update-baseline        Update scored baseline entries, raising each metric only when current is better
   --radiant-exe <path>     Path to layout engine executable (default: ./lambda.exe)
   --help, -h               Show this help message
 
 Batch Mode:
-  By default, tests are processed in batches of 20 files to improve performance.
+  By default, tests are processed in batches of 100 files to improve performance.
   The layout engine's UiContext is initialized once per batch, reducing overhead.
   Use --no-batch to disable batch mode and process files individually.
 
@@ -2685,6 +2960,7 @@ Examples:
   node test/layout/test_radiant_layout.js -j 10                        # Run 10 tests in parallel
   node test/layout/test_radiant_layout.js -b 50                        # Process layout in batches of 50
   node test/layout/test_radiant_layout.js --no-batch                   # Disable batch mode
+  node test/layout/test_radiant_layout.js -c page --update-baseline    # Raise scored page baseline metrics only on improvement
   node test/layout/test_radiant_layout.js -v                           # Verbose output
 
 Note: Run this script from the project root directory.

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 120px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .parent {
+    position: absolute; left: 12px; top: 12px;
+    width: 96px; height: 96px;
+    background: linear-gradient(135deg, #2563eb 0%, #f59e0b 100%);
+    isolation: isolate;
+  }
+  .a, .b {
+    position: absolute;
+    width: 58px; height: 58px;
+    border-radius: 50%;
+  }
+  .a {
+    left: 18px; top: 18px;
+    background: #ef4444;
+  }
+  .b {
+    left: 38px; top: 34px;
+    background: #22c55e;
+    mix-blend-mode: multiply;
+  }
+</style>
+</head>
+<body>
+  <div class="parent">
+    <div class="a"></div>
+    <div class="b"></div>
+  </div>
+</body>
+</html>

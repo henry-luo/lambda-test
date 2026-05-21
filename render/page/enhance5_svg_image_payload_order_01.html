@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 170px; height: 130px; overflow: hidden; }
+  body { background: #f8fafc; font: 700 13px Arial, sans-serif; color: #172554; }
+  .stage {
+    position: absolute; left: 17px; top: 14px;
+    width: 136px; height: 102px;
+    border: 3px solid #334155;
+    background: #dbeafe;
+    overflow: hidden;
+  }
+  img {
+    position: absolute; left: 9px; top: 9px;
+    width: 70px; height: 70px;
+  }
+  svg {
+    position: absolute; left: 54px; top: 27px;
+    width: 70px; height: 52px;
+  }
+  .label {
+    position: absolute; left: 42px; top: 70px;
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #1d4ed8;
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <img src="res/embedded_png.svg" alt="">
+    <svg viewBox="0 0 70 52">
+      <rect x="3" y="5" width="56" height="34" rx="8" fill="#22c55e" opacity="0.86"/>
+      <circle cx="51" cy="24" r="16" fill="#f97316" opacity="0.86"/>
+      <path d="M11 41 L63 11" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="label">svg img</div>
+  </div>
+</body>
+</html>

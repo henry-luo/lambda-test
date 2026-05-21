@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  svg {
+    display: block;
+    margin: 10px 12px;
+    width: 136px; height: 98px;
+    background: #e2e8f0;
+    border: 3px solid #334155;
+  }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 136 98" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="p" x="0" y="0" width="16" height="16"
+               patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+        <rect width="16" height="16" fill="#bfdbfe"/>
+        <circle cx="4" cy="4" r="4" fill="#ef4444"/>
+        <path d="M0 16 L16 0" stroke="#2563eb" stroke-width="3"/>
+      </pattern>
+    </defs>
+    <rect x="14" y="12" width="108" height="72" rx="12" fill="url(#p)"/>
+    <circle cx="96" cy="34" r="16" fill="rgba(34,197,94,0.75)"/>
+  </svg>
+</body>
+</html>

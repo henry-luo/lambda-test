@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 340px; height: 180px; overflow: hidden; }
+  body { background: #f8fafc; font: 700 18px Arial, sans-serif; color: #0f172a; }
+  .anchor {
+    position: absolute; left: 225px; top: 18px;
+    width: 68px; height: 140px;
+    background: linear-gradient(#dbeafe, #bfdbfe);
+    border-left: 4px solid #38bdf8;
+  }
+  .moving {
+    position: absolute; left: 98px; top: 45px;
+    width: 118px; height: 64px;
+    border: 6px solid #334155;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fde68a, #f97316);
+    box-shadow: 14px 10px 12px rgba(15, 23, 42, 0.24);
+    filter: saturate(1.3);
+    transform: translateX(72px) rotate(-7deg);
+  }
+  .moving span {
+    display: block;
+    margin-top: 18px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="anchor"></div>
+  <div class="moving"><span>dirty</span></div>
+</body>
+</html>

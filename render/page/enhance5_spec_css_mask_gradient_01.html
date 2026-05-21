@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 160px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .back {
+    position: absolute; left: 18px; top: 16px;
+    width: 124px; height: 88px;
+    background: #dbeafe;
+    border: 3px solid #334155;
+  }
+  .masked {
+    position: absolute; left: 33px; top: 28px;
+    width: 94px; height: 64px;
+    background: linear-gradient(135deg, #ef4444, #2563eb);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 0 24px, transparent 26px);
+    mask-image: radial-gradient(circle at 50% 50%, black 0 24px, transparent 26px);
+  }
+</style>
+</head>
+<body>
+  <div class="back"></div>
+  <div class="masked"></div>
+</body>
+</html>

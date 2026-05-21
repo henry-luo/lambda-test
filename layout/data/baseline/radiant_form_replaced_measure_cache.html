@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant form and replaced measurement cache</title>
+<style>
+body {
+  margin: 0;
+  font: 13px Arial, sans-serif;
+}
+.wrap {
+  width: 180px;
+  margin: 20px;
+}
+.wrap > * {
+  display: block;
+  margin-bottom: 8px;
+}
+.absbox {
+  position: relative;
+  width: 240px;
+  height: 90px;
+  margin: 20px;
+  border: 2px solid #333;
+}
+.absbox input {
+  position: absolute;
+  left: 15px;
+  right: 25px;
+  top: 10px;
+  bottom: 20px;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+}
+.fixed {
+  width: 38px;
+  height: 31px;
+}
+.choice {
+  width: 113px;
+}
+.notes {
+  width: 86px;
+  height: 36px;
+}
+</style>
+<div class="wrap">
+  <input class="fixed" value="x">
+  <select class="choice"><option>short</option><option>long option text</option></select>
+  <textarea class="notes">text</textarea>
+</div>
+<div class="absbox"><input value="stretch"></div>

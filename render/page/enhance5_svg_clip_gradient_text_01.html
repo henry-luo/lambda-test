@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 150px; height: 120px; overflow: hidden; }
+  body { background: #f8fafc; }
+  svg { position: absolute; left: 13px; top: 10px; width: 124px; height: 96px; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 124 96">
+    <defs>
+      <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#10b981"/>
+        <stop offset="1" stop-color="#6366f1"/>
+      </linearGradient>
+      <clipPath id="c">
+        <path d="M62 4 L118 28 L103 88 L21 88 L6 28 Z"/>
+      </clipPath>
+    </defs>
+    <g clip-path="url(#c)">
+      <rect x="0" y="0" width="124" height="96" fill="url(#sg)"/>
+      <circle cx="87" cy="29" r="24" fill="#f97316" opacity="0.72"/>
+      <rect x="18" y="47" width="92" height="28" rx="8" fill="#ffffff" opacity="0.38"/>
+      <text x="28" y="68" font-family="Arial" font-size="20" font-weight="700" fill="#111827">clip</text>
+    </g>
+  </svg>
+</body>
+</html>

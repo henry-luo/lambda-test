@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant inline block baseline in grid cells</title>
+<style>
+body {
+  margin: 0;
+  font: 16px Arial, sans-serif;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 70px 70px;
+  align-items: baseline;
+  margin: 20px;
+  border: 1px solid #999;
+}
+.cell {
+  border: 1px solid #8c5b25;
+}
+.ib {
+  display: inline-block;
+  padding: 4px;
+  border: 2px solid #376b8f;
+  font-size: 24px;
+}
+.small {
+  font-size: 12px;
+}
+</style>
+<div class="grid">
+  <div class="cell"><span class="ib">Grid</span></div>
+  <div class="cell"><span class="ib small">base</span></div>
+</div>

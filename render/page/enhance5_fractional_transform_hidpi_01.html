@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 180px; height: 130px; overflow: hidden; }
+  body { background: #f8fafc; }
+  .grid {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(#e2e8f0 1px, transparent 1px),
+      linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+  .panel {
+    position: absolute; left: 28.5px; top: 24.25px;
+    width: 112.5px; height: 60.5px;
+    border: 3px solid #0f766e;
+    border-radius: 13.5px;
+    background: linear-gradient(110deg, #ccfbf1, #fef3c7 72%);
+    box-shadow: 7.5px 9.25px 0 rgba(15, 23, 42, 0.22);
+    transform: translate(7.5px, 3.25px) rotate(-6.5deg);
+    transform-origin: 50% 50%;
+  }
+  .panel::before {
+    content: "";
+    position: absolute; left: 13.5px; top: 15.25px;
+    width: 52.5px; height: 11.5px;
+    background: #fb7185;
+    border-radius: 7px;
+  }
+  .panel::after {
+    content: "";
+    position: absolute; right: 15.25px; bottom: 13.5px;
+    width: 24.5px; height: 24.5px;
+    background: #2563eb;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="panel"></div>
+</body>
+</html>

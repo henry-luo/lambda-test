@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 120px; height: 120px; overflow: hidden; }
+  body { background: #fbfbf7; }
+  .plate {
+    position: absolute; left: 12px; top: 12px;
+    width: 96px; height: 96px;
+    background:
+      linear-gradient(90deg, rgba(40,80,120,0.12) 0 50%, transparent 50% 100%),
+      linear-gradient(0deg, rgba(160,80,60,0.12) 0 50%, transparent 50% 100%);
+    background-size: 24px 24px;
+  }
+  .filtered {
+    position: absolute; left: 28px; top: 24px;
+    width: 64px; height: 62px;
+    background: transparent;
+    filter: drop-shadow(9px 7px 5px rgba(20, 30, 40, 0.45));
+  }
+  .shape {
+    position: absolute; left: 4px; top: 6px;
+    width: 54px; height: 48px;
+    background: #38a169;
+    clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+  }
+</style>
+</head>
+<body>
+  <div class="plate"></div>
+  <div class="filtered"><div class="shape"></div></div>
+</body>
+</html>

@@ -17,6 +17,7 @@
  *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
  *   node test_radiant_render.js --suite puppertino       # Run tests from one suite subdirectory
  *   node test_radiant_render.js --suite page,puppertino   # Run tests from multiple suites (default)
+ *   node test_radiant_render.js --replay-parity --test clip_path_with_effects_01
  */
 
 const { spawn } = require('child_process');
@@ -104,6 +105,7 @@ function parseArgs() {
         verbose: false,
         json: false,
         baseline: false,               // only fail on baseline-listed regressions
+        replayParity: false,
         exe: LAMBDA_EXE,
         platform: null,
         suite: null
@@ -137,6 +139,9 @@ function parseArgs() {
             case '--baseline':
                 opts.baseline = true;
                 break;
+            case '--replay-parity':
+                opts.replayParity = true;
+                break;
             case '--suite': case '-s':
                 opts.suite = args[++i];
                 break;
@@ -148,6 +153,10 @@ function parseArgs() {
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
 function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight) {
+    return renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, null);
+}
+
+function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, envOverrides) {
     return new Promise((resolve, reject) => {
         const args = [
             'render', htmlFile,
@@ -159,6 +168,7 @@ function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewport
 
         const proc = spawn(exePath, args, {
             cwd: PROJECT_ROOT,
+            env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
             timeout: 30000
         });
 
@@ -282,6 +292,25 @@ function getTestConfig(testName) {
     return {};
 }
 
+function applyExpectedFailure(testConfig, result) {
+    if (!testConfig || testConfig.expectedFail !== true) {
+        return result;
+    }
+
+    const expectedReason = testConfig.expectedFailReason || 'expected failure';
+    if (result.status === 'fail' || result.status === 'error') {
+        return { ...result, status: 'xfail', reason: expectedReason };
+    }
+    if (result.status === 'pass') {
+        return {
+            ...result,
+            status: 'fail',
+            reason: `expected failure passed: ${expectedReason}`
+        };
+    }
+    return result;
+}
+
 // ─── Single test execution ──────────────────────────────────────────────────
 
 async function runSingleTest(testName, opts) {
@@ -305,6 +334,7 @@ async function runSingleTest(testName, opts) {
 
     // per-test viewport size
     const testConfig = getTestConfig(testName);
+    const finalize = (result) => applyExpectedFailure(testConfig, result);
     const vw = testConfig.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
     const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
 
@@ -312,39 +342,105 @@ async function runSingleTest(testName, opts) {
     try {
         await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh);
     } catch (err) {
-        return { testName, status: 'error', reason: err.message };
+        return finalize({ testName, status: 'error', reason: err.message });
     }
 
     // verify output was created
     if (!fs.existsSync(outputPng)) {
-        return { testName, status: 'error', reason: 'Radiant produced no output file' };
+        return finalize({ testName, status: 'error', reason: 'Radiant produced no output file' });
     }
 
     // compare
     const result = compareImages(outputPng, refPng, diffPng);
     if (result.error) {
-        return { testName, status: 'fail', reason: result.error, ...result };
+        return finalize({ testName, status: 'fail', reason: result.error, ...result });
     }
 
     // Determine threshold: CLI override > auto (text/no-text)
     let maxMismatch;
     if (opts.threshold != null) {
         maxMismatch = opts.threshold;                         // CLI --threshold
+    } else if (testConfig.threshold != null) {
+        maxMismatch = testConfig.threshold;
     } else {
         maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
     }
 
     if (result.mismatchPercent > maxMismatch) {
-        return {
+        return finalize({
             testName,
             status: 'fail',
             reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
+            ...result,
+            diffPath: diffPng
+        });
+    }
+
+    return finalize({ testName, status: 'pass', ...result });
+}
+
+// ─── Replay parity runner ──────────────────────────────────────────────────
+
+async function runReplayParityTest(testName, opts) {
+    const htmlFile = path.join(suiteDirFor(testName), `${testName}.html`);
+    const singlePng = path.join(OUTPUT_DIR, `${testName}.single.png`);
+    const tiledPng = path.join(OUTPUT_DIR, `${testName}.tiled.png`);
+    const diffPng = path.join(DIFF_DIR, `${testName}.replay_parity.png`);
+    const testConfig = getTestConfig(testName);
+    const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
+    const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+
+    try {
+        await renderWithRadiantEnv(opts.exe, htmlFile, singlePng, vw, vh,
+                                   { RADIANT_RENDER_THREADS: '1' });
+        await renderWithRadiantEnv(opts.exe, htmlFile, tiledPng, vw, vh,
+                                   { RADIANT_RENDER_THREADS: '2' });
+    } catch (err) {
+        return { testName, status: 'error', reason: err.message };
+    }
+
+    if (!fs.existsSync(singlePng) || !fs.existsSync(tiledPng)) {
+        return { testName, status: 'error', reason: 'Radiant produced no parity output file' };
+    }
+
+    const result = compareImages(tiledPng, singlePng, diffPng);
+    if (result.error) {
+        return { testName, status: 'fail', reason: result.error, ...result };
+    }
+
+    const maxMismatch = opts.threshold != null ? opts.threshold : 0.0;
+    if (result.mismatchPercent > maxMismatch) {
+        return {
+            testName,
+            status: 'fail',
+            reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% replay parity threshold`,
             ...result,
             diffPath: diffPng
         };
     }
 
     return { testName, status: 'pass', ...result };
+}
+
+async function runReplayParityTests(testNames, opts) {
+    const queue = [...testNames];
+    const results = [];
+
+    async function worker() {
+        while (queue.length > 0) {
+            const testName = queue.shift();
+            if (!testName) break;
+            results.push(await runReplayParityTest(testName, opts));
+        }
+    }
+
+    const workers = [];
+    const count = Math.min(opts.concurrency, queue.length);
+    for (let i = 0; i < count; i++) {
+        workers.push(worker());
+    }
+    await Promise.all(workers);
+    return results;
 }
 
 // ─── Parallel runner ────────────────────────────────────────────────────────
@@ -399,15 +495,17 @@ async function runTestsParallel(testNames, opts) {
 
             const { testName, htmlFile, outputPng } = job;
             const batchResult = batchResults.get(htmlFile);
+            const testConfig = getTestConfig(testName);
+            const finalize = (result) => applyExpectedFailure(testConfig, result);
 
             if (!batchResult || !batchResult.ok) {
                 const reason = batchResult ? batchResult.reason : 'not in batch output';
-                results.push({ testName, status: 'error', reason: `render failed: ${reason}` });
+                results.push(finalize({ testName, status: 'error', reason: `render failed: ${reason}` }));
                 continue;
             }
 
             if (!fs.existsSync(outputPng)) {
-                results.push({ testName, status: 'error', reason: 'Radiant produced no output file' });
+                results.push(finalize({ testName, status: 'error', reason: 'Radiant produced no output file' }));
                 continue;
             }
 
@@ -421,7 +519,7 @@ async function runTestsParallel(testNames, opts) {
             const result = compareImages(outputPng, refPng, diffPng);
 
             if (result.error) {
-                results.push({ testName, status: 'fail', reason: result.error, ...result });
+                results.push(finalize({ testName, status: 'fail', reason: result.error, ...result }));
                 continue;
             }
 
@@ -429,20 +527,22 @@ async function runTestsParallel(testNames, opts) {
             let maxMismatch;
             if (opts.threshold != null) {
                 maxMismatch = opts.threshold;
+            } else if (testConfig.threshold != null) {
+                maxMismatch = testConfig.threshold;
             } else {
                 maxMismatch = hasVisibleText(htmlFile) ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT;
             }
 
             if (result.mismatchPercent > maxMismatch) {
-                results.push({
+                results.push(finalize({
                     testName,
                     status: 'fail',
                     reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% threshold`,
                     ...result,
                     diffPath: diffPng
-                });
+                }));
             } else {
-                results.push({ testName, status: 'pass', ...result });
+                results.push(finalize({ testName, status: 'pass', ...result }));
             }
         }
     }
@@ -510,6 +610,9 @@ function checkBaselineRegressions(results, baselineMap, opts) {
         }
         if (result.status === 'error') {
             regressions.push({ name, result });
+            continue;
+        }
+        if (result.status === 'xfail') {
             continue;
         }
         const actualPct = result.mismatchPercent != null ? result.mismatchPercent : 0;
@@ -626,13 +729,19 @@ async function main() {
         console.log('==============================');
         const thresholdLabel = opts.threshold != null
             ? `${opts.threshold}%`
-            : `auto (no-text: ${THRESHOLD_NO_TEXT}%, text: ${THRESHOLD_TEXT}%)`;
+            : (opts.replayParity ? 'replay parity exact' :
+               `auto (no-text: ${THRESHOLD_NO_TEXT}%, text: ${THRESHOLD_TEXT}%)`);
         console.log(`   Tests: ${testNames.length}, Workers: ${opts.concurrency}, Threshold: ${thresholdLabel}`);
+        if (opts.replayParity) {
+            console.log('   Mode: single-thread replay vs tiled replay');
+        }
         console.log('');
     }
 
     // run tests
-    const results = await runTestsParallel(testNames, opts);
+    const results = opts.replayParity
+        ? await runReplayParityTests(testNames, opts)
+        : await runTestsParallel(testNames, opts);
 
     // sort results by test name for consistent output
     results.sort((a, b) => a.testName.localeCompare(b.testName));
@@ -664,7 +773,7 @@ async function main() {
 // ─── Output formatters ──────────────────────────────────────────────────────
 
 function outputConsole(results, opts) {
-    let passed = 0, failed = 0, skipped = 0, errors = 0;
+    let passed = 0, failed = 0, skipped = 0, errors = 0, xfailed = 0;
 
     for (const r of results) {
         switch (r.status) {
@@ -687,6 +796,13 @@ function outputConsole(results, opts) {
                 skipped++;
                 console.log(`  ⚠️  SKIP  ${r.testName.padEnd(32)} (${r.reason})`);
                 break;
+            case 'xfail':
+                xfailed++;
+                console.log(`  🟨 XFAIL ${r.testName.padEnd(32)} (${r.reason})`);
+                if (r.diffPath) {
+                    console.log(`           → Diff: ${path.relative(PROJECT_ROOT, r.diffPath)}`);
+                }
+                break;
             case 'error':
                 errors++;
                 console.log(`  💥 ERROR ${r.testName.padEnd(32)} (${r.reason})`);
@@ -697,6 +813,7 @@ function outputConsole(results, opts) {
     console.log('');
     console.log(`Results: ${passed}/${results.length} passed` +
         (failed > 0 ? `, ${failed} failed` : '') +
+        (xfailed > 0 ? `, ${xfailed} expected failures` : '') +
         (skipped > 0 ? `, ${skipped} skipped` : '') +
         (errors > 0 ? `, ${errors} errors` : ''));
     console.log('');
@@ -707,6 +824,7 @@ function outputJson(results) {
         total: results.length,
         passed: results.filter(r => r.status === 'pass').length,
         failed: results.filter(r => r.status === 'fail').length,
+        xfailed: results.filter(r => r.status === 'xfail').length,
         skipped: results.filter(r => r.status === 'skip').length,
         errors: results.filter(r => r.status === 'error').length,
         tests: results.map(r => ({

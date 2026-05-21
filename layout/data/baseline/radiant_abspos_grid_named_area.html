@@ -1,0 +1,45 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Radiant abspos grid named area containing block</title>
+<style>
+body {
+  margin: 0;
+  font: 16px Arial, sans-serif;
+}
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px 160px;
+  grid-template-rows: 80px 70px;
+  grid-template-areas:
+    "a b"
+    "c c";
+  gap: 10px;
+  padding: 15px;
+  border: 5px solid #333;
+  width: 290px;
+  height: 170px;
+  box-sizing: border-box;
+}
+.slot {
+  background: #e8e8e8;
+}
+.area {
+  grid-area: b;
+  position: relative;
+  background: #d9ecff;
+}
+.abs {
+  position: absolute;
+  left: 40px;
+  top: 16px;
+  width: 80px;
+  height: 42px;
+  background: #e9a35c;
+}
+</style>
+<div class="grid">
+  <div class="slot" style="grid-area: a"></div>
+  <div class="area"><div class="abs"></div></div>
+  <div class="slot" style="grid-area: c"></div>
+</div>
