@@ -1,7 +1,7 @@
 # Radiant Render Test Baseline
 # Generated: 2026-05-20 from full default render suite
-# page suite: 192 entries; puppertino suite: 13 entries
-# latest run: 177/205 passed; 0 failed; 28 xfailed; 0 skipped
+# page suite: 193 entries; puppertino suite: 13 entries
+# latest run: 178/206 passed; 0 failed; 28 xfailed; 0 skipped
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -127,6 +127,7 @@ iframe_basic_01                              296   2.96%  100x100
 iframe_sizes_01                              220   2.20%  100x100
 iframe_styled_01                             643   6.43%  100x100
 image_rendering_01                         exact   0.00%  100x100
+image_svg_border_content_box_01              128   2.67%  80x60
 inline_block_minmax_01                        60   0.60%  100x100
 line_clamp_01                                291   2.91%  100x100
 list_inside_outside_01                       293   2.93%  100x100
