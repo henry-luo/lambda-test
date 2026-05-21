@@ -3048,7 +3048,8 @@ Note: Run this script from the project root directory.
             }
 
             if (foundFile) {
-                await tester.testSingleFile(foundFile, foundCategory);
+                const outputFile = tester.getParallelOutputFile(foundFile);
+                await tester.testSingleFile(foundFile, foundCategory, outputFile);
             } else {
                 console.error(`Test file '${testFile}' not found in any category`);
                 process.exit(1);
