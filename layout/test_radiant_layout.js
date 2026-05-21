@@ -489,6 +489,10 @@ class RadiantLayoutTester {
         };
     }
 
+    isFullyMatchedScores(scores) {
+        return scores.elements >= 99.95 && scores.spans >= 99.95 && scores.text >= 99.95;
+    }
+
     formatBaselineEntry(name, scores) {
         return `${name} Elements ${scores.elements.toFixed(1)}%, Spans ${scores.spans.toFixed(1)}%, Text ${scores.text.toFixed(1)}%.`;
     }
@@ -528,9 +532,7 @@ class RadiantLayoutTester {
 
         const baselineFailures = [];
         const legacyPassedNames = new Set(results
-            .filter(r => !r.error &&
-                (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
-                (r.textComparison?.passRate || 100) >= this.textThreshold)
+            .filter(r => !r.error && this.isFullyMatchedScores(this.getResultScores(r)))
             .map(r => r.testName || r.testFile));
 
         for (const entry of baseline.entries) {
@@ -600,14 +602,43 @@ class RadiantLayoutTester {
             updated++;
         }
 
-        if (updated === 0) {
-            if (!this.json) console.log(`\nℹ️  Baseline update: no score improvements found`);
+        let added = 0;
+        let insertIndex = baseline.lines.length;
+        if (insertIndex > 0 && baseline.lines[insertIndex - 1] === '') {
+            insertIndex--;
+        }
+
+        for (const result of results) {
+            if (!result || result.error) continue;
+            const name = result.testName || result.testFile;
+            if (!name || baseline.byName.has(name)) continue;
+
+            const current = this.getResultScores(result);
+            const line = this.isFullyMatchedScores(current)
+                ? name
+                : this.formatBaselineEntry(name, current);
+            baseline.lines.splice(insertIndex, 0, line);
+            insertIndex++;
+            baseline.byName.set(name, {
+                name,
+                scores: this.isFullyMatchedScores(current) ? {} : current,
+                isPartial: !this.isFullyMatchedScores(current),
+                lineIndex: insertIndex - 1
+            });
+            added++;
+        }
+
+        if (updated === 0 && added === 0) {
+            if (!this.json) console.log(`\nℹ️  Baseline update: no score improvements or new entries found`);
             return;
         }
 
         await fs.writeFile(baseline.path, baseline.lines.join('\n'), 'utf8');
         if (!this.json) {
-            console.log(`\n✅ Baseline update: improved scores for ${updated} test${updated === 1 ? '' : 's'}`);
+            const parts = [];
+            if (updated > 0) parts.push(`improved scores for ${updated} test${updated === 1 ? '' : 's'}`);
+            if (added > 0) parts.push(`added ${added} entr${added === 1 ? 'y' : 'ies'}`);
+            console.log(`\n✅ Baseline update: ${parts.join(', ')}`);
         }
     }
 
