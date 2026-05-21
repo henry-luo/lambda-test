@@ -1,0 +1,14 @@
+# JS262 diagnose list.
+#
+# Format:
+#   test_name<TAB>last_timing<TAB>expected_fast_paths<TAB>notes
+#
+# `last_timing` should be from a release build, ideally the most recent focused
+# batch.  `expected_fast_paths` names the diagnostic hits that should appear in
+# log.txt when running with `--diagnose`.  Use `none-yet` for tests that are
+# intentionally on the list before a fast path exists.
+
+built_ins_decodeURI_S15_1_3_1_A2_5_T1_js	timeout@30s	uri.escape.b3-b4-loop-fast-forward,uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	URI A2.5 nested continuation-byte search; should become sub-second after generalized loop fast-forwarding is active.
+built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js	timeout@30s	uri.escape.b3-b4-loop-fast-forward,uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	URIComponent A2.5 equivalent of the decodeURI hot rectangle.
+built_ins_decodeURI_S15_1_3_1_A2_4_T1_js	~3.3s	uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	Still slow-adjacent in release rechecks; keep as a guard for two-byte/three-byte URI loop coverage.
+built_ins_decodeURIComponent_S15_1_3_2_A2_4_T1_js	~3.4s	uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	URIComponent A2.4 slow-adjacent guard.

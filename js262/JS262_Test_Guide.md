@@ -15,6 +15,9 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 # Run baseline-only (faster, verifies no regressions)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --baseline-only
 
+# Run the diagnose watch list with extra Lambda fast-path logging
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diagnose --jobs=1 --js-timeout=30
+
 # Run a single test manually
 ./lambda.exe js test/js262/test262/test/built-ins/Array/from/...test.js
 ```
@@ -81,6 +84,8 @@ A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_K
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
 | `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
+| `--diagnose` | Run `test/js262/diagnose_list.txt` in batch mode and pass `--diagnose` to `lambda.exe js-test-batch`, enabling extra fast-path diagnostics in `log.txt`. |
+| `--diagnose-list=<path>` | Override the diagnose list path. This also enables `--diagnose`. |
 | `--write-failures=<path>` | Write a TSV manifest for failed tests. The row count matches the reported Failed count, excluding skipped and non-fully-passing tests. |
 | `--feature-summary` | Write failure summaries grouped by feature and category/subcategory. If no manifest path is given, uses `temp/js262_failures.tsv`. |
 
@@ -105,6 +110,35 @@ test_name	path	status	failure_kind	message	category	subcategory	features	include
 The runner also writes `temp/js262_failures_by_feature.tsv` and `temp/js262_failures_by_path.tsv` when the manifest path is `temp/js262_failures.tsv`. For a custom manifest path, the summary files use the same base name, for example `temp/my_failures_by_feature.tsv`.
 
 ## Diagnosing Failures
+
+### Diagnose watch list
+
+Use `test/js262/diagnose_list.txt` for slow tests or tests that need targeted
+fast-path confirmation.  Each non-comment row is TSV-shaped:
+
+```text
+test_name	last_timing	expected_fast_paths	notes
+```
+
+The runner uses only the first field as the test name, so the timing and
+expected-fast-path columns are documentation for humans and future checks.
+When a new slow test appears, add it here with the release-build timing and the
+fast paths it should hit after tuning.  Use `none-yet` when the optimization has
+not been designed.
+
+Run it with:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --diagnose \
+  --jobs=1 \
+  --js-timeout=30 \
+  --write-failures=temp/js262_diagnose_failures.tsv
+```
+
+`--diagnose` implies batch mode, defaults to `test/js262/diagnose_list.txt`,
+and passes `--diagnose` into `lambda.exe js-test-batch`.  Diagnostic messages
+such as `js-diagnose: fast-path-hit=...` are written to `log.txt`.
 
 ### Reading the output
 ```
