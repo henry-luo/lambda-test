@@ -12,11 +12,9 @@
 # Keep the default preamble small.  Only list helpers that are expensive enough
 # to compile once for a matching batch instead of prepending to each test.
 
-# testTypedArray.js captures intrinsic constructor identities such as
-# Float64Array in top-level arrays.  With the current js-test-batch harness/test
-# split those captured functions are not SameValue-identical to constructors
-# observed by each test source, so keep this helper per-test until constructor
-# identity is shared across batch compilation units.
+# testTypedArray.js defines lexical helper functions that are not visible when
+# compiled as a separate preamble module, so keep it per-test until preamble
+# exports can share helper bindings with test modules.
 built-ins/Atomics/*	testAtomics.js
 built-ins/ArrayBuffer/*	detachArrayBuffer.js
 built-ins/SharedArrayBuffer/*	detachArrayBuffer.js
