@@ -6,6 +6,8 @@
 # Build
 make build                # Debug build (lambda.exe only — does NOT rebuild test executables)
 make build-test           # Build test executables (test_js_test262_gtest.exe, etc.)
+make test262-full         # Builds tests, then restores release lambda.exe before running js262
+make test262-update-baseline
 
 # Run test262 (batch mode — the standard way)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only
@@ -27,17 +29,26 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 - **Baseline file**: `test/js262/test262_baseline.txt` (~25,272 tests)
 - **Test runner**: `test/test_js_test262_gtest.cpp`
 - **Batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
-- **Parallel workers**: 12
-- **Preamble**: harness files (sta.js, assert.js, nativeFunctionMatcher.js) compiled once via MIR JIT
+- **Parallel workers**: 4
+- **Default preamble**: `sta.js`, `assert.js`, and `nativeFunctionMatcher.js`
+  compiled once via MIR JIT for ordinary JS-harness batches.
+- **Special preamble map**: `test/js262/special_premble.txt` lists expensive
+  helper families, such as `testTypedArray.js` and `testAtomics.js`, that should
+  be compiled once only for matching tests.
 - **Non-fully-passing list**: `test/js262/t262_partial.txt` (crash, slow, batch-unstable from previous run)
 - **Minimum baseline gate**: 21,824 (STABLE_BASELINE_MIN)
+- **Performance rule**: full-suite timing and baseline refreshes must use a
+  release `lambda.exe`; debug/O0 runs can create hundreds of false slow tests.
+  The `make test262-*` targets now rebuild release `lambda.exe` after
+  `build-test` so the debug test executables do not overwrite the runtime used
+  by `js-test-batch`.
 
 ## Test Phases
 
 | Phase | What it does |
 |-------|-------------|
 | **Phase 1** | Parse YAML metadata, partition into CLEAN (batchable) and PARTIAL (known problematic). |
-| **Phase 2** | Execute CLEAN tests: 50/process, 12 parallel workers. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. |
+| **Phase 2** | Execute CLEAN tests: 50/process, 4 parallel workers. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. |
 | **Phase 2a** | **Removed.** Previously ran PARTIAL tests individually. Now PARTIAL tests are skipped by default; their entries in `t262_partial.txt` are preserved verbatim each run. Use `--run-partial` to promote them into Phase 2. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
@@ -74,6 +85,40 @@ A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_K
 4. **Always use `--batch-only`**. This is the standard mode. Without it, tests run as individual GTest cases (slow, different semantics).
 5. **Run 2-3 times** after any engine change to confirm stability. Batch ordering varies by timing, so different tests are "first in batch" each run.
 6. **Use `--update-baseline`** only when: regressions=0, non-fully-passing≤2, you've run ≥2 verification runs.
+
+## Batch Preamble Design
+
+The default JS-harness preamble must stay small.  A 2026-05-22 debug-run
+diagnosis compared current HEAD against the saved `d6092bc8a` debug run in
+`test/js262/results/debug_run` using simple, non-pathological tests.  Plain
+`lambda.exe js-test-batch` startup was fast, and a d609-style preamble
+(`sta.js`, `assert.js`, `nativeFunctionMatcher.js`) compiled in roughly
+sub-second debug time.  The widened preamble that globally added
+`testTypedArray.js`, `testAtomics.js`, `detachArrayBuffer.js`, and URI helper
+files made even tiny one-test JS-harness batches spend multiple seconds before
+the test body ran.  `testTypedArray.js` was the largest single contributor.
+
+The runner now batches JS-harness tests by special preamble need:
+
+```text
+ordinary JS tests           -> default preamble only
+TypedArray-family tests     -> default preamble + testTypedArray.js
+Atomics-family tests        -> default preamble + testAtomics.js
+URI encoding-family tests   -> default preamble + decimalToHexString.js
+```
+
+`test/js262/special_premble.txt` controls those groups.  Each non-comment row
+has a selector followed by one or more helper files:
+
+```text
+selector<TAB>helper.js[,other-helper.js]
+```
+
+Selectors may be sanitized test names, `ref/test262/test/...` paths, relative
+test262 paths, or prefix selectors ending in `*`.  Keep this file conservative:
+add a helper only when compiling it per matching test is measurably worse than
+compiling it once for that helper-specific batch.  Helpers not listed here still
+work because they remain prepended to individual tests from metadata includes.
 
 ## CLI Flags
 
@@ -120,8 +165,11 @@ fast-path confirmation.  Each non-comment row is TSV-shaped:
 test_name	last_timing	expected_fast_paths	notes
 ```
 
-The runner uses only the first field as the test name, so the timing and
-expected-fast-path columns are documentation for humans and future checks.
+In diagnose mode, the runner uses the first field as the test name and treats
+`expected_fast_paths` as assertions.  If any listed path is missing from the
+child output as either `js-diagnose: fast-path-hit=<name>` or
+`js-diagnose: fast-path-note=<name>`, the runner reports it; an otherwise
+passing test is marked failed.
 When a new slow test appears, add it here with the release-build timing and the
 fast paths it should hit after tuning.  Use `none-yet` when the optimization has
 not been designed.
@@ -138,7 +186,8 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
 
 `--diagnose` implies batch mode, defaults to `test/js262/diagnose_list.txt`,
 and passes `--diagnose` into `lambda.exe js-test-batch`.  Diagnostic messages
-such as `js-diagnose: fast-path-hit=...` are written to `log.txt`.
+such as `js-diagnose: fast-path-hit=...` are written to the batch output and
+`log.txt`; expected paths in the diagnose list are checked automatically.
 
 ### Reading the output
 ```

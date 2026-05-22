@@ -11,6 +11,6 @@
 
 built_ins_decodeURI_S15_1_3_1_A2_5_T1_js	40ms	uri.escape.b3-b4-loop-fast-forward,uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	Fixed by preserving local mirrors for function-scoped module vars declared inside nested loops, allowing URI metadata to attach.
 built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js	40ms	uri.escape.b3-b4-loop-fast-forward,uri.escape.inner-loop-fast-forward,uri.escape.b4-fast-continue	URIComponent A2.5 equivalent; fixed by the same hoisted-var local mirror path.
-built_ins_decodeURI_S15_1_3_1_A2_4_T1_js	5101ms	uri.escape.metadata,uri.escape.three-byte-loop-fast-forward	Three-byte URI guard; timeout fixed but still above slow threshold pending B2-level fast-forward.
-built_ins_decodeURIComponent_S15_1_3_2_A2_4_T1_js	5133ms	uri.escape.metadata,uri.escape.three-byte-loop-fast-forward	URIComponent three-byte URI guard; timeout fixed but still above slow threshold pending B2-level fast-forward.
+built_ins_decodeURI_S15_1_3_1_A2_4_T1_js	1390ms	uri.escape.metadata	No longer slow in release diagnose run; keep as a guard for three-byte URI metadata coverage.
+built_ins_decodeURIComponent_S15_1_3_2_A2_4_T1_js	1389ms	uri.escape.metadata	No longer slow in release diagnose run; keep as the decodeURIComponent three-byte URI guard.
 language_statements_with_binding_not_blocked_by_unscopables_falsey_prop_js	8ms	with.read.dynamic	Regression guard for `with` object-environment reads; verified after native identifier boxing now routes through the dynamic lookup fallback while inside `with`.

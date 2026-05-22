@@ -1,0 +1,19 @@
+# test262 special preamble map
+#
+# Format:
+#   selector<TAB>harness-helper.js[,other-helper.js]
+#
+# selector may be:
+#   - a sanitized test name used by --batch-file
+#   - a ref/test262/test/... path
+#   - a path relative to ref/test262/test/
+#   - any of the above with a trailing * for prefix matching
+#
+# Keep the default preamble small.  Only list helpers that are expensive enough
+# to compile once for a matching batch instead of prepending to each test.
+
+built-ins/TypedArray/*	testTypedArray.js
+built-ins/TypedArrayConstructors/*	testTypedArray.js
+built-ins/Atomics/*	testAtomics.js
+built-ins/ArrayBuffer/*	detachArrayBuffer.js
+built-ins/SharedArrayBuffer/*	detachArrayBuffer.js
