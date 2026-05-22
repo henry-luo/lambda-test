@@ -1,7 +1,7 @@
 # Radiant Render Test Baseline
 # Generated: 2026-05-20 from full default render suite
-# page suite: 192 entries; puppertino suite: 13 entries
-# latest run: 177/205 passed; 0 failed; 28 xfailed; 0 skipped
+# page suite: 194 entries; puppertino suite: 13 entries
+# latest run: 178/206 passed; 0 failed; 28 xfailed; 0 skipped
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
 #
@@ -39,6 +39,7 @@ clip_path_shapes_01                        exact   0.00%  100x100
 clip_path_with_effects_01                  exact   0.00%  100x100
 color_hsl_01                               exact   0.00%  100x100
 composite_card_01                            255   1.77%  120x120
+css_current_color_icon_button_border_01       29   0.28%  150x70
 css_clamp_01                               exact   0.00%  100x100
 enhance5_abspos_effect_zorder_01              26   0.12%  170x125
 enhance5_backdrop_clip_filter_01           exact   0.00%  130x120
@@ -80,10 +81,10 @@ enhance5_spec_background_clip_text_01       2153   9.44%  190x120
 enhance5_spec_border_image_gradient_01      3689  19.21%  160x120
 enhance5_spec_clip_path_path_01             2603  13.56%  160x120
 enhance5_spec_css_mask_gradient_01          3719  19.37%  160x120
-enhance5_spec_outline_transform_01           615   3.20%  160x120
+enhance5_spec_outline_transform_01           358   1.86%  160x120
 enhance5_spec_repeating_gradient_angle_01 exact   0.00%  150x120
 enhance5_spec_svg_fill_rule_evenodd_01      2687  14.93%  150x120
-enhance5_spec_svg_filter_gaussian_blur_01   2810  14.64%  160x120
+enhance5_spec_svg_filter_gaussian_blur_01   exact   0.00%  160x120
 enhance5_spec_svg_marker_arrow_01           2537  13.21%  160x120
 enhance5_spec_svg_mask_luminance_01         7282  37.93%  160x120
 enhance5_spec_svg_pattern_units_01          5138  26.76%  160x120
@@ -127,6 +128,7 @@ iframe_basic_01                              296   2.96%  100x100
 iframe_sizes_01                              220   2.20%  100x100
 iframe_styled_01                             643   6.43%  100x100
 image_rendering_01                         exact   0.00%  100x100
+image_svg_border_content_box_01              128   2.67%  80x60
 inline_block_minmax_01                        60   0.60%  100x100
 line_clamp_01                                291   2.91%  100x100
 list_inside_outside_01                       293   2.93%  100x100
@@ -153,6 +155,7 @@ overflow_nested_mixed_01                      28   0.28%  100x100
 overflow_text_clip_01                        261   2.61%  100x100
 position_absolute_01                       exact   0.00%  100x100
 svg_clippath_01                            exact   0.00%  100x100
+svg_current_color_segmented_icon_01           96   0.86%  140x80
 svg_file_bg_01                             exact   0.00%  100x100
 svg_file_img_01                              392   3.92%  100x100
 svg_file_sizes_01                              2   0.02%  100x100
