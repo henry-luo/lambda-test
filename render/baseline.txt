@@ -1,6 +1,6 @@
 # Radiant Render Test Baseline
 # Generated: 2026-05-20 from full default render suite
-# page suite: 193 entries; puppertino suite: 13 entries
+# page suite: 194 entries; puppertino suite: 13 entries
 # latest run: 178/206 passed; 0 failed; 28 xfailed; 0 skipped
 #
 # Format: test_name | diff_pixels | diff_percent | viewport
@@ -39,6 +39,7 @@ clip_path_shapes_01                        exact   0.00%  100x100
 clip_path_with_effects_01                  exact   0.00%  100x100
 color_hsl_01                               exact   0.00%  100x100
 composite_card_01                            255   1.77%  120x120
+css_current_color_icon_button_border_01       29   0.28%  150x70
 css_clamp_01                               exact   0.00%  100x100
 enhance5_abspos_effect_zorder_01              26   0.12%  170x125
 enhance5_backdrop_clip_filter_01           exact   0.00%  130x120
@@ -80,10 +81,10 @@ enhance5_spec_background_clip_text_01       2153   9.44%  190x120
 enhance5_spec_border_image_gradient_01      3689  19.21%  160x120
 enhance5_spec_clip_path_path_01             2603  13.56%  160x120
 enhance5_spec_css_mask_gradient_01          3719  19.37%  160x120
-enhance5_spec_outline_transform_01           615   3.20%  160x120
+enhance5_spec_outline_transform_01           358   1.86%  160x120
 enhance5_spec_repeating_gradient_angle_01 exact   0.00%  150x120
 enhance5_spec_svg_fill_rule_evenodd_01      2687  14.93%  150x120
-enhance5_spec_svg_filter_gaussian_blur_01   2810  14.64%  160x120
+enhance5_spec_svg_filter_gaussian_blur_01   exact   0.00%  160x120
 enhance5_spec_svg_marker_arrow_01           2537  13.21%  160x120
 enhance5_spec_svg_mask_luminance_01         7282  37.93%  160x120
 enhance5_spec_svg_pattern_units_01          5138  26.76%  160x120
