@@ -15,9 +15,12 @@
  *   node test_radiant_render.js -v                      # Verbose output
  *   node test_radiant_render.js --json                  # JSON output for CI
  *   node test_radiant_render.js --baseline               # Only fail on baseline regressions
+ *   node test_radiant_render.js --update-baseline        # Update baseline.txt from current results
  *   node test_radiant_render.js --suite puppertino       # Run tests from one suite subdirectory
  *   node test_radiant_render.js --suite page,puppertino   # Run tests from multiple suites (default)
  *   node test_radiant_render.js --replay-parity --test clip_path_with_effects_01
+ *   node test_radiant_render.js --strip-parity                 # normal PNG vs strip tiled-PNG export
+ *   node test_radiant_render.js --strip-parity --strip-height 96  # force more strips per page
  */
 
 const { spawn } = require('child_process');
@@ -105,7 +108,10 @@ function parseArgs() {
         verbose: false,
         json: false,
         baseline: false,               // only fail on baseline-listed regressions
+        updateBaseline: false,
         replayParity: false,
+        stripParity: false,            // normal PNG vs strip-based tiled PNG export
+        stripHeight: 256,              // physical px per strip for strip-parity mode
         exe: LAMBDA_EXE,
         platform: null,
         suite: null
@@ -139,8 +145,17 @@ function parseArgs() {
             case '--baseline':
                 opts.baseline = true;
                 break;
+            case '--update-baseline':
+                opts.updateBaseline = true;
+                break;
             case '--replay-parity':
                 opts.replayParity = true;
+                break;
+            case '--strip-parity':
+                opts.stripParity = true;
+                break;
+            case '--strip-height':
+                opts.stripHeight = parseInt(args[++i], 10);
                 break;
             case '--suite': case '-s':
                 opts.suite = args[++i];
@@ -186,6 +201,27 @@ function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewp
         proc.on('error', (error) => {
             reject(error);
         });
+    });
+}
+
+// Render auto-sized (no -vw/-vh) so content bounds drive output dimensions.
+// Used by strip-parity mode, where the large-page tiled export path only
+// triggers on auto-sizing.
+function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, envOverrides) {
+    return new Promise((resolve, reject) => {
+        const args = ['render', htmlFile, '-o', outputPng, '--pixel-ratio', String(PIXEL_RATIO)];
+        const proc = spawn(exePath, args, {
+            cwd: PROJECT_ROOT,
+            env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
+            timeout: 30000
+        });
+        let stderr = '';
+        proc.stderr.on('data', (data) => { stderr += data.toString(); });
+        proc.on('close', (code) => {
+            if (code === 0) resolve();
+            else reject(new Error(`lambda.exe render failed (exit ${code}): ${stderr.trim()}`));
+        });
+        proc.on('error', (error) => reject(error));
     });
 }
 
@@ -275,7 +311,7 @@ function compareImages(radiantPath, referencePath, diffPath) {
 
     const totalPixels = width * height;
     const mismatchPercent = (mismatchedPixels / totalPixels) * 100;
-    return { mismatchedPixels, totalPixels, mismatchPercent, error: null };
+    return { mismatchedPixels, totalPixels, mismatchPercent, width, height, error: null };
 }
 
 // ─── Per-test config sidecar ────────────────────────────────────────────────
@@ -304,8 +340,8 @@ function applyExpectedFailure(testConfig, result) {
     if (result.status === 'pass') {
         return {
             ...result,
-            status: 'fail',
-            reason: `expected failure passed: ${expectedReason}`
+            status: 'xpass',
+            reason: expectedReason
         };
     }
     return result;
@@ -431,6 +467,82 @@ async function runReplayParityTests(testNames, opts) {
             const testName = queue.shift();
             if (!testName) break;
             results.push(await runReplayParityTest(testName, opts));
+        }
+    }
+
+    const workers = [];
+    const count = Math.min(opts.concurrency, queue.length);
+    for (let i = 0; i < count; i++) {
+        workers.push(worker());
+    }
+    await Promise.all(workers);
+    return results;
+}
+
+// ─── Strip-parity runner ────────────────────────────────────────────────────
+//
+// Validates that the large-page tiled PNG export (record display list once,
+// replay horizontal strips via dl_replay_tile) matches normal full-surface
+// rendering. The strip export path only triggers on auto-sizing and when the
+// output exceeds the tile threshold, so both knobs are forced via env:
+//   RADIANT_TILE_THRESHOLD=1   → always take the tiled export path
+//   RADIANT_TILE_STRIP_H=<n>   → strip height in physical px (forces >1 strip)
+// The normal render is forced single-surface (RADIANT_RENDER_THREADS=1) for a
+// stable reference. Both are auto-sized so dimensions match.
+
+async function runStripParityTest(testName, opts) {
+    const htmlFile = path.join(suiteDirFor(testName), `${testName}.html`);
+    const normalPng = path.join(OUTPUT_DIR, `${testName}.normal.png`);
+    const stripPng = path.join(OUTPUT_DIR, `${testName}.strip.png`);
+    const diffPng = path.join(DIFF_DIR, `${testName}.strip_parity.png`);
+
+    try {
+        await renderAutoSizeWithEnv(opts.exe, htmlFile, normalPng,
+            { RADIANT_RENDER_THREADS: '1' });
+        await renderAutoSizeWithEnv(opts.exe, htmlFile, stripPng,
+            { RADIANT_TILE_THRESHOLD: '1', RADIANT_TILE_STRIP_H: String(opts.stripHeight) });
+    } catch (err) {
+        return { testName, status: 'error', reason: err.message };
+    }
+
+    if (!fs.existsSync(normalPng) || !fs.existsSync(stripPng)) {
+        return { testName, status: 'error', reason: 'Radiant produced no strip-parity output file' };
+    }
+
+    const result = compareImages(stripPng, normalPng, diffPng);
+    if (result.error) {
+        return { testName, status: 'fail', reason: result.error, ...result };
+    }
+
+    // Use the suite's auto thresholds: glyph anti-aliasing differs slightly
+    // between single-surface and tiled glyph rasterisers (a known single-vs-
+    // tiled divergence), so text pages are allowed the text threshold.
+    const isText = hasVisibleText(htmlFile);
+    const maxMismatch = opts.threshold != null
+        ? opts.threshold
+        : (isText ? THRESHOLD_TEXT : THRESHOLD_NO_TEXT);
+    if (result.mismatchPercent > maxMismatch) {
+        return {
+            testName,
+            status: 'fail',
+            reason: `${result.mismatchPercent.toFixed(2)}% > ${maxMismatch}% strip parity threshold`,
+            ...result,
+            diffPath: diffPng
+        };
+    }
+
+    return { testName, status: 'pass', ...result };
+}
+
+async function runStripParityTests(testNames, opts) {
+    const queue = [...testNames];
+    const results = [];
+
+    async function worker() {
+        while (queue.length > 0) {
+            const testName = queue.shift();
+            if (!testName) break;
+            results.push(await runStripParityTest(testName, opts));
         }
     }
 
@@ -590,6 +702,175 @@ function loadBaseline() {
     return entries;
 }
 
+function isBaselineUpdatableResult(result) {
+    return result &&
+        (result.status === 'pass' || result.status === 'xpass' || result.status === 'xfail') &&
+        result.mismatchPercent != null &&
+        result.mismatchedPixels != null &&
+        result.width > 0 &&
+        result.height > 0;
+}
+
+function formatBaselineLine(name, result) {
+    const diffPixels = result.mismatchedPixels === 0
+        ? 'exact'
+        : String(result.mismatchedPixels);
+    const percent = `${result.mismatchPercent.toFixed(2)}%`;
+    const viewport = `${result.width}x${result.height}`;
+    return `${name.padEnd(42)} ${diffPixels.padStart(5)}  ${percent.padStart(6)}  ${viewport}`;
+}
+
+function parseBaselineMetric(rawLine) {
+    const cols = rawLine.trim().split(/\s+/);
+    if (cols.length < 3) {
+        return { name: cols[0] || '', pixels: null, percent: null };
+    }
+
+    const pixels = cols[1] === 'exact' ? 0 : parseInt(cols[1], 10);
+    const percent = parseFloat(cols[2].replace('%', ''));
+    return {
+        name: cols[0],
+        pixels: Number.isFinite(pixels) ? pixels : null,
+        percent: Number.isFinite(percent) ? percent : null
+    };
+}
+
+function isBaselineImprovement(rawLine, result) {
+    const current = parseBaselineMetric(rawLine);
+    if (current.percent == null) {
+        return true;
+    }
+    if (result.mismatchPercent < current.percent) {
+        return true;
+    }
+    if (result.mismatchPercent > current.percent) {
+        return false;
+    }
+    return current.pixels == null || result.mismatchedPixels < current.pixels;
+}
+
+function promoteExpectedFailurePasses(results, opts) {
+    let promoted = 0;
+    for (const result of results) {
+        if (!result || result.status !== 'xpass') continue;
+
+        const configPath = path.join(suiteDirFor(result.testName), `${result.testName}.config.json`);
+        if (!fs.existsSync(configPath)) continue;
+
+        let config;
+        try {
+            config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+        } catch (err) {
+            if (!opts.json) {
+                console.log(`   ⚠️  Could not promote ${result.testName}: malformed config (${err.message})`);
+            }
+            continue;
+        }
+        if (config.expectedFail !== true) continue;
+
+        delete config.expectedFail;
+        delete config.expectedFailReason;
+        fs.writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`);
+        promoted++;
+    }
+    return promoted;
+}
+
+function updateBaselineFile(results, opts) {
+    const baselinePath = path.join(TEST_DIR, 'baseline.txt');
+    const updatable = new Map();
+    let skipped = 0;
+    let notImproved = 0;
+
+    for (const result of results) {
+        if (isBaselineUpdatableResult(result)) {
+            updatable.set(result.testName, result);
+        } else if (result.status !== 'skip') {
+            skipped++;
+        }
+    }
+
+    if (updatable.size === 0) {
+        if (!opts.json) {
+            console.log('\n⚠️  Baseline update skipped: no completed render results to write.');
+        }
+        return { updated: 0, added: 0, skipped };
+    }
+
+    let lines;
+    if (fs.existsSync(baselinePath)) {
+        lines = fs.readFileSync(baselinePath, 'utf-8').split('\n');
+    } else {
+        const today = new Date().toISOString().slice(0, 10);
+        lines = [
+            '# Radiant Render Test Baseline',
+            `# Generated: ${today}`,
+            '#',
+            '# Format: test_name | diff_pixels | diff_percent | viewport',
+            '#',
+            ''
+        ];
+    }
+
+    let updated = 0;
+    const seen = new Set();
+    const nextLines = [];
+
+    for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#')) {
+            nextLines.push(rawLine);
+            continue;
+        }
+
+        const name = line.split(/\s+/)[0];
+        const result = updatable.get(name);
+        if (!result) {
+            nextLines.push(rawLine);
+            continue;
+        }
+
+        const replacement = formatBaselineLine(name, result);
+        if (!isBaselineImprovement(rawLine, result)) {
+            nextLines.push(rawLine);
+            seen.add(name);
+            notImproved++;
+            continue;
+        }
+        if (rawLine !== replacement) {
+            updated++;
+        }
+        nextLines.push(replacement);
+        seen.add(name);
+    }
+
+    const missing = [];
+    for (const [name, result] of updatable) {
+        if (!seen.has(name)) {
+            missing.push([name, result]);
+        }
+    }
+    missing.sort((a, b) => a[0].localeCompare(b[0]));
+    if (missing.length > 0) {
+        if (nextLines.length > 0 && nextLines[nextLines.length - 1].trim() !== '') {
+            nextLines.push('');
+        }
+        nextLines.push('# -- Added by render baseline update -----------------------------');
+        for (const [name, result] of missing) {
+            nextLines.push(formatBaselineLine(name, result));
+        }
+    }
+
+    fs.writeFileSync(baselinePath, nextLines.join('\n').replace(/\n*$/, '\n'));
+    const promoted = promoteExpectedFailurePasses(results, opts);
+
+    if (!opts.json) {
+        console.log(`\n📝 Updated render baseline: ${updated} improved, ${missing.length} added, ${notImproved} unchanged/not improved, ${promoted} promoted, ${skipped} skipped.`);
+        console.log(`   ${path.relative(PROJECT_ROOT, baselinePath)}`);
+    }
+    return { updated, added: missing.length, notImproved, promoted, skipped };
+}
+
 /**
  * Check results against the baseline and print a regression report.
  * A baseline regression is when a test's mismatch exceeds its recorded
@@ -612,7 +893,7 @@ function checkBaselineRegressions(results, baselineMap, opts) {
             regressions.push({ name, result });
             continue;
         }
-        if (result.status === 'xfail') {
+        if (result.status === 'xfail' || result.status === 'xpass') {
             continue;
         }
         const actualPct = result.mismatchPercent != null ? result.mismatchPercent : 0;
@@ -735,12 +1016,17 @@ async function main() {
         if (opts.replayParity) {
             console.log('   Mode: single-thread replay vs tiled replay');
         }
+        if (opts.stripParity) {
+            console.log(`   Mode: normal PNG vs strip tiled-PNG export (strip height ${opts.stripHeight}px)`);
+        }
         console.log('');
     }
 
     // run tests
     const results = opts.replayParity
         ? await runReplayParityTests(testNames, opts)
+        : opts.stripParity
+        ? await runStripParityTests(testNames, opts)
         : await runTestsParallel(testNames, opts);
 
     // sort results by test name for consistent output
@@ -751,6 +1037,10 @@ async function main() {
         outputJson(results);
     } else {
         outputConsole(results, opts);
+    }
+
+    if (opts.updateBaseline) {
+        updateBaselineFile(results, opts);
     }
 
     // exit code: in baseline mode, only baseline regressions cause failure
@@ -773,7 +1063,9 @@ async function main() {
 // ─── Output formatters ──────────────────────────────────────────────────────
 
 function outputConsole(results, opts) {
-    let passed = 0, failed = 0, skipped = 0, errors = 0, xfailed = 0;
+    let passed = 0, failed = 0, skipped = 0, errors = 0, xfailed = 0, xpassed = 0;
+    const unexpectedFailures = [];
+    const unexpectedPasses = [];
 
     for (const r of results) {
         switch (r.status) {
@@ -787,6 +1079,7 @@ function outputConsole(results, opts) {
                 break;
             case 'fail':
                 failed++;
+                unexpectedFailures.push(r);
                 console.log(`  ❌ FAIL  ${r.testName.padEnd(32)} (${r.reason})`);
                 if (r.diffPath) {
                     console.log(`           → Diff: ${path.relative(PROJECT_ROOT, r.diffPath)}`);
@@ -803,27 +1096,69 @@ function outputConsole(results, opts) {
                     console.log(`           → Diff: ${path.relative(PROJECT_ROOT, r.diffPath)}`);
                 }
                 break;
+            case 'xpass':
+                xpassed++;
+                unexpectedPasses.push(r);
+                if (r.mismatchedPixels > 0) {
+                    console.log(`  🟩 XPASS ${r.testName.padEnd(32)} (${r.mismatchedPixels} diff pixels, ${r.mismatchPercent.toFixed(2)}%; was expected failure: ${r.reason})`);
+                } else {
+                    console.log(`  🟩 XPASS ${r.testName.padEnd(32)} (exact match; was expected failure: ${r.reason})`);
+                }
+                break;
             case 'error':
                 errors++;
+                unexpectedFailures.push(r);
                 console.log(`  💥 ERROR ${r.testName.padEnd(32)} (${r.reason})`);
                 break;
         }
     }
 
     console.log('');
-    console.log(`Results: ${passed}/${results.length} passed` +
+    const effectivePassed = passed + xpassed;
+    console.log(`Results: ${effectivePassed}/${results.length} passed` +
         (failed > 0 ? `, ${failed} failed` : '') +
+        (xpassed > 0 ? `, ${xpassed} new passes` : '') +
         (xfailed > 0 ? `, ${xfailed} expected failures` : '') +
         (skipped > 0 ? `, ${skipped} skipped` : '') +
         (errors > 0 ? `, ${errors} errors` : ''));
+
+    if (unexpectedPasses.length > 0) {
+        console.log('');
+        console.log(`✨ New Passing Expected Failures (${unexpectedPasses.length}):`);
+        for (const r of unexpectedPasses) {
+            const pct = r.mismatchPercent != null ? `${r.mismatchPercent.toFixed(2)}%` : '?';
+            const pixels = r.mismatchedPixels != null && r.mismatchedPixels >= 0
+                ? `${r.mismatchedPixels} pixels`
+                : '? pixels';
+            console.log(`   - ${r.testName}  (${pct}, ${pixels}; was: ${r.reason})`);
+        }
+    }
+
+    if (unexpectedFailures.length > 0) {
+        console.log('');
+        console.log(`🚨 Unexpected Failures (${unexpectedFailures.length}):`);
+        for (const r of unexpectedFailures) {
+            const label = r.status === 'error' ? 'ERROR' : 'FAIL';
+            const reason = r.reason || r.status;
+            const pct = r.mismatchPercent != null ? `, ${r.mismatchPercent.toFixed(2)}%` : '';
+            const pixels = r.mismatchedPixels != null && r.mismatchedPixels >= 0
+                ? `, ${r.mismatchedPixels} pixels`
+                : '';
+            console.log(`   - ${r.testName} [${label}] ${reason}${pct}${pixels}`);
+            if (r.diffPath) {
+                console.log(`     diff: ${path.relative(PROJECT_ROOT, r.diffPath)}`);
+            }
+        }
+    }
     console.log('');
 }
 
 function outputJson(results) {
     const summary = {
         total: results.length,
-        passed: results.filter(r => r.status === 'pass').length,
+        passed: results.filter(r => r.status === 'pass' || r.status === 'xpass').length,
         failed: results.filter(r => r.status === 'fail').length,
+        xpassed: results.filter(r => r.status === 'xpass').length,
         xfailed: results.filter(r => r.status === 'xfail').length,
         skipped: results.filter(r => r.status === 'skip').length,
         errors: results.filter(r => r.status === 'error').length,
