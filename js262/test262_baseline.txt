@@ -8,16 +8,16 @@
 # Host OS: Darwin 24.6.0 arm64
 # Host capacity: 8 CPU cores, 24.0 GiB memory
 # Scope: ES2020 (skip ES2021+ features)
-# Total passing: 34161
-# Total tests: 42219  Skipped: 8058  Batched: 34165  Passed: 34161  Failed: 0
-# Runtime: 242.8s total (prep 0.2s + exec 241.3s)
-# Phase timing: prepare 0.2s
-# Phase timing: batch-execute 241.3s
+# Total passing: 34165
+# Total tests: 42219  Skipped: 8054  Batched: 34165  Passed: 34165  Failed: 0
+# Runtime: 195.2s total (prep 0.1s + exec 194.6s)
+# Phase timing: prepare 0.1s
+# Phase timing: batch-execute 194.6s
 # Phase timing: retry-lost 0.0s
 # Phase timing: update-partial-list 0.0s
 # Phase timing: write-timing-log 0.0s
-# Phase timing: write-memory-log 0.1s
-# Phase timing: evaluate-results 0.7s
+# Phase timing: write-memory-log 0.0s
+# Phase timing: evaluate-results 0.3s
 # Phase timing: retry-regressions 0.0s
 annexB_built_ins_Date_prototype_getYear_B_2_4_js
 annexB_built_ins_Date_prototype_getYear_length_js
@@ -11782,6 +11782,8 @@ built_ins_RegExp_lookBehind_sticky_js
 built_ins_RegExp_lookBehind_variable_length_js
 built_ins_RegExp_lookBehind_word_boundary_js
 built_ins_RegExp_lookahead_quantifier_match_groups_js
+built_ins_RegExp_named_groups_functional_replace_global_js
+built_ins_RegExp_named_groups_functional_replace_non_global_js
 built_ins_RegExp_named_groups_groups_object_js
 built_ins_RegExp_named_groups_groups_object_subclass_js
 built_ins_RegExp_named_groups_groups_object_subclass_sans_js
@@ -16736,6 +16738,7 @@ built_ins_decodeURIComponent_S15_1_3_2_A2_1_T1_js
 built_ins_decodeURIComponent_S15_1_3_2_A2_2_T1_js
 built_ins_decodeURIComponent_S15_1_3_2_A2_3_T1_js
 built_ins_decodeURIComponent_S15_1_3_2_A2_4_T1_js
+built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js
 built_ins_decodeURIComponent_S15_1_3_2_A3_T1_js
 built_ins_decodeURIComponent_S15_1_3_2_A3_T2_js
 built_ins_decodeURIComponent_S15_1_3_2_A3_T3_js
@@ -16791,6 +16794,7 @@ built_ins_decodeURI_S15_1_3_1_A2_1_T1_js
 built_ins_decodeURI_S15_1_3_1_A2_2_T1_js
 built_ins_decodeURI_S15_1_3_1_A2_3_T1_js
 built_ins_decodeURI_S15_1_3_1_A2_4_T1_js
+built_ins_decodeURI_S15_1_3_1_A2_5_T1_js
 built_ins_decodeURI_S15_1_3_1_A3_T1_js
 built_ins_decodeURI_S15_1_3_1_A3_T2_js
 built_ins_decodeURI_S15_1_3_1_A3_T3_js
