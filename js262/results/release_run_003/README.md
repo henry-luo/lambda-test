@@ -30,9 +30,14 @@ baseline-only run with 0 regressions and 0 non-fully-passing tests.
 - Timing rows: 34,163 tests
 - Memory rows: 34,163 tests
 - Current baseline snapshot: 34,165 non-comment entries
-- Current non-fully-passing snapshot: 3 non-comment entries (historical;
-  this run flagged 0 of them)
-- Slow tests at `>= 3s`: 0
+- `t262_partial_at_run.txt`: 4 SLOW lines = 2 unique tests, each emitted
+  twice across harness phases (Phase 3 + Phase 4 retry):
+  - `built_ins_decodeURI_S15_1_3_1_A2_5_T1_js` — SLOW_3218 (~3.22 s)
+  - `built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js` — SLOW_3191 (~3.19 s)
+  Both pass on retry, so the compliance summary shows 0 non-fully-passing.
+- Slow tests at `>= 3s`: 0 in `top_slow_tests.tsv` — the two SLOW-flagged
+  tests above route through the partial/retry path and are not aggregated
+  into the timing TSV.
 
 ## Compliance Summary
 
@@ -108,6 +113,22 @@ A separate clean A/B (just §3.3 toggled off vs on against this same binary)
 showed that §3.3 alone is responsible for −34 % of the per-test elapsed sum
 and −8.7 % of wall-time; the remaining win versus run_002 comes from §3.1
 plus the generator-spill fix (see `vibe/jube/Transpile_Js_Tune.md` §6.1).
+
+### Surviving SLOW entries in `t262_partial_at_run.txt`
+
+The same two `decodeURI*`/`A2_5_T1` tests appear in run_002's partial file
+at SLOW_6916 / SLOW_6435 (≈6.9 s / 6.4 s). In run_003 they are SLOW_3218 /
+SLOW_3191 (~3.2 s) — **roughly half**. They sit just above the 3 s
+threshold because the workload itself is inherently heavy: each one runs a
+4-level nested loop over UTF-8 byte ranges
+`0xF0..0xF4 × 0x80..0xBF × 0x80..0xBF × 0x80..0xBF` (≈ 1.3 million
+iterations), and every iteration concatenates four `decimalToPercentHexString`
+results, calls `decodeURI(...)` and `String.fromCharCode(...)` and compares.
+That much C-runtime work + string churn stays in the multi-second range
+even after the §3.1/§3.3 call-path optimisations; the next step that
+would push them under 3 s is built-in-function-level work (e.g. fusing the
+hex-conversion + string builder, or making the harness re-classify the
+threshold). They are out of scope for the current change set.
 
 ## Captured Files
 
