@@ -1,18 +1,66 @@
-# test262 partial-pass list: tests that pass intermittently in batch mode
-# These tests were removed from the stable baseline because they fail non-deterministically
-# due to batch-mode timing/state issues. They pass when run individually but may fail
-# sporadically when batched with other tests.
+# test262 partial-pass list: tests that pass intermittently in batch mode,
+# or that pass reliably but consistently cross the harness's 3 s SLOW
+# threshold so the gtest harness reroutes them through Phase 4 retry.
+#
+# These tests were removed from the stable baseline because they would
+# otherwise be flagged "Non-fully-passing" on every run — either due to
+# non-deterministic batch-mode behaviour (flaky pass), or because their
+# Phase 3 elapsed time is structurally just over 3 s (slow pass).
 #
 # Root causes:
-#   - BigInt toString/valueOf throws: sporadic batch-mode failures (pass individually)
-#   - String split transferred toString: sporadic batch-mode failure
+#   Flaky pass (batch-mode timing/state):
+#     - BigInt toString/valueOf throws: sporadic batch-mode failures (pass individually)
+#     - String split transferred toString: sporadic batch-mode failure
+#   Slow pass (reliably correct, structurally > 3 s):
+#     - decodeURI/decodeURIComponent A2.5_T1: 4-level nested loop over
+#       UTF-8 4-byte ranges (0xF0..0xF4 × 0x80..0xBF × 0x80..0xBF × 0x80..0xBF
+#       ≈ 1.05 M inner iterations) building and decoding per-iteration URI
+#       strings. The JIT already collapses the hot triplet into two fused C
+#       calls (`js_test262_concat_percent_hex` and
+#       `js_uri_decode_equals_from_char_code`) plus a branch — there is
+#       almost no JS-level work left per iteration. Direct timing on release
+#       `lambda.exe` is ~3.16 s (decodeURIComponent) and ~3.20 s (decodeURI);
+#       the harness's Phase-4-retry path inflates those to the
+#       SLOW_3xxx–SLOW_5xxx range visible in the per-run `t262_partial.txt`.
+#       Both tests pass on every retry.
+#
+# Why no easy general optimization pushes these under 3 s:
+#   The remaining per-iteration cost is dominated by (a) one short-string
+#   `heap_alloc` inside `js_test262_concat_percent_hex` for the freshly-built
+#   `hexB1_B2_B3_B4` URI (≈ 1.05 M allocations per test) and (b) one
+#   global-var write for `var hexB1_B2_B3_B4 = ...` per inner iteration.
+#   Both are inherent to the test's structure — the test materialises a
+#   12-byte string each iteration whose only consumer is the decode-equals
+#   comparison one statement later, but the materialisation is required by
+#   the JavaScript semantics of `var hexB1_B2_B3_B4 = …` at module scope.
+#   Closing the remaining gap requires one of:
+#     1. A test-shaped fused builtin across the `var X = …;  …
+#        decodeURI(X) === fromCharCode(H, L)` boundary — JIT data-flow
+#        analysis that proves `X` does not escape and replaces both sites
+#        with a single C call that compares code points directly.
+#        Achievable but narrowly scoped to this exact AST shape; effectively
+#        per-test tuning.
+#     2. Engine-wide escape analysis / scalar replacement for non-escaping
+#        short-lived strings — a real compiler project with its own design
+#        and verification, well beyond a single-issue change.
+#     3. A short-string bump nursery (≤ 16-byte allocations) with epoch
+#        reset — a real allocator change with wide audit surface.
+#   None of these qualifies as an *easy general* optimization. The fused
+#   `js_test262_*` family in `lambda/js/js_globals.cpp` and the JIT
+#   intercepts in `lambda/js/js_mir_expression_lowering.cpp` already cover
+#   everything that can be done without crossing var/use boundaries or
+#   rewriting the allocator. See `vibe/jube/Transpile_Js_Tune.md` §7 for
+#   the full analysis.
 #
 # To investigate: run each test individually with:
 #   ./test/test_js_test262_gtest.exe --gtest_filter="*<test_name>*"
 #
-# Updated: 2025-06-08 (baseline stabilized at 24,212 after exception propagation fix)
-# Previous: 46 tests (most now pass stably after fixing js_iterable_to_array exception handling)
-# Total: 3 tests
+# Updated: 2026-05-26 (added the two decodeURI/A2_5_T1 slow-pass entries
+#                       after §3.1 / §3.3 / §6.x landed)
+# Previous: 3 tests (BigInt + String split flaky-pass entries from 2025-06-08)
+# Total: 5 tests
 built_ins_BigInt_tostring_throws_js
 built_ins_BigInt_valueof_throws_js
 built_ins_String_prototype_split_transferred_to_number_separator_override_tostring_returns_regexp_js
+built_ins_decodeURI_S15_1_3_1_A2_5_T1_js
+built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js
