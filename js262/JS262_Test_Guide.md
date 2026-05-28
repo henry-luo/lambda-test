@@ -17,6 +17,13 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 # Run baseline-only (faster, verifies no regressions)
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --baseline-only
 
+# Run the full ES2021 baseline with async tests enabled
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-async --async-list=test/js262/test262_baseline.txt
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-async --async-list=test/js262/test262_baseline.txt --update-baseline
+
+# Isolate async tests while tuning batching or harness cleanup
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-async --batch-file=temp/js47_async.txt --async-chunk-size=1 --jobs=1
+
 # Run the diagnose watch list with extra Lambda fast-path logging
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diagnose --jobs=1 --js-timeout=30
 
@@ -26,10 +33,14 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 
 ## Test Infrastructure
 
-- **Baseline file**: `test/js262/test262_baseline.txt` (~25,272 tests)
+- **Baseline file**: `test/js262/test262_baseline.txt` (38,939 tests as
+  of release_run_004)
 - **Test runner**: `test/test_js_test262_gtest.cpp`
-- **Batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
-- **Parallel workers**: 4
+- **Sync batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
+- **Async batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
+  by default; override with `--async-chunk-size=<n>` for isolation or
+  acceptance testing.
+- **Parallel workers**: CPU count - 1 by default; override with `--jobs=<n>`.
 - **Default preamble**: `sta.js`, `assert.js`, and `nativeFunctionMatcher.js`
   compiled once via MIR JIT for ordinary JS-harness batches.
 - **Special preamble map**: `test/js262/special_premble.txt` lists expensive
@@ -48,7 +59,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 | Phase | What it does |
 |-------|-------------|
 | **Phase 1** | Parse YAML metadata, partition into CLEAN (batchable) and PARTIAL (known problematic). |
-| **Phase 2** | Execute CLEAN tests: 50/process, 4 parallel workers. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. |
+| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. |
 | **Phase 2a** | **Removed.** Previously ran PARTIAL tests individually. Now PARTIAL tests are skipped by default; their entries in `t262_partial.txt` are preserved verbatim each run. Use `--run-partial` to promote them into Phase 2. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
@@ -65,6 +76,66 @@ A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_K
    ```
 3. If the test passes cleanly in Phase 2 (elapsed < 3s, no crash), it gets added to the baseline and removed from `t262_partial.txt` automatically by `clean_partial_list_after_baseline_update`.
 4. Alternatively, hand-edit `t262_partial.txt` to delete the line — next `--run-partial` run will (re)classify it. Hand-deletion without `--run-partial` does nothing this run (test stays skipped) but the entry is gone next round.
+
+## Async Test Flow
+
+test262 marks asynchronous tests with the metadata `flags: [async]`.  The
+runner stores that bit in `test/js262/test262_metadata.tsv` and treats async
+tests conservatively:
+
+1. By default, async-flagged tests are skipped with the message `async flag`.
+2. `--run-async` permits async execution, but only for tests listed in an
+   async allowlist.
+3. The async allowlist comes from `--async-list=<path>`.  In `--batch-file`
+   mode, if `--async-list` is omitted, the batch file itself is also used as
+   the async allowlist.
+4. Enabled async tests are not run as singleton tests anymore.  They are
+   grouped as JS-harness `js-async` batches and executed through
+   `lambda.exe js-test-batch`.
+5. Each async test gets `$DONE` support, microtask/timer draining, and
+   per-test harness reset before the next test in the batch is evaluated.
+6. After execution, async tests follow the same Phase 3/Phase 4 stability gates
+   as sync tests.  Only fully passing, batch-safe, non-slow tests enter the
+   baseline.
+
+For normal full-suite release verification, use the current baseline as the
+async allowlist:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --batch-only \
+  --run-async \
+  --async-list=test/js262/test262_baseline.txt \
+  --write-failures=temp/js262_failures.tsv \
+  --feature-summary
+```
+
+For a baseline refresh:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --batch-only \
+  --run-async \
+  --async-list=test/js262/test262_baseline.txt \
+  --update-baseline \
+  --write-failures=temp/js262_update_baseline.tsv
+```
+
+For async isolation or debugging, force one async test per batch process:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --batch-only \
+  --run-async \
+  --batch-file=temp/js47_async.txt \
+  --async-chunk-size=1 \
+  --jobs=1 \
+  --write-failures=temp/js47_async_failures.tsv
+```
+
+Use `--async-chunk-size=1` only for diagnosis.  The default async chunk size is
+50, matching sync batches, and is the expected mode for full-suite performance
+captures.
 
 ## Test Result Categories
 
@@ -129,10 +200,15 @@ work because they remain prepended to individual tests from metadata includes.
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
 | `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
+| `--run-async` | Permit async-flagged tests that are also present in the async allowlist. Without an allowlist, async tests remain skipped. |
+| `--async-list=<path>` | Async allowlist, one test name per line. For full baseline runs, use `test/js262/test262_baseline.txt`. In `--batch-file` mode, defaults to the batch file when omitted. |
+| `--async-chunk-size=<n>` | Async tests per `lambda.exe js-test-batch` process. Clamped to `1..50`, default `50`. Use `1` for isolation; use the default for performance runs. |
 | `--diagnose` | Run `test/js262/diagnose_list.txt` in batch mode and pass `--diagnose` to `lambda.exe js-test-batch`, enabling extra fast-path diagnostics in `log.txt`. |
 | `--diagnose-list=<path>` | Override the diagnose list path. This also enables `--diagnose`. |
 | `--write-failures=<path>` | Write a TSV manifest for failed tests. The row count matches the reported Failed count, excluding skipped and non-fully-passing tests. |
 | `--feature-summary` | Write failure summaries grouped by feature and category/subcategory. If no manifest path is given, uses `temp/js262_failures.tsv`. |
+| `--jobs=<n>` | Set batch worker count. Default is CPU count - 1. |
+| `--js-timeout=<seconds>` | Set per-test Lambda timeout, clamped to `1..120`. |
 
 ## Failure Artifacts
 
