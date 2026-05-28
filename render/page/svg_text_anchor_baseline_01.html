@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; }
+  html, body { width: 220px; height: 120px; overflow: hidden; }
+  body { background: white; font-family: Arial, sans-serif; }
+  svg { display: block; width: 220px; height: 120px; }
+</style>
+</head>
+<body>
+  <svg viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="220" height="120" fill="white"></rect>
+
+    <line x1="20" y1="36" x2="200" y2="36" stroke="#d0d6e0" stroke-width="1"></line>
+    <line x1="40" y1="56" x2="180" y2="56" stroke="#8a95a6" stroke-width="1"></line>
+
+    <text x="110" y="36" text-anchor="middle"
+          font-family="Arial" font-size="16" font-weight="bold"
+          fill="#2f3440">Centered Chart Title</text>
+
+    <text x="40" y="82" text-anchor="start"
+          font-family="Arial" font-size="12" fill="#2563a9">start</text>
+    <text x="180" y="82" text-anchor="end"
+          font-family="Arial" font-size="12" fill="#b34141">end</text>
+    <text x="110" y="104" text-anchor="middle"
+          font-family="Arial" font-size="12" fill="#2f7d4f">middle</text>
+  </svg>
+</body>
+</html>

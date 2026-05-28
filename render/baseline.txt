@@ -76,17 +76,17 @@ enhance5_pdf_svg_paint_order_stack_01         96   0.44%  170x128
 enhance5_repeating_gradient_radius_clip_01 exact   0.00%  150x120
 enhance5_scroll_clip_effect_stack_01         732   3.31%  170x130
 enhance5_selection_rounded_overflow_transform_01  1362   6.31%  180x120
-enhance5_spec_3d_transform_perspective_01    754   3.41%  170x130
-enhance5_spec_background_clip_text_01       2153   9.44%  190x120
-enhance5_spec_border_image_gradient_01      3689  19.21%  160x120
-enhance5_spec_clip_path_path_01             2603  13.56%  160x120
-enhance5_spec_css_mask_gradient_01          3719  19.37%  160x120
+enhance5_spec_3d_transform_perspective_01    474   2.14%  170x130
+enhance5_spec_background_clip_text_01         94   0.41%  190x120
+enhance5_spec_border_image_gradient_01        11   0.06%  160x120
+enhance5_spec_clip_path_path_01            exact   0.00%  160x120
+enhance5_spec_css_mask_gradient_01            27   0.14%  160x120
 enhance5_spec_outline_transform_01           358   1.86%  160x120
 enhance5_spec_repeating_gradient_angle_01 exact   0.00%  150x120
 enhance5_spec_svg_fill_rule_evenodd_01     exact   0.00%  150x120
 enhance5_spec_svg_filter_gaussian_blur_01   exact   0.00%  160x120
-enhance5_spec_svg_marker_arrow_01            686   3.57%  160x120
-enhance5_spec_svg_mask_luminance_01         4548  23.69%  160x120
+enhance5_spec_svg_marker_arrow_01          exact   0.00%  160x120
+enhance5_spec_svg_mask_luminance_01            4   0.02%  160x120
 enhance5_spec_svg_pattern_units_01          3138  16.34%  160x120
 enhance5_spec_svg_text_path_01               398   1.84%  180x120
 enhance5_spec_writing_mode_vertical_01      2628  11.89%  170x130
@@ -166,7 +166,7 @@ svg_inline_shapes_01                       exact   0.00%  100x100
 svg_opacity_01                             exact   0.00%  100x100
 svg_path_01                                exact   0.00%  100x100
 svg_stroke_01                              exact   0.00%  100x100
-svg_text_anchor_01                           585   5.85%  100x100
+svg_text_anchor_01                           141   1.41%  100x100
 svg_text_basic_01                            132   1.32%  100x100
 svg_text_color_01                            172   1.72%  100x100
 svg_text_tspan_01                            411   4.11%  100x100
@@ -202,16 +202,22 @@ z_index_order_01                           exact   0.00%  100x100
 z_index_stacking_01                        exact   0.00%  100x100
 
 # -- Puppertino suite (test/render/puppertino/) -----------------------------
-pp_blur_01                                  3775  37.75%  100x100
+pp_blur_01                                  2125  21.25%  100x100
 pp_btn_colors_01                             106   0.74%  120x120
 pp_btn_default_01                           3207  22.27%  120x120
 pp_btn_outline_01                            737   5.12%  120x120
 pp_btn_primary_01                            686   4.76%  120x120
 pp_btn_shapes_01                             690   4.79%  120x120
 pp_card_01                                     7   0.07%  100x100
-pp_chip_01                                   205   2.05%  100x100
-pp_segmented_01                              107   1.07%  100x100
-pp_select_01                                 454   4.13%  100x110
+pp_chip_01                                   168   1.68%  100x100
+pp_segmented_01                              184   1.84%  100x100
+pp_select_01                                 535   4.86%  100x110
 pp_shadow_01                                 471   4.71%  100x100
 pp_tabs_01                                  1033   7.17%  120x120
 pp_typography_01                             387   2.69%  120x120
+
+# -- Added by render baseline update -----------------------------
+svg_text_anchor_baseline_01                  144   0.55%  220x120
+
+# -- Added by render baseline update -----------------------------
+form_textarea_child_text_01                  392   2.18%  180x100
