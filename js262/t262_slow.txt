@@ -1,0 +1,6 @@
+# Tests that pass, but need isolated batches and the 5s timing gate.
+#
+# Keep this list for harness pressure cases, not correctness failures: entries
+# here are still executed on every JS262 run, just one test per batch.
+built_ins_decodeURI_S15_1_3_1_A2_5_T1_js
+built_ins_decodeURIComponent_S15_1_3_2_A2_5_T1_js
