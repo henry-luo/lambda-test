@@ -49,7 +49,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 - **Special preamble map**: `test/js262/special_premble.txt` lists expensive
   helper families, such as `testTypedArray.js` and `testAtomics.js`, that should
   be compiled once only for matching tests.
-- **Non-fully-passing list**: `test/js262/t262_partial.txt` (crash, slow, batch-unstable from previous run)
+- **Non-fully-passing list**: `test/js262/t262_partial.txt` (fresh crash, slow, batch-unstable results from the latest run)
 - **Slow test list**: `test/js262/t262_slow.txt` (intentionally exhaustive tests that pass, run in their own batches, and use a 5s timing gate)
 - **Minimum baseline gate**: 21,824 (STABLE_BASELINE_MIN)
 - **Performance rule**: full-suite timing and baseline refreshes must use a
@@ -62,24 +62,23 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 
 | Phase | What it does |
 |-------|-------------|
-| **Phase 1** | Parse YAML metadata, partition into CLEAN (batchable) and PARTIAL (known problematic). Tests listed in `t262_slow.txt` remain CLEAN but are marked for isolated slow batches. |
-| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
-| **Phase 2a** | **Removed.** Previously ran PARTIAL tests individually. Now PARTIAL tests are skipped by default; their entries in `t262_partial.txt` are preserved verbatim each run. Use `--run-partial` to promote them into Phase 2. |
+| **Phase 1** | Parse YAML metadata and prepare every non-skipped test for batching. Tests listed in `t262_partial.txt` are included; tests listed in `t262_slow.txt` remain CLEAN but are marked for isolated slow batches. |
+| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
+| **Phase 2a** | **Removed.** Previously ran or skipped PARTIAL tests separately. Now `t262_partial.txt` is not a skip list; it is rewritten from fresh results at the end of each run. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
 | **Phase 4** | Retry regressions individually. If a regression recovers → it's batch-unstable, marked non-fully-passing. |
 
-### Graduating a partial test into the baseline
+### Rebuilding the partial list
 
-A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_KILL`, `CRASH_<n>`) is preserved verbatim. To promote a fix:
+Tests in `t262_partial.txt` are included on every js262 run. The runner truncates
+and repopulates the file from the current run's results, deduped by test name.
+If a previous partial test now passes cleanly in Phase 2, it disappears from
+`t262_partial.txt` automatically.
 
-1. Verify the test now passes individually: `./lambda.exe js test/js262/test262/test/...`
-2. Run with `--run-partial` so the test enters Phase 2:
-   ```bash
-   ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-partial --update-baseline
-   ```
-3. If the test passes cleanly in Phase 2 (elapsed < 3s, no crash), it gets added to the baseline and removed from `t262_partial.txt` automatically by `clean_partial_list_after_baseline_update`.
-4. Alternatively, hand-edit `t262_partial.txt` to delete the line — next `--run-partial` run will (re)classify it. Hand-deletion without `--run-partial` does nothing this run (test stays skipped) but the entry is gone next round.
+Tests already listed in `t262_slow.txt` are never written to
+`t262_partial.txt`; keep intentionally exhaustive slow-but-correct tests in the
+slow list only.
 
 ### Slow Tests
 
@@ -242,7 +241,6 @@ work because they remain prepended to individual tests from metadata includes.
 | `--batch-only` | Standard batch mode. Enables Phase 4 regression retry. |
 | `--update-baseline` | Updates baseline if all gate conditions pass (regressions=0, batch-lost=0, crashes=0, count≥21824). |
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
-| `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 | `--run-async` | Permit async-flagged tests that are also present in the async allowlist. Without an allowlist, async tests remain skipped. |
 | `--async-list=<path>` | Async allowlist, one test name per line. For full baseline runs, use `test/js262/test262_baseline.txt`. In `--batch-file` mode, defaults to the batch file when omitted. |
