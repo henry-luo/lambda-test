@@ -363,6 +363,12 @@ printf 'harness:%d\n%ssource:%s:%d\n%s' \
 cat temp/_t262_timing_o0.tsv | sort -t$'\t' -k2 -rn | head -20  # slowest tests
 ```
 
+When `--update-baseline` rewrites `test/js262/test262_baseline.txt`, the
+header records both total wall time and summed per-test elapsed time. The
+per-test sum is derived from the same `elapsed_us` values written to the timing
+TSV, with separate lines for all executed tests and the fully passing baseline
+subset.
+
 ## Key Architecture
 
 ### Batch subprocess protocol (manifest)
