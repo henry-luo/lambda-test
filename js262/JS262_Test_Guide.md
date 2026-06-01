@@ -24,6 +24,9 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batc
 # Isolate async tests while tuning batching or harness cleanup
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-async --batch-file=temp/js47_async.txt --async-chunk-size=1 --jobs=1
 
+# Run intentionally exhaustive slow tests
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --batch-file=test/js262/t262_slow.txt --jobs=1
+
 # Run the diagnose watch list with extra Lambda fast-path logging
 ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diagnose --jobs=1 --js-timeout=30
 
@@ -46,7 +49,8 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 - **Special preamble map**: `test/js262/special_premble.txt` lists expensive
   helper families, such as `testTypedArray.js` and `testAtomics.js`, that should
   be compiled once only for matching tests.
-- **Non-fully-passing list**: `test/js262/t262_partial.txt` (crash, slow, batch-unstable from previous run)
+- **Non-fully-passing list**: `test/js262/t262_partial.txt` (fresh crash, slow, batch-unstable results from the latest run)
+- **Slow test list**: `test/js262/t262_slow.txt` (intentionally exhaustive tests that pass, run in their own batches, and use a 5s timing gate)
 - **Minimum baseline gate**: 21,824 (STABLE_BASELINE_MIN)
 - **Performance rule**: full-suite timing and baseline refreshes must use a
   release `lambda.exe`; debug/O0 runs can create hundreds of false slow tests.
@@ -58,24 +62,63 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 
 | Phase | What it does |
 |-------|-------------|
-| **Phase 1** | Parse YAML metadata, partition into CLEAN (batchable) and PARTIAL (known problematic). |
-| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-partial`, PARTIAL tests are merged into this phase too. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. |
-| **Phase 2a** | **Removed.** Previously ran PARTIAL tests individually. Now PARTIAL tests are skipped by default; their entries in `t262_partial.txt` are preserved verbatim each run. Use `--run-partial` to promote them into Phase 2. |
+| **Phase 1** | Parse YAML metadata and prepare every non-skipped test for batching. Tests listed in `t262_partial.txt` are included; tests listed in `t262_slow.txt` remain CLEAN but are marked for isolated slow batches. |
+| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
+| **Phase 2a** | **Removed.** Previously ran or skipped PARTIAL tests separately. Now `t262_partial.txt` is not a skip list; it is rewritten from fresh results at the end of each run. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
 | **Phase 4** | Retry regressions individually. If a regression recovers → it's batch-unstable, marked non-fully-passing. |
 
-### Graduating a partial test into the baseline
+### Rebuilding the partial list
 
-A test in `t262_partial.txt` is skipped each run; its tag (`SLOW_<us>`, `BATCH_KILL`, `CRASH_<n>`) is preserved verbatim. To promote a fix:
+Tests in `t262_partial.txt` are included on every js262 run. The runner truncates
+and repopulates the file from the current run's results, deduped by test name.
+If a previous partial test now passes cleanly in Phase 2, it disappears from
+`t262_partial.txt` automatically.
 
-1. Verify the test now passes individually: `./lambda.exe js test/js262/test262/test/...`
-2. Run with `--run-partial` so the test enters Phase 2:
-   ```bash
-   ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --batch-only --run-partial --update-baseline
-   ```
-3. If the test passes cleanly in Phase 2 (elapsed < 3s, no crash), it gets added to the baseline and removed from `t262_partial.txt` automatically by `clean_partial_list_after_baseline_update`.
-4. Alternatively, hand-edit `t262_partial.txt` to delete the line — next `--run-partial` run will (re)classify it. Hand-deletion without `--run-partial` does nothing this run (test stays skipped) but the entry is gone next round.
+Tests already listed in `t262_slow.txt` are never written to
+`t262_partial.txt`; keep intentionally exhaustive slow-but-correct tests in the
+slow list only.
+
+### Slow Tests
+
+Some test262 files are intentionally exhaustive and pass correctly, but take
+longer than the normal 3s fully-passing timing gate even in release builds.
+These belong in `test/js262/t262_slow.txt`, not in `test/js262/t262_partial.txt`.
+
+The runner always includes these tests. It isolates each one in its own
+`js-slow` batch and applies a 5s slow-test timing gate instead of the normal
+3s gate:
+
+```bash
+ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
+  --batch-only \
+  --batch-file=test/js262/t262_slow.txt \
+  --jobs=1 \
+  --write-failures=temp/js262_slow.tsv
+```
+
+Keep this list short. A slow test should move back to ordinary baseline flow
+only after an engine change brings its release timing below the normal slow
+threshold.
+
+### Proper Tail Calls
+
+Proper tail calls are an ES2015 specification feature, but LambdaJS does not
+claim general ECMAScript PTC support for the Js48 ES2021 milestone. test262
+tests tagged `tail-call-optimization` are skipped with the explicit reason
+`intentional PTC exception`, rather than being folded into the generic
+unsupported future-feature bucket.
+
+### Host Scope Exceptions
+
+Cross-realm and browser/Annex B host-quirk tests are outside the Js48 LambdaJS
+ES2021 claim. Tests tagged `cross-realm`, `IsHTMLDDA`, or `caller` are skipped
+with explicit reasons:
+
+- `intentional cross-realm host exception`
+- `intentional browser IsHTMLDDA exception`
+- `intentional Annex B caller exception`
 
 ## Async Test Flow
 
@@ -141,7 +184,7 @@ captures.
 
 | Category | Meaning |
 |----------|---------|
-| **Fully passing** | Passed in original Phase 2 batch with elapsed < 3s. Qualifies for baseline. |
+| **Fully passing** | Passed in original Phase 2 batch under the timing gate. Qualifies for baseline. |
 | **Non-fully-passing** | Cannot pass reliably in batch. Does NOT qualify for baseline. |
 | **Regression** | Was in baseline, now fails. Must be 0 to update baseline. |
 | **Improvement** | Was NOT in baseline, now fully passing. Added on baseline update. |
@@ -151,7 +194,7 @@ captures.
 ## Quality Rules
 
 1. **Regressions must be 0** before updating baseline. Any regression = something broke.
-2. **Non-fully-passing should be ≤ 2**. These are typically slow tests (≥3s). If you see more, investigate.
+2. **Non-fully-passing should be low**. Slow-but-correct exhaustive tests belong in `t262_slow.txt`; unexpected SLOW/CRASH/BATCH_KILL entries in `t262_partial.txt` need investigation.
 3. **Only fully-passing tests enter baseline**. Tests that pass only in individual retry (Phase 4) are NOT stable enough.
 4. **Always use `--batch-only`**. This is the standard mode. Without it, tests run as individual GTest cases (slow, different semantics).
 5. **Run 2-3 times** after any engine change to confirm stability. Batch ordering varies by timing, so different tests are "first in batch" each run.
@@ -198,7 +241,6 @@ work because they remain prepended to individual tests from metadata includes.
 | `--batch-only` | Standard batch mode. Enables Phase 4 regression retry. |
 | `--update-baseline` | Updates baseline if all gate conditions pass (regressions=0, batch-lost=0, crashes=0, count≥21824). |
 | `--baseline-only` | Only run tests in the baseline file. Faster for regression checks. |
-| `--run-partial` | Merge `t262_partial.txt` entries into Phase 2 instead of skipping them. Use to verify a fix has graduated a test. |
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 | `--run-async` | Permit async-flagged tests that are also present in the async allowlist. Without an allowlist, async tests remain skipped. |
 | `--async-list=<path>` | Async allowlist, one test name per line. For full baseline runs, use `test/js262/test262_baseline.txt`. In `--batch-file` mode, defaults to the batch file when omitted. |
@@ -286,6 +328,7 @@ such as `js-diagnose: fast-path-hit=...` are written to the batch output and
 - Usually means slow tests fluctuating around the 3s threshold
 - Or a new crash is killing batch processes, creating batch-lost collateral
 - Check `test/js262/t262_partial.txt` for the list and their tags (SLOW, CRASH, BATCH_KILL, etc.)
+- If the test is a known exhaustive pass, move it to `test/js262/t262_slow.txt`; the runner will isolate it and apply the 5s slow-test timing gate instead of leaving it as generic partial noise.
 
 ### Running a single test
 ```bash
@@ -319,6 +362,12 @@ printf 'harness:%d\n%ssource:%s:%d\n%s' \
 # Timing data saved per optimization level (default is o0 for debug builds)
 cat temp/_t262_timing_o0.tsv | sort -t$'\t' -k2 -rn | head -20  # slowest tests
 ```
+
+When `--update-baseline` rewrites `test/js262/test262_baseline.txt`, the
+header records both total wall time and summed per-test elapsed time. The
+per-test sum is derived from the same `elapsed_us` values written to the timing
+TSV, with separate lines for all executed tests and the fully passing baseline
+subset.
 
 ## Key Architecture
 
@@ -355,6 +404,7 @@ source:<test_name>:<length>\n<test_blob>
 | `lambda/main.cpp` | `js-test-batch` command handler |
 | `lambda/js/js_runtime.cpp` | `js_batch_reset_to()`, `js_batch_reset()` |
 | `test/js262/t262_partial.txt` | Non-fully-passing list with tags |
+| `test/js262/t262_slow.txt` | Intentionally exhaustive passing tests run in singleton `js-slow` batches with a 5s gate |
 | `temp/_t262_batch_kills.txt` | Phase 4 batch kill diagnostics |
 | `temp/test262_metadata.tsv` | Cached YAML metadata for all test files |
 | `temp/_t262_timing_o0.tsv` | Per-test timing data (debug build); `_o1.tsv`/`_o2.tsv` for release |
