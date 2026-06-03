@@ -180,13 +180,14 @@ async function main() {
         const page = await browser.newPage();
         try {
             const cfg = getTestConfig(testName);
-            const vw = cfg.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
-            const vh = cfg.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+            const vw = cfg.referenceViewportWidth  || cfg.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
+            const vh = cfg.referenceViewportHeight || cfg.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+            const deviceScaleFactor = cfg.referenceDeviceScaleFactor || 1;
 
             await page.setViewport({
                 width: vw,
                 height: vh,
-                deviceScaleFactor: 1
+                deviceScaleFactor
             });
 
             const fileUrl = `file://${path.join(PAGE_DIR, file)}`;

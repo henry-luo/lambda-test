@@ -167,18 +167,18 @@ function parseArgs() {
 
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
-function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight) {
-    return renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, null);
+function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio) {
+    return renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio, null);
 }
 
-function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, envOverrides) {
+function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio, envOverrides) {
     return new Promise((resolve, reject) => {
         const args = [
             'render', htmlFile,
             '-o', outputPng,
             '-vw', String(viewportWidth || DEFAULT_VIEWPORT_WIDTH),
             '-vh', String(viewportHeight || DEFAULT_VIEWPORT_HEIGHT),
-            '--pixel-ratio', String(PIXEL_RATIO)
+            '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)
         ];
 
         const proc = spawn(exePath, args, {
@@ -207,9 +207,9 @@ function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewp
 // Render auto-sized (no -vw/-vh) so content bounds drive output dimensions.
 // Used by strip-parity mode, where the large-page tiled export path only
 // triggers on auto-sizing.
-function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, envOverrides) {
+function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, pixelRatio, envOverrides) {
     return new Promise((resolve, reject) => {
-        const args = ['render', htmlFile, '-o', outputPng, '--pixel-ratio', String(PIXEL_RATIO)];
+        const args = ['render', htmlFile, '-o', outputPng, '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)];
         const proc = spawn(exePath, args, {
             cwd: PROJECT_ROOT,
             env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
@@ -231,10 +231,10 @@ function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, envOverrides) {
 // Sends render jobs via stdin (tab-separated), reads OK/FAIL results from stdout.
 // Saves ~70MB of per-process overhead by sharing UiContext across all renders.
 
-function renderBatchWithRadiant(exePath, jobs) {
+function renderBatchWithRadiant(exePath, jobs, pixelRatio) {
     // jobs: [{htmlFile, outputPng, viewportWidth, viewportHeight}]
     return new Promise((resolve, reject) => {
-        const proc = spawn(exePath, ['render-batch', '--pixel-ratio', String(PIXEL_RATIO)], {
+        const proc = spawn(exePath, ['render-batch', '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)], {
             cwd: PROJECT_ROOT,
             stdio: ['pipe', 'pipe', 'pipe'],
             timeout: jobs.length * 10000 + 30000  // generous timeout
@@ -373,10 +373,11 @@ async function runSingleTest(testName, opts) {
     const finalize = (result) => applyExpectedFailure(testConfig, result);
     const vw = testConfig.viewportWidth  || DEFAULT_VIEWPORT_WIDTH;
     const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+    const pixelRatio = testConfig.pixelRatio || PIXEL_RATIO;
 
     // render with Radiant
     try {
-        await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh);
+        await renderWithRadiant(opts.exe, htmlFile, outputPng, vw, vh, pixelRatio);
     } catch (err) {
         return finalize({ testName, status: 'error', reason: err.message });
     }
@@ -425,11 +426,12 @@ async function runReplayParityTest(testName, opts) {
     const testConfig = getTestConfig(testName);
     const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
     const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
+    const pixelRatio = testConfig.pixelRatio || PIXEL_RATIO;
 
     try {
-        await renderWithRadiantEnv(opts.exe, htmlFile, singlePng, vw, vh,
+        await renderWithRadiantEnv(opts.exe, htmlFile, singlePng, vw, vh, pixelRatio,
                                    { RADIANT_RENDER_THREADS: '1' });
-        await renderWithRadiantEnv(opts.exe, htmlFile, tiledPng, vw, vh,
+        await renderWithRadiantEnv(opts.exe, htmlFile, tiledPng, vw, vh, pixelRatio,
                                    { RADIANT_RENDER_THREADS: '2' });
     } catch (err) {
         return { testName, status: 'error', reason: err.message };
@@ -497,9 +499,9 @@ async function runStripParityTest(testName, opts) {
     const diffPng = path.join(DIFF_DIR, `${testName}.strip_parity.png`);
 
     try {
-        await renderAutoSizeWithEnv(opts.exe, htmlFile, normalPng,
+        await renderAutoSizeWithEnv(opts.exe, htmlFile, normalPng, PIXEL_RATIO,
             { RADIANT_RENDER_THREADS: '1' });
-        await renderAutoSizeWithEnv(opts.exe, htmlFile, stripPng,
+        await renderAutoSizeWithEnv(opts.exe, htmlFile, stripPng, PIXEL_RATIO,
             { RADIANT_TILE_THRESHOLD: '1', RADIANT_TILE_STRIP_H: String(opts.stripHeight) });
     } catch (err) {
         return { testName, status: 'error', reason: err.message };
@@ -580,13 +582,25 @@ async function runTestsParallel(testNames, opts) {
         const vw = testConfig.viewportWidth || DEFAULT_VIEWPORT_WIDTH;
         const vh = testConfig.viewportHeight || DEFAULT_VIEWPORT_HEIGHT;
 
-        jobs.push({ testName, htmlFile, outputPng, viewportWidth: vw, viewportHeight: vh });
+        const pixelRatio = testConfig.pixelRatio || PIXEL_RATIO;
+        jobs.push({ testName, htmlFile, outputPng, viewportWidth: vw, viewportHeight: vh, pixelRatio });
     }
 
     let batchResults = new Map();
     if (jobs.length > 0) {
         try {
-            batchResults = await renderBatchWithRadiant(opts.exe, jobs);
+            const jobsByPixelRatio = new Map();
+            for (const job of jobs) {
+                const key = String(job.pixelRatio || PIXEL_RATIO);
+                if (!jobsByPixelRatio.has(key)) jobsByPixelRatio.set(key, []);
+                jobsByPixelRatio.get(key).push(job);
+            }
+            for (const [pixelRatio, group] of jobsByPixelRatio) {
+                const groupResults = await renderBatchWithRadiant(opts.exe, group, Number(pixelRatio));
+                for (const [htmlFile, result] of groupResults) {
+                    batchResults.set(htmlFile, result);
+                }
+            }
         } catch (err) {
             // batch process failed entirely — mark all as error
             return [
