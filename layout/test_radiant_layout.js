@@ -41,6 +41,10 @@ class RadiantLayoutTester {
         this.testIdCounter = 0; // Counter for unique test IDs
         this.singleTestMode = options.singleTestMode || false; // Single test mode for detailed failure reports
         this.batchSize = options.batchSize || 0; // Batch size for layout (0 = disabled, use single file mode)
+        this.batchSizeExplicit = options.batchSizeExplicit || false;
+        this.maxConcurrencyExplicit = options.maxConcurrencyExplicit || false;
+        this.retryMismatches = options.retryMismatches || false;
+        this.retryMismatchesExplicit = options.retryMismatchesExplicit || false;
         this.parallelOutputDir = path.join(this.projectRoot, 'temp', 'layout');
         this.batchOutputDir = path.join(
             this.projectRoot,
@@ -66,6 +70,76 @@ class RadiantLayoutTester {
         const parentDir = path.basename(path.dirname(htmlFile));
         const outputName = parentDir ? `${parentDir}__${basename}` : basename;
         return path.join(outputDir, `${outputName}.json`);
+    }
+
+    async loadCategoryConfig(category) {
+        if (!this._categoryConfigCache) this._categoryConfigCache = {};
+        if (this._categoryConfigCache[category] !== undefined) {
+            return this._categoryConfigCache[category];
+        }
+
+        const configPath = path.join(this.testDataDir, category, 'config.json');
+        try {
+            const content = await fs.readFile(configPath, 'utf8');
+            const config = JSON.parse(content);
+            this._categoryConfigCache[category] = config;
+            return config;
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                this._categoryConfigCache[category] = null;
+                return null;
+            }
+            throw new Error(`Failed to load ${configPath}: ${error.message}`);
+        }
+    }
+
+    applyCategoryConfig(category, config) {
+        const previous = {
+            batchSize: this.batchSize,
+            maxConcurrency: this.maxConcurrency,
+            retryMismatches: this.retryMismatches
+        };
+        if (!config || typeof config !== 'object') return previous;
+
+        const configuredBatchSize =
+            config.batchSize ?? config['batch-size'] ?? config.batch_size ?? config['batch-szie'];
+        if (!this.batchSizeExplicit && configuredBatchSize !== undefined) {
+            const parsed = Number(configuredBatchSize);
+            if (!Number.isInteger(parsed) || parsed < 0) {
+                throw new Error(`Invalid batch size in ${category}/config.json: ${configuredBatchSize}`);
+            }
+            this.batchSize = parsed;
+        }
+
+        const configuredConcurrency =
+            config.concurrency ?? config.maxConcurrency ?? config['max-concurrency'];
+        if (!this.maxConcurrencyExplicit && configuredConcurrency !== undefined) {
+            const parsed = Number(configuredConcurrency);
+            if (!Number.isInteger(parsed) || parsed < 1) {
+                throw new Error(`Invalid concurrency in ${category}/config.json: ${configuredConcurrency}`);
+            }
+            this.maxConcurrency = parsed;
+        }
+
+        const configuredRetry = config.retryMismatches ?? config['retry-mismatches'];
+        if (!this.retryMismatchesExplicit && configuredRetry !== undefined) {
+            if (typeof configuredRetry !== 'boolean') {
+                throw new Error(`Invalid retryMismatches in ${category}/config.json: ${configuredRetry}`);
+            }
+            this.retryMismatches = configuredRetry;
+        }
+
+        if (!this.json && this.verbose) {
+            console.log(`   ⚙️  Loaded ${category}/config.json: batchSize=${this.batchSize}, concurrency=${this.maxConcurrency}, retryMismatches=${this.retryMismatches}`);
+        }
+        return previous;
+    }
+
+    restoreCategoryConfig(previous) {
+        if (!previous) return;
+        this.batchSize = previous.batchSize;
+        this.maxConcurrency = previous.maxConcurrency;
+        this.retryMismatches = previous.retryMismatches;
     }
 
     /**
@@ -2368,6 +2442,11 @@ class RadiantLayoutTester {
                 }
 
                 const { task } = validTasks[i];
+                if (!this.retryMismatches) {
+                    finalResults.push(result);
+                    continue;
+                }
+
                 const retryOutput = this.getUniqueOutputFile();
                 try {
                     await this.runRadiantLayout(task.htmlFile, retryOutput);
@@ -2498,6 +2577,7 @@ class RadiantLayoutTester {
         }
 
         const categoryDir = path.join(this.testDataDir, category);
+        const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
 
         try {
             const entries = await fs.readdir(categoryDir, { withFileTypes: true });
@@ -2644,6 +2724,8 @@ class RadiantLayoutTester {
         } catch (error) {
             console.log(`   ❌ Error reading category directory: ${error.message}`);
             return [];
+        } finally {
+            this.restoreCategoryConfig(previousConfig);
         }
     }
 
@@ -2688,6 +2770,7 @@ class RadiantLayoutTester {
 
         for (const category of categories) {
             const categoryDir = path.join(this.testDataDir, category);
+            const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
 
             try {
                 const entries = await fs.readdir(categoryDir, { withFileTypes: true });
@@ -2740,6 +2823,8 @@ class RadiantLayoutTester {
                 }
             } catch (error) {
                 console.log(`   ⚠️  Error reading category ${category}: ${error.message}`);
+            } finally {
+                this.restoreCategoryConfig(previousConfig);
             }
         }
 
@@ -2876,7 +2961,8 @@ async function main() {
         engine: 'radiant', // default to radiant engine
         json: false, // JSON output mode
         maxConcurrency: DEFAULT_CONCURRENCY, // Max parallel tests (auto-detect: cores - 1)
-        batchSize: 100 // Default batch size for layout (100 files at once)
+        batchSize: 100, // Default batch size for layout (100 files at once)
+        retryMismatches: false
     };
 
     let category = null;
@@ -2940,6 +3026,7 @@ async function main() {
                     console.error('Invalid concurrency value. Must be a positive integer.');
                     process.exit(1);
                 }
+                options.maxConcurrencyExplicit = true;
                 break;
             case '--batch-size':
             case '-b':
@@ -2948,9 +3035,15 @@ async function main() {
                     console.error('Invalid batch size. Must be 0 (disabled) or a positive integer.');
                     process.exit(1);
                 }
+                options.batchSizeExplicit = true;
                 break;
             case '--no-batch':
                 options.batchSize = 0; // Disable batch mode
+                options.batchSizeExplicit = true;
+                break;
+            case '--retry-mismatches':
+                options.retryMismatches = true;
+                options.retryMismatchesExplicit = true;
                 break;
             default:
                 console.error(`Unknown argument: ${arg}`);
@@ -2975,6 +3068,7 @@ Options:
   --concurrency, -j <n>    Number of parallel tests to run (default: 5)
   --batch-size, -b <n>     Batch size for layout processing (default: 100, 0 to disable)
   --no-batch               Disable batch mode (same as --batch-size 0)
+  --retry-mismatches       Re-run failed batch comparisons individually to detect batch-only mismatches
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
   --update-baseline        Update scored baseline entries, raising each metric only when current is better
@@ -2985,6 +3079,7 @@ Batch Mode:
   By default, tests are processed in batches of 100 files to improve performance.
   The layout engine's UiContext is initialized once per batch, reducing overhead.
   Use --no-batch to disable batch mode and process files individually.
+  Suite-specific config is read from test/layout/data/<suite>/config.json.
 
 Engines:
   lambda-css   - Lambda CSS layout engine (custom CSS cascade and layout)
