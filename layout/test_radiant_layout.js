@@ -168,6 +168,7 @@ class RadiantLayoutTester {
         if (options.includeAhem) {
             args.push('--css', 'test/layout/data/support/fonts/ahem.css');
         }
+        args.push('--auto-close');
         args.push('--no-log');
         return args;
     }
