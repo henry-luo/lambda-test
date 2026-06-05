@@ -35,6 +35,8 @@ const { PNG } = require('pngjs');
 
 const TEST_DIR    = __dirname;
 const PROJECT_ROOT = findProjectRoot();
+const ARTIFACT_DIR = process.env.RADIANT_RENDER_ARTIFACT_DIR ||
+    path.join(PROJECT_ROOT, 'temp', 'render');
 // Default suites: include both 'page' (general regression) and 'puppertino' (component library).
 const DEFAULT_SUITES = ['page', 'puppertino'];
 // Active suite directories (populated in main()). Each entry is an absolute path.
@@ -42,8 +44,10 @@ let   PAGE_DIRS   = [path.join(TEST_DIR, 'page')];
 // Map from test name to its source suite directory (populated during discovery).
 const TEST_DIR_MAP = new Map();
 const REF_DIR     = path.join(TEST_DIR, 'reference');
-const OUTPUT_DIR  = path.join(TEST_DIR, 'output');
-const DIFF_DIR    = path.join(TEST_DIR, 'diff');
+const OUTPUT_DIR  = process.env.RADIANT_RENDER_OUTPUT_DIR ||
+    path.join(ARTIFACT_DIR, 'output');
+const DIFF_DIR    = process.env.RADIANT_RENDER_DIFF_DIR ||
+    path.join(ARTIFACT_DIR, 'diff');
 
 // Resolve the source suite directory for a given test name.
 function suiteDirFor(testName) {
