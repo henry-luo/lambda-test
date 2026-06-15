@@ -17,7 +17,8 @@
  * External dependency detection:
  *   - <link rel="stylesheet" href="...">  → external CSS file
  *   - <script src="...">                  → external JS file
- *   - <img src="...">                     → external image
+ *   - <img>/<embed>/<iframe> src="..."    → external resource
+ *   - <object data="...">                 → external resource
  *   - url(...) in CSS                     → external resource (image, font, etc.)
  *   - @import "..." in CSS                → external CSS
  *   All of the above are skipped if they are data: URIs or fragment (#...) references.
@@ -91,13 +92,27 @@ function findExternalDeps(htmlPath) {
         }
     }
 
-    // --- <img src="..."> elements ---
-    const IMG_TAG_RE = /<img\b([^>]*)>/gi;
-    while ((m = IMG_TAG_RE.exec(content)) !== null) {
-        const attrs = m[1];
+    // --- src-bearing embedded resource elements ---
+    const SRC_RESOURCE_TAG_RE = /<(img|embed|iframe|audio|video|source|track|input)\b([^>]*)>/gi;
+    while ((m = SRC_RESOURCE_TAG_RE.exec(content)) !== null) {
+        const tagName = m[1].toLowerCase();
+        const attrs = m[2];
+        if (tagName === 'input' && !/\btype\s*=\s*["']?image\b/i.test(attrs)) {
+            continue;
+        }
         const srcMatch = /\bsrc\s*=\s*["']([^"']+)["']/i.exec(attrs);
         if (srcMatch && !isInlineOrFragment(srcMatch[1])) {
-            deps.push(`Image: ${srcMatch[1]}`);
+            deps.push(`Resource: ${srcMatch[1]}`);
+        }
+    }
+
+    // --- <object data="..."> elements ---
+    const OBJECT_TAG_RE = /<object\b([^>]*)>/gi;
+    while ((m = OBJECT_TAG_RE.exec(content)) !== null) {
+        const attrs = m[1];
+        const dataMatch = /\bdata\s*=\s*["']([^"']+)["']/i.exec(attrs);
+        if (dataMatch && !isInlineOrFragment(dataMatch[1])) {
+            deps.push(`Resource: ${dataMatch[1]}`);
         }
     }
 

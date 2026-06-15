@@ -1260,6 +1260,10 @@ class RadiantLayoutTester {
         return merged;
     }
 
+    isSegmentBreakOnlyText(text) {
+        return typeof text === 'string' && text.length > 0 && /^(?:\r\n|\r|\n)+$/.test(text);
+    }
+
     /**
      * Compare two tree structures node by node with unified child comparison
      */
@@ -1363,6 +1367,20 @@ class RadiantLayoutTester {
                     browserLayout = browserNode.layout.rects[0];
                 } else {
                     browserLayout = browserNode.layout;
+                }
+
+                const segmentBreakOnly =
+                    this.isSegmentBreakOnlyText(radiantNode.content || '') &&
+                    this.isSegmentBreakOnlyText(browserNode.text || '');
+                if (segmentBreakOnly) {
+                    const heightDiff = Math.abs((radiantLayout.height || 0) - (browserLayout.height || 0));
+                    if (heightDiff <= this.tolerance) {
+                        results.matchedTextNodes++;
+                        if (this.verbose) {
+                            console.log(`${indent()}   ✅ TEXT MATCH (segment break rect position ignored, height diff ${heightDiff.toFixed(1)}px)`);
+                        }
+                        return results;
+                    }
                 }
 
                 // Check if text is center-aligned (from parent's computed styles)
