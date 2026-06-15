@@ -39,10 +39,10 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 - **Baseline file**: `test/js262/test262_baseline.txt` (38,939 tests as
   of release_run_004)
 - **Test runner**: `test/test_js_test262_gtest.cpp`
-- **Sync batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
-- **Async batch size**: 50 tests per `lambda.exe js-test-batch` subprocess
-  by default; override with `--async-chunk-size=<n>` for isolation or
-  acceptance testing.
+- **Sync batch size**: 100 tests per `lambda.exe js-test-batch` subprocess by
+  default; override with `--batch-chunk-size=<n>` for timing experiments.
+- **Async batch size**: follows the sync batch size by default; override with
+  `--async-chunk-size=<n>` for isolation or acceptance testing.
 - **Parallel workers**: CPU count - 1 by default; override with `--jobs=<n>`.
 - **Default preamble**: `sta.js`, `assert.js`, and `nativeFunctionMatcher.js`
   compiled once via MIR JIT for ordinary JS-harness batches.
@@ -58,12 +58,27 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
   `build-test` so the debug test executables do not overwrite the runtime used
   by `js-test-batch`.
 
+### Batch Timing POC Notes
+
+- Persistent workers, where one `lambda.exe js-test-batch` process runs many
+  manifests, did not help suite-wide: the best full run was slightly slower
+  than spawn-per-batch, and the second full run was much slower with higher RSS.
+- Doubling the normal spawn-per-batch chunk size from 50 to 100 helped by
+  reducing process startup overhead. The tradeoff was higher peak RSS. The
+  default batch size is now 100.
+
+| Mode | Batch size | Batches | Real time | Harness total | Peak RSS | Result |
+|------|------------|---------|-----------|---------------|----------|--------|
+| Spawn per batch | 50 | 811 | 138.06s | 135.9s | 752.9 MB | 40261/40261, regressions 0 |
+| Persistent workers | 50 | 811 | 142.92s best, 217.84s rerun | 142.5s best, 217.4s rerun | ~1.55 GB | not faster |
+| Spawn per batch | 100 | 409 | 117.72s | 115.4s | 1034.6 MB | 40261/40261, regressions 0 |
+
 ## Test Phases
 
 | Phase | What it does |
 |-------|-------------|
 | **Phase 1** | Parse YAML metadata and prepare every non-skipped test for batching. Tests listed in `t262_partial.txt` are included; tests listed in `t262_slow.txt` remain CLEAN but are marked for isolated slow batches. |
-| **Phase 2** | Execute CLEAN tests: 50/process, CPU-1 parallel workers by default. Main execution phase. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
+| **Phase 2** | Execute CLEAN tests: `--batch-chunk-size` tests/process, CPU-1 parallel workers by default. Main execution phase. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
 | **Phase 2a** | **Removed.** Previously ran or skipped PARTIAL tests separately. Now `t262_partial.txt` is not a skip list; it is rewritten from fresh results at the end of each run. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
@@ -176,9 +191,10 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe \
   --write-failures=temp/js47_async_failures.tsv
 ```
 
-Use `--async-chunk-size=1` only for diagnosis.  The default async chunk size is
-50, matching sync batches, and is the expected mode for full-suite performance
-captures.
+Use `--async-chunk-size=1` only for diagnosis.  By default, async chunk size
+matches the sync batch size, and the default sync size is the expected mode for
+full-suite performance captures unless the run is explicitly measuring batch
+size.
 
 ## Test Result Categories
 
@@ -244,7 +260,8 @@ work because they remain prepended to individual tests from metadata includes.
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 | `--run-async` | Permit async-flagged tests that are also present in the async allowlist. Without an allowlist, async tests remain skipped. |
 | `--async-list=<path>` | Async allowlist, one test name per line. For full baseline runs, use `test/js262/test262_baseline.txt`. In `--batch-file` mode, defaults to the batch file when omitted. |
-| `--async-chunk-size=<n>` | Async tests per `lambda.exe js-test-batch` process. Clamped to `1..50`, default `50`. Use `1` for isolation; use the default for performance runs. |
+| `--batch-chunk-size=<n>` | Tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, default `100`. Use for timing experiments; larger batches reduce process startup overhead but can increase peak RSS. |
+| `--async-chunk-size=<n>` | Async tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, defaults to the sync batch size and is capped by it. Use `1` for isolation; use the default for performance runs. |
 | `--diagnose` | Run `test/js262/diagnose_list.txt` in batch mode and pass `--diagnose` to `lambda.exe js-test-batch`, enabling extra fast-path diagnostics in `log.txt`. |
 | `--diagnose-list=<path>` | Override the diagnose list path. This also enables `--diagnose`. |
 | `--write-failures=<path>` | Write a TSV manifest for failed tests. The row count matches the reported Failed count, excluding skipped and non-fully-passing tests. |
