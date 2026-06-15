@@ -164,17 +164,36 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // Set consistent viewport and disable animations (from extract_layout.js)
         await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
         await page.evaluateOnNewDocument(() => {
-            // Disable animations for consistent layout
-            const style = document.createElement('style');
-            style.textContent = `
-                *, *::before, *::after {
-                    animation-duration: 0s !important;
-                    animation-delay: 0s !important;
-                    transition-duration: 0s !important;
-                    transition-delay: 0s !important;
+            // Freeze timer-driven layout changes during reference capture. Some
+            // CSS2.1 tests run a synchronous setup step, then schedule repeated
+            // toggles with setTimeout(); keep the setup result and avoid racing
+            // the later event-loop ticks.
+            const nativeSetTimeout = window.setTimeout.bind(window);
+            window.setTimeout = (handler, delay = 0, ...args) => {
+                if (Number(delay) <= 0) {
+                    if (typeof handler === 'function') {
+                        handler(...args);
+                    } else if (typeof handler === 'string') {
+                        window.eval(handler);
+                    }
                 }
-            `;
-            document.head.appendChild(style);
+                return 0;
+            };
+            window.clearTimeout = () => {};
+
+            // Disable animations for consistent layout
+            nativeSetTimeout(() => {
+                const style = document.createElement('style');
+                style.textContent = `
+                    *, *::before, *::after {
+                        animation-duration: 0s !important;
+                        animation-delay: 0s !important;
+                        transition-duration: 0s !important;
+                        transition-delay: 0s !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }, 0);
         });
         console.log('✅ Browser ready');
 
