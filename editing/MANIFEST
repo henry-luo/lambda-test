@@ -1,0 +1,118 @@
+Chrome Editing Corpus manifest
+
+Status: complete Chromium editing subtree mirror plus Lambda runner metadata.
+Upstream source: Chromium third_party/blink/web_tests/editing/
+Upstream archive: refs/heads/main, fetched 2026-06-18
+Upstream commit: 9e9f55b7212dfa7f9abcecd76ee76af2abae285a
+Upstream tree: a47b7d38eba41bac5e678ce6a6ba81901559374e
+Upstream archive size: 3551 files, including 2746 html files.
+Local corpus size: 3559 files, including 2751 html files. The delta is the
+Lambda MANIFEST, RUNNABLE allowlist, local chrome-editing-harness.js, two
+bootstrap smoke pages, and three deferred root-cause pages.
+License: BSD-3-Clause for imported Chromium/Blink tests; local bootstrap files
+are added for harness bring-up and should be replaced or annotated when the
+matching upstream files are imported.
+
+Mirrored upstream directories:
+  caret/
+  deleting/
+  editability/
+  execCommand/
+  input/
+  inserting/
+  pasteboard/
+  resources/
+  selection/
+  shadow/
+  spelling/
+  style/
+  text-iterator/
+  undo/
+  unsupported-content/
+
+Runner policy:
+  test_chrome_editing_gtest discovers the full mirrored html corpus, but only
+  executes files listed in RUNNABLE. Imported files that are not yet runnable
+  remain visible as skipped cases until the harness and editing engine support
+  their test flavor and behavior.
+
+Files:
+
+RUNNABLE
+  status: local Lambda runner allowlist
+  purpose: lists the imported/local html files expected to pass today.
+
+resources/chrome-editing-harness.js
+  status: local bootstrap harness
+  purpose: minimal js-test/testRunner/eventSender/assertSelection helpers used
+  by the initial runner smoke files, plus assert_selection command and callback
+  shims for the first imported deleting tests.
+
+selection/basic-selection.html
+  status: local bootstrap smoke
+  phase: CET-1
+  purpose: verifies the chrome-editing runner can load a document, inline a
+  helper, run script assertions, and report a pass summary.
+
+selection/selectNode.html
+  status: imported from Chromium
+  phase: CET-1
+  source: third_party/blink/web_tests/editing/selection/selectNode.html
+  blob: cf5b333215f58d7eff5e8cbfe86d8a5fa91a1205
+  purpose: Range.selectNode() coverage for text and br nodes.
+
+selection/selectNodeContents.html
+  status: imported from Chromium
+  phase: CET-1
+  source: third_party/blink/web_tests/editing/selection/selectNodeContents.html
+  blob: 7eed1f9caecadec8230bb9a8a8113b7b9f718909
+  purpose: Range.selectNodeContents() coverage for text and br nodes.
+
+deleting/delete-character-001.html
+  status: imported from Chromium
+  phase: CET-2
+  source: third_party/blink/web_tests/editing/deleting/delete-character-001.html
+  tree: 9b3262db8b38780fa6de5748b2a725c2af3fe156
+  blob: c4a7673301b25dbd3b9997c90e06bb9dc48e039f
+  purpose: assert_selection coverage for a single-character delete command.
+
+deleting/deferred/delete-character-003.html
+  status: imported from Chromium, deferred
+  phase: CET-2
+  source: third_party/blink/web_tests/editing/deleting/delete-character-003.html
+  tree: 9b3262db8b38780fa6de5748b2a725c2af3fe156
+  blob: 87029a342ad359b26a015d68880425d3067ac3dc
+  reason: aborts current lambda.exe with DocState interaction invariant while
+    deleting around br-only line break runs.
+
+deleting/deferred/delete-br-001.html
+  status: imported from Chromium, deferred
+  phase: CET-2
+  source: third_party/blink/web_tests/editing/deleting/delete-br-001.html
+  tree: 9b3262db8b38780fa6de5748b2a725c2af3fe156
+  blob: 8f3c0f459ddd370d0a9ed1d34a0869aadae4baea
+  reason: DOM deletion mostly matches, but current selection anchor offsets
+    differ from Blink after repeated Delete through adjacent br nodes.
+
+deleting/deferred/delete-character-002.html
+  status: imported from Chromium, deferred
+  phase: CET-2
+  source: third_party/blink/web_tests/editing/deleting/delete-character-002.html
+  tree: 9b3262db8b38780fa6de5748b2a725c2af3fe156
+  blob: e2077202ddf6e5839cf4aba8a87ce7698b41ba45
+  reason: aborts current lambda.exe through textarea document.execCommand
+    Delete path; kept out of runnable gauge via the deferred/ skip bucket.
+
+deleting/forward-delete.html
+  status: imported from Chromium
+  phase: CET-2
+  source: third_party/blink/web_tests/editing/deleting/forward-delete.html
+  tree: 9b3262db8b38780fa6de5748b2a725c2af3fe156
+  blob: 54cd7e11e471deb7b1199db9dd3e03fe6450d972
+  purpose: assert_selection callback-form coverage for repeated ForwardDelete.
+
+execCommand/bold-basic.html
+  status: local bootstrap smoke
+  phase: CET-4
+  purpose: verifies the runner can drive a native execCommand mutation through
+  the same document harness used by imported Chrome files.
