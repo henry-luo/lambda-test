@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Lambda bootstrap execCommand bold editing smoke</title>
+<div id="test" contenteditable>abc</div>
+<script>
+description("Bootstrap Chrome editing execCommand smoke.");
+
+var host = document.getElementById("test");
+var selection = getSelection();
+var range = document.createRange();
+range.setStart(host.firstChild, 0);
+range.setEnd(host.firstChild, 3);
+selection.removeAllRanges();
+selection.addRange(range);
+
+shouldBe("document.execCommand('bold', false, null)", "true");
+shouldBeEqualToString("host.innerHTML", "<b>abc</b>");
+</script>

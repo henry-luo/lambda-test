@@ -1,0 +1,11 @@
+# Chrome editing files that are expected to pass in Lambda today.
+#
+# The full imported corpus is intentionally larger than this file. New entries
+# move here from the corpus/deferred pool only after the harness and editing
+# engine support their test flavor and behavior.
+deleting/delete-character-001.html
+deleting/forward-delete.html
+execCommand/bold-basic.html
+selection/basic-selection.html
+selection/selectNode.html
+selection/selectNodeContents.html
