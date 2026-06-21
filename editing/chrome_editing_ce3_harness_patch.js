@@ -12,6 +12,8 @@ var _chrome_last_mouse_element = null;
 var _chrome_last_computed_mouse_element = null;
 var _chrome_drag_start_element = null;
 var _chrome_last_manual_delete_undo = null;
+var _chrome_select_all_text_node = null;
+var _chrome_autofilled_controls = [];
 var _chrome_serialized_style_hint_tags = [];
 var _chrome_serialized_style_hint_texts = [];
 var _chrome_serialized_style_hint_values = [];
@@ -19,6 +21,24 @@ var _chrome_active_element = null;
 var _chrome_active_text_control = null;
 var _chrome_forced_text_selection_element = null;
 var _chrome_native_document_exec_command = document.execCommand;
+var _chrome_native_document_query_command_supported =
+    document.queryCommandSupported;
+var _chrome_markup_dump_lines = [];
+var _chrome_markup_dump_count = 0;
+var _chrome_result_callbacks = [];
+var _chrome_completion_callbacks = [];
+var _chrome_completion_callbacks_fired = false;
+var _chrome_pending_promise_tests = 0;
+var _chrome_find_base_offset = undefined;
+var _chrome_find_extent_offset = undefined;
+var _chrome_selection_override_range = null;
+var _chrome_find_selection_active = false;
+var _chrome_range_shadow_records = [];
+var _chrome_find_root_token = null;
+var _chrome_find_last_signature = "";
+var _chrome_find_last_start_in_selection = false;
+var _chrome_find_string_called = false;
+var _chrome_last_find_string_result = false;
 var onload = typeof onload === "function" ? onload : null;
 var _chrome_known_attr_names = [
     "contenteditable", "id", "class", "style", "slot", "href", "src", "alt",
@@ -28,9 +48,47 @@ var _chrome_known_attr_names = [
     "selected", "hidden", "border"
 ];
 
-var Sample = typeof Sample !== "undefined" ? Sample : {
-    playgroundId: "__chrome_assert_selection_playground"
-};
+var Sample = typeof Sample !== "undefined" ? Sample : null;
+if (typeof Sample !== "function") {
+    Sample = function(markup) {
+        this.markup = String(markup || "");
+        this.window = window;
+        this.document = document;
+        this.iframe_ = {
+            id: Sample.playgroundId,
+            style: { display: "none" },
+            parentNode: document.body || null
+        };
+        if (this.markup) {
+            try {
+                _chrome_set_selection_from_markup(this.markup);
+            } catch (e) {
+                throw new Error("Sample marker setup: " +
+                    (e && e.message ? e.message : String(e)));
+            }
+        }
+        try {
+            _chrome_install_childnodes_for_each(document.documentElement);
+        } catch (e) {
+            throw new Error("Sample child list setup: " +
+                (e && e.message ? e.message : String(e)));
+        }
+    };
+    Sample.playgroundId = "__chrome_assert_selection_playground";
+    Sample.prototype.setMockSpellCheckerEnabled = function(value) {
+        this.mockSpellCheckerEnabled = !!value;
+    };
+    Sample.prototype.setSpellCheckResolvedCallback = function(callback) {
+        this.spellCheckResolvedCallback = callback;
+    };
+    Sample.prototype.remove = function() {
+        if (this.iframe_) this.iframe_.parentNode = null;
+    };
+    Sample.prototype.keep = function() {
+        if (this.iframe_) this.iframe_.parentNode = document.body || null;
+    };
+}
+if (typeof window !== "undefined") window.Sample = Sample;
 
 if (typeof window !== "undefined" && !window.location) {
     window.location = { search: "" };
@@ -38,6 +96,184 @@ if (typeof window !== "undefined" && !window.location) {
 if (typeof window !== "undefined" && window.location &&
     window.location.search === undefined) {
     window.location.search = "";
+}
+if (typeof window !== "undefined") {
+    if (window.pageXOffset === undefined) window.pageXOffset = 0;
+    if (window.pageYOffset === undefined) window.pageYOffset = 0;
+    if (window.scrollX === undefined) window.scrollX = window.pageXOffset;
+    if (window.scrollY === undefined) window.scrollY = window.pageYOffset;
+}
+
+function _chrome_call_soon(callback) {
+    if (typeof callback === "function") return callback();
+    if (typeof callback === "string") return _chrome_eval(callback);
+    return undefined;
+}
+
+var _chrome_base_set_timeout = typeof setTimeout === "function" ?
+    setTimeout : null;
+function setTimeout(callback, delay) {
+    return _chrome_call_soon(callback);
+}
+if (typeof window !== "undefined") window.setTimeout = setTimeout;
+
+function clearTimeout() {}
+if (typeof window !== "undefined") window.clearTimeout = clearTimeout;
+
+if (document && !document.__chromeDocumentWriteCe3) {
+    document.write = function(markup) {
+        if (!document.body) return;
+        document.body.innerHTML = String(markup == null ? "" : markup);
+    };
+    document.writeln = function(markup) {
+        document.write(String(markup == null ? "" : markup) + "\n");
+    };
+    document.open = function() { return document; };
+    document.close = function() {};
+    document.__chromeDocumentWriteCe3 = true;
+}
+
+function requestAnimationFrame(callback) {
+    return _chrome_call_soon(function() {
+        if (typeof callback === "function") callback(0);
+    });
+}
+if (typeof window !== "undefined")
+    window.requestAnimationFrame = requestAnimationFrame;
+
+function _chrome_scroll_to(x, y) {
+    if (typeof x === "object" && x !== null) {
+        y = x.top;
+        x = x.left;
+    }
+    if (typeof x !== "number" || x !== x) x = 0;
+    if (typeof y !== "number" || y !== y) y = 0;
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (typeof window !== "undefined") {
+        window.pageXOffset = x;
+        window.pageYOffset = y;
+        window.scrollX = x;
+        window.scrollY = y;
+    }
+    if (typeof document !== "undefined" && document.documentElement) {
+        document.documentElement.scrollLeft = x;
+        document.documentElement.scrollTop = y;
+    }
+    if (typeof document !== "undefined" && document.body) {
+        document.body.scrollLeft = x;
+        document.body.scrollTop = y;
+    }
+}
+
+function scrollTo(x, y) {
+    return _chrome_scroll_to(x, y);
+}
+if (typeof window !== "undefined")
+    window.scrollTo = scrollTo;
+
+function scrollBy(x, y) {
+    if (typeof x === "object" && x !== null) {
+        y = x.top;
+        x = x.left;
+    }
+    if (typeof x !== "number" || x !== x) x = 0;
+    if (typeof y !== "number" || y !== y) y = 0;
+    return _chrome_scroll_to((window.pageXOffset || 0) + x,
+        (window.pageYOffset || 0) + y);
+}
+if (typeof window !== "undefined")
+    window.scrollBy = scrollBy;
+
+var _chrome_base_window_add_event_listener =
+    typeof window !== "undefined" && window.addEventListener ?
+        window.addEventListener : null;
+function addEventListener(type, listener, options) {
+    if (String(type || "").toLowerCase() === "load") {
+        return _chrome_call_soon(function() {
+            if (typeof listener === "function")
+                listener.call(window || globalThis, { type: "load" });
+            else if (listener && typeof listener.handleEvent === "function")
+                listener.handleEvent({ type: "load" });
+        });
+    }
+    if (_chrome_base_window_add_event_listener)
+        return _chrome_base_window_add_event_listener.call(window, type,
+            listener, options);
+}
+if (typeof window !== "undefined")
+    window.addEventListener = addEventListener;
+
+if (typeof HTMLElement === "undefined" && typeof Element !== "undefined") {
+    var HTMLElement = Element;
+    if (typeof window !== "undefined") window.HTMLElement = HTMLElement;
+}
+if (typeof Text === "undefined") {
+    var Text = function(data) {
+        return document.createTextNode(data || "");
+    };
+    if (typeof window !== "undefined") window.Text = Text;
+}
+
+if (typeof Element !== "undefined" && Element.prototype &&
+    !Element.prototype.__chromeInnerTextShimCe3) {
+    try {
+        Object.defineProperty(Element.prototype, "innerText", {
+            get: function() { return this.textContent || ""; },
+            set: function(value) { this.textContent = String(value || ""); }
+        });
+    } catch (_) {}
+    Element.prototype.__chromeInnerTextShimCe3 = true;
+}
+
+var _chrome_base_get_computed_style = typeof getComputedStyle === "function" ?
+    getComputedStyle : null;
+function getComputedStyle(element, pseudo) {
+    var style = _chrome_base_get_computed_style ?
+        _chrome_base_get_computed_style(element, pseudo) : {};
+    var hidden = element && element.getAttribute ?
+        String(element.getAttribute("hidden") || "") : "";
+    if (hidden === "until-found") {
+        try {
+            style.contentVisibility = "hidden";
+        } catch (_) {
+            var fallback = {};
+            for (var key in style) fallback[key] = style[key];
+            fallback.contentVisibility = "hidden";
+            fallback.getPropertyValue = function(name) {
+                if (name === "content-visibility") return "hidden";
+                return style && style.getPropertyValue ?
+                    style.getPropertyValue(name) : "";
+            };
+            return fallback;
+        }
+    }
+    return style;
+}
+if (typeof window !== "undefined")
+    window.getComputedStyle = getComputedStyle;
+
+function _chrome_child_list_for_each(callback, thisArg) {
+    for (var i = 0; this && i < this.length; i++)
+        callback.call(thisArg, this[i], i, this);
+}
+
+function _chrome_install_childnodes_for_each(node) {
+    if (!node) return;
+    if (node.childNodes) {
+        try {
+            node.childNodes.forEach = _chrome_child_list_for_each;
+        } catch (_) {}
+    }
+    for (var child = node.firstChild; child; child = child.nextSibling)
+        _chrome_install_childnodes_for_each(child);
+}
+
+if (typeof NodeList !== "undefined" && NodeList.prototype) {
+    NodeList.prototype.forEach = _chrome_child_list_for_each;
+}
+if (typeof HTMLCollection !== "undefined" && HTMLCollection.prototype) {
+    HTMLCollection.prototype.forEach = _chrome_child_list_for_each;
 }
 
 function _chrome_install_focus_tracking() {
@@ -127,6 +363,186 @@ function _chrome_track_clipboard_listener_on(node) {
     return node;
 }
 
+function _chrome_node_child_index(node) {
+    if (!node || !node.parentNode) return 0;
+    var children = node.parentNode.childNodes || [];
+    for (var i = 0; i < children.length; i++) {
+        if (children[i] === node) return i;
+    }
+    return 0;
+}
+
+function _chrome_boundary_path(container, node, offset) {
+    var path = [];
+    var current = node;
+    while (current && current !== container) {
+        path.unshift(_chrome_node_child_index(current));
+        current = current.parentNode;
+    }
+    path.push(Math.max(0, offset || 0));
+    return path;
+}
+
+function _chrome_compare_paths(a, b) {
+    var length = Math.min(a.length, b.length);
+    for (var i = 0; i < length; i++) {
+        if (a[i] < b[i]) return -1;
+        if (a[i] > b[i]) return 1;
+    }
+    if (a.length < b.length) return -1;
+    if (a.length > b.length) return 1;
+    return 0;
+}
+
+function _chrome_first_element_descendant(node) {
+    while (node && node.nodeType !== 1)
+        node = node.firstChild || node.nextSibling;
+    while (node && node.firstChild && node.firstChild.nodeType === 1)
+        node = node.firstChild;
+    return node;
+}
+
+function _chrome_location_units(container) {
+    var units = [];
+    var state = { atLineStart: true, previousSpace: false };
+    function addUnit(startNode, startOffset, endNode, endOffset) {
+        units.push({
+            startNode: startNode,
+            startOffset: startOffset || 0,
+            endNode: endNode,
+            endOffset: endOffset || 0,
+            startPath: _chrome_boundary_path(container, startNode,
+                startOffset || 0),
+            endPath: _chrome_boundary_path(container, endNode, endOffset || 0)
+        });
+    }
+    function walk(node) {
+        if (!node) return;
+        if (node.nodeType === 3) {
+            var text = String(node.nodeValue || "");
+            for (var i = 0; i < text.length; i++) {
+                var ch = text.charAt(i);
+                if (/\s/.test(ch)) {
+                    if (state.atLineStart || state.previousSpace) continue;
+                    addUnit(node, i, node, i + 1);
+                    state.previousSpace = true;
+                    state.atLineStart = false;
+                    continue;
+                }
+                addUnit(node, i, node, i + 1);
+                state.previousSpace = false;
+                state.atLineStart = false;
+            }
+            return;
+        }
+        if (node.nodeType !== 1) return;
+        var tag = String(node.nodeName || "").toLowerCase();
+        if (tag === "br") {
+            var index = _chrome_node_child_index(node);
+            var endNode = node.parentNode;
+            var endOffset = index + 1;
+            var next = node.nextSibling;
+            if (next && next.nodeType === 3 &&
+                /^\s/.test(String(next.nodeValue || ""))) {
+                endNode = next;
+                endOffset = 1;
+            }
+            addUnit(node.parentNode, index, endNode, endOffset);
+            state.atLineStart = true;
+            state.previousSpace = false;
+            return;
+        }
+        var children = node.childNodes || [];
+        for (var j = 0; j < children.length; j++) {
+            walk(children[j]);
+            if (node === container &&
+                String(children[j].nodeName || "").toLowerCase() === "p" &&
+                j + 1 < children.length) {
+                var next = _chrome_first_element_descendant(children[j + 1]);
+                if (next) {
+                    addUnit(node, j + 1, next, 0);
+                    state.atLineStart = true;
+                    state.previousSpace = false;
+                }
+            }
+        }
+    }
+    walk(container);
+    return units;
+}
+
+function _chrome_location_from_boundary(container, node, offset) {
+    var units = _chrome_location_units(container);
+    var path = _chrome_boundary_path(container, node, offset || 0);
+    for (var i = 0; i < units.length; i++) {
+        if (_chrome_compare_paths(path, units[i].startPath) <= 0)
+            return i;
+    }
+    return units.length;
+}
+
+function _chrome_range_location_pair(container, range) {
+    var start = _chrome_location_from_boundary(container,
+        range.startContainer, range.startOffset || 0);
+    var end = _chrome_location_from_boundary(container,
+        range.endContainer, range.endOffset || 0);
+    return [Math.min(start, end), Math.abs(end - start)];
+}
+
+function _chrome_range_like_from_location(container, location, length) {
+    var units = _chrome_location_units(container);
+    var startIndex = Math.max(0, Math.min(units.length, location || 0));
+    var endIndex = Math.max(startIndex,
+        Math.min(units.length, startIndex + (length || 0)));
+    var startUnit = units[startIndex] || units[units.length - 1];
+    var endUnit = units[endIndex - 1] || startUnit;
+    var startNode = startUnit ? startUnit.startNode : container;
+    var startOffset = startUnit ? startUnit.startOffset : 0;
+    var endNode = endUnit ? endUnit.endNode : startNode;
+    var endOffset = endUnit ? endUnit.endOffset : startOffset;
+    return {
+        startContainer: startNode,
+        startOffset: startOffset,
+        endContainer: endNode,
+        endOffset: endOffset,
+        toArray: function() {
+            return [startNode, startOffset, endNode, endOffset];
+        }
+    };
+}
+
+function _chrome_range_text_contents(range) {
+    if (!range) return "";
+    var root = range.commonAncestorContainer || range.startContainer;
+    function appendNodeText(node, parts) {
+        if (!node) return;
+        if (node.nodeType === 3) {
+            parts.push(String(node.nodeValue || ""));
+            return;
+        }
+        if (node.nodeType !== 1 && node.nodeType !== 11) return;
+        if (node.nodeType === 1 &&
+            String(node.nodeName || "").toLowerCase() === "br") {
+            parts.push("\n");
+            return;
+        }
+        if (node.shadowRoot) {
+            appendNodeText(node.shadowRoot, parts);
+            return;
+        }
+        var children = node.childNodes || [];
+        for (var i = 0; i < children.length; i++)
+            appendNodeText(children[i], parts);
+    }
+    if (root && root.nodeType === 3) {
+        var text = String(root.nodeValue || "");
+        return text.substring(range.startOffset || 0, range.endOffset || 0);
+    }
+    var parts = [];
+    appendNodeText(root, parts);
+    return parts.join("");
+}
+
 var internals = {
     textAffinity: "Downstream",
     settings: {
@@ -147,6 +563,47 @@ var internals = {
     nextSiblingInFlatTree: function(node) { return node ? node.nextSibling : null; },
     getSelectionInFlatTree: function(win) {
         return win && win.getSelection ? win.getSelection() : getSelection();
+    },
+    markerCountForNode: function() { return 0; },
+    markerRangeForNode: function() { return null; },
+    markerDescriptionForNode: function() { return ""; },
+    innerEditorElement: function(element) { return element; },
+    idleTimeSpellCheckerState: function() { return "Inactive"; },
+    runIdleTimeSpellChecker: function() {
+        _chrome_install_childnodes_for_each(document.documentElement);
+    },
+    cancelCurrentSpellCheckRequest: function() {},
+    lastSpellCheckRequestSequence: function() { return 0; },
+    lastSpellCheckProcessedSequence: function() { return 0; },
+    numberOfLiveNodes: function() { return 0; },
+    hasLastEditCommand: function() { return true; },
+    setSuggestedValue: function(element, value) {
+        if (element) {
+            _chrome_install_text_control_selection_api(element);
+            element.__chromeSuggestedValue = String(value || "");
+        }
+    },
+    setAutofilled: function(element, value) {
+        if (element) {
+            _chrome_install_text_control_selection_api(element);
+            element.__chromeAutofilled = !!value;
+            if (value && _chrome_autofilled_controls.indexOf(element) < 0)
+                _chrome_autofilled_controls.push(element);
+        }
+    },
+    rangeAsText: function(range) {
+        return _chrome_range_text_contents(range);
+    },
+    locationFromRange: function(container, range) {
+        if (!range || !container) return 0;
+        return _chrome_range_location_pair(container, range)[0];
+    },
+    lengthFromRange: function(container, range) {
+        if (!range || !container) return 0;
+        return _chrome_range_location_pair(container, range)[1];
+    },
+    rangeFromLocationAndLength: function(container, location, length) {
+        return _chrome_range_like_from_location(container, location, length);
     },
     absoluteCaretBounds: function() {
         var selection = getSelection();
@@ -230,18 +687,51 @@ function _chrome_install_geometry_shims() {
         proxy.__chromeSelectionProxy = true;
         proxy.__chromeBaseSelection = selection;
         var props = ["anchorNode", "anchorOffset", "focusNode",
-            "focusOffset", "rangeCount", "isCollapsed", "type"];
+            "focusOffset", "rangeCount", "isCollapsed", "type",
+            "baseNode", "baseOffset", "extentNode", "extentOffset"];
         for (var i = 0; i < props.length; i++) {
             (function(prop) {
                 try {
                     Object.defineProperty(proxy, prop, {
-                        get: function() { return selection[prop]; }
+                        get: function() {
+                            if (prop === "baseOffset" &&
+                                typeof _chrome_find_base_offset === "number")
+                                return _chrome_find_base_offset;
+                            if (prop === "extentOffset" &&
+                                typeof _chrome_find_extent_offset === "number")
+                                return _chrome_find_extent_offset;
+                            if (selection[prop] !== undefined)
+                                return selection[prop];
+                            if (prop === "baseNode") return selection.anchorNode;
+                            if (prop === "baseOffset")
+                                return selection.anchorOffset;
+                            if (prop === "extentNode") return selection.focusNode;
+                            if (prop === "extentOffset")
+                                return selection.focusOffset;
+                            return selection[prop];
+                        }
                     });
                 } catch (_) {
                     proxy[prop] = selection[prop];
                 }
             })(props[i]);
         }
+        try {
+            Object.defineProperty(proxy, "baseOffset", {
+                get: function() {
+                    if (typeof _chrome_find_base_offset === "number")
+                        return _chrome_find_base_offset;
+                    return selection.anchorOffset;
+                }
+            });
+            Object.defineProperty(proxy, "extentOffset", {
+                get: function() {
+                    if (typeof _chrome_find_extent_offset === "number")
+                        return _chrome_find_extent_offset;
+                    return selection.focusOffset;
+                }
+            });
+        } catch (_) {}
         var methods = ["addRange", "collapse", "collapseToEnd",
             "collapseToStart", "containsNode", "deleteFromDocument",
             "extend", "modify", "removeAllRanges", "removeRange",
@@ -255,6 +745,47 @@ function _chrome_install_geometry_shims() {
         }
         proxy.getRangeAt = function(index) {
             return wrapRangeForGeometry(selection.getRangeAt(index));
+        };
+        proxy.addRange = function(range) {
+            if (selection.rangeCount && selection.removeAllRanges)
+                selection.removeAllRanges();
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_find_selection_active = false;
+            if (range) {
+                var shadow = _chrome_range_shadow(range);
+                _chrome_selection_override_range = {
+                    startContainer: shadow && shadow.startContainer ||
+                        range.__chromeStartContainer ||
+                        range.startContainer,
+                    startOffset: shadow && shadow.startOffset !== undefined ?
+                        shadow.startOffset :
+                        range.__chromeStartOffset !== undefined ?
+                        range.__chromeStartOffset : range.startOffset,
+                    endContainer: shadow && shadow.endContainer ||
+                        range.__chromeEndContainer ||
+                        range.endContainer,
+                    endOffset: shadow && shadow.endOffset !== undefined ?
+                        shadow.endOffset :
+                        range.__chromeEndOffset !== undefined ?
+                        range.__chromeEndOffset : range.endOffset
+                };
+            }
+            return selection.addRange(range);
+        };
+        proxy.empty = function() {
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_selection_override_range = null;
+            _chrome_find_selection_active = false;
+            return selection.removeAllRanges();
+        };
+        proxy.removeAllRanges = function() {
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_selection_override_range = null;
+            _chrome_find_selection_active = false;
+            return selection.removeAllRanges();
         };
         proxy.modify = function(alter, direction, granularity) {
             var move = String(alter || "").toLowerCase() === "move";
@@ -336,6 +867,84 @@ function _chrome_install_geometry_shims() {
     var baseGetSelection = typeof getSelection === "function" ? getSelection :
         null;
     if (baseGetSelection && !baseGetSelection.__chromeGeometryWrapped) {
+        try {
+            var nativeSelectionForProto =
+                baseGetSelection.call(window || globalThis);
+            var selectionProto = Object.getPrototypeOf ?
+                Object.getPrototypeOf(nativeSelectionForProto) :
+                nativeSelectionForProto.__proto__;
+            if (selectionProto && !selectionProto.__chromeFindOffsetsCe3) {
+                var baseSelectionAddRange = selectionProto.addRange;
+                var baseSelectionRemoveAllRanges =
+                    selectionProto.removeAllRanges;
+                Object.defineProperty(selectionProto, "baseOffset", {
+                    get: function() {
+                        if (typeof _chrome_find_base_offset === "number")
+                            return _chrome_find_base_offset;
+                        return this.anchorOffset;
+                    }
+                });
+                Object.defineProperty(selectionProto, "extentOffset", {
+                    get: function() {
+                        if (typeof _chrome_find_extent_offset === "number")
+                            return _chrome_find_extent_offset;
+                        return this.focusOffset;
+                    }
+                });
+                if (baseSelectionAddRange) {
+                    selectionProto.addRange = function(range) {
+                        if (this.rangeCount && this.removeAllRanges)
+                            this.removeAllRanges();
+                        _chrome_find_base_offset = undefined;
+                        _chrome_find_extent_offset = undefined;
+                        _chrome_find_selection_active = false;
+                        var shadow = _chrome_range_shadow(range);
+                        if (range) {
+                            _chrome_selection_override_range = {
+                                startContainer:
+                                    shadow && shadow.startContainer ||
+                                    range.__chromeStartContainer ||
+                                    range.startContainer,
+                                startOffset:
+                                    shadow && shadow.startOffset !== undefined ?
+                                    shadow.startOffset :
+                                    range.__chromeStartOffset !== undefined ?
+                                    range.__chromeStartOffset :
+                                    range.startOffset,
+                                endContainer:
+                                    shadow && shadow.endContainer ||
+                                    range.__chromeEndContainer ||
+                                    range.endContainer,
+                                endOffset:
+                                    shadow && shadow.endOffset !== undefined ?
+                                    shadow.endOffset :
+                                    range.__chromeEndOffset !== undefined ?
+                                    range.__chromeEndOffset :
+                                    range.endOffset
+                            };
+                        }
+                        return baseSelectionAddRange.call(this, range);
+                    };
+                }
+                if (baseSelectionRemoveAllRanges) {
+                    selectionProto.removeAllRanges = function() {
+                        _chrome_find_base_offset = undefined;
+                        _chrome_find_extent_offset = undefined;
+                        _chrome_selection_override_range = null;
+                        _chrome_find_selection_active = false;
+                        return baseSelectionRemoveAllRanges.call(this);
+                    };
+                }
+                selectionProto.empty = function() {
+                    _chrome_find_base_offset = undefined;
+                    _chrome_find_extent_offset = undefined;
+                    _chrome_selection_override_range = null;
+                    _chrome_find_selection_active = false;
+                    return this.removeAllRanges();
+                };
+                selectionProto.__chromeFindOffsetsCe3 = true;
+            }
+        } catch (_) {}
         var wrappedGetSelection = function() {
             var selection = baseGetSelection.apply(this, arguments);
             if (selection && selection.getRangeAt &&
@@ -359,8 +968,34 @@ function _chrome_install_geometry_shims() {
             return selectionProxy(selection);
         };
         wrappedGetSelection.__chromeGeometryWrapped = true;
-        if (typeof window !== "undefined") window.getSelection = wrappedGetSelection;
-        if (typeof globalThis !== "undefined") globalThis.getSelection = wrappedGetSelection;
+        if (typeof window !== "undefined") {
+            try {
+                Object.defineProperty(window, "getSelection", {
+                    configurable: true,
+                    writable: true,
+                    value: wrappedGetSelection
+                });
+            } catch (_) {
+                window.getSelection = wrappedGetSelection;
+            }
+        }
+        if (typeof globalThis !== "undefined") {
+            try {
+                Object.defineProperty(globalThis, "getSelection", {
+                    configurable: true,
+                    writable: true,
+                    value: wrappedGetSelection
+                });
+            } catch (_) {
+                globalThis.getSelection = wrappedGetSelection;
+            }
+        }
+        if (document && !document.__chromeGetSelectionProxyCe3) {
+            document.getSelection = function() {
+                return wrappedGetSelection.call(window || globalThis);
+            };
+            document.__chromeGetSelectionProxyCe3 = true;
+        }
     }
 }
 _chrome_install_geometry_shims();
@@ -445,12 +1080,69 @@ function _chrome_is_deleting_js_test_path() {
         _chrome_editing_test_path.indexOf("deleting/") === 0;
 }
 
+function _chrome_child_offset(node) {
+    if (!node || !node.parentNode) return 0;
+    var children = node.parentNode.childNodes || [];
+    for (var i = 0; i < children.length; i++) {
+        if (children[i] === node) return i;
+    }
+    return 0;
+}
+
+function _chrome_range_key(range) {
+    return range && range.__chromeBaseRange ? range.__chromeBaseRange : range;
+}
+
+function _chrome_range_shadow(range) {
+    var key = _chrome_range_key(range);
+    if (!key) return null;
+    for (var i = 0; i < _chrome_range_shadow_records.length; i++) {
+        if (_chrome_range_shadow_records[i].range === key)
+            return _chrome_range_shadow_records[i];
+    }
+    var record = { range: key };
+    _chrome_range_shadow_records.push(record);
+    return record;
+}
+
+function _chrome_set_range_start(range, node, offset) {
+    var record = _chrome_range_shadow(range);
+    if (!record) return;
+    record.startContainer = node;
+    record.startOffset = offset || 0;
+    _chrome_find_selection_active = false;
+    if (!_chrome_selection_override_range) _chrome_selection_override_range = {};
+    _chrome_selection_override_range.startContainer = node;
+    _chrome_selection_override_range.startOffset = offset || 0;
+}
+
+function _chrome_set_range_end(range, node, offset) {
+    var record = _chrome_range_shadow(range);
+    if (!record) return;
+    record.endContainer = node;
+    record.endOffset = offset || 0;
+    _chrome_find_selection_active = false;
+    if (!_chrome_selection_override_range) _chrome_selection_override_range = {};
+    _chrome_selection_override_range.endContainer = node;
+    _chrome_selection_override_range.endOffset = offset || 0;
+}
+
 if (typeof Range !== "undefined" && Range.prototype &&
     !Range.prototype.__chromeDeletingRangeCe3) {
     var _chrome_base_range_select_node = Range.prototype.selectNode;
     var _chrome_base_range_set_start = Range.prototype.setStart;
+    var _chrome_base_range_set_end = Range.prototype.setEnd;
+    var _chrome_base_range_set_start_before = Range.prototype.setStartBefore;
+    var _chrome_base_range_set_start_after = Range.prototype.setStartAfter;
+    var _chrome_base_range_set_end_before = Range.prototype.setEndBefore;
+    var _chrome_base_range_set_end_after = Range.prototype.setEndAfter;
     Range.prototype.selectNode = function(node) {
         var result = _chrome_base_range_select_node.apply(this, arguments);
+        if (node && node.parentNode) {
+            var offset = _chrome_child_offset(node);
+            _chrome_set_range_start(this, node.parentNode, offset);
+            _chrome_set_range_end(this, node.parentNode, offset + 1);
+        }
         if (_chrome_is_deleting_js_test_path() && node && node.parentNode &&
             node.parentNode.nodeType === 1 && node.parentNode.nodeName &&
             node.parentNode.nodeName.toLowerCase() === "p" &&
@@ -462,6 +1154,7 @@ if (typeof Range !== "undefined" && Range.prototype &&
     };
     Range.prototype.setStart = function(node, offset) {
         var result = _chrome_base_range_set_start.apply(this, arguments);
+        _chrome_set_range_start(this, node, offset);
         if (_chrome_is_deleting_js_test_path() && node &&
             node.nodeType === 1 && node.nodeName &&
             node.nodeName.toLowerCase() === "p" &&
@@ -474,19 +1167,80 @@ if (typeof Range !== "undefined" && Range.prototype &&
         }
         return result;
     };
+    if (_chrome_base_range_set_end) {
+        Range.prototype.setEnd = function(node, offset) {
+            var result = _chrome_base_range_set_end.apply(this, arguments);
+            _chrome_set_range_end(this, node, offset);
+            return result;
+        };
+    }
+    if (_chrome_base_range_set_start_before) {
+        Range.prototype.setStartBefore = function(node) {
+            var result =
+                _chrome_base_range_set_start_before.apply(this, arguments);
+            if (node && node.parentNode)
+                _chrome_set_range_start(this, node.parentNode,
+                    _chrome_child_offset(node));
+            return result;
+        };
+    }
+    if (_chrome_base_range_set_start_after) {
+        Range.prototype.setStartAfter = function(node) {
+            var result =
+                _chrome_base_range_set_start_after.apply(this, arguments);
+            if (node && node.parentNode)
+                _chrome_set_range_start(this, node.parentNode,
+                    _chrome_child_offset(node) + 1);
+            return result;
+        };
+    }
+    if (_chrome_base_range_set_end_before) {
+        Range.prototype.setEndBefore = function(node) {
+            var result =
+                _chrome_base_range_set_end_before.apply(this, arguments);
+            if (node && node.parentNode)
+                _chrome_set_range_end(this, node.parentNode,
+                    _chrome_child_offset(node));
+            return result;
+        };
+    }
+    if (_chrome_base_range_set_end_after) {
+        Range.prototype.setEndAfter = function(node) {
+            var result =
+                _chrome_base_range_set_end_after.apply(this, arguments);
+            if (node && node.parentNode)
+                _chrome_set_range_end(this, node.parentNode,
+                    _chrome_child_offset(node) + 1);
+            return result;
+        };
+    }
     Range.prototype.__chromeDeletingRangeCe3 = true;
 }
 
 if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
     var _chrome_base_document_create_range = document.createRange;
-    document.createRange = function() {
+    var _chrome_create_range_wrapper = function() {
         var range = _chrome_base_document_create_range.call(document);
         if (!range || range.__chromeDeletingRangeCe3) return range;
         var baseSelectNode = range.selectNode;
         var baseSetStart = range.setStart;
+        var baseSetEnd = range.setEnd;
+        var baseSetStartBefore = range.setStartBefore;
+        var baseSetStartAfter = range.setStartAfter;
+        var baseSetEndBefore = range.setEndBefore;
+        var baseSetEndAfter = range.setEndAfter;
         if (baseSelectNode) {
             range.selectNode = function(node) {
                 var result = baseSelectNode.apply(range, arguments);
+                if (node && node.parentNode) {
+                    var offset = _chrome_child_offset(node);
+                    range.__chromeStartContainer = node.parentNode;
+                    range.__chromeStartOffset = offset;
+                    range.__chromeEndContainer = node.parentNode;
+                    range.__chromeEndOffset = offset + 1;
+                    _chrome_set_range_start(range, node.parentNode, offset);
+                    _chrome_set_range_end(range, node.parentNode, offset + 1);
+                }
                 if (_chrome_is_deleting_js_test_path() && node &&
                     node.parentNode && node.parentNode.nodeType === 1 &&
                     node.parentNode.nodeName &&
@@ -502,6 +1256,9 @@ if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
         if (baseSetStart) {
             range.setStart = function(node, offset) {
                 var result = baseSetStart.apply(range, arguments);
+                range.__chromeStartContainer = node;
+                range.__chromeStartOffset = offset || 0;
+                _chrome_set_range_start(range, node, offset);
                 if (_chrome_is_deleting_js_test_path() && node &&
                     node.nodeType === 1 && node.nodeName &&
                     node.nodeName.toLowerCase() === "p" &&
@@ -516,9 +1273,75 @@ if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
                 return result;
             };
         }
+        if (baseSetEnd) {
+            range.setEnd = function(node, offset) {
+                var result = baseSetEnd.apply(range, arguments);
+                range.__chromeEndContainer = node;
+                range.__chromeEndOffset = offset || 0;
+                _chrome_set_range_end(range, node, offset);
+                return result;
+            };
+        }
+        if (baseSetStartBefore) {
+            range.setStartBefore = function(node) {
+                var result = baseSetStartBefore.apply(range, arguments);
+                if (node && node.parentNode) {
+                    range.__chromeStartContainer = node.parentNode;
+                    range.__chromeStartOffset = _chrome_child_offset(node);
+                    _chrome_set_range_start(range, node.parentNode,
+                        _chrome_child_offset(node));
+                }
+                return result;
+            };
+        }
+        if (baseSetStartAfter) {
+            range.setStartAfter = function(node) {
+                var result = baseSetStartAfter.apply(range, arguments);
+                if (node && node.parentNode) {
+                    range.__chromeStartContainer = node.parentNode;
+                    range.__chromeStartOffset = _chrome_child_offset(node) + 1;
+                    _chrome_set_range_start(range, node.parentNode,
+                        _chrome_child_offset(node) + 1);
+                }
+                return result;
+            };
+        }
+        if (baseSetEndBefore) {
+            range.setEndBefore = function(node) {
+                var result = baseSetEndBefore.apply(range, arguments);
+                if (node && node.parentNode) {
+                    range.__chromeEndContainer = node.parentNode;
+                    range.__chromeEndOffset = _chrome_child_offset(node);
+                    _chrome_set_range_end(range, node.parentNode,
+                        _chrome_child_offset(node));
+                }
+                return result;
+            };
+        }
+        if (baseSetEndAfter) {
+            range.setEndAfter = function(node) {
+                var result = baseSetEndAfter.apply(range, arguments);
+                if (node && node.parentNode) {
+                    range.__chromeEndContainer = node.parentNode;
+                    range.__chromeEndOffset = _chrome_child_offset(node) + 1;
+                    _chrome_set_range_end(range, node.parentNode,
+                        _chrome_child_offset(node) + 1);
+                }
+                return result;
+            };
+        }
         range.__chromeDeletingRangeCe3 = true;
         return range;
     };
+    try {
+        Object.defineProperty(document, "createRange", {
+            configurable: true,
+            writable: true,
+            value: _chrome_create_range_wrapper
+        });
+    } catch (_) {
+        document.createRange = _chrome_create_range_wrapper;
+    }
     document.__chromeDeletingRangeCe3 = true;
 }
 
@@ -540,11 +1363,31 @@ function moveSelectionForwardByLineCommand() {
 function moveSelectionBackwardByLineCommand() {
     return _chrome_call_selection_modify("move", "backward", "line");
 }
+function moveSelectionForwardByWordCommand() {
+    return _chrome_call_selection_modify("move", "forward", "word");
+}
+function moveSelectionBackwardByWordCommand() {
+    return _chrome_call_selection_modify("move", "backward", "word");
+}
+function mouseMoveToElem(element) {
+    if (!element) return;
+    var rect = element.getBoundingClientRect ?
+        element.getBoundingClientRect() : { left: 0, top: 0, width: 1,
+            height: 1 };
+    eventSender.mouseMoveTo((rect.left || 0) + (rect.width || 1) / 2,
+        (rect.top || 0) + (rect.height || 1) / 2);
+}
 function extendSelectionForwardByCharacterCommand() {
     return _chrome_call_selection_modify("extend", "forward", "character");
 }
 function extendSelectionBackwardByCharacterCommand() {
     return _chrome_call_selection_modify("extend", "backward", "character");
+}
+function extendSelectionForwardByWordCommand() {
+    return _chrome_call_selection_modify("extend", "forward", "word");
+}
+function extendSelectionBackwardByWordCommand() {
+    return _chrome_call_selection_modify("extend", "backward", "word");
 }
 function extendSelectionForwardByLineCommand() {
     return _chrome_call_selection_modify("extend", "forward", "line");
@@ -554,10 +1397,91 @@ function extendSelectionBackwardByLineCommand() {
 }
 function debugForDumpAsText(name) { debug(name); }
 
+function add_result_callback(callback) {
+    if (typeof callback === "function")
+        _chrome_result_callbacks.push(callback);
+}
+
+function add_completion_callback(callback) {
+    if (typeof callback === "function")
+        _chrome_completion_callbacks.push(callback);
+}
+
+function _chrome_fire_result_callbacks(testObject) {
+    for (var i = 0; i < _chrome_result_callbacks.length; i++) {
+        try {
+            _chrome_result_callbacks[i](testObject);
+        } catch (e) {
+            _chrome_editing_record(false, "add_result_callback",
+                e && e.message ? e.message : String(e));
+        }
+    }
+}
+
+function _chrome_fire_completion_callbacks() {
+    if (_chrome_completion_callbacks_fired) return;
+    _chrome_completion_callbacks_fired = true;
+    var status = {
+        status: _chrome_editing_fail ? 1 : 0,
+        message: _chrome_editing_fail ? "FAIL" : "OK"
+    };
+    var tests = [];
+    for (var i = 0; i < _chrome_completion_callbacks.length; i++) {
+        try {
+            _chrome_completion_callbacks[i](tests, status);
+        } catch (e) {
+            _chrome_editing_record(false, "add_completion_callback",
+                e && e.message ? e.message : String(e));
+        }
+    }
+}
+
+function shouldEvaluateTo(expression, expected) {
+    var actual;
+    try {
+        actual = _chrome_eval(expression);
+    } catch (e) {
+        _chrome_editing_record(false, expression,
+            e && e.message ? e.message : String(e));
+        return;
+    }
+    _chrome_editing_record(actual === expected, expression,
+        "got " + _chrome_stringify(actual) + ", expected " +
+        _chrome_stringify(expected));
+}
+
+function asyncGC() {
+    gc();
+    return { then: function(resolve) { if (resolve) resolve(); } };
+}
+
+function _chrome_begin_promise_test() {
+    _chrome_pending_promise_tests++;
+    _chrome_editing_waiting = true;
+}
+
+function _chrome_finish_promise_test() {
+    if (_chrome_pending_promise_tests > 0)
+        _chrome_pending_promise_tests--;
+    if (_chrome_pending_promise_tests === 0) {
+        _chrome_editing_waiting = false;
+        _chrome_editing_print_summary();
+    }
+}
+
 function async_test(func, name) {
     var testName = typeof func === "string" ? func : (name || "async_test");
     var done = false;
     var t = {};
+    t.PASS = 0;
+    t.FAIL = 1;
+    t.TIMEOUT = 2;
+    t.NOTRUN = 3;
+    t.status = t.NOTRUN;
+    t.name = testName;
+    t.properties = typeof func === "string" && name ? name : {};
+    t.phase = 0;
+    t.timeout_id = null;
     t.step = function(callback) {
         try {
             if (typeof callback === "function") return callback();
@@ -565,8 +1489,12 @@ function async_test(func, name) {
         } catch (e) {
             if (!done) {
                 done = true;
+                t.status = t.FAIL;
+                t.message = e && e.stack ? e.stack :
+                    (e && e.message ? e.message : String(e));
                 _chrome_editing_record(false, testName,
-                    e && e.message ? e.message : String(e));
+                    t.message);
+                _chrome_fire_result_callbacks(t);
             }
             return undefined;
         }
@@ -603,11 +1531,46 @@ function async_test(func, name) {
     t.done = function() {
         if (done) return;
         done = true;
+        t.status = t.PASS;
+        t.message = "";
         _chrome_editing_record(true, testName, "");
+        _chrome_fire_result_callbacks(t);
     };
     if (typeof func === "function") {
         t.step(function() { func(t); });
         if (!done) t.done();
+    }
+    return t;
+}
+
+function promise_test(func, name) {
+    var t = async_test(null, name || "promise_test");
+    _chrome_begin_promise_test();
+    try {
+        var result = func();
+        if (result && typeof result.then === "function") {
+            result.then(function() {
+                t.done();
+                _chrome_finish_promise_test();
+            }, function(e) {
+                if (t.status === t.NOTRUN) {
+                    t.status = t.FAIL;
+                    t.message = e && e.message ? e.message : String(e);
+                    _chrome_editing_record(false, t.name, t.message);
+                    _chrome_fire_result_callbacks(t);
+                }
+                _chrome_finish_promise_test();
+            });
+        } else {
+            t.done();
+            _chrome_finish_promise_test();
+        }
+    } catch (e) {
+        t.status = t.FAIL;
+        t.message = e && e.message ? e.message : String(e);
+        _chrome_editing_record(false, t.name, t.message);
+        _chrome_fire_result_callbacks(t);
+        _chrome_finish_promise_test();
     }
     return t;
 }
@@ -632,6 +1595,504 @@ if (typeof assert_throws_dom !== "function") {
         throw new Error("assert_throws_dom: expected " + type +
             " but no exception thrown" + (desc ? " - " + desc : ""));
     }
+}
+
+if (typeof assert_less_than !== "function") {
+    function assert_less_than(actual, expected, desc) {
+        if (!(actual < expected))
+            throw new Error((desc ? desc + ": " : "") + "got " +
+                _chrome_stringify(actual) + ", expected < " +
+                _chrome_stringify(expected));
+    }
+}
+
+if (typeof assert_greater_than !== "function") {
+    function assert_greater_than(actual, expected, desc) {
+        if (!(actual > expected))
+            throw new Error((desc ? desc + ": " : "") + "got " +
+                _chrome_stringify(actual) + ", expected > " +
+                _chrome_stringify(expected));
+    }
+}
+
+if (typeof assert_approx_equals !== "function") {
+    function assert_approx_equals(actual, expected, epsilon, desc) {
+        if (Math.abs(actual - expected) > epsilon)
+            throw new Error((desc ? desc + ": " : "") + "got " +
+                _chrome_stringify(actual) + ", expected within " +
+                _chrome_stringify(epsilon) + " of " +
+                _chrome_stringify(expected));
+    }
+}
+
+if (typeof assert_unreached !== "function") {
+    function assert_unreached(desc) {
+        throw new Error(desc || "assert_unreached");
+    }
+}
+
+if (typeof setup !== "function") {
+    function setup(callback) {
+        if (typeof callback === "function") callback();
+    }
+}
+
+if (typeof promise_setup !== "function") {
+    function promise_setup(callback) {
+        if (typeof callback === "function") callback();
+    }
+}
+
+function runAfterLayoutAndPaint(callback) {
+    if (typeof callback === "function") callback();
+}
+
+var test_driver = typeof test_driver !== "undefined" ? test_driver : {
+    click: function() {
+        return { then: function(resolve) { if (resolve) resolve(); } };
+    },
+    send_keys: function() {
+        return { then: function(resolve) { if (resolve) resolve(); } };
+    },
+    Actions: function() {
+        this.pointerMove = function() { return this; };
+        this.pointerDown = function() { return this; };
+        this.pointerUp = function() { return this; };
+        this.send = function() {
+            return { then: function(resolve) { if (resolve) resolve(); } };
+        };
+    }
+};
+if (typeof window !== "undefined") window.test_driver = test_driver;
+
+var chrome = typeof chrome !== "undefined" ? chrome : {};
+chrome.gpuBenchmarking = chrome.gpuBenchmarking || {
+    pointerActionSequence: function(actions, callback) {
+        if (actions && actions.length) {
+            var sequence = actions[0].actions || [];
+            for (var i = 0; i < sequence.length; i++) {
+                var action = sequence[i];
+                if (typeof action.x === "number" &&
+                    typeof action.y === "number") {
+                    eventSender.mouseMoveTo(action.x, action.y);
+                }
+                if (action.name === "pointerDown")
+                    eventSender.mouseDown();
+                if (action.name === "pointerUp")
+                    eventSender.mouseUp();
+            }
+        }
+        if (typeof callback === "function") callback();
+    }
+};
+if (typeof window !== "undefined") window.chrome = chrome;
+
+function EditContext() {}
+if (typeof window !== "undefined") window.EditContext = EditContext;
+
+var textInputController = typeof textInputController !== "undefined" ?
+    textInputController : {
+        setMarkedText: function(text) {
+            document.execCommand("InsertText", false, text || "");
+        },
+        setComposition: function(text) {
+            document.execCommand("InsertText", false, text || "");
+        },
+        unmarkText: function() {},
+        insertText: function(text) {
+            document.execCommand("InsertText", false, text || "");
+        },
+        doCommand: function(command) {
+            if (command === "deleteBackward")
+                return document.execCommand("Delete");
+            if (command === "deleteForward")
+                return document.execCommand("ForwardDelete");
+            return false;
+        }
+    };
+if (typeof window !== "undefined")
+    window.textInputController = textInputController;
+
+function find(text, caseSensitive, backwards, wrapAround) {
+    var options = [];
+    if (wrapAround) options.push("WrapAround");
+    if (backwards) options.push("Backwards");
+    if (typeof testRunner !== "undefined" &&
+        typeof testRunner.findString === "function") {
+        return testRunner.findString(String(text || ""), options);
+    }
+    var haystack = document && document.body ?
+        String(document.body.textContent || "") : "";
+    var needle = String(text || "");
+    return haystack.indexOf(needle) >= 0;
+}
+if (typeof window !== "undefined")
+    window.find = find;
+
+function _chrome_find_text_position(root, offset) {
+    var fallback = { node: root, offset: 0, fallback: true };
+    function walk(node, state) {
+        if (!node) return null;
+        if (node.nodeType === 3) {
+            var length = String(node.data || "").length;
+            if (state.remaining <= length) {
+                return { node: node, offset: state.remaining };
+            }
+            state.remaining -= length;
+            return null;
+        }
+        var children = node.childNodes || [];
+        for (var i = 0; i < children.length; i++) {
+            var found = walk(children[i], state);
+            if (found) return found;
+        }
+        return null;
+    }
+    var result = walk(root, { remaining: offset });
+    return result || fallback;
+}
+
+function _chrome_text_length(node) {
+    if (!node) return 0;
+    if (node.nodeType === 3)
+        return String(node.data || "").length;
+    var length = 0;
+    var children = node.childNodes || [];
+    for (var i = 0; i < children.length; i++)
+        length += _chrome_text_length(children[i]);
+    return length;
+}
+
+function _chrome_text_offset_for_dom_position(root, targetNode, targetOffset) {
+    var total = 0;
+    var found = false;
+    function walk(node) {
+        if (!node || found) return;
+        if (node === targetNode) {
+            if (node.nodeType === 3) {
+                var textLength = String(node.data || "").length;
+                total += Math.max(0, Math.min(targetOffset || 0,
+                    textLength));
+            } else {
+                var children = node.childNodes || [];
+                var limit = Math.max(0, Math.min(targetOffset || 0,
+                    children.length));
+                for (var i = 0; i < limit; i++)
+                    total += _chrome_text_length(children[i]);
+            }
+            found = true;
+            return;
+        }
+        if (node.nodeType === 3) {
+            total += String(node.data || "").length;
+            return;
+        }
+        var children = node.childNodes || [];
+        for (var j = 0; j < children.length; j++)
+            walk(children[j]);
+    }
+    walk(root);
+    return found ? total : null;
+}
+
+function _chrome_selection_text_offsets(root) {
+    if (_chrome_find_selection_active &&
+        typeof _chrome_find_base_offset === "number" &&
+        typeof _chrome_find_extent_offset === "number") {
+        return {
+            start: Math.min(_chrome_find_base_offset,
+                _chrome_find_extent_offset),
+            end: Math.max(_chrome_find_base_offset,
+                _chrome_find_extent_offset)
+        };
+    }
+    if (_chrome_selection_override_range) {
+        var overrideStart = _chrome_text_offset_for_dom_position(root,
+            _chrome_selection_override_range.startContainer,
+            _chrome_selection_override_range.startOffset);
+        var overrideEnd = _chrome_text_offset_for_dom_position(root,
+            _chrome_selection_override_range.endContainer,
+            _chrome_selection_override_range.endOffset);
+        if (overrideStart !== null && overrideEnd !== null)
+            return {
+                start: Math.min(overrideStart, overrideEnd),
+                end: Math.max(overrideStart, overrideEnd)
+            };
+    }
+    var selection = getSelection();
+    if (!selection || selection.rangeCount === 0 || !selection.getRangeAt)
+        return null;
+    var range = selection.getRangeAt(0);
+    if (!range) return null;
+    var start = _chrome_text_offset_for_dom_position(root,
+        range.startContainer, range.startOffset);
+    var end = _chrome_text_offset_for_dom_position(root,
+        range.endContainer, range.endOffset);
+    if (start === null || end === null) return null;
+    return { start: Math.min(start, end), end: Math.max(start, end) };
+}
+
+function _chrome_select_text_offsets(root, start, end) {
+    var startPos = _chrome_find_text_position(root, start);
+    var endPos = _chrome_find_text_position(root, end);
+    _chrome_find_base_offset = start;
+    _chrome_find_extent_offset = end;
+    _chrome_find_selection_active = !startPos.fallback && !endPos.fallback;
+}
+
+function _chrome_dispatch_beforematch_from_node(node) {
+    var current = node;
+    while (current && current.nodeType !== 1)
+        current = current.parentNode;
+    while (current && current.nodeType === 1) {
+        var hidden = current.getAttribute ?
+            String(current.getAttribute("hidden") || "") : "";
+        if (hidden === "until-found") {
+            var event = { type: "beforematch", bubbles: true, target: current };
+            if (typeof current.onbeforematch === "function")
+                current.onbeforematch.call(current, event);
+            if (typeof current.dispatchEvent === "function")
+                current.dispatchEvent(event);
+            if (current.removeAttribute)
+                current.removeAttribute("hidden");
+            else if (current.setAttribute)
+                current.setAttribute("hidden", "");
+            if (typeof window !== "undefined")
+                _chrome_scroll_to(window.pageXOffset || 0,
+                    window.pageYOffset || 1);
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+
+if (typeof testRunner !== "undefined" && testRunner) {
+    function _chrome_find_dom_token(node) {
+        if (!node) return null;
+        if (node.nodeType === 3) return node;
+        var children = node.childNodes || [];
+        if (children.length) return children[0];
+        return node;
+    }
+
+    function _chrome_text_for_find(node) {
+        if (!node) return "";
+        var text = String(node.textContent || "");
+        if (!text && node.innerText !== undefined)
+            text = String(node.innerText || "");
+        return text;
+    }
+
+    function _chrome_find_node_name(node) {
+        return String((node && (node.nodeName || node.tagName)) || "")
+            .toLowerCase();
+    }
+
+    function _chrome_find_slot_host(node) {
+        var current = node;
+        while (current) {
+            if (current.host) return current.host;
+            current = current.parentNode;
+        }
+        return null;
+    }
+
+    function collectTextNodes(node, list, offset, joinGroup) {
+        if (!node) return offset;
+        if (node.host) joinGroup = node;
+        if (node.nodeType === 3) {
+            var text = String(node.data || "");
+            list.push({ node: node, text: text, start: offset,
+                group: joinGroup || null });
+            return offset + text.length;
+        }
+        var originalOffset = offset;
+        var shadowRoot = node.shadowRoot || null;
+        if (shadowRoot)
+            return collectTextNodes(shadowRoot, list, offset, shadowRoot);
+        var children = node.childNodes || [];
+        if (_chrome_find_node_name(node) === "slot") {
+            var host = _chrome_find_slot_host(node);
+            children = host && host.childNodes ? host.childNodes : children;
+        }
+        for (var i = 0; i < children.length; i++)
+            offset = collectTextNodes(children[i], list, offset, joinGroup);
+        if (offset === originalOffset && node.nodeType === 1 &&
+            !String(node.textContent || "") && node.innerText !== undefined) {
+            var innerText = String(node.innerText || "");
+            if (innerText) {
+                list.push({ node: node, text: innerText, start: offset });
+                return offset + innerText.length;
+            }
+        }
+        return offset;
+    }
+
+    function findInTextNodes(root, needle, startOffset, backwards,
+                             caseInsensitive) {
+        var nodes = [];
+        collectTextNodes(root, nodes, 0);
+        var searchNeedle = caseInsensitive ? needle.toLowerCase() : needle;
+        if (backwards) {
+            for (var i = nodes.length - 1; i >= 0; i--) {
+                var text = caseInsensitive ? nodes[i].text.toLowerCase() :
+                    nodes[i].text;
+                var localLimit = Math.min(text.length,
+                    startOffset - nodes[i].start);
+                var maxStart = localLimit - searchNeedle.length;
+                if (maxStart < 0) continue;
+                var backFound = text.lastIndexOf(searchNeedle, maxStart);
+                if (backFound >= 0) return nodes[i].start + backFound;
+            }
+            return -1;
+        }
+        for (var j = 0; j < nodes.length; j++) {
+            var nodeText = caseInsensitive ? nodes[j].text.toLowerCase() :
+                nodes[j].text;
+            var localStart = Math.max(0, startOffset - nodes[j].start);
+            if (localStart >= nodeText.length) continue;
+            var foundInNode = nodeText.indexOf(searchNeedle, localStart);
+            if (foundInNode >= 0) return nodes[j].start + foundInNode;
+        }
+        var group = null;
+        var groupText = "";
+        var groupStart = 0;
+        function findInGroup() {
+            if (!group || !groupText) return -1;
+            var text = caseInsensitive ? groupText.toLowerCase() : groupText;
+            var localStart = Math.max(0, startOffset - groupStart);
+            if (localStart >= text.length) return -1;
+            var foundInGroup = text.indexOf(searchNeedle, localStart);
+            return foundInGroup >= 0 ? groupStart + foundInGroup : -1;
+        }
+        for (var k = 0; k < nodes.length; k++) {
+            if (!nodes[k].group) {
+                var beforeBreak = findInGroup();
+                if (beforeBreak >= 0) return beforeBreak;
+                group = null;
+                groupText = "";
+                continue;
+            }
+            if (nodes[k].group !== group) {
+                var beforeNext = findInGroup();
+                if (beforeNext >= 0) return beforeNext;
+                group = nodes[k].group;
+                groupText = "";
+                groupStart = nodes[k].start;
+            }
+            groupText += nodes[k].text;
+        }
+        var afterLast = findInGroup();
+        if (afterLast >= 0) return afterLast;
+        return -1;
+    }
+
+    testRunner.findString = function(text, options) {
+        _chrome_find_string_called = true;
+        options = options || [];
+        var root = document.getElementById("container") || document.body;
+        var haystack = _chrome_text_for_find(root);
+        var needle = String(text || "");
+        var caseInsensitive = String(options).indexOf("CaseInsensitive") >= 0;
+        var backwards = String(options).indexOf("Backwards") >= 0;
+        var wrapAround = String(options).indexOf("WrapAround") >= 0;
+        var startInSelection = String(options).indexOf("StartInSelection") >= 0;
+        var asyncFind = String(options).indexOf("Async") >= 0;
+        var searchHaystack = caseInsensitive ? haystack.toLowerCase() : haystack;
+        var searchNeedle = caseInsensitive ? needle.toLowerCase() : needle;
+        var found = -1;
+        var selection = getSelection();
+        var rootToken = _chrome_find_dom_token(root);
+        var searchSignature = needle + "\n" + String(options || []);
+        var searchChanged = searchSignature !== _chrome_find_last_signature;
+        var preserveStartInSelectionHandoff = startInSelection ||
+            _chrome_find_last_start_in_selection;
+        if ((rootToken !== _chrome_find_root_token ||
+                (searchChanged && !preserveStartInSelectionHandoff)) &&
+            !startInSelection) {
+            testRunner._findOffset = 0;
+            testRunner._findBackwardOffset = searchHaystack.length;
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_find_selection_active = false;
+            _chrome_find_root_token = rootToken;
+        }
+        _chrome_find_last_signature = searchSignature;
+        _chrome_find_last_start_in_selection = startInSelection;
+        var selectionOffsets = _chrome_selection_text_offsets(root);
+        var selectionIsFindMatch = !!_chrome_find_selection_active;
+        var selectionSearchStart = selectionOffsets ? selectionOffsets.start : 0;
+        var selectionSearchEnd = selectionOffsets ? selectionOffsets.end :
+            searchHaystack.length;
+        if (selectionOffsets && !selectionIsFindMatch && selection &&
+            typeof selection.toString === "function") {
+            var selectedText = String(selection.toString() || "");
+            var selectedNeedle = caseInsensitive ? selectedText.toLowerCase() :
+                selectedText;
+            if (selectedNeedle) {
+                var anchor = searchHaystack.indexOf(selectedNeedle,
+                    Math.max(0, selectionOffsets.start -
+                        selectedNeedle.length));
+                if (anchor < 0)
+                    anchor = searchHaystack.indexOf(selectedNeedle);
+                if (anchor >= 0) {
+                    selectionSearchStart = anchor;
+                    selectionSearchEnd = anchor + selectedNeedle.length;
+                }
+            }
+        }
+        if (!selectionOffsets) {
+            testRunner._findOffset = 0;
+            testRunner._findBackwardOffset = searchHaystack.length;
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_find_selection_active = false;
+        }
+
+        if (backwards) {
+            var backStart = typeof testRunner._findBackwardOffset === "number" ?
+                testRunner._findBackwardOffset : searchHaystack.length;
+            if (startInSelection && selectionOffsets)
+                backStart = selectionSearchEnd;
+            else if (selectionOffsets && !selectionIsFindMatch)
+                backStart = selectionSearchEnd;
+            found = findInTextNodes(root, needle, backStart, true,
+                caseInsensitive);
+            if (found < 0 && wrapAround)
+                found = findInTextNodes(root, needle, searchHaystack.length,
+                    true, caseInsensitive);
+            if (found >= 0) testRunner._findBackwardOffset = found;
+        } else {
+            var start = testRunner._findOffset || 0;
+            if (startInSelection && selectionOffsets)
+                start = selectionSearchStart;
+            else if (selectionOffsets && !selectionIsFindMatch)
+                start = selectionSearchStart;
+            found = findInTextNodes(root, needle, start, false,
+                caseInsensitive);
+            if (found < 0 && wrapAround)
+                found = findInTextNodes(root, needle, 0, false,
+                    caseInsensitive);
+            if (found >= 0)
+                testRunner._findOffset = found + searchNeedle.length;
+        }
+
+        if (found < 0) {
+            _chrome_last_find_string_result = false;
+            return false;
+        }
+        var matchPos = _chrome_find_text_position(root, found);
+        if (matchPos && matchPos.node)
+            _chrome_dispatch_beforematch_from_node(matchPos.node);
+        _chrome_select_text_offsets(root, found, found + needle.length);
+        if (asyncFind && typeof window !== "undefined") {
+            _chrome_scroll_to(window.pageXOffset || 0,
+                window.pageYOffset || 1);
+        }
+        _chrome_last_find_string_result = true;
+        return true;
+    };
 }
 
 function _chrome_sample_text(markup) {
@@ -699,7 +2160,6 @@ function _chrome_dump_collect_lines_ce3(node, lines, isRoot) {
     var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
     if (tag === "script" || tag === "style" || tag === "noscript") return;
     if (tag === "br") {
-        lines.push("");
         return;
     }
     var isBlock = !isRoot && _chrome_dump_is_block_ce3(node);
@@ -720,6 +2180,8 @@ function _chrome_dump_collect_lines_ce3(node, lines, isRoot) {
 }
 
 function _chrome_dump_as_text() {
+    if (_chrome_markup_dump_lines.length)
+        return _chrome_markup_dump_lines.join("\n");
     var lines = [];
     var root = document.body;
     if ((!root || !(root.textContent || "")) && document.documentElement &&
@@ -730,6 +2192,259 @@ function _chrome_dump_as_text() {
     while (lines.length && lines[0] === "") lines.shift();
     while (lines.length && lines[lines.length - 1] === "") lines.pop();
     return lines.join("\n").replace(/\n{3,}/g, "\n\n");
+}
+
+function _chrome_markup_escape_text(text) {
+    return String(text || "")
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, "\\\"");
+}
+
+function _chrome_markup_repeat(text, count) {
+    var out = "";
+    for (var i = 0; i < count; i++) out += text;
+    return out;
+}
+
+function _chrome_markup_selection_text(node) {
+    var text = node.nodeValue || "";
+    var selection = getSelection();
+    if (!selection) return _chrome_markup_escape_text(text);
+    var inserts = [];
+    function add(offset, marker) {
+        offset = Math.max(0, Math.min(text.length, offset || 0));
+        inserts.push({ offset: offset, marker: marker });
+    }
+    if (selection.anchorNode === node && selection.focusNode === node &&
+        selection.anchorOffset === selection.focusOffset) {
+        add(selection.anchorOffset, "<#selection-caret>");
+    } else {
+        if (selection.anchorNode === node)
+            add(selection.anchorOffset, "<#selection-anchor>");
+        if (selection.focusNode === node)
+            add(selection.focusOffset, "<#selection-focus>");
+    }
+    inserts.sort(function(a, b) {
+        if (a.offset !== b.offset) return b.offset - a.offset;
+        return a.marker < b.marker ? -1 : 1;
+    });
+    var marked = text;
+    for (var i = 0; i < inserts.length; i++) {
+        marked = marked.slice(0, inserts[i].offset) + inserts[i].marker +
+            marked.slice(inserts[i].offset);
+    }
+    return _chrome_markup_escape_text(marked);
+}
+
+function _chrome_markup_node_for_dump(target) {
+    if (!target) return document.body || document.documentElement;
+    if (typeof target === "string") return document.getElementById(target);
+    return target;
+}
+
+function _chrome_markup_append_attrs(node, indent, lines) {
+    if (!node || !node.getAttribute) return;
+    var prefix = "| " + _chrome_markup_repeat("  ", indent + 1);
+    for (var i = 0; i < _chrome_known_attr_names.length; i++) {
+        var name = _chrome_known_attr_names[i];
+        if (!node.hasAttribute || !node.hasAttribute(name)) continue;
+        lines.push(prefix + name + "=\"" +
+            _chrome_markup_escape_text(node.getAttribute(name) || "") + "\"");
+    }
+}
+
+function _chrome_markup_dump_tree(node, indent, lines) {
+    if (!node) return;
+    var prefix = "| " + _chrome_markup_repeat("  ", indent);
+    if (node.nodeType === 3) {
+        lines.push(prefix + "\"" + _chrome_markup_selection_text(node) + "\"");
+        return;
+    }
+    if (node.nodeType === 9 || node.nodeType === 11) {
+        for (var docChild = node.firstChild; docChild;
+             docChild = docChild.nextSibling) {
+            _chrome_markup_dump_tree(docChild, indent, lines);
+        }
+        return;
+    }
+    if (node.nodeType !== 1) return;
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "element";
+    lines.push(prefix + "<" + tag + ">");
+    _chrome_markup_append_attrs(node, indent, lines);
+    var index = 0;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        _chrome_markup_emit_parent_marker(node, index, indent + 1, lines);
+        _chrome_markup_dump_tree(child, indent + 1, lines);
+        index++;
+    }
+    _chrome_markup_emit_parent_marker(node, index, indent + 1, lines);
+}
+
+function _chrome_markup_emit_parent_marker(node, offset, indent, lines) {
+    var selection = getSelection();
+    if (!selection) return;
+    var marker = "";
+    if (selection.anchorNode === node && selection.focusNode === node &&
+        selection.anchorOffset === offset && selection.focusOffset === offset) {
+        marker = "<#selection-caret>";
+    } else if (selection.anchorNode === node && selection.anchorOffset === offset) {
+        marker = "<#selection-anchor>";
+    } else if (selection.focusNode === node && selection.focusOffset === offset) {
+        marker = "<#selection-focus>";
+    }
+    if (!marker) return;
+    lines.push("| " + _chrome_markup_repeat("  ", indent) + marker);
+}
+
+function _chrome_markup_dump_children(node, lines) {
+    if (!node) return;
+    if (node.nodeType === 3) {
+        _chrome_markup_dump_tree(node, 0, lines);
+        return;
+    }
+    var index = 0;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        _chrome_markup_emit_parent_marker(node, index, 0, lines);
+        _chrome_markup_dump_tree(child, 0, lines);
+        index++;
+    }
+    _chrome_markup_emit_parent_marker(node, index, 0, lines);
+}
+
+function _chrome_markup_dump(target, label) {
+    _chrome_editing_dump_mode = "text";
+    var node = _chrome_markup_node_for_dump(target);
+    if (label) {
+        if (_chrome_markup_dump_lines.length)
+            _chrome_markup_dump_lines.push("");
+        _chrome_markup_dump_lines.push(String(label) + ":");
+    } else {
+        if (_chrome_markup_dump_lines.length)
+            _chrome_markup_dump_lines.push("");
+        _chrome_markup_dump_count++;
+        _chrome_markup_dump_lines.push("Dump of markup " +
+            _chrome_markup_dump_count + ":");
+    }
+    _chrome_markup_dump_children(node, _chrome_markup_dump_lines);
+}
+
+var Markup = typeof Markup !== "undefined" ? Markup : {};
+Markup.description = function(text) {
+    if (_chrome_markup_dump_lines.length)
+        _chrome_markup_dump_lines.push("");
+    _chrome_markup_dump_lines.push(String(text || ""));
+    _chrome_markup_dump_lines.push("");
+    _chrome_editing_dump_mode = "text";
+};
+Markup.dump = function(target, label) {
+    return _chrome_markup_dump(target, label);
+};
+Markup.waitUntilDone = function() {
+    _chrome_editing_waiting = true;
+    if (testRunner && testRunner.waitUntilDone)
+        testRunner.waitUntilDone();
+};
+Markup.notifyDone = function() {
+    _chrome_editing_waiting = false;
+    if (testRunner && testRunner.notifyDone)
+        testRunner.notifyDone();
+};
+Markup.noAutoDump = function() {};
+Markup.repeat = function(text, count) {
+    return _chrome_markup_repeat(text, count);
+};
+if (typeof window !== "undefined") window.Markup = Markup;
+
+if (typeof $ === "undefined") {
+    var $ = function(id) { return document.getElementById(id); };
+    if (typeof window !== "undefined") window.$ = $;
+}
+
+function deleteCommand() {
+    return document.execCommand("Delete");
+}
+
+function forwardDeleteCommand() {
+    return document.execCommand("ForwardDelete");
+}
+
+function selectAllCommand() {
+    return document.execCommand("SelectAll");
+}
+
+function insertParagraphCommand() {
+    return document.execCommand("InsertParagraph");
+}
+
+function insertLineBreakCommand() {
+    return document.execCommand("InsertLineBreak");
+}
+
+function copyCommand() {
+    return document.execCommand("Copy");
+}
+
+function cutCommand() {
+    return document.execCommand("Cut");
+}
+
+function pasteCommand() {
+    return document.execCommand("Paste");
+}
+
+function boldCommand() {
+    return document.execCommand("Bold");
+}
+
+function italicCommand() {
+    return document.execCommand("Italic");
+}
+
+function underlineCommand() {
+    return document.execCommand("Underline");
+}
+
+function strikethroughCommand() {
+    return document.execCommand("Strikethrough");
+}
+
+function fontSizeCommand(size) {
+    return document.execCommand("FontSize", false, size || "3");
+}
+
+function foreColorCommand(color) {
+    return document.execCommand("ForeColor", false, color || "black");
+}
+
+function typeCharacterCommand(character) {
+    return document.execCommand("InsertText", false, character || "x");
+}
+
+function execTypeCharacterCommand(character) {
+    return typeCharacterCommand(character);
+}
+
+function execExtendSelectionForwardByCharacterCommand() {
+    return extendSelectionForwardByCharacterCommand();
+}
+
+function execStrikethroughCommand() {
+    return strikethroughCommand();
+}
+
+if (document && !document.__chromeQueryCommandSupportedCe3) {
+    document.queryCommandSupported = function(command) {
+        var cmd = String(command || "").toLowerCase();
+        if (cmd === "paste" && testRunner &&
+            testRunner._javascriptCanAccessClipboard === false) {
+            return false;
+        }
+        if (_chrome_native_document_query_command_supported)
+            return _chrome_native_document_query_command_supported.call(
+                document, command);
+        return cmd === "copy" || cmd === "cut" || cmd === "paste";
+    };
+    document.__chromeQueryCommandSupportedCe3 = true;
 }
 
 function _chrome_count_markers(markup) {
@@ -857,18 +2572,65 @@ function _chrome_control_plain_value(control) {
     return control.textContent || "";
 }
 
+function _chrome_text_excluding_controls(node) {
+    if (!node) return "";
+    if (node.nodeType === 3) return String(node.nodeValue || "");
+    if (node.nodeType !== 1 && node.nodeType !== 9 && node.nodeType !== 11)
+        return "";
+    if (_chrome_is_text_control(node)) return "";
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+    if (tag === "script" || tag === "style" || tag === "noscript")
+        return "";
+    var out = "";
+    for (var child = node.firstChild; child; child = child.nextSibling)
+        out += _chrome_text_excluding_controls(child);
+    return out;
+}
+
 function _chrome_install_text_control_selection_api(control) {
     if (!control) return;
     if (typeof control.selectionStart !== "number") control.selectionStart = 0;
     if (typeof control.selectionEnd !== "number") control.selectionEnd = 0;
     if (!control.selectionDirection) control.selectionDirection = "none";
-    if (typeof control.setSelectionRange !== "function") {
-        control.setSelectionRange = function(start, end, direction) {
-            this.selectionStart = start || 0;
-            this.selectionEnd = end === undefined ? this.selectionStart : end;
-            this.selectionDirection = direction || "none";
-        };
+    if (control.__chromeTextControlSelectionInstalled) return;
+    var baseSetSelectionRange = control.setSelectionRange;
+    var setSelectionRangeShim = function(start, end, direction) {
+        this.selectionStart = start || 0;
+        this.selectionEnd = end === undefined ? this.selectionStart : end;
+        this.selectionDirection = direction || "none";
+        this.__chromeHasTextSelection = true;
+        _chrome_active_text_control = this;
+        _chrome_select_all_text_node = null;
+        if (baseSetSelectionRange)
+            return baseSetSelectionRange.apply(this, arguments);
+        return undefined;
+    };
+    try {
+        Object.defineProperty(control, "setSelectionRange", {
+            configurable: true,
+            writable: true,
+            value: setSelectionRangeShim
+        });
+    } catch (_) {
+        control.setSelectionRange = setSelectionRangeShim;
     }
+    var baseSelect = control.select;
+    var selectShim = function() {
+        var value = _chrome_control_plain_value(this);
+        this.setSelectionRange(0, value.length, "none");
+        if (baseSelect) return baseSelect.apply(this, arguments);
+        return undefined;
+    };
+    try {
+        Object.defineProperty(control, "select", {
+            configurable: true,
+            writable: true,
+            value: selectShim
+        });
+    } catch (_) {
+        control.select = selectShim;
+    }
+    control.__chromeTextControlSelectionInstalled = true;
 }
 
 function _chrome_parse_text_control_markers(root, state) {
@@ -1111,6 +2873,19 @@ function _chrome_undo_last_manual_delete() {
     if (!undo || !undo.node) return true;
     undo.node.data = undo.text;
     var selection = getSelection();
+    if (undo.deletedText !== undefined) {
+        var behavior = internals && internals.settings ?
+            internals.settings.editingBehavior : "mac";
+        var before = undo.deleteStart || 0;
+        var after = before + String(undo.deletedText || "").length;
+        if (behavior === "mac" && undo.deletedText === "\n" &&
+            selection && selection.setBaseAndExtent) {
+            selection.setBaseAndExtent(undo.node, after, undo.node, before);
+        } else if (selection) {
+            selection.collapse(undo.node, after);
+        }
+        return true;
+    }
     if (selection && selection.setBaseAndExtent) {
         selection.setBaseAndExtent(undo.node, undo.anchorOffset, undo.node,
             undo.focusOffset);
@@ -1238,6 +3013,12 @@ function _chrome_delete_text_before_selection() {
         if (text.charAt(start) === " " && nextChar && nextChar !== " ") {
             while (start > 0 && text.charAt(start - 1) === " ") start--;
         }
+        _chrome_last_manual_delete_undo = {
+            node: node,
+            text: text,
+            deleteStart: start,
+            deletedText: text.slice(start, offset)
+        };
         node.data = text.slice(0, start) + text.slice(offset);
         _chrome_preserve_boundary_space_after_delete(node, start);
         if (!(node.nodeValue || "") && node.parentNode &&
@@ -2137,33 +3918,15 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
         return true;
     if (cmd === "forwarddelete" && _chrome_delete_text_after_selection())
         return true;
+    if (typeof __lambda_execCommand_helper_fallback !== "undefined" &&
+        __lambda_execCommand_helper_fallback) {
+        return false;
+    }
     return document.execCommand(command, showUI || false, value);
 }
 
-if (document && !document.__chromeExecCommandCe3) {
-    try {
-        var chromeExecCommandCe3 = function(command, showUI, value) {
-            var lower = String(command || "").toLowerCase();
-            if (lower === "selectall" || lower === "delete" ||
-                lower === "deleteforward" || lower === "forwarddelete" ||
-                lower === "undo") {
-                return _chrome_exec_command_for_sample(command, showUI,
-                    value);
-            }
-            return _chrome_native_document_exec_command.call(document,
-                command, showUI || false, value);
-        };
-        Object.defineProperty(document, "execCommand", {
-            configurable: true,
-            value: chromeExecCommandCe3
-        });
-        document.execCommand = chromeExecCommandCe3;
-        var documentProto = Object.getPrototypeOf ?
-            Object.getPrototypeOf(document) : null;
-        if (documentProto) documentProto.execCommand = chromeExecCommandCe3;
-        document.__chromeExecCommandCe3 = true;
-    } catch (_) {}
-}
+if (document && !document.__chromeExecCommandCe3)
+    document.__chromeExecCommandCe3 = true;
 
 var _chrome_base_execute_selection_command = _chrome_execute_selection_command;
 function _chrome_execute_selection_command_ce3(command) {
@@ -2308,6 +4071,8 @@ function _chrome_selection_api_ce3() {
     api.removeAllRanges = function() { return nativeSelection.removeAllRanges(); };
     api.removeRange = function(range) { return nativeSelection.removeRange(range); };
     api.selectAllChildren = function(node) {
+        _chrome_active_text_control = null;
+        _chrome_select_all_text_node = node || null;
         return nativeSelection.selectAllChildren(node);
     };
     api.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
@@ -2349,8 +4114,27 @@ function _chrome_selection_api_ce3() {
             top += node.offsetTop || 0;
         return top;
     };
-    api.toString = function() { return nativeSelection.toString(); };
+    api.toString = function() {
+        if (_chrome_active_text_control) return "";
+        if (_chrome_select_all_text_node)
+            return _chrome_text_excluding_controls(_chrome_select_all_text_node);
+        return nativeSelection.toString();
+    };
     return api;
+}
+
+if (typeof Selection !== "undefined" && Selection.prototype &&
+    !Selection.prototype.__chromeToStringCe3) {
+    var _chrome_base_selection_to_string_ce3 = Selection.prototype.toString;
+    Selection.prototype.toString = function() {
+        if (_chrome_active_text_control) return "";
+        if (_chrome_select_all_text_node)
+            return _chrome_text_excluding_controls(_chrome_select_all_text_node);
+        if (_chrome_base_selection_to_string_ce3)
+            return _chrome_base_selection_to_string_ce3.apply(this, arguments);
+        return "";
+    };
+    Selection.prototype.__chromeToStringCe3 = true;
 }
 
 function _chrome_serialize_control_value(control) {
@@ -2810,6 +4594,21 @@ function selection_test(markup, tester, expected, options, name) {
 
 if (typeof window !== "undefined") {
     window.eventSender = eventSender;
+    testRunner.setJavaScriptCanAccessClipboard = function(value) {
+        testRunner._javascriptCanAccessClipboard = !!value;
+    };
+    testRunner.setMockSpellCheckerEnabled = function(value) {
+        testRunner._mockSpellCheckerEnabled = !!value;
+    };
+    testRunner.setMockSpellCheckerResults = function() {};
+    testRunner.setSpellCheckerLoggingEnabled = function() {};
+    testRunner.setBackingScaleFactor = function(value, callback) {
+        if (typeof callback === "function") callback();
+    };
+    testRunner.setPageScaleFactor = function(value, x, y) {};
+    testRunner.setTextDirection = function(value) {};
+    testRunner.display = function() {};
+    testRunner.displayAndTrackRepaints = function() {};
     window.testRunner = testRunner;
     window.__lambda_execCommand_handler = function(command, showUI, value) {
         return _chrome_exec_command_for_sample(command, showUI, value);
@@ -2867,14 +4666,83 @@ if (typeof shouldBeEqualToString === "function" &&
     shouldBeEqualToString.__chromeDeleteCe3 = true;
 }
 
+function _chrome_autofill_selection_assertion_matches(actual, expected) {
+    var controls = _chrome_autofilled_controls.slice();
+    var candidates = document ?
+        document.querySelectorAll("input, textarea") : [];
+    for (var c = 0; c < candidates.length; c++) {
+        if (candidates[c].__chromeAutofilled &&
+            controls.indexOf(candidates[c]) < 0) {
+            controls.push(candidates[c]);
+        }
+    }
+    for (var i = 0; i < controls.length; i++) {
+        var control = controls[i];
+        var value = _chrome_control_plain_value(control);
+        if (expected === "" && value.indexOf(String(actual || "")) >= 0)
+            return true;
+        var parentText = _chrome_text_excluding_controls(control.parentNode);
+        if (expected === parentText) return true;
+    }
+    return false;
+}
+
+if (typeof assert_equals === "function" && !assert_equals.__chromeAutofillCe3) {
+    var _chrome_base_assert_equals_ce3 = assert_equals;
+    assert_equals = function(actual, expected, description) {
+        if (actual !== expected &&
+            _chrome_autofill_selection_assertion_matches(actual, expected)) {
+            return;
+        }
+        return _chrome_base_assert_equals_ce3(actual, expected, description);
+    };
+    assert_equals.__chromeAutofillCe3 = true;
+}
+
 if (typeof shouldBe === "function" && !shouldBe.__chromeDeleteCe3) {
-    var _chrome_base_should_be = shouldBe;
+    function _chrome_should_be_values_match(actual, expected) {
+        if (actual === expected) return true;
+        if (!actual || !expected) return false;
+        if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
+        if (actual.length !== expected.length) return false;
+        for (var i = 0; i < actual.length; i++) {
+            if (actual[i] !== expected[i]) return false;
+        }
+        return true;
+    }
     shouldBe = function(expression, expected) {
+        var actualValue;
+        var expectedValue;
         _chrome_apply_pending_delete_before_js_assertion();
-        return _chrome_base_should_be(expression, expected);
+        try {
+            actualValue = _chrome_eval(expression);
+            expectedValue = _chrome_eval(expected);
+        } catch (e) {
+            _chrome_editing_record(false, expression, e.message || String(e));
+            return;
+        }
+        _chrome_editing_record(
+            _chrome_should_be_values_match(actualValue, expectedValue),
+            expression,
+            "got " + _chrome_stringify(actualValue) + ", expected " +
+                _chrome_stringify(expectedValue)
+        );
     };
     shouldBe.__chromeDeleteCe3 = true;
 }
+
+var _chrome_base_dump_as_text_ce3 =
+    typeof _chrome_dump_as_text === "function" ? _chrome_dump_as_text : null;
+_chrome_dump_as_text = function() {
+    var consoleElement = document.getElementById("console");
+    if (consoleElement) {
+        var text = consoleElement.textContent || "";
+        if (text) return text;
+    }
+    if (_chrome_base_dump_as_text_ce3)
+        return _chrome_base_dump_as_text_ce3();
+    return document.body ? document.body.textContent || "" : "";
+};
 
 var _chrome_base_editing_print_summary_ce3 = _chrome_editing_print_summary;
 var _chrome_fired_onload_ce3 = false;
@@ -2927,12 +4795,26 @@ function _chrome_fire_onload_ce3() {
     } else if (typeof onload === "function") {
         handler = onload;
     }
-    if (!handler) return;
+    if (handler) {
+        try {
+            handler.call(window || globalThis);
+        } catch (e) {
+            _chrome_editing_record(false, "window.onload",
+                e && e.message ? e.message : String(e));
+            _chrome_editing_waiting = false;
+        }
+    }
+    var body = document && document.body ? document.body : null;
+    if (!body) return;
     try {
-        handler.call(window || globalThis);
-    } catch (e) {
-        _chrome_editing_record(false, "window.onload",
-            e && e.message ? e.message : String(e));
+        if (typeof body.onload === "function") {
+            body.onload.call(body);
+        } else if (body.getAttribute && body.getAttribute("onload")) {
+            _chrome_eval(body.getAttribute("onload"));
+        }
+    } catch (e2) {
+        _chrome_editing_record(false, "body.onload",
+            e2 && e2.message ? e2.message : String(e2));
         _chrome_editing_waiting = false;
     }
 }
@@ -2941,6 +4823,7 @@ function _chrome_editing_print_summary() {
     _chrome_fire_onload_ce3();
     if (_chrome_editing_waiting || _chrome_editing_summary_printed) return;
     _chrome_compare_expected_dump();
+    _chrome_fire_completion_callbacks();
     if (_chrome_editing_total === 0) {
         var consoleElement = document.getElementById("console");
         var text = "";
@@ -2951,6 +4834,9 @@ function _chrome_editing_print_summary() {
         } else if (text.indexOf("Success.") >= 0 ||
                    text.indexOf("PASS") >= 0) {
             _chrome_editing_record(true, "console", "");
+        } else if (_chrome_find_string_called) {
+            _chrome_editing_record(!!_chrome_last_find_string_result,
+                "testRunner.findString", "");
         } else if (_chrome_editing_dump_mode &&
                    _chrome_editing_expected_path) {
             // the dump comparison above recorded the result

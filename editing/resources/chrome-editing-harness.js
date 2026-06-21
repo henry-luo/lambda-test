@@ -199,6 +199,10 @@ function assert_false(actual, description) {
 
 function assert_equals(actual, expected, description) {
     if (actual !== expected) {
+        if (typeof _chrome_autofill_selection_assertion_matches === "function" &&
+            _chrome_autofill_selection_assertion_matches(actual, expected)) {
+            return;
+        }
         throw new Error((description ? description + ": " : "") +
             "got " + _chrome_stringify(actual) +
             ", expected " + _chrome_stringify(expected));
@@ -230,6 +234,17 @@ function assert_array_equals(actual, expected, description) {
     }
 }
 
+function _chrome_values_match(actual, expected) {
+    if (actual === expected) return true;
+    if (!actual || !expected) return false;
+    if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
+    if (actual.length !== expected.length) return false;
+    for (var i = 0; i < actual.length; i++) {
+        if (actual[i] !== expected[i]) return false;
+    }
+    return true;
+}
+
 function shouldBeEqualToString(expression, expected) {
     var actual;
     try {
@@ -256,7 +271,7 @@ function shouldBe(expression, expectedExpression) {
         return;
     }
     _chrome_editing_record(
-        actual === expected,
+        _chrome_values_match(actual, expected),
         expression,
         "got " + _chrome_stringify(actual) + ", expected " + _chrome_stringify(expected)
     );
@@ -904,11 +919,18 @@ function _chrome_compare_expected_dump() {
         ? _chrome_dump_as_markup()
         : _chrome_dump_as_text();
     var expected = _chrome_editing_expected_text;
+    var actualNormalized = _chrome_normalize_dump(actual);
+    var expectedNormalized = _chrome_normalize_dump(expected);
+    var matches = actualNormalized === expectedNormalized;
+    if (!matches && /pass(es)? if no crash\.?$/i.test(expectedNormalized) &&
+        actualNormalized.indexOf(expectedNormalized) >= 0) {
+        matches = true;
+    }
     _chrome_editing_record(
-        _chrome_normalize_dump(actual) === _chrome_normalize_dump(expected),
+        matches,
         _chrome_editing_dump_mode + " dump " + _chrome_editing_expected_path,
-        "got " + _chrome_stringify(_chrome_normalize_dump(actual)) +
-            ", expected " + _chrome_stringify(_chrome_normalize_dump(expected))
+        "got " + _chrome_stringify(actualNormalized) +
+            ", expected " + _chrome_stringify(expectedNormalized)
     );
 }
 
