@@ -46,7 +46,7 @@ enhance5_backdrop_clip_filter_01           exact   0.00%  130x120
 enhance5_backdrop_filter_tiled_clip_01     exact   0.00%  340x160
 enhance5_background_blend_clip_01          exact   0.00%  150x120
 enhance5_background_image_clip_round_01    exact   0.00%  140x120
-enhance5_clip_inset_mixed_01                  38   0.24%  130x120
+enhance5_clip_inset_mixed_01                  37   0.24%  130x120
 enhance5_clip_polygon_transform_media_01     301   1.67%  150x120
 enhance5_clipped_element_nested_effects_01   120   0.62%  150x130
 enhance5_dirty_caret_selection_overlay_01    917   4.55%  180x112
@@ -58,7 +58,7 @@ enhance5_filter_color_matrix_chain_01         70   0.33%  170x125
 enhance5_filter_transparent_shadow_01         10   0.07%  120x120
 enhance5_form_controls_paint_stack_01        488   1.63%  200x150
 enhance5_fractional_transform_hidpi_01        62   0.26%  180x130
-enhance5_inline_svg_gradient_text_01         397   2.21%  150x120
+enhance5_inline_svg_gradient_text_01          11   0.06%  150x120
 enhance5_inset_shadow_text_01                 77   0.46%  140x120
 enhance5_mix_blend_parent_01                  20   0.14%  120x120
 enhance5_multi_background_clip_01          exact   0.00%  140x120
@@ -90,7 +90,7 @@ enhance5_spec_svg_mask_luminance_01            4   0.02%  160x120
 enhance5_spec_svg_pattern_units_01          3138  16.34%  160x120
 enhance5_spec_svg_text_path_01               398   1.84%  180x120
 enhance5_spec_writing_mode_vertical_01      2628  11.89%  170x130
-enhance5_svg_clip_gradient_text_01             6   0.03%  150x120
+enhance5_svg_clip_gradient_text_01             1   0.01%  150x120
 enhance5_svg_data_uri_image_stack_01           1   0.00%  170x120
 enhance5_svg_image_payload_order_01          139   0.63%  170x130
 enhance5_svg_stroke_gradient_dash_01       exact   0.00%  160x120
@@ -102,7 +102,7 @@ enhance5_tiled_boundary_svg_text_shadow_01    38   0.07%  356x150
 enhance5_transform_border_background_01     2363  14.07%  140x120
 enhance5_transform_clip_circle_01              1   0.01%  120x120
 enhance5_transform_dirty_offscreen_shadow_01 exact   0.00%  180x130
-enhance5_wrapped_inline_bg_radius_01        2770  17.76%  130x120
+enhance5_wrapped_inline_bg_radius_01        2427  15.56%  130x120
 enhance5_zindex_opacity_isolation_01       exact   0.00%  130x120
 filter_blur_01                             exact   0.00%  100x100
 filter_drop_shadow_01                         45   0.45%  100x100
@@ -166,10 +166,10 @@ svg_inline_shapes_01                       exact   0.00%  100x100
 svg_opacity_01                             exact   0.00%  100x100
 svg_path_01                                exact   0.00%  100x100
 svg_stroke_01                              exact   0.00%  100x100
-svg_text_anchor_01                           141   1.41%  100x100
-svg_text_basic_01                            132   1.32%  100x100
+svg_text_anchor_01                           135   1.35%  100x100
+svg_text_basic_01                            126   1.26%  100x100
 svg_text_color_01                            172   1.72%  100x100
-svg_text_tspan_01                            411   4.11%  100x100
+svg_text_tspan_01                            407   4.07%  100x100
 svg_transform_01                           exact   0.00%  100x100
 svg_use_symbol_01                          exact   0.00%  100x100
 svg_viewbox_01                             exact   0.00%  100x100
@@ -217,8 +217,8 @@ pp_tabs_01                                  1021   7.09%  120x120
 pp_typography_01                             387   2.69%  120x120
 
 # -- Added by render baseline update -----------------------------
-svg_text_anchor_baseline_01                  144   0.55%  220x120
+svg_text_anchor_baseline_01                  131   0.50%  220x120
 
 # -- Added by render baseline update -----------------------------
 form_textarea_child_text_01                  392   2.18%  180x100
-svg_text_hidpi_01                           2437   1.21%  720x280
+svg_text_hidpi_01                           2388   1.18%  720x280

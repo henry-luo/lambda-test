@@ -171,12 +171,39 @@ function parseArgs() {
 
 // ─── Render via lambda.exe ──────────────────────────────────────────────────
 
+function spawnWithTimeout(command, args, options, timeoutMs) {
+    const proc = spawn(command, args, options);
+    let timedOut = false;
+    let killTimer = null;
+
+    const timer = setTimeout(() => {
+        timedOut = true;
+        if (proc.stdin && !proc.stdin.destroyed) {
+            proc.stdin.destroy();
+        }
+        proc.kill('SIGTERM');
+        killTimer = setTimeout(() => {
+            proc.kill('SIGKILL');
+        }, 2000);
+    }, timeoutMs);
+
+    const clearTimers = () => {
+        clearTimeout(timer);
+        if (killTimer) clearTimeout(killTimer);
+    };
+    proc.once('close', clearTimers);
+    proc.once('error', clearTimers);
+
+    return { proc, didTimeout: () => timedOut };
+}
+
 function renderWithRadiant(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio) {
     return renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio, null);
 }
 
 function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewportHeight, pixelRatio, envOverrides) {
     return new Promise((resolve, reject) => {
+        const timeoutMs = 30000;
         const args = [
             'render', htmlFile,
             '-o', outputPng,
@@ -185,16 +212,20 @@ function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewp
             '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)
         ];
 
-        const proc = spawn(exePath, args, {
+        const child = spawnWithTimeout(exePath, args, {
             cwd: PROJECT_ROOT,
-            env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
-            timeout: 30000
-        });
+            env: envOverrides ? { ...process.env, ...envOverrides } : process.env
+        }, timeoutMs);
+        const proc = child.proc;
 
         let stderr = '';
         proc.stderr.on('data', (data) => { stderr += data.toString(); });
 
         proc.on('close', (code) => {
+            if (child.didTimeout()) {
+                reject(new Error(`lambda.exe render timed out after ${timeoutMs}ms: ${stderr.trim()}`));
+                return;
+            }
             if (code === 0) {
                 resolve();
             } else {
@@ -213,15 +244,20 @@ function renderWithRadiantEnv(exePath, htmlFile, outputPng, viewportWidth, viewp
 // triggers on auto-sizing.
 function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, pixelRatio, envOverrides) {
     return new Promise((resolve, reject) => {
+        const timeoutMs = 30000;
         const args = ['render', htmlFile, '-o', outputPng, '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)];
-        const proc = spawn(exePath, args, {
+        const child = spawnWithTimeout(exePath, args, {
             cwd: PROJECT_ROOT,
-            env: envOverrides ? { ...process.env, ...envOverrides } : process.env,
-            timeout: 30000
-        });
+            env: envOverrides ? { ...process.env, ...envOverrides } : process.env
+        }, timeoutMs);
+        const proc = child.proc;
         let stderr = '';
         proc.stderr.on('data', (data) => { stderr += data.toString(); });
         proc.on('close', (code) => {
+            if (child.didTimeout()) {
+                reject(new Error(`lambda.exe render timed out after ${timeoutMs}ms: ${stderr.trim()}`));
+                return;
+            }
             if (code === 0) resolve();
             else reject(new Error(`lambda.exe render failed (exit ${code}): ${stderr.trim()}`));
         });
@@ -238,18 +274,24 @@ function renderAutoSizeWithEnv(exePath, htmlFile, outputPng, pixelRatio, envOver
 function renderBatchWithRadiant(exePath, jobs, pixelRatio) {
     // jobs: [{htmlFile, outputPng, viewportWidth, viewportHeight}]
     return new Promise((resolve, reject) => {
-        const proc = spawn(exePath, ['render-batch', '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)], {
+        const timeoutMs = jobs.length * 10000 + 30000;
+        const child = spawnWithTimeout(exePath, ['render-batch', '--pixel-ratio', String(pixelRatio || PIXEL_RATIO)], {
             cwd: PROJECT_ROOT,
-            stdio: ['pipe', 'pipe', 'pipe'],
-            timeout: jobs.length * 10000 + 30000  // generous timeout
-        });
+            stdio: ['pipe', 'pipe', 'pipe']
+        }, timeoutMs);
+        const proc = child.proc;
 
         let stdout = '';
         let stderr = '';
         proc.stdout.on('data', (data) => { stdout += data.toString(); });
         proc.stderr.on('data', (data) => { stderr += data.toString(); });
+        proc.stdin.on('error', () => {});
 
         proc.on('close', () => {
+            if (child.didTimeout()) {
+                reject(new Error(`lambda.exe render-batch timed out after ${timeoutMs}ms: ${stderr.trim()}`));
+                return;
+            }
             // Parse results: each line is "OK\t<file>" or "FAIL\t<file>\t<reason>"
             const results = new Map();
             for (const line of stdout.split('\n')) {
@@ -899,9 +941,13 @@ function checkBaselineRegressions(results, baselineMap, opts) {
     const REGRESSION_TOLERANCE = 0.5;  // allow up to 0.5% above baseline
 
     const resultMap = new Map(results.map(r => [r.testName, r]));
+    const isFilteredRun = !!(opts.test || opts.pattern || opts.suite);
+    const baselineEntries = isFilteredRun
+        ? [...baselineMap].filter(([name]) => resultMap.has(name))
+        : [...baselineMap];
 
     const regressions = [];
-    for (const [name, baselinePct] of baselineMap) {
+    for (const [name, baselinePct] of baselineEntries) {
         const result = resultMap.get(name);
         if (!result) {
             regressions.push({ name, result: null });
@@ -935,7 +981,7 @@ function checkBaselineRegressions(results, baselineMap, opts) {
             }
             console.log('');
         } else {
-            const totalBaseline = baselineMap.size;
+            const totalBaseline = baselineEntries.length;
             console.log(`\n✅ All ${totalBaseline} baseline tests passed.`);
         }
     }
