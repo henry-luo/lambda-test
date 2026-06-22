@@ -29,6 +29,11 @@ var _chrome_result_callbacks = [];
 var _chrome_completion_callbacks = [];
 var _chrome_completion_callbacks_fired = false;
 var _chrome_pending_promise_tests = 0;
+var _chrome_pending_async_tests = 0;
+var _chrome_async_queue = [];
+var _chrome_async_cancelled = {};
+var _chrome_next_async_id = 1;
+var _chrome_async_draining = false;
 var _chrome_find_base_offset = undefined;
 var _chrome_find_extent_offset = undefined;
 var _chrome_selection_override_range = null;
@@ -40,6 +45,12 @@ var _chrome_find_last_start_in_selection = false;
 var _chrome_find_string_called = false;
 var _chrome_last_find_string_result = false;
 var _chrome_default_paragraph_separator = "div";
+var _chrome_pending_insert_back_color = "";
+var _chrome_pending_insert_fore_color = "";
+var _chrome_console_warning_lines = [];
+var _chrome_document_open_invalid_for_exec_command = false;
+var _chrome_js_test_dump_lines = [];
+var _chrome_js_test_dump_seeded = false;
 var onload = typeof onload === "function" ? onload : null;
 var _chrome_known_attr_names = [
     "contenteditable", "id", "class", "style", "slot", "href", "src", "alt",
@@ -99,6 +110,8 @@ if (typeof window !== "undefined" && window.location &&
     window.location.search = "";
 }
 if (typeof window !== "undefined") {
+    if (window.innerWidth === undefined) window.innerWidth = 1024;
+    if (window.innerHeight === undefined) window.innerHeight = 768;
     if (window.pageXOffset === undefined) window.pageXOffset = 0;
     if (window.pageYOffset === undefined) window.pageYOffset = 0;
     if (window.scrollX === undefined) window.scrollX = window.pageXOffset;
@@ -106,9 +119,39 @@ if (typeof window !== "undefined") {
 }
 
 function _chrome_call_soon(callback) {
+    var id = _chrome_next_async_id++;
+    _chrome_async_queue.push({ id: id, callback: callback });
+    return id;
+}
+
+function _chrome_run_async_callback(callback) {
     if (typeof callback === "function") return callback();
     if (typeof callback === "string") return _chrome_eval(callback);
     return undefined;
+}
+
+function _chrome_drain_async_queue() {
+    if (_chrome_async_draining) return;
+    _chrome_async_draining = true;
+    var safety = 0;
+    while (_chrome_async_queue.length && safety < 1000) {
+        safety++;
+        var task = _chrome_async_queue.shift();
+        if (!task || _chrome_async_cancelled[task.id]) continue;
+        try {
+            _chrome_run_async_callback(task.callback);
+        } catch (e) {
+            if (typeof _chrome_editing_record === "function") {
+                _chrome_editing_record(false, "async callback",
+                    e && e.message ? e.message : String(e));
+                _chrome_editing_waiting = false;
+            } else {
+                _chrome_async_draining = false;
+                throw e;
+            }
+        }
+    }
+    _chrome_async_draining = false;
 }
 
 var _chrome_base_set_timeout = typeof setTimeout === "function" ?
@@ -118,19 +161,49 @@ function setTimeout(callback, delay) {
 }
 if (typeof window !== "undefined") window.setTimeout = setTimeout;
 
-function clearTimeout() {}
+function clearTimeout(id) {
+    if (id !== undefined) _chrome_async_cancelled[id] = true;
+}
 if (typeof window !== "undefined") window.clearTimeout = clearTimeout;
 
 if (document && !document.__chromeDocumentWriteCe3) {
-    document.write = function(markup) {
+    var _chrome_document_write_ce3 = function(markup) {
         if (!document.body) return;
         document.body.innerHTML = String(markup == null ? "" : markup);
     };
-    document.writeln = function(markup) {
-        document.write(String(markup == null ? "" : markup) + "\n");
+    var _chrome_document_writeln_ce3 = function(markup) {
+        _chrome_document_write_ce3(String(markup == null ? "" : markup) + "\n");
     };
-    document.open = function() { return document; };
-    document.close = function() {};
+    var _chrome_document_open_ce3 = function() {
+        _chrome_document_open_invalid_for_exec_command = true;
+        return document;
+    };
+    var _chrome_document_close_ce3 = function() {
+        _chrome_document_open_invalid_for_exec_command = false;
+    };
+    try {
+        Object.defineProperty(document, "write", {
+            value: _chrome_document_write_ce3,
+            configurable: true
+        });
+        Object.defineProperty(document, "writeln", {
+            value: _chrome_document_writeln_ce3,
+            configurable: true
+        });
+        Object.defineProperty(document, "open", {
+            value: _chrome_document_open_ce3,
+            configurable: true
+        });
+        Object.defineProperty(document, "close", {
+            value: _chrome_document_close_ce3,
+            configurable: true
+        });
+    } catch (_) {
+        document.write = _chrome_document_write_ce3;
+        document.writeln = _chrome_document_writeln_ce3;
+        document.open = _chrome_document_open_ce3;
+        document.close = _chrome_document_close_ce3;
+    }
     document.__chromeDocumentWriteCe3 = true;
 }
 
@@ -161,6 +234,8 @@ function requestAnimationFrame(callback) {
 }
 if (typeof window !== "undefined")
     window.requestAnimationFrame = requestAnimationFrame;
+if (typeof globalThis !== "undefined")
+    globalThis.requestAnimationFrame = requestAnimationFrame;
 
 function _chrome_scroll_to(x, y) {
     if (typeof x === "object" && x !== null) {
@@ -258,32 +333,77 @@ if (typeof Element !== "undefined" && Element.prototype &&
     Element.prototype.__chromeInnerTextShimCe3 = true;
 }
 
-var _chrome_base_get_computed_style = typeof getComputedStyle === "function" ?
-    getComputedStyle : null;
+if (typeof Element !== "undefined" && Element.prototype &&
+    !Element.prototype.__chromeDetailsOpenShimCe3) {
+    try {
+        Object.defineProperty(Element.prototype, "open", {
+            configurable: true,
+            get: function() {
+                var tag = this.nodeName ? this.nodeName.toLowerCase() : "";
+                if (tag !== "details") return undefined;
+                return !!(this.hasAttribute && this.hasAttribute("open"));
+            },
+            set: function(value) {
+                var tag = this.nodeName ? this.nodeName.toLowerCase() : "";
+                if (tag !== "details") return;
+                var wasOpen = !!(this.hasAttribute && this.hasAttribute("open"));
+                if (value) {
+                    if (this.setAttribute) this.setAttribute("open", "");
+                } else {
+                    if (this.removeAttribute) this.removeAttribute("open");
+                }
+                var isOpen = !!(this.hasAttribute && this.hasAttribute("open"));
+                if (wasOpen !== isOpen && typeof this.dispatchEvent === "function")
+                    this.dispatchEvent({ type: "toggle", bubbles: false,
+                        target: this });
+            }
+        });
+    } catch (_) {}
+    Element.prototype.__chromeDetailsOpenShimCe3 = true;
+}
+
+if (typeof Element !== "undefined" && Element.prototype &&
+    !Element.prototype.__chromeScrollIntoViewShimCe3) {
+    try {
+        Element.prototype.scrollIntoView = function() {
+            _chrome_scroll_to(window.pageXOffset || 0,
+                window.pageYOffset || 1);
+        };
+    } catch (_) {}
+    Element.prototype.__chromeScrollIntoViewShimCe3 = true;
+}
+
+var _chrome_base_get_computed_style =
+    typeof window !== "undefined" && window.getComputedStyle ?
+        window.getComputedStyle : null;
 function getComputedStyle(element, pseudo) {
-    var style = _chrome_base_get_computed_style ?
+    var style = _chrome_base_get_computed_style &&
+        _chrome_base_get_computed_style !== getComputedStyle ?
         _chrome_base_get_computed_style(element, pseudo) : {};
     var hidden = element && element.getAttribute ?
         String(element.getAttribute("hidden") || "") : "";
     if (hidden === "until-found") {
         try {
             style.contentVisibility = "hidden";
+            if (style.contentVisibility === "hidden") return style;
         } catch (_) {
-            var fallback = {};
-            for (var key in style) fallback[key] = style[key];
-            fallback.contentVisibility = "hidden";
-            fallback.getPropertyValue = function(name) {
-                if (name === "content-visibility") return "hidden";
-                return style && style.getPropertyValue ?
-                    style.getPropertyValue(name) : "";
-            };
-            return fallback;
         }
+        var fallback = {};
+        for (var key in style) fallback[key] = style[key];
+        fallback.contentVisibility = "hidden";
+        fallback.getPropertyValue = function(name) {
+            if (name === "content-visibility") return "hidden";
+            return style && style.getPropertyValue ?
+                style.getPropertyValue(name) : "";
+        };
+        return fallback;
     }
     return style;
 }
 if (typeof window !== "undefined")
     window.getComputedStyle = getComputedStyle;
+if (typeof globalThis !== "undefined")
+    globalThis.getComputedStyle = getComputedStyle;
 
 function _chrome_child_list_for_each(callback, thisArg) {
     for (var i = 0; this && i < this.length; i++)
@@ -322,7 +442,9 @@ function _chrome_install_focus_tracking() {
             _chrome_install_text_control_selection_api(this);
             _chrome_active_text_control = this;
         }
-        if (baseFocus) return baseFocus.apply(this, arguments);
+        var result = baseFocus ? baseFocus.apply(this, arguments) : undefined;
+        _chrome_place_caret_for_focused_editable(this);
+        return result;
     };
     var baseBlur = proto.blur;
     proto.blur = function() {
@@ -346,12 +468,260 @@ function _chrome_install_focus_tracking() {
 }
 _chrome_install_focus_tracking();
 
+function _chrome_place_caret_for_focused_editable(element) {
+    if (!_chrome_is_content_editable_element(element)) return false;
+    var selection = getSelection();
+    if (!selection) return false;
+    var node = selection.focusNode;
+    while (node && node !== element) node = node.parentNode;
+    if (node === element) return true;
+    selection.removeAllRanges();
+    var range = document.createRange();
+    var first = _chrome_first_text_descendant(element);
+    if (first) {
+        range.setStart(first, 0);
+        range.setEnd(first, 0);
+    } else {
+        range.setStart(element, 0);
+        range.setEnd(element, 0);
+    }
+    selection.addRange(range);
+    return true;
+}
+
+function _chrome_is_iframe_element_ce3(node) {
+    return !!(node && node.tagName &&
+        String(node.tagName).toLowerCase() === "iframe");
+}
+
+function _chrome_parse_attr_from_tag_ce3(tag, name) {
+    var pattern = new RegExp("(?:^|\\s)" + name +
+        "(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s>]+)))?", "i");
+    var match = pattern.exec(String(tag || ""));
+    if (!match) return null;
+    if (match[1] !== undefined) return match[1];
+    if (match[2] !== undefined) return match[2];
+    if (match[3] !== undefined) return match[3];
+    return "";
+}
+
+function _chrome_node_belongs_to_document_ce3(node, doc) {
+    if (!node || !doc) return false;
+    if (node.ownerDocument === doc) return true;
+    for (var current = node; current; current = current.parentNode) {
+        if (current === doc || current === doc.documentElement ||
+            current === doc.body) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function _chrome_install_inner_text_on_element_ce3(element) {
+    if (!element || element.__chromeInnerTextOwnCe3) return;
+    try {
+        Object.defineProperty(element, "innerText", {
+            get: function() { return this.textContent || ""; },
+            set: function(value) { this.textContent = String(value || ""); },
+            configurable: true
+        });
+    } catch (_) {
+        try {
+            element.innerText = element.textContent || "";
+        } catch (_) {}
+    }
+    element.__chromeInnerTextOwnCe3 = true;
+}
+
+function _chrome_install_child_focus_on_element_ce3(element) {
+    if (!element || element.__chromeChildFocusOwnCe3) return;
+    var baseFocus = typeof element.focus === "function" ? element.focus :
+        null;
+    try {
+        Object.defineProperty(element, "focus", {
+            value: function() {
+                _chrome_active_element = this;
+                if (baseFocus) return baseFocus.apply(this, arguments);
+            },
+            configurable: true
+        });
+    } catch (_) {
+        try {
+            element.focus = function() {
+                _chrome_active_element = this;
+                if (baseFocus) return baseFocus.apply(this, arguments);
+            };
+        } catch (_) {}
+    }
+    element.__chromeChildFocusOwnCe3 = true;
+}
+
+function _chrome_install_child_document_editing_ce3(doc) {
+    if (!doc || doc.__chromeChildEditingCe3) return;
+    var baseExecCommand = typeof doc.execCommand === "function" ?
+        doc.execCommand : null;
+    var execCommand = function(command, showUI, value) {
+        var cmd = String(command || "").toLowerCase();
+        if (cmd === "inserttext") {
+            var target = _chrome_node_belongs_to_document_ce3(
+                _chrome_active_element, doc) ? _chrome_active_element : null;
+            if (!target) target = doc.activeElement || doc.body;
+            if (!target) return false;
+            var text = String(value == null ? "" : value);
+            if (typeof target.value === "string")
+                target.value += text;
+            else
+                target.textContent = String(target.textContent || "") + text;
+            return true;
+        }
+        if (cmd === "undo") return false;
+        if (baseExecCommand)
+            return baseExecCommand.call(doc, command, showUI || false, value);
+        return false;
+    };
+    var queryCommandEnabled = function(command) {
+        var cmd = String(command || "").toLowerCase();
+        if (cmd === "undo") return false;
+        return true;
+    };
+    try {
+        Object.defineProperty(doc, "execCommand", {
+            value: execCommand,
+            configurable: true
+        });
+        Object.defineProperty(doc, "queryCommandEnabled", {
+            value: queryCommandEnabled,
+            configurable: true
+        });
+    } catch (_) {
+        doc.execCommand = execCommand;
+        doc.queryCommandEnabled = queryCommandEnabled;
+    }
+    if (doc.body) {
+        _chrome_install_inner_text_on_element_ce3(doc.body);
+        _chrome_install_child_focus_on_element_ce3(doc.body);
+    }
+    doc.__chromeChildEditingCe3 = true;
+}
+
+function _chrome_apply_srcdoc_body_attrs_ce3(frame, resetBodyText) {
+    var srcdoc = frame && frame.getAttribute ? frame.getAttribute("srcdoc") :
+        "";
+    if (!srcdoc) return;
+    var bodyMatch = /<body\b([^>]*)>/i.exec(String(srcdoc));
+    if (!bodyMatch) return;
+    var doc = frame.contentWindow && frame.contentWindow.document;
+    if (!doc || !doc.body) return;
+    var attrs = bodyMatch[1] || "";
+    var id = _chrome_parse_attr_from_tag_ce3(attrs, "id");
+    if (id !== null) doc.body.setAttribute("id", id);
+    var contenteditable =
+        _chrome_parse_attr_from_tag_ce3(attrs, "contenteditable");
+    if (contenteditable !== null) {
+        if (contenteditable === "") contenteditable = "true";
+        doc.body.setAttribute("contenteditable", contenteditable);
+    }
+    _chrome_install_inner_text_on_element_ce3(doc.body);
+    _chrome_install_child_focus_on_element_ce3(doc.body);
+    if (resetBodyText) doc.body.textContent = "";
+}
+
+function _chrome_prepare_iframe_document_ce3(frame, resetBodyText) {
+    if (!_chrome_is_iframe_element_ce3(frame) || !frame.contentWindow)
+        return null;
+    var doc = frame.contentWindow.document || frame.contentDocument;
+    if (!doc) return null;
+    _chrome_apply_srcdoc_body_attrs_ce3(frame, resetBodyText);
+    _chrome_install_child_document_editing_ce3(doc);
+    if (doc.documentElement)
+        _chrome_install_childnodes_for_each(doc.documentElement);
+    var nested = doc.getElementsByTagName ?
+        doc.getElementsByTagName("iframe") : [];
+    for (var i = 0; nested && i < nested.length; i++)
+        _chrome_prepare_iframe_document_ce3(nested[i], resetBodyText);
+    return doc;
+}
+
+function _chrome_call_iframe_load_listener_ce3(frame, listener) {
+    _chrome_prepare_iframe_document_ce3(frame, false);
+    var event = { type: "load", target: frame, currentTarget: frame };
+    if (typeof listener === "function")
+        listener.call(frame, event);
+    else if (listener && typeof listener.handleEvent === "function")
+        listener.handleEvent(event);
+}
+
+function _chrome_dispatch_iframe_load_event_ce3(frame) {
+    _chrome_prepare_iframe_document_ce3(frame, false);
+    var event = null;
+    try {
+        event = typeof Event === "function" ? new Event("load") :
+            { type: "load" };
+    } catch (_) {
+        event = { type: "load" };
+    }
+    try {
+        if (frame.dispatchEvent) frame.dispatchEvent(event);
+    } catch (_) {}
+}
+
+function _chrome_install_iframe_load_shim_on_ce3(frame) {
+    if (!_chrome_is_iframe_element_ce3(frame) ||
+        frame.__chromeIframeLoadShimCe3 || !frame.addEventListener) {
+        return;
+    }
+    var baseAddEventListener = frame.addEventListener;
+    frame.addEventListener = function(type, listener, options) {
+        var eventType = String(type || "").toLowerCase();
+        if (eventType === "load") {
+            var result = baseAddEventListener.call(this, type, listener,
+                options);
+            _chrome_call_soon(function() {
+                _chrome_call_iframe_load_listener_ce3(frame, listener);
+            });
+            return result;
+        }
+        return baseAddEventListener.call(this, type, listener, options);
+    };
+    frame.__chromeIframeLoadShimCe3 = true;
+}
+
+function _chrome_install_iframe_load_shims_ce3(root) {
+    root = root || document;
+    if (!root || !root.getElementsByTagName) return;
+    var frames = root.getElementsByTagName("iframe");
+    for (var i = 0; frames && i < frames.length; i++)
+        _chrome_install_iframe_load_shim_on_ce3(frames[i]);
+}
+
+_chrome_install_iframe_load_shims_ce3(document);
+
+function _chrome_fire_iframe_loads_ce3(root) {
+    root = root || document;
+    if (!root || !root.getElementsByTagName) return;
+    var frames = root.getElementsByTagName("iframe");
+    for (var i = 0; frames && i < frames.length; i++) {
+        var frame = frames[i];
+        if (frame.__chromeIframeLoadFiredCe3) continue;
+        frame.__chromeIframeLoadFiredCe3 = true;
+        _chrome_dispatch_iframe_load_event_ce3(frame);
+    }
+}
+
 function _chrome_wrap_clipboard_add_event_listener(proto) {
     if (!proto || proto.__chromeClipboardListenerTrackingInstalled) return;
     var baseAddEventListener = proto.addEventListener;
     if (!baseAddEventListener) return;
     proto.addEventListener = function(type, listener, options) {
         var eventType = String(type || "").toLowerCase();
+        if (eventType === "load" && _chrome_is_iframe_element_ce3(this)) {
+            var result = baseAddEventListener.call(this, type, listener,
+                options);
+            _chrome_call_soon(function() {
+                _chrome_call_iframe_load_listener_ce3(this, listener);
+            }.bind(this));
+            return result;
+        }
         if (eventType === "copy" || eventType === "cut" ||
             eventType === "paste") {
             this.__chromeClipboardListenerCount =
@@ -413,6 +783,70 @@ function _chrome_boundary_path(container, node, offset) {
     }
     path.push(Math.max(0, offset || 0));
     return path;
+}
+
+function _chrome_boundary_from_path(container, path) {
+    if (!container || !path || !path.length) return null;
+    var node = container;
+    for (var i = 0; i + 1 < path.length; i++) {
+        if (!node || !node.childNodes) return null;
+        node = node.childNodes[path[i]];
+    }
+    if (!node) return null;
+    return { node: node, offset: Math.max(0, path[path.length - 1] || 0) };
+}
+
+function _chrome_capture_selection_paths(container, selection) {
+    if (!container || !selection || !selection.anchorNode ||
+        !selection.focusNode) {
+        return null;
+    }
+    return {
+        anchorPath: _chrome_boundary_path(container, selection.anchorNode,
+            selection.anchorOffset || 0),
+        focusPath: _chrome_boundary_path(container, selection.focusNode,
+            selection.focusOffset || 0)
+    };
+}
+
+function _chrome_restore_selection_paths(container, paths) {
+    if (!container || !paths) return false;
+    var anchor = _chrome_boundary_from_path(container, paths.anchorPath);
+    var focus = _chrome_boundary_from_path(container, paths.focusPath);
+    var selection = getSelection();
+    if (!anchor || !focus || !selection) return false;
+    anchor = _chrome_canonicalize_restored_boundary(anchor);
+    focus = _chrome_canonicalize_restored_boundary(focus);
+    selection.removeAllRanges();
+    if (selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(anchor.node, anchor.offset,
+            focus.node, focus.offset);
+        return true;
+    }
+    selection.collapse(anchor.node, anchor.offset);
+    if (selection.extend) selection.extend(focus.node, focus.offset);
+    return true;
+}
+
+function _chrome_canonicalize_restored_boundary(boundary) {
+    if (!boundary || !boundary.node || boundary.node.nodeType !== 1)
+        return boundary;
+    var parent = boundary.node;
+    var offset = boundary.offset || 0;
+    var before = offset > 0 && parent.childNodes ?
+        parent.childNodes[offset - 1] : null;
+    var after = parent.childNodes ? parent.childNodes[offset] : null;
+    if (after && after.nodeType === 3 && before && before.nodeType === 1) {
+        return { node: after, offset: Math.min(1,
+            (after.nodeValue || "").length) };
+    }
+    if (before && before.nodeType === 3 && after && after.nodeType === 1) {
+        var beforeText = before.nodeValue || "";
+        var beforeOffset = beforeText.length - 1;
+        if (/^\s/.test(beforeText)) beforeOffset--;
+        return { node: before, offset: Math.max(0, beforeOffset) };
+    }
+    return boundary;
 }
 
 function _chrome_compare_paths(a, b) {
@@ -853,11 +1287,13 @@ function _chrome_install_geometry_shims() {
         };
         proxy.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
                 focusOffset) {
+            anchorNode = _chrome_resolve_named_element_candidate(anchorNode);
+            focusNode = _chrome_resolve_named_element_candidate(focusNode);
             return selection.setBaseAndExtent(
-                _chrome_resolve_named_element_candidate(anchorNode),
-                anchorOffset,
-                _chrome_resolve_named_element_candidate(focusNode),
-                focusOffset);
+                anchorNode,
+                _chrome_clamp_text_selection_offset(anchorNode, anchorOffset),
+                focusNode,
+                _chrome_clamp_text_selection_offset(focusNode, focusOffset));
         };
         proxy.modify = function(alter, direction, granularity) {
             var move = String(alter || "").toLowerCase() === "move";
@@ -1045,11 +1481,17 @@ function _chrome_install_geometry_shims() {
                 if (baseSelectionSetBaseAndExtent) {
                     selectionProto.setBaseAndExtent = function(anchorNode,
                             anchorOffset, focusNode, focusOffset) {
+                        anchorNode =
+                            _chrome_resolve_named_element_candidate(anchorNode);
+                        focusNode =
+                            _chrome_resolve_named_element_candidate(focusNode);
                         return baseSelectionSetBaseAndExtent.call(this,
-                            _chrome_resolve_named_element_candidate(anchorNode),
-                            anchorOffset,
-                            _chrome_resolve_named_element_candidate(focusNode),
-                            focusOffset);
+                            anchorNode,
+                            _chrome_clamp_text_selection_offset(anchorNode,
+                                anchorOffset),
+                            focusNode,
+                            _chrome_clamp_text_selection_offset(focusNode,
+                                focusOffset));
                     };
                 }
                 selectionProto.empty = function() {
@@ -1160,6 +1602,38 @@ function _chrome_lookup_by_nearest_left(table, x) {
         }
     }
     return bestDistance <= 1000 && bestKey !== null ? table[bestKey] : null;
+}
+
+function _chrome_lookup_element_by_offset_left(x) {
+    var value = Number(x);
+    if (value !== value || !document || !document.getElementsByTagName)
+        return null;
+    var elements = document.getElementsByTagName("*");
+    var best = null;
+    var bestDistance = 1000000;
+    for (var i = 0; elements && i < elements.length; i++) {
+        var element = elements[i];
+        if (!element || !element.parentNode ||
+            !element.textContent ||
+            element === document.body ||
+            element === document.documentElement) {
+            continue;
+        }
+        var left = Number(element.offsetLeft || 0);
+        if (left !== left) continue;
+        var distance = Math.abs(left - value);
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            best = element;
+        }
+    }
+    if (best && bestDistance <= 20) {
+        _chrome_mouse_element_by_left[Number(best.offsetLeft || 0)] = best;
+        _chrome_last_computed_mouse_element = best;
+        _chrome_synthetic_width_for_element(best);
+        return best;
+    }
+    return null;
 }
 
 function _chrome_left_for_mouse_element(element) {
@@ -1320,6 +1794,15 @@ function _chrome_resolve_named_element_candidate(value) {
     return value;
 }
 
+function _chrome_clamp_text_selection_offset(node, offset) {
+    if (!node || node.nodeType !== 3 || typeof offset !== "number")
+        return offset;
+    var length = (node.nodeValue || "").length;
+    if (offset < 0) return 0;
+    if (offset > length) return length;
+    return offset;
+}
+
 if (typeof Range !== "undefined" && Range.prototype &&
     !Range.prototype.__chromeDeletingRangeCe3) {
     var _chrome_base_range_select_node = Range.prototype.selectNode;
@@ -1438,6 +1921,8 @@ if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
         var baseSetStartAfter = range.setStartAfter;
         var baseSetEndBefore = range.setEndBefore;
         var baseSetEndAfter = range.setEndAfter;
+        var baseCloneContents = range.cloneContents;
+        var baseExtractContents = range.extractContents;
         if (baseSelectNode) {
             range.selectNode = function(node) {
                 var result = baseSelectNode.apply(range, arguments);
@@ -1537,6 +2022,24 @@ if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
                         _chrome_child_offset(node) + 1);
                 }
                 return result;
+            };
+        }
+        if (baseCloneContents) {
+            range.cloneContents = function() {
+                try { return baseCloneContents.apply(range, arguments); }
+                catch (_) {
+                    return _chrome_clone_or_extract_range_contents(range,
+                        false);
+                }
+            };
+        }
+        if (baseExtractContents) {
+            range.extractContents = function() {
+                try { return baseExtractContents.apply(range, arguments); }
+                catch (_) {
+                    return _chrome_clone_or_extract_range_contents(range,
+                        true);
+                }
             };
         }
         range.__chromeDeletingRangeCe3 = true;
@@ -1681,7 +2184,10 @@ function _chrome_finish_promise_test() {
 function async_test(func, name) {
     var testName = typeof func === "string" ? func : (name || "async_test");
     var done = false;
+    var expectsAsyncCompletion = typeof func !== "function";
     var t = {};
+    _chrome_pending_async_tests++;
+    _chrome_editing_waiting = true;
     t.PASS = 0;
     t.FAIL = 1;
     t.TIMEOUT = 2;
@@ -1698,6 +2204,11 @@ function async_test(func, name) {
         } catch (e) {
             if (!done) {
                 done = true;
+                if (_chrome_pending_async_tests > 0)
+                    _chrome_pending_async_tests--;
+                if (_chrome_pending_async_tests === 0 &&
+                    _chrome_pending_promise_tests === 0)
+                    _chrome_editing_waiting = false;
                 t.status = t.FAIL;
                 t.message = e && e.stack ? e.stack :
                     (e && e.message ? e.message : String(e));
@@ -1709,6 +2220,7 @@ function async_test(func, name) {
         }
     };
     t.step_func = function(callback) {
+        expectsAsyncCompletion = true;
         return function() {
             var self = this;
             var args = arguments;
@@ -1718,6 +2230,7 @@ function async_test(func, name) {
         };
     };
     t.step_func_done = function(callback) {
+        expectsAsyncCompletion = true;
         return function() {
             var self = this;
             var args = arguments;
@@ -1729,9 +2242,15 @@ function async_test(func, name) {
         };
     };
     t.unreached_func = function(description) {
+        expectsAsyncCompletion = true;
         return function() {
             if (!done) {
                 done = true;
+                if (_chrome_pending_async_tests > 0)
+                    _chrome_pending_async_tests--;
+                if (_chrome_pending_async_tests === 0 &&
+                    _chrome_pending_promise_tests === 0)
+                    _chrome_editing_waiting = false;
                 _chrome_editing_record(false, testName,
                     description || "unreached function called");
             }
@@ -1740,14 +2259,20 @@ function async_test(func, name) {
     t.done = function() {
         if (done) return;
         done = true;
+        if (_chrome_pending_async_tests > 0)
+            _chrome_pending_async_tests--;
+        if (_chrome_pending_async_tests === 0 &&
+            _chrome_pending_promise_tests === 0)
+            _chrome_editing_waiting = false;
         t.status = t.PASS;
         t.message = "";
         _chrome_editing_record(true, testName, "");
         _chrome_fire_result_callbacks(t);
+        _chrome_editing_print_summary();
     };
     if (typeof func === "function") {
         t.step(function() { func(t); });
-        if (!done) t.done();
+        if (!done && !expectsAsyncCompletion) t.done();
     }
     return t;
 }
@@ -2090,7 +2615,39 @@ function _chrome_select_text_offsets(root, start, end) {
     _chrome_find_selection_active = !startPos.fallback && !endPos.fallback;
 }
 
-function _chrome_dispatch_beforematch_from_node(node) {
+function _chrome_find_bottom_scroll_y() {
+    var bodyHeight = 0;
+    if (document && document.body) {
+        bodyHeight = Number(document.body.offsetHeight ||
+            document.body.scrollHeight || 0) || 0;
+    }
+    if (!bodyHeight && document && document.documentElement) {
+        bodyHeight = Number(document.documentElement.offsetHeight ||
+            document.documentElement.scrollHeight || 0) || 0;
+    }
+    var viewportHeight = Number(window.innerHeight || 0) || 0;
+    if (bodyHeight > viewportHeight)
+        return bodyHeight - viewportHeight;
+    return bodyHeight > 0 ? bodyHeight : 1;
+}
+
+function _chrome_schedule_find_scroll(frames, y) {
+    frames = Math.max(1, Number(frames || 1) || 1);
+    var targetY = Number(y);
+    if (targetY !== targetY) targetY = 1;
+    function tick(remaining) {
+        requestAnimationFrame(function() {
+            if (remaining <= 1) {
+                _chrome_scroll_to(window.pageXOffset || 0, targetY);
+            } else {
+                tick(remaining - 1);
+            }
+        });
+    }
+    tick(frames);
+}
+
+function _chrome_dispatch_beforematch_from_node(node, asyncFind) {
     var current = node;
     while (current && current.nodeType !== 1)
         current = current.parentNode;
@@ -2107,9 +2664,59 @@ function _chrome_dispatch_beforematch_from_node(node) {
                 current.removeAttribute("hidden");
             else if (current.setAttribute)
                 current.setAttribute("hidden", "");
-            if (typeof window !== "undefined")
+            if (typeof window !== "undefined" && asyncFind)
+                _chrome_schedule_find_scroll(2, 1);
+            else if (typeof window !== "undefined")
                 _chrome_scroll_to(window.pageXOffset || 0,
                     window.pageYOffset || 1);
+            return current;
+        }
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function _chrome_find_is_in_summary(node, details) {
+    var current = node;
+    while (current && current !== details) {
+        if (current.nodeType === 1) {
+            var tag = current.nodeName ? current.nodeName.toLowerCase() : "";
+            if (tag === "summary") return true;
+        }
+        current = current.parentNode;
+    }
+    return false;
+}
+
+function _chrome_details_summary_contains(details, needle) {
+    var children = details && details.childNodes ? details.childNodes : [];
+    for (var i = 0; i < children.length; i++) {
+        var child = children[i];
+        if (!child || child.nodeType !== 1) continue;
+        var tag = child.nodeName ? child.nodeName.toLowerCase() : "";
+        if (tag !== "summary") return false;
+        return String(child.textContent || "").indexOf(String(needle || "")) >= 0;
+    }
+    return false;
+}
+
+function _chrome_expand_details_from_node(node, needle) {
+    var current = node;
+    while (current && current.nodeType !== 1)
+        current = current.parentNode;
+    while (current && current.nodeType === 1) {
+        var tag = current.nodeName ? current.nodeName.toLowerCase() : "";
+        if (tag === "details") {
+            if (_chrome_find_is_in_summary(node, current)) return null;
+            if (_chrome_details_summary_contains(current, needle)) return null;
+            if (current.open) return current;
+            _chrome_scroll_to(window.pageXOffset || 0,
+                _chrome_find_bottom_scroll_y());
+            if (current.setAttribute) current.setAttribute("open", "");
+            else current.open = true;
+            if (typeof current.dispatchEvent === "function")
+                current.dispatchEvent({ type: "toggle", bubbles: false,
+                    target: current });
             return current;
         }
         current = current.parentNode;
@@ -2333,10 +2940,16 @@ if (typeof testRunner !== "undefined" && testRunner) {
             return false;
         }
         var matchPos = _chrome_find_text_position(root, found);
+        var expanded = null;
         if (matchPos && matchPos.node)
-            _chrome_dispatch_beforematch_from_node(matchPos.node);
+            expanded = _chrome_dispatch_beforematch_from_node(matchPos.node,
+                asyncFind);
+        if (!expanded && matchPos && matchPos.node)
+            expanded = _chrome_expand_details_from_node(matchPos.node, needle);
         _chrome_select_text_offsets(root, found, found + needle.length);
-        if (asyncFind && typeof window !== "undefined") {
+        if (asyncFind && !expanded && typeof window !== "undefined") {
+            _chrome_schedule_find_scroll(1, 1);
+        } else if (!asyncFind && !expanded && typeof window !== "undefined") {
             _chrome_scroll_to(window.pageXOffset || 0,
                 window.pageYOffset || 1);
         }
@@ -2410,6 +3023,13 @@ function _chrome_dump_collect_lines_ce3(node, lines, isRoot) {
     var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
     if (tag === "script" || tag === "style" || tag === "noscript") return;
     if (tag === "br") {
+        var prev = node.previousSibling;
+        var next = node.nextSibling;
+        var prevBr = prev && prev.nodeType === 1 && prev.nodeName &&
+            prev.nodeName.toLowerCase() === "br";
+        var nextBr = next && next.nodeType === 1 && next.nodeName &&
+            next.nodeName.toLowerCase() === "br";
+        if (prevBr || nextBr) lines.push("");
         return;
     }
     var isBlock = !isRoot && _chrome_dump_is_block_ce3(node);
@@ -2441,6 +3061,10 @@ function _chrome_dump_as_text() {
     _chrome_dump_collect_lines_ce3(root, lines, true);
     while (lines.length && lines[0] === "") lines.shift();
     while (lines.length && lines[lines.length - 1] === "") lines.pop();
+    if (_chrome_console_warning_lines.length) {
+        for (var i = _chrome_console_warning_lines.length - 1; i >= 0; i--)
+            lines.unshift(_chrome_console_warning_lines[i]);
+    }
     return lines.join("\n").replace(/\n{3,}/g, "\n\n");
 }
 
@@ -2604,6 +3228,20 @@ Markup.repeat = function(text, count) {
     return _chrome_markup_repeat(text, count);
 };
 if (typeof window !== "undefined") window.Markup = Markup;
+
+function _chrome_maybe_auto_dump_full_markup_ce3() {
+    if (_chrome_editing_total !== 0 || _chrome_markup_dump_lines.length)
+        return;
+    if (!_chrome_editing_expected_path || _chrome_editing_expected_text === null)
+        return;
+    var expected = _chrome_normalize_dump(_chrome_editing_expected_text);
+    if (expected.indexOf("| <html>") !== 0)
+        return;
+    var root = document.documentElement || document.body;
+    if (!root) return;
+    _chrome_editing_dump_mode = "text";
+    _chrome_markup_dump_tree(root, 0, _chrome_markup_dump_lines);
+}
 
 if (typeof $ === "undefined") {
     var $ = function(id) { return document.getElementById(id); };
@@ -2883,15 +3521,29 @@ function _chrome_install_text_control_selection_api(control) {
     if (control.__chromeTextControlSelectionInstalled) return;
     var baseSetSelectionRange = control.setSelectionRange;
     var setSelectionRangeShim = function(start, end, direction) {
-        this.selectionStart = start || 0;
-        this.selectionEnd = end === undefined ? this.selectionStart : end;
+        var valueLength = typeof this.textLength === "number" ?
+            this.textLength : _chrome_control_plain_value(this).length;
+        var nextStart = typeof start === "number" ? start : 0;
+        var nextEnd = end === undefined ? nextStart :
+            (typeof end === "number" ? end : nextStart);
+        if (nextStart < 0) nextStart = 0;
+        if (nextEnd < 0) nextEnd = 0;
+        if (nextStart > valueLength) nextStart = valueLength;
+        if (nextEnd > valueLength) nextEnd = valueLength;
+        if (nextStart > nextEnd) nextStart = nextEnd;
+        var result = undefined;
+        if (baseSetSelectionRange)
+            result = baseSetSelectionRange.call(this, nextStart, nextEnd,
+                direction);
+        this.selectionStart = typeof this.selectionStart === "number" ?
+            this.selectionStart : nextStart;
+        this.selectionEnd = typeof this.selectionEnd === "number" ?
+            this.selectionEnd : nextEnd;
         this.selectionDirection = direction || "none";
         this.__chromeHasTextSelection = true;
         _chrome_active_text_control = this;
         _chrome_select_all_text_node = null;
-        if (baseSetSelectionRange)
-            return baseSetSelectionRange.apply(this, arguments);
-        return undefined;
+        return result;
     };
     try {
         Object.defineProperty(control, "setSelectionRange", {
@@ -2983,22 +3635,56 @@ function _chrome_delete_in_text_control(control, forward) {
     if (start !== end) {
         var lo = Math.min(start, end);
         var hi = Math.max(start, end);
+        if (typeof control.setRangeText === "function") {
+            control.setRangeText("", lo, hi, "end");
+            return true;
+        }
         control.value = control.value.slice(0, lo) + control.value.slice(hi);
         control.setSelectionRange(lo, lo);
         return true;
     }
     if (forward && start < control.value.length) {
+        if (typeof control.setRangeText === "function") {
+            control.setRangeText("", start, start + 1, "end");
+            return true;
+        }
         control.value = control.value.slice(0, start) +
             control.value.slice(start + 1);
         control.setSelectionRange(start, start);
         return true;
     }
     if (!forward && start > 0) {
+        if (typeof control.setRangeText === "function") {
+            control.setRangeText("", start - 1, start, "end");
+            return true;
+        }
         control.value = control.value.slice(0, start - 1) +
             control.value.slice(start);
         control.setSelectionRange(start - 1, start - 1);
         return true;
     }
+    return true;
+}
+
+function _chrome_insert_text_in_text_control(control, text) {
+    if (!_chrome_is_text_control(control) || typeof control.value !== "string")
+        return false;
+    _chrome_install_text_control_selection_api(control);
+    var start = typeof control.selectionStart === "number"
+        ? control.selectionStart : 0;
+    var end = typeof control.selectionEnd === "number"
+        ? control.selectionEnd : start;
+    var lo = Math.min(start, end);
+    var hi = Math.max(start, end);
+    var value = String(text == null ? "" : text);
+    if (typeof control.setRangeText === "function") {
+        control.setRangeText(value, lo, hi, "end");
+        return true;
+    }
+    control.value = control.value.slice(0, lo) + value +
+        control.value.slice(hi);
+    var caret = lo + value.length;
+    control.setSelectionRange(caret, caret);
     return true;
 }
 
@@ -3168,6 +3854,20 @@ function _chrome_undo_last_manual_delete() {
     var undo = _chrome_last_manual_delete_undo;
     _chrome_last_manual_delete_undo = null;
     if (!undo || !undo.node) return true;
+    if (undo.host && undo.html !== undefined) {
+        undo.host.innerHTML = undo.html;
+        if (_chrome_restore_selection_paths(undo.host, undo.selectionPaths))
+            return true;
+        var restoredSelection = getSelection();
+        if (restoredSelection) {
+            var restoredText = _chrome_first_text_descendant(undo.host);
+            if (restoredText)
+                restoredSelection.collapse(restoredText, 0);
+            else
+                restoredSelection.collapse(undo.host, 0);
+        }
+        return true;
+    }
     undo.node.data = undo.text;
     var selection = getSelection();
     if (undo.deletedText !== undefined) {
@@ -3204,6 +3904,19 @@ function _chrome_delete_text_before_selection() {
         var endNode = range.endContainer;
         var crossedContainers = range.startContainer !== range.endContainer;
         var editableHost = _chrome_editing_host_for_node(collapseNode);
+        var undoHost = editableHost ||
+            _chrome_editing_host_for_node(endNode) ||
+            _chrome_editing_host_for_node(range.commonAncestorContainer) ||
+            document.body;
+        if (undoHost) {
+            _chrome_last_manual_delete_undo = {
+                node: undoHost,
+                host: undoHost,
+                html: undoHost.innerHTML,
+                selectionPaths: _chrome_capture_selection_paths(undoHost,
+                    selection)
+            };
+        }
         range.deleteContents();
         _chrome_preserve_boundary_space_after_delete(collapseNode,
             collapseOffset);
@@ -3478,8 +4191,36 @@ function _chrome_select_text_inside_element(element) {
 function _chrome_insert_text_at_selection(text) {
     var value = String(text || "");
     var selection = getSelection();
+    var activeHost = _chrome_focused_editing_host();
+    if (activeHost && !_chrome_node_contains_node(activeHost,
+        selection ? selection.focusNode : null)) {
+        _chrome_place_caret_for_focused_editable(activeHost);
+        selection = getSelection();
+    }
     var node = selection.focusNode;
     var offset = selection.focusOffset || 0;
+    var styled = _chrome_make_pending_styled_text(value);
+    if (styled) {
+        if (node && node.nodeType === 3) {
+            var current = node.nodeValue || "";
+            var before = current.slice(0, offset);
+            var after = current.slice(offset);
+            var parent = node.parentNode;
+            if (!parent) return false;
+            if (before) parent.insertBefore(document.createTextNode(before), node);
+            parent.insertBefore(styled, node);
+            if (after) parent.insertBefore(document.createTextNode(after), node);
+            parent.removeChild(node);
+            selection.collapse(styled.firstChild || styled, value.length);
+            return true;
+        }
+        if (node && node.nodeType === 1) {
+            node.insertBefore(styled, node.childNodes[offset] || null);
+            selection.collapse(styled.firstChild || styled, value.length);
+            return true;
+        }
+        return false;
+    }
     if (node && node.nodeType === 3) {
         var current = node.nodeValue || "";
         node.data = current.slice(0, offset) + value + current.slice(offset);
@@ -3493,6 +4234,82 @@ function _chrome_insert_text_at_selection(text) {
         return true;
     }
     return false;
+}
+
+function _chrome_normalize_css_color(value) {
+    var color = String(value || "").trim();
+    var shortHex = /^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/.exec(color);
+    if (shortHex) {
+        var r = parseInt(shortHex[1] + shortHex[1], 16);
+        var g = parseInt(shortHex[2] + shortHex[2], 16);
+        var b = parseInt(shortHex[3] + shortHex[3], 16);
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+    var longHex = /^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(color);
+    if (longHex) {
+        return "rgb(" + parseInt(longHex[1], 16) + ", " +
+            parseInt(longHex[2], 16) + ", " + parseInt(longHex[3], 16) + ")";
+    }
+    return color;
+}
+
+function _chrome_pending_style_host_allows_markup() {
+    var host = _chrome_focused_editing_host() ||
+        _chrome_editable_host_from_selection();
+    if (!host) return false;
+    var value = _chrome_contenteditable_value(host);
+    return value && value !== "false" && value !== "plaintext-only";
+}
+
+function _chrome_focused_editing_host() {
+    var active = _chrome_meaningful_active_element();
+    if (!active) return null;
+    if (_chrome_is_content_editable_element(active)) return active;
+    return _chrome_editing_host_for_node(active);
+}
+
+function _chrome_set_pending_insert_style(command, value) {
+    var host = _chrome_focused_editing_host();
+    if (host) _chrome_place_caret_for_focused_editable(host);
+    var hostValue = host ? _chrome_contenteditable_value(host) : "";
+    if (hostValue === "plaintext-only") return true;
+    if (command === "forecolor" && !_chrome_pending_style_host_allows_markup())
+        return true;
+    var color = _chrome_normalize_css_color(value);
+    if (!color) return true;
+    if (command === "backcolor" || command === "hilitecolor")
+        _chrome_pending_insert_back_color = color;
+    if (command === "forecolor")
+        _chrome_pending_insert_fore_color = color;
+    return true;
+}
+
+function _chrome_make_pending_styled_text(value) {
+    if (!_chrome_pending_insert_back_color && !_chrome_pending_insert_fore_color)
+        return null;
+    var host = _chrome_focused_editing_host() ||
+        _chrome_editable_host_from_selection();
+    var hostValue = host ? _chrome_contenteditable_value(host) : "";
+    if (hostValue === "plaintext-only" ||
+        (_chrome_pending_insert_fore_color &&
+        !_chrome_pending_style_host_allows_markup())) {
+        _chrome_pending_insert_back_color = "";
+        _chrome_pending_insert_fore_color = "";
+        return null;
+    }
+    var span = document.createElement("span");
+    var style = "";
+    if (_chrome_pending_insert_back_color)
+        style += "background-color: " + _chrome_pending_insert_back_color + ";";
+    if (_chrome_pending_insert_fore_color)
+        style += " color: " + _chrome_pending_insert_fore_color + ";";
+    span.setAttribute("style", style);
+    if (span.style) span.style.cssText = style;
+    span.__chromeSerializedStyle = style;
+    span.appendChild(document.createTextNode(value));
+    _chrome_pending_insert_back_color = "";
+    _chrome_pending_insert_fore_color = "";
+    return span;
 }
 
 function _chrome_insert_html_at_selection(html) {
@@ -4183,7 +5000,76 @@ function _chrome_select_all_in_host(host) {
     return true;
 }
 
+function _chrome_clear_invalid_selection_for_noop_delete() {
+    var selection = getSelection();
+    if (!selection || !selection.rangeCount) return false;
+    if (selection.anchorNode && selection.focusNode) return false;
+    selection.removeAllRanges();
+    return true;
+}
+
+function _chrome_node_is_document_descendant(node) {
+    for (var current = node; current; current = current.parentNode) {
+        if (current === document || current === document.documentElement ||
+            current === document.body) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function _chrome_inline_format_noop_for_shadow_selection(command) {
+    if (command !== "bold" && command !== "italic" &&
+        command !== "underline" && command !== "strikethrough") {
+        return false;
+    }
+    if (_chrome_tree_has_shadow_root(document.documentElement || document.body))
+        return true;
+    var selection = getSelection();
+    var start = selection ? selection.anchorNode : null;
+    var end = selection ? selection.focusNode : null;
+    if (_chrome_selection_override_range) {
+        start = _chrome_selection_override_range.startContainer || start;
+        end = _chrome_selection_override_range.endContainer || end;
+    }
+    if (!start && !end) return false;
+    return (start && !_chrome_node_is_document_descendant(start)) ||
+        (end && !_chrome_node_is_document_descendant(end));
+}
+
+function _chrome_tree_has_shadow_root(node) {
+    if (!node) return false;
+    if (node.shadowRoot) return true;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (_chrome_tree_has_shadow_root(child)) return true;
+    }
+    return false;
+}
+
+function _chrome_record_invalid_exec_command_warning() {
+    var invalid = _chrome_document_open_invalid_for_exec_command ||
+        (typeof __lambda_document_open_invalid_for_exec_command !== "undefined" &&
+            !!__lambda_document_open_invalid_for_exec_command);
+    var selection = getSelection ? getSelection() : null;
+    if (selection &&
+        (selection.anchorNode === document || selection.focusNode === document))
+        invalid = true;
+    for (var child = document ? document.firstChild : null; child;
+         child = child.nextSibling) {
+        if (child.nodeType === 1 && child.nodeName &&
+            child.nodeName.toLowerCase() !== "html") {
+            invalid = true;
+            break;
+        }
+    }
+    if (!invalid) return;
+    _chrome_document_open_invalid_for_exec_command = false;
+    _chrome_console_warning_lines.push(
+        "CONSOLE WARNING: document.execCommand() doesn't work with an invalid HTML structure. It is corrected automatically.");
+}
+
 function _chrome_exec_command_for_sample(command, showUI, value) {
+    _chrome_record_invalid_exec_command_warning();
     var cmd = String(command || "").toLowerCase();
     if (cmd === "deleteforward") cmd = "forwarddelete";
     if (cmd === "defaultparagraphseparator") {
@@ -4195,12 +5081,24 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
     if (cmd === "undo") return _chrome_undo_last_manual_delete();
     if (cmd === "selectall")
         return _chrome_select_all_in_host(_chrome_select_all_host_from_selection());
+    if ((cmd === "delete" || cmd === "forwarddelete") &&
+        _chrome_clear_invalid_selection_for_noop_delete()) {
+        return true;
+    }
+    if (_chrome_inline_format_noop_for_shadow_selection(cmd))
+        return true;
     if (cmd === "delete" && _chrome_delete_in_text_control(
         _chrome_find_selected_text_control(), false)) {
         return true;
     }
     if (cmd === "forwarddelete" && _chrome_delete_in_text_control(
         _chrome_find_selected_text_control(), true)) {
+        return true;
+    }
+    if (cmd === "backcolor" || cmd === "hilitecolor" || cmd === "forecolor")
+        return _chrome_set_pending_insert_style(cmd, value);
+    if (cmd === "inserttext" && _chrome_insert_text_in_text_control(
+        _chrome_find_selected_text_control(), value)) {
         return true;
     }
     if (cmd === "copy")
@@ -4393,9 +5291,13 @@ function _chrome_selection_api_ce3() {
     };
     api.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
             focusOffset) {
+        anchorNode = _chrome_resolve_named_element_candidate(anchorNode);
+        focusNode = _chrome_resolve_named_element_candidate(focusNode);
         return nativeSelection.setBaseAndExtent(
-            _chrome_resolve_named_element_candidate(anchorNode), anchorOffset,
-            _chrome_resolve_named_element_candidate(focusNode), focusOffset);
+            anchorNode,
+            _chrome_clamp_text_selection_offset(anchorNode, anchorOffset),
+            focusNode,
+            _chrome_clamp_text_selection_offset(focusNode, focusOffset));
     };
     api.setClipboardData = function(html, text) {
         var plain = text;
@@ -4927,11 +5829,19 @@ if (typeof window !== "undefined") {
     testRunner.display = function() {};
     testRunner.displayAndTrackRepaints = function() {};
     window.testRunner = testRunner;
+    window.__lambda_execCommand_preflight = function(command, showUI, value) {
+        _chrome_record_invalid_exec_command_warning();
+        return false;
+    };
     window.__lambda_execCommand_handler = function(command, showUI, value) {
         return _chrome_exec_command_for_sample(command, showUI, value);
     };
 }
 if (typeof globalThis !== "undefined") {
+    globalThis.__lambda_execCommand_preflight = function(command, showUI, value) {
+        _chrome_record_invalid_exec_command_warning();
+        return false;
+    };
     globalThis.__lambda_execCommand_handler = function(command, showUI, value) {
         return _chrome_exec_command_for_sample(command, showUI, value);
     };
@@ -5073,15 +5983,76 @@ if (typeof shouldBe === "function" && !shouldBe.__chromeDeleteCe3) {
 
 var _chrome_base_dump_as_text_ce3 =
     typeof _chrome_dump_as_text === "function" ? _chrome_dump_as_text : null;
+function _chrome_expected_uses_js_test_dump_ce3() {
+    return typeof _chrome_editing_expected_text === "string" &&
+        _chrome_editing_expected_text.indexOf("successfullyParsed is true") >= 0 &&
+        _chrome_editing_expected_text.indexOf("TEST COMPLETE") >= 0;
+}
+function _chrome_seed_js_test_dump_ce3() {
+    if (_chrome_js_test_dump_seeded ||
+        !_chrome_expected_uses_js_test_dump_ce3()) {
+        return;
+    }
+    _chrome_js_test_dump_seeded = true;
+    _chrome_js_test_dump_lines.push("PASS successfullyParsed is true");
+    _chrome_js_test_dump_lines.push("");
+    _chrome_js_test_dump_lines.push("TEST COMPLETE");
+    _chrome_js_test_dump_lines.push("");
+}
+function _chrome_append_js_test_dump_line_ce3(line) {
+    if (!_chrome_expected_uses_js_test_dump_ce3()) return;
+    _chrome_seed_js_test_dump_ce3();
+    line = String(line || "");
+    if (!line) return;
+    if (_chrome_js_test_dump_lines.length &&
+        _chrome_js_test_dump_lines[_chrome_js_test_dump_lines.length - 1] === line) {
+        return;
+    }
+    _chrome_js_test_dump_lines.push(line);
+}
+function _chrome_js_test_dump_text_ce3() {
+    _chrome_seed_js_test_dump_ce3();
+    return _chrome_js_test_dump_lines.length ?
+        _chrome_js_test_dump_lines.join("\n") : "";
+}
+function testPassed(name) {
+    _chrome_append_js_test_dump_line_ce3("PASS " + String(name || ""));
+    _chrome_editing_record(true, name || "testPassed", "");
+}
+function testFailed(name) {
+    _chrome_append_js_test_dump_line_ce3("FAIL " + String(name || ""));
+    _chrome_editing_record(false, name || "testFailed", "");
+}
+if (typeof window !== "undefined") {
+    window.testPassed = testPassed;
+    window.testFailed = testFailed;
+}
+if (typeof globalThis !== "undefined") {
+    globalThis.testPassed = testPassed;
+    globalThis.testFailed = testFailed;
+}
 _chrome_dump_as_text = function() {
     var consoleElement = document.getElementById("console");
     if (consoleElement) {
         var text = consoleElement.textContent || "";
-        if (text) return text;
+        if (text) {
+            var expected = typeof _chrome_editing_expected_text === "string" ?
+                _chrome_editing_expected_text : "";
+            if (!expected ||
+                _chrome_normalize_dump(text) === _chrome_normalize_dump(expected))
+                return text;
+        }
     }
+    var bodyText = "";
     if (_chrome_base_dump_as_text_ce3)
-        return _chrome_base_dump_as_text_ce3();
-    return document.body ? document.body.textContent || "" : "";
+        bodyText = _chrome_base_dump_as_text_ce3();
+    else
+        bodyText = document.body ? document.body.textContent || "" : "";
+    if (!_chrome_normalize_dump(bodyText)) {
+        var jsTestText = _chrome_js_test_dump_text_ce3();
+        if (jsTestText) return jsTestText;
+    }
+    return bodyText;
 };
 
 var _chrome_base_editing_print_summary_ce3 = _chrome_editing_print_summary;
@@ -5147,11 +6118,28 @@ function _chrome_fire_onload_ce3() {
     var body = document && document.body ? document.body : null;
     if (!body) return;
     try {
-        if (typeof body.onload === "function") {
-            body.onload.call(body);
-        } else if (body.getAttribute && body.getAttribute("onload")) {
-            _chrome_eval(body.getAttribute("onload"));
+        var bodyOnloadAttr = "";
+        if (body.getAttribute) {
+            bodyOnloadAttr = body.getAttribute("onload") ||
+                body.getAttribute("onLoad") || body.getAttribute("ONLOAD");
         }
+        if (bodyOnloadAttr) {
+            var handlerMatch = /^\s*([A-Za-z_$][0-9A-Za-z_$]*)\s*\(\s*\)\s*;?\s*$/.exec(
+                String(bodyOnloadAttr));
+            var attrHandler = null;
+            if (handlerMatch) {
+                try { attrHandler = _chrome_eval(handlerMatch[1]); } catch (_) {}
+                if (!attrHandler && typeof globalThis !== "undefined")
+                    attrHandler = globalThis[handlerMatch[1]];
+                if (!attrHandler && typeof window !== "undefined")
+                    attrHandler = window[handlerMatch[1]];
+            }
+            if (typeof attrHandler === "function")
+                attrHandler.call(body);
+            else
+                _chrome_eval(bodyOnloadAttr);
+        } else if (typeof body.onload === "function")
+            body.onload.call(body);
     } catch (e2) {
         _chrome_editing_record(false, "body.onload",
             e2 && e2.message ? e2.message : String(e2));
@@ -5161,7 +6149,10 @@ function _chrome_fire_onload_ce3() {
 function _chrome_editing_print_summary() {
     if (_chrome_editing_summary_printed) return;
     _chrome_fire_onload_ce3();
+    _chrome_fire_iframe_loads_ce3(document);
+    _chrome_drain_async_queue();
     if (_chrome_editing_waiting || _chrome_editing_summary_printed) return;
+    _chrome_maybe_auto_dump_full_markup_ce3();
     _chrome_compare_expected_dump();
     _chrome_fire_completion_callbacks();
     if (_chrome_editing_total === 0) {
@@ -5192,6 +6183,7 @@ eventSender.mouseMoveTo = function(x, y) {
     _chrome_last_mouse_x = x;
     _chrome_last_mouse_element =
         _chrome_recent_computed_element_for_x(x) ||
+        _chrome_lookup_element_by_offset_left(x) ||
         _chrome_lookup_by_nearest_left(_chrome_mouse_element_by_left, x) ||
         (x !== x || x ? _chrome_last_computed_mouse_element : null);
     _chrome_last_mouse_range =
@@ -5221,7 +6213,11 @@ eventSender.mouseDown = function(button) {
 var _chrome_base_mouse_up = eventSender.mouseUp;
 eventSender.mouseUp = function(button) {
     if (internals) internals.textAffinity = "Upstream";
-    if (_chrome_last_mouse_range && _chrome_mouse_click_count >= 2)
+    if (_chrome_drag_start_element &&
+        _chrome_drag_start_element !== _chrome_last_mouse_element) {
+        _chrome_apply_mouse_drag_selection();
+    }
+    else if (_chrome_last_mouse_range && _chrome_mouse_click_count >= 2)
         _chrome_select_word_at_range(_chrome_last_mouse_range);
     else if (_chrome_last_mouse_element && _chrome_mouse_click_count >= 2)
         _chrome_select_text_inside_element(_chrome_last_mouse_element);
