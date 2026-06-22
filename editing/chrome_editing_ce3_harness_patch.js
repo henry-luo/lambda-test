@@ -1350,6 +1350,11 @@ function _chrome_install_geometry_shims() {
             if (extend && character)
                 _chrome_adjust_extend_character_after_modify(selection,
                     direction, beforeNode, beforeOffset);
+            if (extend && lineboundary &&
+                _chrome_lineboundary_moves_to_line_start(direction,
+                    beforeNode))
+                _chrome_adjust_extend_lineboundary_anchor_after_modify(
+                    selection, beforeNode, beforeOffset);
             if (extend && forward && word)
                 _chrome_adjust_extend_word_from_pre_boundary(selection);
             return result;
@@ -4909,6 +4914,89 @@ function _chrome_extend_focus_to(selection, node, offset) {
     return false;
 }
 
+function _chrome_inline_boundary_element(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return false;
+    var tag = node.nodeName.toLowerCase();
+    return tag === "a" || tag === "b" || tag === "big" ||
+        tag === "cite" || tag === "code" || tag === "em" ||
+        tag === "font" || tag === "i" || tag === "s" ||
+        tag === "small" || tag === "span" || tag === "strike" ||
+        tag === "strong" || tag === "sub" || tag === "sup" ||
+        tag === "u";
+}
+
+function _chrome_adjust_extend_lineboundary_anchor_after_modify(selection,
+        beforeNode, beforeOffset) {
+    if (!selection || !beforeNode || !selection.setBaseAndExtent ||
+        !selection.focusNode) {
+        return false;
+    }
+    var focusNode = selection.focusNode;
+    var focusOffset = selection.focusOffset || 0;
+    if (beforeNode.nodeType === 3 && beforeOffset === 0) {
+        var previousInline = beforeNode.previousSibling;
+        var parent = beforeNode.parentNode;
+        var parentOffset = parent ? _chrome_node_child_index(beforeNode) : -1;
+        var atTextStart = selection.anchorNode === beforeNode &&
+            (selection.anchorOffset || 0) === 0;
+        var atParentStart = parent && selection.anchorNode === parent &&
+            (selection.anchorOffset || 0) === parentOffset;
+        if (_chrome_inline_boundary_element(previousInline) &&
+            (atTextStart || atParentStart)) {
+            var previousText = _chrome_last_text_descendant(previousInline);
+            if (previousText) {
+                selection.setBaseAndExtent(previousText,
+                    (previousText.nodeValue || "").length, focusNode,
+                    focusOffset);
+                return true;
+            }
+        }
+        var inlineParent = beforeNode.parentNode;
+        if (_chrome_inline_boundary_element(inlineParent) &&
+            (atTextStart || atParentStart)) {
+            var beforeBoundary =
+                _chrome_selection_boundary_for_mouse_element(inlineParent,
+                    false);
+            if (beforeBoundary) {
+                selection.setBaseAndExtent(beforeBoundary.node,
+                    beforeBoundary.offset, focusNode, focusOffset);
+                return true;
+            }
+        }
+    }
+    if (beforeNode.nodeType === 1 &&
+        selection.anchorNode === beforeNode &&
+        (selection.anchorOffset || 0) === beforeOffset &&
+        beforeOffset > 0 && beforeNode.childNodes) {
+        var previous = beforeNode.childNodes[beforeOffset - 1];
+        if (_chrome_inline_boundary_element(previous)) {
+            var lastText = _chrome_last_text_descendant(previous);
+            if (lastText) {
+                selection.setBaseAndExtent(lastText,
+                    (lastText.nodeValue || "").length, focusNode,
+                    focusOffset);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function _chrome_lineboundary_moves_to_line_start(direction, node) {
+    var lower = String(direction || "").toLowerCase();
+    if (lower === "backward") return true;
+    if (lower !== "left" && lower !== "right") return false;
+    var host = _chrome_editing_host_for_node(node);
+    var dir = host && host.getAttribute ?
+        String(host.getAttribute("dir") || "").toLowerCase() : "";
+    if (!dir && document && document.documentElement &&
+        document.documentElement.getAttribute) {
+        dir = String(document.documentElement.getAttribute("dir") || "")
+            .toLowerCase();
+    }
+    return dir === "rtl" ? lower === "right" : lower === "left";
+}
+
 function _chrome_adjust_extend_character_after_modify(selection, direction,
         beforeNode, beforeOffset) {
     if (!selection || selection.__chromeExtendCharacterAdjusted)
@@ -5277,6 +5365,10 @@ function _chrome_selection_api_ce3() {
         if (extend && character)
             _chrome_adjust_extend_character_after_modify(nativeSelection,
                 direction, beforeNode, beforeOffset);
+        if (extend && lineboundary &&
+            _chrome_lineboundary_moves_to_line_start(direction, beforeNode))
+            _chrome_adjust_extend_lineboundary_anchor_after_modify(
+                nativeSelection, beforeNode, beforeOffset);
         if (extend && forward && word)
             _chrome_adjust_extend_word_from_pre_boundary(nativeSelection);
         return result;
