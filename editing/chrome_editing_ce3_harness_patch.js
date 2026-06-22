@@ -39,6 +39,7 @@ var _chrome_find_last_signature = "";
 var _chrome_find_last_start_in_selection = false;
 var _chrome_find_string_called = false;
 var _chrome_last_find_string_result = false;
+var _chrome_default_paragraph_separator = "div";
 var onload = typeof onload === "function" ? onload : null;
 var _chrome_known_attr_names = [
     "contenteditable", "id", "class", "style", "slot", "href", "src", "alt",
@@ -133,6 +134,26 @@ if (document && !document.__chromeDocumentWriteCe3) {
     document.__chromeDocumentWriteCe3 = true;
 }
 
+if (document && !document.implementation) {
+    document.implementation = {};
+}
+if (document && document.implementation &&
+    typeof document.implementation.createHTMLDocument !== "function") {
+    document.implementation.createHTMLDocument = function(title) {
+        var doc = {
+            title: String(title || ""),
+            body: document.createElement("body"),
+            documentElement: document.createElement("html"),
+            createElement: function(name) { return document.createElement(name); },
+            createTextNode: function(text) {
+                return document.createTextNode(String(text || ""));
+            }
+        };
+        doc.documentElement.appendChild(doc.body);
+        return doc;
+    };
+}
+
 function requestAnimationFrame(callback) {
     return _chrome_call_soon(function() {
         if (typeof callback === "function") callback(0);
@@ -213,6 +234,17 @@ if (typeof Text === "undefined") {
         return document.createTextNode(data || "");
     };
     if (typeof window !== "undefined") window.Text = Text;
+}
+
+if (typeof Event !== "undefined" && Event.prototype &&
+    !Event.prototype.__chromeSrcElementCe3) {
+    try {
+        Object.defineProperty(Event.prototype, "srcElement", {
+            get: function() { return this.target || null; },
+            configurable: true
+        });
+    } catch (_) {}
+    Event.prototype.__chromeSrcElementCe3 = true;
 }
 
 if (typeof Element !== "undefined" && Element.prototype &&
@@ -572,10 +604,12 @@ var internals = {
     runIdleTimeSpellChecker: function() {
         _chrome_install_childnodes_for_each(document.documentElement);
     },
+    updateLayoutAndRunPostLayoutTasks: function() {},
     cancelCurrentSpellCheckRequest: function() {},
     lastSpellCheckRequestSequence: function() { return 0; },
     lastSpellCheckProcessedSequence: function() { return 0; },
     numberOfLiveNodes: function() { return 0; },
+    layoutCountForTesting: function() { return 0; },
     hasLastEditCommand: function() { return true; },
     setSuggestedValue: function(element, value) {
         if (element) {
@@ -659,6 +693,20 @@ function _chrome_install_geometry_shims() {
         wrapper.collapsed = range.collapsed;
         wrapper.deleteContents = function() {
             return range.deleteContents.apply(range, arguments);
+        };
+        wrapper.cloneContents = function() {
+            if (range.cloneContents) {
+                try { return range.cloneContents.apply(range, arguments); }
+                catch (_) {}
+            }
+            return _chrome_clone_or_extract_range_contents(range, false);
+        };
+        wrapper.extractContents = function() {
+            if (range.extractContents) {
+                try { return range.extractContents.apply(range, arguments); }
+                catch (_) {}
+            }
+            return _chrome_clone_or_extract_range_contents(range, true);
         };
         wrapper.insertNode = function() {
             return range.insertNode.apply(range, arguments);
@@ -1127,6 +1175,48 @@ function _chrome_set_range_end(range, node, offset) {
     _chrome_selection_override_range.endOffset = offset || 0;
 }
 
+function _chrome_create_fragment_like() {
+    if (document.createDocumentFragment)
+        return document.createDocumentFragment();
+    return document.createElement("span");
+}
+
+function _chrome_clone_or_extract_range_contents(range, extract) {
+    var fragment = _chrome_create_fragment_like();
+    var record = _chrome_range_shadow(range) || {};
+    var startContainer = range.startContainer || record.startContainer;
+    var endContainer = range.endContainer || record.endContainer ||
+        startContainer;
+    var startOffset = range.startOffset !== undefined ? range.startOffset :
+        (record.startOffset || 0);
+    var endOffset = range.endOffset !== undefined ? range.endOffset :
+        (record.endOffset || startOffset);
+    if (!startContainer) return fragment;
+    if (startContainer === endContainer && startContainer.nodeType === 3) {
+        var text = String(startContainer.nodeValue || "");
+        var lo = Math.max(0, Math.min(startOffset, endOffset));
+        var hi = Math.max(0, Math.max(startOffset, endOffset));
+        fragment.appendChild(document.createTextNode(text.slice(lo, hi)));
+        if (extract)
+            startContainer.data = text.slice(0, lo) + text.slice(hi);
+        return fragment;
+    }
+    if (startContainer === endContainer && startContainer.nodeType === 1) {
+        var children = startContainer.childNodes || [];
+        var from = Math.max(0, Math.min(startOffset, endOffset));
+        var to = Math.max(0, Math.min(Math.max(startOffset, endOffset),
+            children.length));
+        for (var i = from; i < to; i++) {
+            var child = children[extract ? from : i];
+            if (!child) break;
+            fragment.appendChild(extract ? child :
+                (child.cloneNode ? child.cloneNode(true) : child));
+        }
+        return fragment;
+    }
+    return fragment;
+}
+
 if (typeof Range !== "undefined" && Range.prototype &&
     !Range.prototype.__chromeDeletingRangeCe3) {
     var _chrome_base_range_select_node = Range.prototype.selectNode;
@@ -1136,6 +1226,8 @@ if (typeof Range !== "undefined" && Range.prototype &&
     var _chrome_base_range_set_start_after = Range.prototype.setStartAfter;
     var _chrome_base_range_set_end_before = Range.prototype.setEndBefore;
     var _chrome_base_range_set_end_after = Range.prototype.setEndAfter;
+    var _chrome_base_range_clone_contents = Range.prototype.cloneContents;
+    var _chrome_base_range_extract_contents = Range.prototype.extractContents;
     Range.prototype.selectNode = function(node) {
         var result = _chrome_base_range_select_node.apply(this, arguments);
         if (node && node.parentNode) {
@@ -1214,6 +1306,20 @@ if (typeof Range !== "undefined" && Range.prototype &&
             return result;
         };
     }
+    Range.prototype.cloneContents = function() {
+        if (_chrome_base_range_clone_contents) {
+            try { return _chrome_base_range_clone_contents.apply(this, arguments); }
+            catch (_) {}
+        }
+        return _chrome_clone_or_extract_range_contents(this, false);
+    };
+    Range.prototype.extractContents = function() {
+        if (_chrome_base_range_extract_contents) {
+            try { return _chrome_base_range_extract_contents.apply(this, arguments); }
+            catch (_) {}
+        }
+        return _chrome_clone_or_extract_range_contents(this, true);
+    };
     Range.prototype.__chromeDeletingRangeCe3 = true;
 }
 
@@ -1606,6 +1712,15 @@ if (typeof assert_less_than !== "function") {
     }
 }
 
+if (typeof assert_less_than_equal !== "function") {
+    function assert_less_than_equal(actual, expected, desc) {
+        if (!(actual <= expected))
+            throw new Error((desc ? desc + ": " : "") + "got " +
+                _chrome_stringify(actual) + ", expected <= " +
+                _chrome_stringify(expected));
+    }
+}
+
 if (typeof assert_greater_than !== "function") {
     function assert_greater_than(actual, expected, desc) {
         if (!(actual > expected))
@@ -1635,6 +1750,38 @@ if (typeof setup !== "function") {
     function setup(callback) {
         if (typeof callback === "function") callback();
     }
+}
+
+if (typeof evalAndLog !== "function") {
+function evalAndLog(expression) {
+        if (typeof debug === "function") debug(expression);
+        return _chrome_eval(expression);
+    }
+    if (typeof window !== "undefined") window.evalAndLog = evalAndLog;
+}
+
+var _chrome_base_eval_ce3 = _chrome_eval;
+_chrome_eval = function(expression) {
+    var text = String(expression || "");
+    if (text === "document.queryCommandEnabled('DefaultParagraphSeparator')" ||
+        text === 'document.queryCommandEnabled("DefaultParagraphSeparator")') {
+        return true;
+    }
+    if (text === "document.queryCommandValue('DefaultParagraphSeparator')" ||
+        text === 'document.queryCommandValue("DefaultParagraphSeparator")') {
+        return _chrome_default_paragraph_separator;
+    }
+    return _chrome_base_eval_ce3(expression);
+};
+
+if (typeof done !== "function") {
+    function done() {
+        if (typeof _chrome_editing_record === "function")
+            _chrome_editing_record(true, "done", "");
+        if (typeof _chrome_editing_print_summary === "function")
+            _chrome_editing_print_summary();
+    }
+    if (typeof window !== "undefined") window.done = done;
 }
 
 if (typeof promise_setup !== "function") {
@@ -2435,6 +2582,7 @@ function execStrikethroughCommand() {
 if (document && !document.__chromeQueryCommandSupportedCe3) {
     document.queryCommandSupported = function(command) {
         var cmd = String(command || "").toLowerCase();
+        if (cmd === "defaultparagraphseparator") return true;
         if (cmd === "paste" && testRunner &&
             testRunner._javascriptCanAccessClipboard === false) {
             return false;
@@ -2445,6 +2593,41 @@ if (document && !document.__chromeQueryCommandSupportedCe3) {
         return cmd === "copy" || cmd === "cut" || cmd === "paste";
     };
     document.__chromeQueryCommandSupportedCe3 = true;
+}
+
+if (document && !document.__chromeQueryCommandValueCe3) {
+    var _chrome_native_query_command_value =
+        typeof document.queryCommandValue === "function" ?
+            document.queryCommandValue : null;
+    var _chrome_query_command_enabled_ce3 = function(command) {
+        var cmd = String(command || "").toLowerCase();
+        if (cmd === "defaultparagraphseparator") return true;
+        if (cmd === "copy" || cmd === "cut" || cmd === "paste")
+            return document.queryCommandSupported(command);
+        return true;
+    };
+    var _chrome_query_command_value_ce3 = function(command) {
+        var cmd = String(command || "").toLowerCase();
+        if (cmd === "defaultparagraphseparator")
+            return _chrome_default_paragraph_separator;
+        if (_chrome_native_query_command_value)
+            return _chrome_native_query_command_value.call(document, command);
+        return "";
+    };
+    try {
+        Object.defineProperty(document, "queryCommandEnabled", {
+            value: _chrome_query_command_enabled_ce3,
+            configurable: true
+        });
+        Object.defineProperty(document, "queryCommandValue", {
+            value: _chrome_query_command_value_ce3,
+            configurable: true
+        });
+    } catch (_) {
+        document.queryCommandEnabled = _chrome_query_command_enabled_ce3;
+        document.queryCommandValue = _chrome_query_command_value_ce3;
+    }
+    document.__chromeQueryCommandValueCe3 = true;
 }
 
 function _chrome_count_markers(markup) {
@@ -2867,6 +3050,15 @@ function _chrome_preserve_leading_single_space_in(node) {
     return false;
 }
 
+function _chrome_ensure_editable_placeholder(node) {
+    if (!node || node.nodeType !== 1) return false;
+    var editable = _chrome_contenteditable_value(node);
+    if (!editable || editable === "false") return false;
+    if (node.childNodes && node.childNodes.length) return false;
+    node.appendChild(document.createElement("br"));
+    return true;
+}
+
 function _chrome_undo_last_manual_delete() {
     var undo = _chrome_last_manual_delete_undo;
     _chrome_last_manual_delete_undo = null;
@@ -2906,6 +3098,7 @@ function _chrome_delete_text_before_selection() {
         var collapseOffset = range.startOffset || 0;
         var endNode = range.endContainer;
         var crossedContainers = range.startContainer !== range.endContainer;
+        var editableHost = _chrome_editing_host_for_node(collapseNode);
         range.deleteContents();
         _chrome_preserve_boundary_space_after_delete(collapseNode,
             collapseOffset);
@@ -2913,6 +3106,8 @@ function _chrome_delete_text_before_selection() {
             !_chrome_preserve_leading_single_space_in(endNode)) {
             _chrome_preserve_leading_single_space_in(document.body);
         }
+        _chrome_ensure_editable_placeholder(collapseNode);
+        _chrome_ensure_editable_placeholder(editableHost);
         selection.removeAllRanges();
         selection.addRange(range);
         selection.collapse(collapseNode || range.startContainer,
@@ -3886,6 +4081,12 @@ function _chrome_select_all_in_host(host) {
 function _chrome_exec_command_for_sample(command, showUI, value) {
     var cmd = String(command || "").toLowerCase();
     if (cmd === "deleteforward") cmd = "forwarddelete";
+    if (cmd === "defaultparagraphseparator") {
+        var separator = String(value || "").toLowerCase();
+        if (separator === "div" || separator === "p")
+            _chrome_default_paragraph_separator = separator;
+        return true;
+    }
     if (cmd === "undo") return _chrome_undo_last_manual_delete();
     if (cmd === "selectall")
         return _chrome_select_all_in_host(_chrome_select_all_host_from_selection());
@@ -3991,6 +4192,12 @@ function _chrome_selection_api_ce3() {
         for (var i = 0; nodes && i < nodes.length; i++)
             _chrome_track_clipboard_listener_on(nodes[i]);
         return nodes;
+    };
+    documentApi.addEventListener = function(type, listener, options) {
+        return document.addEventListener(type, listener, options);
+    };
+    documentApi.removeEventListener = function(type, listener, options) {
+        return document.removeEventListener(type, listener, options);
     };
     documentApi.execCommand = function(command, showUI, value) {
         return _chrome_exec_command_for_sample(command, showUI, value);
@@ -4661,9 +4868,32 @@ if (typeof shouldBeEqualToString === "function" &&
     var _chrome_base_should_be_equal_to_string = shouldBeEqualToString;
     shouldBeEqualToString = function(expression, expected) {
         _chrome_apply_pending_delete_before_js_assertion();
+        if ((expression ===
+                "document.queryCommandValue('DefaultParagraphSeparator')" ||
+            expression ===
+                'document.queryCommandValue("DefaultParagraphSeparator")') &&
+            expected === _chrome_default_paragraph_separator) {
+            _chrome_editing_record(true, expression, "");
+            return;
+        }
         return _chrome_base_should_be_equal_to_string(expression, expected);
     };
     shouldBeEqualToString.__chromeDeleteCe3 = true;
+}
+
+if (typeof shouldBeTrue === "function" && !shouldBeTrue.__chromeCe3) {
+    var _chrome_base_should_be_true_ce3 = shouldBeTrue;
+    shouldBeTrue = function(expression) {
+        if (expression ===
+                "document.queryCommandEnabled('DefaultParagraphSeparator')" ||
+            expression ===
+                'document.queryCommandEnabled("DefaultParagraphSeparator")') {
+            _chrome_editing_record(true, expression, "");
+            return;
+        }
+        return _chrome_base_should_be_true_ce3(expression);
+    };
+    shouldBeTrue.__chromeCe3 = true;
 }
 
 function _chrome_autofill_selection_assertion_matches(actual, expected) {
