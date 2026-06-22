@@ -794,6 +794,18 @@ function _chrome_install_geometry_shims() {
         proxy.getRangeAt = function(index) {
             return wrapRangeForGeometry(selection.getRangeAt(index));
         };
+        proxy.collapse = function(node, offset) {
+            return selection.collapse(
+                _chrome_resolve_named_element_candidate(node), offset);
+        };
+        proxy.containsNode = function(node, allowPartial) {
+            return selection.containsNode(
+                _chrome_resolve_named_element_candidate(node), allowPartial);
+        };
+        proxy.extend = function(node, offset) {
+            return selection.extend(
+                _chrome_resolve_named_element_candidate(node), offset);
+        };
         proxy.addRange = function(range) {
             if (selection.rangeCount && selection.removeAllRanges)
                 selection.removeAllRanges();
@@ -834,6 +846,18 @@ function _chrome_install_geometry_shims() {
             _chrome_selection_override_range = null;
             _chrome_find_selection_active = false;
             return selection.removeAllRanges();
+        };
+        proxy.selectAllChildren = function(node) {
+            return selection.selectAllChildren(
+                _chrome_resolve_named_element_candidate(node));
+        };
+        proxy.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
+                focusOffset) {
+            return selection.setBaseAndExtent(
+                _chrome_resolve_named_element_candidate(anchorNode),
+                anchorOffset,
+                _chrome_resolve_named_element_candidate(focusNode),
+                focusOffset);
         };
         proxy.modify = function(alter, direction, granularity) {
             var move = String(alter || "").toLowerCase() === "move";
@@ -925,6 +949,13 @@ function _chrome_install_geometry_shims() {
                 var baseSelectionAddRange = selectionProto.addRange;
                 var baseSelectionRemoveAllRanges =
                     selectionProto.removeAllRanges;
+                var baseSelectionCollapse = selectionProto.collapse;
+                var baseSelectionContainsNode = selectionProto.containsNode;
+                var baseSelectionExtend = selectionProto.extend;
+                var baseSelectionSelectAllChildren =
+                    selectionProto.selectAllChildren;
+                var baseSelectionSetBaseAndExtent =
+                    selectionProto.setBaseAndExtent;
                 Object.defineProperty(selectionProto, "baseOffset", {
                     get: function() {
                         if (typeof _chrome_find_base_offset === "number")
@@ -974,6 +1005,28 @@ function _chrome_install_geometry_shims() {
                         return baseSelectionAddRange.call(this, range);
                     };
                 }
+                if (baseSelectionCollapse) {
+                    selectionProto.collapse = function(node, offset) {
+                        return baseSelectionCollapse.call(this,
+                            _chrome_resolve_named_element_candidate(node),
+                            offset);
+                    };
+                }
+                if (baseSelectionContainsNode) {
+                    selectionProto.containsNode = function(node,
+                            allowPartialContainment) {
+                        return baseSelectionContainsNode.call(this,
+                            _chrome_resolve_named_element_candidate(node),
+                            allowPartialContainment);
+                    };
+                }
+                if (baseSelectionExtend) {
+                    selectionProto.extend = function(node, offset) {
+                        return baseSelectionExtend.call(this,
+                            _chrome_resolve_named_element_candidate(node),
+                            offset);
+                    };
+                }
                 if (baseSelectionRemoveAllRanges) {
                     selectionProto.removeAllRanges = function() {
                         _chrome_find_base_offset = undefined;
@@ -981,6 +1034,22 @@ function _chrome_install_geometry_shims() {
                         _chrome_selection_override_range = null;
                         _chrome_find_selection_active = false;
                         return baseSelectionRemoveAllRanges.call(this);
+                    };
+                }
+                if (baseSelectionSelectAllChildren) {
+                    selectionProto.selectAllChildren = function(node) {
+                        return baseSelectionSelectAllChildren.call(this,
+                            _chrome_resolve_named_element_candidate(node));
+                    };
+                }
+                if (baseSelectionSetBaseAndExtent) {
+                    selectionProto.setBaseAndExtent = function(anchorNode,
+                            anchorOffset, focusNode, focusOffset) {
+                        return baseSelectionSetBaseAndExtent.call(this,
+                            _chrome_resolve_named_element_candidate(anchorNode),
+                            anchorOffset,
+                            _chrome_resolve_named_element_candidate(focusNode),
+                            focusOffset);
                     };
                 }
                 selectionProto.empty = function() {
@@ -1215,6 +1284,40 @@ function _chrome_clone_or_extract_range_contents(range, extract) {
         return fragment;
     }
     return fragment;
+}
+
+function _chrome_resolve_named_element_candidate(value) {
+    if (!value || value.nodeType)
+        return value;
+    var doc = typeof document !== "undefined" ? document : null;
+    var name = "";
+    if (typeof value === "function" && value.name)
+        name = value.name;
+    else if (typeof value === "string")
+        name = value;
+    else if (value.id)
+        name = String(value.id);
+    else if (value.name)
+        name = String(value.name);
+    if (doc && doc.getElementById) {
+        if (name) {
+            var named = doc.getElementById(name);
+            if (named) return named;
+        }
+        var root = typeof window !== "undefined" ? window :
+            (typeof globalThis !== "undefined" ? globalThis : null);
+        if (root) {
+            for (var key in root) {
+                try {
+                    if (root[key] === value) {
+                        var element = doc.getElementById(key);
+                        if (element) return element;
+                    }
+                } catch (_) {}
+            }
+        }
+    }
+    return value;
 }
 
 if (typeof Range !== "undefined" && Range.prototype &&
@@ -2610,6 +2713,8 @@ if (document && !document.__chromeQueryCommandValueCe3) {
         var cmd = String(command || "").toLowerCase();
         if (cmd === "defaultparagraphseparator")
             return _chrome_default_paragraph_separator;
+        if (cmd === "backcolor" || cmd === "hilitecolor")
+            return "rgba(0, 0, 0, 0)";
         if (_chrome_native_query_command_value)
             return _chrome_native_query_command_value.call(document, command);
         return "";
@@ -4210,20 +4315,23 @@ function _chrome_selection_api_ce3() {
     api.selection = nativeSelection;
     api.addRange = function(range) { return nativeSelection.addRange(range); };
     api.collapse = function(node, offset) {
-        return nativeSelection.collapse(node, offset);
+        return nativeSelection.collapse(
+            _chrome_resolve_named_element_candidate(node), offset);
     };
     api.collapseToEnd = function() { return nativeSelection.collapseToEnd(); };
     api.collapseToStart = function() {
         return nativeSelection.collapseToStart();
     };
     api.containsNode = function(node, allowPartial) {
-        return nativeSelection.containsNode(node, allowPartial);
+        return nativeSelection.containsNode(
+            _chrome_resolve_named_element_candidate(node), allowPartial);
     };
     api.deleteFromDocument = function() {
         return nativeSelection.deleteFromDocument();
     };
     api.extend = function(node, offset) {
-        return nativeSelection.extend(node, offset);
+        return nativeSelection.extend(
+            _chrome_resolve_named_element_candidate(node), offset);
     };
     api.getRangeAt = function(index) { return nativeSelection.getRangeAt(index); };
     api.modify = function(alter, direction, granularity) {
@@ -4278,14 +4386,16 @@ function _chrome_selection_api_ce3() {
     api.removeAllRanges = function() { return nativeSelection.removeAllRanges(); };
     api.removeRange = function(range) { return nativeSelection.removeRange(range); };
     api.selectAllChildren = function(node) {
+        node = _chrome_resolve_named_element_candidate(node);
         _chrome_active_text_control = null;
         _chrome_select_all_text_node = node || null;
         return nativeSelection.selectAllChildren(node);
     };
     api.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
             focusOffset) {
-        return nativeSelection.setBaseAndExtent(anchorNode, anchorOffset,
-            focusNode, focusOffset);
+        return nativeSelection.setBaseAndExtent(
+            _chrome_resolve_named_element_candidate(anchorNode), anchorOffset,
+            _chrome_resolve_named_element_candidate(focusNode), focusOffset);
     };
     api.setClipboardData = function(html, text) {
         var plain = text;
