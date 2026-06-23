@@ -6,11 +6,13 @@ var _chrome_clipboard_text = "";
 var _chrome_clipboard_event_html = "";
 var _chrome_clipboard_event_text = "";
 var _chrome_clipboard_event_has_custom_data = false;
+var _chrome_clipboard_source_element = null;
 var _chrome_mouse_element_by_left = {};
 var _chrome_next_synthetic_left = 100;
 var _chrome_last_mouse_element = null;
 var _chrome_last_computed_mouse_element = null;
 var _chrome_drag_start_element = null;
+var _chrome_drop_event_targets = [];
 var _chrome_last_manual_delete_undo = null;
 var _chrome_select_all_text_node = null;
 var _chrome_autofilled_controls = [];
@@ -20,9 +22,11 @@ var _chrome_serialized_style_hint_values = [];
 var _chrome_active_element = null;
 var _chrome_active_text_control = null;
 var _chrome_forced_text_selection_element = null;
-var _chrome_native_document_exec_command = document.execCommand;
+var _chrome_native_document_exec_command =
+    typeof document.execCommand === "function" ? document.execCommand : null;
 var _chrome_native_document_query_command_supported =
-    document.queryCommandSupported;
+    typeof document.queryCommandSupported === "function" ?
+        document.queryCommandSupported : null;
 var _chrome_markup_dump_lines = [];
 var _chrome_markup_dump_count = 0;
 var _chrome_result_callbacks = [];
@@ -38,6 +42,8 @@ var _chrome_async_draining = false;
 var _chrome_find_base_offset = undefined;
 var _chrome_find_extent_offset = undefined;
 var _chrome_selection_override_range = null;
+var _chrome_selection_override_is_find_ce3 = false;
+var _chrome_find_selection_cleared_ce3 = false;
 var _chrome_find_selection_active = false;
 var _chrome_range_shadow_records = [];
 var _chrome_find_root_token = null;
@@ -45,17 +51,67 @@ var _chrome_find_last_signature = "";
 var _chrome_find_last_start_in_selection = false;
 var _chrome_find_string_called = false;
 var _chrome_last_find_string_result = false;
+var _chrome_window_find_last_text = "";
+var _chrome_find_last_found_text = "";
+var _chrome_pending_find_scroll_frames_ce3 = 0;
+var _chrome_pending_find_scroll_y_ce3 = null;
+var _chrome_pending_find_scroll_ready_ce3 = false;
+var _chrome_page_x_offset_ce3 = 0;
+var _chrome_page_y_offset_ce3 = 0;
 var _chrome_test_runner_wait_until_done = false;
 var _chrome_revealed_active_element_ce3 = false;
 var _chrome_default_paragraph_separator = "div";
 var _chrome_pending_insert_back_color = "";
 var _chrome_pending_insert_fore_color = "";
+var _chrome_pending_inline_commands = {};
+var _chrome_suppressed_inline_commands = {};
+var _chrome_last_font_size_command_value = "";
 var _chrome_console_warning_lines = [];
 var _chrome_document_open_invalid_for_exec_command = false;
 var _chrome_js_test_dump_lines = [];
 var _chrome_js_test_dump_seeded = false;
 var _chrome_wait_fallback_queued_ce3 = false;
 var onload = typeof onload === "function" ? onload : null;
+
+var _chrome_base_debug_ce3 = typeof debug === "function" ? debug : null;
+var _chrome_base_normalize_dump_ce3 =
+    typeof _chrome_normalize_dump === "function" ? _chrome_normalize_dump :
+        null;
+if (_chrome_base_normalize_dump_ce3) {
+    _chrome_normalize_dump = function(text) {
+        return _chrome_trim_trailing(String(text).replace(/\r\n/g, "\n")
+            .replace(/^(\t+)\n+/g, "$1 ")
+            .replace(/[ \t]+(?=\n)/g, "")
+            .replace(/^\n+/g, ""));
+    };
+}
+function _chrome_append_to_legacy_console_ce3(text) {
+    var consoleElement = document && document.getElementById ?
+        document.getElementById("console") : null;
+    if (!consoleElement) return;
+    var line = String(text == null ? "" : text);
+    try {
+        if (consoleElement.nodeName &&
+            consoleElement.nodeName.toLowerCase() === "ul") {
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(line));
+            consoleElement.appendChild(li);
+            return;
+        }
+        consoleElement.textContent =
+            String(consoleElement.textContent || "") + line + "\n";
+    } catch (_) {}
+}
+
+var _chrome_debug_ce3 = function(text) {
+    _chrome_append_to_legacy_console_ce3(text);
+    if (_chrome_base_debug_ce3)
+        return _chrome_base_debug_ce3(text);
+    console.log(String(text));
+};
+try { debug = _chrome_debug_ce3; } catch (_) {}
+if (typeof window !== "undefined") window.debug = _chrome_debug_ce3;
+if (typeof globalThis !== "undefined") globalThis.debug = _chrome_debug_ce3;
 
 function _chrome_install_password_echo_settings(internalsObject) {
     if (!internalsObject) return;
@@ -199,10 +255,60 @@ if (typeof window !== "undefined") {
     if (window.pageYOffset === undefined) window.pageYOffset = 0;
     if (window.scrollX === undefined) window.scrollX = window.pageXOffset;
     if (window.scrollY === undefined) window.scrollY = window.pageYOffset;
+    _chrome_page_x_offset_ce3 = Number(window.pageXOffset || 0) || 0;
+    _chrome_page_y_offset_ce3 = Number(window.pageYOffset || 0) || 0;
+    if (!window.__chromePageOffsetFindScrollCe3) {
+        try {
+            Object.defineProperty(window, "pageXOffset", {
+                configurable: true,
+                get: function() { return _chrome_page_x_offset_ce3; },
+                set: function(value) {
+                    _chrome_page_x_offset_ce3 = Number(value || 0) || 0;
+                }
+            });
+            Object.defineProperty(window, "pageYOffset", {
+                configurable: true,
+                get: function() {
+                    _chrome_maybe_apply_pending_find_scroll_ce3();
+                    return _chrome_page_y_offset_ce3;
+                },
+                set: function(value) {
+                    _chrome_page_y_offset_ce3 = Number(value || 0) || 0;
+                }
+            });
+            Object.defineProperty(window, "scrollX", {
+                configurable: true,
+                get: function() { return _chrome_page_x_offset_ce3; },
+                set: function(value) {
+                    _chrome_page_x_offset_ce3 = Number(value || 0) || 0;
+                }
+            });
+            Object.defineProperty(window, "scrollY", {
+                configurable: true,
+                get: function() {
+                    _chrome_maybe_apply_pending_find_scroll_ce3();
+                    return _chrome_page_y_offset_ce3;
+                },
+                set: function(value) {
+                    _chrome_page_y_offset_ce3 = Number(value || 0) || 0;
+                }
+            });
+            window.__chromePageOffsetFindScrollCe3 = true;
+        } catch (_) {}
+    }
 }
 
 function _chrome_is_js_identifier_ce3(text) {
     return /^[A-Za-z_$][0-9A-Za-z_$]*$/.test(String(text || ""));
+}
+
+function _chrome_identifier_is_function_ce3(id) {
+    if (!_chrome_is_js_identifier_ce3(id)) return false;
+    try {
+        return (0, eval)("typeof " + id + " === 'function'");
+    } catch (_) {
+        return false;
+    }
 }
 
 function _chrome_install_named_element_globals_ce3(root) {
@@ -222,6 +328,17 @@ function _chrome_install_named_element_globals_ce3(root) {
         if (!id) continue;
         try {
             _chrome_track_beforematch_listener_on(nodes[i]);
+            _chrome_install_attach_shadow_on_element_ce3(nodes[i]);
+            var existingWindow =
+                typeof window !== "undefined" ? window[id] : undefined;
+            var existingGlobal =
+                typeof globalThis !== "undefined" ? globalThis[id] :
+                    undefined;
+            if (typeof existingWindow === "function" ||
+                typeof existingGlobal === "function" ||
+                _chrome_identifier_is_function_ce3(id)) {
+                continue;
+            }
             if (typeof window !== "undefined") window[id] = nodes[i];
             if (typeof globalThis !== "undefined") globalThis[id] = nodes[i];
             if (_chrome_is_js_identifier_ce3(id)) {
@@ -371,9 +488,20 @@ if (document && document.implementation &&
 }
 
 function _chrome_request_animation_frame_ce3(callback) {
-    return _chrome_call_soon(function() {
+    var id = _chrome_call_soon(function() {
+        _chrome_maybe_apply_pending_find_scroll_ce3();
         if (typeof callback === "function") callback(0);
     });
+    if (!_chrome_async_draining && _chrome_base_set_timeout) {
+        try {
+            _chrome_base_set_timeout(function() {
+                _chrome_drain_async_queue();
+                if (typeof _chrome_editing_print_summary === "function")
+                    _chrome_editing_print_summary();
+            }, 0);
+        } catch (_) {}
+    }
+    return id;
 }
 var requestAnimationFrame = _chrome_request_animation_frame_ce3;
 try { requestAnimationFrame = _chrome_request_animation_frame_ce3; } catch (_) {}
@@ -405,6 +533,30 @@ function _chrome_scroll_to(x, y) {
         document.body.scrollLeft = x;
         document.body.scrollTop = y;
     }
+}
+
+function _chrome_first_client_rect_ce3(element) {
+    if (element && element.__chromeForcedRect)
+        return element.__chromeForcedRect;
+    if (element && typeof element.getClientRects === "function") {
+        try {
+            var rects = element.getClientRects();
+            if (rects && rects.length) return rects[0];
+        } catch (_) {}
+    }
+    if (element && typeof element.getBoundingClientRect === "function") {
+        try { return element.getBoundingClientRect(); } catch (_) {}
+    }
+    var top = 0 - (Number(window.pageYOffset || 0) || 0);
+    var height = 20;
+    return {
+        left: 0,
+        right: 100,
+        top: top,
+        bottom: top + height,
+        width: 100,
+        height: height
+    };
 }
 
 function scrollTo(x, y) {
@@ -497,6 +649,193 @@ if (typeof Event !== "undefined" && Event.prototype &&
     Event.prototype.__chromeSrcElementCe3 = true;
 }
 
+function _chrome_make_dom_event_ce3(type, options) {
+    var event = null;
+    try {
+        event = typeof Event === "function" ?
+            new Event(type, options || {}) : null;
+    } catch (_) {
+        event = null;
+    }
+    if (!event) {
+        try {
+            event = document && document.createEvent ?
+                document.createEvent("Event") : null;
+            if (event && typeof event.initEvent === "function") {
+                event.initEvent(type, !!(options && options.bubbles),
+                    !!(options && options.cancelable));
+            }
+        } catch (_) {
+            event = null;
+        }
+    }
+    if (!event) {
+        event = {
+            type: type,
+            bubbles: !!(options && options.bubbles),
+            cancelable: !!(options && options.cancelable),
+            defaultPrevented: false,
+            preventDefault: function() { this.defaultPrevented = true; },
+            stopPropagation: function() {},
+            stopImmediatePropagation: function() {}
+        };
+    }
+    return event;
+}
+
+function _chrome_copy_event_fields_ce3(target, source) {
+    if (!target || !source) return target;
+    for (var key in source) {
+        if (key === "target" || key === "currentTarget" ||
+                key === "srcElement") {
+            continue;
+        }
+        try {
+            if (target[key] === undefined || key === "clipboardData" ||
+                    key === "dataTransfer" || key === "inputType" ||
+                    key === "data") {
+                target[key] = source[key];
+            }
+        } catch (_) {}
+        try {
+            if (target[key] !== source[key] &&
+                    (key === "clipboardData" || key === "dataTransfer" ||
+                    key === "inputType" || key === "data")) {
+                Object.defineProperty(target, key, {
+                    configurable: true,
+                    enumerable: true,
+                    value: source[key]
+                });
+            }
+        } catch (_) {}
+    }
+    return target;
+}
+
+if (typeof EventTarget !== "undefined" && EventTarget.prototype &&
+    EventTarget.prototype.dispatchEvent &&
+    !EventTarget.prototype.__chromeDispatchObjectEventShimCe3) {
+    var _chrome_base_dispatch_event_ce3 = EventTarget.prototype.dispatchEvent;
+    EventTarget.prototype.dispatchEvent = function(event) {
+        if (event && typeof event.type === "string" &&
+                !(typeof Event !== "undefined" && event instanceof Event)) {
+            var nativeEvent = _chrome_make_dom_event_ce3(event.type, {
+                bubbles: !!event.bubbles,
+                cancelable: !!event.cancelable
+            });
+            _chrome_copy_event_fields_ce3(nativeEvent, event);
+            try {
+                var result = _chrome_base_dispatch_event_ce3.call(this,
+                    nativeEvent);
+                try {
+                    event.defaultPrevented = !!nativeEvent.defaultPrevented;
+                } catch (_) {}
+                return result;
+            } catch (error) {
+                if (String(error && error.message || "")
+                        .indexOf("Event") >= 0) {
+                    return _chrome_dispatch_event_handler_fallback_ce3(this,
+                        event);
+                }
+                throw error;
+            }
+        }
+        try {
+            return _chrome_base_dispatch_event_ce3.call(this, event);
+        } catch (error) {
+            if (event && typeof event.type === "string" &&
+                    String(error && error.message || "")
+                        .indexOf("Event") >= 0) {
+                return _chrome_dispatch_event_handler_fallback_ce3(this,
+                    event);
+            }
+            throw error;
+        }
+    };
+    EventTarget.prototype.__chromeDispatchObjectEventShimCe3 = true;
+}
+
+function _chrome_dispatch_event_handler_fallback_ce3(target, event) {
+    if (!event || !event.type) return true;
+    var handler = target ? target["on" + event.type] : null;
+    if (typeof handler === "function") {
+        handler.call(target, event);
+        return !event.defaultPrevented;
+    }
+    return true;
+}
+
+function _chrome_install_dispatch_object_event_shim_ce3(proto) {
+    var ownShim = false;
+    try {
+        ownShim = Object.prototype.hasOwnProperty.call(proto,
+            "__chromeDispatchObjectEventShimCe3");
+    } catch (_) {}
+    if (!proto || typeof proto.dispatchEvent !== "function" ||
+            (ownShim && proto.__chromeDispatchObjectEventShimCe3)) {
+        return;
+    }
+    var baseDispatch = proto.dispatchEvent;
+    var dispatchShim = function(event) {
+        if (event && typeof event.type === "string" &&
+                !(typeof Event !== "undefined" && event instanceof Event)) {
+            var nativeEvent = _chrome_make_dom_event_ce3(event.type, {
+                bubbles: !!event.bubbles,
+                cancelable: !!event.cancelable
+            });
+            _chrome_copy_event_fields_ce3(nativeEvent, event);
+            try {
+                var result = baseDispatch.call(this, nativeEvent);
+                try {
+                    event.defaultPrevented = !!nativeEvent.defaultPrevented;
+                } catch (_) {}
+                return result;
+            } catch (error) {
+                if (String(error && error.message || "")
+                        .indexOf("Event") >= 0) {
+                    return _chrome_dispatch_event_handler_fallback_ce3(this,
+                        event);
+                }
+                throw error;
+            }
+        }
+        try {
+            return baseDispatch.call(this, event);
+        } catch (error) {
+            if (event && typeof event.type === "string" &&
+                    String(error && error.message || "")
+                        .indexOf("Event") >= 0) {
+                return _chrome_dispatch_event_handler_fallback_ce3(this,
+                    event);
+            }
+            throw error;
+        }
+    };
+    try {
+        Object.defineProperty(proto, "dispatchEvent", {
+            configurable: true,
+            writable: true,
+            value: dispatchShim
+        });
+    } catch (_) {
+        try { proto.dispatchEvent = dispatchShim; } catch (_) {}
+    }
+    proto.__chromeDispatchObjectEventShimCe3 = true;
+}
+
+if (typeof Element !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(Element.prototype);
+if (typeof HTMLElement !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(HTMLElement.prototype);
+if (typeof Document !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(Document.prototype);
+if (typeof Window !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(Window.prototype);
+if (typeof document !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(document);
+if (typeof window !== "undefined")
+    _chrome_install_dispatch_object_event_shim_ce3(window);
+
 if (typeof Element !== "undefined" && Element.prototype &&
     !Element.prototype.__chromeInnerTextShimCe3) {
     try {
@@ -528,9 +867,12 @@ if (typeof Element !== "undefined" && Element.prototype &&
                     if (this.removeAttribute) this.removeAttribute("open");
                 }
                 var isOpen = !!(this.hasAttribute && this.hasAttribute("open"));
-                if (wasOpen !== isOpen && typeof this.dispatchEvent === "function")
-                    this.dispatchEvent({ type: "toggle", bubbles: false,
-                        target: this });
+                if (wasOpen !== isOpen &&
+                        typeof this.dispatchEvent === "function")
+                    this.dispatchEvent(
+                        _chrome_make_dom_event_ce3("toggle", {
+                            bubbles: false
+                        }));
             }
         });
     } catch (_) {}
@@ -658,6 +1000,12 @@ function _chrome_install_focus_tracking() {
         if (_chrome_is_text_control(this)) {
             _chrome_install_text_control_selection_api(this);
             _chrome_active_text_control = this;
+            _chrome_selection_override_range = null;
+            _chrome_find_selection_active = false;
+            _chrome_select_all_text_node = null;
+        } else if (_chrome_is_content_editable_element(this)) {
+            _chrome_active_text_control = null;
+            _chrome_select_all_text_node = null;
         }
         var result = baseFocus ? baseFocus.apply(this, arguments) : undefined;
         _chrome_place_caret_for_focused_editable(this);
@@ -678,6 +1026,10 @@ function _chrome_install_focus_tracking() {
                 this.__chromeClipboardListenerCount =
                     (this.__chromeClipboardListenerCount || 0) + 1;
             }
+            if (eventType === "drop" || eventType === "dragover") {
+                if (_chrome_drop_event_targets.indexOf(this) < 0)
+                    _chrome_drop_event_targets.push(this);
+            }
             return baseAddEventListener.call(this, type, listener, options);
         };
     }
@@ -687,14 +1039,33 @@ _chrome_install_focus_tracking();
 
 function _chrome_place_caret_for_focused_editable(element) {
     if (!_chrome_is_content_editable_element(element)) return false;
-    var selection = getSelection();
+    var selection = typeof _chrome_current_selection_ce3 === "function" ?
+        _chrome_current_selection_ce3() : getSelection();
     if (!selection) return false;
     var node = selection.focusNode;
     while (node && node !== element) node = node.parentNode;
     if (node === element) return true;
-    selection.removeAllRanges();
-    var range = document.createRange();
     var first = _chrome_first_text_descendant(element);
+    var caretNode = first || element;
+    var caretOffset = 0;
+    _chrome_selection_override_range = {
+        startContainer: caretNode,
+        startOffset: caretOffset,
+        endContainer: caretNode,
+        endOffset: caretOffset
+    };
+    if (typeof selection.setBaseAndExtent === "function") {
+        selection.setBaseAndExtent(caretNode, caretOffset, caretNode,
+            caretOffset);
+        return true;
+    }
+    if (typeof selection.collapse === "function") {
+        selection.collapse(caretNode, caretOffset);
+        return true;
+    }
+    if (typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
+    var range = document.createRange();
     if (first) {
         range.setStart(first, 0);
         range.setEnd(first, 0);
@@ -702,7 +1073,7 @@ function _chrome_place_caret_for_focused_editable(element) {
         range.setStart(element, 0);
         range.setEnd(element, 0);
     }
-    selection.addRange(range);
+    if (typeof selection.addRange === "function") selection.addRange(range);
     return true;
 }
 
@@ -757,16 +1128,36 @@ function _chrome_install_child_focus_on_element_ce3(element) {
     try {
         Object.defineProperty(element, "focus", {
             value: function() {
+                var result = baseFocus ? baseFocus.apply(this, arguments) :
+                    undefined;
                 _chrome_active_element = this;
-                if (baseFocus) return baseFocus.apply(this, arguments);
+                if (_chrome_is_text_control(this)) {
+                    _chrome_install_text_control_selection_api(this);
+                    _chrome_active_text_control = this;
+                    _chrome_selection_override_range = null;
+                    _chrome_find_selection_active = false;
+                } else if (_chrome_is_content_editable_element(this)) {
+                    _chrome_active_text_control = null;
+                }
+                return result;
             },
             configurable: true
         });
     } catch (_) {
         try {
             element.focus = function() {
+                var result = baseFocus ? baseFocus.apply(this, arguments) :
+                    undefined;
                 _chrome_active_element = this;
-                if (baseFocus) return baseFocus.apply(this, arguments);
+                if (_chrome_is_text_control(this)) {
+                    _chrome_install_text_control_selection_api(this);
+                    _chrome_active_text_control = this;
+                    _chrome_selection_override_range = null;
+                    _chrome_find_selection_active = false;
+                } else if (_chrome_is_content_editable_element(this)) {
+                    _chrome_active_text_control = null;
+                }
+                return result;
             };
         } catch (_) {}
     }
@@ -1014,8 +1405,36 @@ function _chrome_make_beforematch_event(target) {
 
 function _chrome_dispatch_beforematch_event(target) {
     var event = _chrome_make_beforematch_event(target);
+    if (target && typeof target.dispatchEvent === "function" &&
+            !target.__chromeDispatchingBeforeMatchCe3) {
+        try {
+            target.__chromeDispatchingBeforeMatchCe3 = true;
+            var nativeEvent = typeof Event === "function" ?
+                new Event("beforematch", {
+                    bubbles: true,
+                    cancelable: false
+                }) : null;
+            if (nativeEvent)
+                target.dispatchEvent(nativeEvent);
+        } catch (_) {
+        } finally {
+            try { target.__chromeDispatchingBeforeMatchCe3 = false; }
+            catch (_) {}
+        }
+    }
     for (var current = target; current; current = current.parentNode) {
         if (current.nodeType !== 1 && current !== document) continue;
+        if (current !== target && typeof current.dispatchEvent === "function") {
+            try {
+                var ancestorEvent = typeof Event === "function" ?
+                    new Event("beforematch", {
+                        bubbles: false,
+                        cancelable: false
+                    }) : null;
+                if (ancestorEvent)
+                    current.dispatchEvent(ancestorEvent);
+            } catch (_) {}
+        }
         if (typeof current.onbeforematch === "function")
             _chrome_call_beforematch_listener(current, current.onbeforematch,
                 event);
@@ -1100,49 +1519,165 @@ function _chrome_track_beforematch_listener_on(node) {
     return node;
 }
 
+function _chrome_visit_dom_elements_ce3(root, callback) {
+    if (!root || typeof callback !== "function") return null;
+    var stack = [root];
+    while (stack.length) {
+        var node = stack.shift();
+        if (!node) continue;
+        if (node.nodeType === 1 && callback(node)) return node;
+        var children = node.childNodes || [];
+        for (var i = 0; i < children.length; i++)
+            stack.push(children[i]);
+    }
+    return null;
+}
+
+function _chrome_fallback_get_element_by_id_ce3(id) {
+    var wanted = String(id || "");
+    return _chrome_visit_dom_elements_ce3(document.documentElement ||
+        document.body, function(node) {
+            return String(node.id || "") === wanted ||
+                String(_chrome_get_dom_attr_ce3(node, "id") || "") === wanted;
+        });
+}
+
+function _chrome_outer_html_attr_value_ce3(node, name) {
+    if (!node || typeof node.outerHTML !== "string") return undefined;
+    var firstTagEnd = node.outerHTML.indexOf(">");
+    if (firstTagEnd < 0) return undefined;
+    var firstTag = node.outerHTML.slice(0, firstTagEnd + 1);
+    var escaped = String(name || "").replace(/[-\/\\^$*+?.()|[\]{}]/g,
+        "\\$&");
+    var re = new RegExp("(?:^|\\s)" + escaped +
+        "(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s>]+)))?",
+        "i");
+    var match = re.exec(firstTag);
+    if (!match) return undefined;
+    if (match[1] !== undefined) return match[1];
+    if (match[2] !== undefined) return match[2];
+    if (match[3] !== undefined) return match[3];
+    return "";
+}
+
+function _chrome_get_dom_attr_ce3(node, name) {
+    if (!node) return null;
+    if (node.getAttribute) {
+        try { return node.getAttribute(name); } catch (_) {}
+    }
+    var key = String(name || "").toLowerCase();
+    var explicitValue = _chrome_outer_html_attr_value_ce3(node, key);
+    if (explicitValue !== undefined) return explicitValue;
+    if (key === "id") return node.id || null;
+    if (key === "class") return node.className || null;
+    if (key === "contenteditable") {
+        return null;
+    }
+    var prop = node[name];
+    return prop === undefined || prop === false ? null : prop;
+}
+
+function _chrome_has_dom_attr_ce3(node, name) {
+    var value = _chrome_get_dom_attr_ce3(node, name);
+    return value !== null && value !== undefined && value !== false;
+}
+
+function _chrome_element_matches_selector_part_ce3(node, selector) {
+    if (!node || node.nodeType !== 1) return false;
+    var part = String(selector || "").replace(/^\s+|\s+$/g, "");
+    if (!part) return false;
+    if (part.charAt(0) === "#") {
+        var id = part.slice(1);
+        return String(node.id || "") === id ||
+            String(_chrome_get_dom_attr_ce3(node, "id") || "") === id;
+    }
+    var attrMatch = /^([A-Za-z0-9_-]+)?\[([A-Za-z0-9_-]+)\]$/.exec(part);
+    if (attrMatch) {
+        var tag = attrMatch[1];
+        var attr = attrMatch[2];
+        if (tag && String(node.nodeName || "").toLowerCase() !==
+                tag.toLowerCase()) {
+            return false;
+        }
+        return _chrome_has_dom_attr_ce3(node, attr);
+    }
+    if (part.charAt(0) === "[") {
+        var bareAttr = /^\[([A-Za-z0-9_-]+)\]$/.exec(part);
+        return !!(bareAttr && _chrome_has_dom_attr_ce3(node, bareAttr[1]));
+    }
+    return String(node.nodeName || "").toLowerCase() === part.toLowerCase();
+}
+
+function _chrome_fallback_query_selector_all_ce3(selector) {
+    var parts = String(selector || "").split(",");
+    var out = [];
+    _chrome_visit_dom_elements_ce3(document.documentElement || document.body,
+        function(node) {
+            for (var i = 0; i < parts.length; i++) {
+                if (_chrome_element_matches_selector_part_ce3(node, parts[i])) {
+                    out.push(node);
+                    break;
+                }
+            }
+            return false;
+        });
+    return out;
+}
+
 if (document && !document.__chromeCreateElementTrackingCe3) {
     var _chrome_base_create_element_ce3 = document.createElement;
     var _chrome_base_create_element_ns_ce3 = document.createElementNS;
+    var _chrome_base_create_text_node_ce3 = document.createTextNode;
     var _chrome_base_get_element_by_id_ce3 = document.getElementById;
     var _chrome_base_query_selector_ce3 = document.querySelector;
     var _chrome_base_query_selector_all_ce3 = document.querySelectorAll;
     function _chrome_track_returned_element_ce3(node) {
         _chrome_track_beforematch_listener_on(node);
         _chrome_track_clipboard_listener_on(node);
+        _chrome_install_dispatch_object_event_shim_ce3(node);
+        _chrome_install_child_focus_on_element_ce3(node);
+        _chrome_install_selection_mutation_tracking_on_tree_ce3(node);
         return node;
     }
-    document.createElement = function(name) {
-        var node = _chrome_base_create_element_ce3.call(document, name);
-        return _chrome_track_returned_element_ce3(node);
-    };
-    if (_chrome_base_create_element_ns_ce3) {
+    if (typeof _chrome_base_create_element_ce3 === "function") {
+        document.createElement = function(name) {
+            var node = _chrome_base_create_element_ce3.call(document, name);
+            return _chrome_track_returned_element_ce3(node);
+        };
+    }
+    if (typeof _chrome_base_create_element_ns_ce3 === "function") {
         document.createElementNS = function(ns, name) {
             var node = _chrome_base_create_element_ns_ce3.call(document, ns,
                 name);
             return _chrome_track_returned_element_ce3(node);
         };
     }
-    if (_chrome_base_get_element_by_id_ce3) {
-        document.getElementById = function(id) {
-            return _chrome_track_returned_element_ce3(
-                _chrome_base_get_element_by_id_ce3.call(document, id));
+    if (typeof _chrome_base_create_text_node_ce3 === "function") {
+        document.createTextNode = function(text) {
+            var node = _chrome_base_create_text_node_ce3.call(document, text);
+            return _chrome_track_returned_element_ce3(node);
         };
     }
-    if (_chrome_base_query_selector_ce3) {
-        document.querySelector = function(selector) {
-            return _chrome_track_returned_element_ce3(
-                _chrome_base_query_selector_ce3.call(document, selector));
-        };
-    }
-    if (_chrome_base_query_selector_all_ce3) {
-        document.querySelectorAll = function(selector) {
-            var nodes = _chrome_base_query_selector_all_ce3.call(document,
-                selector);
-            for (var i = 0; nodes && i < nodes.length; i++)
-                _chrome_track_returned_element_ce3(nodes[i]);
-            return nodes;
-        };
-    }
+    document.getElementById = function(id) {
+        var node = typeof _chrome_base_get_element_by_id_ce3 === "function" ?
+            _chrome_base_get_element_by_id_ce3.call(document, id) :
+            _chrome_fallback_get_element_by_id_ce3(id);
+        return _chrome_track_returned_element_ce3(node);
+    };
+    document.querySelector = function(selector) {
+        var node = typeof _chrome_base_query_selector_ce3 === "function" ?
+            _chrome_base_query_selector_ce3.call(document, selector) :
+            (_chrome_fallback_query_selector_all_ce3(selector)[0] || null);
+        return _chrome_track_returned_element_ce3(node);
+    };
+    document.querySelectorAll = function(selector) {
+        var nodes = typeof _chrome_base_query_selector_all_ce3 === "function" ?
+            _chrome_base_query_selector_all_ce3.call(document, selector) :
+            _chrome_fallback_query_selector_all_ce3(selector);
+        for (var i = 0; nodes && i < nodes.length; i++)
+            _chrome_track_returned_element_ce3(nodes[i]);
+        return nodes || [];
+    };
     document.__chromeCreateElementTrackingCe3 = true;
 }
 
@@ -1182,30 +1717,52 @@ function _chrome_capture_selection_paths(container, selection) {
         !selection.focusNode) {
         return null;
     }
+    var anchorTextOffset = _chrome_text_offset_for_dom_position(container,
+        selection.anchorNode, selection.anchorOffset || 0);
+    var focusTextOffset = _chrome_text_offset_for_dom_position(container,
+        selection.focusNode, selection.focusOffset || 0);
     return {
         anchorPath: _chrome_boundary_path(container, selection.anchorNode,
             selection.anchorOffset || 0),
         focusPath: _chrome_boundary_path(container, selection.focusNode,
-            selection.focusOffset || 0)
+            selection.focusOffset || 0),
+        anchorTextOffset: anchorTextOffset,
+        focusTextOffset: focusTextOffset
     };
+}
+
+function _chrome_boundary_from_text_offset(container, offset, preferNext) {
+    if (typeof offset !== "number" || offset < 0) return null;
+    var boundary = _chrome_find_text_position(container, offset, preferNext);
+    if (!boundary || !boundary.node) return null;
+    return { node: boundary.node, offset: boundary.offset || 0 };
 }
 
 function _chrome_restore_selection_paths(container, paths) {
     if (!container || !paths) return false;
     var anchor = _chrome_boundary_from_path(container, paths.anchorPath);
     var focus = _chrome_boundary_from_path(container, paths.focusPath);
-    var selection = getSelection();
+    if (!anchor || !focus) {
+        anchor = _chrome_boundary_from_text_offset(container,
+            paths.anchorTextOffset, true);
+        focus = _chrome_boundary_from_text_offset(container,
+            paths.focusTextOffset, false);
+    }
+    var selection = _chrome_current_selection_ce3();
     if (!anchor || !focus || !selection) return false;
     anchor = _chrome_canonicalize_restored_boundary(anchor);
     focus = _chrome_canonicalize_restored_boundary(focus);
-    selection.removeAllRanges();
-    if (selection.setBaseAndExtent) {
+    if (typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
+    if (typeof selection.setBaseAndExtent === "function") {
         selection.setBaseAndExtent(anchor.node, anchor.offset,
             focus.node, focus.offset);
         return true;
     }
-    selection.collapse(anchor.node, anchor.offset);
-    if (selection.extend) selection.extend(focus.node, focus.offset);
+    if (typeof selection.collapse === "function")
+        selection.collapse(anchor.node, anchor.offset);
+    if (typeof selection.extend === "function")
+        selection.extend(focus.node, focus.offset);
     return true;
 }
 
@@ -1249,15 +1806,88 @@ function _chrome_first_element_descendant(node) {
     return node;
 }
 
+function _chrome_location_collapsible_space(ch) {
+    return /^[ \t\n\r\f]$/.test(String(ch || ""));
+}
+
+function _chrome_location_preserves_whitespace(node, container) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    while (current && current !== document.body) {
+        if (_chrome_node_name_is(current, "pre") ||
+            _chrome_style_has_white_space_pre(current)) {
+            return true;
+        }
+        if (current === container) break;
+        current = current.parentNode;
+    }
+    return false;
+}
+
+function _chrome_location_atomic_element(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return false;
+    var tag = String(node.nodeName || "").toLowerCase();
+    return tag === "img" || tag === "input" || tag === "textarea" ||
+        tag === "button" || tag === "select" || tag === "object" ||
+        tag === "embed" || tag === "iframe" || tag === "hr";
+}
+
+function _chrome_location_subtree_has_visible_content(node) {
+    if (!node) return false;
+    if (node.nodeType === 3) {
+        var text = String(node.nodeValue || "");
+        for (var i = 0; i < text.length; i++) {
+            if (!_chrome_location_collapsible_space(text.charAt(i)))
+                return true;
+        }
+        return false;
+    }
+    if (node.nodeType !== 1) return false;
+    if (_chrome_node_name_is(node, "br")) return false;
+    if (_chrome_location_atomic_element(node)) return true;
+    var children = node.childNodes || [];
+    for (var j = 0; j < children.length; j++) {
+        if (_chrome_location_subtree_has_visible_content(children[j]))
+            return true;
+    }
+    return false;
+}
+
+function _chrome_location_has_later_visible_content(node, offset, container) {
+    if (!node) return false;
+    if (node.nodeType === 3) {
+        var text = String(node.nodeValue || "");
+        for (var i = Math.max(0, offset || 0); i < text.length; i++) {
+            if (!_chrome_location_collapsible_space(text.charAt(i)))
+                return true;
+        }
+    }
+    var current = node;
+    while (current && current !== container) {
+        for (var sibling = current.nextSibling; sibling;
+             sibling = sibling.nextSibling) {
+            if (_chrome_node_name_is(sibling, "br")) return false;
+            if (sibling.nodeType === 1 && _chrome_dump_is_block_ce3(sibling))
+                return false;
+            if (_chrome_location_subtree_has_visible_content(sibling))
+                return true;
+        }
+        current = current.parentNode;
+    }
+    return false;
+}
+
 function _chrome_location_units(container) {
     var units = [];
     var state = { atLineStart: true, previousSpace: false };
-    function addUnit(startNode, startOffset, endNode, endOffset) {
+    function addUnit(startNode, startOffset, endNode, endOffset, text,
+            lineBreak) {
         units.push({
             startNode: startNode,
             startOffset: startOffset || 0,
             endNode: endNode,
             endOffset: endOffset || 0,
+            text: text === undefined ? "" : String(text),
+            lineBreak: !!lineBreak,
             startPath: _chrome_boundary_path(container, startNode,
                 startOffset || 0),
             endPath: _chrome_boundary_path(container, endNode, endOffset || 0)
@@ -1267,16 +1897,25 @@ function _chrome_location_units(container) {
         if (!node) return;
         if (node.nodeType === 3) {
             var text = String(node.nodeValue || "");
+            var preserveWhitespace =
+                _chrome_location_preserves_whitespace(node, container);
             for (var i = 0; i < text.length; i++) {
                 var ch = text.charAt(i);
-                if (/\s/.test(ch)) {
+                if (!preserveWhitespace &&
+                    _chrome_location_collapsible_space(ch)) {
+                    var start = i;
+                    while (i + 1 < text.length &&
+                            _chrome_location_collapsible_space(
+                                text.charAt(i + 1))) {
+                        i++;
+                    }
                     if (state.atLineStart || state.previousSpace) continue;
-                    addUnit(node, i, node, i + 1);
+                    addUnit(node, start, node, start + 1, " ");
                     state.previousSpace = true;
                     state.atLineStart = false;
                     continue;
                 }
-                addUnit(node, i, node, i + 1);
+                addUnit(node, i, node, i + 1, ch);
                 state.previousSpace = false;
                 state.atLineStart = false;
             }
@@ -1294,8 +1933,16 @@ function _chrome_location_units(container) {
                 endNode = next;
                 endOffset = 1;
             }
-            addUnit(node.parentNode, index, endNode, endOffset);
+            addUnit(node.parentNode, index, endNode, endOffset, "\n", true);
             state.atLineStart = true;
+            state.previousSpace = false;
+            return;
+        }
+        if (node !== container && _chrome_location_atomic_element(node)) {
+            var atomicIndex = _chrome_node_child_index(node);
+            addUnit(node.parentNode, atomicIndex, node.parentNode,
+                atomicIndex + 1, "\uFFFC");
+            state.atLineStart = false;
             state.previousSpace = false;
             return;
         }
@@ -1307,7 +1954,7 @@ function _chrome_location_units(container) {
                 j + 1 < children.length) {
                 var next = _chrome_first_element_descendant(children[j + 1]);
                 if (next) {
-                    addUnit(node, j + 1, next, 0);
+                    addUnit(node, j + 1, next, 0, "\n", true);
                     state.atLineStart = true;
                     state.previousSpace = false;
                 }
@@ -1381,13 +2028,149 @@ function _chrome_range_text_contents(range) {
         for (var i = 0; i < children.length; i++)
             appendNodeText(children[i], parts);
     }
+    function childIndex(parent, child) {
+        if (!parent || !child || !parent.childNodes) return -1;
+        for (var i = 0; i < parent.childNodes.length; i++) {
+            if (parent.childNodes[i] === child) return i;
+        }
+        return -1;
+    }
+    function pathFrom(rootNode, node) {
+        var path = [];
+        for (var current = node; current && current !== rootNode;
+             current = current.parentNode) {
+            if (!current.parentNode) return null;
+            var index = childIndex(current.parentNode, current);
+            if (index < 0) return null;
+            path.unshift(index);
+        }
+        return current === rootNode ? path : null;
+    }
+    function comparePathWithBoundary(path, boundaryPath, boundaryOffset) {
+        var length = Math.min(path.length, boundaryPath.length);
+        for (var i = 0; i < length; i++) {
+            if (path[i] < boundaryPath[i]) return -1;
+            if (path[i] > boundaryPath[i]) return 1;
+        }
+        if (path.length === boundaryPath.length) return 0;
+        var next = path[boundaryPath.length];
+        if (next < boundaryOffset) return -1;
+        if (next >= boundaryOffset) return 1;
+        return 0;
+    }
+    function appendBounded(node, path, startPath, startOffset, endPath,
+            endOffset, parts) {
+        if (!node) return;
+        if (node.nodeType === 3) {
+            var text = String(node.nodeValue || "");
+            var start = 0;
+            var end = text.length;
+            if (path.length === startPath.length) start = startOffset || 0;
+            if (path.length === endPath.length) end = endOffset || 0;
+            start = Math.max(0, Math.min(text.length, start));
+            end = Math.max(0, Math.min(text.length, end));
+            if (end > start) parts.push(text.slice(start, end));
+            return;
+        }
+        if (node.nodeType !== 1 && node.nodeType !== 9 &&
+                node.nodeType !== 11) {
+            return;
+        }
+        if (node.nodeType === 1 &&
+            String(node.nodeName || "").toLowerCase() === "br") {
+            parts.push("\n");
+            return;
+        }
+        if (node.shadowRoot) {
+            appendBounded(node.shadowRoot, path, startPath, startOffset,
+                endPath, endOffset, parts);
+            return;
+        }
+        var children = node.childNodes || [];
+        for (var i = 0; i < children.length; i++) {
+            var childPath = path.concat([i]);
+            if (comparePathWithBoundary(childPath, startPath,
+                    startOffset || 0) < 0) {
+                continue;
+            }
+            if (comparePathWithBoundary(childPath, endPath,
+                    endOffset || 0) >= 0) {
+                continue;
+            }
+            appendBounded(children[i], childPath, startPath, startOffset,
+                endPath, endOffset, parts);
+        }
+    }
     if (root && root.nodeType === 3) {
         var text = String(root.nodeValue || "");
-        return text.substring(range.startOffset || 0, range.endOffset || 0);
+        var start = Math.max(0, Math.min(text.length,
+            range.startOffset || 0));
+        var end = Math.max(0, Math.min(text.length, range.endOffset || 0));
+        return text.substring(Math.min(start, end), Math.max(start, end));
+    }
+    if (root && (root.nodeType === 1 || root.nodeType === 9 ||
+            root.nodeType === 11)) {
+        var startPath = pathFrom(root, range.startContainer);
+        var endPath = pathFrom(root, range.endContainer);
+        if (startPath && endPath) {
+            var bounded = [];
+            if (range.startContainer === root) {
+                startPath = [];
+            } else if (range.startContainer &&
+                    range.startContainer.nodeType !== 3) {
+                startPath = startPath.concat([range.startOffset || 0]);
+            }
+            if (range.endContainer === root) {
+                endPath = [];
+            } else if (range.endContainer &&
+                    range.endContainer.nodeType !== 3) {
+                endPath = endPath.concat([range.endOffset || 0]);
+            }
+            appendBounded(root, [], startPath, range.startOffset || 0,
+                endPath, range.endOffset || 0, bounded);
+            return bounded.join("");
+        }
     }
     var parts = [];
     appendNodeText(root, parts);
     return parts.join("");
+}
+
+function _chrome_text_control_selected_text_ce3(control) {
+    if (!_chrome_is_text_control(control)) return null;
+    _chrome_install_text_control_selection_api(control);
+    var value = _chrome_control_plain_value(control);
+    var start = typeof control.selectionStart === "number" ?
+        control.selectionStart : 0;
+    var end = typeof control.selectionEnd === "number" ?
+        control.selectionEnd : start;
+    start = Math.max(0, Math.min(value.length, start));
+    end = Math.max(0, Math.min(value.length, end));
+    return value.slice(Math.min(start, end), Math.max(start, end));
+}
+
+function _chrome_selection_to_string_ce3(selection, nativeToString) {
+    _chrome_sync_selection_override_from_native_live_ce3(selection, false);
+    var active = _chrome_active_text_control || _chrome_meaningful_active_element();
+    var selectedControlText = _chrome_text_control_selected_text_ce3(active);
+    if (selectedControlText !== null) return selectedControlText;
+    if (_chrome_select_all_text_node)
+        return _chrome_text_excluding_controls(_chrome_select_all_text_node);
+    if (_chrome_selection_override_range)
+        return _chrome_range_text_contents(_chrome_selection_override_range);
+    if (selection && typeof nativeToString === "function") {
+        try {
+            var nativeText = String(nativeToString.call(selection) || "");
+            if (nativeText !== "[object Object]") return nativeText;
+        } catch (_) {}
+    }
+    if (selection && selection.rangeCount &&
+            typeof selection.getRangeAt === "function") {
+        try {
+            return _chrome_range_text_contents(selection.getRangeAt(0));
+        } catch (_) {}
+    }
+    return "";
 }
 
 var internals = {
@@ -1523,7 +2306,12 @@ function _chrome_install_geometry_shims() {
             wrapper.startContainer;
         wrapper.collapsed = range.collapsed;
         wrapper.deleteContents = function() {
-            return range.deleteContents.apply(range, arguments);
+            if (range && typeof range.deleteContents === "function") {
+                if (typeof range.deleteContents.apply === "function")
+                    return range.deleteContents.apply(range, arguments);
+                return range.deleteContents();
+            }
+            _chrome_clone_or_extract_range_contents(range, true);
         };
         wrapper.cloneContents = function() {
             if (range.cloneContents) {
@@ -1539,19 +2327,106 @@ function _chrome_install_geometry_shims() {
             }
             return _chrome_clone_or_extract_range_contents(range, true);
         };
+        wrapper.cloneRange = function() {
+            if (range.cloneRange) {
+                try { return wrapRangeForGeometry(range.cloneRange()); }
+                catch (_) {}
+            }
+            var clone = document.createRange();
+            clone.setStart(this.startContainer || range.startContainer,
+                this.startOffset || 0);
+            clone.setEnd(this.endContainer || range.endContainer,
+                this.endOffset || 0);
+            return wrapRangeForGeometry(clone);
+        };
         wrapper.insertNode = function() {
-            return range.insertNode.apply(range, arguments);
+            if (range && typeof range.insertNode === "function") {
+                if (typeof range.insertNode.apply === "function")
+                    return range.insertNode.apply(range, arguments);
+                return range.insertNode(arguments[0]);
+            }
+            var newNode = arguments[0];
+            var container = this.startContainer || range.startContainer;
+            var offset = this.startOffset || 0;
+            if (!newNode || !container) return;
+            if (container.nodeType === 3 && container.parentNode) {
+                var parent = container.parentNode;
+                var text = container.nodeValue || "";
+                if (offset > 0 && offset < text.length) {
+                    var after = document.createTextNode(text.slice(offset));
+                    container.data = text.slice(0, offset);
+                    parent.insertBefore(newNode, container.nextSibling);
+                    parent.insertBefore(after, newNode.nextSibling);
+                } else if (offset <= 0) {
+                    parent.insertBefore(newNode, container);
+                } else {
+                    parent.insertBefore(newNode, container.nextSibling);
+                }
+                if (!(container.nodeValue || "") && container.parentNode)
+                    container.parentNode.removeChild(container);
+                return;
+            }
+            if (container.nodeType === 1) {
+                container.insertBefore(newNode,
+                    container.childNodes ? container.childNodes[offset] ||
+                        null : null);
+            }
         };
         wrapper.setStart = function() {
-            var value = range.setStart.apply(range, arguments);
-            this.startContainer = range.startContainer || this.startContainer;
-            this.startOffset = range.startOffset || 0;
+            var node = arguments[0];
+            var offset = arguments[1] || 0;
+            if (range && typeof range.setStart === "function") {
+                var value = typeof range.setStart.apply === "function" ?
+                    range.setStart.apply(range, arguments) :
+                    range.setStart(node, offset);
+                this.startContainer = range.startContainer ||
+                    this.startContainer;
+                this.startOffset = range.startOffset || 0;
+                return value;
+            }
+            this.startContainer = node;
+            this.startOffset = offset;
+            if (range) {
+                range.startContainer = node;
+                range.startOffset = offset;
+            }
+            if (_chrome_selection_override_range) {
+                _chrome_selection_override_range.startContainer = node;
+                _chrome_selection_override_range.startOffset = offset;
+            }
+            this.collapsed = this.startContainer === this.endContainer &&
+                (this.startOffset || 0) === (this.endOffset || 0);
+            this.commonAncestorContainer =
+                _chrome_delete_common_ancestor(this.startContainer,
+                    this.endContainer);
             return value;
         };
         wrapper.setEnd = function() {
-            var value = range.setEnd.apply(range, arguments);
-            this.endContainer = range.endContainer || this.endContainer;
-            this.endOffset = range.endOffset || 0;
+            var node = arguments[0];
+            var offset = arguments[1] || 0;
+            if (range && typeof range.setEnd === "function") {
+                var value = typeof range.setEnd.apply === "function" ?
+                    range.setEnd.apply(range, arguments) :
+                    range.setEnd(node, offset);
+                this.endContainer = range.endContainer || this.endContainer;
+                this.endOffset = range.endOffset || 0;
+                return value;
+            }
+            this.endContainer = node;
+            this.endOffset = offset;
+            if (range) {
+                range.endContainer = node;
+                range.endOffset = offset;
+            }
+            if (_chrome_selection_override_range) {
+                _chrome_selection_override_range.endContainer = node;
+                _chrome_selection_override_range.endOffset = offset;
+            }
+            this.collapsed = this.startContainer === this.endContainer &&
+                (this.startOffset || 0) === (this.endOffset || 0);
+            this.commonAncestorContainer =
+                _chrome_delete_common_ancestor(this.startContainer,
+                    this.endContainer);
             return value;
         };
         wrapper.getClientRects = function() {
@@ -1573,6 +2448,29 @@ function _chrome_install_geometry_shims() {
                 try {
                     Object.defineProperty(proxy, prop, {
                         get: function() {
+                            _chrome_sync_selection_override_from_native_live_ce3(
+                                selection, false);
+                            var override = _chrome_selection_override_range;
+                            if (override) {
+                                if (prop === "anchorNode" ||
+                                        prop === "baseNode")
+                                    return override.startContainer;
+                                if (prop === "anchorOffset" ||
+                                        prop === "baseOffset")
+                                    return override.startOffset || 0;
+                                if (prop === "focusNode" ||
+                                        prop === "extentNode")
+                                    return override.endContainer;
+                                if (prop === "focusOffset" ||
+                                        prop === "extentOffset")
+                                    return override.endOffset || 0;
+                                if (prop === "rangeCount") return 1;
+                                if (prop === "isCollapsed")
+                                    return override.startContainer ===
+                                        override.endContainer &&
+                                        (override.startOffset || 0) ===
+                                        (override.endOffset || 0);
+                            }
                             if (prop === "baseOffset" &&
                                 typeof _chrome_find_base_offset === "number")
                                 return _chrome_find_base_offset;
@@ -1598,6 +2496,10 @@ function _chrome_install_geometry_shims() {
         try {
             Object.defineProperty(proxy, "baseOffset", {
                 get: function() {
+                    _chrome_sync_selection_override_from_native_live_ce3(
+                        selection, false);
+                    if (_chrome_selection_override_range)
+                        return _chrome_selection_override_range.startOffset || 0;
                     if (typeof _chrome_find_base_offset === "number")
                         return _chrome_find_base_offset;
                     return selection.anchorOffset;
@@ -1605,6 +2507,10 @@ function _chrome_install_geometry_shims() {
             });
             Object.defineProperty(proxy, "extentOffset", {
                 get: function() {
+                    _chrome_sync_selection_override_from_native_live_ce3(
+                        selection, false);
+                    if (_chrome_selection_override_range)
+                        return _chrome_selection_override_range.endOffset || 0;
                     if (typeof _chrome_find_extent_offset === "number")
                         return _chrome_find_extent_offset;
                     return selection.focusOffset;
@@ -1614,83 +2520,246 @@ function _chrome_install_geometry_shims() {
         var methods = ["addRange", "collapse", "collapseToEnd",
             "collapseToStart", "containsNode", "deleteFromDocument",
             "extend", "modify", "removeAllRanges", "removeRange",
-            "selectAllChildren", "setBaseAndExtent", "toString"];
+            "selectAllChildren", "setBaseAndExtent"];
         for (var j = 0; j < methods.length; j++) {
             (function(method) {
                 proxy[method] = function() {
-                    return selection[method].apply(selection, arguments);
+                    if (typeof selection[method] === "function")
+                        return selection[method].apply(selection, arguments);
+                    if (method === "toString") {
+                        return _chrome_selection_override_range ?
+                            _chrome_range_text_contents(
+                                _chrome_selection_override_range) : "";
+                    }
+                    if (method === "collapseToStart" &&
+                            _chrome_selection_override_range) {
+                        return proxy.collapse(
+                            _chrome_selection_override_range.startContainer,
+                            _chrome_selection_override_range.startOffset || 0);
+                    }
+                    if (method === "collapseToEnd" &&
+                            _chrome_selection_override_range) {
+                        return proxy.collapse(
+                            _chrome_selection_override_range.endContainer,
+                            _chrome_selection_override_range.endOffset || 0);
+                    }
+                    if (method === "deleteFromDocument" &&
+                            _chrome_selection_override_range) {
+                        var range = document.createRange();
+                        range.setStart(
+                            _chrome_selection_override_range.startContainer,
+                            _chrome_selection_override_range.startOffset || 0);
+                        range.setEnd(
+                            _chrome_selection_override_range.endContainer,
+                            _chrome_selection_override_range.endOffset || 0);
+                        if (typeof range.deleteContents === "function")
+                            range.deleteContents();
+                        proxy.removeAllRanges();
+                    }
+                    return undefined;
                 };
             })(methods[j]);
         }
         proxy.getRangeAt = function(index) {
-            return wrapRangeForGeometry(selection.getRangeAt(index));
+            _chrome_sync_selection_override_from_native_live_ce3(selection,
+                false);
+            if (typeof selection.getRangeAt === "function") {
+                try {
+                    var nativeRange = selection.getRangeAt(index);
+                    if (nativeRange)
+                        return wrapRangeForGeometry(nativeRange);
+                } catch (_) {
+                    if ((index || 0) === 0 && _chrome_selection_override_range)
+                        return wrapRangeForGeometry(
+                            _chrome_selection_override_range);
+                    throw _;
+                }
+            }
+            if ((index || 0) === 0 && _chrome_selection_override_range)
+                return wrapRangeForGeometry(_chrome_selection_override_range);
+            return null;
+        };
+        proxy.toString = function() {
+            _chrome_sync_selection_override_from_native_live_ce3(selection,
+                false);
+            return _chrome_selection_to_string_ce3(selection,
+                typeof selection.toString === "function" ?
+                    selection.toString : null);
         };
         proxy.collapse = function(node, offset) {
-            return selection.collapse(
-                _chrome_resolve_named_element_candidate(node), offset);
+            node = _chrome_resolve_named_element_candidate(node);
+            var clampedOffset = _chrome_clamp_text_selection_offset(node,
+                offset || 0);
+            _chrome_selection_override_range = {
+                startContainer: node,
+                startOffset: clampedOffset,
+                endContainer: node,
+                endOffset: clampedOffset
+            };
+            if (typeof selection.collapse === "function") {
+                return selection.collapse(node, clampedOffset);
+            }
         };
         proxy.containsNode = function(node, allowPartial) {
-            return selection.containsNode(
-                _chrome_resolve_named_element_candidate(node), allowPartial);
+            if (typeof selection.containsNode === "function") {
+                return selection.containsNode(
+                    _chrome_resolve_named_element_candidate(node), allowPartial);
+            }
+            return false;
+        };
+        proxy.deleteFromDocument = function() {
+            var active = _chrome_active_text_control ||
+                _chrome_meaningful_active_element();
+            if (_chrome_is_text_control(active)) return undefined;
+            if (_chrome_selection_override_range) {
+                var range = document.createRange();
+                range.setStart(_chrome_selection_override_range.startContainer,
+                    _chrome_selection_override_range.startOffset || 0);
+                range.setEnd(_chrome_selection_override_range.endContainer,
+                    _chrome_selection_override_range.endOffset || 0);
+                if (typeof range.deleteContents === "function")
+                    range.deleteContents();
+                return proxy.removeAllRanges();
+            }
+            if (typeof selection.deleteFromDocument === "function")
+                return selection.deleteFromDocument();
         };
         proxy.extend = function(node, offset) {
-            return selection.extend(
-                _chrome_resolve_named_element_candidate(node), offset);
+            node = _chrome_resolve_named_element_candidate(node);
+            var clampedOffset = _chrome_clamp_text_selection_offset(node,
+                offset || 0);
+            var anchorNode = this.anchorNode || selection.anchorNode || node;
+            var anchorOffset = this.anchorOffset !== undefined ?
+                this.anchorOffset : selection.anchorOffset || 0;
+            _chrome_selection_override_range = {
+                startContainer: anchorNode,
+                startOffset: _chrome_clamp_text_selection_offset(anchorNode,
+                    anchorOffset),
+                endContainer: node,
+                endOffset: clampedOffset
+            };
+            if (typeof selection.extend === "function") {
+                return selection.extend(node, clampedOffset);
+            }
         };
         proxy.addRange = function(range) {
-            if (selection.rangeCount && selection.removeAllRanges)
+            if (selection.rangeCount &&
+                    typeof selection.removeAllRanges === "function") {
                 selection.removeAllRanges();
+            }
             _chrome_find_base_offset = undefined;
             _chrome_find_extent_offset = undefined;
             _chrome_find_selection_active = false;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = false;
             if (range) {
                 var shadow = _chrome_range_shadow(range);
+                var existing = _chrome_selection_override_range || {};
                 _chrome_selection_override_range = {
-                    startContainer: shadow && shadow.startContainer ||
-                        range.__chromeStartContainer ||
-                        range.startContainer,
-                    startOffset: shadow && shadow.startOffset !== undefined ?
-                        shadow.startOffset :
-                        range.__chromeStartOffset !== undefined ?
-                        range.__chromeStartOffset : range.startOffset,
-                    endContainer: shadow && shadow.endContainer ||
-                        range.__chromeEndContainer ||
-                        range.endContainer,
-                    endOffset: shadow && shadow.endOffset !== undefined ?
-                        shadow.endOffset :
-                        range.__chromeEndOffset !== undefined ?
-                        range.__chromeEndOffset : range.endOffset
+                    startContainer: range.__chromeStartContainer ||
+                        range.startContainer ||
+                        shadow && shadow.startContainer ||
+                        existing.startContainer,
+                    startOffset: range.__chromeStartOffset !== undefined &&
+                        range.__chromeStartOffset !== null ?
+                        range.__chromeStartOffset :
+                        range.startOffset !== undefined &&
+                        range.startOffset !== null ? range.startOffset :
+                        shadow && shadow.startOffset !== undefined ?
+                        shadow.startOffset : existing.startOffset,
+                    endContainer: range.__chromeEndContainer ||
+                        range.endContainer ||
+                        shadow && shadow.endContainer ||
+                        existing.endContainer,
+                    endOffset: range.__chromeEndOffset !== undefined &&
+                        range.__chromeEndOffset !== null ?
+                        range.__chromeEndOffset :
+                        range.endOffset !== undefined &&
+                        range.endOffset !== null ? range.endOffset :
+                        shadow && shadow.endOffset !== undefined ?
+                        shadow.endOffset : existing.endOffset
                 };
             }
-            return selection.addRange(range);
+            if (typeof selection.addRange === "function")
+                return selection.addRange(_chrome_unwrap_range_ce3(range));
         };
         proxy.empty = function() {
             _chrome_find_base_offset = undefined;
             _chrome_find_extent_offset = undefined;
             _chrome_selection_override_range = null;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = true;
             _chrome_find_selection_active = false;
-            return selection.removeAllRanges();
+            if (typeof selection.removeAllRanges === "function")
+                return selection.removeAllRanges();
         };
         proxy.removeAllRanges = function() {
             _chrome_find_base_offset = undefined;
             _chrome_find_extent_offset = undefined;
             _chrome_selection_override_range = null;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = true;
             _chrome_find_selection_active = false;
-            return selection.removeAllRanges();
+            if (typeof selection.removeAllRanges === "function")
+                return selection.removeAllRanges();
+        };
+        proxy.removeRange = function(range) {
+            if (_chrome_selection_override_range) {
+                _chrome_selection_override_range = null;
+                _chrome_selection_override_is_find_ce3 = false;
+                _chrome_find_selection_cleared_ce3 = true;
+                _chrome_find_selection_active = false;
+            }
+            if (typeof selection.removeRange === "function")
+                return selection.removeRange(_chrome_unwrap_range_ce3(range));
         };
         proxy.selectAllChildren = function(node) {
-            return selection.selectAllChildren(
-                _chrome_resolve_named_element_candidate(node));
+            node = _chrome_resolve_named_element_candidate(node);
+            _chrome_clear_find_selection_state_ce3();
+            _chrome_selection_override_range = {
+                startContainer: node,
+                startOffset: 0,
+                endContainer: node,
+                endOffset: node && node.childNodes ? node.childNodes.length : 0
+            };
+            if (typeof selection.selectAllChildren === "function")
+                return selection.selectAllChildren(node);
+            var first = _chrome_first_text_descendant(node) || node;
+            var last = _chrome_last_text_descendant(node) || node;
+            var endOffset = last.nodeType === 3 ? (last.nodeValue || "").length :
+                (last.childNodes ? last.childNodes.length : 0);
+            return proxy.setBaseAndExtent(first, 0, last, endOffset);
         };
         proxy.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
                 focusOffset) {
             anchorNode = _chrome_resolve_named_element_candidate(anchorNode);
             focusNode = _chrome_resolve_named_element_candidate(focusNode);
-            return selection.setBaseAndExtent(
-                anchorNode,
-                _chrome_clamp_text_selection_offset(anchorNode, anchorOffset),
-                focusNode,
-                _chrome_clamp_text_selection_offset(focusNode, focusOffset));
+            var startOffset = _chrome_clamp_text_selection_offset(anchorNode,
+                anchorOffset);
+            var endOffset = _chrome_clamp_text_selection_offset(focusNode,
+                focusOffset);
+            _chrome_selection_override_range = {
+                startContainer: anchorNode,
+                startOffset: startOffset,
+                endContainer: focusNode,
+                endOffset: endOffset
+            };
+            var host = typeof _chrome_editing_host_for_node === "function" ?
+                (_chrome_editing_host_for_node(focusNode) ||
+                    _chrome_editing_host_for_node(anchorNode)) : null;
+            if (host && _chrome_is_content_editable_element(host)) {
+                _chrome_active_element = host;
+                _chrome_active_text_control = null;
+            }
+            if (typeof selection.setBaseAndExtent === "function") {
+                return selection.setBaseAndExtent(anchorNode, startOffset,
+                    focusNode, endOffset);
+            }
+            if (typeof selection.collapse === "function") {
+                selection.collapse(anchorNode, startOffset);
+                if (typeof selection.extend === "function")
+                    selection.extend(focusNode, endOffset);
+            }
         };
         proxy.modify = function(alter, direction, granularity) {
             var move = String(alter || "").toLowerCase() === "move";
@@ -1704,7 +2773,7 @@ function _chrome_install_geometry_shims() {
             var lineboundary = String(granularity || "").toLowerCase() ===
                 "lineboundary";
             if (extend &&
-                _chrome_should_pause_first_letter_word_boundary(selection,
+                _chrome_should_pause_first_letter_word_boundary(this,
                     direction, granularity)) {
                 return;
             }
@@ -1717,7 +2786,8 @@ function _chrome_install_geometry_shims() {
                             _chrome_selection_boundary_for_mouse_element(
                                 current, false);
                         if (boundary) {
-                            selection.collapse(boundary.node,
+                            proxy.setBaseAndExtent(boundary.node,
+                                boundary.offset, boundary.node,
                                 boundary.offset);
                             return;
                         }
@@ -1726,7 +2796,7 @@ function _chrome_install_geometry_shims() {
                 }
             }
             if (move && left && character &&
-                _chrome_move_left_from_after_image(selection)) {
+                _chrome_move_left_from_after_image(this)) {
                 return;
             }
             if (move && forward && character &&
@@ -1735,15 +2805,21 @@ function _chrome_install_geometry_shims() {
                 var child = this.focusNode.childNodes[this.focusOffset || 0];
                 if (child && child.nodeType === 1 &&
                     !_chrome_element_has_text_descendant(child)) {
-                    selection.collapse(this.focusNode,
+                    proxy.setBaseAndExtent(this.focusNode,
+                        (this.focusOffset || 0) + 1, this.focusNode,
                         (this.focusOffset || 0) + 1);
                     return;
                 }
             }
+            if (typeof selection.modify !== "function" ||
+                    selection.modify.__chromeModifyFallbackCe3) {
+                return selectionModifyFallback(proxy, alter, direction,
+                    granularity);
+            }
             if (extend && character)
                 selection.__chromeExtendCharacterAdjusted = false;
-            var beforeNode = selection.focusNode;
-            var beforeOffset = selection.focusOffset || 0;
+            var beforeNode = this.focusNode;
+            var beforeOffset = this.focusOffset || 0;
             var result = selection.modify.apply(selection, arguments);
             if (extend && character)
                 _chrome_adjust_extend_character_after_modify(selection,
@@ -1755,6 +2831,7 @@ function _chrome_install_geometry_shims() {
                     selection, beforeNode, beforeOffset);
             if (extend && forward && word)
                 _chrome_adjust_extend_word_from_pre_boundary(selection);
+            _chrome_sync_selection_override_from_native_ce3(selection);
             return result;
         };
         return proxy;
@@ -1803,16 +2880,532 @@ function _chrome_install_geometry_shims() {
         };
         Element.prototype.__chromeForcedRectOverrideCe3 = true;
     }
+    function selectionModifyDirectionForward(direction) {
+        var lower = String(direction || "").toLowerCase();
+        return lower === "forward" || lower === "right" || lower === "down";
+    }
+    function selectionModifyDirectionBackward(direction) {
+        var lower = String(direction || "").toLowerCase();
+        return lower === "backward" || lower === "left" || lower === "up";
+    }
+    function selectionModifyCurrentRange(selectionLike) {
+        var range = _chrome_selection_override_range;
+        if (range && range.startContainer && range.endContainer) {
+            return {
+                anchorNode: range.startContainer,
+                anchorOffset: range.startOffset || 0,
+                focusNode: range.endContainer,
+                focusOffset: range.endOffset || 0
+            };
+        }
+        if (!selectionLike) return null;
+        var anchorNode = selectionLike.anchorNode || selectionLike.focusNode;
+        var focusNode = selectionLike.focusNode || anchorNode;
+        if (!anchorNode || !focusNode) return null;
+        return {
+            anchorNode: anchorNode,
+            anchorOffset: selectionLike.anchorOffset || 0,
+            focusNode: focusNode,
+            focusOffset: selectionLike.focusOffset || 0
+        };
+    }
+    function selectionModifyRangeHasContent(range) {
+        return !!(range && range.anchorNode && range.focusNode &&
+            (range.anchorNode !== range.focusNode ||
+                (range.anchorOffset || 0) !== (range.focusOffset || 0)));
+    }
+    function selectionModifyRoot(range) {
+        if (!range) return document.body || document.documentElement;
+        var host = _chrome_editing_host_for_node(range.focusNode) ||
+            _chrome_editing_host_for_node(range.anchorNode);
+        if (host) return host;
+        var current = range.focusNode && range.focusNode.nodeType === 1 ?
+            range.focusNode : range.focusNode && range.focusNode.parentNode;
+        while (current && current !== document.body) {
+            if (_chrome_is_content_editable_element(current) &&
+                    _chrome_contenteditable_value(current) !== "false") {
+                return current;
+            }
+            current = current.parentNode;
+        }
+        current = range.anchorNode && range.anchorNode.nodeType === 1 ?
+            range.anchorNode : range.anchorNode && range.anchorNode.parentNode;
+        while (current && current !== document.body) {
+            if (_chrome_is_content_editable_element(current) &&
+                    _chrome_contenteditable_value(current) !== "false") {
+                return current;
+            }
+            current = current.parentNode;
+        }
+        var node = range.focusNode || range.anchorNode;
+        if (node && node.nodeType === 1 &&
+                _chrome_is_content_editable_element(node)) {
+            return node;
+        }
+        return document.body || document.documentElement || node;
+    }
+    function selectionModifyBoundaryAt(root, location) {
+        var units = _chrome_location_units(root);
+        if (!units.length) return { node: root, offset: 0 };
+        var index = Math.max(0, Math.min(units.length, location || 0));
+        if (index <= 0) {
+            return {
+                node: units[0].startNode,
+                offset: units[0].startOffset || 0
+            };
+        }
+        if (index >= units.length) {
+            return {
+                node: units[units.length - 1].endNode,
+                offset: units[units.length - 1].endOffset || 0
+            };
+        }
+        if (index > 0) {
+            return {
+                node: units[index - 1].endNode,
+                offset: units[index - 1].endOffset || 0
+            };
+        }
+        return {
+            node: units[index].startNode,
+            offset: units[index].startOffset || 0
+        };
+    }
+    function selectionModifySet(selectionLike, anchorNode, anchorOffset,
+            focusNode, focusOffset) {
+        if (!anchorNode || !focusNode) return false;
+        anchorOffset = _chrome_clamp_text_selection_offset(anchorNode,
+            anchorOffset || 0);
+        focusOffset = _chrome_clamp_text_selection_offset(focusNode,
+            focusOffset || 0);
+        _chrome_find_base_offset = undefined;
+        _chrome_find_extent_offset = undefined;
+        _chrome_find_selection_active = false;
+        _chrome_selection_override_is_find_ce3 = false;
+        _chrome_find_selection_cleared_ce3 = false;
+        _chrome_selection_override_range = {
+            startContainer: anchorNode,
+            startOffset: anchorOffset,
+            endContainer: focusNode,
+            endOffset: focusOffset
+        };
+        if (selectionLike && typeof selectionLike.setBaseAndExtent ===
+                "function") {
+            try {
+                selectionLike.setBaseAndExtent(anchorNode, anchorOffset,
+                    focusNode, focusOffset);
+                return true;
+            } catch (_) {}
+        }
+        if (selectionLike && typeof selectionLike.collapse === "function") {
+            try {
+                selectionLike.collapse(anchorNode, anchorOffset);
+                if ((anchorNode !== focusNode || anchorOffset !== focusOffset) &&
+                        typeof selectionLike.extend === "function") {
+                    selectionLike.extend(focusNode, focusOffset);
+                }
+                return true;
+            } catch (_) {}
+        }
+        return true;
+    }
+    function selectionModifyTextFromUnits(units) {
+        var text = "";
+        for (var i = 0; i < units.length; i++)
+            text += units[i].text || "";
+        return text;
+    }
+    function selectionModifyWordTarget(units, index, forward) {
+        var text = selectionModifyTextFromUnits(units);
+        if (forward) return _chrome_next_word_end_ce3(text, index);
+        return _chrome_previous_word_start_ce3(text, index);
+    }
+    function selectionModifyLineBoundaryTarget(units, index, forward) {
+        if (forward) {
+            for (var i = index; i < units.length; i++) {
+                if (units[i].lineBreak) return i;
+            }
+            return units.length;
+        }
+        for (var j = index - 1; j >= 0; j--) {
+            if (units[j].lineBreak) return j + 1;
+        }
+        return 0;
+    }
+    function selectionModifyBlockFor(node, root) {
+        var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+        while (current && current !== root && current !== document.body) {
+            if (_chrome_dump_is_block_ce3(current)) return current;
+            current = current.parentNode;
+        }
+        return null;
+    }
+    function selectionModifySiblingBlock(block, forward) {
+        for (var sibling = block ?
+                (forward ? block.nextSibling : block.previousSibling) : null;
+             sibling;
+             sibling = forward ? sibling.nextSibling : sibling.previousSibling) {
+            if (sibling.nodeType !== 1) continue;
+            if (!_chrome_dump_is_block_ce3(sibling)) continue;
+            if (_chrome_location_units(sibling).length) return sibling;
+        }
+        return null;
+    }
+    function selectionModifyLineTarget(range, root, index, forward) {
+        var block = selectionModifyBlockFor(range.focusNode, root);
+        var sibling = selectionModifySiblingBlock(block, forward);
+        if (block && sibling) {
+            var localIndex = _chrome_location_from_boundary(block,
+                range.focusNode, range.focusOffset || 0);
+            return {
+                root: sibling,
+                location: Math.max(0, Math.min(
+                    _chrome_location_units(sibling).length, localIndex))
+            };
+        }
+        var units = _chrome_location_units(root);
+        if (forward) {
+            for (var i = index; i < units.length; i++) {
+                if (units[i].lineBreak) {
+                    return { root: root, location: Math.min(units.length,
+                        i + 1) };
+                }
+            }
+            return { root: root, location: units.length };
+        }
+        for (var j = index - 1; j >= 0; j--) {
+            if (units[j].lineBreak) return { root: root, location: j };
+        }
+        return { root: root, location: 0 };
+    }
+    function selectionModifyFallback(selectionLike, alter, direction,
+            granularity) {
+        var move = String(alter || "").toLowerCase() === "move";
+        var extend = String(alter || "").toLowerCase() === "extend";
+        var forward = selectionModifyDirectionForward(direction);
+        var backward = selectionModifyDirectionBackward(direction);
+        var lowerGranularity = String(granularity || "").toLowerCase();
+        var character = lowerGranularity === "character";
+        var word = lowerGranularity === "word";
+        var lineboundary = lowerGranularity === "lineboundary";
+        var line = lowerGranularity === "line";
+
+        if ((!move && !extend) || (!forward && !backward)) return false;
+
+        var active = _chrome_meaningful_active_element();
+        var nativeActive = document && document.activeElement !== document.body ?
+            document.activeElement : null;
+        if (!_chrome_is_text_control(active) &&
+                _chrome_is_text_control(nativeActive)) {
+            active = nativeActive;
+        }
+        if (_chrome_is_text_control(active)) {
+            _chrome_install_text_control_selection_api(active);
+            var text = _chrome_control_plain_value(active);
+            var length = text.length;
+            var start = typeof active.selectionStart === "number" ?
+                active.selectionStart : 0;
+            var end = typeof active.selectionEnd === "number" ?
+                active.selectionEnd : start;
+            var focus = active.selectionDirection === "backward" ? start : end;
+            var anchor = active.selectionDirection === "backward" ? end : start;
+            var target = focus;
+            if (character) target += forward ? 1 : -1;
+            else if (word)
+                target = forward ? _chrome_next_word_end_ce3(text, focus) :
+                    _chrome_previous_word_start_ce3(text, focus);
+            else if (lineboundary || line)
+                target = forward ? length : 0;
+            else return false;
+            target = Math.max(0, Math.min(length, target));
+            if (move) anchor = target;
+            var nextStart = Math.min(anchor, target);
+            var nextEnd = Math.max(anchor, target);
+            var selectionDirection = !extend || anchor === target ? "none" :
+                (target < anchor ? "backward" : "forward");
+            if (active.setSelectionRange)
+                active.setSelectionRange(nextStart, nextEnd,
+                    selectionDirection);
+            _chrome_selection_override_range = null;
+            _chrome_find_selection_active = false;
+            return true;
+        }
+
+        var range = selectionModifyCurrentRange(selectionLike);
+        if (!range || !range.focusNode) return false;
+        if (move && character && selectionModifyRangeHasContent(range)) {
+            if (forward) {
+                return selectionModifySet(selectionLike, range.focusNode,
+                    range.focusOffset || 0, range.focusNode,
+                    range.focusOffset || 0);
+            }
+            return selectionModifySet(selectionLike, range.anchorNode,
+                range.anchorOffset || 0, range.anchorNode,
+                range.anchorOffset || 0);
+        }
+
+        var root = selectionModifyRoot(range);
+        if (!root) return false;
+        var units = _chrome_location_units(root);
+        var index = _chrome_location_from_boundary(root, range.focusNode,
+            range.focusOffset || 0);
+        var targetInfo = { root: root, location: index };
+        if (character) {
+            targetInfo.location = index + (forward ? 1 : -1);
+        } else if (word) {
+            targetInfo.location = selectionModifyWordTarget(units, index,
+                forward);
+        } else if (lineboundary) {
+            var boundaryRoot = selectionModifyBlockFor(range.focusNode, root) ||
+                root;
+            var boundaryUnits = _chrome_location_units(boundaryRoot);
+            targetInfo.root = boundaryRoot;
+            targetInfo.location = selectionModifyLineBoundaryTarget(
+                boundaryUnits,
+                _chrome_location_from_boundary(boundaryRoot, range.focusNode,
+                    range.focusOffset || 0),
+                forward);
+        } else if (line) {
+            targetInfo = selectionModifyLineTarget(range, root, index, forward);
+        } else {
+            return false;
+        }
+        var targetUnits = _chrome_location_units(targetInfo.root);
+        if (character && forward && targetInfo.location > 0) {
+            var previousUnit = targetUnits[targetInfo.location - 1];
+            if (previousUnit && previousUnit.text === " " &&
+                    previousUnit.startNode &&
+                    previousUnit.startNode.nodeType === 3 &&
+                    /^[ \t\n\r\f]*$/.test(
+                        String(previousUnit.startNode.nodeValue || "")) &&
+                    !_chrome_location_has_later_visible_content(
+                        previousUnit.startNode,
+                        previousUnit.endOffset || 0, targetInfo.root)) {
+                targetInfo.location--;
+            }
+        }
+        targetInfo.location = Math.max(0, Math.min(targetUnits.length,
+            targetInfo.location || 0));
+        var boundary = selectionModifyBoundaryAt(targetInfo.root,
+            targetInfo.location);
+        if (move) {
+            return selectionModifySet(selectionLike, boundary.node,
+                boundary.offset, boundary.node, boundary.offset);
+        }
+        var changed = selectionModifySet(selectionLike, range.anchorNode,
+            range.anchorOffset || 0, boundary.node, boundary.offset);
+        if (changed && word && forward)
+            _chrome_adjust_extend_word_from_pre_boundary(selectionLike);
+        return changed;
+    }
+    function installSelectionFindMethods(selection) {
+        if (!selection || selection.__chromeFindOwnMethodsCe3) return selection;
+        var baseAddRange = selection.addRange;
+        var baseRemoveAllRanges = selection.removeAllRanges;
+        var baseSetBaseAndExtent = selection.setBaseAndExtent;
+        try {
+            if (typeof baseAddRange === "function") {
+                selection.addRange = function(range) {
+                    if (this.rangeCount &&
+                            typeof this.removeAllRanges === "function")
+                        this.removeAllRanges();
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_find_selection_active = false;
+            _chrome_selection_override_is_find_ce3 = false;
+            if (range) {
+                        var shadow = _chrome_range_shadow(range);
+                        _chrome_selection_override_range = {
+                            startContainer:
+                                shadow && shadow.startContainer ||
+                                range.__chromeStartContainer ||
+                                range.startContainer,
+                            startOffset:
+                                shadow && shadow.startOffset !== undefined ?
+                                shadow.startOffset :
+                                range.__chromeStartOffset !== undefined ?
+                                range.__chromeStartOffset :
+                                range.startOffset,
+                            endContainer:
+                                shadow && shadow.endContainer ||
+                                range.__chromeEndContainer ||
+                                range.endContainer,
+                            endOffset:
+                                shadow && shadow.endOffset !== undefined ?
+                                shadow.endOffset :
+                                range.__chromeEndOffset !== undefined ?
+                                range.__chromeEndOffset :
+                                range.endOffset
+                        };
+                    }
+                    return baseAddRange.call(this,
+                        _chrome_unwrap_range_ce3(range));
+                };
+            }
+        } catch (_) {}
+        try {
+            if (typeof selection.addRange !== "function") {
+                selection.addRange = function(range) {
+                    _chrome_find_base_offset = undefined;
+                    _chrome_find_extent_offset = undefined;
+                    _chrome_find_selection_active = false;
+                    _chrome_selection_override_is_find_ce3 = false;
+                    _chrome_find_selection_cleared_ce3 = false;
+                    if (range) {
+                        var shadow = _chrome_range_shadow(range);
+                        var existing = _chrome_selection_override_range || {};
+                        _chrome_selection_override_range = {
+                            startContainer:
+                                range.__chromeStartContainer ||
+                                range.startContainer ||
+                                shadow && shadow.startContainer ||
+                                existing.startContainer,
+                            startOffset:
+                                range.__chromeStartOffset !== undefined &&
+                                range.__chromeStartOffset !== null ?
+                                range.__chromeStartOffset :
+                                range.startOffset !== undefined &&
+                                range.startOffset !== null ?
+                                range.startOffset :
+                                shadow && shadow.startOffset !== undefined ?
+                                shadow.startOffset : existing.startOffset,
+                            endContainer:
+                                range.__chromeEndContainer ||
+                                range.endContainer ||
+                                shadow && shadow.endContainer ||
+                                existing.endContainer,
+                            endOffset:
+                                range.__chromeEndOffset !== undefined &&
+                                range.__chromeEndOffset !== null ?
+                                range.__chromeEndOffset :
+                                range.endOffset !== undefined &&
+                                range.endOffset !== null ?
+                                range.endOffset :
+                                shadow && shadow.endOffset !== undefined ?
+                                shadow.endOffset : existing.endOffset
+                        };
+                    }
+                };
+            }
+        } catch (_) {}
+        try {
+            if (typeof baseRemoveAllRanges === "function") {
+                selection.removeAllRanges = function() {
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_selection_override_range = null;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = true;
+            _chrome_find_selection_active = false;
+                    return baseRemoveAllRanges.call(this);
+                };
+            }
+        } catch (_) {}
+        try {
+            selection.empty = function() {
+            _chrome_find_base_offset = undefined;
+            _chrome_find_extent_offset = undefined;
+            _chrome_selection_override_range = null;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = true;
+            _chrome_find_selection_active = false;
+                if (typeof this.removeAllRanges === "function")
+                    return this.removeAllRanges();
+            };
+        } catch (_) {}
+        try {
+            if (typeof baseSetBaseAndExtent === "function") {
+                selection.setBaseAndExtent = function(anchorNode, anchorOffset,
+                        focusNode, focusOffset) {
+                    anchorNode =
+                        _chrome_resolve_named_element_candidate(anchorNode);
+                    focusNode =
+                        _chrome_resolve_named_element_candidate(focusNode);
+                    var startOffset = _chrome_clamp_text_selection_offset(
+                        anchorNode, anchorOffset);
+                    var endOffset = _chrome_clamp_text_selection_offset(
+                        focusNode, focusOffset);
+                    _chrome_find_base_offset = undefined;
+                    _chrome_find_extent_offset = undefined;
+                    _chrome_find_selection_active = false;
+                    _chrome_selection_override_is_find_ce3 = false;
+                    _chrome_find_selection_cleared_ce3 = false;
+                    _chrome_selection_override_range = {
+                        startContainer: anchorNode,
+                        startOffset: startOffset,
+                        endContainer: focusNode,
+                        endOffset: endOffset
+                    };
+                    return baseSetBaseAndExtent.call(this, anchorNode,
+                        startOffset, focusNode, endOffset);
+                };
+            } else if (typeof selection.setBaseAndExtent !== "function") {
+                selection.setBaseAndExtent = function(anchorNode, anchorOffset,
+                        focusNode, focusOffset) {
+                    anchorNode =
+                        _chrome_resolve_named_element_candidate(anchorNode);
+                    focusNode =
+                        _chrome_resolve_named_element_candidate(focusNode);
+                    var startOffset = _chrome_clamp_text_selection_offset(
+                        anchorNode, anchorOffset);
+                    var endOffset = _chrome_clamp_text_selection_offset(
+                        focusNode, focusOffset);
+                    _chrome_find_base_offset = undefined;
+                    _chrome_find_extent_offset = undefined;
+                    _chrome_find_selection_active = false;
+                    _chrome_selection_override_is_find_ce3 = false;
+                    _chrome_find_selection_cleared_ce3 = false;
+                    _chrome_selection_override_range = {
+                        startContainer: anchorNode,
+                        startOffset: startOffset,
+                        endContainer: focusNode,
+                        endOffset: endOffset
+                    };
+                    if (typeof this.collapse === "function") {
+                        try {
+                            this.collapse(anchorNode, startOffset);
+                            if (typeof this.extend === "function")
+                                this.extend(focusNode, endOffset);
+                        } catch (_) {}
+                    }
+                };
+            }
+        } catch (_) {}
+        try {
+            if (typeof selection.modify !== "function") {
+                selection.modify = function(alter, direction, granularity) {
+                    return selectionModifyFallback(this, alter, direction,
+                        granularity);
+                };
+                selection.modify.__chromeModifyFallbackCe3 = true;
+            }
+        } catch (_) {}
+        try {
+            if (typeof selection.getRangeAt !== "function") {
+                selection.getRangeAt = function() {
+                    return wrapRangeForGeometry(_chrome_selection_override_range);
+                };
+            }
+        } catch (_) {}
+        try { selection.__chromeFindOwnMethodsCe3 = true; } catch (_) {}
+        return selection;
+    }
     var baseGetSelection = typeof getSelection === "function" ? getSelection :
-        null;
-    if (baseGetSelection && !baseGetSelection.__chromeGeometryWrapped) {
+        (typeof window !== "undefined" &&
+        typeof window.getSelection === "function" ? window.getSelection : null);
+    var windowGetSelectionIsWrapped = typeof window !== "undefined" &&
+        window.getSelection && window.getSelection.__chromeGeometryWrapped;
+    if (baseGetSelection && !windowGetSelectionIsWrapped) {
         try {
             var nativeSelectionForProto =
                 baseGetSelection.call(window || globalThis);
+            installSelectionFindMethods(nativeSelectionForProto);
             var selectionProto = Object.getPrototypeOf ?
                 Object.getPrototypeOf(nativeSelectionForProto) :
                 nativeSelectionForProto.__proto__;
             if (selectionProto && !selectionProto.__chromeFindOffsetsCe3) {
+                _chrome_install_selection_override_accessors_ce3(
+                    selectionProto);
                 var baseSelectionAddRange = selectionProto.addRange;
                 var baseSelectionRemoveAllRanges =
                     selectionProto.removeAllRanges;
@@ -1837,49 +3430,73 @@ function _chrome_install_geometry_shims() {
                         return this.focusOffset;
                     }
                 });
-                if (baseSelectionAddRange) {
+                if (typeof baseSelectionAddRange === "function") {
                     selectionProto.addRange = function(range) {
-                        if (this.rangeCount && this.removeAllRanges)
+                        if (this.rangeCount &&
+                                typeof this.removeAllRanges === "function")
                             this.removeAllRanges();
                         _chrome_find_base_offset = undefined;
                         _chrome_find_extent_offset = undefined;
                         _chrome_find_selection_active = false;
-                        var shadow = _chrome_range_shadow(range);
+                        _chrome_selection_override_is_find_ce3 = false;
+                        _chrome_find_selection_cleared_ce3 = false;
                         if (range) {
+                            var shadow = _chrome_range_shadow(range);
+                            var existing =
+                                _chrome_selection_override_range || {};
                             _chrome_selection_override_range = {
                                 startContainer:
-                                    shadow && shadow.startContainer ||
                                     range.__chromeStartContainer ||
-                                    range.startContainer,
+                                    range.startContainer ||
+                                    shadow && shadow.startContainer ||
+                                    existing.startContainer,
                                 startOffset:
-                                    shadow && shadow.startOffset !== undefined ?
-                                    shadow.startOffset :
-                                    range.__chromeStartOffset !== undefined ?
+                                    range.__chromeStartOffset !== undefined &&
+                                    range.__chromeStartOffset !== null ?
                                     range.__chromeStartOffset :
-                                    range.startOffset,
+                                    range.startOffset !== undefined &&
+                                    range.startOffset !== null ?
+                                    range.startOffset :
+                                    shadow && shadow.startOffset !== undefined ?
+                                    shadow.startOffset : existing.startOffset,
                                 endContainer:
-                                    shadow && shadow.endContainer ||
                                     range.__chromeEndContainer ||
-                                    range.endContainer,
+                                    range.endContainer ||
+                                    shadow && shadow.endContainer ||
+                                    existing.endContainer,
                                 endOffset:
-                                    shadow && shadow.endOffset !== undefined ?
-                                    shadow.endOffset :
-                                    range.__chromeEndOffset !== undefined ?
+                                    range.__chromeEndOffset !== undefined &&
+                                    range.__chromeEndOffset !== null ?
                                     range.__chromeEndOffset :
-                                    range.endOffset
+                                    range.endOffset !== undefined &&
+                                    range.endOffset !== null ?
+                                    range.endOffset :
+                                    shadow && shadow.endOffset !== undefined ?
+                                    shadow.endOffset : existing.endOffset
                             };
                         }
-                        return baseSelectionAddRange.call(this, range);
+                        return baseSelectionAddRange.call(this,
+                            _chrome_unwrap_range_ce3(range));
                     };
                 }
-                if (baseSelectionCollapse) {
+                if (typeof baseSelectionCollapse === "function") {
                     selectionProto.collapse = function(node, offset) {
+                        node = _chrome_resolve_named_element_candidate(node);
+                        var clampedOffset =
+                            _chrome_clamp_text_selection_offset(node,
+                                offset || 0);
+                        _chrome_clear_find_selection_state_ce3();
+                        _chrome_selection_override_range = {
+                            startContainer: node,
+                            startOffset: clampedOffset,
+                            endContainer: node,
+                            endOffset: clampedOffset
+                        };
                         return baseSelectionCollapse.call(this,
-                            _chrome_resolve_named_element_candidate(node),
-                            offset);
+                            node, clampedOffset);
                     };
                 }
-                if (baseSelectionContainsNode) {
+                if (typeof baseSelectionContainsNode === "function") {
                     selectionProto.containsNode = function(node,
                             allowPartialContainment) {
                         return baseSelectionContainsNode.call(this,
@@ -1887,48 +3504,139 @@ function _chrome_install_geometry_shims() {
                             allowPartialContainment);
                     };
                 }
-                if (baseSelectionExtend) {
+                if (typeof baseSelectionExtend === "function") {
                     selectionProto.extend = function(node, offset) {
-                        return baseSelectionExtend.call(this,
-                            _chrome_resolve_named_element_candidate(node),
-                            offset);
+                        node = _chrome_resolve_named_element_candidate(node);
+                        var clampedOffset =
+                            _chrome_clamp_text_selection_offset(node,
+                                offset || 0);
+                        var anchorNode =
+                            _chrome_selection_override_range &&
+                            _chrome_selection_override_range.startContainer ?
+                                _chrome_selection_override_range.startContainer :
+                                (this.anchorNode || node);
+                        var anchorOffset =
+                            _chrome_selection_override_range &&
+                            _chrome_selection_override_range.startOffset !==
+                                undefined ?
+                                _chrome_selection_override_range.startOffset :
+                                (this.anchorOffset || 0);
+                        _chrome_clear_find_selection_state_ce3();
+                        _chrome_selection_override_range = {
+                            startContainer: anchorNode,
+                            startOffset:
+                                _chrome_clamp_text_selection_offset(anchorNode,
+                                    anchorOffset),
+                            endContainer: node,
+                            endOffset: clampedOffset
+                        };
+                        return baseSelectionExtend.call(this, node,
+                            clampedOffset);
                     };
                 }
-                if (baseSelectionRemoveAllRanges) {
+                if (typeof baseSelectionRemoveAllRanges === "function") {
                     selectionProto.removeAllRanges = function() {
                         _chrome_find_base_offset = undefined;
                         _chrome_find_extent_offset = undefined;
                         _chrome_selection_override_range = null;
+                        _chrome_selection_override_is_find_ce3 = false;
+                        _chrome_find_selection_cleared_ce3 = true;
                         _chrome_find_selection_active = false;
                         return baseSelectionRemoveAllRanges.call(this);
                     };
-                }
-                if (baseSelectionSelectAllChildren) {
-                    selectionProto.selectAllChildren = function(node) {
-                        return baseSelectionSelectAllChildren.call(this,
-                            _chrome_resolve_named_element_candidate(node));
+                } else {
+                    selectionProto.removeAllRanges = function() {
+                        _chrome_find_base_offset = undefined;
+                        _chrome_find_extent_offset = undefined;
+                        _chrome_selection_override_range = null;
+                        _chrome_selection_override_is_find_ce3 = false;
+                        _chrome_find_selection_cleared_ce3 = true;
+                        _chrome_find_selection_active = false;
                     };
                 }
-                if (baseSelectionSetBaseAndExtent) {
+                if (typeof baseSelectionSelectAllChildren === "function") {
+                    selectionProto.selectAllChildren = function(node) {
+                        node = _chrome_resolve_named_element_candidate(node);
+                        _chrome_clear_find_selection_state_ce3();
+                        _chrome_selection_override_range = {
+                            startContainer: node,
+                            startOffset: 0,
+                            endContainer: node,
+                            endOffset: node && node.childNodes ?
+                                node.childNodes.length : 0
+                        };
+                        return baseSelectionSelectAllChildren.call(this,
+                            node);
+                    };
+                } else {
+                    selectionProto.selectAllChildren = function(node) {
+                        node = _chrome_resolve_named_element_candidate(node);
+                        _chrome_clear_find_selection_state_ce3();
+                        _chrome_selection_override_range = {
+                            startContainer: node,
+                            startOffset: 0,
+                            endContainer: node,
+                            endOffset: node && node.childNodes ?
+                                node.childNodes.length : 0
+                        };
+                        var first = _chrome_first_text_descendant(node) || node;
+                        var last = _chrome_last_text_descendant(node) || node;
+                        var endOffset = last && last.nodeType === 3 ?
+                            (last.nodeValue || "").length :
+                            (last && last.childNodes ? last.childNodes.length : 0);
+                        if (typeof this.setBaseAndExtent === "function")
+                            return this.setBaseAndExtent(first, 0, last,
+                                endOffset);
+                    };
+                }
+                if (typeof baseSelectionSetBaseAndExtent === "function") {
                     selectionProto.setBaseAndExtent = function(anchorNode,
                             anchorOffset, focusNode, focusOffset) {
                         anchorNode =
                             _chrome_resolve_named_element_candidate(anchorNode);
                         focusNode =
                             _chrome_resolve_named_element_candidate(focusNode);
-                        return baseSelectionSetBaseAndExtent.call(this,
-                            anchorNode,
+                        var startOffset =
                             _chrome_clamp_text_selection_offset(anchorNode,
-                                anchorOffset),
-                            focusNode,
+                                anchorOffset);
+                        var endOffset =
                             _chrome_clamp_text_selection_offset(focusNode,
-                                focusOffset));
+                                focusOffset);
+                        _chrome_clear_find_selection_state_ce3();
+                        _chrome_selection_override_range = {
+                            startContainer: anchorNode,
+                            startOffset: startOffset,
+                            endContainer: focusNode,
+                            endOffset: endOffset
+                        };
+                        return baseSelectionSetBaseAndExtent.call(this,
+                            anchorNode, startOffset, focusNode, endOffset);
+                    };
+                } else {
+                    selectionProto.setBaseAndExtent = function(anchorNode,
+                            anchorOffset, focusNode, focusOffset) {
+                        anchorNode =
+                            _chrome_resolve_named_element_candidate(anchorNode);
+                        focusNode =
+                            _chrome_resolve_named_element_candidate(focusNode);
+                        _chrome_selection_override_range = {
+                            startContainer: anchorNode,
+                            startOffset: _chrome_clamp_text_selection_offset(
+                                anchorNode, anchorOffset),
+                            endContainer: focusNode,
+                            endOffset: _chrome_clamp_text_selection_offset(
+                                focusNode, focusOffset)
+                        };
+                        _chrome_selection_override_is_find_ce3 = false;
+                        _chrome_find_selection_cleared_ce3 = false;
                     };
                 }
                 selectionProto.empty = function() {
                     _chrome_find_base_offset = undefined;
                     _chrome_find_extent_offset = undefined;
                     _chrome_selection_override_range = null;
+                    _chrome_selection_override_is_find_ce3 = false;
+                    _chrome_find_selection_cleared_ce3 = true;
                     _chrome_find_selection_active = false;
                     return this.removeAllRanges();
                 };
@@ -1936,8 +3644,17 @@ function _chrome_install_geometry_shims() {
             }
         } catch (_) {}
         var wrappedGetSelection = function() {
-            var selection = baseGetSelection.apply(this, arguments);
-            if (selection && selection.getRangeAt &&
+            var selection = null;
+            if (typeof baseGetSelection.apply === "function") {
+                try {
+                    selection = baseGetSelection.apply(this, arguments);
+                } catch (_) {
+                    selection = baseGetSelection();
+                }
+            } else {
+                selection = baseGetSelection();
+            }
+            if (selection && typeof selection.getRangeAt === "function" &&
                 !selection.__chromeGeometryWrapped) {
                 var baseGetRangeAt = selection.getRangeAt;
                 selection.getRangeAt = function(index) {
@@ -1968,6 +3685,24 @@ function _chrome_install_geometry_shims() {
             } catch (_) {
                 window.getSelection = wrappedGetSelection;
             }
+            try {
+                if (window.getSelection !== wrappedGetSelection) {
+                    try { delete window.getSelection; } catch (_) {}
+                    if (window.getSelection !== wrappedGetSelection)
+                        window.getSelection = wrappedGetSelection;
+                }
+                if (window.getSelection !== wrappedGetSelection &&
+                        Object.getPrototypeOf) {
+                    var windowProto = Object.getPrototypeOf(window);
+                    if (windowProto) {
+                        Object.defineProperty(windowProto, "getSelection", {
+                            configurable: true,
+                            writable: true,
+                            value: wrappedGetSelection
+                        });
+                    }
+                }
+            } catch (_) {}
         }
         if (typeof globalThis !== "undefined") {
             try {
@@ -1979,6 +3714,12 @@ function _chrome_install_geometry_shims() {
             } catch (_) {
                 globalThis.getSelection = wrappedGetSelection;
             }
+            try {
+                globalThis.__chrome_wrapped_get_selection_ce3 =
+                    wrappedGetSelection;
+                (0, eval)(
+                    "getSelection = globalThis.__chrome_wrapped_get_selection_ce3");
+            } catch (_) {}
         }
         if (document && !document.__chromeGetSelectionProxyCe3) {
             document.getSelection = function() {
@@ -1986,6 +3727,11 @@ function _chrome_install_geometry_shims() {
             };
             document.__chromeGetSelectionProxyCe3 = true;
         }
+    } else if (baseGetSelection) {
+        try {
+            installSelectionFindMethods(baseGetSelection.call(
+                window || globalThis));
+        } catch (_) {}
     }
 }
 _chrome_install_geometry_shims();
@@ -2002,6 +3748,9 @@ function _chrome_synthetic_width_for_element(element) {
         var text = element.textContent || "";
         width = Math.max(1, text.length || 1);
     }
+    if (_chrome_element_is_draggable_ce3(element)) {
+        width = Math.max(width, 20);
+    }
     element.__chromeSyntheticWidth = width;
     try {
         Object.defineProperty(element, "offsetWidth", {
@@ -2014,6 +3763,34 @@ function _chrome_synthetic_width_for_element(element) {
         });
     } catch (_) {}
     return width;
+}
+
+function _chrome_element_is_draggable_ce3(element) {
+    if (!element || element.nodeType !== 1) return false;
+    var attr = _chrome_get_dom_attr_ce3(element, "draggable");
+    if (String(attr || "").toLowerCase() === "true") return true;
+    return element.draggable === true;
+}
+
+function _chrome_lookup_draggable_element_by_x_ce3(x) {
+    var value = Number(x);
+    if (value !== value || !document || !document.getElementsByTagName)
+        return null;
+    var elements = document.getElementsByTagName("*");
+    var best = null;
+    var bestWidth = 1000000;
+    for (var i = 0; elements && i < elements.length; i++) {
+        var element = elements[i];
+        if (!_chrome_element_is_draggable_ce3(element)) continue;
+        var left = Number(element.offsetLeft || 0);
+        if (left !== left) left = 0;
+        var width = Math.max(20, _chrome_synthetic_width_for_element(element));
+        if (value >= left && value <= left + width && width < bestWidth) {
+            best = element;
+            bestWidth = width;
+        }
+    }
+    return best;
 }
 
 function _chrome_lookup_by_nearest_left(table, x) {
@@ -2171,8 +3948,8 @@ function _chrome_child_at_synthetic_x(element, relX) {
 }
 
 function _chrome_call_selection_modify(alter, direction, granularity) {
-    var selection = getSelection();
-    if (selection && selection.modify)
+    var selection = _chrome_current_selection_ce3();
+    if (selection && typeof selection.modify === "function")
         return selection.modify(alter, direction, granularity);
     return false;
 }
@@ -2195,6 +3972,13 @@ function _chrome_range_key(range) {
     return range && range.__chromeBaseRange ? range.__chromeBaseRange : range;
 }
 
+function _chrome_unwrap_range_ce3(range) {
+    if (!range) return range;
+    if (range.__chromeNativeRangeCe3) return range.__chromeNativeRangeCe3;
+    if (range.__chromeBaseRange) return range.__chromeBaseRange;
+    return range;
+}
+
 function _chrome_range_shadow(range) {
     var key = _chrome_range_key(range);
     if (!key) return null;
@@ -2207,12 +3991,400 @@ function _chrome_range_shadow(range) {
     return record;
 }
 
+function _chrome_clear_find_selection_state_ce3() {
+    _chrome_find_base_offset = undefined;
+    _chrome_find_extent_offset = undefined;
+    _chrome_find_selection_active = false;
+    _chrome_selection_override_is_find_ce3 = false;
+    _chrome_find_selection_cleared_ce3 = false;
+}
+
+function _chrome_sync_selection_override_from_native_ce3(selection) {
+    if (!selection || !selection.anchorNode || !selection.focusNode)
+        return false;
+    _chrome_clear_find_selection_state_ce3();
+    _chrome_selection_override_range = {
+        startContainer: selection.anchorNode,
+        startOffset: selection.anchorOffset || 0,
+        endContainer: selection.focusNode,
+        endOffset: selection.focusOffset || 0
+    };
+    return true;
+}
+
+function _chrome_install_selection_override_accessors_ce3(target) {
+    if (!target || target.__chromeSelectionOverrideAccessorsCe3) return;
+    target.__chromeSelectionOverrideAccessorsCe3 = true;
+}
+
+function _chrome_native_selection_ce3(selection) {
+    if (selection && selection.__chromeBaseSelection)
+        return selection.__chromeBaseSelection;
+    return selection || null;
+}
+
+function _chrome_selection_boundary_is_live_ce3(node) {
+    if (!node) return false;
+    if (typeof _chrome_node_is_live === "function")
+        return _chrome_node_is_live(node);
+    for (var current = node; current; current = current.parentNode) {
+        if (current === document || current === document.documentElement ||
+                current === document.body) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function _chrome_sync_selection_override_from_native_live_ce3(selection,
+        force) {
+    if (_chrome_selection_override_is_find_ce3 ||
+            _chrome_find_selection_active ||
+            _chrome_select_all_text_node ||
+            _chrome_active_text_control) {
+        return false;
+    }
+    var nativeSelection = _chrome_native_selection_ce3(selection);
+    if (!nativeSelection) return false;
+    var anchorNode = null;
+    var focusNode = null;
+    var anchorOffset = 0;
+    var focusOffset = 0;
+    try {
+        anchorNode = nativeSelection.anchorNode || null;
+        focusNode = nativeSelection.focusNode || null;
+        anchorOffset = nativeSelection.anchorOffset || 0;
+        focusOffset = nativeSelection.focusOffset || 0;
+    } catch (_) {
+        return false;
+    }
+    if (!anchorNode || !focusNode) return false;
+    if (!_chrome_selection_boundary_is_live_ce3(anchorNode) ||
+            !_chrome_selection_boundary_is_live_ce3(focusNode)) {
+        return false;
+    }
+    var override = _chrome_selection_override_range;
+    var overrideDetached = override &&
+        (!_chrome_selection_boundary_is_live_ce3(override.startContainer) ||
+        !_chrome_selection_boundary_is_live_ce3(override.endContainer));
+    var differs = !override ||
+        override.startContainer !== anchorNode ||
+        (override.startOffset || 0) !== anchorOffset ||
+        override.endContainer !== focusNode ||
+        (override.endOffset || 0) !== focusOffset;
+    if (!force && !overrideDetached && !differs) return true;
+    _chrome_clear_find_selection_state_ce3();
+    _chrome_selection_override_range = {
+        startContainer: anchorNode,
+        startOffset: anchorOffset,
+        endContainer: focusNode,
+        endOffset: focusOffset
+    };
+    return true;
+}
+
+function _chrome_adjust_selection_for_child_insert_ce3(parent, reference) {
+    var override = _chrome_selection_override_range;
+    if (!override || !parent || !parent.childNodes) return;
+    var index = reference ? _chrome_child_offset(reference) :
+        parent.childNodes.length;
+    if (override.startContainer === parent &&
+            (override.startOffset || 0) > index) {
+        override.startOffset = (override.startOffset || 0) + 1;
+    }
+    if (override.endContainer === parent &&
+            (override.endOffset || 0) >= index) {
+        override.endOffset = (override.endOffset || 0) + 1;
+    }
+}
+
+function _chrome_adjust_selection_for_character_insert_ce3(node, offset,
+        length) {
+    var override = _chrome_selection_override_range;
+    if (!override || !node || !length) return;
+    var insertOffset = Math.max(0, Number(offset) || 0);
+    var count = Math.max(0, Number(length) || 0);
+    if (override.startContainer === node &&
+            (override.startOffset || 0) > insertOffset) {
+        override.startOffset = (override.startOffset || 0) + count;
+    }
+    if (override.endContainer === node &&
+            (override.endOffset || 0) > insertOffset) {
+        override.endOffset = (override.endOffset || 0) + count;
+    }
+}
+
+function _chrome_adjust_character_delete_offset_ce3(current, offset, count) {
+    current = Math.max(0, Number(current) || 0);
+    offset = Math.max(0, Number(offset) || 0);
+    count = Math.max(0, Number(count) || 0);
+    var end = offset + count;
+    if (current > end) return current - count;
+    if (current > offset) return offset;
+    return current;
+}
+
+function _chrome_adjust_selection_for_character_delete_ce3(node, offset,
+        count) {
+    var override = _chrome_selection_override_range;
+    if (!override || !node || !count) return;
+    if (override.startContainer === node) {
+        override.startOffset = _chrome_adjust_character_delete_offset_ce3(
+            override.startOffset || 0, offset, count);
+    }
+    if (override.endContainer === node) {
+        override.endOffset = _chrome_adjust_character_delete_offset_ce3(
+            override.endOffset || 0, offset, count);
+    }
+}
+
+function _chrome_boundary_inside_removed_node_ce3(container, removed) {
+    return container === removed || _chrome_node_contains_node(removed,
+        container);
+}
+
+function _chrome_adjust_selection_for_node_remove_ce3(parent, child) {
+    var override = _chrome_selection_override_range;
+    if (!override || !parent || !child) return;
+    var index = _chrome_child_offset(child);
+    if (_chrome_boundary_inside_removed_node_ce3(override.startContainer,
+            child)) {
+        override.startContainer = parent;
+        override.startOffset = index;
+    } else if (override.startContainer === parent &&
+            (override.startOffset || 0) > index) {
+        override.startOffset = (override.startOffset || 0) - 1;
+    }
+    if (_chrome_boundary_inside_removed_node_ce3(override.endContainer,
+            child)) {
+        override.endContainer = parent;
+        override.endOffset = index;
+    } else if (override.endContainer === parent &&
+            (override.endOffset || 0) > index) {
+        override.endOffset = (override.endOffset || 0) - 1;
+    }
+}
+
+var _chrome_suppress_selection_insert_adjust_ce3 = false;
+var _chrome_suppress_selection_remove_adjust_ce3 = false;
+
+function _chrome_install_selection_insert_before_on_node_ce3(node) {
+    if (!node || node.__chromeSelectionInsertOffsetOwnCe3 ||
+            typeof node.insertBefore !== "function") {
+        return;
+    }
+    var baseInsertBefore = node.insertBefore;
+    var insertBeforeShim = function(newChild, referenceChild) {
+        _chrome_adjust_selection_for_child_insert_ce3(this,
+            referenceChild || null);
+        var previousSuppress = _chrome_suppress_selection_insert_adjust_ce3;
+        _chrome_suppress_selection_insert_adjust_ce3 = true;
+        try {
+            return baseInsertBefore.call(this, newChild,
+                referenceChild || null);
+        } finally {
+            _chrome_suppress_selection_insert_adjust_ce3 = previousSuppress;
+        }
+    };
+    insertBeforeShim.__chromeSelectionInsertOffsetWrappedCe3 = true;
+    try {
+        Object.defineProperty(node, "insertBefore", {
+            configurable: true,
+            writable: true,
+            value: insertBeforeShim
+        });
+    } catch (_) {
+        try { node.insertBefore = insertBeforeShim; } catch (_) {}
+    }
+    node.__chromeSelectionInsertOffsetOwnCe3 = true;
+}
+
+if (typeof Node !== "undefined" && Node.prototype &&
+    !Node.prototype.__chromeSelectionInsertOffsetCe3) {
+    var _chrome_base_node_insert_before_ce3 = Node.prototype.insertBefore;
+    Node.prototype.insertBefore = function(newChild, referenceChild) {
+        if (!_chrome_suppress_selection_insert_adjust_ce3) {
+            _chrome_adjust_selection_for_child_insert_ce3(this,
+                referenceChild || null);
+        }
+        return _chrome_base_node_insert_before_ce3.call(this, newChild,
+            referenceChild || null);
+    };
+    Node.prototype.insertBefore.__chromeSelectionInsertOffsetWrappedCe3 = true;
+    Node.prototype.__chromeSelectionInsertOffsetCe3 = true;
+}
+
+if (typeof Element !== "undefined" && Element.prototype &&
+    Element.prototype.insertBefore &&
+    !(Object.prototype.hasOwnProperty.call(Element.prototype,
+        "__chromeSelectionInsertOffsetCe3") &&
+        Element.prototype.__chromeSelectionInsertOffsetCe3)) {
+    var _chrome_base_element_insert_before_ce3 =
+        Element.prototype.insertBefore;
+    Element.prototype.insertBefore = function(newChild, referenceChild) {
+        _chrome_adjust_selection_for_child_insert_ce3(this,
+            referenceChild || null);
+        var previousSuppress = _chrome_suppress_selection_insert_adjust_ce3;
+        _chrome_suppress_selection_insert_adjust_ce3 = true;
+        try {
+            return _chrome_base_element_insert_before_ce3.call(this, newChild,
+                referenceChild || null);
+        } finally {
+            _chrome_suppress_selection_insert_adjust_ce3 = previousSuppress;
+        }
+    };
+    Element.prototype.insertBefore.__chromeSelectionInsertOffsetWrappedCe3 = true;
+    Element.prototype.__chromeSelectionInsertOffsetCe3 = true;
+}
+
+function _chrome_install_selection_character_data_hooks_ce3(proto) {
+    if (!proto || proto.__chromeSelectionCharacterDataCe3) return;
+    var baseInsertData = proto.insertData;
+    var baseDeleteData = proto.deleteData;
+    if (typeof baseInsertData === "function") {
+        proto.insertData = function(offset, data) {
+            _chrome_adjust_selection_for_character_insert_ce3(this, offset,
+                String(data == null ? "" : data).length);
+            return baseInsertData.call(this, offset, data);
+        };
+    }
+    if (typeof baseDeleteData === "function") {
+        proto.deleteData = function(offset, count) {
+            _chrome_adjust_selection_for_character_delete_ce3(this, offset,
+                count);
+            return baseDeleteData.call(this, offset, count);
+        };
+    }
+    proto.__chromeSelectionCharacterDataCe3 = true;
+}
+
+if (typeof CharacterData !== "undefined")
+    _chrome_install_selection_character_data_hooks_ce3(
+        CharacterData.prototype);
+if (typeof Text !== "undefined")
+    _chrome_install_selection_character_data_hooks_ce3(Text.prototype);
+
+function _chrome_install_selection_character_data_on_node_ce3(node) {
+    if (!node || node.__chromeSelectionCharacterDataOwnCe3 ||
+            node.nodeType !== 3) {
+        return;
+    }
+    var baseInsertData = node.insertData;
+    var baseDeleteData = node.deleteData;
+    if (typeof baseInsertData === "function") {
+        node.insertData = function(offset, data) {
+            _chrome_adjust_selection_for_character_insert_ce3(this, offset,
+                String(data == null ? "" : data).length);
+            return baseInsertData.call(this, offset, data);
+        };
+    }
+    if (typeof baseDeleteData === "function") {
+        node.deleteData = function(offset, count) {
+            _chrome_adjust_selection_for_character_delete_ce3(this, offset,
+                count);
+            return baseDeleteData.call(this, offset, count);
+        };
+    }
+    node.__chromeSelectionCharacterDataOwnCe3 = true;
+}
+
+if (typeof Node !== "undefined" && Node.prototype &&
+    !Node.prototype.__chromeSelectionRemoveOffsetCe3) {
+    var _chrome_base_node_remove_child_ce3 = Node.prototype.removeChild;
+    if (typeof _chrome_base_node_remove_child_ce3 === "function") {
+        Node.prototype.removeChild = function(child) {
+            if (!_chrome_suppress_selection_remove_adjust_ce3)
+                _chrome_adjust_selection_for_node_remove_ce3(this, child);
+            return _chrome_base_node_remove_child_ce3.call(this, child);
+        };
+        Node.prototype.__chromeSelectionRemoveOffsetCe3 = true;
+    }
+}
+
+function _chrome_install_selection_remove_on_proto_ce3(proto) {
+    if (!proto || proto.__chromeSelectionRemoveOffsetCe3 ||
+            typeof proto.remove !== "function") {
+        return;
+    }
+    var baseRemove = proto.remove;
+    proto.remove = function() {
+        if (this.parentNode && !_chrome_suppress_selection_remove_adjust_ce3)
+            _chrome_adjust_selection_for_node_remove_ce3(this.parentNode, this);
+        var previousSuppress = _chrome_suppress_selection_remove_adjust_ce3;
+        _chrome_suppress_selection_remove_adjust_ce3 = true;
+        try {
+            return baseRemove.call(this);
+        } finally {
+            _chrome_suppress_selection_remove_adjust_ce3 = previousSuppress;
+        }
+    };
+    proto.__chromeSelectionRemoveOffsetCe3 = true;
+}
+
+if (typeof Element !== "undefined")
+    _chrome_install_selection_remove_on_proto_ce3(Element.prototype);
+if (typeof CharacterData !== "undefined")
+    _chrome_install_selection_remove_on_proto_ce3(CharacterData.prototype);
+
+function _chrome_install_selection_remove_child_on_node_ce3(node) {
+    if (!node || node.__chromeSelectionRemoveChildOwnCe3 ||
+            typeof node.removeChild !== "function") {
+        return;
+    }
+    var baseRemoveChild = node.removeChild;
+    node.removeChild = function(child) {
+        if (!_chrome_suppress_selection_remove_adjust_ce3)
+            _chrome_adjust_selection_for_node_remove_ce3(this, child);
+        return baseRemoveChild.call(this, child);
+    };
+    node.__chromeSelectionRemoveChildOwnCe3 = true;
+}
+
+function _chrome_install_selection_remove_on_node_ce3(node) {
+    if (!node || node.__chromeSelectionRemoveOwnCe3 ||
+            typeof node.remove !== "function") {
+        return;
+    }
+    var baseRemove = node.remove;
+    node.remove = function() {
+        if (this.parentNode && !_chrome_suppress_selection_remove_adjust_ce3)
+            _chrome_adjust_selection_for_node_remove_ce3(this.parentNode, this);
+        var previousSuppress = _chrome_suppress_selection_remove_adjust_ce3;
+        _chrome_suppress_selection_remove_adjust_ce3 = true;
+        try {
+            return baseRemove.call(this);
+        } finally {
+            _chrome_suppress_selection_remove_adjust_ce3 = previousSuppress;
+        }
+    };
+    node.__chromeSelectionRemoveOwnCe3 = true;
+}
+
+function _chrome_install_selection_mutation_tracking_on_tree_ce3(root) {
+    if (!root) return root;
+    var stack = [root];
+    while (stack.length) {
+        var node = stack.shift();
+        if (!node) continue;
+        _chrome_install_selection_insert_before_on_node_ce3(node);
+        _chrome_install_selection_remove_child_on_node_ce3(node);
+        _chrome_install_selection_remove_on_node_ce3(node);
+        _chrome_install_selection_character_data_on_node_ce3(node);
+        var children = node.childNodes || [];
+        for (var i = 0; i < children.length; i++)
+            stack.push(children[i]);
+    }
+    return root;
+}
+
 function _chrome_set_range_start(range, node, offset) {
     var record = _chrome_range_shadow(range);
     if (!record) return;
     record.startContainer = node;
     record.startOffset = offset || 0;
     _chrome_find_selection_active = false;
+    _chrome_selection_override_is_find_ce3 = false;
+    _chrome_find_selection_cleared_ce3 = false;
     if (!_chrome_selection_override_range) _chrome_selection_override_range = {};
     _chrome_selection_override_range.startContainer = node;
     _chrome_selection_override_range.startOffset = offset || 0;
@@ -2224,6 +4396,8 @@ function _chrome_set_range_end(range, node, offset) {
     record.endContainer = node;
     record.endOffset = offset || 0;
     _chrome_find_selection_active = false;
+    _chrome_selection_override_is_find_ce3 = false;
+    _chrome_find_selection_cleared_ce3 = false;
     if (!_chrome_selection_override_range) _chrome_selection_override_range = {};
     _chrome_selection_override_range.endContainer = node;
     _chrome_selection_override_range.endOffset = offset || 0;
@@ -2420,7 +4594,8 @@ if (typeof Range !== "undefined" && Range.prototype &&
     Range.prototype.__chromeDeletingRangeCe3 = true;
 }
 
-if (document && document.createRange && !document.__chromeDeletingRangeCe3) {
+if (document && typeof document.createRange === "function" &&
+    !document.__chromeDeletingRangeCe3) {
     var _chrome_base_document_create_range = document.createRange;
     var _chrome_create_range_wrapper = function() {
         var range = _chrome_base_document_create_range.call(document);
@@ -2937,6 +5112,27 @@ function evalAndLog(expression) {
 var _chrome_base_eval_ce3 = _chrome_eval;
 _chrome_eval = function(expression) {
     var text = String(expression || "");
+    var queryMatch = /^document\.queryCommand(State|Value|Enabled|Indeterm)\(\s*(['"])([^'"]+)\2\s*\)$/.exec(text);
+    if (queryMatch) {
+        var queryKind = queryMatch[1];
+        var queryCommand = queryMatch[3];
+        if (queryKind === "State" &&
+            typeof _chrome_query_command_state_api_ce3 === "function") {
+            return _chrome_query_command_state_api_ce3(queryCommand);
+        }
+        if (queryKind === "Value" &&
+            typeof _chrome_query_command_value_ce3 === "function") {
+            return _chrome_query_command_value_ce3(queryCommand);
+        }
+        if (queryKind === "Enabled" &&
+            typeof _chrome_query_command_enabled_ce3 === "function") {
+            return _chrome_query_command_enabled_ce3(queryCommand);
+        }
+        if (queryKind === "Indeterm" &&
+            typeof _chrome_query_command_indeterm_ce3 === "function") {
+            return _chrome_query_command_indeterm_ce3(queryCommand);
+        }
+    }
     if (text === "document.queryCommandEnabled('DefaultParagraphSeparator')" ||
         text === 'document.queryCommandEnabled("DefaultParagraphSeparator")') {
         return true;
@@ -3008,27 +5204,156 @@ chrome.gpuBenchmarking = chrome.gpuBenchmarking || {
 };
 if (typeof window !== "undefined") window.chrome = chrome;
 
-function EditContext() {}
+var EditContext = typeof EditContext !== "undefined" ? EditContext : null;
+if (!EditContext || !EditContext.prototype ||
+        typeof EditContext.prototype.updateText !== "function") {
+    EditContext = function EditContext() {
+        this.text = "";
+        this.selectionStart = 0;
+        this.selectionEnd = 0;
+        this.__chromeListeners = {};
+    };
+    EditContext.prototype.addEventListener = function(type, callback) {
+        if (typeof callback !== "function") return;
+        var key = String(type || "");
+        if (!this.__chromeListeners[key]) this.__chromeListeners[key] = [];
+        this.__chromeListeners[key].push(callback);
+    };
+    EditContext.prototype.removeEventListener = function(type, callback) {
+        var list = this.__chromeListeners[String(type || "")];
+        if (!list) return;
+        for (var i = list.length - 1; i >= 0; i--) {
+            if (list[i] === callback) list.splice(i, 1);
+        }
+    };
+    EditContext.prototype.dispatchEvent = function(event) {
+        return _chrome_dispatch_edit_context_event_ce3(this, event);
+    };
+    EditContext.prototype.updateText = function(start, end, text) {
+        _chrome_edit_context_replace_text_ce3(this, start, end, text);
+    };
+    EditContext.prototype.updateSelection = function(start, end) {
+        this.selectionStart = Number(start) || 0;
+        this.selectionEnd = Number(end) || 0;
+    };
+}
 if (typeof window !== "undefined") window.EditContext = EditContext;
+
+function _chrome_make_edit_context_event_ce3(type, props) {
+    var event = {
+        type: String(type || ""),
+        bubbles: false,
+        cancelable: false,
+        defaultPrevented: false,
+        preventDefault: function() {
+            if (this.cancelable) this.defaultPrevented = true;
+        },
+        stopPropagation: function() {},
+        stopImmediatePropagation: function() {}
+    };
+    props = props || {};
+    for (var key in props) event[key] = props[key];
+    return event;
+}
+
+function _chrome_dispatch_edit_context_event_ce3(context, event) {
+    if (!context || !event) return true;
+    try {
+        event.target = context;
+        event.currentTarget = context;
+    } catch (_) {}
+    var list = context.__chromeListeners &&
+        context.__chromeListeners[String(event.type || "")];
+    if (list) {
+        list = list.slice();
+        for (var i = 0; i < list.length; i++) {
+            try {
+                list[i].call(context, event);
+            } catch (e) {
+                _chrome_editing_record(false, "EditContext event",
+                    e && e.message ? e.message : String(e));
+            }
+        }
+    }
+    var handler = context["on" + String(event.type || "")];
+    if (typeof handler === "function") {
+        try {
+            handler.call(context, event);
+        } catch (e) {
+            _chrome_editing_record(false, "EditContext event",
+                e && e.message ? e.message : String(e));
+        }
+    }
+    return !event.defaultPrevented;
+}
+
+function _chrome_edit_context_replace_text_ce3(context, start, end, text) {
+    if (!context) return { start: 0, end: 0, text: "" };
+    var oldText = String(context.text || "");
+    var length = oldText.length;
+    var rangeStart = Math.max(0, Math.min(length, Number(start) || 0));
+    var rangeEnd = Math.max(rangeStart, Math.min(length, Number(end) || 0));
+    var replacement = String(text == null ? "" : text);
+    context.text = oldText.slice(0, rangeStart) + replacement +
+        oldText.slice(rangeEnd);
+    return { start: rangeStart, end: rangeEnd, text: replacement };
+}
+
+function _chrome_replace_marked_text_ce3(controller, text, selectedStart,
+        selectedLength) {
+    var control = typeof _chrome_meaningful_active_element === "function" ?
+        _chrome_meaningful_active_element() : null;
+    if (!_chrome_is_text_control(control) || typeof control.value !== "string")
+        return false;
+    _chrome_install_text_control_selection_api(control);
+    var value = String(text == null ? "" : text);
+    var start = typeof control.selectionStart === "number" ?
+        control.selectionStart : 0;
+    var end = typeof control.selectionEnd === "number" ?
+        control.selectionEnd : start;
+    if (controller._markedControl === control &&
+            typeof controller._markedStart === "number") {
+        start = controller._markedStart;
+        end = start + (controller._markedLength || 0);
+    }
+    _chrome_apply_text_control_edit_ce3(control, value, start, end,
+        "insertCompositionText", value, null);
+    controller._markedControl = control;
+    controller._markedStart = start;
+    controller._markedLength = value.length;
+    var rangeStart = Math.max(0, Math.min(value.length,
+        Number(selectedStart) || 0));
+    var rangeLength = Math.max(0, Number(selectedLength) || 0);
+    var selectionStart = start + rangeStart;
+    var selectionEnd = start + Math.min(value.length,
+        rangeStart + rangeLength);
+    if (control.setSelectionRange)
+        control.setSelectionRange(selectionStart, selectionEnd);
+    if (!value) controller.unmarkText();
+    return true;
+}
 
 var textInputController = typeof textInputController !== "undefined" ?
     textInputController : {
         setMarkedText: function(text) {
-            this._markedText = String(text || "");
-            this._markedStart = arguments.length > 1 ? Number(arguments[1]) || 0 : 0;
-            this._markedLength = arguments.length > 2 ? Number(arguments[2]) || 0 :
-                this._markedText.length;
-            document.execCommand("InsertText", false, text || "");
-        },
-        setComposition: function(text) {
+            if (_chrome_replace_marked_text_ce3(this, text, arguments[1],
+                    arguments[2])) {
+                this._markedText = String(text || "");
+                return;
+            }
             this._markedText = String(text || "");
             this._markedStart = 0;
             this._markedLength = this._markedText.length;
             document.execCommand("InsertText", false, text || "");
         },
+        setComposition: function(text) {
+            return this.setMarkedText(text, 0,
+                String(text == null ? "" : text).length);
+        },
         unmarkText: function() {
             this._markedText = "";
             this._markedLength = 0;
+            this._markedControl = null;
         },
         hasMarkedText: function() {
             var active =
@@ -3082,6 +5407,12 @@ var textInputController = typeof textInputController !== "undefined" ?
             return [x, 0, 1, 16];
         },
         insertText: function(text) {
+            if (this._markedControl &&
+                    _chrome_replace_marked_text_ce3(this, text, 0,
+                    String(text == null ? "" : text).length)) {
+                this.unmarkText();
+                return true;
+            }
             this.unmarkText();
             document.execCommand("InsertText", false, text || "");
         },
@@ -3097,35 +5428,105 @@ var textInputController = typeof textInputController !== "undefined" ?
 if (typeof window !== "undefined")
     window.textInputController = textInputController;
 
-function find(text, caseSensitive, backwards, wrapAround) {
+function _chrome_find_window_ce3(text, caseSensitive, backwards, wrapAround) {
     var options = [];
+    if (text === undefined || text === null || text === "")
+        text = _chrome_window_find_last_text;
+    else
+        _chrome_window_find_last_text = String(text);
+    if (caseSensitive !== true) options.push("CaseInsensitive");
+    options.push("DiacriticInsensitive");
     if (wrapAround) options.push("WrapAround");
     if (backwards) options.push("Backwards");
-    if (typeof testRunner !== "undefined" &&
-        typeof testRunner.findString === "function") {
-        return testRunner.findString(String(text || ""), options);
-    }
     var haystack = document && document.body ?
         String(document.body.textContent || "") : "";
     var needle = String(text || "");
+    if (needle) {
+        var directHaystack = caseSensitive === true ? haystack :
+            haystack.toLowerCase();
+        var directNeedle = caseSensitive === true ? needle :
+            needle.toLowerCase();
+        if (directHaystack.indexOf(directNeedle) >= 0) return true;
+    }
+    if (typeof testRunner !== "undefined" &&
+        typeof testRunner.findString === "function") {
+        return testRunner.findString(needle, options);
+    }
     return haystack.indexOf(needle) >= 0;
 }
+function find(text, caseSensitive, backwards, wrapAround) {
+    return _chrome_find_window_ce3(text, caseSensitive, backwards, wrapAround);
+}
+function _chrome_install_find_alias_ce3(target) {
+    if (!target) return;
+    try {
+        Object.defineProperty(target, "find", {
+            configurable: true,
+            get: function() { return _chrome_find_window_ce3; },
+            set: function(_) {}
+        });
+        if (target.find === _chrome_find_window_ce3) return;
+    } catch (_) {}
+    try {
+        target.find = _chrome_find_window_ce3;
+        if (target.find === _chrome_find_window_ce3) return;
+    } catch (_) {}
+    try {
+        Object.defineProperty(target, "find", {
+            configurable: true,
+            writable: true,
+            value: _chrome_find_window_ce3
+        });
+    } catch (_) {}
+}
 if (typeof window !== "undefined")
-    window.find = find;
+    _chrome_install_find_alias_ce3(window);
+if (typeof globalThis !== "undefined" &&
+        (typeof window === "undefined" || globalThis !== window))
+    _chrome_install_find_alias_ce3(globalThis);
 
-function _chrome_find_text_position(root, offset) {
+function _chrome_find_child_nodes_for_flat_tree_ce3(node) {
+    if (!node) return [];
+    if (node.shadowRoot)
+        return node.shadowRoot.childNodes || [];
+    if (typeof _chrome_find_node_name === "function" &&
+            _chrome_find_node_name(node) === "slot" &&
+            typeof _chrome_find_slot_host === "function") {
+        var host = _chrome_find_slot_host(node);
+        if (host && host.childNodes) return host.childNodes;
+    }
+    return node.childNodes || [];
+}
+
+function _chrome_find_control_text_for_node_ce3(node) {
+    if (typeof _chrome_find_control_text !== "function") return null;
+    return _chrome_find_control_text(node);
+}
+
+function _chrome_find_text_position(root, offset, preferNextBoundary) {
     var fallback = { node: root, offset: 0, fallback: true };
     function walk(node, state) {
         if (!node) return null;
         if (node.nodeType === 3) {
             var length = String(node.data || "").length;
-            if (state.remaining <= length) {
+            if (state.remaining < length || state.remaining === 0 ||
+                    (!preferNextBoundary && state.remaining <= length)) {
                 return { node: node, offset: state.remaining };
             }
             state.remaining -= length;
             return null;
         }
-        var children = node.childNodes || [];
+        var controlText = _chrome_find_control_text_for_node_ce3(node);
+        if (controlText !== null) {
+            var controlLength = String(controlText || "").length;
+            if (state.remaining < controlLength || state.remaining === 0 ||
+                    (!preferNextBoundary && state.remaining <= controlLength)) {
+                return { node: node, offset: state.remaining };
+            }
+            state.remaining -= controlLength;
+            return null;
+        }
+        var children = _chrome_find_child_nodes_for_flat_tree_ce3(node);
         for (var i = 0; i < children.length; i++) {
             var found = walk(children[i], state);
             if (found) return found;
@@ -3140,8 +5541,11 @@ function _chrome_text_length(node) {
     if (!node) return 0;
     if (node.nodeType === 3)
         return String(node.data || "").length;
+    var controlText = _chrome_find_control_text_for_node_ce3(node);
+    if (controlText !== null)
+        return String(controlText || "").length;
     var length = 0;
-    var children = node.childNodes || [];
+    var children = _chrome_find_child_nodes_for_flat_tree_ce3(node);
     for (var i = 0; i < children.length; i++)
         length += _chrome_text_length(children[i]);
     return length;
@@ -3158,7 +5562,14 @@ function _chrome_text_offset_for_dom_position(root, targetNode, targetOffset) {
                 total += Math.max(0, Math.min(targetOffset || 0,
                     textLength));
             } else {
-                var children = node.childNodes || [];
+                var controlText = _chrome_find_control_text_for_node_ce3(node);
+                if (controlText !== null) {
+                    total += Math.max(0, Math.min(targetOffset || 0,
+                        String(controlText || "").length));
+                    found = true;
+                    return;
+                }
+                var children = _chrome_find_child_nodes_for_flat_tree_ce3(node);
                 var limit = Math.max(0, Math.min(targetOffset || 0,
                     children.length));
                 for (var i = 0; i < limit; i++)
@@ -3171,7 +5582,12 @@ function _chrome_text_offset_for_dom_position(root, targetNode, targetOffset) {
             total += String(node.data || "").length;
             return;
         }
-        var children = node.childNodes || [];
+        var controlTextForNode = _chrome_find_control_text_for_node_ce3(node);
+        if (controlTextForNode !== null) {
+            total += String(controlTextForNode || "").length;
+            return;
+        }
+        var children = _chrome_find_child_nodes_for_flat_tree_ce3(node);
         for (var j = 0; j < children.length; j++)
             walk(children[j]);
     }
@@ -3203,8 +5619,9 @@ function _chrome_selection_text_offsets(root) {
                 end: Math.max(overrideStart, overrideEnd)
             };
     }
-    var selection = getSelection();
-    if (!selection || selection.rangeCount === 0 || !selection.getRangeAt)
+    var selection = _chrome_current_selection_ce3();
+    if (!selection || selection.rangeCount === 0 ||
+            typeof selection.getRangeAt !== "function")
         return null;
     var range = selection.getRangeAt(0);
     if (!range) return null;
@@ -3217,11 +5634,34 @@ function _chrome_selection_text_offsets(root) {
 }
 
 function _chrome_select_text_offsets(root, start, end) {
-    var startPos = _chrome_find_text_position(root, start);
-    var endPos = _chrome_find_text_position(root, end);
+    var startPos = _chrome_find_text_position(root, start, true);
+    var endPos = _chrome_find_text_position(root, end, false);
     _chrome_find_base_offset = start;
     _chrome_find_extent_offset = end;
     _chrome_find_selection_active = !startPos.fallback && !endPos.fallback;
+    if (!_chrome_find_selection_active || !document || !document.createRange)
+        return;
+    try {
+        var selection = _chrome_current_selection_ce3();
+        if (!selection) return;
+        var range = document.createRange();
+        range.setStart(startPos.node, startPos.offset);
+        range.setEnd(endPos.node, endPos.offset);
+        if (typeof selection.removeAllRanges === "function")
+            selection.removeAllRanges();
+        if (typeof selection.addRange === "function") selection.addRange(range);
+        _chrome_find_base_offset = start;
+        _chrome_find_extent_offset = end;
+        _chrome_find_selection_active = true;
+        _chrome_selection_override_range = {
+            startContainer: startPos.node,
+            startOffset: startPos.offset,
+            endContainer: endPos.node,
+            endOffset: endPos.offset
+        };
+        _chrome_selection_override_is_find_ce3 = true;
+        _chrome_find_selection_cleared_ce3 = false;
+    } catch (_) {}
 }
 
 function _chrome_find_bottom_scroll_y() {
@@ -3244,16 +5684,57 @@ function _chrome_schedule_find_scroll(frames, y) {
     frames = Math.max(1, Number(frames || 1) || 1);
     var targetY = Number(y);
     if (targetY !== targetY) targetY = 1;
-    function tick(remaining) {
-        requestAnimationFrame(function() {
-            if (remaining <= 1) {
-                _chrome_scroll_to(window.pageXOffset || 0, targetY);
-            } else {
-                tick(remaining - 1);
-            }
-        });
+    _chrome_pending_find_scroll_frames_ce3 = frames;
+    _chrome_pending_find_scroll_y_ce3 = targetY;
+    _chrome_pending_find_scroll_ready_ce3 = false;
+    _chrome_call_soon(function() {
+        _chrome_pending_find_scroll_ready_ce3 = true;
+    });
+}
+
+function _chrome_maybe_apply_pending_find_scroll_ce3() {
+    if (!_chrome_pending_find_scroll_frames_ce3) return;
+    if (!_chrome_pending_find_scroll_ready_ce3) return;
+    _chrome_pending_find_scroll_frames_ce3--;
+    if (_chrome_pending_find_scroll_frames_ce3 > 0) return;
+    var targetY = _chrome_pending_find_scroll_y_ce3;
+    _chrome_pending_find_scroll_y_ce3 = null;
+    _chrome_pending_find_scroll_ready_ce3 = false;
+    _chrome_scroll_to(window.pageXOffset || 0,
+        targetY === null ? 1 : targetY);
+}
+
+function _chrome_reveal_hidden_until_found_ce3(target, asyncFind) {
+    if (!target || target.nodeType !== 1) return null;
+    _chrome_dispatch_beforematch_event(target);
+    var currentId = target.id !== undefined ? String(target.id || "") :
+        (target.getAttribute ? String(target.getAttribute("id") || "") : "");
+    if (currentId && document.getElementById &&
+        !document.getElementById(currentId)) {
+        if (typeof window !== "undefined" && asyncFind)
+            _chrome_schedule_find_scroll(1, 1);
+        else if (typeof window !== "undefined")
+            _chrome_scroll_to(window.pageXOffset || 0,
+                window.pageYOffset || 1);
+        return target;
     }
-    tick(frames);
+    if (!_chrome_node_is_connected_ce3(target)) {
+        if (typeof window !== "undefined" && asyncFind)
+            _chrome_schedule_find_scroll(1, 1);
+        else if (typeof window !== "undefined")
+            _chrome_scroll_to(window.pageXOffset || 0,
+                window.pageYOffset || 1);
+        return target;
+    }
+    if (target.removeAttribute)
+        target.removeAttribute("hidden");
+    else if (target.setAttribute)
+        target.setAttribute("hidden", "");
+    if (typeof window !== "undefined" && asyncFind)
+        _chrome_schedule_find_scroll(1, 1);
+    else if (typeof window !== "undefined")
+        _chrome_scroll_to(window.pageXOffset || 0, window.pageYOffset || 1);
+    return target;
 }
 
 function _chrome_dispatch_beforematch_from_node(node, asyncFind) {
@@ -3262,24 +5743,14 @@ function _chrome_dispatch_beforematch_from_node(node, asyncFind) {
         current = current.parentNode;
     while (current && current.nodeType === 1) {
         if (_chrome_is_hidden_until_found_ce3(current)) {
-            _chrome_dispatch_beforematch_event(current);
-            var currentId = current.id !== undefined ? String(current.id || "") :
-                (current.getAttribute ? String(current.getAttribute("id") || "") : "");
-            if (currentId && document.getElementById &&
-                !document.getElementById(currentId)) {
+            if (asyncFind) {
+                var target = current;
+                _chrome_call_soon(function() {
+                    _chrome_reveal_hidden_until_found_ce3(target, true);
+                });
                 return current;
             }
-            if (!_chrome_node_is_connected_ce3(current))
-                return current;
-            if (current.removeAttribute)
-                current.removeAttribute("hidden");
-            else if (current.setAttribute)
-                current.setAttribute("hidden", "");
-            if (typeof window !== "undefined" && asyncFind)
-                _chrome_schedule_find_scroll(2, 1);
-            else if (typeof window !== "undefined")
-                _chrome_scroll_to(window.pageXOffset || 0,
-                    window.pageYOffset || 1);
+            _chrome_reveal_hidden_until_found_ce3(current, false);
             return current;
         }
         current = current.parentNode;
@@ -3326,8 +5797,10 @@ function _chrome_expand_details_from_node(node, needle) {
             if (current.setAttribute) current.setAttribute("open", "");
             else current.open = true;
             if (typeof current.dispatchEvent === "function")
-                current.dispatchEvent({ type: "toggle", bubbles: false,
-                    target: current });
+                current.dispatchEvent(
+                    _chrome_make_dom_event_ce3("toggle", {
+                        bubbles: false
+                    }));
             return current;
         }
         current = current.parentNode;
@@ -3336,6 +5809,101 @@ function _chrome_expand_details_from_node(node, needle) {
 }
 
 if (typeof testRunner !== "undefined" && testRunner) {
+    function _chrome_find_fold_char_ce3(ch) {
+        var code = ch.charCodeAt(0);
+        if (code >= 0x0300 && code <= 0x036f) return "";
+        if ("ÀÁÂÃÄÅĀĂĄǍȀȂẠẢẤẦẨẪẬẮẰẲẴẶ".indexOf(ch) >= 0) return "A";
+        if ("àáâãäåāăąǎȁȃạảấầẩẫậắằẳẵặ".indexOf(ch) >= 0) return "a";
+        if ("ÇĆĈĊČ".indexOf(ch) >= 0) return "C";
+        if ("çćĉċč".indexOf(ch) >= 0) return "c";
+        if ("ÐĎĐ".indexOf(ch) >= 0) return "D";
+        if ("ðďđ".indexOf(ch) >= 0) return "d";
+        if ("ÈÉÊËĒĔĖĘĚȄȆẸẺẼẾỀỂỄỆ".indexOf(ch) >= 0) return "E";
+        if ("èéêëēĕėęěȅȇẹẻẽếềểễệ".indexOf(ch) >= 0) return "e";
+        if ("ÌÍÎÏĨĪĬĮİǏỈỊ".indexOf(ch) >= 0) return "I";
+        if ("ìíîïĩīĭįıǐỉị".indexOf(ch) >= 0) return "i";
+        if ("ÑŃŅŇ".indexOf(ch) >= 0) return "N";
+        if ("ñńņň".indexOf(ch) >= 0) return "n";
+        if ("ÒÓÔÕÖØŌŎŐƠǑȌȎỌỎỐỒỔỖỘỚỜỞỠỢ".indexOf(ch) >= 0) return "O";
+        if ("òóôõöøōŏőơǒȍȏọỏốồổỗộớờởỡợ".indexOf(ch) >= 0) return "o";
+        if ("ŔŖŘ".indexOf(ch) >= 0) return "R";
+        if ("ŕŗř".indexOf(ch) >= 0) return "r";
+        if ("ŚŜŞŠȘ".indexOf(ch) >= 0) return "S";
+        if ("śŝşšș".indexOf(ch) >= 0) return "s";
+        if ("ŢŤŦȚ".indexOf(ch) >= 0) return "T";
+        if ("ţťŧț".indexOf(ch) >= 0) return "t";
+        if ("ÙÚÛÜŨŪŬŮŰŲƯǓȔȖỤỦỨỪỬỮỰ".indexOf(ch) >= 0) return "U";
+        if ("ùúûüũūŭůűųưǔȕȗụủứừửữự".indexOf(ch) >= 0) return "u";
+        if ("ÝŶŸỲỴỶỸ".indexOf(ch) >= 0) return "Y";
+        if ("ýÿŷỳỵỷỹ".indexOf(ch) >= 0) return "y";
+        if ("ŹŻŽ".indexOf(ch) >= 0) return "Z";
+        if ("źżž".indexOf(ch) >= 0) return "z";
+        return ch;
+    }
+
+    function _chrome_find_normalize_ce3(text, caseInsensitive,
+            diacriticInsensitive) {
+        text = String(text || "");
+        if (diacriticInsensitive) {
+            try {
+                if (typeof text.normalize === "function")
+                    text = text.normalize("NFD");
+            } catch (_) {}
+            var folded = "";
+            for (var i = 0; i < text.length; i++)
+                folded += _chrome_find_fold_char_ce3(text.charAt(i));
+            text = folded;
+        }
+        return caseInsensitive ? text.toLowerCase() : text;
+    }
+
+    function _chrome_find_options_include_ce3(options, name) {
+        if (!options) return false;
+        name = String(name || "");
+        if (typeof options === "string") return options.indexOf(name) >= 0;
+        if (typeof options.length === "number") {
+            for (var i = 0; i < options.length; i++) {
+                if (String(options[i] || "") === name) return true;
+            }
+            return false;
+        }
+        for (var j = 0; j < 32; j++) {
+            var value = undefined;
+            try { value = options[j]; } catch (_) { value = undefined; }
+            if (value === undefined) break;
+            if (String(value || "") === name) return true;
+        }
+        try {
+            return String(options).indexOf(name) >= 0;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function _chrome_find_options_signature_ce3(options) {
+        if (!options) return "";
+        if (typeof options === "string") return options;
+        if (typeof options.length === "number") {
+            var parts = [];
+            for (var i = 0; i < options.length; i++)
+                parts.push(String(options[i] || ""));
+            return parts.join("\u0001");
+        }
+        var indexedParts = [];
+        for (var j = 0; j < 32; j++) {
+            var value = undefined;
+            try { value = options[j]; } catch (_) { value = undefined; }
+            if (value === undefined) break;
+            indexedParts.push(String(value || ""));
+        }
+        if (indexedParts.length) return indexedParts.join("\u0001");
+        try {
+            return String(options);
+        } catch (_) {
+            return "";
+        }
+    }
+
     function _chrome_find_dom_token(node) {
         if (!node) return null;
         if (node.nodeType === 3) return node;
@@ -3346,15 +5914,58 @@ if (typeof testRunner !== "undefined" && testRunner) {
 
     function _chrome_text_for_find(node) {
         if (!node) return "";
+        var ownControlText = _chrome_find_control_text(node);
+        if (ownControlText !== null) return ownControlText;
+        if (typeof collectTextNodes === "function") {
+            var nodes = [];
+            collectTextNodes(node, nodes, 0);
+            var flatText = "";
+            for (var nodeIndex = 0; nodeIndex < nodes.length; nodeIndex++)
+                flatText += nodes[nodeIndex].text;
+            return flatText;
+        }
         var text = String(node.textContent || "");
         if (!text && node.innerText !== undefined)
             text = String(node.innerText || "");
+        var controls = node.querySelectorAll ?
+            node.querySelectorAll("input,textarea") : [];
+        for (var i = 0; controls && i < controls.length; i++) {
+            var value = _chrome_find_control_text(controls[i]);
+            if (value) text += value;
+        }
         return text;
     }
 
     function _chrome_find_node_name(node) {
         return String((node && (node.nodeName || node.tagName)) || "")
             .toLowerCase();
+    }
+
+    function _chrome_secure_text_for_control(node) {
+        var value = String(node && node.value != null ? node.value : "");
+        var tag = _chrome_find_node_name(node);
+        if (tag !== "input") return value;
+        var type = String((node.type ||
+            (node.getAttribute ? node.getAttribute("type") : "") ||
+            "text")).toLowerCase();
+        if (type !== "password" || node.__chromeRevealPassword)
+            return value;
+        return Array(value.length + 1).join("\u2022");
+    }
+
+    function _chrome_find_control_text(node) {
+        var tag = _chrome_find_node_name(node);
+        if (tag === "textarea") return String(node.value != null ?
+            node.value : node.textContent || "");
+        if (tag !== "input") return null;
+        var type = String((node.type ||
+            (node.getAttribute ? node.getAttribute("type") : "") ||
+            "text")).toLowerCase();
+        if (type === "hidden" || type === "button" || type === "submit" ||
+            type === "reset" || type === "checkbox" || type === "radio") {
+            return null;
+        }
+        return _chrome_secure_text_for_control(node);
     }
 
     function _chrome_find_slot_host(node) {
@@ -3366,6 +5977,72 @@ if (typeof testRunner !== "undefined" && testRunner) {
         return null;
     }
 
+    function _chrome_find_node_is_barrier_ce3(node) {
+        if (!node || node.nodeType !== 1) return false;
+        var tag = _chrome_find_node_name(node);
+        return tag === "br" || tag === "img" || tag === "hr" ||
+            tag === "iframe" || tag === "object" || tag === "embed" ||
+            tag === "canvas" || tag === "audio" || tag === "video";
+    }
+
+    function _chrome_collect_find_barrier_offsets_ce3(node, offsets, state) {
+        if (!node) return;
+        if (node.nodeType === 3) {
+            state.offset += String(node.data || "").length;
+            return;
+        }
+        if (node.nodeType === 1) {
+            var controlText = _chrome_find_control_text(node);
+            if (controlText !== null) {
+                state.offset += controlText.length;
+                return;
+            }
+            if (_chrome_find_node_is_barrier_ce3(node)) {
+                offsets.push(state.offset);
+                return;
+            }
+            var tag = _chrome_find_node_name(node);
+            if (tag === "p" || tag === "div" || tag === "li" ||
+                tag === "tr" || tag === "td" || tag === "th" ||
+                tag === "section" || tag === "article" || tag === "header" ||
+                tag === "footer" || tag === "blockquote") {
+                offsets.push(state.offset);
+            }
+        }
+        if (node.shadowRoot) {
+            offsets.push(state.offset);
+            _chrome_collect_find_barrier_offsets_ce3(node.shadowRoot, offsets,
+                state);
+            offsets.push(state.offset);
+            return;
+        }
+        var children = node.childNodes || [];
+        if (_chrome_find_node_name(node) === "slot") {
+            var host = _chrome_find_slot_host(node);
+            children = host && host.childNodes ? host.childNodes : children;
+        }
+        for (var i = 0; i < children.length; i++)
+            _chrome_collect_find_barrier_offsets_ce3(children[i], offsets,
+                state);
+        if (node.nodeType === 1) {
+            var endTag = _chrome_find_node_name(node);
+            if (endTag === "p" || endTag === "div" || endTag === "li" ||
+                endTag === "tr" || endTag === "td" || endTag === "th" ||
+                endTag === "section" || endTag === "article" ||
+                endTag === "header" || endTag === "footer" ||
+                endTag === "blockquote") {
+                offsets.push(state.offset);
+            }
+        }
+    }
+
+    function _chrome_find_match_crosses_barrier_ce3(barriers, start, end) {
+        for (var i = 0; i < barriers.length; i++) {
+            if (barriers[i] > start && barriers[i] < end) return true;
+        }
+        return false;
+    }
+
     function collectTextNodes(node, list, offset, joinGroup) {
         if (!node) return offset;
         if (node.host) joinGroup = node;
@@ -3374,6 +6051,14 @@ if (typeof testRunner !== "undefined" && testRunner) {
             list.push({ node: node, text: text, start: offset,
                 group: joinGroup || null });
             return offset + text.length;
+        }
+        if (node.nodeType === 1) {
+            var controlText = _chrome_find_control_text(node);
+            if (controlText !== null) {
+                list.push({ node: node, text: controlText, start: offset,
+                    group: joinGroup || null });
+                return offset + controlText.length;
+            }
         }
         var originalOffset = offset;
         var shadowRoot = node.shadowRoot || null;
@@ -3398,61 +6083,45 @@ if (typeof testRunner !== "undefined" && testRunner) {
     }
 
     function findInTextNodes(root, needle, startOffset, backwards,
-                             caseInsensitive) {
+                             caseInsensitive, diacriticInsensitive) {
         var nodes = [];
         collectTextNodes(root, nodes, 0);
-        var searchNeedle = caseInsensitive ? needle.toLowerCase() : needle;
+        var haystack = "";
+        for (var ni = 0; ni < nodes.length; ni++)
+            haystack += nodes[ni].text;
+        var searchNeedle = _chrome_find_normalize_ce3(needle,
+            caseInsensitive, diacriticInsensitive);
+        var searchHaystack = _chrome_find_normalize_ce3(haystack,
+            caseInsensitive, diacriticInsensitive);
+        var barriers = [];
+        _chrome_collect_find_barrier_offsets_ce3(root, barriers,
+            { offset: 0 });
+        if (!searchNeedle) return -1;
         if (backwards) {
-            for (var i = nodes.length - 1; i >= 0; i--) {
-                var text = caseInsensitive ? nodes[i].text.toLowerCase() :
-                    nodes[i].text;
-                var localLimit = Math.min(text.length,
-                    startOffset - nodes[i].start);
-                var maxStart = localLimit - searchNeedle.length;
-                if (maxStart < 0) continue;
-                var backFound = text.lastIndexOf(searchNeedle, maxStart);
-                if (backFound >= 0) return nodes[i].start + backFound;
+            var maxStart = Math.min(searchHaystack.length,
+                startOffset) - searchNeedle.length;
+            while (maxStart >= 0) {
+                var backFound = searchHaystack.lastIndexOf(searchNeedle,
+                    maxStart);
+                if (backFound < 0) return -1;
+                if (!_chrome_find_match_crosses_barrier_ce3(barriers,
+                        backFound, backFound + needle.length)) {
+                    return backFound;
+                }
+                maxStart = backFound - 1;
             }
             return -1;
         }
-        for (var j = 0; j < nodes.length; j++) {
-            var nodeText = caseInsensitive ? nodes[j].text.toLowerCase() :
-                nodes[j].text;
-            var localStart = Math.max(0, startOffset - nodes[j].start);
-            if (localStart >= nodeText.length) continue;
-            var foundInNode = nodeText.indexOf(searchNeedle, localStart);
-            if (foundInNode >= 0) return nodes[j].start + foundInNode;
-        }
-        var group = null;
-        var groupText = "";
-        var groupStart = 0;
-        function findInGroup() {
-            if (!group || !groupText) return -1;
-            var text = caseInsensitive ? groupText.toLowerCase() : groupText;
-            var localStart = Math.max(0, startOffset - groupStart);
-            if (localStart >= text.length) return -1;
-            var foundInGroup = text.indexOf(searchNeedle, localStart);
-            return foundInGroup >= 0 ? groupStart + foundInGroup : -1;
-        }
-        for (var k = 0; k < nodes.length; k++) {
-            if (!nodes[k].group) {
-                var beforeBreak = findInGroup();
-                if (beforeBreak >= 0) return beforeBreak;
-                group = null;
-                groupText = "";
-                continue;
+        var start = Math.max(0, startOffset || 0);
+        while (start <= searchHaystack.length) {
+            var foundInText = searchHaystack.indexOf(searchNeedle, start);
+            if (foundInText < 0) return -1;
+            if (!_chrome_find_match_crosses_barrier_ce3(barriers,
+                    foundInText, foundInText + needle.length)) {
+                return foundInText;
             }
-            if (nodes[k].group !== group) {
-                var beforeNext = findInGroup();
-                if (beforeNext >= 0) return beforeNext;
-                group = nodes[k].group;
-                groupText = "";
-                groupStart = nodes[k].start;
-            }
-            groupText += nodes[k].text;
+            start = foundInText + 1;
         }
-        var afterLast = findInGroup();
-        if (afterLast >= 0) return afterLast;
         return -1;
     }
 
@@ -3462,22 +6131,42 @@ if (typeof testRunner !== "undefined" && testRunner) {
         var root = document.getElementById("container") || document.body;
         var haystack = _chrome_text_for_find(root);
         var needle = String(text || "");
-        var caseInsensitive = String(options).indexOf("CaseInsensitive") >= 0;
-        var backwards = String(options).indexOf("Backwards") >= 0;
-        var wrapAround = String(options).indexOf("WrapAround") >= 0;
-        var startInSelection = String(options).indexOf("StartInSelection") >= 0;
-        var asyncFind = String(options).indexOf("Async") >= 0;
-        var searchHaystack = caseInsensitive ? haystack.toLowerCase() : haystack;
-        var searchNeedle = caseInsensitive ? needle.toLowerCase() : needle;
+        var caseInsensitive = _chrome_find_options_include_ce3(options,
+            "CaseInsensitive");
+        var diacriticInsensitive =
+            _chrome_find_options_include_ce3(options, "DiacriticInsensitive");
+        var backwards = _chrome_find_options_include_ce3(options, "Backwards");
+        var wrapAround = _chrome_find_options_include_ce3(options,
+            "WrapAround");
+        var startInSelection = _chrome_find_options_include_ce3(options,
+            "StartInSelection");
+        var asyncFind = _chrome_find_options_include_ce3(options, "Async");
+        var searchHaystack = _chrome_find_normalize_ce3(haystack,
+            caseInsensitive, diacriticInsensitive);
+        var searchNeedle = _chrome_find_normalize_ce3(needle,
+            caseInsensitive, diacriticInsensitive);
         var found = -1;
         var selection = getSelection();
-        var rootToken = _chrome_find_dom_token(root);
-        var searchSignature = needle + "\n" + String(options || []);
+        var rootToken = root;
+        try {
+            if (typeof _chrome_find_dom_token === "function")
+                rootToken = _chrome_find_dom_token(root);
+        } catch (_) {
+            rootToken = root;
+        }
+        var searchSignature = needle + "\n" +
+            _chrome_find_options_signature_ce3(options);
         var searchChanged = searchSignature !== _chrome_find_last_signature;
+        var previousFindSelectionActive = !!_chrome_find_selection_active;
+        var previousFindSelectionCleared =
+            !!_chrome_find_selection_cleared_ce3;
         var preserveStartInSelectionHandoff = startInSelection ||
             _chrome_find_last_start_in_selection;
+        var shouldResetChangedSearch = searchChanged &&
+            !preserveStartInSelectionHandoff &&
+            (!previousFindSelectionActive || previousFindSelectionCleared);
         if ((rootToken !== _chrome_find_root_token ||
-                (searchChanged && !preserveStartInSelectionHandoff)) &&
+                shouldResetChangedSearch) &&
             !startInSelection) {
             testRunner._findOffset = 0;
             testRunner._findBackwardOffset = searchHaystack.length;
@@ -3488,8 +6177,37 @@ if (typeof testRunner !== "undefined" && testRunner) {
         }
         _chrome_find_last_signature = searchSignature;
         _chrome_find_last_start_in_selection = startInSelection;
-        var selectionOffsets = _chrome_selection_text_offsets(root);
-        var selectionIsFindMatch = !!_chrome_find_selection_active;
+        var selectionOffsets = null;
+        try {
+            selectionOffsets = _chrome_selection_text_offsets(root);
+        } catch (_) {
+            selectionOffsets = null;
+        }
+        if (searchChanged && previousFindSelectionCleared &&
+                _chrome_selection_override_is_find_ce3 &&
+                !startInSelection) {
+            selectionOffsets = null;
+        }
+        if (searchChanged && previousFindSelectionActive &&
+                !startInSelection &&
+                typeof _chrome_tree_has_shadow_root === "function" &&
+                _chrome_tree_has_shadow_root(root)) {
+            var selectedForStaleFind = "";
+            try {
+                selectedForStaleFind = selection &&
+                    typeof selection.toString === "function" ?
+                    String(selection.toString() || "") : "";
+            } catch (_) {
+                selectedForStaleFind = "";
+            }
+            if (!selectedForStaleFind ||
+                    selectedForStaleFind === _chrome_find_last_found_text) {
+                selectionOffsets = null;
+            }
+        }
+        var selectionIsFindMatch = !!_chrome_find_selection_active ||
+            (typeof _chrome_find_base_offset === "number" &&
+                typeof _chrome_find_extent_offset === "number");
         var selectionSearchStart = selectionOffsets ? selectionOffsets.start : 0;
         var selectionSearchEnd = selectionOffsets ? selectionOffsets.end :
             searchHaystack.length;
@@ -3516,6 +6234,10 @@ if (typeof testRunner !== "undefined" && testRunner) {
             _chrome_find_base_offset = undefined;
             _chrome_find_extent_offset = undefined;
             _chrome_find_selection_active = false;
+            if (_chrome_selection_override_is_find_ce3)
+                _chrome_selection_override_range = null;
+            _chrome_selection_override_is_find_ce3 = false;
+            _chrome_find_selection_cleared_ce3 = false;
         }
 
         if (backwards) {
@@ -3526,10 +6248,10 @@ if (typeof testRunner !== "undefined" && testRunner) {
             else if (selectionOffsets && !selectionIsFindMatch)
                 backStart = selectionSearchEnd;
             found = findInTextNodes(root, needle, backStart, true,
-                caseInsensitive);
+                caseInsensitive, diacriticInsensitive);
             if (found < 0 && wrapAround)
                 found = findInTextNodes(root, needle, searchHaystack.length,
-                    true, caseInsensitive);
+                    true, caseInsensitive, diacriticInsensitive);
             if (found >= 0) testRunner._findBackwardOffset = found;
         } else {
             var start = testRunner._findOffset || 0;
@@ -3538,10 +6260,23 @@ if (typeof testRunner !== "undefined" && testRunner) {
             else if (selectionOffsets && !selectionIsFindMatch)
                 start = selectionSearchStart;
             found = findInTextNodes(root, needle, start, false,
-                caseInsensitive);
+                caseInsensitive, diacriticInsensitive);
+            if (found < 0 && selectionOffsets && !selectionIsFindMatch) {
+                var foundInSelection = findInTextNodes(root, needle, 0, false,
+                    caseInsensitive, diacriticInsensitive);
+                if (foundInSelection >= selectionSearchStart &&
+                        foundInSelection < selectionSearchEnd) {
+                    found = foundInSelection;
+                }
+            }
+            if (found < 0 && typeof _chrome_tree_has_shadow_root === "function" &&
+                    _chrome_tree_has_shadow_root(root)) {
+                found = findInTextNodes(root, needle, 0, false,
+                    caseInsensitive, diacriticInsensitive);
+            }
             if (found < 0 && wrapAround)
                 found = findInTextNodes(root, needle, 0, false,
-                    caseInsensitive);
+                    caseInsensitive, diacriticInsensitive);
             if (found >= 0)
                 testRunner._findOffset = found + searchNeedle.length;
         }
@@ -3550,7 +6285,7 @@ if (typeof testRunner !== "undefined" && testRunner) {
             _chrome_last_find_string_result = false;
             return false;
         }
-        var matchPos = _chrome_find_text_position(root, found);
+        var matchPos = _chrome_find_text_position(root, found, true);
         var expanded = null;
         if (matchPos && matchPos.node)
             expanded = _chrome_dispatch_beforematch_from_node(matchPos.node,
@@ -3558,6 +6293,7 @@ if (typeof testRunner !== "undefined" && testRunner) {
         if (!expanded && matchPos && matchPos.node)
             expanded = _chrome_expand_details_from_node(matchPos.node, needle);
         _chrome_select_text_offsets(root, found, found + needle.length);
+        _chrome_find_last_found_text = needle;
         if (asyncFind && !expanded && typeof window !== "undefined") {
             _chrome_schedule_find_scroll(1, 1);
         } else if (!asyncFind && !expanded && typeof window !== "undefined") {
@@ -3575,9 +6311,10 @@ function _chrome_sample_text(markup) {
 }
 
 function _chrome_normalize_dump(text) {
-    return String(text).replace(/\r\n/g, "\n")
-        .replace(/^[ \t\r\n]+/g, "")
-        .replace(/[ \t\r\n]+$/g, "");
+    return _chrome_trim_trailing(String(text).replace(/\r\n/g, "\n")
+        .replace(/^(\t+)\n+/g, "$1 ")
+        .replace(/[ \t]+(?=\n)/g, "")
+        .replace(/^\n+/g, ""));
 }
 
 function _chrome_dump_node_hidden_ce3(node) {
@@ -3614,14 +6351,24 @@ function _chrome_dump_append_inline_text_ce3(node, parts) {
         parts.push("\n");
         return;
     }
+    if (node.nodeType === 1 && node.shadowRoot) return;
     if (node.nodeType === 1 && _chrome_dump_is_block_ce3(node)) return;
     for (var child = node.firstChild; child; child = child.nextSibling)
         _chrome_dump_append_inline_text_ce3(child, parts);
 }
 
 function _chrome_dump_line_from_parts_ce3(parts) {
-    return parts.join("").replace(/[ \t\r\n]+/g, " ")
-        .replace(/^[ \t]+/g, "").replace(/[ \t]+$/g, "");
+    return parts.join("").replace(/[ \r\n]+/g, " ")
+        .replace(/^ +/g, "").replace(/ +$/g, "");
+}
+
+function _chrome_next_non_whitespace_sibling_ce3(node) {
+    for (var next = node ? node.nextSibling : null; next;
+         next = next.nextSibling) {
+        if (next.nodeType !== 3 || /[^\t\r\n ]/.test(next.nodeValue || ""))
+            return next;
+    }
+    return null;
 }
 
 function _chrome_dump_collect_lines_ce3(node, lines, isRoot) {
@@ -3642,7 +6389,25 @@ function _chrome_dump_collect_lines_ce3(node, lines, isRoot) {
             prev.nodeName.toLowerCase() === "br";
         var nextBr = next && next.nodeType === 1 && next.nodeName &&
             next.nodeName.toLowerCase() === "br";
-        if (prevBr || nextBr) lines.push("");
+        var parentTag = node.parentNode && node.parentNode.nodeName ?
+            node.parentNode.nodeName.toLowerCase() : "";
+        var nextReal = _chrome_next_non_whitespace_sibling_ce3(node);
+        var nextRealTag = nextReal && nextReal.nodeName ?
+            nextReal.nodeName.toLowerCase() : "";
+        if (isRoot || prevBr || nextBr ||
+            (parentTag === "body" && nextRealTag === "pre"))
+            lines.push("");
+        return;
+    }
+    if (node.nodeType === 1 && node.shadowRoot) return;
+    if (tag === "pre") {
+        var preText = String(node.textContent || "").replace(/\r\n/g, "\n");
+        var preLines = preText.split("\n");
+        for (var preIndex = 0; preIndex < preLines.length; preIndex++) {
+            var preLine = preLines[preIndex].replace(/[ \r]+$/g, "");
+            if (preLine || preIndex + 1 < preLines.length)
+                lines.push(preLine);
+        }
         return;
     }
     var isBlock = !isRoot && _chrome_dump_is_block_ce3(node);
@@ -3695,7 +6460,7 @@ function _chrome_markup_repeat(text, count) {
 
 function _chrome_markup_selection_text(node) {
     var text = node.nodeValue || "";
-    var selection = getSelection();
+    var selection = _chrome_markup_effective_selection_ce3();
     if (!selection) return _chrome_markup_escape_text(text);
     var inserts = [];
     function add(offset, marker) {
@@ -3721,6 +6486,20 @@ function _chrome_markup_selection_text(node) {
             marked.slice(inserts[i].offset);
     }
     return _chrome_markup_escape_text(marked);
+}
+
+function _chrome_markup_effective_selection_ce3() {
+    _chrome_sync_selection_override_from_native_live_ce3(
+        _chrome_current_selection_ce3(), false);
+    if (_chrome_selection_override_range) {
+        return {
+            anchorNode: _chrome_selection_override_range.startContainer,
+            anchorOffset: _chrome_selection_override_range.startOffset || 0,
+            focusNode: _chrome_selection_override_range.endContainer,
+            focusOffset: _chrome_selection_override_range.endOffset || 0
+        };
+    }
+    return _chrome_current_selection_ce3();
 }
 
 function _chrome_markup_node_for_dump(target) {
@@ -3768,7 +6547,7 @@ function _chrome_markup_dump_tree(node, indent, lines) {
 }
 
 function _chrome_markup_emit_parent_marker(node, offset, indent, lines) {
-    var selection = getSelection();
+    var selection = _chrome_markup_effective_selection_ce3();
     if (!selection) return;
     var marker = "";
     if (selection.anchorNode === node && selection.focusNode === node &&
@@ -3936,39 +6715,327 @@ function execStrikethroughCommand() {
     return strikethroughCommand();
 }
 
-if (document && !document.__chromeQueryCommandSupportedCe3) {
+if (document) {
     document.queryCommandSupported = function(command) {
-        var cmd = String(command || "").toLowerCase();
-        if (cmd === "defaultparagraphseparator") return true;
+        var cmd = _chrome_command_name_ce3(command);
         if (cmd === "paste" && testRunner &&
             testRunner._javascriptCanAccessClipboard === false) {
             return false;
         }
+        if (_chrome_exec_command_supported_ce3(cmd)) return true;
         if (_chrome_native_document_query_command_supported)
             return _chrome_native_document_query_command_supported.call(
                 document, command);
         return cmd === "copy" || cmd === "cut" || cmd === "paste";
     };
+    try {
+        document.queryCommandSupported = document.queryCommandSupported;
+    } catch (_) {}
     document.__chromeQueryCommandSupportedCe3 = true;
 }
 
-if (document && !document.__chromeQueryCommandValueCe3) {
+function _chrome_command_name_ce3(command) {
+    return String(command || "").toLowerCase().replace(/\s+/g, "");
+}
+
+function _chrome_inline_command_info_ce3(command) {
+    var cmd = _chrome_command_name_ce3(command);
+    if (cmd === "bold")
+        return { tag: "b", tags: ["b", "strong"] };
+    if (cmd === "italic")
+        return { tag: "i", tags: ["i", "em"] };
+    if (cmd === "underline")
+        return { tag: "u", tags: ["u"] };
+    if (cmd === "strikethrough")
+        return { tag: "strike", tags: ["s", "strike"] };
+    if (cmd === "subscript")
+        return { tag: "sub", tags: ["sub"] };
+    if (cmd === "superscript")
+        return { tag: "sup", tags: ["sup"] };
+    return null;
+}
+
+function _chrome_exec_command_supported_ce3(command) {
+    var cmd = _chrome_command_name_ce3(command);
+    if (cmd === "defaultparagraphseparator") return true;
+    if (_chrome_inline_command_info_ce3(cmd)) return true;
+    return cmd === "backcolor" ||
+        cmd === "copy" ||
+        cmd === "createlink" ||
+        cmd === "cut" ||
+        cmd === "delete" ||
+        cmd === "deleteforward" ||
+        cmd === "findstring" ||
+        cmd === "fontname" ||
+        cmd === "fontsize" ||
+        cmd === "forecolor" ||
+        cmd === "formatblock" ||
+        cmd === "forwarddelete" ||
+        cmd === "hilitecolor" ||
+        cmd === "indent" ||
+        cmd === "inserthtml" ||
+        cmd === "insertimage" ||
+        cmd === "insertlinebreak" ||
+        cmd === "insertnewlineinquotedcontent" ||
+        cmd === "insertorderedlist" ||
+        cmd === "insertparagraph" ||
+        cmd === "inserttext" ||
+        cmd === "insertunorderedlist" ||
+        cmd === "justifycenter" ||
+        cmd === "justifyfull" ||
+        cmd === "justifyleft" ||
+        cmd === "justifyright" ||
+        cmd === "outdent" ||
+        cmd === "paste" ||
+        cmd === "pasteandmatchstyle" ||
+        cmd === "removeformat" ||
+        cmd === "selectall" ||
+        cmd === "unlink" ||
+        cmd === "undo";
+}
+
+function _chrome_inline_info_has_tag_ce3(info, tagName) {
+    tagName = String(tagName || "").toLowerCase();
+    for (var i = 0; info && info.tags && i < info.tags.length; i++) {
+        if (info.tags[i] === tagName) return true;
+    }
+    return false;
+}
+
+function _chrome_style_value_for_query_ce3(element, property) {
+    if (!element || element.nodeType !== 1) return "";
+    try {
+        if (element.style && element.style[property])
+            return String(element.style[property]).toLowerCase();
+    } catch (_) {}
+    var style = element.getAttribute ? element.getAttribute("style") : "";
+    if (!style) return "";
+    var pattern = new RegExp("(^|;)\\s*" + property.replace(/[A-Z]/g,
+        function(letter) { return "-" + letter.toLowerCase(); }) +
+        "\\s*:\\s*([^;]+)", "i");
+    var match = pattern.exec(style);
+    return match ? String(match[2]).toLowerCase() : "";
+}
+
+function _chrome_inline_style_state_ce3(command, element) {
+    var cmd = _chrome_command_name_ce3(command);
+    if (cmd === "bold") {
+        var weight = _chrome_style_value_for_query_ce3(element, "fontWeight");
+        if (weight === "normal" || weight === "400") return false;
+        if (weight === "bold" || weight === "bolder") return true;
+        var numeric = parseInt(weight, 10);
+        if (!isNaN(numeric)) return numeric >= 600;
+    }
+    if (cmd === "italic") {
+        var style = _chrome_style_value_for_query_ce3(element, "fontStyle");
+        if (style === "normal") return false;
+        if (style === "italic" || style === "oblique") return true;
+    }
+    if (cmd === "underline" || cmd === "strikethrough") {
+        var decoration = _chrome_style_value_for_query_ce3(element,
+            "textDecoration");
+        decoration += " " + _chrome_style_value_for_query_ce3(element,
+            "textDecorationLine");
+        if (cmd === "underline" && /\bunderline\b/.test(decoration))
+            return true;
+        if (cmd === "strikethrough" && /\bline-through\b/.test(decoration))
+            return true;
+        if (/\bnone\b/.test(decoration)) return false;
+    }
+    if (cmd === "subscript" || cmd === "superscript") {
+        var align = _chrome_style_value_for_query_ce3(element, "verticalAlign");
+        if (cmd === "subscript" && align === "sub") return true;
+        if (cmd === "superscript" && align === "super") return true;
+        if (align === "baseline" || align === "middle") return false;
+    }
+    return null;
+}
+
+function _chrome_query_node_from_boundary_ce3(node, offset) {
+    node = _chrome_resolve_named_element_candidate(node);
+    if (!node) return null;
+    if (node.nodeType === 3) return node;
+    if (node.nodeType !== 1) return node;
+    var child = node.childNodes ? node.childNodes[offset || 0] : null;
+    if (!child && offset > 0 && node.childNodes)
+        child = node.childNodes[(offset || 0) - 1] || null;
+    if (child) return _chrome_first_text_descendant(child) || child;
+    return node;
+}
+
+function _chrome_query_sample_node_ce3(selection) {
+    if (_chrome_selection_override_range) {
+        return _chrome_query_node_from_boundary_ce3(
+            _chrome_selection_override_range.startContainer,
+            _chrome_selection_override_range.startOffset || 0);
+    }
+    if (!selection) selection = _chrome_current_selection_ce3();
+    if (!selection) return null;
+    if (selection.rangeCount && _chrome_selection_has_content(selection)) {
+        var range = selection.getRangeAt(0);
+        return _chrome_query_node_from_boundary_ce3(range.startContainer,
+            range.startOffset || 0);
+    }
+    return _chrome_query_node_from_boundary_ce3(selection.focusNode,
+        selection.focusOffset || 0);
+}
+
+function _chrome_query_inline_command_state_ce3(command) {
+    var info = _chrome_inline_command_info_ce3(command);
+    if (!info) return false;
+    var selection = _chrome_current_selection_ce3();
+    var collapsed = !selection || !_chrome_selection_has_content(selection);
+    var node = _chrome_query_sample_node_ce3(selection);
+    var element = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (var current = element; current && current !== document;
+         current = current.parentNode) {
+        if (current.nodeType !== 1) continue;
+        var styled = _chrome_inline_style_state_ce3(command, current);
+        if (styled !== null) return !!styled;
+        if (current.nodeName &&
+            _chrome_inline_info_has_tag_ce3(info, current.nodeName)) {
+            return true;
+        }
+    }
+    return collapsed && !!_chrome_pending_inline_commands[
+        _chrome_command_name_ce3(command)];
+}
+
+function _chrome_ancestor_list_for_query_ce3(node) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (; current && current !== document; current = current.parentNode) {
+        if (_chrome_node_name_is(current, "ul") ||
+            _chrome_node_name_is(current, "ol")) {
+            return current;
+        }
+    }
+    return null;
+}
+
+function _chrome_query_list_command_state_ce3(command) {
+    var cmd = _chrome_command_name_ce3(command);
+    if (cmd !== "insertorderedlist" && cmd !== "insertunorderedlist")
+        return null;
+    var node = _chrome_query_sample_node_ce3(_chrome_current_selection_ce3());
+    var list = _chrome_ancestor_list_for_query_ce3(node);
+    if (!list) return false;
+    return cmd === "insertorderedlist" ? _chrome_node_name_is(list, "ol") :
+        _chrome_node_name_is(list, "ul");
+}
+
+function _chrome_query_command_state_ce3(command) {
+    var justifyState = _chrome_query_justify_command_state_ce3(command);
+    if (justifyState !== null) return justifyState;
+    var listState = _chrome_query_list_command_state_ce3(command);
+    if (listState !== null) return listState;
+    if (_chrome_inline_command_info_ce3(command))
+        return _chrome_query_inline_command_state_ce3(command);
+    return false;
+}
+
+function _chrome_query_justify_command_state_ce3(command) {
+    var value = _chrome_alignment_value_for_command(
+        _chrome_command_name_ce3(command));
+    if (!value) return null;
+    var node = _chrome_query_sample_node_ce3(_chrome_current_selection_ce3());
+    var element = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (var current = element; current && current !== document;
+         current = current.parentNode) {
+        if (current.nodeType !== 1) continue;
+        if (_chrome_block_alignment_matches(current, value)) return true;
+        if (_chrome_dump_is_block_ce3(current)) return false;
+    }
+    return false;
+}
+
+function _chrome_query_font_size_from_css_ce3(value) {
+    value = String(value || "").toLowerCase();
+    var pxMatch = /(-?\d+(?:\.\d+)?)px/.exec(value);
+    if (!pxMatch) return "";
+    var px = Number(pxMatch[1]);
+    if (px <= 10) return "1";
+    if (px <= 13) return "2";
+    if (px <= 16) return "3";
+    if (px <= 18) return "4";
+    if (px <= 24) return "5";
+    if (px <= 32) return "6";
+    return "7";
+}
+
+function _chrome_query_font_size_ce3() {
+    var node = _chrome_query_sample_node_ce3(_chrome_current_selection_ce3());
+    var element = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (var current = element; current && current !== document;
+         current = current.parentNode) {
+        if (current.nodeType !== 1) continue;
+        if (_chrome_node_name_is(current, "font")) {
+            var size = current.getAttribute ? current.getAttribute("size") : "";
+            if (size) return String(size);
+        }
+        var cssSize = _chrome_style_value_for_query_ce3(current, "fontSize");
+        var mapped = _chrome_query_font_size_from_css_ce3(cssSize);
+        if (mapped) return mapped;
+    }
+    return _chrome_last_font_size_command_value || "";
+}
+
+function _chrome_query_format_block_ce3() {
+    var node = _chrome_query_sample_node_ce3(_chrome_current_selection_ce3());
+    var host = _chrome_editing_host_for_node(node) ||
+        _chrome_editable_host_from_selection();
+    var block = _chrome_block_ancestor_for_range_delete(node, host);
+    if (!block || block === host || !block.nodeName) return "";
+    return String(block.nodeName || "").toLowerCase();
+}
+
+if (document) {
     var _chrome_native_query_command_value =
         typeof document.queryCommandValue === "function" ?
             document.queryCommandValue : null;
+    var _chrome_native_query_command_state =
+        typeof document.queryCommandState === "function" ?
+            document.queryCommandState : null;
+    var _chrome_native_query_command_indeterm =
+        typeof document.queryCommandIndeterm === "function" ?
+            document.queryCommandIndeterm : null;
     var _chrome_query_command_enabled_ce3 = function(command) {
-        var cmd = String(command || "").toLowerCase();
+        var cmd = _chrome_command_name_ce3(command);
         if (cmd === "defaultparagraphseparator") return true;
         if (cmd === "copy" || cmd === "cut" || cmd === "paste")
             return document.queryCommandSupported(command);
-        return true;
+        return _chrome_exec_command_supported_ce3(cmd);
+    };
+    var _chrome_query_command_state_api_ce3 = function(command) {
+        var cmd = _chrome_command_name_ce3(command);
+        if (_chrome_inline_command_info_ce3(cmd) ||
+            cmd === "insertorderedlist" || cmd === "insertunorderedlist" ||
+            _chrome_alignment_value_for_command(cmd)) {
+            return _chrome_query_command_state_ce3(command);
+        }
+        if (_chrome_native_query_command_state)
+            return !!_chrome_native_query_command_state.call(document, command);
+        return false;
+    };
+    var _chrome_query_command_indeterm_ce3 = function(command) {
+        if (_chrome_native_query_command_indeterm)
+            return !!_chrome_native_query_command_indeterm.call(document,
+                command);
+        return false;
     };
     var _chrome_query_command_value_ce3 = function(command) {
-        var cmd = String(command || "").toLowerCase();
+        var cmd = _chrome_command_name_ce3(command);
         if (cmd === "defaultparagraphseparator")
             return _chrome_default_paragraph_separator;
         if (cmd === "backcolor" || cmd === "hilitecolor")
             return "rgba(0, 0, 0, 0)";
+        if (_chrome_inline_command_info_ce3(cmd) ||
+            cmd === "insertorderedlist" || cmd === "insertunorderedlist") {
+            return String(_chrome_query_command_state_ce3(command));
+        }
+        if (cmd === "fontsize")
+            return _chrome_query_font_size_ce3();
+        if (cmd === "formatblock")
+            return _chrome_query_format_block_ce3();
         if (_chrome_native_query_command_value)
             return _chrome_native_query_command_value.call(document, command);
         return "";
@@ -3982,10 +7049,26 @@ if (document && !document.__chromeQueryCommandValueCe3) {
             value: _chrome_query_command_value_ce3,
             configurable: true
         });
+        Object.defineProperty(document, "queryCommandState", {
+            value: _chrome_query_command_state_api_ce3,
+            configurable: true
+        });
+        Object.defineProperty(document, "queryCommandIndeterm", {
+            value: _chrome_query_command_indeterm_ce3,
+            configurable: true
+        });
     } catch (_) {
         document.queryCommandEnabled = _chrome_query_command_enabled_ce3;
         document.queryCommandValue = _chrome_query_command_value_ce3;
+        document.queryCommandState = _chrome_query_command_state_api_ce3;
+        document.queryCommandIndeterm = _chrome_query_command_indeterm_ce3;
     }
+    try {
+        document.queryCommandEnabled = _chrome_query_command_enabled_ce3;
+        document.queryCommandValue = _chrome_query_command_value_ce3;
+        document.queryCommandState = _chrome_query_command_state_api_ce3;
+        document.queryCommandIndeterm = _chrome_query_command_indeterm_ce3;
+    } catch (_) {}
     document.__chromeQueryCommandValueCe3 = true;
 }
 
@@ -4036,8 +7119,8 @@ function _chrome_validate_sample_markers(markup, isOutput) {
 
 function focusOnFirstTextInTestElementIfExists() {
     var elem = document.getElementById("test") || document.getElementById("root");
-    var selection = getSelection();
-    if (!elem || !selection || !selection.collapse) return;
+    var selection = _chrome_current_selection_ce3();
+    if (!elem || !selection || typeof selection.collapse !== "function") return;
     var stack = [elem];
     while (stack.length) {
         var node = stack.shift();
@@ -4090,17 +7173,35 @@ function _chrome_set_selection_from_markup_legacy(markup) {
         _chrome_remove_marker(anchorMarker);
 
     _chrome_focus_editing_host(focus.node);
-    var selection = getSelection();
-    selection.removeAllRanges();
-    if (selection.setBaseAndExtent) {
+    var selection = _chrome_current_selection_ce3();
+    if (typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
+    if (typeof selection.setBaseAndExtent === "function") {
         selection.setBaseAndExtent(anchor.node, anchor.offset,
             focus.node, focus.offset);
         return;
     }
+    if (selection && typeof selection.collapse === "function" &&
+        typeof selection.extend === "function") {
+        selection.collapse(anchor.node, anchor.offset);
+        selection.extend(focus.node, focus.offset);
+        return;
+    }
     var range = document.createRange();
-    range.setStart(anchor.node, anchor.offset);
-    range.setEnd(focus.node, focus.offset);
-    selection.addRange(range);
+    if (range && typeof range.setStart === "function" &&
+        typeof range.setEnd === "function" && selection &&
+        typeof selection.addRange === "function") {
+        range.setStart(anchor.node, anchor.offset);
+        range.setEnd(focus.node, focus.offset);
+        selection.addRange(range);
+        return;
+    }
+    _chrome_selection_override_range = {
+        startContainer: anchor.node,
+        startOffset: anchor.offset,
+        endContainer: focus.node,
+        endOffset: focus.offset
+    };
 }
 
 function _chrome_should_use_legacy_marker_setup() {
@@ -4251,34 +7352,44 @@ function _chrome_delete_in_text_control(control, forward) {
     if (start !== end) {
         var lo = Math.min(start, end);
         var hi = Math.max(start, end);
-        if (typeof control.setRangeText === "function") {
-            control.setRangeText("", lo, hi, "end");
-            return true;
-        }
-        control.value = control.value.slice(0, lo) + control.value.slice(hi);
-        control.setSelectionRange(lo, lo);
-        return true;
+        return _chrome_apply_text_control_edit_ce3(control, "", lo, hi,
+            forward ? "deleteContentForward" : "deleteContentBackward",
+            null, null);
     }
     if (forward && start < control.value.length) {
-        if (typeof control.setRangeText === "function") {
-            control.setRangeText("", start, start + 1, "end");
-            return true;
-        }
-        control.value = control.value.slice(0, start) +
-            control.value.slice(start + 1);
-        control.setSelectionRange(start, start);
-        return true;
+        return _chrome_apply_text_control_edit_ce3(control, "", start,
+            start + 1, "deleteContentForward", null, null);
     }
     if (!forward && start > 0) {
-        if (typeof control.setRangeText === "function") {
-            control.setRangeText("", start - 1, start, "end");
-            return true;
-        }
-        control.value = control.value.slice(0, start - 1) +
-            control.value.slice(start);
-        control.setSelectionRange(start - 1, start - 1);
-        return true;
+        return _chrome_apply_text_control_edit_ce3(control, "", start - 1,
+            start, "deleteContentBackward", null, null);
     }
+    return true;
+}
+
+function _chrome_delete_word_after_caret_for_win_ce3() {
+    if (!internals || !internals.settings ||
+            internals.settings.editingBehavior !== "win") {
+        return false;
+    }
+    var selection = _chrome_current_selection_ce3();
+    if (!selection || _chrome_selection_has_content(selection) ||
+            !selection.focusNode || selection.focusNode.nodeType !== 3) {
+        return false;
+    }
+    var node = selection.focusNode;
+    var text = node.nodeValue || "";
+    var start = Math.max(0, Math.min(text.length,
+        selection.focusOffset || 0));
+    if (start >= text.length) return false;
+    var end = start;
+    while (end < text.length && /\s/.test(text.charAt(end))) end++;
+    while (end < text.length && !/\s/.test(text.charAt(end))) end++;
+    if (end < text.length && /\s/.test(text.charAt(end))) end++;
+    if (end <= start) return false;
+    node.data = text.slice(0, start) + text.slice(end);
+    if (typeof selection.collapse === "function")
+        selection.collapse(node, start);
     return true;
 }
 
@@ -4293,14 +7404,51 @@ function _chrome_insert_text_in_text_control(control, text) {
     var lo = Math.min(start, end);
     var hi = Math.max(start, end);
     var value = String(text == null ? "" : text);
-    if (typeof control.setRangeText === "function") {
-        control.setRangeText(value, lo, hi, "end");
+    return _chrome_apply_text_control_edit_ce3(control, value, lo, hi,
+        "insertText", value, null);
+}
+
+function _chrome_insert_line_break_in_text_control_ce3(control) {
+    if (!control || !control.nodeName ||
+            control.nodeName.toLowerCase() !== "textarea") {
+        return false;
+    }
+    _chrome_install_text_control_selection_api(control);
+    var start = typeof control.selectionStart === "number"
+        ? control.selectionStart : 0;
+    var end = typeof control.selectionEnd === "number"
+        ? control.selectionEnd : start;
+    return _chrome_apply_text_control_edit_ce3(control, "\n",
+        Math.min(start, end), Math.max(start, end), "insertLineBreak",
+        "\n", null);
+}
+
+function _chrome_after_text_control_user_edit_ce3(control) {
+    if (!control || !control.nodeName) return;
+    if (control.nodeName.toLowerCase() === "textarea")
+        control.textContent = "";
+}
+
+function _chrome_apply_text_control_edit_ce3(control, replacement, start, end,
+        inputType, data, dataTransfer) {
+    if (!_chrome_is_text_control(control) || typeof control.value !== "string")
+        return false;
+    _chrome_install_text_control_selection_api(control);
+    var current = String(control.value || "");
+    var length = current.length;
+    var lo = Math.max(0, Math.min(length, Number(start) || 0));
+    var hi = Math.max(lo, Math.min(length, Number(end) || 0));
+    var text = String(replacement == null ? "" : replacement);
+    if (!_chrome_dispatch_before_input_event_ce3(control, inputType, data,
+            dataTransfer)) {
         return true;
     }
-    control.value = control.value.slice(0, lo) + value +
-        control.value.slice(hi);
-    var caret = lo + value.length;
-    control.setSelectionRange(caret, caret);
+    control.value = current.slice(0, lo) + text + current.slice(hi);
+    var caret = lo + text.length;
+    if (control.setSelectionRange)
+        control.setSelectionRange(caret, caret);
+    _chrome_dispatch_input_event_ce3(control, inputType, data, dataTransfer);
+    _chrome_after_text_control_user_edit_ce3(control);
     return true;
 }
 
@@ -4325,6 +7473,7 @@ function _chrome_set_selection_from_markup(markup) {
         return _chrome_set_selection_from_markup_legacy(markup);
     _chrome_restore_body_if_needed();
     document.body.innerHTML = markup;
+    _chrome_install_selection_mutation_tracking_on_tree_ce3(document.body);
 
     var state = {
         anchorNode: null,
@@ -4340,7 +7489,8 @@ function _chrome_set_selection_from_markup(markup) {
     _chrome_parse_selection_markers(document.body, state);
 
     var selection = getSelection();
-    selection.removeAllRanges();
+    if (selection && typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
     _chrome_active_text_control = null;
     if (state.control) {
         var start = Math.min(state.controlAnchor, state.controlFocus);
@@ -4364,26 +7514,46 @@ function _chrome_set_selection_from_markup(markup) {
     if (!state.focusNode) throw new Error("missing selection focus marker");
     var anchorNode = state.anchorNode || state.focusNode;
     var anchorOffset = state.anchorNode ? state.anchorOffset : state.focusOffset;
+    _chrome_selection_override_range = {
+        startContainer: anchorNode,
+        startOffset: anchorOffset,
+        endContainer: state.focusNode,
+        endOffset: state.focusOffset
+    };
 
     _chrome_focus_editing_host(state.focusNode);
-    if (selection.setBaseAndExtent) {
+    _chrome_selection_override_range = {
+        startContainer: anchorNode,
+        startOffset: anchorOffset,
+        endContainer: state.focusNode,
+        endOffset: state.focusOffset
+    };
+    if (selection && typeof selection.setBaseAndExtent === "function") {
         try {
             selection.setBaseAndExtent(anchorNode, anchorOffset,
                 state.focusNode, state.focusOffset);
             return;
         } catch (e) {
-            selection.removeAllRanges();
+            if (typeof selection.removeAllRanges === "function")
+                selection.removeAllRanges();
         }
     }
-    if (selection.collapse && selection.extend) {
+    if (selection && typeof selection.collapse === "function" &&
+        typeof selection.extend === "function") {
         selection.collapse(anchorNode, anchorOffset);
         selection.extend(state.focusNode, state.focusOffset);
         return;
     }
     var range = document.createRange();
-    range.setStart(anchorNode, anchorOffset);
-    range.setEnd(state.focusNode, state.focusOffset);
-    selection.addRange(range);
+    if (range && typeof range.setStart === "function" &&
+        typeof range.setEnd === "function" && selection &&
+        typeof selection.addRange === "function") {
+        range.setStart(anchorNode, anchorOffset);
+        range.setEnd(state.focusNode, state.focusOffset);
+        selection.addRange(range);
+        return;
+    }
+    _chrome_focus_editing_host(state.focusNode);
 }
 
 function _chrome_selection_has_content(selection) {
@@ -4394,15 +7564,14 @@ function _chrome_selection_has_content(selection) {
 }
 
 function _chrome_delete_same_text_selection(selection) {
-    if (!selection || selection.anchorNode !== selection.focusNode ||
-        !selection.anchorNode || selection.anchorNode.nodeType !== 3) {
+    var range = _chrome_delete_effective_range(selection);
+    if (!range || range.startContainer !== range.endContainer ||
+        !range.startContainer || range.startContainer.nodeType !== 3) {
         return false;
     }
-    var node = selection.anchorNode;
-    var start = Math.min(selection.anchorOffset || 0,
-        selection.focusOffset || 0);
-    var end = Math.max(selection.anchorOffset || 0,
-        selection.focusOffset || 0);
+    var node = range.startContainer;
+    var start = range.startOffset || 0;
+    var end = range.endOffset || 0;
     if (end <= start) return false;
     var text = node.nodeValue || "";
     _chrome_last_manual_delete_undo = {
@@ -4430,15 +7599,14 @@ function _chrome_delete_same_text_selection(selection) {
 }
 
 function _chrome_delete_same_text_selection_for_insert(selection) {
-    if (!selection || selection.anchorNode !== selection.focusNode ||
-        !selection.anchorNode || selection.anchorNode.nodeType !== 3) {
+    var range = _chrome_delete_effective_range(selection);
+    if (!range || range.startContainer !== range.endContainer ||
+        !range.startContainer || range.startContainer.nodeType !== 3) {
         return false;
     }
-    var node = selection.anchorNode;
-    var start = Math.min(selection.anchorOffset || 0,
-        selection.focusOffset || 0);
-    var end = Math.max(selection.anchorOffset || 0,
-        selection.focusOffset || 0);
+    var node = range.startContainer;
+    var start = range.startOffset || 0;
+    var end = range.endOffset || 0;
     if (end <= start) return false;
     var text = node.nodeValue || "";
     node.data = text.slice(0, start) + text.slice(end);
@@ -4508,6 +7676,250 @@ function _chrome_delete_selected_child(selection, range) {
     return true;
 }
 
+function _chrome_delete_common_ancestor(a, b) {
+    if (!a) return b || null;
+    if (!b) return a;
+    for (var current = a; current; current = current.parentNode) {
+        if (_chrome_node_contains_node(current, b)) return current;
+    }
+    return document.body || document.documentElement || null;
+}
+
+function _chrome_delete_clamped_offset(node, offset) {
+    offset = Math.max(0, offset || 0);
+    if (!node) return offset;
+    if (node.nodeType === 3)
+        return Math.min(offset, (node.nodeValue || "").length);
+    if (node.childNodes)
+        return Math.min(offset, node.childNodes.length);
+    return 0;
+}
+
+function _chrome_delete_boundary_compare(root, aNode, aOffset, bNode, bOffset) {
+    if (!root || !aNode || !bNode) return 0;
+    return _chrome_compare_paths(
+        _chrome_boundary_path(root, aNode, aOffset || 0),
+        _chrome_boundary_path(root, bNode, bOffset || 0));
+}
+
+function _chrome_delete_make_range(startNode, startOffset, endNode, endOffset) {
+    if (!startNode || !endNode) return null;
+    startOffset = _chrome_delete_clamped_offset(startNode, startOffset);
+    endOffset = _chrome_delete_clamped_offset(endNode, endOffset);
+    var root = _chrome_delete_common_ancestor(startNode, endNode);
+    if (root && _chrome_delete_boundary_compare(root, startNode, startOffset,
+            endNode, endOffset) > 0) {
+        var oldStartNode = startNode;
+        var oldStartOffset = startOffset;
+        startNode = endNode;
+        startOffset = endOffset;
+        endNode = oldStartNode;
+        endOffset = oldStartOffset;
+    }
+    var range = {
+        startContainer: startNode,
+        startOffset: startOffset,
+        endContainer: endNode,
+        endOffset: endOffset,
+        commonAncestorContainer: root,
+        __chromeDeleteSynthetic: true
+    };
+    range.deleteContents = function() {
+        return _chrome_delete_range_contents_ce3(range);
+    };
+    return range;
+}
+
+function _chrome_delete_effective_range(selection) {
+    var override = _chrome_selection_override_range;
+    if (override && _chrome_node_is_live(override.startContainer) &&
+            _chrome_node_is_live(override.endContainer)) {
+        return _chrome_delete_make_range(override.startContainer,
+            override.startOffset || 0, override.endContainer,
+            override.endOffset || 0);
+    }
+    if (selection && selection.rangeCount &&
+            typeof selection.getRangeAt === "function") {
+        try {
+            var nativeRange = selection.getRangeAt(0);
+            if (nativeRange && nativeRange.startContainer &&
+                    nativeRange.endContainer) {
+                return _chrome_delete_make_range(nativeRange.startContainer,
+                    nativeRange.startOffset || 0, nativeRange.endContainer,
+                    nativeRange.endOffset || 0);
+            }
+        } catch (_) {}
+    }
+    if (selection && selection.anchorNode && selection.focusNode) {
+        return _chrome_delete_make_range(selection.anchorNode,
+            selection.anchorOffset || 0, selection.focusNode,
+            selection.focusOffset || 0);
+    }
+    return null;
+}
+
+function _chrome_delete_boundary_before_node(node) {
+    if (!node || !node.parentNode) return null;
+    return {
+        node: node.parentNode,
+        offset: _chrome_node_child_index(node)
+    };
+}
+
+function _chrome_delete_boundary_after_node(node) {
+    if (!node) return null;
+    if (node.nodeType === 3) {
+        return { node: node, offset: (node.nodeValue || "").length };
+    }
+    if (!node.parentNode) return null;
+    return {
+        node: node.parentNode,
+        offset: _chrome_node_child_index(node) + 1
+    };
+}
+
+function _chrome_delete_boundary_matches(boundaryNode, boundaryOffset,
+        expectedNode, expectedOffset) {
+    if (!boundaryNode || !expectedNode) return false;
+    if (boundaryNode === expectedNode &&
+            (boundaryOffset || 0) === (expectedOffset || 0)) {
+        return true;
+    }
+    var root = _chrome_delete_common_ancestor(boundaryNode, expectedNode);
+    return root && _chrome_delete_boundary_compare(root, boundaryNode,
+        boundaryOffset || 0, expectedNode, expectedOffset || 0) === 0;
+}
+
+function _chrome_delete_boundary_is_before_node(boundaryNode, boundaryOffset,
+        node) {
+    if (!node) return false;
+    var before = _chrome_delete_boundary_before_node(node);
+    if (before && _chrome_delete_boundary_matches(boundaryNode,
+            boundaryOffset, before.node, before.offset)) {
+        return true;
+    }
+    var firstText = _chrome_first_text_descendant(node);
+    if (firstText && _chrome_delete_boundary_matches(boundaryNode,
+            boundaryOffset, firstText, 0)) {
+        return true;
+    }
+    return false;
+}
+
+function _chrome_delete_boundary_is_after_node(boundaryNode, boundaryOffset,
+        node) {
+    if (!node) return false;
+    var after = _chrome_delete_boundary_after_node(node);
+    if (after && _chrome_delete_boundary_matches(boundaryNode,
+            boundaryOffset, after.node, after.offset)) {
+        return true;
+    }
+    var end = _chrome_delete_block_end_boundary(node);
+    return !!(end && _chrome_delete_boundary_matches(boundaryNode,
+        boundaryOffset, end.node, end.offset));
+}
+
+function _chrome_delete_range_starts_before_block(range, block) {
+    if (!range || !block || !block.parentNode) return false;
+    if (_chrome_delete_boundary_is_before_node(range.startContainer,
+            range.startOffset || 0, block)) {
+        return true;
+    }
+    for (var previous = block.previousSibling; previous;
+         previous = previous.previousSibling) {
+        if (!_chrome_delete_node_has_visible_content(previous)) continue;
+        return _chrome_delete_boundary_is_after_node(range.startContainer,
+            range.startOffset || 0, previous);
+    }
+    return false;
+}
+
+function _chrome_delete_node_range_boundary(root, node, after) {
+    if (!node || !node.parentNode) return null;
+    return {
+        node: node.parentNode,
+        offset: _chrome_node_child_index(node) + (after ? 1 : 0)
+    };
+}
+
+function _chrome_delete_node_fully_selected(root, node, range) {
+    var start = _chrome_delete_node_range_boundary(root, node, false);
+    var end = _chrome_delete_node_range_boundary(root, node, true);
+    return !!(start && end &&
+        _chrome_delete_boundary_compare(root, range.startContainer,
+            range.startOffset || 0, start.node, start.offset) <= 0 &&
+        _chrome_delete_boundary_compare(root, end.node, end.offset,
+            range.endContainer, range.endOffset || 0) <= 0);
+}
+
+function _chrome_delete_collect_selected_nodes(root, node, range, out) {
+    if (!node || !node.childNodes) return;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (child === range.startContainer || child === range.endContainer ||
+                _chrome_node_contains_node(child, range.startContainer) ||
+                _chrome_node_contains_node(child, range.endContainer)) {
+            _chrome_delete_collect_selected_nodes(root, child, range, out);
+            continue;
+        }
+        if (_chrome_delete_node_fully_selected(root, child, range)) {
+            out.push(child);
+            continue;
+        }
+        _chrome_delete_collect_selected_nodes(root, child, range, out);
+    }
+}
+
+function _chrome_delete_range_contents_ce3(range) {
+    if (!range || !range.startContainer || !range.endContainer)
+        return false;
+    var root = range.commonAncestorContainer ||
+        _chrome_delete_common_ancestor(range.startContainer,
+            range.endContainer);
+    if (!root) return false;
+    if (range.startContainer === range.endContainer &&
+            range.startContainer.nodeType === 3) {
+        var sameText = range.startContainer.nodeValue || "";
+        range.startContainer.data = sameText.slice(0, range.startOffset || 0) +
+            sameText.slice(range.endOffset || 0);
+        return true;
+    }
+    var selected = [];
+    _chrome_delete_collect_selected_nodes(root, root, range, selected);
+    if (range.startContainer.nodeType === 3) {
+        var startText = range.startContainer.nodeValue || "";
+        range.startContainer.data = startText.slice(0,
+            range.startOffset || 0);
+    }
+    if (range.endContainer.nodeType === 3) {
+        var endText = range.endContainer.nodeValue || "";
+        range.endContainer.data = endText.slice(range.endOffset || 0);
+    }
+    for (var i = 0; i < selected.length; i++) {
+        if (selected[i].parentNode) selected[i].parentNode.removeChild(selected[i]);
+    }
+    return true;
+}
+
+function _chrome_delete_collapse_after_range_delete(selection, range, node,
+        offset) {
+    if (node && !_chrome_node_is_live(node)) {
+        node = range && _chrome_node_is_live(range.startContainer) ?
+            range.startContainer : null;
+        offset = node === range.startContainer ? range.startOffset || 0 : 0;
+    }
+    if ((!node || !_chrome_node_is_live(node)) && range &&
+            _chrome_node_is_live(range.endContainer)) {
+        node = range.endContainer;
+        offset = range.endContainer.nodeType === 3 ? 0 : range.endOffset || 0;
+    }
+    if (!node || !_chrome_node_is_live(node)) node = document.body;
+    if (!node) return false;
+    offset = _chrome_delete_clamped_offset(node, offset || 0);
+    selection.removeAllRanges();
+    selection.collapse(node, offset);
+    return true;
+}
+
 function _chrome_preserve_leading_single_space_in(node) {
     if (!node) return false;
     if (node.nodeType === 3) {
@@ -4542,9 +7954,18 @@ function _chrome_block_ancestor_for_range_delete(node, host) {
 
 function _chrome_node_is_live(node) {
     if (!node) return false;
-    if (node.isConnected !== undefined) return !!node.isConnected;
-    return !!(document.body && document.body.contains &&
-        document.body.contains(node));
+    if (node.isConnected !== undefined && node.isConnected) return true;
+    if (document.body && document.body.contains &&
+            document.body.contains(node)) {
+        return true;
+    }
+    for (var current = node; current; current = current.parentNode) {
+        if (current === document || current === document.documentElement ||
+                current === document.body) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function _chrome_delete_node_has_visible_content(node) {
@@ -4787,12 +8208,13 @@ function _chrome_delete_merge_block_before_selection(selection) {
 function _chrome_delete_merge_boundary_selection(selection, range, endBlock) {
     if (!selection || !range || !endBlock || !endBlock.parentNode)
         return false;
-    if (range.startContainer !== endBlock.parentNode ||
-        (range.startOffset || 0) !== _chrome_node_child_index(endBlock)) {
+    if (!_chrome_delete_range_starts_before_block(range, endBlock)) {
         return false;
     }
     var endAtStart = _chrome_delete_at_block_start(selection,
-        range.endContainer, range.endOffset || 0) === endBlock;
+        range.endContainer, range.endOffset || 0) === endBlock ||
+        _chrome_delete_boundary_is_before_node(range.endContainer,
+            range.endOffset || 0, endBlock);
     if (!endAtStart) return false;
     return _chrome_delete_merge_block_into_previous(selection, endBlock, null);
 }
@@ -4883,6 +8305,25 @@ function _chrome_normalize_block_range_delete(selection, startBlock, endBlock) {
         return false;
     }
 
+    if (startBlock && endBlock && startBlock !== endBlock &&
+            _chrome_node_contains_node(startBlock, endBlock)) {
+        return _chrome_delete_collapse(selection, endBlock, 0);
+    }
+
+    if (startBlock && endBlock && startBlock !== endBlock &&
+            _chrome_node_contains_node(endBlock, startBlock) &&
+            !_chrome_delete_node_has_visible_content(startBlock)) {
+        var selectedTrailingSibling =
+            _chrome_delete_first_visible_sibling_after(startBlock);
+        if (_chrome_node_name_is(selectedTrailingSibling, "br")) {
+            _chrome_delete_remove_empty_text_children(startBlock);
+            startBlock.appendChild(selectedTrailingSibling);
+            return _chrome_delete_collapse(selection, startBlock, 0);
+        }
+        if (_chrome_ensure_empty_block_placeholder(startBlock))
+            return _chrome_delete_collapse(selection, startBlock, 0);
+    }
+
     if (startBlock && endBlock) {
         if (_chrome_delete_node_has_visible_content(startBlock)) {
             var mergeBoundary = _chrome_delete_block_end_boundary(startBlock);
@@ -4934,46 +8375,49 @@ function _chrome_undo_last_manual_delete() {
         undo.host.innerHTML = undo.html;
         if (_chrome_restore_selection_paths(undo.host, undo.selectionPaths))
             return true;
-        var restoredSelection = getSelection();
+        var restoredSelection = _chrome_current_selection_ce3();
         if (restoredSelection) {
             var restoredText = _chrome_first_text_descendant(undo.host);
-            if (restoredText)
+            if (restoredText &&
+                    typeof restoredSelection.collapse === "function")
                 restoredSelection.collapse(restoredText, 0);
-            else
+            else if (typeof restoredSelection.collapse === "function")
                 restoredSelection.collapse(undo.host, 0);
         }
         return true;
     }
     undo.node.data = undo.text;
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (undo.deletedText !== undefined) {
         var behavior = internals && internals.settings ?
             internals.settings.editingBehavior : "mac";
         var before = undo.deleteStart || 0;
         var after = before + String(undo.deletedText || "").length;
         if (behavior === "mac" && undo.deletedText === "\n" &&
-            selection && selection.setBaseAndExtent) {
+            selection && typeof selection.setBaseAndExtent === "function") {
             selection.setBaseAndExtent(undo.node, after, undo.node, before);
-        } else if (selection) {
+        } else if (selection && typeof selection.collapse === "function") {
             selection.collapse(undo.node, after);
         }
         return true;
     }
-    if (selection && selection.setBaseAndExtent) {
+    if (selection && typeof selection.setBaseAndExtent === "function") {
         selection.setBaseAndExtent(undo.node, undo.anchorOffset, undo.node,
             undo.focusOffset);
-    } else if (selection) {
+    } else if (selection && typeof selection.collapse === "function") {
         selection.collapse(undo.node, undo.anchorOffset);
-        if (selection.extend) selection.extend(undo.node, undo.focusOffset);
+        if (typeof selection.extend === "function")
+            selection.extend(undo.node, undo.focusOffset);
     }
     return true;
 }
 
 function _chrome_delete_text_before_selection() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (_chrome_selection_has_content(selection) && selection.rangeCount) {
         if (_chrome_delete_same_text_selection(selection)) return true;
-        var range = selection.getRangeAt(0);
+        var range = _chrome_delete_effective_range(selection);
+        if (!range) return false;
         if (_chrome_delete_selected_child(selection, range)) return true;
         var collapseNode = range.startContainer;
         var collapseOffset = range.startOffset || 0;
@@ -5017,11 +8461,8 @@ function _chrome_delete_text_before_selection() {
         }
         _chrome_ensure_editable_placeholder(collapseNode);
         _chrome_ensure_editable_placeholder(editableHost);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        selection.collapse(collapseNode || range.startContainer,
-            collapseOffset);
-        return true;
+        return _chrome_delete_collapse_after_range_delete(selection, range,
+            collapseNode || range.startContainer, collapseOffset);
     }
     var node = selection.focusNode;
     var offset = selection.focusOffset || 0;
@@ -5151,10 +8592,11 @@ function _chrome_delete_text_before_selection() {
 }
 
 function _chrome_delete_text_after_selection() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (_chrome_selection_has_content(selection) && selection.rangeCount) {
         if (_chrome_delete_same_text_selection(selection)) return true;
-        var range = selection.getRangeAt(0);
+        var range = _chrome_delete_effective_range(selection);
+        if (!range) return false;
         if (_chrome_delete_selected_child(selection, range)) return true;
         var collapseNode = range.startContainer;
         var collapseOffset = range.startOffset || 0;
@@ -5178,11 +8620,8 @@ function _chrome_delete_text_after_selection() {
         else
             _chrome_preserve_boundary_space_after_delete(collapseNode,
                 collapseOffset);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        selection.collapse(collapseNode || range.startContainer,
-            collapseOffset);
-        return true;
+        return _chrome_delete_collapse_after_range_delete(selection, range,
+            collapseNode || range.startContainer, collapseOffset);
     }
     var node = selection.focusNode;
     var offset = selection.focusOffset || 0;
@@ -5329,22 +8768,78 @@ function _chrome_select_text_inside_element(element) {
     return true;
 }
 
+function _chrome_suppressed_inline_ancestor_for_node_ce3(node) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (; current && current !== document; current = current.parentNode) {
+        if (current.nodeType !== 1 || !current.nodeName) continue;
+        for (var command in _chrome_suppressed_inline_commands) {
+            if (!_chrome_suppressed_inline_commands[command]) continue;
+            var info = _chrome_inline_command_info_ce3(command);
+            if (info && _chrome_inline_info_has_tag_ce3(info,
+                    current.nodeName)) {
+                return current;
+            }
+        }
+    }
+    return null;
+}
+
+function _chrome_clear_suppressed_inline_commands_ce3() {
+    for (var command in _chrome_suppressed_inline_commands)
+        _chrome_suppressed_inline_commands[command] = false;
+}
+
 function _chrome_insert_text_at_selection(text) {
     var value = String(text || "");
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     var activeHost = _chrome_focused_editing_host();
     if (activeHost && !_chrome_node_contains_node(activeHost,
         selection ? selection.focusNode : null)) {
         _chrome_place_caret_for_focused_editable(activeHost);
-        selection = getSelection();
+        selection = _chrome_current_selection_ce3();
     }
+    var fallbackNode = selection ? selection.focusNode : null;
+    var fallbackOffset = selection ? selection.focusOffset || 0 : 0;
     if (selection && _chrome_selection_has_content(selection)) {
         if (!_chrome_delete_selection_for_insert(selection)) return false;
-        selection = getSelection();
+        selection = _chrome_current_selection_ce3();
+    }
+    if ((!selection || !selection.focusNode) && fallbackNode &&
+            _chrome_node_is_live(fallbackNode)) {
+        var restoredOffset = fallbackOffset;
+        if (fallbackNode.nodeType === 1 && fallbackNode.childNodes) {
+            restoredOffset = Math.min(restoredOffset,
+                fallbackNode.childNodes.length);
+            if (fallbackNode.childNodes.length === 1 &&
+                    _chrome_node_name_is(fallbackNode.firstChild, "br")) {
+                restoredOffset = 0;
+            }
+        } else if (fallbackNode.nodeType === 3) {
+            restoredOffset = Math.min(restoredOffset,
+                (fallbackNode.nodeValue || "").length);
+        }
+        selection = _chrome_current_selection_ce3();
+        if (selection && typeof selection.setBaseAndExtent === "function") {
+            selection.setBaseAndExtent(fallbackNode, restoredOffset,
+                fallbackNode, restoredOffset);
+        }
     }
     if (!selection) return false;
     var node = selection.focusNode;
     var offset = selection.focusOffset || 0;
+    var suppressedInline =
+        _chrome_suppressed_inline_ancestor_for_node_ce3(node);
+    if (suppressedInline && suppressedInline.parentNode) {
+        var suppressedParent = suppressedInline.parentNode;
+        offset = _chrome_node_child_index(suppressedInline) + 1;
+        if (!_chrome_element_has_text_descendant(suppressedInline)) {
+            offset = _chrome_node_child_index(suppressedInline);
+            suppressedParent.removeChild(suppressedInline);
+        }
+        node = suppressedParent;
+        if (selection && typeof selection.setBaseAndExtent === "function")
+            selection.setBaseAndExtent(node, offset, node, offset);
+    }
     var styled = _chrome_make_pending_styled_text(value);
     if (styled) {
         if (node && node.nodeType === 3) {
@@ -5358,11 +8853,13 @@ function _chrome_insert_text_at_selection(text) {
             if (after) parent.insertBefore(document.createTextNode(after), node);
             parent.removeChild(node);
             selection.collapse(styled.firstChild || styled, value.length);
+            _chrome_clear_suppressed_inline_commands_ce3();
             return true;
         }
         if (node && node.nodeType === 1) {
             node.insertBefore(styled, node.childNodes[offset] || null);
             selection.collapse(styled.firstChild || styled, value.length);
+            _chrome_clear_suppressed_inline_commands_ce3();
             return true;
         }
         return false;
@@ -5371,9 +8868,15 @@ function _chrome_insert_text_at_selection(text) {
         var current = node.nodeValue || "";
         node.data = current.slice(0, offset) + value + current.slice(offset);
         selection.collapse(node, offset + value.length);
+        _chrome_clear_suppressed_inline_commands_ce3();
         return true;
     }
     if (node && node.nodeType === 1) {
+        if (node.childNodes && node.childNodes.length === 1 &&
+                _chrome_node_name_is(node.firstChild, "br")) {
+            node.removeChild(node.firstChild);
+            offset = 0;
+        }
         var placeholder = node.childNodes ? node.childNodes[offset || 0] :
             null;
         if (placeholder && !placeholder.nextSibling &&
@@ -5387,6 +8890,7 @@ function _chrome_insert_text_at_selection(text) {
         var textNode = document.createTextNode(insertedValue);
         node.insertBefore(textNode, node.childNodes[offset] || null);
         selection.collapse(textNode, insertedValue.length);
+        _chrome_clear_suppressed_inline_commands_ce3();
         return true;
     }
     return false;
@@ -5429,13 +8933,15 @@ function _chrome_insert_newline_text_at_selection(selection, node, offset) {
         var text = node.nodeValue || "";
         node.data = text.slice(0, offset || 0) + "\n" +
             text.slice(offset || 0);
-        selection.collapse(node, (offset || 0) + 1);
+        _chrome_set_command_selection_ce3(selection, node,
+            (offset || 0) + 1, node, (offset || 0) + 1);
         return true;
     }
     if (node.nodeType === 1) {
         var textNode = document.createTextNode("\n");
         node.insertBefore(textNode, node.childNodes[offset || 0] || null);
-        selection.collapse(textNode, 1);
+        _chrome_set_command_selection_ce3(selection, textNode, 1,
+            textNode, 1);
         return true;
     }
     return false;
@@ -5461,11 +8967,15 @@ function _chrome_split_pre_inline_for_line_break(selection, preInline, node,
         }
         parent.insertBefore(br, preInline.nextSibling);
         if (afterInline) parent.insertBefore(afterInline, br.nextSibling);
-        selection.collapse(parent, _chrome_node_child_index(br) + 1);
+        _chrome_set_command_selection_ce3(selection, parent,
+            _chrome_node_child_index(br) + 1, parent,
+            _chrome_node_child_index(br) + 1);
         return true;
     }
     parent.insertBefore(br, preInline.nextSibling);
-    selection.collapse(parent, _chrome_node_child_index(br) + 1);
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br) + 1, parent,
+        _chrome_node_child_index(br) + 1);
     return true;
 }
 
@@ -5505,11 +9015,14 @@ function _chrome_insert_br_node_at_selection(selection, node, offset,
         reference)) {
         var preText = _chrome_first_text_descendant(reference);
         if (preText) {
-            selection.collapse(preText, 0);
+            _chrome_set_command_selection_ce3(selection, preText, 0,
+                preText, 0);
             return true;
         }
     }
-    selection.collapse(parent, _chrome_node_child_index(br) + 1);
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br) + 1, parent,
+        _chrome_node_child_index(br) + 1);
     return true;
 }
 
@@ -5559,7 +9072,9 @@ function _chrome_insert_br_in_text_node(selection, textNode, offset) {
         parent.insertBefore(afterNode, br.nextSibling);
     }
     if (!before) parent.removeChild(textNode);
-    selection.collapse(parent, _chrome_node_child_index(br) + 1);
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br) + 1, parent,
+        _chrome_node_child_index(br) + 1);
     return true;
 }
 
@@ -5783,7 +9298,7 @@ function _chrome_insert_paragraph_at_host_boundary(selection, host, node,
 }
 
 function _chrome_insert_paragraph_at_selection() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (!selection || !selection.rangeCount) return false;
     var range = selection.getRangeAt(0);
     if (!selection.isCollapsed) {
@@ -5852,9 +9367,39 @@ function _chrome_set_pending_insert_style(command, value) {
     return true;
 }
 
+function _chrome_has_pending_inline_commands_ce3() {
+    for (var name in _chrome_pending_inline_commands) {
+        if (_chrome_pending_inline_commands[name]) return true;
+    }
+    return false;
+}
+
+function _chrome_wrap_node_in_inline_command_ce3(node, command) {
+    var info = _chrome_inline_command_info_ce3(command);
+    if (!info || !node) return node;
+    var wrapper = document.createElement(info.tag);
+    wrapper.appendChild(node);
+    return wrapper;
+}
+
+function _chrome_wrap_node_in_pending_inline_commands_ce3(node) {
+    var order = ["bold", "italic", "underline", "strikethrough",
+        "subscript", "superscript"];
+    var wrapped = node;
+    for (var i = order.length - 1; i >= 0; i--) {
+        if (_chrome_pending_inline_commands[order[i]])
+            wrapped = _chrome_wrap_node_in_inline_command_ce3(wrapped,
+                order[i]);
+    }
+    return wrapped;
+}
+
 function _chrome_make_pending_styled_text(value) {
-    if (!_chrome_pending_insert_back_color && !_chrome_pending_insert_fore_color)
+    var hasInline = _chrome_has_pending_inline_commands_ce3();
+    if (!_chrome_pending_insert_back_color && !_chrome_pending_insert_fore_color &&
+        !hasInline) {
         return null;
+    }
     var host = _chrome_focused_editing_host() ||
         _chrome_editable_host_from_selection();
     var hostValue = host ? _chrome_contenteditable_value(host) : "";
@@ -5865,19 +9410,23 @@ function _chrome_make_pending_styled_text(value) {
         _chrome_pending_insert_fore_color = "";
         return null;
     }
-    var span = document.createElement("span");
-    var style = "";
-    if (_chrome_pending_insert_back_color)
-        style += "background-color: " + _chrome_pending_insert_back_color + ";";
-    if (_chrome_pending_insert_fore_color)
-        style += " color: " + _chrome_pending_insert_fore_color + ";";
-    span.setAttribute("style", style);
-    if (span.style) span.style.cssText = style;
-    span.__chromeSerializedStyle = style;
-    span.appendChild(document.createTextNode(value));
-    _chrome_pending_insert_back_color = "";
-    _chrome_pending_insert_fore_color = "";
-    return span;
+    var node = document.createTextNode(value);
+    if (_chrome_pending_insert_back_color || _chrome_pending_insert_fore_color) {
+        var span = document.createElement("span");
+        var style = "";
+        if (_chrome_pending_insert_back_color)
+            style += "background-color: " + _chrome_pending_insert_back_color + ";";
+        if (_chrome_pending_insert_fore_color)
+            style += " color: " + _chrome_pending_insert_fore_color + ";";
+        span.setAttribute("style", style);
+        if (span.style) span.style.cssText = style;
+        span.__chromeSerializedStyle = style;
+        span.appendChild(node);
+        node = span;
+        _chrome_pending_insert_back_color = "";
+        _chrome_pending_insert_fore_color = "";
+    }
+    return _chrome_wrap_node_in_pending_inline_commands_ce3(node);
 }
 
 function _chrome_record_insert_html_style_hint(tagName, attrs, text) {
@@ -5926,7 +9475,8 @@ function _chrome_caret_position_after_inserted_node(node) {
 function _chrome_collapse_after_inserted_node(selection, node) {
     var position = _chrome_caret_position_after_inserted_node(node);
     if (!selection || !position || !position.node) return false;
-    selection.collapse(position.node, position.offset || 0);
+    _chrome_set_command_selection_ce3(selection, position.node,
+        position.offset || 0, position.node, position.offset || 0);
     return true;
 }
 
@@ -5948,8 +9498,10 @@ function _chrome_move_range_after_inserted_node(range, node) {
 
 function _chrome_insert_html_marker_at_selection(selection) {
     if (!selection) return null;
-    var node = selection.focusNode;
-    var offset = selection.focusOffset || 0;
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    var node = commandRange ? commandRange.endContainer : selection.focusNode;
+    var offset = commandRange ? commandRange.endOffset || 0 :
+        selection.focusOffset || 0;
     var marker = document.createElement("span");
     marker.setAttribute("data-chrome-editing-insert-marker", "");
     if (node && node.nodeType === 3) {
@@ -6028,11 +9580,20 @@ function _chrome_insert_html_fragment_at_selection(source) {
     if (!/<[a-zA-Z][\s\S]*>/.test(source))
         return _chrome_insert_text_at_selection(source);
     var selection = getSelection();
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    var selectionNode = commandRange ? (commandRange.endContainer ||
+        commandRange.startContainer) : selection ? selection.focusNode : null;
     var activeHost = _chrome_focused_editing_host();
-    if (activeHost && !_chrome_node_contains_node(activeHost,
-        selection ? selection.focusNode : null)) {
+    var selectionHost = _chrome_editing_host_for_node(selectionNode);
+    if (activeHost && !selectionHost && !_chrome_node_contains_node(activeHost,
+        selectionNode)) {
         _chrome_place_caret_for_focused_editable(activeHost);
         selection = getSelection();
+        commandRange = _chrome_effective_command_range_ce3(selection);
+        selectionNode = commandRange ? (commandRange.endContainer ||
+            commandRange.startContainer) : selection ? selection.focusNode :
+            null;
+        selectionHost = _chrome_editing_host_for_node(selectionNode);
     }
     if (!selection) return false;
     if (_chrome_selection_has_content(selection)) {
@@ -6040,8 +9601,10 @@ function _chrome_insert_html_fragment_at_selection(source) {
         selection = getSelection();
     }
     if (!selection) return false;
-    var host = _chrome_editing_host_for_node(selection.focusNode) ||
+    var host = selectionHost ||
+        _chrome_editing_host_for_node(selection.focusNode) ||
         _chrome_editable_host_from_selection();
+    if (!host) return false;
     if (host && _chrome_contenteditable_value(host) === "plaintext-only")
         return _chrome_insert_text_at_selection(_chrome_text_from_html_source(
             source));
@@ -6066,6 +9629,14 @@ function _chrome_insert_html_at_selection(html) {
         _chrome_record_insert_html_style_hint(elementMatch[1],
             elementMatch[2], elementMatch[3]);
     return _chrome_insert_html_fragment_at_selection(source);
+}
+
+function _chrome_insert_image_at_selection(src) {
+    var value = String(src == null ? "" : src);
+    var escaped = value.replace(/&/g, "&amp;").replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return _chrome_insert_html_fragment_at_selection(
+        "<img src=\"" + escaped + "\">");
 }
 
 function _chrome_create_anchor_with_text(href, text) {
@@ -6292,9 +9863,9 @@ function _chrome_create_link_at_selection(href) {
         } else {
             return false;
         }
-        if (link.firstChild && selection.setBaseAndExtent)
-            selection.setBaseAndExtent(link.firstChild, 0, link.firstChild,
-                (link.firstChild.nodeValue || "").length);
+        if (link.firstChild)
+            _chrome_set_command_selection_ce3(selection, link.firstChild, 0,
+                link.firstChild, (link.firstChild.nodeValue || "").length);
         return true;
     }
     var range = selection.getRangeAt(0);
@@ -6557,30 +10128,93 @@ function _chrome_indent_empty_first_list_item(selection, item, list) {
     return true;
 }
 
-function _chrome_indent_block_at_selection(selection) {
-    var host = _chrome_editing_host_for_node(selection.focusNode) ||
+function _chrome_indent_list_item_ce3(selection, item, list) {
+    if (!item || !list || !_chrome_list_tag_name(list)) return false;
+    if (_chrome_indent_empty_first_list_item(selection, item, list))
+        return true;
+    if (!item.previousSibling) return false;
+    var nested = _chrome_make_same_kind_list(list);
+    list.insertBefore(nested, item);
+    nested.appendChild(item);
+    var text = _chrome_first_text_descendant(item);
+    if (text) _chrome_set_command_selection_ce3(selection, text, 0, text, 0);
+    else _chrome_set_command_selection_ce3(selection, item, 0, item, 0);
+    return true;
+}
+
+function _chrome_indent_empty_host_ce3(selection, host) {
+    if (!host || host.firstChild) return false;
+    var quote = _chrome_indent_blockquote();
+    quote.appendChild(document.createElement("br"));
+    host.appendChild(quote);
+    _chrome_set_command_selection_ce3(selection, quote, 0, quote, 0);
+    return true;
+}
+
+function _chrome_indent_host_child_range_ce3(selection, host, range) {
+    if (!host || !range || range.startContainer !== host ||
+        range.endContainer !== host || !host.childNodes) {
+        return false;
+    }
+    var start = Math.max(0, range.startOffset || 0);
+    var end = Math.max(start, range.endOffset || 0);
+    if (end <= start) return _chrome_indent_empty_host_ce3(selection, host);
+    var selected = [];
+    for (var i = start; i < end && i < host.childNodes.length; i++)
+        selected.push(host.childNodes[i]);
+    if (!selected.length) return false;
+    var quote = _chrome_indent_blockquote();
+    host.insertBefore(quote, selected[0]);
+    for (var j = 0; j < selected.length; j++)
+        quote.appendChild(selected[j]);
+    var first = _chrome_first_text_descendant(quote);
+    var last = _chrome_last_text_descendant(quote);
+    if (first && last)
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            (last.nodeValue || "").length);
+    else
+        _chrome_set_command_selection_ce3(selection, quote, 0, quote, 0);
+    return true;
+}
+
+function _chrome_indent_block_at_selection(selection, host, range) {
+    host = host || _chrome_editing_host_for_node(selection.focusNode) ||
         _chrome_focused_editing_host() || _chrome_first_contenteditable_host();
-    var block = _chrome_block_ancestor_for_range_delete(selection.focusNode,
-        host);
+    if (range && _chrome_indent_host_child_range_ce3(selection, host, range))
+        return true;
+    var focusNode = range ? (range.endContainer || range.startContainer) :
+        selection.focusNode;
+    var block = _chrome_block_ancestor_for_range_delete(focusNode, host);
     if (!block || block === host || !block.parentNode) return false;
     var quote = _chrome_indent_blockquote();
     block.parentNode.insertBefore(quote, block);
     quote.appendChild(block);
     var text = _chrome_first_text_descendant(block);
-    if (text) selection.collapse(text, 0);
-    else selection.collapse(block, 0);
+    if (text) _chrome_set_command_selection_ce3(selection, text, 0, text, 0);
+    else _chrome_set_command_selection_ce3(selection, block, 0, block, 0);
     return true;
 }
 
 function _chrome_indent_at_selection() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (!selection) return false;
-    var item = _chrome_ancestor_list_item(selection.focusNode);
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    var rangeNode = commandRange ? (commandRange.endContainer ||
+        commandRange.startContainer) : selection.focusNode;
+    var host = _chrome_editing_host_for_node(rangeNode) ||
+        _chrome_focused_editing_host() || _chrome_first_contenteditable_host();
+    if (host && !_chrome_node_is_live(host))
+        host = _chrome_first_contenteditable_host();
+    commandRange = _chrome_live_command_range_ce3(commandRange, host);
+    rangeNode = commandRange ? (commandRange.endContainer ||
+        commandRange.startContainer) : rangeNode;
+    var item = _chrome_ancestor_list_item(rangeNode) ||
+        _chrome_ancestor_list_item(commandRange && commandRange.startContainer);
     if (item && item.parentNode && _chrome_list_tag_name(item.parentNode) &&
-        _chrome_indent_empty_first_list_item(selection, item, item.parentNode)) {
+        _chrome_indent_list_item_ce3(selection, item, item.parentNode)) {
         return true;
     }
-    return _chrome_indent_block_at_selection(selection);
+    return _chrome_indent_block_at_selection(selection, host, commandRange);
 }
 
 function _chrome_make_list_with_item(tagName) {
@@ -6690,7 +10324,7 @@ function _chrome_absorb_orphan_items_between_lists(root, tagName) {
 }
 
 function _chrome_select_first_to_last_list_text(root, tagName) {
-    if (!root || typeof getSelection !== "function") return false;
+    if (!root) return false;
     var firstText = null;
     var lastText = null;
     function scan(node) {
@@ -6707,8 +10341,9 @@ function _chrome_select_first_to_last_list_text(root, tagName) {
     }
     scan(root);
     if (!firstText || !lastText) return false;
-    var selection = getSelection();
-    if (!selection || !selection.setBaseAndExtent) return false;
+    var selection = _chrome_current_selection_ce3();
+    if (!selection || typeof selection.setBaseAndExtent !== "function")
+        return false;
     selection.setBaseAndExtent(firstText, 0, lastText,
         (lastText.nodeValue || "").length);
     return true;
@@ -7333,7 +10968,7 @@ function _chrome_listify_anchor_or_inline_parent(selection, tagName) {
 }
 
 function _chrome_insert_list_around_selected_block(tagName) {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (!selection) return false;
     if (_chrome_node_name_is(selection.focusNode, "br")) return true;
     if (_chrome_switch_select_all_child_lists(tagName)) return true;
@@ -7473,7 +11108,8 @@ function _chrome_insert_unquoted_break_near_quote(selection, quote, before) {
     var br = document.createElement("br");
     var parent = quote.parentNode;
     parent.insertBefore(br, before ? quote : quote.nextSibling);
-    selection.collapse(parent, _chrome_node_child_index(br));
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br), parent, _chrome_node_child_index(br));
     return true;
 }
 
@@ -7543,7 +11179,8 @@ function _chrome_split_blockquote_at_selection(selection, quote) {
     var parent = quote.parentNode;
     parent.insertBefore(br, quote.nextSibling);
     if (secondQuote) parent.insertBefore(secondQuote, br.nextSibling);
-    selection.collapse(parent, _chrome_node_child_index(br));
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br), parent, _chrome_node_child_index(br));
     return true;
 }
 
@@ -7587,7 +11224,8 @@ function _chrome_insert_newline_in_quoted_content() {
     var parent = quote.parentNode;
     parent.insertBefore(br, quote.nextSibling);
     parent.insertBefore(secondQuote, br.nextSibling);
-    selection.collapse(parent, _chrome_node_child_index(br));
+    _chrome_set_command_selection_ce3(selection, parent,
+        _chrome_node_child_index(br), parent, _chrome_node_child_index(br));
     return true;
 }
 
@@ -7633,6 +11271,17 @@ function _chrome_block_alignment_matches(block, value) {
         === value);
 }
 
+function _chrome_alignment_node_is_block_ce3(node) {
+    if (!node || node.nodeType !== 1) return false;
+    if (_chrome_dump_is_block_ce3(node)) return true;
+    var tags = ["address", "blockquote", "div", "dl", "h1", "h2", "h3",
+        "h4", "h5", "h6", "hr", "ol", "p", "pre", "table", "ul"];
+    for (var i = 0; i < tags.length; i++) {
+        if (_chrome_node_name_is(node, tags[i])) return true;
+    }
+    return false;
+}
+
 function _chrome_direct_child_for_boundary(host, node, offset) {
     if (!host || !node) return { child: null, offset: 0 };
     if (node === host) {
@@ -7655,12 +11304,11 @@ function _chrome_line_start_child(host, child, offset) {
         current = host.childNodes[(offset || 0) - 1] || null;
     if (current && _chrome_node_name_is(current, "br"))
         current = current.nextSibling;
-    if (current && current.nodeType === 1 && _chrome_dump_is_block_ce3(current))
+    if (_chrome_alignment_node_is_block_ce3(current))
         return current;
     while (current && current.previousSibling &&
         !_chrome_node_name_is(current.previousSibling, "br") &&
-        !(current.previousSibling.nodeType === 1 &&
-            _chrome_dump_is_block_ce3(current.previousSibling))) {
+        !_chrome_alignment_node_is_block_ce3(current.previousSibling)) {
         current = current.previousSibling;
     }
     return current || host.firstChild || null;
@@ -7677,14 +11325,12 @@ function _chrome_line_after_boundary_child(host, child, offset) {
 }
 
 function _chrome_line_after(lineStart) {
-    if (lineStart && lineStart.nodeType === 1 &&
-        _chrome_dump_is_block_ce3(lineStart)) {
+    if (_chrome_alignment_node_is_block_ce3(lineStart)) {
         return lineStart.nextSibling;
     }
     for (var node = lineStart; node; node = node.nextSibling) {
         if (_chrome_node_name_is(node, "br")) return node.nextSibling;
-        if (node !== lineStart && node.nodeType === 1 &&
-            _chrome_dump_is_block_ce3(node)) {
+        if (node !== lineStart && _chrome_alignment_node_is_block_ce3(node)) {
             return node;
         }
     }
@@ -7693,7 +11339,11 @@ function _chrome_line_after(lineStart) {
 
 function _chrome_wrap_line_for_alignment(host, lineStart, value) {
     if (!host || !lineStart || lineStart.parentNode !== host) return null;
-    if (lineStart.nodeType === 1 && _chrome_dump_is_block_ce3(lineStart)) {
+    if (_chrome_node_name_is(lineStart, "img")) {
+        while (lineStart.firstChild)
+            host.insertBefore(lineStart.firstChild, lineStart.nextSibling);
+    }
+    if (_chrome_alignment_node_is_block_ce3(lineStart)) {
         _chrome_apply_alignment_to_block(lineStart, value);
         return lineStart;
     }
@@ -7701,7 +11351,7 @@ function _chrome_wrap_line_for_alignment(host, lineStart, value) {
     host.insertBefore(block, lineStart);
     while (lineStart && lineStart.parentNode === host &&
         !_chrome_node_name_is(lineStart, "br") &&
-        !(lineStart.nodeType === 1 && _chrome_dump_is_block_ce3(lineStart))) {
+        !_chrome_alignment_node_is_block_ce3(lineStart)) {
         var next = lineStart.nextSibling;
         block.appendChild(lineStart);
         lineStart = next;
@@ -7709,7 +11359,59 @@ function _chrome_wrap_line_for_alignment(host, lineStart, value) {
     if (lineStart && _chrome_node_name_is(lineStart, "br"))
         host.removeChild(lineStart);
     if (!block.firstChild) block.appendChild(document.createElement("br"));
+    for (var child = block.firstChild; child; child = child.nextSibling) {
+        if (!_chrome_node_name_is(child, "img")) continue;
+        while (child.firstChild) {
+            var moved = child.firstChild;
+            block.parentNode.insertBefore(moved, block.nextSibling);
+            if (_chrome_alignment_node_is_block_ce3(moved))
+                _chrome_apply_alignment_to_block(moved, value);
+        }
+    }
+    for (var siblingIndex = 1; block.childNodes &&
+            siblingIndex < block.childNodes.length;) {
+        var sibling = block.childNodes[siblingIndex];
+        if (!_chrome_alignment_node_is_block_ce3(sibling)) {
+            siblingIndex++;
+            continue;
+        }
+        block.parentNode.insertBefore(sibling, block.nextSibling);
+        _chrome_apply_alignment_to_block(sibling, value);
+    }
+    _chrome_hoist_nested_image_alignment_blocks_ce3(block, value);
     return block;
+}
+
+function _chrome_hoist_nested_image_alignment_blocks_ce3(block, value) {
+    if (!block || !block.parentNode || !block.getElementsByTagName)
+        return null;
+    if (!_chrome_node_name_is(block.firstChild, "img")) return null;
+    var nested = block.getElementsByTagName("div");
+    if (!nested || !nested.length) return null;
+    var moved = [];
+    for (var i = 0; i < nested.length; i++) {
+        if (nested[i] && nested[i] !== block) moved.push(nested[i]);
+    }
+    var lastMoved = null;
+    for (var j = 0; j < moved.length; j++) {
+        var child = moved[j];
+        if (!child || !child.parentNode || child === block) continue;
+        block.parentNode.insertBefore(child,
+            lastMoved ? lastMoved.nextSibling : block.nextSibling);
+        _chrome_apply_alignment_to_block(child, value);
+        lastMoved = child;
+    }
+    return lastMoved;
+}
+
+function _chrome_last_adjacent_alignment_block_ce3(block, value) {
+    var last = block;
+    while (last && last.nextSibling &&
+            _chrome_alignment_node_is_block_ce3(last.nextSibling) &&
+            _chrome_block_alignment_matches(last.nextSibling, value)) {
+        last = last.nextSibling;
+    }
+    return last;
 }
 
 function _chrome_align_empty_or_focused_host(host, value) {
@@ -7722,7 +11424,8 @@ function _chrome_align_empty_or_focused_host(host, value) {
     host.appendChild(block);
     var selection = getSelection();
     var text = _chrome_first_text_descendant(block);
-    if (selection && text) selection.collapse(text, 0);
+    if (selection && text)
+        _chrome_set_command_selection_ce3(selection, text, 0, text, 0);
     while (block.nextSibling && _chrome_node_name_is(block.nextSibling, "br"))
         host.removeChild(block.nextSibling);
     return true;
@@ -7765,7 +11468,17 @@ function _chrome_first_contenteditable_host() {
         var value = _chrome_contenteditable_value(nodes[i]);
         if (value && value !== "false") return nodes[i];
     }
-    return null;
+    function walk(node) {
+        if (!node || node.nodeType !== 1) return null;
+        var value = _chrome_contenteditable_value(node);
+        if (value && value !== "false") return node;
+        for (var child = node.firstChild; child; child = child.nextSibling) {
+            var found = walk(child);
+            if (found) return found;
+        }
+        return null;
+    }
+    return walk(document.body || document.documentElement);
 }
 
 function _chrome_justify_line_selection(selection, range, host, value) {
@@ -7789,11 +11502,11 @@ function _chrome_justify_line_selection(selection, range, host, value) {
         var block = _chrome_wrap_line_for_alignment(host, lineStart, value);
         if (!block) break;
         if (!firstBlock) firstBlock = block;
-        lastBlock = block;
+        lastBlock = _chrome_last_adjacent_alignment_block_ce3(block, value);
         if (lineStart === endLine || !nextLine) break;
         lineStart = nextLine;
     }
-    if (selection && firstBlock && lastBlock && selection.setBaseAndExtent &&
+    if (selection && firstBlock && lastBlock &&
         (_chrome_alignment_block_has_selectable_content(firstBlock) ||
         _chrome_alignment_block_has_selectable_content(lastBlock))) {
         var anchorOutNode = anchorNode;
@@ -7813,13 +11526,13 @@ function _chrome_justify_line_selection(selection, range, host, value) {
         if (anchorOutNode && focusOutNode &&
             _chrome_node_contains_node(firstBlock.parentNode, anchorOutNode) &&
             _chrome_node_contains_node(lastBlock.parentNode, focusOutNode)) {
-            selection.setBaseAndExtent(anchorOutNode, anchorOutOffset,
-                focusOutNode, focusOutOffset);
+            _chrome_set_command_selection_ce3(selection, anchorOutNode,
+                anchorOutOffset, focusOutNode, focusOutOffset);
         } else {
             var anchor = _chrome_alignment_start_boundary(firstBlock);
             var focus = _chrome_alignment_focus_boundary(lastBlock);
-            selection.setBaseAndExtent(anchor.node, anchor.offset,
-                focus.node, focus.offset);
+            _chrome_set_command_selection_ce3(selection, anchor.node,
+                anchor.offset, focus.node, focus.offset);
         }
     }
     while (lastBlock && lastBlock.nextSibling &&
@@ -7855,7 +11568,8 @@ function _chrome_justify_collapsed_line(selection, range, host, value) {
                 lineHost;
             collapsedOffset = 0;
         }
-        selection.collapse(collapsedNode, collapsedOffset);
+        _chrome_set_command_selection_ce3(selection, collapsedNode,
+            collapsedOffset, collapsedNode, collapsedOffset);
         return true;
     }
     if (lineHost !== host && lineHost.nodeType === 1 &&
@@ -7887,7 +11601,8 @@ function _chrome_justify_collapsed_line(selection, range, host, value) {
     if (!block) return false;
     if (!collapseNode || !_chrome_node_contains_node(block, collapseNode))
         collapseNode = _chrome_first_text_descendant(block) || block;
-    selection.collapse(collapseNode, collapseOffset);
+    _chrome_set_command_selection_ce3(selection, collapseNode, collapseOffset,
+        collapseNode, collapseOffset);
     return true;
 }
 
@@ -7926,32 +11641,33 @@ function _chrome_selection_explicit_editing_host(selection) {
 function _chrome_justify_at_selection(command) {
     var value = _chrome_alignment_value_for_command(command);
     if (!value) return false;
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
+    var range = _chrome_effective_command_range_ce3(selection);
+    var isCollapsed = _chrome_command_range_is_collapsed_ce3(range);
     var activeHost = _chrome_focused_editing_host();
     var explicitHost = _chrome_selection_explicit_editing_host(selection);
-    var host = selection && selection.isCollapsed && activeHost ? activeHost :
+    var host = selection && isCollapsed && activeHost ? activeHost :
         (explicitHost || _chrome_editable_host_from_selection() ||
             activeHost);
     if (!host) host = _chrome_first_contenteditable_host();
-    if (!selection || !selection.rangeCount) {
+    if (!selection || !range) {
         return _chrome_align_empty_or_focused_host(host, value);
     }
-    var range = selection.getRangeAt(0);
     if (!host || !_chrome_node_contains_node(host, range.startContainer))
         host = explicitHost || _chrome_focused_editing_host();
     if (!host) host = _chrome_first_contenteditable_host();
     if (!host) return false;
-    if (selection.isCollapsed &&
+    if (isCollapsed &&
         _chrome_justify_collapsed_line(selection, range, host, value)) {
         return true;
     }
-    if (!selection.isCollapsed) {
+    if (!isCollapsed) {
         var moved = _chrome_move_selection_into_previous_inline_style(range);
         if (moved && moved.host) {
             host = moved.host;
-            selection.setBaseAndExtent(moved.firstMoved, 0, moved.host,
-                moved.host.childNodes.length);
-            range = selection.getRangeAt(0);
+            _chrome_set_command_selection_ce3(selection, moved.firstMoved, 0,
+                moved.host, moved.host.childNodes.length);
+            range = _chrome_effective_command_range_ce3(selection);
         }
         if (range.startContainer !== range.endContainer ||
             range.startContainer === host) {
@@ -7972,26 +11688,124 @@ function _chrome_justify_at_selection(command) {
     return _chrome_align_empty_or_focused_host(host, value);
 }
 
-function _chrome_dispatch_text_input(target, text) {
-    if (typeof textInputCount === "number") {
-        if (typeof expectedTextEventData !== "undefined" &&
-            expectedTextEventData !== text) {
-            _chrome_editing_record(false, "textInput event data",
-                "got " + _chrome_stringify(text) +
-                ", expected " + _chrome_stringify(expectedTextEventData));
-        }
-        textInputCount++;
-        if (typeof willCancelTextInput !== "undefined" && willCancelTextInput)
-            return false;
-        return true;
+function _chrome_make_input_event_ce3(type, inputType, data, dataTransfer) {
+    var event = null;
+    try {
+        event = new InputEvent(type, {
+            bubbles: true,
+            cancelable: type === "beforeinput",
+            inputType: inputType,
+            data: data,
+            dataTransfer: dataTransfer
+        });
+    } catch (_) {
+        event = _chrome_make_dom_event_ce3(type, {
+            bubbles: true,
+            cancelable: type === "beforeinput"
+        });
     }
+    _chrome_copy_event_fields_ce3(event, {
+        inputType: inputType,
+        data: data,
+        dataTransfer: dataTransfer || null
+    });
+    try {
+        if (event.data === undefined)
+            event.data = data;
+        if (event.inputType === undefined)
+            event.inputType = inputType;
+        if (event.dataTransfer === undefined)
+            event.dataTransfer = dataTransfer || null;
+        if (event.getTargetRanges === undefined)
+            event.getTargetRanges = function() { return []; };
+    } catch (_) {}
+    return event;
+}
+
+function _chrome_dispatch_before_input_event_ce3(target, inputType, data,
+        dataTransfer) {
+    if (!target || !target.dispatchEvent) return true;
+    var before = _chrome_make_input_event_ce3("beforeinput", inputType,
+        data, dataTransfer);
+    try {
+        target.dispatchEvent(before);
+    } catch (_) {}
+    return !(before && before.defaultPrevented);
+}
+
+function _chrome_dispatch_input_event_ce3(target, inputType, data,
+        dataTransfer) {
+    if (!target || !target.dispatchEvent) return true;
+    var event = _chrome_make_input_event_ce3("input", inputType, data,
+        dataTransfer);
+    try {
+        target.dispatchEvent(event);
+    } catch (_) {}
     return true;
+}
+
+function _chrome_dispatch_input_events_ce3(target, inputType, data,
+        dataTransfer) {
+    if (!_chrome_dispatch_before_input_event_ce3(target, inputType, data,
+            dataTransfer)) {
+        return false;
+    }
+    return _chrome_dispatch_input_event_ce3(target, inputType, data,
+        dataTransfer);
+}
+
+function _chrome_make_text_input_event_ce3(text) {
+    var value = String(text == null ? "" : text);
+    var event = null;
+    try {
+        event = document && document.createEvent ?
+            document.createEvent("TextEvent") : null;
+        if (event && typeof event.initTextEvent === "function") {
+            event.initTextEvent("textInput", true, true, window, value);
+        }
+    } catch (_) {
+        event = null;
+    }
+    if (!event) {
+        event = _chrome_make_dom_event_ce3("textInput", {
+            bubbles: true,
+            cancelable: true
+        });
+    }
+    _chrome_copy_event_fields_ce3(event, { data: value });
+    try {
+        if (event.data === undefined)
+            Object.defineProperty(event, "data", {
+                configurable: true,
+                enumerable: true,
+                value: value
+            });
+    } catch (_) {}
+    return event;
+}
+
+function _chrome_dispatch_legacy_text_input_ce3(target, text) {
+    if (!target || !target.dispatchEvent) return true;
+    var event = _chrome_make_text_input_event_ce3(text);
+    try {
+        target.dispatchEvent(event);
+    } catch (_) {
+        var handler = target.ontextInput || target.ontextinput;
+        if (typeof handler === "function") handler.call(target, event);
+    }
+    return !(event && event.defaultPrevented);
+}
+
+function _chrome_dispatch_text_input(target, text, inputType, dataTransfer) {
+    if (!_chrome_dispatch_legacy_text_input_ce3(target, text)) return false;
+    return _chrome_dispatch_input_events_ce3(target,
+        inputType || "insertText", text, dataTransfer || null);
 }
 
 function _chrome_is_content_editable_element(node) {
     if (!node || node.nodeType !== 1) return false;
-    if (node.hasAttribute && node.hasAttribute("contenteditable")) return true;
-    if (node.hasAttribute && node.hasAttribute("contentEditable")) return true;
+    if (_chrome_has_dom_attr_ce3(node, "contenteditable")) return true;
+    if (_chrome_has_dom_attr_ce3(node, "contentEditable")) return true;
     if (node.contentEditable === true) return true;
     if (String(node.contentEditable || "").toLowerCase() === "true")
         return true;
@@ -8001,8 +11815,17 @@ function _chrome_is_content_editable_element(node) {
     return false;
 }
 
+function _chrome_current_selection_ce3() {
+    if (typeof globalThis !== "undefined" &&
+            typeof globalThis.__chrome_wrapped_get_selection_ce3 ===
+                "function") {
+        return globalThis.__chrome_wrapped_get_selection_ce3();
+    }
+    return typeof getSelection === "function" ? getSelection() : null;
+}
+
 function _chrome_editable_host_from_selection() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     var node = selection ? selection.focusNode : null;
     if (node && node.nodeType !== 1) node = node.parentNode;
     while (node && node !== document.body) {
@@ -8014,14 +11837,17 @@ function _chrome_editable_host_from_selection() {
 }
 
 function _chrome_selection_element() {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     var node = selection ? selection.focusNode : null;
     if (node && node.nodeType !== 1) node = node.parentNode;
     return node && node.nodeType === 1 ? node : null;
 }
 
 function _chrome_meaningful_active_element() {
-    var active = _chrome_active_element || document.activeElement;
+    var nativeActive = document ? document.activeElement : null;
+    if (nativeActive && nativeActive !== document.body)
+        return nativeActive;
+    var active = _chrome_active_element;
     if (!active || active === document.body) return null;
     return active;
 }
@@ -8246,37 +12072,70 @@ function _chrome_store_clipboard_event_data(dt) {
 
 function _chrome_paste_into_active_element(matchStyle) {
     var selectionHost = _chrome_editable_host_from_selection();
-    var target = selectionHost || _chrome_meaningful_active_element() ||
-        _chrome_selection_element() || document.body || document;
+    var active = _chrome_meaningful_active_element();
+    var nativeActive = document && document.activeElement !== document.body ?
+        document.activeElement : null;
+    if (_chrome_is_text_control(nativeActive) &&
+            nativeActive !== _chrome_clipboard_source_element &&
+            !(_chrome_is_content_editable_element(active) &&
+                selectionHost === active)) {
+        active = nativeActive;
+    }
+    var activeIsEditable = _chrome_is_text_control(active) ||
+        _chrome_is_content_editable_element(active);
+    var selectionIsExplicitPasteTarget = selectionHost &&
+        selectionHost !== active &&
+        selectionHost !== _chrome_clipboard_source_element;
+    var activeTextPasteTarget = _chrome_is_text_control(active) &&
+        active !== _chrome_clipboard_source_element;
+    var target = selectionIsExplicitPasteTarget ? selectionHost :
+        activeTextPasteTarget ? active :
+        activeIsEditable ? active :
+        (selectionHost || active || _chrome_selection_element() ||
+            document.body || document);
     if (!target) return false;
     var pasteData = _chrome_make_clipboard_transfer(true,
         _chrome_clipboard_event_text || _chrome_clipboard_text,
         _chrome_clipboard_event_html || _chrome_clipboard_html);
     _chrome_dispatch_clipboard_event(target, "paste", pasteData);
-    _chrome_invalidate_clipboard_transfer(pasteData);
     var tag = target.nodeName ? target.nodeName.toLowerCase() : "";
-    var text = _chrome_clipboard_text;
+    var text = _chrome_clipboard_event_text || _chrome_clipboard_text;
     var html = matchStyle ? "" : _chrome_clipboard_html;
     var isEditable = _chrome_is_content_editable_element(target);
     var eventText = isEditable ? "" : text;
-    if (!_chrome_dispatch_text_input(target, eventText)) return true;
+    if (!_chrome_dispatch_text_input(target, eventText, "insertFromPaste",
+            pasteData)) {
+        _chrome_invalidate_clipboard_transfer(pasteData);
+        return true;
+    }
     if (tag === "input" || tag === "textarea") {
         target.value = text;
+        if (target.setSelectionRange)
+            target.setSelectionRange(text.length, text.length);
+        _chrome_reveal_active_element_after_input_ce3();
+        _chrome_invalidate_clipboard_transfer(pasteData);
         return true;
     }
     if (isEditable) {
         target.innerHTML = html || text;
         var lastText = _chrome_last_text_descendant(target);
-        if (lastText) getSelection().collapse(lastText,
-            (lastText.nodeValue || "").length);
+        if (lastText) {
+            var selection = _chrome_current_selection_ce3();
+            if (selection && typeof selection.collapse === "function")
+                selection.collapse(lastText, (lastText.nodeValue || "").length);
+        }
+        _chrome_reveal_active_element_after_input_ce3();
+        _chrome_invalidate_clipboard_transfer(pasteData);
         return true;
     }
+    _chrome_invalidate_clipboard_transfer(pasteData);
     return false;
 }
 
 function _chrome_copy_selection_for_sample(cut) {
     var src = document.getElementById("src");
     if (src) {
+        _chrome_clipboard_source_element = src;
         _chrome_clipboard_html = src.innerHTML || "";
         _chrome_clipboard_text = src.textContent || src.value || "";
         if (cut) {
@@ -8291,6 +12150,7 @@ function _chrome_copy_selection_for_sample(cut) {
         var tag = active.nodeName ? active.nodeName.toLowerCase() : "";
         if ((tag === "input" || tag === "textarea") &&
             typeof active.value === "string") {
+            _chrome_clipboard_source_element = active;
             _chrome_clipboard_text = active.value;
             _chrome_clipboard_html = "";
             if (cut) active.value = "";
@@ -8302,6 +12162,7 @@ function _chrome_copy_selection_for_sample(cut) {
     _chrome_clipboard_text = selection ? String(selection.toString()) : "";
     _chrome_clipboard_html = _chrome_clipboard_text;
     var target = _chrome_clipboard_event_target();
+    _chrome_clipboard_source_element = target;
     var copyData = _chrome_make_clipboard_transfer(false, "", "");
     _chrome_dispatch_clipboard_event(target, cut ? "cut" : "copy", copyData);
     _chrome_store_clipboard_event_data(copyData);
@@ -8309,17 +12170,22 @@ function _chrome_copy_selection_for_sample(cut) {
 }
 
 function _chrome_contenteditable_value(node) {
-    if (!node || node.nodeType !== 1 || !node.hasAttribute ||
-        !node.hasAttribute("contenteditable")) {
+    if (!node || node.nodeType !== 1 ||
+            !_chrome_has_dom_attr_ce3(node, "contenteditable")) {
         return "";
     }
-    return String(node.getAttribute("contenteditable") || "true")
+    return String(_chrome_get_dom_attr_ce3(node, "contenteditable") || "true")
         .toLowerCase();
 }
 
 function _chrome_select_all_host_from_selection() {
+    var activeHost = _chrome_focused_editing_host();
     var selection = getSelection();
-    var node = selection && selection.focusNode ? selection.focusNode : null;
+    var node = selection && selection.focusNode ? selection.focusNode :
+        activeHost;
+    if (!node && _chrome_selection_override_range)
+        node = _chrome_selection_override_range.endContainer ||
+            _chrome_selection_override_range.startContainer;
     if (node && node.nodeType !== 1) node = node.parentNode;
     var host = null;
     while (node && node !== document.body) {
@@ -8327,7 +12193,36 @@ function _chrome_select_all_host_from_selection() {
         if (value && value !== "false") host = node;
         node = node.parentNode;
     }
-    return host || document.body || null;
+    return host || _chrome_first_contenteditable_host() || null;
+}
+
+function _chrome_visible_editable_drag_text_ce3(text) {
+    return String(text || "").replace(/^\s+|\s+$/g, "");
+}
+
+function _chrome_autofocus_text_control_ce3() {
+    var controls = document && document.querySelectorAll ?
+        document.querySelectorAll("textarea,input") : [];
+    for (var i = 0; controls && i < controls.length; i++) {
+        var control = controls[i];
+        if (_chrome_is_text_control(control) &&
+                control.hasAttribute && control.hasAttribute("autofocus")) {
+            return control;
+        }
+    }
+    return null;
+}
+
+function _chrome_select_all_text_control_ce3(control) {
+    if (!_chrome_is_text_control(control)) return false;
+    _chrome_install_text_control_selection_api(control);
+    var value = _chrome_control_plain_value(control);
+    _chrome_active_element = control;
+    _chrome_active_text_control = control;
+    _chrome_selection_override_range = null;
+    if (control.setSelectionRange)
+        control.setSelectionRange(0, value.length, "none");
+    return true;
 }
 
 function _chrome_adjust_extend_word_from_pre_boundary(selection) {
@@ -8658,20 +12553,18 @@ function _chrome_first_text_descendant(node) {
 function _chrome_select_all_in_host(host) {
     if (!host) return false;
     _chrome_forced_text_selection_element = null;
+    _chrome_select_all_text_node = host;
     var selection = getSelection();
     if (!selection) return false;
-    selection.removeAllRanges();
-    var range = document.createRange();
     var first = _chrome_first_text_descendant(host);
     var last = _chrome_last_text_descendant(host);
     if (first && last) {
-        range.setStart(first, 0);
-        range.setEnd(last, (last.nodeValue || "").length);
-    } else {
-        range.setStart(host, 0);
-        range.setEnd(host, host.childNodes ? host.childNodes.length : 0);
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            (last.nodeValue || "").length);
+        return true;
     }
-    selection.addRange(range);
+    _chrome_set_command_selection_ce3(selection, host, 0, host,
+        host.childNodes ? host.childNodes.length : 0);
     return true;
 }
 
@@ -8743,6 +12636,962 @@ function _chrome_record_invalid_exec_command_warning() {
         "CONSOLE WARNING: document.execCommand() doesn't work with an invalid HTML structure. It is corrected automatically.");
 }
 
+function _chrome_exec_command_preflight_ce3(command, showUI, value) {
+    _chrome_record_invalid_exec_command_warning();
+    var cmd = _chrome_command_name_ce3(command);
+    if (cmd === "fontsize")
+        _chrome_last_font_size_command_value =
+            _chrome_normalize_font_size_command_value_ce3(value);
+}
+
+function _chrome_set_pending_inline_command_ce3(command, enabled) {
+    var cmd = _chrome_command_name_ce3(command);
+    if (!_chrome_inline_command_info_ce3(cmd)) return false;
+    _chrome_pending_inline_commands[cmd] = !!enabled;
+    if (enabled) _chrome_suppressed_inline_commands[cmd] = false;
+    return true;
+}
+
+function _chrome_inline_ancestor_for_command_ce3(selection, command) {
+    var info = _chrome_inline_command_info_ce3(command);
+    if (!info) return null;
+    var node = selection ? (selection.focusNode || selection.anchorNode) : null;
+    if (!node && _chrome_selection_override_range)
+        node = _chrome_selection_override_range.endContainer ||
+            _chrome_selection_override_range.startContainer;
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (; current && current !== document; current = current.parentNode) {
+        if (current.nodeType === 1 && current.nodeName &&
+                _chrome_inline_info_has_tag_ce3(info, current.nodeName)) {
+            return current;
+        }
+    }
+    return null;
+}
+
+function _chrome_collect_matching_inline_elements_ce3(root, command, range,
+        matches) {
+    if (!root || root.nodeType !== 1) return;
+    var info = _chrome_inline_command_info_ce3(command);
+    if (!info) return;
+    var intersects = true;
+    if (range && range.intersectsNode) {
+        try {
+            intersects = range.intersectsNode(root);
+        } catch (_) {
+            intersects = true;
+        }
+    }
+    if (!intersects) return;
+    if (root.nodeName && _chrome_inline_info_has_tag_ce3(info, root.nodeName))
+        matches.push(root);
+    for (var child = root.firstChild; child; child = child.nextSibling)
+        _chrome_collect_matching_inline_elements_ce3(child, command, range,
+            matches);
+}
+
+function _chrome_unwrap_element_ce3(element) {
+    if (!element || !element.parentNode) return null;
+    var parent = element.parentNode;
+    var first = element.firstChild;
+    while (element.firstChild)
+        parent.insertBefore(element.firstChild, element);
+    parent.removeChild(element);
+    return first || parent;
+}
+
+function _chrome_remove_format_target_tag_ce3(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return false;
+    var tag = node.nodeName.toLowerCase();
+    if (tag === "a") return false;
+    return tag === "acronym" || tag === "b" || tag === "big" ||
+        tag === "cite" || tag === "code" || tag === "del" ||
+        tag === "dfn" || tag === "em" || tag === "font" ||
+        tag === "i" || tag === "ins" || tag === "kbd" ||
+        tag === "mark" || tag === "q" || tag === "s" ||
+        tag === "samp" || tag === "small" || tag === "span" ||
+        tag === "strike" || tag === "strong" || tag === "sub" ||
+        tag === "sup" || tag === "tt" || tag === "u" ||
+        tag === "var";
+}
+
+function _chrome_remove_format_clean_fragment_ce3(root) {
+    if (!root || !root.childNodes) return;
+    for (var child = root.firstChild, next; child; child = next) {
+        next = child.nextSibling;
+        if (child.nodeType !== 1) continue;
+        _chrome_remove_format_clean_fragment_ce3(child);
+        if (_chrome_remove_format_target_tag_ce3(child)) {
+            _chrome_unwrap_element_ce3(child);
+        } else if (child.removeAttribute && child.getAttribute &&
+                child.getAttribute("style") !== null) {
+            child.removeAttribute("style");
+        }
+    }
+}
+
+function _chrome_remove_format_has_content_ce3(node) {
+    if (!node || !node.childNodes) return false;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (child.nodeType === 3) {
+            if (String(child.nodeValue || "").length > 0) return true;
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+
+function _chrome_remove_format_empty_artifact_ce3(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName)
+        return false;
+    if (_chrome_remove_format_has_content_ce3(node)) return false;
+    return _chrome_remove_format_target_tag_ce3(node) ||
+        node.nodeName.toLowerCase() === "a";
+}
+
+function _chrome_remove_format_clean_empty_artifacts_ce3(root) {
+    if (!root || !root.childNodes) return;
+    for (var child = root.firstChild, next; child; child = next) {
+        next = child.nextSibling;
+        if (child.nodeType !== 1) continue;
+        _chrome_remove_format_clean_empty_artifacts_ce3(child);
+        if (_chrome_remove_format_empty_artifact_ce3(child))
+            root.removeChild(child);
+    }
+}
+
+function _chrome_remove_format_clean_empty_ancestors_ce3(node) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (var depth = 0; current && current !== document && depth < 6;
+            depth++) {
+        _chrome_remove_format_clean_empty_artifacts_ce3(current);
+        if (current.parentNode)
+            _chrome_remove_format_clean_empty_artifacts_ce3(
+                current.parentNode);
+        current = current.parentNode;
+    }
+}
+
+function _chrome_remove_format_range_intersects_ce3(range, node) {
+    if (!range || !node) return true;
+    if (typeof range.intersectsNode !== "function") return true;
+    try {
+        return range.intersectsNode(node);
+    } catch (_) {
+        return true;
+    }
+}
+
+function _chrome_remove_format_collect_nodes_ce3(root, range, matches) {
+    if (!root || root.nodeType !== 1) return;
+    if (!_chrome_remove_format_range_intersects_ce3(range, root)) return;
+    for (var child = root.firstChild; child; child = child.nextSibling)
+        _chrome_remove_format_collect_nodes_ce3(child, range, matches);
+    if (_chrome_remove_format_target_tag_ce3(root)) {
+        matches.push(root);
+    } else if (root.removeAttribute && root.getAttribute &&
+            root.getAttribute("style") !== null) {
+        root.removeAttribute("style");
+    }
+}
+
+function _chrome_remove_format_boundary_before_ce3(node) {
+    if (!node) return null;
+    if (node.nodeType === 3) return { node: node, offset: 0 };
+    var first = _chrome_first_text_descendant(node);
+    if (first) return { node: first, offset: 0 };
+    if (node.parentNode) {
+        return { node: node.parentNode, offset: _chrome_node_child_index(node) };
+    }
+    return { node: node, offset: 0 };
+}
+
+function _chrome_remove_format_boundary_after_ce3(node) {
+    if (!node) return null;
+    if (node.nodeType === 3)
+        return { node: node, offset: (node.nodeValue || "").length };
+    return _chrome_caret_position_after_inserted_node(node);
+}
+
+function _chrome_insert_fragment_at_range_ce3(range, fragment) {
+    if (!range || !fragment || !range.insertNode) return null;
+    var marker = document.createElement("span");
+    marker.setAttribute("data-chrome-remove-format-marker", "");
+    range.insertNode(marker);
+    if (!marker.parentNode) return null;
+    var parent = marker.parentNode;
+    var first = null;
+    var last = null;
+    while (fragment.firstChild) {
+        var child = fragment.firstChild;
+        if (!first) first = child;
+        last = child;
+        parent.insertBefore(child, marker);
+    }
+    parent.removeChild(marker);
+    return { first: first, last: last, parent: parent };
+}
+
+function _chrome_remove_format_at_selection_ce3() {
+    var selection = _chrome_current_selection_ce3();
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    if (!commandRange || _chrome_command_range_is_collapsed_ce3(commandRange)) {
+        return false;
+    }
+    if (!document || !document.createRange) return false;
+    var range = document.createRange();
+    if (!range || !range.setStart || !range.setEnd) return false;
+    var startBoundaryParent = commandRange.startContainer &&
+        commandRange.startContainer.parentNode;
+    var endBoundaryParent = commandRange.endContainer &&
+        commandRange.endContainer.parentNode;
+    range.setStart(commandRange.startContainer, commandRange.startOffset || 0);
+    range.setEnd(commandRange.endContainer, commandRange.endOffset || 0);
+    if (!range || !range.extractContents || !range.insertNode) return false;
+    var host = _chrome_editing_host_for_node(commandRange.startContainer) ||
+        _chrome_editing_host_for_node(commandRange.endContainer) ||
+        _chrome_first_contenteditable_host();
+    var root = host || range.commonAncestorContainer;
+    if (root && root.nodeType !== 1) root = root.parentNode;
+    var matches = [];
+    _chrome_remove_format_collect_nodes_ce3(root, range, matches);
+    for (var i = 0; i < matches.length; i++)
+        _chrome_unwrap_element_ce3(matches[i]);
+    _chrome_remove_format_clean_empty_ancestors_ce3(startBoundaryParent);
+    _chrome_remove_format_clean_empty_ancestors_ce3(endBoundaryParent);
+    _chrome_remove_format_clean_empty_artifacts_ce3(host);
+    var start = {
+        node: commandRange.startContainer,
+        offset: commandRange.startOffset || 0
+    };
+    var end = {
+        node: commandRange.endContainer,
+        offset: commandRange.endOffset || 0
+    };
+    if (start && end) {
+        _chrome_set_command_selection_ce3(selection, start.node, start.offset,
+            end.node, end.offset);
+    } else if (end) {
+        _chrome_set_command_selection_ce3(selection, end.node, end.offset,
+            end.node, end.offset);
+    }
+    _chrome_remove_format_clean_empty_ancestors_ce3(startBoundaryParent);
+    _chrome_remove_format_clean_empty_ancestors_ce3(endBoundaryParent);
+    _chrome_remove_format_clean_empty_artifacts_ce3(host);
+    return true;
+}
+
+function _chrome_document_api_range_ce3(nativeRange) {
+    if (!nativeRange) return nativeRange;
+    var api = function() {};
+    api.__chromeBaseRange = nativeRange;
+    api.__chromeNativeRangeCe3 = nativeRange;
+    api.setStart = function(node, offset) {
+        return nativeRange.setStart(node, offset);
+    };
+    api.setEnd = function(node, offset) {
+        return nativeRange.setEnd(node, offset);
+    };
+    api.setStartBefore = function(node) {
+        return nativeRange.setStartBefore(node);
+    };
+    api.setStartAfter = function(node) {
+        return nativeRange.setStartAfter(node);
+    };
+    api.setEndBefore = function(node) {
+        return nativeRange.setEndBefore(node);
+    };
+    api.setEndAfter = function(node) {
+        return nativeRange.setEndAfter(node);
+    };
+    api.selectNode = function(node) {
+        return nativeRange.selectNode(node);
+    };
+    api.selectNodeContents = function(node) {
+        return nativeRange.selectNodeContents(node);
+    };
+    api.collapse = function(toStart) {
+        return nativeRange.collapse(toStart);
+    };
+    api.cloneContents = function() {
+        return nativeRange.cloneContents();
+    };
+    api.deleteContents = function() {
+        return nativeRange.deleteContents();
+    };
+    api.insertNode = function(node) {
+        return nativeRange.insertNode(node);
+    };
+    api.cloneRange = function() {
+        return _chrome_document_api_range_ce3(nativeRange.cloneRange());
+    };
+    api.extractContents = function() {
+        var startNode = nativeRange.startContainer;
+        var startOffset = nativeRange.startOffset || 0;
+        var fragment = nativeRange.extractContents();
+        var selection = getSelection ? getSelection() : null;
+        if (startNode && _chrome_node_is_live(startNode)) {
+            _chrome_set_command_selection_ce3(selection, startNode,
+                startOffset, startNode, startOffset);
+        }
+        return fragment;
+    };
+    var props = ["startContainer", "startOffset", "endContainer",
+        "endOffset", "collapsed", "commonAncestorContainer"];
+    for (var i = 0; i < props.length; i++) {
+        (function(prop) {
+            try {
+                Object.defineProperty(api, prop, {
+                    configurable: true,
+                    get: function() { return nativeRange[prop]; }
+                });
+            } catch (_) {}
+        })(props[i]);
+    }
+    return api;
+}
+
+function _chrome_remove_inline_command_in_range_ce3(selection, command) {
+    if (!selection || !selection.rangeCount) return false;
+    var range = selection.getRangeAt(0);
+    var root = range.commonAncestorContainer;
+    if (root && root.nodeType !== 1) root = root.parentNode;
+    if (!root) return false;
+    var matches = [];
+    _chrome_collect_matching_inline_elements_ce3(root, command, range, matches);
+    if (!matches.length) {
+        var sample = _chrome_query_sample_node_ce3(selection);
+        for (var current = sample && sample.nodeType === 1 ? sample :
+             sample && sample.parentNode; current && current !== document;
+             current = current.parentNode) {
+            if (current.nodeType === 1 &&
+                _chrome_inline_info_has_tag_ce3(
+                    _chrome_inline_command_info_ce3(command),
+                    current.nodeName)) {
+                matches.push(current);
+                break;
+            }
+        }
+    }
+    if (!matches.length) return false;
+    var fallback = null;
+    for (var i = matches.length - 1; i >= 0; i--)
+        fallback = _chrome_unwrap_element_ce3(matches[i]) || fallback;
+    var first = _chrome_first_text_descendant(root) ||
+        _chrome_first_text_descendant(fallback);
+    var last = _chrome_last_text_descendant(root) ||
+        _chrome_last_text_descendant(fallback);
+    if (first && last && selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(first, 0, last,
+            (last.nodeValue || "").length);
+    } else if (first) {
+        selection.collapse(first, 0);
+    }
+    return true;
+}
+
+function _chrome_apply_inline_command_to_range_ce3(selection, command) {
+    if (!selection || !selection.rangeCount) return false;
+    var range = selection.getRangeAt(0);
+    if (!range || !range.extractContents || !range.insertNode) return false;
+    var wrapper = document.createElement(
+        _chrome_inline_command_info_ce3(command).tag);
+    var fragment = range.extractContents();
+    wrapper.appendChild(fragment);
+    range.insertNode(wrapper);
+    var first = _chrome_first_text_descendant(wrapper);
+    var last = _chrome_last_text_descendant(wrapper);
+    if (first && last && selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(first, 0, last,
+            (last.nodeValue || "").length);
+    } else if (first) {
+        selection.collapse(first, 0);
+    }
+    return true;
+}
+
+function _chrome_toggle_inline_command_ce3(command) {
+    if (!_chrome_inline_command_info_ce3(command)) return false;
+    var selection = _chrome_current_selection_ce3();
+    var active = _chrome_query_inline_command_state_ce3(command);
+    if (!selection || !_chrome_selection_has_content(selection)) {
+        var cmdName = _chrome_command_name_ce3(command);
+        var pending = !!_chrome_pending_inline_commands[cmdName];
+        var inlineAncestor =
+            _chrome_inline_ancestor_for_command_ce3(selection, command);
+        if (pending || active || inlineAncestor) {
+            _chrome_pending_inline_commands[cmdName] = false;
+            _chrome_suppressed_inline_commands[cmdName] = true;
+            return true;
+        }
+        _chrome_suppressed_inline_commands[cmdName] = false;
+        return _chrome_set_pending_inline_command_ce3(command, true);
+    }
+    _chrome_pending_inline_commands[_chrome_command_name_ce3(command)] = false;
+    _chrome_suppressed_inline_commands[_chrome_command_name_ce3(command)] = false;
+    if (active && _chrome_remove_inline_command_in_range_ce3(selection, command))
+        return true;
+    return _chrome_apply_inline_command_to_range_ce3(selection, command);
+}
+
+function _chrome_normalize_font_size_command_value_ce3(value) {
+    var raw = String(value == null ? "" : value).toLowerCase();
+    var number = parseInt(raw, 10);
+    if (/px/.test(raw))
+        return _chrome_query_font_size_from_css_ce3(raw) || "3";
+    if (isNaN(number)) return "3";
+    if (number <= 1) return "1";
+    if (number >= 7) return "7";
+    return String(number);
+}
+
+function _chrome_apply_font_size_command_ce3(value) {
+    var size = _chrome_normalize_font_size_command_value_ce3(value);
+    _chrome_last_font_size_command_value = size;
+    var selection = getSelection ? getSelection() : null;
+    if (!selection || !_chrome_selection_has_content(selection) ||
+        !selection.rangeCount) {
+        return true;
+    }
+    if (size === "3") return true;
+    var range = selection.getRangeAt(0);
+    if (!range || !range.extractContents || !range.insertNode) return true;
+    var font = document.createElement("font");
+    font.setAttribute("size", size);
+    var fragment = range.extractContents();
+    font.appendChild(fragment);
+    range.insertNode(font);
+    var first = _chrome_first_text_descendant(font);
+    var last = _chrome_last_text_descendant(font);
+    if (first && last && selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(first, 0, last,
+            (last.nodeValue || "").length);
+    } else if (first) {
+        selection.collapse(first, 0);
+    }
+    return true;
+}
+
+function _chrome_format_block_tag_ce3(value) {
+    var tag = String(value == null ? "" : value).toLowerCase()
+        .replace(/^\s+|\s+$/g, "");
+    tag = tag.replace(/^<\s*/, "").replace(/\s*>$/, "");
+    tag = tag.replace(/\s.*$/, "");
+    if (!tag) return "";
+    if (/^h[1-6]$/.test(tag)) return tag;
+    if (tag === "p" || tag === "div" || tag === "pre" ||
+        tag === "address" || tag === "blockquote" || tag === "dl") {
+        return tag;
+    }
+    return "";
+}
+
+function _chrome_is_format_block_element_ce3(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return false;
+    var tag = String(node.nodeName).toLowerCase();
+    return /^h[1-6]$/.test(tag) || tag === "p" || tag === "div" ||
+        tag === "pre" || tag === "address" || tag === "blockquote" ||
+        tag === "dl";
+}
+
+function _chrome_format_block_target_ce3(node, host) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    for (; current && current !== host && current !== document.body;
+         current = current.parentNode) {
+        if (_chrome_node_name_is(current, "td") ||
+            _chrome_node_name_is(current, "th")) {
+            return null;
+        }
+        if (_chrome_is_format_block_element_ce3(current)) return current;
+    }
+    return null;
+}
+
+function _chrome_copy_attrs_for_format_block_ce3(from, to) {
+    if (!from || !to) return;
+    if (from.attributes) {
+        for (var i = 0; i < from.attributes.length; i++) {
+            var attr = from.attributes[i];
+            if (attr && attr.name && String(attr.name).toLowerCase() !== "id")
+                to.setAttribute(attr.name, attr.value);
+        }
+    }
+    var fallbackNames = ["class", "style", "dir", "contenteditable"];
+    for (var j = 0; j < fallbackNames.length; j++) {
+        if (!from.getAttribute) continue;
+        var value = from.getAttribute(fallbackNames[j]);
+        if (value !== null && value !== undefined && value !== "")
+            to.setAttribute(fallbackNames[j], value);
+    }
+    if (from.__chromeSerializedStyle)
+        to.__chromeSerializedStyle = from.__chromeSerializedStyle;
+}
+
+function _chrome_effective_command_range_ce3(selection) {
+    if (_chrome_selection_override_range) {
+        var overrideRange = {
+            startContainer: _chrome_selection_override_range.startContainer,
+            startOffset: _chrome_selection_override_range.startOffset || 0,
+            endContainer: _chrome_selection_override_range.endContainer,
+            endOffset: _chrome_selection_override_range.endOffset || 0
+        };
+        if (_chrome_node_is_live(overrideRange.startContainer) &&
+            _chrome_node_is_live(overrideRange.endContainer)) {
+            return overrideRange;
+        }
+    }
+    if (!selection) selection = getSelection ? getSelection() : null;
+    if (selection && selection.rangeCount &&
+        typeof selection.getRangeAt === "function") {
+        try {
+            var range = selection.getRangeAt(0);
+            if (range) {
+                return {
+                    startContainer: range.startContainer,
+                    startOffset: range.startOffset || 0,
+                    endContainer: range.endContainer,
+                    endOffset: range.endOffset || 0
+                };
+            }
+        } catch (_) {}
+    }
+    if (selection && (selection.anchorNode || selection.focusNode)) {
+        return {
+            startContainer: selection.anchorNode || selection.focusNode,
+            startOffset: selection.anchorOffset || 0,
+            endContainer: selection.focusNode || selection.anchorNode,
+            endOffset: selection.focusOffset || 0
+        };
+    }
+    return null;
+}
+
+function _chrome_nearest_stale_element_name_ce3(node) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    while (current) {
+        if (current.nodeName) return String(current.nodeName).toLowerCase();
+        current = current.parentNode;
+    }
+    return "";
+}
+
+function _chrome_live_match_for_stale_node_ce3(node, host) {
+    if (!node || _chrome_node_is_live(node)) return node;
+    host = host || _chrome_first_contenteditable_host() || document.body;
+    if (!host) return node;
+    var text = node.nodeType === 3 ? String(node.nodeValue || "") : "";
+    var tag = _chrome_nearest_stale_element_name_ce3(node);
+    var candidates = [];
+    if (tag && host.querySelectorAll) {
+        try {
+            var tagged = host.querySelectorAll(tag);
+            for (var i = 0; tagged && i < tagged.length; i++)
+                candidates.push(tagged[i]);
+        } catch (_) {}
+    }
+    candidates.push(host);
+    for (var j = 0; j < candidates.length; j++) {
+        var found = node.nodeType === 3 ?
+            _chrome_first_text_descendant(candidates[j]) : candidates[j];
+        if (found && (!text || String(found.nodeValue || "") === text))
+            return found;
+    }
+    return node.nodeType === 3 ?
+        (_chrome_first_text_descendant(host) || node) : host;
+}
+
+function _chrome_live_command_range_ce3(range, host) {
+    if (!range) return null;
+    if (_chrome_node_is_live(range.startContainer) &&
+        _chrome_node_is_live(range.endContainer)) {
+        return range;
+    }
+    var start = _chrome_live_match_for_stale_node_ce3(range.startContainer,
+        host);
+    var end = _chrome_live_match_for_stale_node_ce3(range.endContainer, host);
+    if (!_chrome_node_is_live(start) || !_chrome_node_is_live(end)) {
+        if (_chrome_command_range_is_collapsed_ce3(range)) {
+            var text = _chrome_first_text_descendant(host);
+            if (text) {
+                var offset = Math.min(range.startOffset || 0,
+                    (text.nodeValue || "").length);
+                return {
+                    startContainer: text,
+                    startOffset: offset,
+                    endContainer: text,
+                    endOffset: offset
+                };
+            }
+        }
+        if (host && host.childNodes && host.childNodes.length) {
+            return {
+                startContainer: host,
+                startOffset: 0,
+                endContainer: host,
+                endOffset: host.childNodes.length
+            };
+        }
+        return null;
+    }
+    return {
+        startContainer: start,
+        startOffset: Math.min(range.startOffset || 0,
+            start && start.nodeType === 3 ? (start.nodeValue || "").length :
+            start && start.childNodes ? start.childNodes.length : 0),
+        endContainer: end,
+        endOffset: Math.min(range.endOffset || 0,
+            end && end.nodeType === 3 ? (end.nodeValue || "").length :
+            end && end.childNodes ? end.childNodes.length : 0)
+    };
+}
+
+function _chrome_command_range_is_collapsed_ce3(range) {
+    return !!(range && range.startContainer === range.endContainer &&
+        (range.startOffset || 0) === (range.endOffset || 0));
+}
+
+function _chrome_set_command_selection_ce3(selection, startNode, startOffset,
+        endNode, endOffset) {
+    if (!startNode) return;
+    if (!endNode) endNode = startNode;
+    startOffset = startOffset || 0;
+    endOffset = endOffset || 0;
+    _chrome_selection_override_range = {
+        startContainer: startNode,
+        startOffset: startOffset,
+        endContainer: endNode,
+        endOffset: endOffset
+    };
+    if (!selection) return;
+    var collapsed = startNode === endNode && startOffset === endOffset;
+    try {
+        if (collapsed && typeof selection.collapse === "function") {
+            selection.collapse(startNode, startOffset);
+        } else if (typeof selection.setBaseAndExtent === "function") {
+            selection.setBaseAndExtent(startNode, startOffset, endNode,
+                endOffset);
+        } else if (typeof selection.collapse === "function" &&
+                typeof selection.extend === "function") {
+            selection.collapse(startNode, startOffset);
+            selection.extend(endNode, endOffset);
+        }
+    } catch (_) {}
+    _chrome_selection_override_range = {
+        startContainer: startNode,
+        startOffset: startOffset,
+        endContainer: endNode,
+        endOffset: endOffset
+    };
+}
+
+function _chrome_replace_format_block_element_ce3(block, tagName, selection) {
+    if (!block || !block.parentNode) return false;
+    var commandRange = _chrome_selection_override_range ||
+        _chrome_effective_command_range_ce3(selection);
+    var wasCollapsed = _chrome_command_range_is_collapsed_ce3(commandRange);
+    var replacement = document.createElement(tagName);
+    _chrome_copy_attrs_for_format_block_ce3(block, replacement);
+    while (block.firstChild) replacement.appendChild(block.firstChild);
+    block.parentNode.insertBefore(replacement, block);
+    block.parentNode.removeChild(block);
+    var first = _chrome_first_text_descendant(replacement);
+    var last = _chrome_last_text_descendant(replacement);
+    if (first && last) {
+        var endOffset = wasCollapsed ? 0 : (last.nodeValue || "").length;
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            endOffset);
+    } else if (selection && replacement.firstChild &&
+        _chrome_node_name_is(replacement.firstChild, "br")) {
+        _chrome_set_command_selection_ce3(selection, replacement, 0,
+            replacement, 0);
+    } else if (first && selection &&
+        typeof selection.collapse === "function") {
+        _chrome_set_command_selection_ce3(selection, first, 0, first, 0);
+    }
+    return true;
+}
+
+function _chrome_append_flattened_format_contents_ce3(target, source,
+        addBreakBefore) {
+    if (!source) return addBreakBefore;
+    if (addBreakBefore) target.appendChild(document.createElement("br"));
+    if (source.nodeType === 3) {
+        target.appendChild(document.createTextNode(source.nodeValue || ""));
+        return true;
+    }
+    if (source.nodeType !== 1) return addBreakBefore;
+    var tag = source.nodeName ? String(source.nodeName).toLowerCase() : "";
+    if (tag === "br") {
+        target.appendChild(document.createElement("br"));
+        return false;
+    }
+    var child = source.firstChild;
+    if (!child) {
+        target.appendChild(document.createElement("br"));
+        return false;
+    }
+    var wrote = false;
+    while (child) {
+        var next = child.nextSibling;
+        if (_chrome_is_format_block_element_ce3(child)) {
+            wrote = _chrome_append_flattened_format_contents_ce3(target,
+                child, wrote);
+        } else {
+            target.appendChild(child);
+            wrote = true;
+        }
+        child = next;
+    }
+    return wrote;
+}
+
+function _chrome_selected_host_children_ce3(selection, host) {
+    var selected = [];
+    if (!selection || !selection.rangeCount || !host || !host.childNodes)
+        return selected;
+    var range = selection.getRangeAt(0);
+    for (var child = host.firstChild; child; child = child.nextSibling) {
+        var intersects = false;
+        if (typeof range.intersectsNode === "function") {
+            try {
+                intersects = range.intersectsNode(child);
+            } catch (_) {
+                intersects = false;
+            }
+        }
+        if (!intersects && child === range.startContainer) intersects = true;
+        if (intersects) selected.push(child);
+    }
+    return selected;
+}
+
+function _chrome_format_multiple_host_children_ce3(selection, host, tagName) {
+    var children = _chrome_selected_host_children_ce3(selection, host);
+    if (children.length < 2) return false;
+    var wrapper = document.createElement(tagName);
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    var wasCollapsed = _chrome_command_range_is_collapsed_ce3(commandRange);
+    var wrote = false;
+    for (var i = 0; i < children.length; i++) {
+        wrote = _chrome_append_flattened_format_contents_ce3(wrapper,
+            children[i], wrote);
+    }
+    host.insertBefore(wrapper, children[0]);
+    for (var j = 0; j < children.length; j++) {
+        if (children[j].parentNode === host)
+            host.removeChild(children[j]);
+    }
+    var first = _chrome_first_text_descendant(wrapper);
+    var last = _chrome_last_text_descendant(wrapper);
+    if (first && last) {
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            wasCollapsed ? 0 : (last.nodeValue || "").length);
+    } else if (first && typeof selection.collapse === "function") {
+        _chrome_set_command_selection_ce3(selection, first, 0, first, 0);
+    }
+    return true;
+}
+
+function _chrome_wrap_selection_in_format_block_ce3(selection, tagName) {
+    if (!selection || !selection.rangeCount) return false;
+    var range = selection.getRangeAt(0);
+    if (!range || typeof range.extractContents !== "function" ||
+        typeof range.insertNode !== "function") {
+        return false;
+    }
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    var wasCollapsed = _chrome_command_range_is_collapsed_ce3(commandRange);
+    var wrapper = document.createElement(tagName);
+    var fragment = range.extractContents();
+    wrapper.appendChild(fragment);
+    range.insertNode(wrapper);
+    var first = _chrome_first_text_descendant(wrapper);
+    var last = _chrome_last_text_descendant(wrapper);
+    if (first && last) {
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            wasCollapsed ? 0 : (last.nodeValue || "").length);
+    } else if (first && typeof selection.collapse === "function") {
+        _chrome_set_command_selection_ce3(selection, first, 0, first, 0);
+    } else {
+        wrapper.appendChild(document.createElement("br"));
+        _chrome_set_command_selection_ce3(selection, wrapper, 0, wrapper, 0);
+    }
+    return true;
+}
+
+function _chrome_override_inline_container_ce3(override, host) {
+    if (!override || !override.startContainer || !override.endContainer)
+        return null;
+    var current = override.startContainer.nodeType === 1 ?
+        override.startContainer : override.startContainer.parentNode;
+    var best = null;
+    for (; current && current !== host && current !== document.body;
+         current = current.parentNode) {
+        if (!_chrome_node_contains_node(current, override.endContainer))
+            break;
+        if (_chrome_is_format_block_element_ce3(current)) break;
+        best = current;
+    }
+    return best;
+}
+
+function _chrome_wrap_override_in_format_block_ce3(override, host, tagName,
+        selection) {
+    var inline = _chrome_override_inline_container_ce3(override, host);
+    if (!inline || !inline.parentNode) return false;
+    var wasCollapsed = override.startContainer === override.endContainer &&
+        (override.startOffset || 0) === (override.endOffset || 0);
+    var wrapper = document.createElement(tagName);
+    inline.parentNode.insertBefore(wrapper, inline);
+    wrapper.appendChild(inline);
+    var first = _chrome_first_text_descendant(wrapper);
+    var last = _chrome_last_text_descendant(wrapper);
+    if (first && last) {
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            wasCollapsed ? 0 : (last.nodeValue || "").length);
+    }
+    return true;
+}
+
+function _chrome_format_override_host_children_ce3(override, host, tagName,
+        selection) {
+    if (!override || !host || override.startContainer !==
+        override.endContainer || override.startContainer !== host) {
+        return false;
+    }
+    var start = Math.max(0, override.startOffset || 0);
+    var end = Math.max(start, override.endOffset || 0);
+    if (end <= start || !host.childNodes) return false;
+    var selected = [];
+    for (var i = start; i < end && i < host.childNodes.length; i++)
+        selected.push(host.childNodes[i]);
+    if (!selected.length) return false;
+    if (selected.length === 1) {
+        var only = selected[0];
+        if (_chrome_is_format_block_element_ce3(only))
+            return _chrome_replace_format_block_element_ce3(only, tagName,
+                selection);
+        if (only.nodeType === 1) {
+            var onlyFirst = _chrome_first_text_descendant(only) || only;
+            var onlyLast = _chrome_last_text_descendant(only) || only;
+            return _chrome_wrap_override_in_format_block_ce3({
+                startContainer: onlyFirst,
+                startOffset: 0,
+                endContainer: onlyLast,
+                endOffset: onlyLast.nodeType === 3 ?
+                    (onlyLast.nodeValue || "").length :
+                    (onlyLast.childNodes ? onlyLast.childNodes.length : 0)
+            }, host, tagName, selection);
+        }
+        return false;
+    }
+    var wrapper = document.createElement(tagName);
+    var wrote = false;
+    for (var j = 0; j < selected.length; j++)
+        wrote = _chrome_append_flattened_format_contents_ce3(wrapper,
+            selected[j], wrote);
+    host.insertBefore(wrapper, selected[0]);
+    for (var k = 0; k < selected.length; k++) {
+        if (selected[k].parentNode === host) host.removeChild(selected[k]);
+    }
+    var first = _chrome_first_text_descendant(wrapper);
+    var last = _chrome_last_text_descendant(wrapper);
+    if (first && last) {
+        _chrome_set_command_selection_ce3(selection, first, 0, last,
+            (last.nodeValue || "").length);
+    }
+    return true;
+}
+
+function _chrome_format_collapsed_host_text_ce3(override, host, tagName,
+        selection) {
+    if (!override || !host || override.startContainer !==
+        override.endContainer || (override.startOffset || 0) !==
+        (override.endOffset || 0)) {
+        return false;
+    }
+    var node = override.startContainer;
+    if (!node || node.nodeType !== 3 || node.parentNode !== host)
+        return false;
+    var wrapper = document.createElement(tagName);
+    while (host.firstChild) wrapper.appendChild(host.firstChild);
+    host.appendChild(wrapper);
+    var first = _chrome_first_text_descendant(wrapper);
+    if (first) {
+        var offset = Math.min(override.startOffset || 0,
+            (first.nodeValue || "").length);
+        _chrome_set_command_selection_ce3(selection, first, offset, first,
+            offset);
+    }
+    return true;
+}
+
+function _chrome_format_block_at_selection_ce3(value) {
+    var tagName = _chrome_format_block_tag_ce3(value);
+    if (!tagName) return true;
+    var selection = getSelection ? getSelection() : null;
+    var commandRange = _chrome_effective_command_range_ce3(selection);
+    if (!selection && !commandRange) return false;
+    var node = commandRange ? (commandRange.endContainer ||
+        commandRange.startContainer) : (selection.focusNode ||
+        selection.anchorNode);
+    var host = _chrome_editing_host_for_node(node) ||
+        _chrome_editable_host_from_selection() ||
+        _chrome_first_contenteditable_host() || document.body;
+    if (host && !_chrome_node_is_live(host))
+        host = _chrome_first_contenteditable_host() || document.body;
+    if (!host) return false;
+    commandRange = _chrome_live_command_range_ce3(commandRange, host);
+    node = commandRange ? (commandRange.endContainer ||
+        commandRange.startContainer) : node;
+    if (!commandRange) {
+        var fallbackText = _chrome_first_text_descendant(host);
+        if (fallbackText) {
+            commandRange = {
+                startContainer: fallbackText,
+                startOffset: 0,
+                endContainer: fallbackText,
+                endOffset: 0
+            };
+            node = fallbackText;
+        } else if (host.childNodes && host.childNodes.length) {
+            commandRange = {
+                startContainer: host,
+                startOffset: 0,
+                endContainer: host,
+                endOffset: host.childNodes.length
+            };
+            node = host;
+        }
+    }
+    if (commandRange) _chrome_selection_override_range = commandRange;
+    if (!commandRange && _chrome_selection_has_content(selection) &&
+        _chrome_format_multiple_host_children_ce3(selection, host, tagName)) {
+        return true;
+    }
+    if (commandRange &&
+        _chrome_format_override_host_children_ce3(commandRange, host,
+            tagName, selection)) {
+        return true;
+    }
+    if (commandRange &&
+        _chrome_format_collapsed_host_text_ce3(commandRange, host, tagName,
+            selection)) {
+        return true;
+    }
+    var target = _chrome_format_block_target_ce3(node, host);
+    if (target)
+        return _chrome_replace_format_block_element_ce3(target, tagName,
+            selection);
+    if (commandRange &&
+        _chrome_wrap_override_in_format_block_ce3(commandRange, host,
+            tagName, selection)) {
+        return true;
+    }
+    return _chrome_wrap_selection_in_format_block_ce3(selection, tagName);
+}
+
 function _chrome_exec_command_for_sample(command, showUI, value) {
     _chrome_record_invalid_exec_command_warning();
     var cmd = String(command || "").toLowerCase();
@@ -8754,13 +13603,33 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
         return true;
     }
     if (cmd === "undo") return _chrome_undo_last_manual_delete();
-    if (cmd === "selectall")
-        return _chrome_select_all_in_host(_chrome_select_all_host_from_selection());
+    if (cmd === "selectall") {
+        var meaningfulActive = _chrome_meaningful_active_element();
+        var activeControl = _chrome_is_text_control(meaningfulActive) ?
+            meaningfulActive :
+            (_chrome_active_text_control === meaningfulActive ?
+                _chrome_active_text_control : null);
+        if (!activeControl) activeControl = _chrome_autofocus_text_control_ce3();
+        if (_chrome_is_text_control(activeControl) &&
+                _chrome_select_all_text_control_ce3(activeControl)) {
+            return true;
+        }
+        var selectHost = _chrome_select_all_host_from_selection();
+        return _chrome_select_all_in_host(selectHost || document.body ||
+            document.documentElement);
+    }
+    if (cmd === "findstring" && typeof testRunner !== "undefined" &&
+        testRunner && typeof testRunner.findString === "function") {
+        return testRunner.findString(String(value || ""),
+            ["CaseInsensitive", "DiacriticInsensitive"]);
+    }
     if ((cmd === "delete" || cmd === "forwarddelete") &&
         _chrome_clear_invalid_selection_for_noop_delete()) {
         return true;
     }
     if (_chrome_inline_format_noop_for_shadow_selection(cmd))
+        return true;
+    if (cmd === "delete" && _chrome_delete_word_after_caret_for_win_ce3())
         return true;
     if (cmd === "delete" && _chrome_delete_in_text_control(
         _chrome_find_selected_text_control(), false)) {
@@ -8772,8 +13641,26 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
     }
     if (cmd === "backcolor" || cmd === "hilitecolor" || cmd === "forecolor")
         return _chrome_set_pending_insert_style(cmd, value);
+    if (_chrome_inline_command_info_ce3(cmd))
+        return _chrome_toggle_inline_command_ce3(cmd);
+    if (cmd === "removeformat")
+        return _chrome_remove_format_at_selection_ce3();
+    if (cmd === "fontsize")
+        return _chrome_apply_font_size_command_ce3(value);
+    if (cmd === "formatblock") {
+        try {
+            return _chrome_format_block_at_selection_ce3(value);
+        } catch (error) {
+            throw new Error("CE3 formatBlock helper failed: " +
+                (error && error.message ? error.message : error));
+        }
+    }
     if (cmd === "inserttext" && _chrome_insert_text_in_text_control(
         _chrome_find_selected_text_control(), value)) {
+        return true;
+    }
+    if (cmd === "inserthtml" && _chrome_insert_text_in_text_control(
+        _chrome_find_selected_text_control(), _chrome_text_from_html_source(value))) {
         return true;
     }
     if (cmd === "copy")
@@ -8797,6 +13684,11 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
         return _chrome_indent_at_selection();
     if (cmd === "insertnewlineinquotedcontent")
         return _chrome_insert_newline_in_quoted_content();
+    if (cmd === "insertlinebreak" &&
+            _chrome_insert_line_break_in_text_control_ce3(
+            _chrome_find_selected_text_control())) {
+        return true;
+    }
     if (cmd === "insertlinebreak")
         return _chrome_insert_line_break_at_selection();
     if (cmd === "insertunorderedlist")
@@ -8807,25 +13699,46 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
         return _chrome_outdent_at_selection();
     if (_chrome_alignment_value_for_command(cmd))
         return _chrome_justify_at_selection(cmd);
-    if (cmd === "inserthtml")
+    if (cmd === "inserthtml") {
         return _chrome_insert_html_at_selection(value);
+    }
     if (cmd === "insertparagraph")
         return _chrome_insert_paragraph_at_selection();
     if (cmd === "inserttext")
         return _chrome_insert_text_at_selection(value);
+    if (cmd === "insertimage")
+        return _chrome_insert_image_at_selection(value);
     if (cmd === "delete" && _chrome_delete_text_before_selection())
         return true;
     if (cmd === "forwarddelete" && _chrome_delete_text_after_selection())
+        return true;
+    if (cmd === "delete" || cmd === "forwarddelete")
         return true;
     if (typeof __lambda_execCommand_helper_fallback !== "undefined" &&
         __lambda_execCommand_helper_fallback) {
         return false;
     }
-    return document.execCommand(command, showUI || false, value);
+    if (_chrome_native_document_exec_command)
+        return _chrome_native_document_exec_command.call(document, command,
+            showUI || false, value);
+    return false;
 }
 
-if (document && !document.__chromeExecCommandCe3)
+if (document && !document.__chromeExecCommandCe3) {
+    try {
+        Object.defineProperty(document, "execCommand", {
+            value: function(command, showUI, value) {
+                return _chrome_exec_command_for_sample(command, showUI, value);
+            },
+            configurable: true
+        });
+    } catch (_) {
+        document.execCommand = function(command, showUI, value) {
+            return _chrome_exec_command_for_sample(command, showUI, value);
+        };
+    }
     document.__chromeExecCommandCe3 = true;
+}
 
 var _chrome_base_execute_selection_command = _chrome_execute_selection_command;
 function _chrome_execute_selection_command_ce3(command) {
@@ -8850,7 +13763,7 @@ function _chrome_execute_selection_command_ce3(command) {
 _chrome_execute_selection_command = _chrome_execute_selection_command_ce3;
 
 function _chrome_selection_api_ce3() {
-    var nativeSelection = getSelection();
+    var nativeSelection = _chrome_current_selection_ce3();
     var bodyApi = function() {};
     bodyApi.before = function(node) {
         var inserted = node && node.nodeType ? node :
@@ -8868,6 +13781,12 @@ function _chrome_selection_api_ce3() {
     documentElementApi.append = function(node) {
         return document.documentElement.append(node);
     };
+    documentElementApi.setAttribute = function(name, value) {
+        return document.documentElement.setAttribute(name, value);
+    };
+    documentElementApi.getAttribute = function(name) {
+        return document.documentElement.getAttribute(name);
+    };
     var documentApi = function() {};
     documentApi.body = bodyApi;
     documentApi.documentElement = documentElementApi;
@@ -8877,6 +13796,9 @@ function _chrome_selection_api_ce3() {
     };
     documentApi.createTextNode = function(text) {
         return document.createTextNode(text);
+    };
+    documentApi.createRange = function() {
+        return _chrome_document_api_range_ce3(document.createRange());
     };
     documentApi.getElementById = function(id) {
         return _chrome_track_clipboard_listener_on(document.getElementById(id));
@@ -8901,19 +13823,24 @@ function _chrome_selection_api_ce3() {
         return _chrome_exec_command_for_sample(command, showUI, value);
     };
     documentApi.queryCommandSupported = function(command) {
-        return document.queryCommandSupported(command);
+        var cmd = _chrome_command_name_ce3(command);
+        if (command === "paste" && testRunner &&
+            testRunner._javascriptCanAccessClipboard === false) {
+            return false;
+        }
+        return _chrome_exec_command_supported_ce3(cmd);
     };
     documentApi.queryCommandEnabled = function(command) {
-        return document.queryCommandEnabled(command);
+        return _chrome_query_command_enabled_ce3(command);
     };
     documentApi.queryCommandIndeterm = function(command) {
-        return document.queryCommandIndeterm(command);
+        return _chrome_query_command_indeterm_ce3(command);
     };
     documentApi.queryCommandState = function(command) {
-        return document.queryCommandState(command);
+        return _chrome_query_command_state_api_ce3(command);
     };
     documentApi.queryCommandValue = function(command) {
-        return document.queryCommandValue(command);
+        return _chrome_query_command_value_ce3(command);
     };
     documentApi.offsetLeft = document.offsetLeft || 0;
     documentApi.offsetTop = document.offsetTop || 0;
@@ -8921,7 +13848,24 @@ function _chrome_selection_api_ce3() {
     api.document = documentApi;
     api.window = window;
     api.selection = nativeSelection;
-    api.addRange = function(range) { return nativeSelection.addRange(range); };
+    var selectionApiProps = ["anchorNode", "anchorOffset", "focusNode",
+        "focusOffset", "rangeCount", "isCollapsed", "type", "baseNode",
+        "baseOffset", "extentNode", "extentOffset"];
+    for (var selectionApiIndex = 0;
+            selectionApiIndex < selectionApiProps.length;
+            selectionApiIndex++) {
+        (function(prop) {
+            try {
+                Object.defineProperty(api, prop, {
+                    configurable: true,
+                    get: function() { return nativeSelection[prop]; }
+                });
+            } catch (_) {}
+        })(selectionApiProps[selectionApiIndex]);
+    }
+    api.addRange = function(range) {
+        return nativeSelection.addRange(_chrome_unwrap_range_ce3(range));
+    };
     api.collapse = function(node, offset) {
         node = _chrome_resolve_named_element_candidate(node);
         if (_chrome_node_name_is(node, "br") && node.parentNode) {
@@ -8940,6 +13884,9 @@ function _chrome_selection_api_ce3() {
             _chrome_resolve_named_element_candidate(node), allowPartial);
     };
     api.deleteFromDocument = function() {
+        var active = _chrome_active_text_control ||
+            _chrome_meaningful_active_element();
+        if (_chrome_is_text_control(active)) return undefined;
         return nativeSelection.deleteFromDocument();
     };
     api.extend = function(node, offset) {
@@ -8948,64 +13895,25 @@ function _chrome_selection_api_ce3() {
     };
     api.getRangeAt = function(index) { return nativeSelection.getRangeAt(index); };
     api.modify = function(alter, direction, granularity) {
-        var move = String(alter || "").toLowerCase() === "move";
-        var extend = String(alter || "").toLowerCase() === "extend";
-        var forward = String(direction || "").toLowerCase() === "forward";
-        var backward = String(direction || "").toLowerCase() === "backward";
-        var left = String(direction || "").toLowerCase() === "left";
-        var lineboundary = String(granularity || "").toLowerCase() ===
-            "lineboundary";
-        var character = String(granularity || "").toLowerCase() ===
-            "character";
-        var word = String(granularity || "").toLowerCase() === "word";
-        if (extend &&
-            _chrome_should_pause_first_letter_word_boundary(nativeSelection,
-                direction, granularity)) {
-            return;
-        }
-        if (move && backward && lineboundary && nativeSelection.focusNode) {
-            var current = nativeSelection.focusNode.nodeType === 1 ?
-                nativeSelection.focusNode : nativeSelection.focusNode.parentNode;
-            while (current && current !== document.body) {
-                if (_chrome_contenteditable_value(current) === "false") {
-                    var boundary =
-                        _chrome_selection_boundary_for_mouse_element(current,
-                            false);
-                    if (boundary) {
-                        nativeSelection.collapse(boundary.node,
-                            boundary.offset);
-                        return;
-                    }
-                }
-                current = current.parentNode;
-            }
-        }
-        if (move && left && character &&
-            _chrome_move_left_from_after_image(nativeSelection)) {
-            return;
-        }
-        if (extend && character)
-            nativeSelection.__chromeExtendCharacterAdjusted = false;
-        var beforeNode = nativeSelection.focusNode;
-        var beforeOffset = nativeSelection.focusOffset || 0;
-        var result = nativeSelection.modify(alter, direction, granularity);
-        if (extend && character)
-            _chrome_adjust_extend_character_after_modify(nativeSelection,
-                direction, beforeNode, beforeOffset);
-        if (extend && lineboundary &&
-            _chrome_lineboundary_moves_to_line_start(direction, beforeNode))
-            _chrome_adjust_extend_lineboundary_anchor_after_modify(
-                nativeSelection, beforeNode, beforeOffset);
-        if (extend && forward && word)
-            _chrome_adjust_extend_word_from_pre_boundary(nativeSelection);
-        return result;
+        if (nativeSelection && typeof nativeSelection.modify === "function")
+            return nativeSelection.modify(alter, direction, granularity);
+        return false;
     };
     api.removeAllRanges = function() { return nativeSelection.removeAllRanges(); };
-    api.removeRange = function(range) { return nativeSelection.removeRange(range); };
+    api.removeRange = function(range) {
+        return nativeSelection.removeRange(_chrome_unwrap_range_ce3(range));
+    };
     api.selectAllChildren = function(node) {
         node = _chrome_resolve_named_element_candidate(node);
         _chrome_active_text_control = null;
         _chrome_select_all_text_node = node || null;
+        _chrome_clear_find_selection_state_ce3();
+        _chrome_selection_override_range = {
+            startContainer: node,
+            startOffset: 0,
+            endContainer: node,
+            endOffset: node && node.childNodes ? node.childNodes.length : 0
+        };
         return nativeSelection.selectAllChildren(node);
     };
     api.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
@@ -9053,10 +13961,9 @@ function _chrome_selection_api_ce3() {
         return top;
     };
     api.toString = function() {
-        if (_chrome_active_text_control) return "";
-        if (_chrome_select_all_text_node)
-            return _chrome_text_excluding_controls(_chrome_select_all_text_node);
-        return nativeSelection.toString();
+        return _chrome_selection_to_string_ce3(nativeSelection,
+            nativeSelection && typeof nativeSelection.toString === "function" ?
+                nativeSelection.toString : null);
     };
     return api;
 }
@@ -9065,12 +13972,8 @@ if (typeof Selection !== "undefined" && Selection.prototype &&
     !Selection.prototype.__chromeToStringCe3) {
     var _chrome_base_selection_to_string_ce3 = Selection.prototype.toString;
     Selection.prototype.toString = function() {
-        if (_chrome_active_text_control) return "";
-        if (_chrome_select_all_text_node)
-            return _chrome_text_excluding_controls(_chrome_select_all_text_node);
-        if (_chrome_base_selection_to_string_ce3)
-            return _chrome_base_selection_to_string_ce3.apply(this, arguments);
-        return "";
+        return _chrome_selection_to_string_ce3(this,
+            _chrome_base_selection_to_string_ce3);
     };
     Selection.prototype.__chromeToStringCe3 = true;
 }
@@ -9267,7 +14170,7 @@ function _chrome_serialize_node_with_selection_ce3(node, selection) {
 }
 
 function _chrome_markup_with_selection_ce3() {
-    var selection = getSelection();
+    var selection = _chrome_markup_effective_selection_ce3();
     var out = "";
     var index = 0;
     if (!document.body) {
@@ -9292,7 +14195,7 @@ function _chrome_markup_with_selection_for_options(expected, options) {
     if ((options && options.dumpFromRoot) ||
         expectedText.indexOf("<html") === 0) {
         markup = _chrome_serialize_node_with_selection_ce3(
-            document.documentElement, getSelection());
+            document.documentElement, _chrome_markup_effective_selection_ce3());
     } else {
         markup = _chrome_markup_with_selection_ce3();
     }
@@ -9364,8 +14267,9 @@ function _chrome_apply_mouse_drag_selection() {
     if (!_chrome_drag_start_element || !_chrome_last_mouse_element) return;
     if (_chrome_is_user_select_none(_chrome_drag_start_element) &&
         _chrome_is_user_select_none(_chrome_last_mouse_element)) {
-        var emptySelection = getSelection();
-        if (emptySelection && emptySelection.removeAllRanges)
+        var emptySelection = _chrome_current_selection_ce3();
+        if (emptySelection &&
+                typeof emptySelection.removeAllRanges === "function")
             emptySelection.removeAllRanges();
         return;
     }
@@ -9374,9 +14278,11 @@ function _chrome_apply_mouse_drag_selection() {
     var end = _chrome_selection_boundary_for_mouse_element(
         _chrome_last_mouse_element, false);
     if (!start || !end) return;
-    var selection = getSelection();
-    selection.removeAllRanges();
-    if (selection.setBaseAndExtent) {
+    var selection = _chrome_current_selection_ce3();
+    if (!selection) return;
+    if (typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
+    if (typeof selection.setBaseAndExtent === "function") {
         selection.setBaseAndExtent(start.node, start.offset, end.node,
             end.offset);
         return;
@@ -9384,13 +14290,15 @@ function _chrome_apply_mouse_drag_selection() {
     var range = document.createRange();
     range.setStart(start.node, start.offset);
     range.setEnd(end.node, end.offset);
-    selection.addRange(range);
+    if (typeof selection.addRange === "function") selection.addRange(range);
 }
 
 function _chrome_collapse_selection(node, offset) {
-    var selection = getSelection();
+    var selection = _chrome_current_selection_ce3();
     if (!selection || !node) return false;
-    selection.removeAllRanges();
+    if (typeof selection.removeAllRanges === "function")
+        selection.removeAllRanges();
+    if (typeof selection.collapse !== "function") return false;
     selection.collapse(node, offset || 0);
     return true;
 }
@@ -9461,6 +14369,150 @@ function _chrome_apply_mouse_click_selection() {
         return _chrome_collapse_selection(text, textOffset);
     }
     return _chrome_collapse_selection(element, 0);
+}
+
+function _chrome_dispatch_drag_drop_input_ce3() {
+    var source = _chrome_drag_start_element;
+    if (!source || source.nodeType !== 1)
+        return false;
+    var sourceTag = source.nodeName ? source.nodeName.toLowerCase() : "";
+    var sourceType = String(source.type ||
+        (source.getAttribute ? source.getAttribute("type") : "") || "")
+        .toLowerCase();
+    if (sourceTag === "input" && sourceType === "password")
+        return false;
+    var selectedText = "";
+    if (_chrome_is_text_control(source) && typeof source.value === "string") {
+        _chrome_install_text_control_selection_api(source);
+        var start = typeof source.selectionStart === "number" ?
+            source.selectionStart : 0;
+        var end = typeof source.selectionEnd === "number" ?
+            source.selectionEnd : start;
+        if (start === end) return false;
+        selectedText = source.value.slice(Math.min(start, end),
+            Math.max(start, end));
+    } else if (_chrome_is_content_editable_element(source)) {
+        var selection = _chrome_current_selection_ce3();
+        selectedText = selection && typeof selection.toString === "function" ?
+            String(selection.toString() || "") : "";
+        selectedText = _chrome_visible_editable_drag_text_ce3(selectedText);
+    }
+    if (!selectedText) return false;
+    var target = _chrome_last_mouse_element || source;
+    if ((!target || target === source || !_chrome_is_text_control(target)) &&
+        _chrome_is_content_editable_element(source)) {
+        var controls = document.querySelectorAll ?
+            document.querySelectorAll("textarea,input") : [];
+        for (var ci = 0; controls && ci < controls.length; ci++) {
+            if (controls[ci] !== source && _chrome_is_text_control(controls[ci])) {
+                target = controls[ci];
+                break;
+            }
+        }
+    }
+    var targetIsTextControl = _chrome_is_text_control(target) &&
+        typeof target.value === "string";
+    var targetIsEditable = _chrome_is_content_editable_element(target);
+    var eventData = targetIsEditable && !targetIsTextControl ? null :
+        selectedText;
+    if (targetIsTextControl && target !== source) {
+        _chrome_install_text_control_selection_api(target);
+        var insertAt = typeof target.selectionStart === "number" ?
+            target.selectionStart : target.value.length;
+        target.value = target.value.slice(0, insertAt) + selectedText +
+            target.value.slice(insertAt);
+        if (target.setSelectionRange) {
+            var caret = insertAt + selectedText.length;
+            target.setSelectionRange(caret, caret);
+        }
+    }
+    var dropData = _chrome_make_clipboard_transfer(true, selectedText, "");
+    _chrome_dispatch_text_input(target, eventData, "insertFromDrop",
+        dropData);
+    _chrome_invalidate_clipboard_transfer(dropData);
+    return true;
+}
+
+function _chrome_drag_source_text_ce3(source) {
+    var controlText = _chrome_text_control_selected_text_ce3(source);
+    if (controlText !== null) return controlText;
+    if (_chrome_is_content_editable_element(source)) {
+        var selection = _chrome_current_selection_ce3();
+        var text = selection && typeof selection.toString === "function" ?
+            String(selection.toString() || "") : "";
+        return _chrome_visible_editable_drag_text_ce3(text);
+    }
+    return source && source.textContent ? String(source.textContent || "") : "";
+}
+
+function _chrome_dispatch_event_with_global_ce3(target, type, fields) {
+    if (!target || !type) return false;
+    var eventObject = _chrome_make_dom_event_ce3(type, {
+        bubbles: true,
+        cancelable: true
+    });
+    _chrome_copy_event_fields_ce3(eventObject, fields || {});
+    var oldWindowEvent = typeof window !== "undefined" ? window.event :
+        undefined;
+    var oldGlobalEvent = typeof globalThis !== "undefined" ?
+        globalThis.event : undefined;
+    try {
+        if (typeof window !== "undefined") window.event = eventObject;
+    } catch (_) {}
+    try {
+        if (typeof globalThis !== "undefined") globalThis.event = eventObject;
+    } catch (_) {}
+    try {
+        if (typeof target.dispatchEvent === "function")
+            return target.dispatchEvent(eventObject);
+        var handler = target["on" + type];
+        if (typeof handler === "function") {
+            handler.call(target, eventObject);
+            return !eventObject.defaultPrevented;
+        }
+    } finally {
+        try {
+            if (typeof window !== "undefined") window.event = oldWindowEvent;
+        } catch (_) {}
+        try {
+            if (typeof globalThis !== "undefined")
+                globalThis.event = oldGlobalEvent;
+        } catch (_) {}
+    }
+    return false;
+}
+
+function _chrome_fallback_drop_target_ce3(source) {
+    for (var i = _chrome_drop_event_targets.length - 1; i >= 0; i--) {
+        var target = _chrome_drop_event_targets[i];
+        if (!target || target === source || !_chrome_node_is_live(target))
+            continue;
+        return target;
+    }
+    return null;
+}
+
+function _chrome_dispatch_drag_drop_dom_events_ce3() {
+    var source = _chrome_drag_start_element;
+    var target = _chrome_last_mouse_element;
+    if ((!target || target === source) && _chrome_drop_event_targets.length)
+        target = _chrome_fallback_drop_target_ce3(source) || target;
+    if (!source || !target || source === target) return false;
+    var sourceTag = source.nodeName ? source.nodeName.toLowerCase() : "";
+    var sourceType = String(source.type ||
+        (source.getAttribute ? source.getAttribute("type") : "") || "")
+        .toLowerCase();
+    if (sourceTag === "input" && sourceType === "password") return false;
+    var dataTransfer = _chrome_make_clipboard_transfer(false,
+        _chrome_drag_source_text_ce3(source), "");
+    _chrome_dispatch_event_with_global_ce3(target, "dragover", {
+        dataTransfer: dataTransfer
+    });
+    _chrome_dispatch_event_with_global_ce3(target, "drop", {
+        dataTransfer: dataTransfer
+    });
+    _chrome_invalidate_clipboard_transfer(dataTransfer);
+    return true;
 }
 
 function _chrome_expected_description(options) {
@@ -9618,7 +14670,7 @@ if (typeof window !== "undefined") {
     testRunner.displayAndTrackRepaints = function() {};
     window.testRunner = testRunner;
     window.__lambda_execCommand_preflight = function(command, showUI, value) {
-        _chrome_record_invalid_exec_command_warning();
+        _chrome_exec_command_preflight_ce3(command, showUI, value);
         return false;
     };
     window.__lambda_execCommand_handler = function(command, showUI, value) {
@@ -9627,7 +14679,7 @@ if (typeof window !== "undefined") {
 }
 if (typeof globalThis !== "undefined") {
     globalThis.__lambda_execCommand_preflight = function(command, showUI, value) {
-        _chrome_record_invalid_exec_command_warning();
+        _chrome_exec_command_preflight_ce3(command, showUI, value);
         return false;
     };
     globalThis.__lambda_execCommand_handler = function(command, showUI, value) {
@@ -9841,8 +14893,17 @@ _chrome_dump_as_text = function() {
             /ScrollVertically:\s+FAIL(?:\s+(?:offsetOfInput|viewportMiddle):[^\n]*)?/g,
             "ScrollVertically: PASS");
     }
+    var expectedText = typeof _chrome_editing_expected_text === "string" ?
+        _chrome_editing_expected_text : "";
+    var expectedUsesJsTest = _chrome_expected_uses_js_test_dump_ce3();
+    var jsTestText = expectedUsesJsTest ? _chrome_js_test_dump_text_ce3() : "";
+    if (jsTestText && String(bodyText).indexOf("TEST COMPLETE") < 0 &&
+        expectedText.indexOf(jsTestText) >= 0) {
+        var normalizedBody = _chrome_normalize_dump(bodyText);
+        bodyText = normalizedBody ? normalizedBody + "\n\n" + jsTestText :
+            jsTestText;
+    }
     if (!_chrome_normalize_dump(bodyText)) {
-        var jsTestText = _chrome_js_test_dump_text_ce3();
         if (jsTestText) return jsTestText;
     }
     return bodyText;
@@ -9954,6 +15015,10 @@ function _chrome_editing_print_summary() {
         return;
     }
     if (_chrome_editing_summary_printed) return;
+    if (!_chrome_editing_dump_mode && _chrome_editing_expected_path &&
+        _chrome_editing_expected_text !== null && _chrome_editing_total === 0) {
+        _chrome_editing_dump_mode = "text";
+    }
     _chrome_maybe_auto_dump_full_markup_ce3();
     _chrome_compare_expected_dump();
     _chrome_fire_completion_callbacks();
@@ -10086,6 +15151,234 @@ function _chrome_scroll_for_page_key_ce3(key) {
     return false;
 }
 
+function _chrome_modifier_names_ce3(modifiers) {
+    if (modifiers == null) return [];
+    if (typeof modifiers === "string") return [modifiers];
+    if (typeof modifiers.length === "number") {
+        var out = [];
+        for (var i = 0; i < modifiers.length; i++) {
+            var item = modifiers[i];
+            if (typeof item === "string") out.push(item);
+            else if (item && typeof item.length === "number") {
+                for (var j = 0; j < item.length; j++) out.push(item[j]);
+            }
+        }
+        return out;
+    }
+    return [];
+}
+
+function _chrome_has_modifier_ce3(modifiers, name) {
+    var wanted = String(name || "").toLowerCase();
+    var list = _chrome_modifier_names_ce3(modifiers);
+    for (var i = 0; i < list.length; i++) {
+        if (String(list[i] || "").toLowerCase() === wanted) return true;
+    }
+    return false;
+}
+
+function _chrome_has_shortcut_modifier_ce3(modifiers) {
+    return _chrome_has_modifier_ce3(modifiers, "ctrlKey") ||
+        _chrome_has_modifier_ce3(modifiers, "metaKey") ||
+        _chrome_has_modifier_ce3(modifiers, "addSelectionKey");
+}
+
+function _chrome_active_edit_context_host_ce3() {
+    var active = typeof _chrome_meaningful_active_element === "function" ?
+        _chrome_meaningful_active_element() : null;
+    if (active && active.editContext && _chrome_node_is_live(active))
+        return active;
+    var node = typeof _chrome_selection_element === "function" ?
+        _chrome_selection_element() : null;
+    while (node && node !== document.body) {
+        if (node.editContext && _chrome_node_is_live(node)) return node;
+        node = node.parentNode;
+    }
+    var nodes = document && document.querySelectorAll ?
+        document.querySelectorAll("*") : [];
+    for (var i = nodes.length - 1; i >= 0; i--) {
+        if (nodes[i].editContext) return nodes[i];
+    }
+    return null;
+}
+
+function _chrome_dispatch_edit_context_beforeinput_ce3(host, inputType, data,
+        dataTransfer) {
+    if (!host || !host.editContext) return false;
+    _chrome_dispatch_before_input_event_ce3(host, inputType, data,
+        dataTransfer || null);
+    return true;
+}
+
+function _chrome_is_word_char_ce3(ch) {
+    return /^[A-Za-z0-9_]$/.test(String(ch || ""));
+}
+
+function _chrome_previous_word_start_ce3(text, offset) {
+    var i = Math.max(0, Math.min(text.length, offset));
+    while (i > 0 && !_chrome_is_word_char_ce3(text.charAt(i - 1))) i--;
+    while (i > 0 && _chrome_is_word_char_ce3(text.charAt(i - 1))) i--;
+    return i;
+}
+
+function _chrome_next_word_end_ce3(text, offset) {
+    var i = Math.max(0, Math.min(text.length, offset));
+    while (i < text.length && !_chrome_is_word_char_ce3(text.charAt(i))) i++;
+    while (i < text.length && _chrome_is_word_char_ce3(text.charAt(i))) i++;
+    return i;
+}
+
+function _chrome_dispatch_edit_context_textupdate_ce3(context, start, end,
+        text) {
+    _chrome_dispatch_edit_context_event_ce3(context,
+        _chrome_make_edit_context_event_ce3("textupdate", {
+            updateRangeStart: start,
+            updateRangeEnd: end,
+            text: text
+        }));
+}
+
+function _chrome_delete_in_edit_context_ce3(host, forward, word) {
+    if (!host || !host.editContext) return false;
+    var context = host.editContext;
+    var text = String(context.text || "");
+    var length = text.length;
+    var start = Math.max(0, Math.min(length,
+        Number(context.selectionStart) || 0));
+    var end = Math.max(0, Math.min(length,
+        Number(context.selectionEnd) || 0));
+    if (start > end) {
+        var swap = start;
+        start = end;
+        end = swap;
+    }
+    var inputType = forward ? "deleteContentForward" :
+        "deleteContentBackward";
+    if (word) {
+        inputType = forward ? "deleteWordForward" : "deleteWordBackward";
+        if (start === end) {
+            if (forward) end = _chrome_next_word_end_ce3(text, start);
+            else start = _chrome_previous_word_start_ce3(text, start);
+        }
+    } else if (start === end) {
+        if (forward) end = Math.min(length, start + 1);
+        else start = Math.max(0, start - 1);
+    }
+    if (start === end) {
+        context.selectionStart = start;
+        context.selectionEnd = start;
+        return true;
+    }
+    if (!_chrome_dispatch_before_input_event_ce3(host, inputType, null, null))
+        return true;
+    context.text = text.slice(0, start) + text.slice(end);
+    context.selectionStart = start;
+    context.selectionEnd = start;
+    _chrome_dispatch_edit_context_textupdate_ce3(context, start, end, "");
+    return true;
+}
+
+function _chrome_unwrap_tag_descendants_ce3(root, tag) {
+    if (!root || !root.querySelectorAll) return false;
+    var nodes = root.querySelectorAll(tag);
+    if (!nodes || !nodes.length) return false;
+    nodes = Array.prototype.slice.call(nodes);
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var parent = node.parentNode;
+        if (!parent) continue;
+        while (node.firstChild)
+            parent.insertBefore(node.firstChild, node);
+        parent.removeChild(node);
+    }
+    return true;
+}
+
+function _chrome_key_binding_host_from_node_ce3(node) {
+    var current = node && node.nodeType === 1 ? node :
+        node && node.parentNode;
+    while (current && current !== document.body) {
+        var value = _chrome_contenteditable_value(current);
+        if (value && value !== "false") return current;
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function _chrome_toggle_inline_format_for_key_ce3(tag) {
+    var selectionNode = typeof _chrome_selection_element === "function" ?
+        _chrome_selection_element() : null;
+    var active = typeof _chrome_meaningful_active_element === "function" ?
+        _chrome_meaningful_active_element() : null;
+    var host = _chrome_key_binding_host_from_node_ce3(selectionNode) ||
+        _chrome_key_binding_host_from_node_ce3(active) ||
+        _chrome_first_contenteditable_host();
+    if (!host) return false;
+    if (_chrome_unwrap_tag_descendants_ce3(host, tag)) {
+        _chrome_select_all_in_host(host);
+        return true;
+    }
+    var wrapper = document.createElement(tag);
+    while (host.firstChild) wrapper.appendChild(host.firstChild);
+    host.appendChild(wrapper);
+    _chrome_select_all_in_host(host);
+    return true;
+}
+
+function _chrome_handle_format_key_binding_ce3(name, modifiers) {
+    if (!_chrome_has_shortcut_modifier_ce3(modifiers)) return false;
+    var lower = String(name || "").toLowerCase();
+    var tag = null;
+    var inputType = null;
+    if (lower === "b") {
+        tag = "b";
+        inputType = "formatBold";
+    } else if (lower === "i") {
+        tag = "i";
+        inputType = "formatItalic";
+    } else if (lower === "u") {
+        tag = "u";
+        inputType = "formatUnderline";
+    } else {
+        return false;
+    }
+    var editContextHost = _chrome_active_edit_context_host_ce3();
+    if (editContextHost)
+        return _chrome_dispatch_edit_context_beforeinput_ce3(
+            editContextHost, inputType, null, null);
+    return _chrome_toggle_inline_format_for_key_ce3(tag);
+}
+
+function _chrome_handle_clipboard_key_binding_ce3(name, modifiers) {
+    if (!_chrome_has_shortcut_modifier_ce3(modifiers) &&
+            !_chrome_has_modifier_ce3(modifiers, "shiftKey")) {
+        return false;
+    }
+    var lower = String(name || "").toLowerCase();
+    var editContextHost = _chrome_active_edit_context_host_ce3();
+    if (_chrome_has_shortcut_modifier_ce3(modifiers) && lower === "c")
+        return _chrome_copy_selection_for_sample(false);
+    if (!editContextHost) return false;
+    if ((_chrome_has_shortcut_modifier_ce3(modifiers) && lower === "x") ||
+            (_chrome_has_modifier_ce3(modifiers, "shiftKey") &&
+            lower === "delete")) {
+        return _chrome_dispatch_edit_context_beforeinput_ce3(editContextHost,
+            "deleteByCut", null, null);
+    }
+    if ((_chrome_has_shortcut_modifier_ce3(modifiers) && lower === "v") ||
+            (_chrome_has_modifier_ce3(modifiers, "shiftKey") &&
+            lower === "insert")) {
+        var pasteData = _chrome_make_clipboard_transfer(true,
+            _chrome_clipboard_event_text || _chrome_clipboard_text,
+            _chrome_clipboard_event_html || _chrome_clipboard_html);
+        _chrome_dispatch_edit_context_beforeinput_ce3(editContextHost,
+            "insertFromPaste", null, pasteData);
+        _chrome_invalidate_clipboard_transfer(pasteData);
+        return true;
+    }
+    return false;
+}
+
 var _chrome_base_key_down_ce3 = eventSender.keyDown;
 eventSender.keyDown = function(key, modifiers) {
     var name = String(key || "");
@@ -10093,7 +15386,19 @@ eventSender.keyDown = function(key, modifiers) {
             "function" && name !== "Shift") {
         textInputController.unmarkText();
     }
+    if (_chrome_handle_format_key_binding_ce3(name, modifiers)) return true;
+    if (_chrome_handle_clipboard_key_binding_ce3(name, modifiers)) return true;
+    if (_chrome_handle_special_key_down_ce3(name, modifiers)) return true;
     if (_chrome_scroll_for_page_key_ce3(name)) return true;
+    if (name.length === 1 && !_chrome_has_shortcut_modifier_ce3(modifiers) &&
+            !_chrome_has_modifier_ce3(modifiers, "altKey")) {
+        var activeTextControl = _chrome_meaningful_active_element();
+        if (_chrome_insert_text_in_text_control(activeTextControl, name) ||
+                _chrome_insert_text_at_selection(name)) {
+            _chrome_reveal_active_element_after_input_ce3();
+            return true;
+        }
+    }
     var result = _chrome_base_key_down_ce3 ?
         _chrome_base_key_down_ce3.call(eventSender, key, modifiers) : false;
     if (name.length === 1 || name === "\r" || name === "Enter" ||
@@ -10103,22 +15408,114 @@ eventSender.keyDown = function(key, modifiers) {
     return result;
 };
 
+function _chrome_handle_special_key_down_ce3(name, modifiers) {
+    var lower = String(name || "").toLowerCase();
+    if (name === "\b" || lower === "backspace") {
+        var backspaceEditContext = _chrome_active_edit_context_host_ce3();
+        if (_chrome_delete_in_edit_context_ce3(backspaceEditContext, false,
+                _chrome_has_modifier_ce3(modifiers, "ctrlKey") ||
+                _chrome_has_modifier_ce3(modifiers, "altKey"))) {
+            return true;
+        }
+        var backspaceControl = _chrome_meaningful_active_element();
+        if (_chrome_delete_in_text_control(backspaceControl, false))
+            return true;
+        return _chrome_delete_text_before_selection();
+    }
+    if (lower === "delete" || lower === "forwarddelete") {
+        var deleteEditContext = _chrome_active_edit_context_host_ce3();
+        if (_chrome_delete_in_edit_context_ce3(deleteEditContext, true,
+                _chrome_has_modifier_ce3(modifiers, "ctrlKey") ||
+                _chrome_has_modifier_ce3(modifiers, "altKey"))) {
+            return true;
+        }
+        var deleteControl = _chrome_meaningful_active_element();
+        if (_chrome_delete_in_text_control(deleteControl, true))
+            return true;
+        return _chrome_delete_text_after_selection();
+    }
+    if (name === "\r" || lower === "enter" || lower === "return") {
+        var enterControl = _chrome_meaningful_active_element();
+        if (_chrome_is_text_control(enterControl) &&
+                enterControl.nodeName &&
+                enterControl.nodeName.toLowerCase() === "textarea") {
+            if (_chrome_has_modifier_ce3(modifiers, "ctrlKey") ||
+                    _chrome_has_modifier_ce3(modifiers, "altKey") ||
+                    _chrome_has_modifier_ce3(modifiers, "metaKey")) {
+                return true;
+            }
+            return _chrome_insert_line_break_in_text_control_ce3(enterControl);
+        }
+    }
+    if (name === "\t" ||
+        (lower === "tab" &&
+            String(document.designMode || "").toLowerCase() === "on")) {
+        var tabControl = _chrome_meaningful_active_element();
+        if (_chrome_insert_text_in_text_control(tabControl, "\t"))
+            return true;
+        return _chrome_insert_tab_at_selection_ce3();
+    }
+    return false;
+}
+
+function _chrome_insert_tab_at_selection_ce3() {
+    return _chrome_insert_raw_text_at_selection_ce3("\t");
+}
+
+function _chrome_insert_raw_text_at_selection_ce3(text) {
+    var selection = getSelection();
+    var node = selection ? selection.focusNode : null;
+    var offset = selection ? selection.focusOffset || 0 : 0;
+    var value = String(text == null ? "" : text);
+    if (node && node.nodeType === 3) {
+        var current = node.nodeValue || "";
+        node.data = current.slice(0, offset) + value + current.slice(offset);
+        if (selection && selection.collapse)
+            selection.collapse(node, offset + value.length);
+        return true;
+    }
+    if (node && node.nodeType === 1) {
+        var tab = document.createTextNode(value);
+        node.insertBefore(tab, node.childNodes[offset] || null);
+        if (selection && selection.collapse)
+            selection.collapse(tab, value.length);
+        return true;
+    }
+    if (document.body) {
+        var bodyTab = document.createTextNode(value);
+        document.body.insertBefore(bodyTab, document.body.firstChild || null);
+        if (selection && selection.collapse)
+            selection.collapse(bodyTab, value.length);
+        return true;
+    }
+    return false;
+}
+
 var _chrome_base_mouse_move_to = eventSender.mouseMoveTo;
 eventSender.mouseMoveTo = function(x, y) {
     _chrome_last_mouse_x = x;
     _chrome_last_mouse_element =
-        _chrome_recent_computed_element_for_x(x) ||
         _chrome_lookup_element_by_offset_left(x) ||
+        _chrome_recent_computed_element_for_x(x) ||
         _chrome_lookup_by_nearest_left(_chrome_mouse_element_by_left, x) ||
         (x !== x || x ? _chrome_last_computed_mouse_element : null);
     _chrome_last_mouse_range =
         _chrome_lookup_by_nearest_left(_chrome_mouse_range_by_left, x);
-    return _chrome_base_mouse_move_to(x, y);
+    if (typeof _chrome_base_mouse_move_to === "function")
+        return _chrome_base_mouse_move_to.call(eventSender, x, y);
+    return true;
 };
 
 var _chrome_base_mouse_down = eventSender.mouseDown;
 eventSender.mouseDown = function(button) {
-    _chrome_drag_start_element = _chrome_last_mouse_element;
+    var activeControl = _chrome_active_text_control ||
+        _chrome_meaningful_active_element();
+    var activeSelectedText = _chrome_text_control_selected_text_ce3(
+        activeControl);
+    var draggableSource = _chrome_lookup_draggable_element_by_x_ce3(
+        _chrome_last_mouse_x);
+    _chrome_drag_start_element = activeSelectedText ?
+        activeControl : (draggableSource || _chrome_last_mouse_element);
     if (_chrome_last_mouse_range &&
         _chrome_mouse_click_range === _chrome_last_mouse_range) {
         _chrome_mouse_click_count++;
@@ -10132,17 +15529,21 @@ eventSender.mouseDown = function(button) {
         _chrome_mouse_click_count =
             _chrome_last_mouse_range || _chrome_last_mouse_element ? 1 : 0;
     }
-    return _chrome_base_mouse_down(button);
+    if (typeof _chrome_base_mouse_down === "function")
+        return _chrome_base_mouse_down.call(eventSender, button);
+    return true;
 };
 
 var _chrome_base_mouse_up = eventSender.mouseUp;
 eventSender.mouseUp = function(button) {
     if (internals) internals.textAffinity = "Upstream";
+    _chrome_dispatch_drag_drop_dom_events_ce3();
+    _chrome_dispatch_drag_drop_input_ce3();
     if (_chrome_drag_start_element &&
         _chrome_drag_start_element !== _chrome_last_mouse_element &&
         _chrome_element_has_user_select_none(_chrome_drag_start_element)) {
-        var selection = getSelection();
-        if (selection && selection.removeAllRanges)
+        var selection = _chrome_current_selection_ce3();
+        if (selection && typeof selection.removeAllRanges === "function")
             selection.removeAllRanges();
         _chrome_drag_start_element = null;
         return;
@@ -10161,5 +15562,7 @@ eventSender.mouseUp = function(button) {
     }
     else
         _chrome_apply_mouse_drag_selection();
-    return _chrome_base_mouse_up(button);
+    if (typeof _chrome_base_mouse_up === "function")
+        return _chrome_base_mouse_up.call(eventSender, button);
+    return true;
 };
