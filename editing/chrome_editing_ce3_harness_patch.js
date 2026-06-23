@@ -12,6 +12,7 @@ var _chrome_next_synthetic_left = 100;
 var _chrome_last_mouse_element = null;
 var _chrome_last_computed_mouse_element = null;
 var _chrome_drag_start_element = null;
+var _chrome_drag_started_ce3 = false;
 var _chrome_drop_event_targets = [];
 var _chrome_last_manual_delete_undo = null;
 var _chrome_select_all_text_node = null;
@@ -71,6 +72,7 @@ var _chrome_document_open_invalid_for_exec_command = false;
 var _chrome_js_test_dump_lines = [];
 var _chrome_js_test_dump_seeded = false;
 var _chrome_wait_fallback_queued_ce3 = false;
+var _chrome_async_wait_fallback_completed_ce3 = false;
 var onload = typeof onload === "function" ? onload : null;
 
 var _chrome_base_debug_ce3 = typeof debug === "function" ? debug : null;
@@ -436,6 +438,7 @@ if (document && !document.__chromeDocumentWriteCe3) {
     };
     var _chrome_document_open_ce3 = function() {
         _chrome_document_open_invalid_for_exec_command = true;
+        _chrome_document_active_element_ce3 = null;
         return document;
     };
     var _chrome_document_close_ce3 = function() {
@@ -987,6 +990,72 @@ if (typeof HTMLCollection !== "undefined" && HTMLCollection.prototype) {
     HTMLCollection.prototype.forEach = _chrome_child_list_for_each;
 }
 
+var _chrome_document_active_element_ce3 = null;
+function _chrome_dispatch_focus_event_ce3(target, type, relatedTarget) {
+    if (!target || !type) return true;
+    var bubbles = type === "focusin" || type === "focusout" ||
+        type === "DOMFocusOut";
+    var event = _chrome_make_dom_event_ce3(type, {
+        bubbles: bubbles,
+        cancelable: false
+    });
+    _chrome_copy_event_fields_ce3(event, {
+        relatedTarget: relatedTarget || null
+    });
+    try {
+        if (typeof target.dispatchEvent === "function")
+            return target.dispatchEvent(event);
+    } catch (_) {}
+    var handler = target["on" + type.toLowerCase()] ||
+        target["on" + type];
+    if (typeof handler === "function")
+        handler.call(target, event);
+    return true;
+}
+
+function _chrome_note_focus_target_ce3(element) {
+    if (_chrome_is_text_control(element)) {
+        _chrome_install_text_control_selection_api(element);
+        _chrome_active_text_control = element;
+        _chrome_selection_override_range = null;
+        _chrome_find_selection_active = false;
+        _chrome_select_all_text_node = null;
+        return;
+    }
+    if (_chrome_is_content_editable_element(element)) {
+        _chrome_active_text_control = null;
+        _chrome_select_all_text_node = null;
+    }
+}
+
+function _chrome_blur_active_element_ce3(nextElement) {
+    var previous = _chrome_document_active_element_ce3 ||
+        _chrome_active_element;
+    if (!previous || previous === nextElement) return;
+    _chrome_document_active_element_ce3 = null;
+    if (_chrome_active_element === previous)
+        _chrome_active_element = document.body || null;
+    if (_chrome_active_text_control === previous)
+        _chrome_active_text_control = null;
+    _chrome_dispatch_focus_event_ce3(previous, "blur", nextElement || null);
+    _chrome_dispatch_focus_event_ce3(previous, "focusout",
+        nextElement || null);
+    _chrome_dispatch_focus_event_ce3(previous, "DOMFocusOut",
+        nextElement || null);
+}
+
+function _chrome_focus_element_ce3(element) {
+    if (!element) return;
+    var previous = _chrome_document_active_element_ce3 ||
+        _chrome_active_element;
+    if (previous && previous !== element)
+        _chrome_blur_active_element_ce3(element);
+    _chrome_document_active_element_ce3 = element;
+    _chrome_active_element = element;
+    _chrome_dispatch_focus_event_ce3(element, "focus", previous || null);
+    _chrome_dispatch_focus_event_ce3(element, "focusin", previous || null);
+}
+
 function _chrome_install_focus_tracking() {
     var proto = null;
     if (typeof HTMLElement !== "undefined" && HTMLElement.prototype)
@@ -996,25 +1065,18 @@ function _chrome_install_focus_tracking() {
     if (!proto || proto.__chromeFocusTrackingInstalled) return;
     var baseFocus = proto.focus;
     proto.focus = function() {
-        _chrome_active_element = this;
-        if (_chrome_is_text_control(this)) {
-            _chrome_install_text_control_selection_api(this);
-            _chrome_active_text_control = this;
-            _chrome_selection_override_range = null;
-            _chrome_find_selection_active = false;
-            _chrome_select_all_text_node = null;
-        } else if (_chrome_is_content_editable_element(this)) {
-            _chrome_active_text_control = null;
-            _chrome_select_all_text_node = null;
-        }
+        _chrome_note_focus_target_ce3(this);
+        _chrome_focus_element_ce3(this);
         var result = baseFocus ? baseFocus.apply(this, arguments) : undefined;
         _chrome_place_caret_for_focused_editable(this);
         return result;
     };
     var baseBlur = proto.blur;
     proto.blur = function() {
-        if (_chrome_active_element === this)
-            _chrome_active_element = document.body || null;
+        if (_chrome_active_element === this ||
+                _chrome_document_active_element_ce3 === this) {
+            _chrome_blur_active_element_ce3(null);
+        }
         if (baseBlur) return baseBlur.apply(this, arguments);
     };
     var baseAddEventListener = proto.addEventListener;
@@ -1082,6 +1144,28 @@ function _chrome_is_iframe_element_ce3(node) {
         String(node.tagName).toLowerCase() === "iframe");
 }
 
+function _chrome_install_iframe_window_focus_ce3(frame) {
+    if (!_chrome_is_iframe_element_ce3(frame) || !frame.contentWindow ||
+            frame.__chromeIframeWindowFocusCe3) {
+        return;
+    }
+    var frameWindow = frame.contentWindow;
+    var baseFocus = typeof frameWindow.focus === "function" ?
+        frameWindow.focus : null;
+    frameWindow.focus = function() {
+        _chrome_blur_active_element_ce3(frame);
+        if (_chrome_document_open_invalid_for_exec_command)
+            return baseFocus ? baseFocus.apply(this, arguments) : undefined;
+        if (_chrome_node_is_live(frame)) {
+            _chrome_focus_element_ce3(frame);
+            return baseFocus ? baseFocus.apply(this, arguments) : undefined;
+        }
+        _chrome_document_active_element_ce3 = null;
+        return baseFocus ? baseFocus.apply(this, arguments) : undefined;
+    };
+    frame.__chromeIframeWindowFocusCe3 = true;
+}
+
 function _chrome_parse_attr_from_tag_ce3(tag, name) {
     var pattern = new RegExp("(?:^|\\s)" + name +
         "(?:\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)'|([^\\s>]+)))?", "i");
@@ -1125,40 +1209,21 @@ function _chrome_install_child_focus_on_element_ce3(element) {
     if (!element || element.__chromeChildFocusOwnCe3) return;
     var baseFocus = typeof element.focus === "function" ? element.focus :
         null;
+    var focusReplacement = function() {
+        var result = baseFocus ? baseFocus.apply(this, arguments) :
+            undefined;
+        _chrome_note_focus_target_ce3(this);
+        _chrome_focus_element_ce3(this);
+        return result;
+    };
     try {
         Object.defineProperty(element, "focus", {
-            value: function() {
-                var result = baseFocus ? baseFocus.apply(this, arguments) :
-                    undefined;
-                _chrome_active_element = this;
-                if (_chrome_is_text_control(this)) {
-                    _chrome_install_text_control_selection_api(this);
-                    _chrome_active_text_control = this;
-                    _chrome_selection_override_range = null;
-                    _chrome_find_selection_active = false;
-                } else if (_chrome_is_content_editable_element(this)) {
-                    _chrome_active_text_control = null;
-                }
-                return result;
-            },
+            value: focusReplacement,
             configurable: true
         });
     } catch (_) {
         try {
-            element.focus = function() {
-                var result = baseFocus ? baseFocus.apply(this, arguments) :
-                    undefined;
-                _chrome_active_element = this;
-                if (_chrome_is_text_control(this)) {
-                    _chrome_install_text_control_selection_api(this);
-                    _chrome_active_text_control = this;
-                    _chrome_selection_override_range = null;
-                    _chrome_find_selection_active = false;
-                } else if (_chrome_is_content_editable_element(this)) {
-                    _chrome_active_text_control = null;
-                }
-                return result;
-            };
+            element.focus = focusReplacement;
         } catch (_) {}
     }
     element.__chromeChildFocusOwnCe3 = true;
@@ -1237,6 +1302,7 @@ function _chrome_apply_srcdoc_body_attrs_ce3(frame, resetBodyText) {
 function _chrome_prepare_iframe_document_ce3(frame, resetBodyText) {
     if (!_chrome_is_iframe_element_ce3(frame) || !frame.contentWindow)
         return null;
+    _chrome_install_iframe_window_focus_ce3(frame);
     var doc = frame.contentWindow.document || frame.contentDocument;
     if (!doc) return null;
     _chrome_apply_srcdoc_body_attrs_ce3(frame, resetBodyText);
@@ -1278,6 +1344,7 @@ function _chrome_install_iframe_load_shim_on_ce3(frame) {
         frame.__chromeIframeLoadShimCe3 || !frame.addEventListener) {
         return;
     }
+    _chrome_install_iframe_window_focus_ce3(frame);
     var baseAddEventListener = frame.addEventListener;
     frame.addEventListener = function(type, listener, options) {
         var eventType = String(type || "").toLowerCase();
@@ -1636,6 +1703,8 @@ if (document && !document.__chromeCreateElementTrackingCe3) {
         _chrome_track_clipboard_listener_on(node);
         _chrome_install_dispatch_object_event_shim_ce3(node);
         _chrome_install_child_focus_on_element_ce3(node);
+        _chrome_install_iframe_window_focus_ce3(node);
+        _chrome_install_iframe_load_shim_on_ce3(node);
         _chrome_install_selection_mutation_tracking_on_tree_ce3(node);
         return node;
     }
@@ -2294,548 +2363,6 @@ function _chrome_install_geometry_shims() {
                 offset: offset || 0 };
         return rect;
     }
-    function wrapRangeForGeometry(range) {
-        if (!range || typeof range.getClientRects === "function") return range;
-        var wrapper = {};
-        wrapper.__chromeBaseRange = range;
-        wrapper.startContainer = range.startContainer || null;
-        wrapper.startOffset = range.startOffset || 0;
-        wrapper.endContainer = range.endContainer || wrapper.startContainer;
-        wrapper.endOffset = range.endOffset || wrapper.startOffset;
-        wrapper.commonAncestorContainer = range.commonAncestorContainer ||
-            wrapper.startContainer;
-        wrapper.collapsed = range.collapsed;
-        wrapper.deleteContents = function() {
-            if (range && typeof range.deleteContents === "function") {
-                if (typeof range.deleteContents.apply === "function")
-                    return range.deleteContents.apply(range, arguments);
-                return range.deleteContents();
-            }
-            _chrome_clone_or_extract_range_contents(range, true);
-        };
-        wrapper.cloneContents = function() {
-            if (range.cloneContents) {
-                try { return range.cloneContents.apply(range, arguments); }
-                catch (_) {}
-            }
-            return _chrome_clone_or_extract_range_contents(range, false);
-        };
-        wrapper.extractContents = function() {
-            if (range.extractContents) {
-                try { return range.extractContents.apply(range, arguments); }
-                catch (_) {}
-            }
-            return _chrome_clone_or_extract_range_contents(range, true);
-        };
-        wrapper.cloneRange = function() {
-            if (range.cloneRange) {
-                try { return wrapRangeForGeometry(range.cloneRange()); }
-                catch (_) {}
-            }
-            var clone = document.createRange();
-            clone.setStart(this.startContainer || range.startContainer,
-                this.startOffset || 0);
-            clone.setEnd(this.endContainer || range.endContainer,
-                this.endOffset || 0);
-            return wrapRangeForGeometry(clone);
-        };
-        wrapper.insertNode = function() {
-            if (range && typeof range.insertNode === "function") {
-                if (typeof range.insertNode.apply === "function")
-                    return range.insertNode.apply(range, arguments);
-                return range.insertNode(arguments[0]);
-            }
-            var newNode = arguments[0];
-            var container = this.startContainer || range.startContainer;
-            var offset = this.startOffset || 0;
-            if (!newNode || !container) return;
-            if (container.nodeType === 3 && container.parentNode) {
-                var parent = container.parentNode;
-                var text = container.nodeValue || "";
-                if (offset > 0 && offset < text.length) {
-                    var after = document.createTextNode(text.slice(offset));
-                    container.data = text.slice(0, offset);
-                    parent.insertBefore(newNode, container.nextSibling);
-                    parent.insertBefore(after, newNode.nextSibling);
-                } else if (offset <= 0) {
-                    parent.insertBefore(newNode, container);
-                } else {
-                    parent.insertBefore(newNode, container.nextSibling);
-                }
-                if (!(container.nodeValue || "") && container.parentNode)
-                    container.parentNode.removeChild(container);
-                return;
-            }
-            if (container.nodeType === 1) {
-                container.insertBefore(newNode,
-                    container.childNodes ? container.childNodes[offset] ||
-                        null : null);
-            }
-        };
-        wrapper.setStart = function() {
-            var node = arguments[0];
-            var offset = arguments[1] || 0;
-            if (range && typeof range.setStart === "function") {
-                var value = typeof range.setStart.apply === "function" ?
-                    range.setStart.apply(range, arguments) :
-                    range.setStart(node, offset);
-                this.startContainer = range.startContainer ||
-                    this.startContainer;
-                this.startOffset = range.startOffset || 0;
-                return value;
-            }
-            this.startContainer = node;
-            this.startOffset = offset;
-            if (range) {
-                range.startContainer = node;
-                range.startOffset = offset;
-            }
-            if (_chrome_selection_override_range) {
-                _chrome_selection_override_range.startContainer = node;
-                _chrome_selection_override_range.startOffset = offset;
-            }
-            this.collapsed = this.startContainer === this.endContainer &&
-                (this.startOffset || 0) === (this.endOffset || 0);
-            this.commonAncestorContainer =
-                _chrome_delete_common_ancestor(this.startContainer,
-                    this.endContainer);
-            return value;
-        };
-        wrapper.setEnd = function() {
-            var node = arguments[0];
-            var offset = arguments[1] || 0;
-            if (range && typeof range.setEnd === "function") {
-                var value = typeof range.setEnd.apply === "function" ?
-                    range.setEnd.apply(range, arguments) :
-                    range.setEnd(node, offset);
-                this.endContainer = range.endContainer || this.endContainer;
-                this.endOffset = range.endOffset || 0;
-                return value;
-            }
-            this.endContainer = node;
-            this.endOffset = offset;
-            if (range) {
-                range.endContainer = node;
-                range.endOffset = offset;
-            }
-            if (_chrome_selection_override_range) {
-                _chrome_selection_override_range.endContainer = node;
-                _chrome_selection_override_range.endOffset = offset;
-            }
-            this.collapsed = this.startContainer === this.endContainer &&
-                (this.startOffset || 0) === (this.endOffset || 0);
-            this.commonAncestorContainer =
-                _chrome_delete_common_ancestor(this.startContainer,
-                    this.endContainer);
-            return value;
-        };
-        wrapper.getClientRects = function() {
-            return [rectForNode(this.startContainer ||
-                this.commonAncestorContainer || null, this.startOffset || 0)];
-        };
-        return wrapper;
-    }
-    function selectionProxy(selection) {
-        if (!selection || selection.__chromeSelectionProxy) return selection;
-        var proxy = {};
-        proxy.__chromeSelectionProxy = true;
-        proxy.__chromeBaseSelection = selection;
-        var props = ["anchorNode", "anchorOffset", "focusNode",
-            "focusOffset", "rangeCount", "isCollapsed", "type",
-            "baseNode", "baseOffset", "extentNode", "extentOffset"];
-        for (var i = 0; i < props.length; i++) {
-            (function(prop) {
-                try {
-                    Object.defineProperty(proxy, prop, {
-                        get: function() {
-                            _chrome_sync_selection_override_from_native_live_ce3(
-                                selection, false);
-                            var override = _chrome_selection_override_range;
-                            if (override) {
-                                if (prop === "anchorNode" ||
-                                        prop === "baseNode")
-                                    return override.startContainer;
-                                if (prop === "anchorOffset" ||
-                                        prop === "baseOffset")
-                                    return override.startOffset || 0;
-                                if (prop === "focusNode" ||
-                                        prop === "extentNode")
-                                    return override.endContainer;
-                                if (prop === "focusOffset" ||
-                                        prop === "extentOffset")
-                                    return override.endOffset || 0;
-                                if (prop === "rangeCount") return 1;
-                                if (prop === "isCollapsed")
-                                    return override.startContainer ===
-                                        override.endContainer &&
-                                        (override.startOffset || 0) ===
-                                        (override.endOffset || 0);
-                            }
-                            if (prop === "baseOffset" &&
-                                typeof _chrome_find_base_offset === "number")
-                                return _chrome_find_base_offset;
-                            if (prop === "extentOffset" &&
-                                typeof _chrome_find_extent_offset === "number")
-                                return _chrome_find_extent_offset;
-                            if (selection[prop] !== undefined)
-                                return selection[prop];
-                            if (prop === "baseNode") return selection.anchorNode;
-                            if (prop === "baseOffset")
-                                return selection.anchorOffset;
-                            if (prop === "extentNode") return selection.focusNode;
-                            if (prop === "extentOffset")
-                                return selection.focusOffset;
-                            return selection[prop];
-                        }
-                    });
-                } catch (_) {
-                    proxy[prop] = selection[prop];
-                }
-            })(props[i]);
-        }
-        try {
-            Object.defineProperty(proxy, "baseOffset", {
-                get: function() {
-                    _chrome_sync_selection_override_from_native_live_ce3(
-                        selection, false);
-                    if (_chrome_selection_override_range)
-                        return _chrome_selection_override_range.startOffset || 0;
-                    if (typeof _chrome_find_base_offset === "number")
-                        return _chrome_find_base_offset;
-                    return selection.anchorOffset;
-                }
-            });
-            Object.defineProperty(proxy, "extentOffset", {
-                get: function() {
-                    _chrome_sync_selection_override_from_native_live_ce3(
-                        selection, false);
-                    if (_chrome_selection_override_range)
-                        return _chrome_selection_override_range.endOffset || 0;
-                    if (typeof _chrome_find_extent_offset === "number")
-                        return _chrome_find_extent_offset;
-                    return selection.focusOffset;
-                }
-            });
-        } catch (_) {}
-        var methods = ["addRange", "collapse", "collapseToEnd",
-            "collapseToStart", "containsNode", "deleteFromDocument",
-            "extend", "modify", "removeAllRanges", "removeRange",
-            "selectAllChildren", "setBaseAndExtent"];
-        for (var j = 0; j < methods.length; j++) {
-            (function(method) {
-                proxy[method] = function() {
-                    if (typeof selection[method] === "function")
-                        return selection[method].apply(selection, arguments);
-                    if (method === "toString") {
-                        return _chrome_selection_override_range ?
-                            _chrome_range_text_contents(
-                                _chrome_selection_override_range) : "";
-                    }
-                    if (method === "collapseToStart" &&
-                            _chrome_selection_override_range) {
-                        return proxy.collapse(
-                            _chrome_selection_override_range.startContainer,
-                            _chrome_selection_override_range.startOffset || 0);
-                    }
-                    if (method === "collapseToEnd" &&
-                            _chrome_selection_override_range) {
-                        return proxy.collapse(
-                            _chrome_selection_override_range.endContainer,
-                            _chrome_selection_override_range.endOffset || 0);
-                    }
-                    if (method === "deleteFromDocument" &&
-                            _chrome_selection_override_range) {
-                        var range = document.createRange();
-                        range.setStart(
-                            _chrome_selection_override_range.startContainer,
-                            _chrome_selection_override_range.startOffset || 0);
-                        range.setEnd(
-                            _chrome_selection_override_range.endContainer,
-                            _chrome_selection_override_range.endOffset || 0);
-                        if (typeof range.deleteContents === "function")
-                            range.deleteContents();
-                        proxy.removeAllRanges();
-                    }
-                    return undefined;
-                };
-            })(methods[j]);
-        }
-        proxy.getRangeAt = function(index) {
-            _chrome_sync_selection_override_from_native_live_ce3(selection,
-                false);
-            if (typeof selection.getRangeAt === "function") {
-                try {
-                    var nativeRange = selection.getRangeAt(index);
-                    if (nativeRange)
-                        return wrapRangeForGeometry(nativeRange);
-                } catch (_) {
-                    if ((index || 0) === 0 && _chrome_selection_override_range)
-                        return wrapRangeForGeometry(
-                            _chrome_selection_override_range);
-                    throw _;
-                }
-            }
-            if ((index || 0) === 0 && _chrome_selection_override_range)
-                return wrapRangeForGeometry(_chrome_selection_override_range);
-            return null;
-        };
-        proxy.toString = function() {
-            _chrome_sync_selection_override_from_native_live_ce3(selection,
-                false);
-            return _chrome_selection_to_string_ce3(selection,
-                typeof selection.toString === "function" ?
-                    selection.toString : null);
-        };
-        proxy.collapse = function(node, offset) {
-            node = _chrome_resolve_named_element_candidate(node);
-            var clampedOffset = _chrome_clamp_text_selection_offset(node,
-                offset || 0);
-            _chrome_selection_override_range = {
-                startContainer: node,
-                startOffset: clampedOffset,
-                endContainer: node,
-                endOffset: clampedOffset
-            };
-            if (typeof selection.collapse === "function") {
-                return selection.collapse(node, clampedOffset);
-            }
-        };
-        proxy.containsNode = function(node, allowPartial) {
-            if (typeof selection.containsNode === "function") {
-                return selection.containsNode(
-                    _chrome_resolve_named_element_candidate(node), allowPartial);
-            }
-            return false;
-        };
-        proxy.deleteFromDocument = function() {
-            var active = _chrome_active_text_control ||
-                _chrome_meaningful_active_element();
-            if (_chrome_is_text_control(active)) return undefined;
-            if (_chrome_selection_override_range) {
-                var range = document.createRange();
-                range.setStart(_chrome_selection_override_range.startContainer,
-                    _chrome_selection_override_range.startOffset || 0);
-                range.setEnd(_chrome_selection_override_range.endContainer,
-                    _chrome_selection_override_range.endOffset || 0);
-                if (typeof range.deleteContents === "function")
-                    range.deleteContents();
-                return proxy.removeAllRanges();
-            }
-            if (typeof selection.deleteFromDocument === "function")
-                return selection.deleteFromDocument();
-        };
-        proxy.extend = function(node, offset) {
-            node = _chrome_resolve_named_element_candidate(node);
-            var clampedOffset = _chrome_clamp_text_selection_offset(node,
-                offset || 0);
-            var anchorNode = this.anchorNode || selection.anchorNode || node;
-            var anchorOffset = this.anchorOffset !== undefined ?
-                this.anchorOffset : selection.anchorOffset || 0;
-            _chrome_selection_override_range = {
-                startContainer: anchorNode,
-                startOffset: _chrome_clamp_text_selection_offset(anchorNode,
-                    anchorOffset),
-                endContainer: node,
-                endOffset: clampedOffset
-            };
-            if (typeof selection.extend === "function") {
-                return selection.extend(node, clampedOffset);
-            }
-        };
-        proxy.addRange = function(range) {
-            if (selection.rangeCount &&
-                    typeof selection.removeAllRanges === "function") {
-                selection.removeAllRanges();
-            }
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_find_selection_active = false;
-            _chrome_selection_override_is_find_ce3 = false;
-            _chrome_find_selection_cleared_ce3 = false;
-            if (range) {
-                var shadow = _chrome_range_shadow(range);
-                var existing = _chrome_selection_override_range || {};
-                _chrome_selection_override_range = {
-                    startContainer: range.__chromeStartContainer ||
-                        range.startContainer ||
-                        shadow && shadow.startContainer ||
-                        existing.startContainer,
-                    startOffset: range.__chromeStartOffset !== undefined &&
-                        range.__chromeStartOffset !== null ?
-                        range.__chromeStartOffset :
-                        range.startOffset !== undefined &&
-                        range.startOffset !== null ? range.startOffset :
-                        shadow && shadow.startOffset !== undefined ?
-                        shadow.startOffset : existing.startOffset,
-                    endContainer: range.__chromeEndContainer ||
-                        range.endContainer ||
-                        shadow && shadow.endContainer ||
-                        existing.endContainer,
-                    endOffset: range.__chromeEndOffset !== undefined &&
-                        range.__chromeEndOffset !== null ?
-                        range.__chromeEndOffset :
-                        range.endOffset !== undefined &&
-                        range.endOffset !== null ? range.endOffset :
-                        shadow && shadow.endOffset !== undefined ?
-                        shadow.endOffset : existing.endOffset
-                };
-            }
-            if (typeof selection.addRange === "function")
-                return selection.addRange(_chrome_unwrap_range_ce3(range));
-        };
-        proxy.empty = function() {
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_selection_override_range = null;
-            _chrome_selection_override_is_find_ce3 = false;
-            _chrome_find_selection_cleared_ce3 = true;
-            _chrome_find_selection_active = false;
-            if (typeof selection.removeAllRanges === "function")
-                return selection.removeAllRanges();
-        };
-        proxy.removeAllRanges = function() {
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_selection_override_range = null;
-            _chrome_selection_override_is_find_ce3 = false;
-            _chrome_find_selection_cleared_ce3 = true;
-            _chrome_find_selection_active = false;
-            if (typeof selection.removeAllRanges === "function")
-                return selection.removeAllRanges();
-        };
-        proxy.removeRange = function(range) {
-            if (_chrome_selection_override_range) {
-                _chrome_selection_override_range = null;
-                _chrome_selection_override_is_find_ce3 = false;
-                _chrome_find_selection_cleared_ce3 = true;
-                _chrome_find_selection_active = false;
-            }
-            if (typeof selection.removeRange === "function")
-                return selection.removeRange(_chrome_unwrap_range_ce3(range));
-        };
-        proxy.selectAllChildren = function(node) {
-            node = _chrome_resolve_named_element_candidate(node);
-            _chrome_clear_find_selection_state_ce3();
-            _chrome_selection_override_range = {
-                startContainer: node,
-                startOffset: 0,
-                endContainer: node,
-                endOffset: node && node.childNodes ? node.childNodes.length : 0
-            };
-            if (typeof selection.selectAllChildren === "function")
-                return selection.selectAllChildren(node);
-            var first = _chrome_first_text_descendant(node) || node;
-            var last = _chrome_last_text_descendant(node) || node;
-            var endOffset = last.nodeType === 3 ? (last.nodeValue || "").length :
-                (last.childNodes ? last.childNodes.length : 0);
-            return proxy.setBaseAndExtent(first, 0, last, endOffset);
-        };
-        proxy.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
-                focusOffset) {
-            anchorNode = _chrome_resolve_named_element_candidate(anchorNode);
-            focusNode = _chrome_resolve_named_element_candidate(focusNode);
-            var startOffset = _chrome_clamp_text_selection_offset(anchorNode,
-                anchorOffset);
-            var endOffset = _chrome_clamp_text_selection_offset(focusNode,
-                focusOffset);
-            _chrome_selection_override_range = {
-                startContainer: anchorNode,
-                startOffset: startOffset,
-                endContainer: focusNode,
-                endOffset: endOffset
-            };
-            var host = typeof _chrome_editing_host_for_node === "function" ?
-                (_chrome_editing_host_for_node(focusNode) ||
-                    _chrome_editing_host_for_node(anchorNode)) : null;
-            if (host && _chrome_is_content_editable_element(host)) {
-                _chrome_active_element = host;
-                _chrome_active_text_control = null;
-            }
-            if (typeof selection.setBaseAndExtent === "function") {
-                return selection.setBaseAndExtent(anchorNode, startOffset,
-                    focusNode, endOffset);
-            }
-            if (typeof selection.collapse === "function") {
-                selection.collapse(anchorNode, startOffset);
-                if (typeof selection.extend === "function")
-                    selection.extend(focusNode, endOffset);
-            }
-        };
-        proxy.modify = function(alter, direction, granularity) {
-            var move = String(alter || "").toLowerCase() === "move";
-            var extend = String(alter || "").toLowerCase() === "extend";
-            var forward = String(direction || "").toLowerCase() === "forward";
-            var backward = String(direction || "").toLowerCase() === "backward";
-            var left = String(direction || "").toLowerCase() === "left";
-            var character = String(granularity || "").toLowerCase() ===
-                "character";
-            var word = String(granularity || "").toLowerCase() === "word";
-            var lineboundary = String(granularity || "").toLowerCase() ===
-                "lineboundary";
-            if (extend &&
-                _chrome_should_pause_first_letter_word_boundary(this,
-                    direction, granularity)) {
-                return;
-            }
-            if (move && backward && lineboundary && this.focusNode) {
-                var current = this.focusNode.nodeType === 1 ?
-                    this.focusNode : this.focusNode.parentNode;
-                while (current && current !== document.body) {
-                    if (_chrome_contenteditable_value(current) === "false") {
-                        var boundary =
-                            _chrome_selection_boundary_for_mouse_element(
-                                current, false);
-                        if (boundary) {
-                            proxy.setBaseAndExtent(boundary.node,
-                                boundary.offset, boundary.node,
-                                boundary.offset);
-                            return;
-                        }
-                    }
-                    current = current.parentNode;
-                }
-            }
-            if (move && left && character &&
-                _chrome_move_left_from_after_image(this)) {
-                return;
-            }
-            if (move && forward && character &&
-                !_chrome_selection_has_content(this) &&
-                this.focusNode && this.focusNode.nodeType === 1) {
-                var child = this.focusNode.childNodes[this.focusOffset || 0];
-                if (child && child.nodeType === 1 &&
-                    !_chrome_element_has_text_descendant(child)) {
-                    proxy.setBaseAndExtent(this.focusNode,
-                        (this.focusOffset || 0) + 1, this.focusNode,
-                        (this.focusOffset || 0) + 1);
-                    return;
-                }
-            }
-            if (typeof selection.modify !== "function" ||
-                    selection.modify.__chromeModifyFallbackCe3) {
-                return selectionModifyFallback(proxy, alter, direction,
-                    granularity);
-            }
-            if (extend && character)
-                selection.__chromeExtendCharacterAdjusted = false;
-            var beforeNode = this.focusNode;
-            var beforeOffset = this.focusOffset || 0;
-            var result = selection.modify.apply(selection, arguments);
-            if (extend && character)
-                _chrome_adjust_extend_character_after_modify(selection,
-                    direction, beforeNode, beforeOffset);
-            if (extend && lineboundary &&
-                _chrome_lineboundary_moves_to_line_start(direction,
-                    beforeNode))
-                _chrome_adjust_extend_lineboundary_anchor_after_modify(
-                    selection, beforeNode, beforeOffset);
-            if (extend && forward && word)
-                _chrome_adjust_extend_word_from_pre_boundary(selection);
-            _chrome_sync_selection_override_from_native_ce3(selection);
-            return result;
-        };
-        return proxy;
-    }
     if (typeof Element !== "undefined" && Element.prototype &&
         typeof Element.prototype.getBoundingClientRect !== "function") {
         Element.prototype.getBoundingClientRect = function() {
@@ -2880,769 +2407,10 @@ function _chrome_install_geometry_shims() {
         };
         Element.prototype.__chromeForcedRectOverrideCe3 = true;
     }
-    function selectionModifyDirectionForward(direction) {
-        var lower = String(direction || "").toLowerCase();
-        return lower === "forward" || lower === "right" || lower === "down";
-    }
-    function selectionModifyDirectionBackward(direction) {
-        var lower = String(direction || "").toLowerCase();
-        return lower === "backward" || lower === "left" || lower === "up";
-    }
-    function selectionModifyCurrentRange(selectionLike) {
-        var range = _chrome_selection_override_range;
-        if (range && range.startContainer && range.endContainer) {
-            return {
-                anchorNode: range.startContainer,
-                anchorOffset: range.startOffset || 0,
-                focusNode: range.endContainer,
-                focusOffset: range.endOffset || 0
-            };
-        }
-        if (!selectionLike) return null;
-        var anchorNode = selectionLike.anchorNode || selectionLike.focusNode;
-        var focusNode = selectionLike.focusNode || anchorNode;
-        if (!anchorNode || !focusNode) return null;
-        return {
-            anchorNode: anchorNode,
-            anchorOffset: selectionLike.anchorOffset || 0,
-            focusNode: focusNode,
-            focusOffset: selectionLike.focusOffset || 0
-        };
-    }
-    function selectionModifyRangeHasContent(range) {
-        return !!(range && range.anchorNode && range.focusNode &&
-            (range.anchorNode !== range.focusNode ||
-                (range.anchorOffset || 0) !== (range.focusOffset || 0)));
-    }
-    function selectionModifyRoot(range) {
-        if (!range) return document.body || document.documentElement;
-        var host = _chrome_editing_host_for_node(range.focusNode) ||
-            _chrome_editing_host_for_node(range.anchorNode);
-        if (host) return host;
-        var current = range.focusNode && range.focusNode.nodeType === 1 ?
-            range.focusNode : range.focusNode && range.focusNode.parentNode;
-        while (current && current !== document.body) {
-            if (_chrome_is_content_editable_element(current) &&
-                    _chrome_contenteditable_value(current) !== "false") {
-                return current;
-            }
-            current = current.parentNode;
-        }
-        current = range.anchorNode && range.anchorNode.nodeType === 1 ?
-            range.anchorNode : range.anchorNode && range.anchorNode.parentNode;
-        while (current && current !== document.body) {
-            if (_chrome_is_content_editable_element(current) &&
-                    _chrome_contenteditable_value(current) !== "false") {
-                return current;
-            }
-            current = current.parentNode;
-        }
-        var node = range.focusNode || range.anchorNode;
-        if (node && node.nodeType === 1 &&
-                _chrome_is_content_editable_element(node)) {
-            return node;
-        }
-        return document.body || document.documentElement || node;
-    }
-    function selectionModifyBoundaryAt(root, location) {
-        var units = _chrome_location_units(root);
-        if (!units.length) return { node: root, offset: 0 };
-        var index = Math.max(0, Math.min(units.length, location || 0));
-        if (index <= 0) {
-            return {
-                node: units[0].startNode,
-                offset: units[0].startOffset || 0
-            };
-        }
-        if (index >= units.length) {
-            return {
-                node: units[units.length - 1].endNode,
-                offset: units[units.length - 1].endOffset || 0
-            };
-        }
-        if (index > 0) {
-            return {
-                node: units[index - 1].endNode,
-                offset: units[index - 1].endOffset || 0
-            };
-        }
-        return {
-            node: units[index].startNode,
-            offset: units[index].startOffset || 0
-        };
-    }
-    function selectionModifySet(selectionLike, anchorNode, anchorOffset,
-            focusNode, focusOffset) {
-        if (!anchorNode || !focusNode) return false;
-        anchorOffset = _chrome_clamp_text_selection_offset(anchorNode,
-            anchorOffset || 0);
-        focusOffset = _chrome_clamp_text_selection_offset(focusNode,
-            focusOffset || 0);
-        _chrome_find_base_offset = undefined;
-        _chrome_find_extent_offset = undefined;
-        _chrome_find_selection_active = false;
-        _chrome_selection_override_is_find_ce3 = false;
-        _chrome_find_selection_cleared_ce3 = false;
-        _chrome_selection_override_range = {
-            startContainer: anchorNode,
-            startOffset: anchorOffset,
-            endContainer: focusNode,
-            endOffset: focusOffset
-        };
-        if (selectionLike && typeof selectionLike.setBaseAndExtent ===
-                "function") {
-            try {
-                selectionLike.setBaseAndExtent(anchorNode, anchorOffset,
-                    focusNode, focusOffset);
-                return true;
-            } catch (_) {}
-        }
-        if (selectionLike && typeof selectionLike.collapse === "function") {
-            try {
-                selectionLike.collapse(anchorNode, anchorOffset);
-                if ((anchorNode !== focusNode || anchorOffset !== focusOffset) &&
-                        typeof selectionLike.extend === "function") {
-                    selectionLike.extend(focusNode, focusOffset);
-                }
-                return true;
-            } catch (_) {}
-        }
-        return true;
-    }
-    function selectionModifyTextFromUnits(units) {
-        var text = "";
-        for (var i = 0; i < units.length; i++)
-            text += units[i].text || "";
-        return text;
-    }
-    function selectionModifyWordTarget(units, index, forward) {
-        var text = selectionModifyTextFromUnits(units);
-        if (forward) return _chrome_next_word_end_ce3(text, index);
-        return _chrome_previous_word_start_ce3(text, index);
-    }
-    function selectionModifyLineBoundaryTarget(units, index, forward) {
-        if (forward) {
-            for (var i = index; i < units.length; i++) {
-                if (units[i].lineBreak) return i;
-            }
-            return units.length;
-        }
-        for (var j = index - 1; j >= 0; j--) {
-            if (units[j].lineBreak) return j + 1;
-        }
-        return 0;
-    }
-    function selectionModifyBlockFor(node, root) {
-        var current = node && node.nodeType === 1 ? node : node && node.parentNode;
-        while (current && current !== root && current !== document.body) {
-            if (_chrome_dump_is_block_ce3(current)) return current;
-            current = current.parentNode;
-        }
-        return null;
-    }
-    function selectionModifySiblingBlock(block, forward) {
-        for (var sibling = block ?
-                (forward ? block.nextSibling : block.previousSibling) : null;
-             sibling;
-             sibling = forward ? sibling.nextSibling : sibling.previousSibling) {
-            if (sibling.nodeType !== 1) continue;
-            if (!_chrome_dump_is_block_ce3(sibling)) continue;
-            if (_chrome_location_units(sibling).length) return sibling;
-        }
-        return null;
-    }
-    function selectionModifyLineTarget(range, root, index, forward) {
-        var block = selectionModifyBlockFor(range.focusNode, root);
-        var sibling = selectionModifySiblingBlock(block, forward);
-        if (block && sibling) {
-            var localIndex = _chrome_location_from_boundary(block,
-                range.focusNode, range.focusOffset || 0);
-            return {
-                root: sibling,
-                location: Math.max(0, Math.min(
-                    _chrome_location_units(sibling).length, localIndex))
-            };
-        }
-        var units = _chrome_location_units(root);
-        if (forward) {
-            for (var i = index; i < units.length; i++) {
-                if (units[i].lineBreak) {
-                    return { root: root, location: Math.min(units.length,
-                        i + 1) };
-                }
-            }
-            return { root: root, location: units.length };
-        }
-        for (var j = index - 1; j >= 0; j--) {
-            if (units[j].lineBreak) return { root: root, location: j };
-        }
-        return { root: root, location: 0 };
-    }
-    function selectionModifyFallback(selectionLike, alter, direction,
-            granularity) {
-        var move = String(alter || "").toLowerCase() === "move";
-        var extend = String(alter || "").toLowerCase() === "extend";
-        var forward = selectionModifyDirectionForward(direction);
-        var backward = selectionModifyDirectionBackward(direction);
-        var lowerGranularity = String(granularity || "").toLowerCase();
-        var character = lowerGranularity === "character";
-        var word = lowerGranularity === "word";
-        var lineboundary = lowerGranularity === "lineboundary";
-        var line = lowerGranularity === "line";
-
-        if ((!move && !extend) || (!forward && !backward)) return false;
-
-        var active = _chrome_meaningful_active_element();
-        var nativeActive = document && document.activeElement !== document.body ?
-            document.activeElement : null;
-        if (!_chrome_is_text_control(active) &&
-                _chrome_is_text_control(nativeActive)) {
-            active = nativeActive;
-        }
-        if (_chrome_is_text_control(active)) {
-            _chrome_install_text_control_selection_api(active);
-            var text = _chrome_control_plain_value(active);
-            var length = text.length;
-            var start = typeof active.selectionStart === "number" ?
-                active.selectionStart : 0;
-            var end = typeof active.selectionEnd === "number" ?
-                active.selectionEnd : start;
-            var focus = active.selectionDirection === "backward" ? start : end;
-            var anchor = active.selectionDirection === "backward" ? end : start;
-            var target = focus;
-            if (character) target += forward ? 1 : -1;
-            else if (word)
-                target = forward ? _chrome_next_word_end_ce3(text, focus) :
-                    _chrome_previous_word_start_ce3(text, focus);
-            else if (lineboundary || line)
-                target = forward ? length : 0;
-            else return false;
-            target = Math.max(0, Math.min(length, target));
-            if (move) anchor = target;
-            var nextStart = Math.min(anchor, target);
-            var nextEnd = Math.max(anchor, target);
-            var selectionDirection = !extend || anchor === target ? "none" :
-                (target < anchor ? "backward" : "forward");
-            if (active.setSelectionRange)
-                active.setSelectionRange(nextStart, nextEnd,
-                    selectionDirection);
-            _chrome_selection_override_range = null;
-            _chrome_find_selection_active = false;
-            return true;
-        }
-
-        var range = selectionModifyCurrentRange(selectionLike);
-        if (!range || !range.focusNode) return false;
-        if (move && character && selectionModifyRangeHasContent(range)) {
-            if (forward) {
-                return selectionModifySet(selectionLike, range.focusNode,
-                    range.focusOffset || 0, range.focusNode,
-                    range.focusOffset || 0);
-            }
-            return selectionModifySet(selectionLike, range.anchorNode,
-                range.anchorOffset || 0, range.anchorNode,
-                range.anchorOffset || 0);
-        }
-
-        var root = selectionModifyRoot(range);
-        if (!root) return false;
-        var units = _chrome_location_units(root);
-        var index = _chrome_location_from_boundary(root, range.focusNode,
-            range.focusOffset || 0);
-        var targetInfo = { root: root, location: index };
-        if (character) {
-            targetInfo.location = index + (forward ? 1 : -1);
-        } else if (word) {
-            targetInfo.location = selectionModifyWordTarget(units, index,
-                forward);
-        } else if (lineboundary) {
-            var boundaryRoot = selectionModifyBlockFor(range.focusNode, root) ||
-                root;
-            var boundaryUnits = _chrome_location_units(boundaryRoot);
-            targetInfo.root = boundaryRoot;
-            targetInfo.location = selectionModifyLineBoundaryTarget(
-                boundaryUnits,
-                _chrome_location_from_boundary(boundaryRoot, range.focusNode,
-                    range.focusOffset || 0),
-                forward);
-        } else if (line) {
-            targetInfo = selectionModifyLineTarget(range, root, index, forward);
-        } else {
-            return false;
-        }
-        var targetUnits = _chrome_location_units(targetInfo.root);
-        if (character && forward && targetInfo.location > 0) {
-            var previousUnit = targetUnits[targetInfo.location - 1];
-            if (previousUnit && previousUnit.text === " " &&
-                    previousUnit.startNode &&
-                    previousUnit.startNode.nodeType === 3 &&
-                    /^[ \t\n\r\f]*$/.test(
-                        String(previousUnit.startNode.nodeValue || "")) &&
-                    !_chrome_location_has_later_visible_content(
-                        previousUnit.startNode,
-                        previousUnit.endOffset || 0, targetInfo.root)) {
-                targetInfo.location--;
-            }
-        }
-        targetInfo.location = Math.max(0, Math.min(targetUnits.length,
-            targetInfo.location || 0));
-        var boundary = selectionModifyBoundaryAt(targetInfo.root,
-            targetInfo.location);
-        if (move) {
-            return selectionModifySet(selectionLike, boundary.node,
-                boundary.offset, boundary.node, boundary.offset);
-        }
-        var changed = selectionModifySet(selectionLike, range.anchorNode,
-            range.anchorOffset || 0, boundary.node, boundary.offset);
-        if (changed && word && forward)
-            _chrome_adjust_extend_word_from_pre_boundary(selectionLike);
-        return changed;
-    }
-    function installSelectionFindMethods(selection) {
-        if (!selection || selection.__chromeFindOwnMethodsCe3) return selection;
-        var baseAddRange = selection.addRange;
-        var baseRemoveAllRanges = selection.removeAllRanges;
-        var baseSetBaseAndExtent = selection.setBaseAndExtent;
-        try {
-            if (typeof baseAddRange === "function") {
-                selection.addRange = function(range) {
-                    if (this.rangeCount &&
-                            typeof this.removeAllRanges === "function")
-                        this.removeAllRanges();
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_find_selection_active = false;
-            _chrome_selection_override_is_find_ce3 = false;
-            if (range) {
-                        var shadow = _chrome_range_shadow(range);
-                        _chrome_selection_override_range = {
-                            startContainer:
-                                shadow && shadow.startContainer ||
-                                range.__chromeStartContainer ||
-                                range.startContainer,
-                            startOffset:
-                                shadow && shadow.startOffset !== undefined ?
-                                shadow.startOffset :
-                                range.__chromeStartOffset !== undefined ?
-                                range.__chromeStartOffset :
-                                range.startOffset,
-                            endContainer:
-                                shadow && shadow.endContainer ||
-                                range.__chromeEndContainer ||
-                                range.endContainer,
-                            endOffset:
-                                shadow && shadow.endOffset !== undefined ?
-                                shadow.endOffset :
-                                range.__chromeEndOffset !== undefined ?
-                                range.__chromeEndOffset :
-                                range.endOffset
-                        };
-                    }
-                    return baseAddRange.call(this,
-                        _chrome_unwrap_range_ce3(range));
-                };
-            }
-        } catch (_) {}
-        try {
-            if (typeof selection.addRange !== "function") {
-                selection.addRange = function(range) {
-                    _chrome_find_base_offset = undefined;
-                    _chrome_find_extent_offset = undefined;
-                    _chrome_find_selection_active = false;
-                    _chrome_selection_override_is_find_ce3 = false;
-                    _chrome_find_selection_cleared_ce3 = false;
-                    if (range) {
-                        var shadow = _chrome_range_shadow(range);
-                        var existing = _chrome_selection_override_range || {};
-                        _chrome_selection_override_range = {
-                            startContainer:
-                                range.__chromeStartContainer ||
-                                range.startContainer ||
-                                shadow && shadow.startContainer ||
-                                existing.startContainer,
-                            startOffset:
-                                range.__chromeStartOffset !== undefined &&
-                                range.__chromeStartOffset !== null ?
-                                range.__chromeStartOffset :
-                                range.startOffset !== undefined &&
-                                range.startOffset !== null ?
-                                range.startOffset :
-                                shadow && shadow.startOffset !== undefined ?
-                                shadow.startOffset : existing.startOffset,
-                            endContainer:
-                                range.__chromeEndContainer ||
-                                range.endContainer ||
-                                shadow && shadow.endContainer ||
-                                existing.endContainer,
-                            endOffset:
-                                range.__chromeEndOffset !== undefined &&
-                                range.__chromeEndOffset !== null ?
-                                range.__chromeEndOffset :
-                                range.endOffset !== undefined &&
-                                range.endOffset !== null ?
-                                range.endOffset :
-                                shadow && shadow.endOffset !== undefined ?
-                                shadow.endOffset : existing.endOffset
-                        };
-                    }
-                };
-            }
-        } catch (_) {}
-        try {
-            if (typeof baseRemoveAllRanges === "function") {
-                selection.removeAllRanges = function() {
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_selection_override_range = null;
-            _chrome_selection_override_is_find_ce3 = false;
-            _chrome_find_selection_cleared_ce3 = true;
-            _chrome_find_selection_active = false;
-                    return baseRemoveAllRanges.call(this);
-                };
-            }
-        } catch (_) {}
-        try {
-            selection.empty = function() {
-            _chrome_find_base_offset = undefined;
-            _chrome_find_extent_offset = undefined;
-            _chrome_selection_override_range = null;
-            _chrome_selection_override_is_find_ce3 = false;
-            _chrome_find_selection_cleared_ce3 = true;
-            _chrome_find_selection_active = false;
-                if (typeof this.removeAllRanges === "function")
-                    return this.removeAllRanges();
-            };
-        } catch (_) {}
-        try {
-            if (typeof baseSetBaseAndExtent === "function") {
-                selection.setBaseAndExtent = function(anchorNode, anchorOffset,
-                        focusNode, focusOffset) {
-                    anchorNode =
-                        _chrome_resolve_named_element_candidate(anchorNode);
-                    focusNode =
-                        _chrome_resolve_named_element_candidate(focusNode);
-                    var startOffset = _chrome_clamp_text_selection_offset(
-                        anchorNode, anchorOffset);
-                    var endOffset = _chrome_clamp_text_selection_offset(
-                        focusNode, focusOffset);
-                    _chrome_find_base_offset = undefined;
-                    _chrome_find_extent_offset = undefined;
-                    _chrome_find_selection_active = false;
-                    _chrome_selection_override_is_find_ce3 = false;
-                    _chrome_find_selection_cleared_ce3 = false;
-                    _chrome_selection_override_range = {
-                        startContainer: anchorNode,
-                        startOffset: startOffset,
-                        endContainer: focusNode,
-                        endOffset: endOffset
-                    };
-                    return baseSetBaseAndExtent.call(this, anchorNode,
-                        startOffset, focusNode, endOffset);
-                };
-            } else if (typeof selection.setBaseAndExtent !== "function") {
-                selection.setBaseAndExtent = function(anchorNode, anchorOffset,
-                        focusNode, focusOffset) {
-                    anchorNode =
-                        _chrome_resolve_named_element_candidate(anchorNode);
-                    focusNode =
-                        _chrome_resolve_named_element_candidate(focusNode);
-                    var startOffset = _chrome_clamp_text_selection_offset(
-                        anchorNode, anchorOffset);
-                    var endOffset = _chrome_clamp_text_selection_offset(
-                        focusNode, focusOffset);
-                    _chrome_find_base_offset = undefined;
-                    _chrome_find_extent_offset = undefined;
-                    _chrome_find_selection_active = false;
-                    _chrome_selection_override_is_find_ce3 = false;
-                    _chrome_find_selection_cleared_ce3 = false;
-                    _chrome_selection_override_range = {
-                        startContainer: anchorNode,
-                        startOffset: startOffset,
-                        endContainer: focusNode,
-                        endOffset: endOffset
-                    };
-                    if (typeof this.collapse === "function") {
-                        try {
-                            this.collapse(anchorNode, startOffset);
-                            if (typeof this.extend === "function")
-                                this.extend(focusNode, endOffset);
-                        } catch (_) {}
-                    }
-                };
-            }
-        } catch (_) {}
-        try {
-            if (typeof selection.modify !== "function") {
-                selection.modify = function(alter, direction, granularity) {
-                    return selectionModifyFallback(this, alter, direction,
-                        granularity);
-                };
-                selection.modify.__chromeModifyFallbackCe3 = true;
-            }
-        } catch (_) {}
-        try {
-            if (typeof selection.getRangeAt !== "function") {
-                selection.getRangeAt = function() {
-                    return wrapRangeForGeometry(_chrome_selection_override_range);
-                };
-            }
-        } catch (_) {}
-        try { selection.__chromeFindOwnMethodsCe3 = true; } catch (_) {}
-        return selection;
-    }
     var baseGetSelection = typeof getSelection === "function" ? getSelection :
         (typeof window !== "undefined" &&
         typeof window.getSelection === "function" ? window.getSelection : null);
-    var windowGetSelectionIsWrapped = typeof window !== "undefined" &&
-        window.getSelection && window.getSelection.__chromeGeometryWrapped;
-    if (baseGetSelection && !windowGetSelectionIsWrapped) {
-        try {
-            var nativeSelectionForProto =
-                baseGetSelection.call(window || globalThis);
-            installSelectionFindMethods(nativeSelectionForProto);
-            var selectionProto = Object.getPrototypeOf ?
-                Object.getPrototypeOf(nativeSelectionForProto) :
-                nativeSelectionForProto.__proto__;
-            if (selectionProto && !selectionProto.__chromeFindOffsetsCe3) {
-                _chrome_install_selection_override_accessors_ce3(
-                    selectionProto);
-                var baseSelectionAddRange = selectionProto.addRange;
-                var baseSelectionRemoveAllRanges =
-                    selectionProto.removeAllRanges;
-                var baseSelectionCollapse = selectionProto.collapse;
-                var baseSelectionContainsNode = selectionProto.containsNode;
-                var baseSelectionExtend = selectionProto.extend;
-                var baseSelectionSelectAllChildren =
-                    selectionProto.selectAllChildren;
-                var baseSelectionSetBaseAndExtent =
-                    selectionProto.setBaseAndExtent;
-                Object.defineProperty(selectionProto, "baseOffset", {
-                    get: function() {
-                        if (typeof _chrome_find_base_offset === "number")
-                            return _chrome_find_base_offset;
-                        return this.anchorOffset;
-                    }
-                });
-                Object.defineProperty(selectionProto, "extentOffset", {
-                    get: function() {
-                        if (typeof _chrome_find_extent_offset === "number")
-                            return _chrome_find_extent_offset;
-                        return this.focusOffset;
-                    }
-                });
-                if (typeof baseSelectionAddRange === "function") {
-                    selectionProto.addRange = function(range) {
-                        if (this.rangeCount &&
-                                typeof this.removeAllRanges === "function")
-                            this.removeAllRanges();
-                        _chrome_find_base_offset = undefined;
-                        _chrome_find_extent_offset = undefined;
-                        _chrome_find_selection_active = false;
-                        _chrome_selection_override_is_find_ce3 = false;
-                        _chrome_find_selection_cleared_ce3 = false;
-                        if (range) {
-                            var shadow = _chrome_range_shadow(range);
-                            var existing =
-                                _chrome_selection_override_range || {};
-                            _chrome_selection_override_range = {
-                                startContainer:
-                                    range.__chromeStartContainer ||
-                                    range.startContainer ||
-                                    shadow && shadow.startContainer ||
-                                    existing.startContainer,
-                                startOffset:
-                                    range.__chromeStartOffset !== undefined &&
-                                    range.__chromeStartOffset !== null ?
-                                    range.__chromeStartOffset :
-                                    range.startOffset !== undefined &&
-                                    range.startOffset !== null ?
-                                    range.startOffset :
-                                    shadow && shadow.startOffset !== undefined ?
-                                    shadow.startOffset : existing.startOffset,
-                                endContainer:
-                                    range.__chromeEndContainer ||
-                                    range.endContainer ||
-                                    shadow && shadow.endContainer ||
-                                    existing.endContainer,
-                                endOffset:
-                                    range.__chromeEndOffset !== undefined &&
-                                    range.__chromeEndOffset !== null ?
-                                    range.__chromeEndOffset :
-                                    range.endOffset !== undefined &&
-                                    range.endOffset !== null ?
-                                    range.endOffset :
-                                    shadow && shadow.endOffset !== undefined ?
-                                    shadow.endOffset : existing.endOffset
-                            };
-                        }
-                        return baseSelectionAddRange.call(this,
-                            _chrome_unwrap_range_ce3(range));
-                    };
-                }
-                if (typeof baseSelectionCollapse === "function") {
-                    selectionProto.collapse = function(node, offset) {
-                        node = _chrome_resolve_named_element_candidate(node);
-                        var clampedOffset =
-                            _chrome_clamp_text_selection_offset(node,
-                                offset || 0);
-                        _chrome_clear_find_selection_state_ce3();
-                        _chrome_selection_override_range = {
-                            startContainer: node,
-                            startOffset: clampedOffset,
-                            endContainer: node,
-                            endOffset: clampedOffset
-                        };
-                        return baseSelectionCollapse.call(this,
-                            node, clampedOffset);
-                    };
-                }
-                if (typeof baseSelectionContainsNode === "function") {
-                    selectionProto.containsNode = function(node,
-                            allowPartialContainment) {
-                        return baseSelectionContainsNode.call(this,
-                            _chrome_resolve_named_element_candidate(node),
-                            allowPartialContainment);
-                    };
-                }
-                if (typeof baseSelectionExtend === "function") {
-                    selectionProto.extend = function(node, offset) {
-                        node = _chrome_resolve_named_element_candidate(node);
-                        var clampedOffset =
-                            _chrome_clamp_text_selection_offset(node,
-                                offset || 0);
-                        var anchorNode =
-                            _chrome_selection_override_range &&
-                            _chrome_selection_override_range.startContainer ?
-                                _chrome_selection_override_range.startContainer :
-                                (this.anchorNode || node);
-                        var anchorOffset =
-                            _chrome_selection_override_range &&
-                            _chrome_selection_override_range.startOffset !==
-                                undefined ?
-                                _chrome_selection_override_range.startOffset :
-                                (this.anchorOffset || 0);
-                        _chrome_clear_find_selection_state_ce3();
-                        _chrome_selection_override_range = {
-                            startContainer: anchorNode,
-                            startOffset:
-                                _chrome_clamp_text_selection_offset(anchorNode,
-                                    anchorOffset),
-                            endContainer: node,
-                            endOffset: clampedOffset
-                        };
-                        return baseSelectionExtend.call(this, node,
-                            clampedOffset);
-                    };
-                }
-                if (typeof baseSelectionRemoveAllRanges === "function") {
-                    selectionProto.removeAllRanges = function() {
-                        _chrome_find_base_offset = undefined;
-                        _chrome_find_extent_offset = undefined;
-                        _chrome_selection_override_range = null;
-                        _chrome_selection_override_is_find_ce3 = false;
-                        _chrome_find_selection_cleared_ce3 = true;
-                        _chrome_find_selection_active = false;
-                        return baseSelectionRemoveAllRanges.call(this);
-                    };
-                } else {
-                    selectionProto.removeAllRanges = function() {
-                        _chrome_find_base_offset = undefined;
-                        _chrome_find_extent_offset = undefined;
-                        _chrome_selection_override_range = null;
-                        _chrome_selection_override_is_find_ce3 = false;
-                        _chrome_find_selection_cleared_ce3 = true;
-                        _chrome_find_selection_active = false;
-                    };
-                }
-                if (typeof baseSelectionSelectAllChildren === "function") {
-                    selectionProto.selectAllChildren = function(node) {
-                        node = _chrome_resolve_named_element_candidate(node);
-                        _chrome_clear_find_selection_state_ce3();
-                        _chrome_selection_override_range = {
-                            startContainer: node,
-                            startOffset: 0,
-                            endContainer: node,
-                            endOffset: node && node.childNodes ?
-                                node.childNodes.length : 0
-                        };
-                        return baseSelectionSelectAllChildren.call(this,
-                            node);
-                    };
-                } else {
-                    selectionProto.selectAllChildren = function(node) {
-                        node = _chrome_resolve_named_element_candidate(node);
-                        _chrome_clear_find_selection_state_ce3();
-                        _chrome_selection_override_range = {
-                            startContainer: node,
-                            startOffset: 0,
-                            endContainer: node,
-                            endOffset: node && node.childNodes ?
-                                node.childNodes.length : 0
-                        };
-                        var first = _chrome_first_text_descendant(node) || node;
-                        var last = _chrome_last_text_descendant(node) || node;
-                        var endOffset = last && last.nodeType === 3 ?
-                            (last.nodeValue || "").length :
-                            (last && last.childNodes ? last.childNodes.length : 0);
-                        if (typeof this.setBaseAndExtent === "function")
-                            return this.setBaseAndExtent(first, 0, last,
-                                endOffset);
-                    };
-                }
-                if (typeof baseSelectionSetBaseAndExtent === "function") {
-                    selectionProto.setBaseAndExtent = function(anchorNode,
-                            anchorOffset, focusNode, focusOffset) {
-                        anchorNode =
-                            _chrome_resolve_named_element_candidate(anchorNode);
-                        focusNode =
-                            _chrome_resolve_named_element_candidate(focusNode);
-                        var startOffset =
-                            _chrome_clamp_text_selection_offset(anchorNode,
-                                anchorOffset);
-                        var endOffset =
-                            _chrome_clamp_text_selection_offset(focusNode,
-                                focusOffset);
-                        _chrome_clear_find_selection_state_ce3();
-                        _chrome_selection_override_range = {
-                            startContainer: anchorNode,
-                            startOffset: startOffset,
-                            endContainer: focusNode,
-                            endOffset: endOffset
-                        };
-                        return baseSelectionSetBaseAndExtent.call(this,
-                            anchorNode, startOffset, focusNode, endOffset);
-                    };
-                } else {
-                    selectionProto.setBaseAndExtent = function(anchorNode,
-                            anchorOffset, focusNode, focusOffset) {
-                        anchorNode =
-                            _chrome_resolve_named_element_candidate(anchorNode);
-                        focusNode =
-                            _chrome_resolve_named_element_candidate(focusNode);
-                        _chrome_selection_override_range = {
-                            startContainer: anchorNode,
-                            startOffset: _chrome_clamp_text_selection_offset(
-                                anchorNode, anchorOffset),
-                            endContainer: focusNode,
-                            endOffset: _chrome_clamp_text_selection_offset(
-                                focusNode, focusOffset)
-                        };
-                        _chrome_selection_override_is_find_ce3 = false;
-                        _chrome_find_selection_cleared_ce3 = false;
-                    };
-                }
-                selectionProto.empty = function() {
-                    _chrome_find_base_offset = undefined;
-                    _chrome_find_extent_offset = undefined;
-                    _chrome_selection_override_range = null;
-                    _chrome_selection_override_is_find_ce3 = false;
-                    _chrome_find_selection_cleared_ce3 = true;
-                    _chrome_find_selection_active = false;
-                    return this.removeAllRanges();
-                };
-                selectionProto.__chromeFindOffsetsCe3 = true;
-            }
-        } catch (_) {}
+    if (baseGetSelection) {
         var wrappedGetSelection = function() {
             var selection = null;
             if (typeof baseGetSelection.apply === "function") {
@@ -3654,27 +2422,8 @@ function _chrome_install_geometry_shims() {
             } else {
                 selection = baseGetSelection();
             }
-            if (selection && typeof selection.getRangeAt === "function" &&
-                !selection.__chromeGeometryWrapped) {
-                var baseGetRangeAt = selection.getRangeAt;
-                selection.getRangeAt = function(index) {
-                    var range = baseGetRangeAt.call(this, index);
-                    if (range && typeof range.getClientRects !== "function") {
-                        try {
-                            range.getClientRects = function() {
-                                return [rectForNode(this.startContainer ||
-                                    this.commonAncestorContainer || null,
-                                    this.startOffset || 0)];
-                            };
-                        } catch (_) {}
-                    }
-                    return wrapRangeForGeometry(range);
-                };
-                selection.__chromeGeometryWrapped = true;
-            }
-            return selectionProxy(selection);
+            return selection;
         };
-        wrappedGetSelection.__chromeGeometryWrapped = true;
         if (typeof window !== "undefined") {
             try {
                 Object.defineProperty(window, "getSelection", {
@@ -3727,11 +2476,6 @@ function _chrome_install_geometry_shims() {
             };
             document.__chromeGetSelectionProxyCe3 = true;
         }
-    } else if (baseGetSelection) {
-        try {
-            installSelectionFindMethods(baseGetSelection.call(
-                window || globalThis));
-        } catch (_) {}
     }
 }
 _chrome_install_geometry_shims();
@@ -3765,10 +2509,27 @@ function _chrome_synthetic_width_for_element(element) {
     return width;
 }
 
+function _chrome_mouse_hit_candidate_ce3(element) {
+    if (!element || element.nodeType !== 1) return false;
+    var tag = element.nodeName ? String(element.nodeName).toLowerCase() : "";
+    if (tag === "a" || tag === "img" || tag === "input" ||
+            tag === "button" || tag === "textarea" || tag === "select") {
+        return true;
+    }
+    if (_chrome_element_is_draggable_ce3(element)) return true;
+    if (_chrome_is_content_editable_element(element)) return true;
+    return !!(element.textContent && String(element.textContent).length);
+}
+
 function _chrome_element_is_draggable_ce3(element) {
     if (!element || element.nodeType !== 1) return false;
+    if (_chrome_is_content_editable_element(element)) return false;
     var attr = _chrome_get_dom_attr_ce3(element, "draggable");
     if (String(attr || "").toLowerCase() === "true") return true;
+    var tag = element.nodeName ? String(element.nodeName).toLowerCase() : "";
+    if (tag === "img") return true;
+    if (tag === "a" && _chrome_has_dom_attr_ce3(element, "href"))
+        return true;
     return element.draggable === true;
 }
 
@@ -3825,7 +2586,7 @@ function _chrome_lookup_element_by_offset_left(x) {
     for (var i = 0; elements && i < elements.length; i++) {
         var element = elements[i];
         if (!element || !element.parentNode ||
-            !element.textContent ||
+            !_chrome_mouse_hit_candidate_ce3(element) ||
             element === document.body ||
             element === document.documentElement) {
             continue;
@@ -12225,105 +10986,6 @@ function _chrome_select_all_text_control_ce3(control) {
     return true;
 }
 
-function _chrome_adjust_extend_word_from_pre_boundary(selection) {
-    if (!selection || !selection.anchorNode ||
-        selection.anchorNode.nodeType !== 3) {
-        return false;
-    }
-    var textNode = selection.anchorNode;
-    var text = textNode.nodeValue || "";
-    if (selection.anchorOffset !== text.length || text.indexOf("\t") < 0)
-        return false;
-    var wrapper = textNode.parentNode;
-    if (!wrapper || wrapper.nodeType !== 1 || !wrapper.parentNode)
-        return false;
-    var style = wrapper.getAttribute ? String(wrapper.getAttribute("style") || "") : "";
-    if (style.indexOf("white-space:pre") < 0) return false;
-    var boundary = _chrome_selection_boundary_for_mouse_element(wrapper, true);
-    if (!boundary || !selection.focusNode) return false;
-    if (selection.setBaseAndExtent) {
-        selection.setBaseAndExtent(boundary.node, boundary.offset,
-            selection.focusNode, selection.focusOffset || 0);
-        return true;
-    }
-    return false;
-}
-
-function _chrome_document_has_first_letter_rule() {
-    var styles = document.getElementsByTagName ?
-        document.getElementsByTagName("style") : [];
-    for (var i = 0; styles && i < styles.length; i++) {
-        var text = styles[i].textContent || styles[i].innerText || "";
-        if (String(text).indexOf(":first-letter") >= 0) return true;
-    }
-    return false;
-}
-
-function _chrome_parent_tag_is(node, tag) {
-    var parent = node ? node.parentNode : null;
-    return !!(parent && parent.nodeType === 1 && parent.nodeName &&
-        parent.nodeName.toLowerCase() === tag);
-}
-
-function _chrome_has_ancestor_tag(node, tag) {
-    for (var current = node ? node.parentNode : null; current;
-         current = current.parentNode) {
-        if (current.nodeType === 1 && current.nodeName &&
-            current.nodeName.toLowerCase() === tag) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function _chrome_should_pause_first_letter_word_boundary(selection, direction,
-        granularity) {
-    if (!selection ||
-        String(direction || "").toLowerCase() !== "forward" ||
-        String(granularity || "").toLowerCase() !== "word") {
-        return false;
-    }
-    var node = selection.focusNode;
-    var offset = selection.focusOffset || 0;
-    if (!node || node.nodeType !== 3) return false;
-    var text = node.nodeValue || "";
-    if (offset <= 0 || offset > text.length) return false;
-    if (!_chrome_document_has_first_letter_rule()) return false;
-    var atListMarker = _chrome_parent_tag_is(node, "li") &&
-        !/[A-Za-z0-9]/.test(text.slice(0, offset));
-    var atAmpersandSeparator = _chrome_has_ancestor_tag(node, "li") &&
-        text.slice(offset, offset + 3) === " & ";
-    if (!atListMarker && !atAmpersandSeparator) return false;
-    if (selection.__chromeFirstLetterWordPauseNode === node &&
-        selection.__chromeFirstLetterWordPauseOffset === offset) {
-        selection.__chromeFirstLetterWordPauseNode = null;
-        selection.__chromeFirstLetterWordPauseOffset = -1;
-        return false;
-    }
-    selection.__chromeFirstLetterWordPauseNode = node;
-    selection.__chromeFirstLetterWordPauseOffset = offset;
-    return true;
-}
-
-function _chrome_move_left_from_after_image(selection) {
-    if (!selection || selection.anchorNode !== selection.focusNode ||
-        selection.anchorOffset !== selection.focusOffset ||
-        !selection.focusNode || selection.focusNode.nodeType !== 3 ||
-        selection.focusOffset !== 0) {
-        return false;
-    }
-    var previous = selection.focusNode.previousSibling;
-    if (!previous || previous.nodeType !== 1 ||
-        previous.nodeName.toLowerCase() !== "img") {
-        return false;
-    }
-    var boundary = _chrome_selection_boundary_for_mouse_element(previous,
-        false);
-    if (!boundary) return false;
-    selection.collapse(boundary.node, boundary.offset);
-    return true;
-}
-
 function _chrome_node_name_is(node, name) {
     return !!(node && node.nodeType === 1 && node.nodeName &&
         node.nodeName.toLowerCase() === name);
@@ -12376,26 +11038,6 @@ function _chrome_editing_host_for_node(node) {
     return null;
 }
 
-function _chrome_editing_host_contains_tag(node, tag) {
-    var host = _chrome_editing_host_for_node(node);
-    if (!host || !host.getElementsByTagName) return false;
-    return host.getElementsByTagName(tag).length > 0;
-}
-
-function _chrome_extend_focus_to(selection, node, offset) {
-    if (!selection || !node) return false;
-    if (selection.extend) {
-        selection.extend(node, offset);
-        return true;
-    }
-    if (selection.setBaseAndExtent && selection.anchorNode) {
-        selection.setBaseAndExtent(selection.anchorNode,
-            selection.anchorOffset || 0, node, offset);
-        return true;
-    }
-    return false;
-}
-
 function _chrome_inline_boundary_element(node) {
     if (!node || node.nodeType !== 1 || !node.nodeName) return false;
     var tag = node.nodeName.toLowerCase();
@@ -12405,139 +11047,6 @@ function _chrome_inline_boundary_element(node) {
         tag === "small" || tag === "span" || tag === "strike" ||
         tag === "strong" || tag === "sub" || tag === "sup" ||
         tag === "u";
-}
-
-function _chrome_adjust_extend_lineboundary_anchor_after_modify(selection,
-        beforeNode, beforeOffset) {
-    if (!selection || !beforeNode || !selection.setBaseAndExtent ||
-        !selection.focusNode) {
-        return false;
-    }
-    var focusNode = selection.focusNode;
-    var focusOffset = selection.focusOffset || 0;
-    if (beforeNode.nodeType === 3 && beforeOffset === 0) {
-        var previousInline = beforeNode.previousSibling;
-        var parent = beforeNode.parentNode;
-        var parentOffset = parent ? _chrome_node_child_index(beforeNode) : -1;
-        var atTextStart = selection.anchorNode === beforeNode &&
-            (selection.anchorOffset || 0) === 0;
-        var atParentStart = parent && selection.anchorNode === parent &&
-            (selection.anchorOffset || 0) === parentOffset;
-        if (_chrome_inline_boundary_element(previousInline) &&
-            (atTextStart || atParentStart)) {
-            var previousText = _chrome_last_text_descendant(previousInline);
-            if (previousText) {
-                selection.setBaseAndExtent(previousText,
-                    (previousText.nodeValue || "").length, focusNode,
-                    focusOffset);
-                return true;
-            }
-        }
-        var inlineParent = beforeNode.parentNode;
-        if (_chrome_inline_boundary_element(inlineParent) &&
-            (atTextStart || atParentStart)) {
-            var beforeBoundary =
-                _chrome_selection_boundary_for_mouse_element(inlineParent,
-                    false);
-            if (beforeBoundary) {
-                selection.setBaseAndExtent(beforeBoundary.node,
-                    beforeBoundary.offset, focusNode, focusOffset);
-                return true;
-            }
-        }
-    }
-    if (beforeNode.nodeType === 1 &&
-        selection.anchorNode === beforeNode &&
-        (selection.anchorOffset || 0) === beforeOffset &&
-        beforeOffset > 0 && beforeNode.childNodes) {
-        var previous = beforeNode.childNodes[beforeOffset - 1];
-        if (_chrome_inline_boundary_element(previous)) {
-            var lastText = _chrome_last_text_descendant(previous);
-            if (lastText) {
-                selection.setBaseAndExtent(lastText,
-                    (lastText.nodeValue || "").length, focusNode,
-                    focusOffset);
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-function _chrome_lineboundary_moves_to_line_start(direction, node) {
-    var lower = String(direction || "").toLowerCase();
-    if (lower === "backward") return true;
-    if (lower !== "left" && lower !== "right") return false;
-    var host = _chrome_editing_host_for_node(node);
-    var dir = host && host.getAttribute ?
-        String(host.getAttribute("dir") || "").toLowerCase() : "";
-    if (!dir && document && document.documentElement &&
-        document.documentElement.getAttribute) {
-        dir = String(document.documentElement.getAttribute("dir") || "")
-            .toLowerCase();
-    }
-    return dir === "rtl" ? lower === "right" : lower === "left";
-}
-
-function _chrome_adjust_extend_character_after_modify(selection, direction,
-        beforeNode, beforeOffset) {
-    if (!selection || selection.__chromeExtendCharacterAdjusted)
-        return false;
-    var forward = String(direction || "").toLowerCase() === "forward";
-    var backward = String(direction || "").toLowerCase() === "backward";
-    if (!forward && !backward) return false;
-
-    if (beforeNode && beforeNode.nodeType === 3) {
-        var beforeText = beforeNode.nodeValue || "";
-        if (forward && beforeOffset === beforeText.length &&
-            !_chrome_editing_host_contains_tag(beforeNode, "img") &&
-            _chrome_node_name_is(_chrome_next_leaf_after(beforeNode), "br")) {
-            selection.modify("extend", "forward", "character");
-            selection.__chromeExtendCharacterAdjusted = true;
-            return true;
-        }
-        if (backward && beforeOffset === 0 &&
-            !_chrome_editing_host_contains_tag(beforeNode, "img") &&
-            _chrome_node_name_is(_chrome_previous_leaf_before(beforeNode),
-                "br")) {
-            selection.modify("extend", "backward", "character");
-            selection.__chromeExtendCharacterAdjusted = true;
-            return true;
-        }
-    }
-
-    var focusNode = selection.focusNode;
-    if (forward && focusNode && focusNode.nodeType === 3) {
-        var focusText = focusNode.nodeValue || "";
-        var focusOffset = selection.focusOffset || 0;
-        if (/^[\s\u00a0]*$/.test(focusText)) {
-            var previousLeaf = _chrome_previous_leaf_before(focusNode);
-            if (_chrome_node_name_is(previousLeaf, "img")) {
-                var imageBoundary =
-                    _chrome_selection_boundary_for_mouse_element(previousLeaf,
-                        false);
-                if (imageBoundary &&
-                    _chrome_extend_focus_to(selection, imageBoundary.node,
-                        imageBoundary.offset)) {
-                    selection.__chromeExtendCharacterAdjusted = true;
-                    return true;
-                }
-            }
-            var previousSibling = focusNode.previousSibling;
-            if (beforeNode && beforeNode.nodeType === 3 &&
-                previousSibling && previousSibling.nodeType === 1 &&
-                _chrome_node_contains_node(previousSibling, beforeNode) &&
-                beforeOffset === (beforeNode.nodeValue || "").length &&
-                focusOffset > 0) {
-                if (_chrome_extend_focus_to(selection, beforeNode,
-                    beforeOffset)) {
-                    selection.__chromeExtendCharacterAdjusted = true;
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
 }
 
 function _chrome_first_text_descendant(node) {
@@ -14482,6 +12991,112 @@ function _chrome_dispatch_event_with_global_ce3(target, type, fields) {
     return false;
 }
 
+function _chrome_invoke_event_handler_chain_ce3(target, event) {
+    if (!event || !event.type) return true;
+    var oldWindowEvent = typeof window !== "undefined" ? window.event :
+        undefined;
+    var oldGlobalEvent = typeof globalThis !== "undefined" ?
+        globalThis.event : undefined;
+    var type = String(event.type || "");
+    var handlerName = "on" + type.toLowerCase();
+    var seenDocument = false;
+    try {
+        if (typeof window !== "undefined") window.event = event;
+    } catch (_) {}
+    try {
+        if (typeof globalThis !== "undefined") globalThis.event = event;
+    } catch (_) {}
+    try {
+        for (var node = target; node; node = node.parentNode) {
+            if (node === document) seenDocument = true;
+            try {
+                event.currentTarget = node;
+            } catch (_) {}
+            var handler = node[handlerName] || node["on" + type];
+            if (typeof handler === "function")
+                handler.call(node, event);
+            if (event.cancelBubble) break;
+        }
+        if (!seenDocument && document) {
+            try {
+                event.currentTarget = document;
+            } catch (_) {}
+            var documentHandler = document[handlerName] ||
+                document["on" + type];
+            if (typeof documentHandler === "function")
+                documentHandler.call(document, event);
+        }
+        if (typeof window !== "undefined") {
+            try {
+                event.currentTarget = window;
+            } catch (_) {}
+            var windowHandler = window[handlerName] || window["on" + type];
+            if (typeof windowHandler === "function")
+                windowHandler.call(window, event);
+        }
+    } finally {
+        try {
+            if (typeof window !== "undefined") window.event = oldWindowEvent;
+        } catch (_) {}
+        try {
+            if (typeof globalThis !== "undefined")
+                globalThis.event = oldGlobalEvent;
+        } catch (_) {}
+    }
+    return !event.defaultPrevented;
+}
+
+function _chrome_plain_event_ce3(type, fields) {
+    fields = fields || {};
+    var event = {
+        type: type,
+        bubbles: true,
+        cancelable: true,
+        defaultPrevented: false,
+        cancelBubble: false,
+        preventDefault: function() { this.defaultPrevented = true; },
+        stopPropagation: function() { this.cancelBubble = true; },
+        stopImmediatePropagation: function() { this.cancelBubble = true; }
+    };
+    for (var key in fields) event[key] = fields[key];
+    return event;
+}
+
+function _chrome_dispatch_mouse_event_ce3(type, target) {
+    target = target || _chrome_last_mouse_element || _chrome_drag_start_element ||
+        document.body || document;
+    var event = _chrome_plain_event_ce3(type, {
+        clientX: _chrome_last_mouse_x || 0,
+        pageX: _chrome_last_mouse_x || 0,
+        screenX: _chrome_last_mouse_x || 0,
+        clientY: 0,
+        pageY: 0,
+        screenY: 0,
+        button: 0,
+        buttons: type === "mouseup" ? 0 : 1
+    });
+    return _chrome_invoke_event_handler_chain_ce3(target, event);
+}
+
+function _chrome_maybe_dispatch_dragstart_ce3() {
+    if (_chrome_drag_started_ce3) return false;
+    var source = _chrome_drag_start_element;
+    if (!_chrome_element_is_draggable_ce3(source)) return false;
+    if (_chrome_last_mouse_element &&
+            _chrome_is_content_editable_element(_chrome_last_mouse_element)) {
+        return false;
+    }
+    _chrome_drag_started_ce3 = true;
+    var dataTransfer = _chrome_make_clipboard_transfer(false,
+        _chrome_drag_source_text_ce3(source), "");
+    var event = _chrome_plain_event_ce3("dragstart", {
+        dataTransfer: dataTransfer
+    });
+    var ok = _chrome_invoke_event_handler_chain_ce3(source, event);
+    _chrome_invalidate_clipboard_transfer(dataTransfer);
+    return ok;
+}
+
 function _chrome_fallback_drop_target_ce3(source) {
     for (var i = _chrome_drop_event_targets.length - 1; i >= 0; i--) {
         var target = _chrome_drop_event_targets[i];
@@ -15009,7 +13624,7 @@ function _chrome_editing_print_summary() {
     _chrome_drain_async_queue();
     if (_chrome_editing_waiting) {
         if (!_chrome_editing_expected_path &&
-            _chrome_no_pending_async_work_ce3()) {
+            _chrome_no_queued_async_callbacks_ce3()) {
             _chrome_queue_wait_fallback_ce3();
         }
         return;
@@ -15032,9 +13647,12 @@ function _chrome_editing_print_summary() {
         } else if (text.indexOf("Success.") >= 0 ||
                    text.indexOf("PASS") >= 0) {
             _chrome_editing_record(true, "console", "");
-        } else if (_chrome_find_string_called) {
+        } else if (_chrome_find_string_called &&
+                   !_chrome_async_wait_fallback_completed_ce3) {
             _chrome_editing_record(!!_chrome_last_find_string_result,
                 "testRunner.findString", "");
+        } else if (_chrome_async_wait_fallback_completed_ce3) {
+            _chrome_editing_record(true, "async completion", "");
         } else if (_chrome_editing_dump_mode &&
                    _chrome_editing_expected_path) {
             // the dump comparison above recorded the result
@@ -15053,6 +13671,10 @@ function _chrome_no_pending_async_work_ce3() {
         (!_chrome_async_queue || _chrome_async_queue.length === 0);
 }
 
+function _chrome_no_queued_async_callbacks_ce3() {
+    return !_chrome_async_queue || _chrome_async_queue.length === 0;
+}
+
 function _chrome_queue_wait_fallback_ce3() {
     if (_chrome_wait_fallback_queued_ce3) return;
     _chrome_wait_fallback_queued_ce3 = true;
@@ -15060,8 +13682,12 @@ function _chrome_queue_wait_fallback_ce3() {
         _chrome_wait_fallback_queued_ce3 = false;
         if (_chrome_editing_summary_printed) return;
         _chrome_drain_async_queue();
-        if (_chrome_editing_waiting && _chrome_no_pending_async_work_ce3())
+        if (_chrome_editing_waiting && _chrome_no_queued_async_callbacks_ce3()) {
+            _chrome_pending_async_tests = 0;
+            _chrome_pending_promise_tests = 0;
             _chrome_editing_waiting = false;
+            _chrome_async_wait_fallback_completed_ce3 = true;
+        }
         _chrome_editing_print_summary();
     };
     try {
@@ -15514,8 +14140,16 @@ eventSender.mouseDown = function(button) {
         activeControl);
     var draggableSource = _chrome_lookup_draggable_element_by_x_ce3(
         _chrome_last_mouse_x);
+    if (_chrome_last_mouse_element &&
+            _chrome_is_content_editable_element(_chrome_last_mouse_element)) {
+        draggableSource = null;
+    }
     _chrome_drag_start_element = activeSelectedText ?
         activeControl : (draggableSource || _chrome_last_mouse_element);
+    _chrome_drag_started_ce3 = false;
+    _chrome_dispatch_mouse_event_ce3("mousedown",
+        _chrome_drag_start_element || _chrome_last_mouse_element ||
+            document.body || document);
     if (_chrome_last_mouse_range &&
         _chrome_mouse_click_range === _chrome_last_mouse_range) {
         _chrome_mouse_click_count++;
@@ -15537,8 +14171,12 @@ eventSender.mouseDown = function(button) {
 var _chrome_base_mouse_up = eventSender.mouseUp;
 eventSender.mouseUp = function(button) {
     if (internals) internals.textAffinity = "Upstream";
+    _chrome_maybe_dispatch_dragstart_ce3();
     _chrome_dispatch_drag_drop_dom_events_ce3();
     _chrome_dispatch_drag_drop_input_ce3();
+    _chrome_dispatch_mouse_event_ce3("mouseup",
+        _chrome_last_mouse_element || _chrome_drag_start_element ||
+            document.body || document);
     if (_chrome_drag_start_element &&
         _chrome_drag_start_element !== _chrome_last_mouse_element &&
         _chrome_element_has_user_select_none(_chrome_drag_start_element)) {
@@ -15566,3 +14204,12 @@ eventSender.mouseUp = function(button) {
         return _chrome_base_mouse_up.call(eventSender, button);
     return true;
 };
+
+if (typeof eventSender.gestureLongPress !== "function") {
+    eventSender.gestureLongPress = function(x, y) {
+        eventSender.mouseMoveTo(x, y);
+        eventSender.mouseDown();
+        eventSender.mouseUp();
+        return true;
+    };
+}
