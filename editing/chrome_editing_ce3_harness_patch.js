@@ -1720,6 +1720,7 @@ function _chrome_lookup_element_by_offset_left(x) {
         return null;
     var elements = document.getElementsByTagName("*");
     var contained = null;
+    var containedWidth = 1000000;
     var containedDistance = 1000000;
     var best = null;
     var bestDistance = 1000000;
@@ -1736,9 +1737,12 @@ function _chrome_lookup_element_by_offset_left(x) {
         var width = _chrome_synthetic_width_for_element(element);
         if (value >= left && value <= left + width) {
             var centerDistance = Math.abs(value - (left + width / 2));
-            if (centerDistance < containedDistance ||
-                (centerDistance === containedDistance &&
-                 _chrome_prefer_mouse_leaf_element(element, contained))) {
+            if (width < containedWidth ||
+                (width === containedWidth &&
+                 (centerDistance < containedDistance ||
+                  (centerDistance === containedDistance &&
+                   _chrome_prefer_mouse_leaf_element(element, contained))))) {
+                containedWidth = width;
                 containedDistance = centerDistance;
                 contained = element;
             }
@@ -1808,6 +1812,41 @@ function _chrome_element_has_user_select_none(element) {
         }
     }
     return false;
+}
+
+function _chrome_child_at_synthetic_x(element, relX) {
+    if (!element || !element.childNodes) return null;
+    var cursor = 0;
+    var totalWidth = 0;
+    for (var widthChild = element.firstChild; widthChild;
+         widthChild = widthChild.nextSibling) {
+        if (widthChild.nodeType === 3) {
+            totalWidth += (widthChild.nodeValue || "").length || 1;
+        } else if (widthChild.nodeType === 1) {
+            totalWidth += _chrome_synthetic_width_for_element(widthChild);
+        }
+    }
+    var hostWidth = _chrome_synthetic_width_for_element(element);
+    var style = element.getAttribute ? String(element.getAttribute("style") || "") : "";
+    if (/text-align\s*:\s*center/i.test(style)) {
+        cursor = Math.max(0, (hostWidth - totalWidth) / 2);
+    } else if (/text-align\s*:\s*right/i.test(style)) {
+        cursor = Math.max(0, hostWidth - totalWidth);
+    }
+    for (var child = element.firstChild; child; child = child.nextSibling) {
+        var childWidth = 0;
+        if (child.nodeType === 3) {
+            childWidth = (child.nodeValue || "").length || 1;
+        } else if (child.nodeType === 1) {
+            childWidth = _chrome_synthetic_width_for_element(child);
+        }
+        if (!childWidth) continue;
+        if (relX > cursor && relX < cursor + childWidth) {
+            return { node: child, left: cursor, width: childWidth };
+        }
+        cursor += childWidth;
+    }
+    return null;
 }
 
 function _chrome_call_selection_modify(alter, direction, granularity) {
@@ -6778,6 +6817,21 @@ function _chrome_selection_api_ce3() {
     documentApi.execCommand = function(command, showUI, value) {
         return _chrome_exec_command_for_sample(command, showUI, value);
     };
+    documentApi.queryCommandSupported = function(command) {
+        return document.queryCommandSupported(command);
+    };
+    documentApi.queryCommandEnabled = function(command) {
+        return document.queryCommandEnabled(command);
+    };
+    documentApi.queryCommandIndeterm = function(command) {
+        return document.queryCommandIndeterm(command);
+    };
+    documentApi.queryCommandState = function(command) {
+        return document.queryCommandState(command);
+    };
+    documentApi.queryCommandValue = function(command) {
+        return document.queryCommandValue(command);
+    };
     documentApi.offsetLeft = document.offsetLeft || 0;
     documentApi.offsetTop = document.offsetTop || 0;
     var api = function() {};
@@ -7177,6 +7231,30 @@ function _chrome_apply_serialized_style_hints(markup) {
     return out;
 }
 
+function _chrome_user_select_value(node) {
+    while (node && node.nodeType === 1) {
+        var style = "";
+        if (node.getAttribute)
+            style = String(node.getAttribute("style") || "");
+        if (node.style) {
+            if (node.style.webkitUserSelect)
+                style += ";-webkit-user-select:" + node.style.webkitUserSelect;
+            if (node.style.userSelect)
+                style += ";user-select:" + node.style.userSelect;
+        }
+        var match = /(?:^|;)\s*(?:-webkit-)?user-select\s*:\s*([^;]+)/i.exec(
+            style);
+        if (match)
+            return String(match[1]).replace(/^\s+|\s+$/g, "").toLowerCase();
+        node = node.parentNode;
+    }
+    return "";
+}
+
+function _chrome_is_user_select_none(node) {
+    return _chrome_user_select_value(node) === "none";
+}
+
 function _chrome_selection_boundary_for_mouse_element(element, after) {
     var parent = element ? element.parentNode : null;
     if (!parent) return null;
@@ -7191,6 +7269,13 @@ function _chrome_selection_boundary_for_mouse_element(element, after) {
 
 function _chrome_apply_mouse_drag_selection() {
     if (!_chrome_drag_start_element || !_chrome_last_mouse_element) return;
+    if (_chrome_is_user_select_none(_chrome_drag_start_element) &&
+        _chrome_is_user_select_none(_chrome_last_mouse_element)) {
+        var emptySelection = getSelection();
+        if (emptySelection && emptySelection.removeAllRanges)
+            emptySelection.removeAllRanges();
+        return;
+    }
     var start = _chrome_selection_boundary_for_mouse_element(
         _chrome_drag_start_element, true);
     var end = _chrome_selection_boundary_for_mouse_element(
@@ -7244,14 +7329,15 @@ function _chrome_apply_mouse_click_selection() {
         return _chrome_collapse_selection(centerText,
             Math.floor(scaledLength / 2));
     }
-    if (rel >= width - 1 && rel < width * 1.5 && centerText) {
+    if (!isEditableHost && width > 1 && rel >= width - 1 &&
+        rel < width * 1.5 && centerText) {
         var centerLength = (centerText.nodeValue || "").length;
         var centerOffset = Math.max(0, Math.min(centerLength,
             Math.floor(centerLength * Math.max(0, rel) /
                 Math.max(1, width * 2))));
         return _chrome_collapse_selection(centerText, centerOffset);
     }
-    if (rel >= width - 1) {
+    if (width > 1 && rel >= width - 1) {
         if (isEditableHost) {
             return _chrome_collapse_selection(element,
                 element.childNodes ? element.childNodes.length : 0);
@@ -7259,9 +7345,24 @@ function _chrome_apply_mouse_click_selection() {
         var after = _chrome_selection_boundary_for_mouse_element(element, true);
         if (after) return _chrome_collapse_selection(after.node, after.offset);
     }
+    var hitChild = _chrome_child_at_synthetic_x(element, rel);
+    if (isEditableHost && hitChild && hitChild.node &&
+        hitChild.node.nodeType === 1 &&
+        _chrome_contenteditable_value(hitChild.node) === "false") {
+        var hitText = _chrome_first_text_descendant(hitChild.node);
+        if (hitText) {
+            var hitLength = (hitText.nodeValue || "").length;
+            var hitRel = Math.max(0, rel - hitChild.left);
+            var hitOffset = Math.max(0, Math.min(hitLength,
+                Math.floor(hitLength * hitRel / Math.max(1, hitChild.width))));
+            return _chrome_collapse_selection(hitText, hitOffset);
+        }
+    }
     var text = centerText;
     if (text) {
         var length = (text.nodeValue || "").length;
+        if (length === 1 && rel <= width)
+            return _chrome_collapse_selection(text, 0);
         var textOffset = Math.max(0, Math.min(length,
             Math.floor(length * Math.max(0, rel) / Math.max(1, width))));
         return _chrome_collapse_selection(text, textOffset);
