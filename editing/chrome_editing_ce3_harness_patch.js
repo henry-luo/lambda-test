@@ -52,12 +52,55 @@ var _chrome_document_open_invalid_for_exec_command = false;
 var _chrome_js_test_dump_lines = [];
 var _chrome_js_test_dump_seeded = false;
 var onload = typeof onload === "function" ? onload : null;
+
+function _chrome_install_password_echo_settings(internalsObject) {
+    if (!internalsObject) return;
+    if (!internalsObject.settings) internalsObject.settings = {};
+    if (typeof internalsObject.settings.setPasswordEchoEnabledPhysical !==
+            "function") {
+        internalsObject.settings.setPasswordEchoEnabledPhysical =
+            function(value) {
+            this.passwordEchoEnabledPhysical = !!value;
+        };
+    }
+    if (typeof internalsObject.settings.setPasswordEchoEnabledTouch !==
+            "function") {
+        internalsObject.settings.setPasswordEchoEnabledTouch = function(value) {
+            this.passwordEchoEnabledTouch = !!value;
+        };
+    }
+}
+if (typeof internals !== "undefined" && internals)
+    _chrome_install_password_echo_settings(internals);
+if (typeof window !== "undefined") {
+    if (!window.internals && typeof internals !== "undefined")
+        window.internals = internals;
+    _chrome_install_password_echo_settings(window.internals);
+}
+if (typeof globalThis !== "undefined") {
+    if (!globalThis.internals && typeof internals !== "undefined")
+        globalThis.internals = internals;
+    _chrome_install_password_echo_settings(globalThis.internals);
+}
+
+function _chrome_editing_record(ok, name, message) {
+    _chrome_editing_total++;
+    if (ok) {
+        _chrome_editing_pass++;
+        return;
+    }
+    _chrome_editing_fail++;
+    var flatMessage = message ? String(message).replace(/\n/g, "\\n\t") : "";
+    console.log("FAIL: " + (name || "test") +
+        (flatMessage ? " - " + flatMessage : ""));
+}
+
 var _chrome_known_attr_names = [
     "contenteditable", "id", "class", "style", "slot", "href", "src", "alt",
     "title", "name", "type", "value", "for", "dir", "lang", "draggable",
     "spellcheck", "tabindex", "width", "height", "colspan", "rowspan",
     "align", "color", "face", "size", "disabled", "readonly", "checked",
-    "selected", "hidden", "border"
+    "selected", "hidden", "border", "start"
 ];
 
 var Sample = typeof Sample !== "undefined" ? Sample : null;
@@ -116,6 +159,19 @@ if (typeof window !== "undefined") {
     if (window.pageYOffset === undefined) window.pageYOffset = 0;
     if (window.scrollX === undefined) window.scrollX = window.pageXOffset;
     if (window.scrollY === undefined) window.scrollY = window.pageYOffset;
+}
+
+function _chrome_element_has_text_descendant(element) {
+    if (!element || !element.childNodes) return false;
+    for (var i = 0; i < element.childNodes.length; ++i) {
+        var child = element.childNodes[i];
+        if (!child) continue;
+        if (child.nodeType === 3 && child.data && child.data.length > 0)
+            return true;
+        if (child.nodeType === 1 && _chrome_element_has_text_descendant(child))
+            return true;
+    }
+    return false;
 }
 
 function _chrome_call_soon(callback) {
@@ -285,12 +341,13 @@ var _chrome_base_window_add_event_listener =
     typeof window !== "undefined" && window.addEventListener ?
         window.addEventListener : null;
 function addEventListener(type, listener, options) {
-    if (String(type || "").toLowerCase() === "load") {
+    var eventType = String(type || "").toLowerCase();
+    if (eventType === "load" || eventType === "domcontentloaded") {
         return _chrome_call_soon(function() {
             if (typeof listener === "function")
-                listener.call(window || globalThis, { type: "load" });
+                listener.call(window || globalThis, { type: eventType });
             else if (listener && typeof listener.handleEvent === "function")
-                listener.handleEvent({ type: "load" });
+                listener.handleEvent({ type: eventType });
         });
     }
     if (_chrome_base_window_add_event_listener)
@@ -299,6 +356,35 @@ function addEventListener(type, listener, options) {
 }
 if (typeof window !== "undefined")
     window.addEventListener = addEventListener;
+if (typeof document !== "undefined" && document && document.addEventListener &&
+    !document.__chromeDomContentLoadedCe3) {
+    var _chrome_base_document_add_event_listener =
+        document.addEventListener;
+    var _chrome_document_add_event_listener_ce3 = function(type, listener,
+            options) {
+        var eventType = String(type || "").toLowerCase();
+        if (eventType === "domcontentloaded" || eventType === "load") {
+            return _chrome_call_soon(function() {
+                if (typeof listener === "function")
+                    listener.call(document, { type: eventType });
+                else if (listener && typeof listener.handleEvent === "function")
+                    listener.handleEvent({ type: eventType });
+            });
+        }
+        return _chrome_base_document_add_event_listener.call(document, type,
+            listener, options);
+    };
+    try {
+        Object.defineProperty(document, "addEventListener", {
+            configurable: true,
+            writable: true,
+            value: _chrome_document_add_event_listener_ce3
+        });
+    } catch (_) {
+        document.addEventListener = _chrome_document_add_event_listener_ce3;
+    }
+    document.__chromeDomContentLoadedCe3 = true;
+}
 
 if (typeof HTMLElement === "undefined" && typeof Element !== "undefined") {
     var HTMLElement = Element;
@@ -714,6 +800,18 @@ function _chrome_wrap_clipboard_add_event_listener(proto) {
     if (!baseAddEventListener) return;
     proto.addEventListener = function(type, listener, options) {
         var eventType = String(type || "").toLowerCase();
+        if ((eventType === "domcontentloaded" || eventType === "load") &&
+            this === document) {
+            var resultForDocument = baseAddEventListener.call(this, type,
+                listener, options);
+            _chrome_call_soon(function() {
+                if (typeof listener === "function")
+                    listener.call(document, { type: eventType });
+                else if (listener && typeof listener.handleEvent === "function")
+                    listener.handleEvent({ type: eventType });
+            });
+            return resultForDocument;
+        }
         if (eventType === "load" && _chrome_is_iframe_element_ce3(this)) {
             var result = baseAddEventListener.call(this, type, listener,
                 options);
@@ -1023,6 +1121,12 @@ var internals = {
         },
         setSelectTrailingWhitespaceEnabled: function(value) {
             this.selectTrailingWhitespaceEnabled = !!value;
+        },
+        setPasswordEchoEnabledPhysical: function(value) {
+            this.passwordEchoEnabledPhysical = !!value;
+        },
+        setPasswordEchoEnabledTouch: function(value) {
+            this.passwordEchoEnabledTouch = !!value;
         }
     },
     firstChildInFlatTree: function(node) { return node ? node.firstChild : null; },
@@ -1336,7 +1440,8 @@ function _chrome_install_geometry_shims() {
                 !_chrome_selection_has_content(this) &&
                 this.focusNode && this.focusNode.nodeType === 1) {
                 var child = this.focusNode.childNodes[this.focusOffset || 0];
-                if (child && child.nodeType === 1) {
+                if (child && child.nodeType === 1 &&
+                    !_chrome_element_has_text_descendant(child)) {
                     selection.collapse(this.focusNode,
                         (this.focusOffset || 0) + 1);
                     return;
@@ -1614,6 +1719,8 @@ function _chrome_lookup_element_by_offset_left(x) {
     if (value !== value || !document || !document.getElementsByTagName)
         return null;
     var elements = document.getElementsByTagName("*");
+    var contained = null;
+    var containedDistance = 1000000;
     var best = null;
     var bestDistance = 1000000;
     for (var i = 0; elements && i < elements.length; i++) {
@@ -1626,11 +1733,29 @@ function _chrome_lookup_element_by_offset_left(x) {
         }
         var left = Number(element.offsetLeft || 0);
         if (left !== left) continue;
+        var width = _chrome_synthetic_width_for_element(element);
+        if (value >= left && value <= left + width) {
+            var centerDistance = Math.abs(value - (left + width / 2));
+            if (centerDistance < containedDistance ||
+                (centerDistance === containedDistance &&
+                 _chrome_prefer_mouse_leaf_element(element, contained))) {
+                containedDistance = centerDistance;
+                contained = element;
+            }
+        }
         var distance = Math.abs(left - value);
-        if (distance < bestDistance) {
+        if (distance < bestDistance ||
+            (distance === bestDistance &&
+             _chrome_prefer_mouse_leaf_element(element, best))) {
             bestDistance = distance;
             best = element;
         }
+    }
+    if (contained) {
+        _chrome_mouse_element_by_left[Number(contained.offsetLeft || 0)] =
+            contained;
+        _chrome_last_computed_mouse_element = contained;
+        return contained;
     }
     if (best && bestDistance <= 20) {
         _chrome_mouse_element_by_left[Number(best.offsetLeft || 0)] = best;
@@ -1639,6 +1764,15 @@ function _chrome_lookup_element_by_offset_left(x) {
         return best;
     }
     return null;
+}
+
+function _chrome_prefer_mouse_leaf_element(candidate, current) {
+    if (!candidate || !current) return !!candidate;
+    if (current.contains && current.contains(candidate)) return true;
+    if (candidate.contains && candidate.contains(current)) return false;
+    var candidateText = candidate.textContent || "";
+    var currentText = current.textContent || "";
+    return candidateText.length > 0 && candidateText.length < currentText.length;
 }
 
 function _chrome_left_for_mouse_element(element) {
@@ -1662,6 +1796,18 @@ function _chrome_recent_computed_element_for_x(x) {
     var left = _chrome_left_for_mouse_element(element);
     var width = _chrome_synthetic_width_for_element(element);
     return value >= left && value <= left + width ? element : null;
+}
+
+function _chrome_element_has_user_select_none(element) {
+    for (var node = element; node && node.nodeType === 1;
+         node = node.parentNode) {
+        var style = node.getAttribute ? String(node.getAttribute("style") || "") : "";
+        if (/(?:^|;)\s*(?:-webkit-)?user-select\s*:\s*none\s*(?:;|$)/i
+                .test(style)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function _chrome_call_selection_modify(alter, direction, granularity) {
@@ -2186,6 +2332,14 @@ function _chrome_finish_promise_test() {
     }
 }
 
+function _chrome_finish_async_failure_for_promise() {
+    if (_chrome_pending_async_tests > 0)
+        _chrome_pending_async_tests--;
+    if (_chrome_pending_async_tests === 0 &&
+        _chrome_pending_promise_tests === 0)
+        _chrome_editing_waiting = false;
+}
+
 function async_test(func, name) {
     var testName = typeof func === "string" ? func : (name || "async_test");
     var done = false;
@@ -2246,6 +2400,15 @@ function async_test(func, name) {
             return result;
         };
     };
+    t.step_timeout = function(callback, delay) {
+        expectsAsyncCompletion = true;
+        t.timeout_id = setTimeout(function() {
+            t.step(function() {
+                if (typeof callback === "function") callback();
+            });
+        }, delay || 0);
+        return t.timeout_id;
+    };
     t.unreached_func = function(description) {
         expectsAsyncCompletion = true;
         return function() {
@@ -2276,7 +2439,23 @@ function async_test(func, name) {
         _chrome_editing_print_summary();
     };
     if (typeof func === "function") {
-        t.step(function() { func(t); });
+        try {
+            func(t);
+        } catch (e) {
+            if (!done) {
+                done = true;
+                if (_chrome_pending_async_tests > 0)
+                    _chrome_pending_async_tests--;
+                if (_chrome_pending_async_tests === 0 &&
+                    _chrome_pending_promise_tests === 0)
+                    _chrome_editing_waiting = false;
+                t.status = t.FAIL;
+                t.message = e && e.stack ? e.stack :
+                    (e && e.message ? e.message : String(e));
+                _chrome_editing_record(false, testName, t.message);
+                _chrome_fire_result_callbacks(t);
+            }
+        }
         if (!done && !expectsAsyncCompletion) t.done();
     }
     return t;
@@ -2297,6 +2476,7 @@ function promise_test(func, name) {
                     t.message = e && e.message ? e.message : String(e);
                     _chrome_editing_record(false, t.name, t.message);
                     _chrome_fire_result_callbacks(t);
+                    _chrome_finish_async_failure_for_promise();
                 }
                 _chrome_finish_promise_test();
             });
@@ -2309,6 +2489,7 @@ function promise_test(func, name) {
         t.message = e && e.message ? e.message : String(e);
         _chrome_editing_record(false, t.name, t.message);
         _chrome_fire_result_callbacks(t);
+        _chrome_finish_async_failure_for_promise();
         _chrome_finish_promise_test();
     }
     return t;
@@ -2987,6 +3168,8 @@ function _chrome_dump_is_block_ce3(node) {
     if (!node || node.nodeType !== 1) return false;
     var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
     return tag === "p" || tag === "div" || tag === "li" ||
+        tag === "pre" ||
+        tag === "ul" || tag === "ol" ||
         tag === "section" || tag === "article" || tag === "header" ||
         tag === "footer" || tag === "h1" || tag === "h2" ||
         tag === "h3" || tag === "h4" || tag === "h5" || tag === "h6";
@@ -3198,11 +3381,15 @@ function _chrome_markup_dump(target, label) {
             _chrome_markup_dump_lines.push("");
         _chrome_markup_dump_lines.push(String(label) + ":");
     } else {
-        if (_chrome_markup_dump_lines.length)
+        var expected = String(_chrome_editing_expected_text || "");
+        var needsHeader = expected.indexOf("Dump of markup ") >= 0;
+        if (needsHeader && _chrome_markup_dump_lines.length)
             _chrome_markup_dump_lines.push("");
         _chrome_markup_dump_count++;
-        _chrome_markup_dump_lines.push("Dump of markup " +
-            _chrome_markup_dump_count + ":");
+        if (needsHeader) {
+            _chrome_markup_dump_lines.push("Dump of markup " +
+                _chrome_markup_dump_count + ":");
+        }
     }
     _chrome_markup_dump_children(node, _chrome_markup_dump_lines);
 }
@@ -3212,7 +3399,6 @@ Markup.description = function(text) {
     if (_chrome_markup_dump_lines.length)
         _chrome_markup_dump_lines.push("");
     _chrome_markup_dump_lines.push(String(text || ""));
-    _chrome_markup_dump_lines.push("");
     _chrome_editing_dump_mode = "text";
 };
 Markup.dump = function(target, label) {
@@ -3801,7 +3987,19 @@ function _chrome_delete_same_text_selection(selection) {
         focusOffset: selection.focusOffset || 0
     };
     node.data = text.slice(0, start) + text.slice(end);
+    var collapsedOffset = _chrome_collapse_whitespace_run_after_delete(node,
+        start);
+    if (collapsedOffset >= 0) {
+        selection.collapse(node, collapsedOffset);
+        return true;
+    }
     _chrome_preserve_boundary_space_after_delete(node, start);
+    var block = _chrome_block_ancestor_for_range_delete(node,
+        _chrome_editing_host_for_node(node));
+    if (block && _chrome_ensure_empty_block_placeholder(block)) {
+        selection.collapse(block, 0);
+        return true;
+    }
     selection.collapse(node, start);
     return true;
 }
@@ -3853,6 +4051,401 @@ function _chrome_ensure_editable_placeholder(node) {
     if (node.childNodes && node.childNodes.length) return false;
     node.appendChild(document.createElement("br"));
     return true;
+}
+
+function _chrome_block_ancestor_for_range_delete(node, host) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    while (current && current !== document.body && current !== host) {
+        if (_chrome_dump_is_block_ce3(current)) return current;
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function _chrome_node_is_live(node) {
+    if (!node) return false;
+    if (node.isConnected !== undefined) return !!node.isConnected;
+    return !!(document.body && document.body.contains &&
+        document.body.contains(node));
+}
+
+function _chrome_delete_node_has_visible_content(node) {
+    if (!node) return false;
+    if (node.nodeType === 3) return (node.nodeValue || "").length > 0;
+    if (node.nodeType !== 1) return false;
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+    if (tag === "br" || tag === "img" || tag === "input" ||
+        tag === "textarea" || tag === "select") {
+        return true;
+    }
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (_chrome_delete_node_has_visible_content(child)) return true;
+    }
+    return false;
+}
+
+function _chrome_delete_first_visible_child(node) {
+    if (!node || !node.childNodes) return null;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (_chrome_delete_node_has_visible_content(child)) return child;
+    }
+    return null;
+}
+
+function _chrome_delete_first_visible_sibling_after(node) {
+    for (var sibling = node ? node.nextSibling : null; sibling;
+         sibling = sibling.nextSibling) {
+        if (_chrome_delete_node_has_visible_content(sibling)) return sibling;
+    }
+    return null;
+}
+
+function _chrome_delete_remove_empty_text_children(node) {
+    if (!node || !node.childNodes) return;
+    for (var child = node.firstChild, next; child; child = next) {
+        next = child.nextSibling;
+        if (child.nodeType === 3 && !(child.nodeValue || ""))
+            node.removeChild(child);
+    }
+}
+
+function _chrome_ensure_empty_block_placeholder(block) {
+    if (!block || block.nodeType !== 1) return false;
+    if (_chrome_delete_node_has_visible_content(block)) return false;
+    _chrome_delete_remove_empty_text_children(block);
+    if (!block.firstChild) block.appendChild(document.createElement("br"));
+    return true;
+}
+
+function _chrome_delete_block_end_boundary(block) {
+    var text = _chrome_last_text_descendant(block);
+    if (text) return { node: text, offset: (text.nodeValue || "").length };
+    return {
+        node: block,
+        offset: block && block.childNodes ? block.childNodes.length : 0
+    };
+}
+
+function _chrome_delete_move_children(from, to) {
+    if (!from || !to || from === to) return;
+    while (from.firstChild) to.appendChild(from.firstChild);
+}
+
+function _chrome_delete_previous_visible_sibling(node) {
+    for (var sibling = node ? node.previousSibling : null; sibling;
+         sibling = sibling.previousSibling) {
+        if (_chrome_delete_node_has_visible_content(sibling)) return sibling;
+    }
+    return null;
+}
+
+function _chrome_delete_next_visible_sibling(node) {
+    for (var sibling = node ? node.nextSibling : null; sibling;
+         sibling = sibling.nextSibling) {
+        if (_chrome_delete_node_has_visible_content(sibling)) return sibling;
+    }
+    return null;
+}
+
+function _chrome_delete_last_element_by_tag(root, tag) {
+    if (!root || root.nodeType !== 1) return null;
+    var matches = root.getElementsByTagName ?
+        root.getElementsByTagName(tag) : [];
+    return matches && matches.length ? matches[matches.length - 1] : null;
+}
+
+function _chrome_delete_merge_target_for_previous(previous) {
+    if (!previous || previous.nodeType !== 1) return null;
+    var tag = previous.nodeName ? previous.nodeName.toLowerCase() : "";
+    if (tag === "ul" || tag === "ol")
+        return _chrome_delete_last_element_by_tag(previous, "li") || previous;
+    if (tag === "table") {
+        var behavior = internals && internals.settings ?
+            internals.settings.editingBehavior : "mac";
+        if (behavior !== "mac") return null;
+        return _chrome_delete_last_element_by_tag(previous, "td") ||
+            _chrome_delete_last_element_by_tag(previous, "th") || previous;
+    }
+    return _chrome_dump_is_block_ce3(previous) ? previous : null;
+}
+
+function _chrome_delete_style_value(style, property) {
+    var parts = String(style || "").split(";");
+    property = String(property || "").toLowerCase();
+    for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].split(":");
+        if (pair.length < 2) continue;
+        if (pair[0].replace(/^\s+|\s+$/g, "").toLowerCase() === property)
+            return pair.slice(1).join(":").replace(/^\s+|\s+$/g, "");
+    }
+    return "";
+}
+
+function _chrome_delete_inline_style_from_block(block) {
+    if (!block || !block.getAttribute) return "";
+    var style = block.getAttribute("style") || "";
+    var out = "";
+    var decoration = _chrome_delete_style_value(style, "text-decoration");
+    if (decoration) out += "text-decoration-line: " + decoration + ";";
+    var family = _chrome_delete_style_value(style, "font-family");
+    if (family) out += (out ? " " : "") + "font-family: " + family + ";";
+    return out;
+}
+
+function _chrome_delete_normalized_inline_node(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return node;
+    var tag = node.nodeName.toLowerCase();
+    if (tag !== "font" || !node.getAttribute ||
+        !node.hasAttribute("face")) {
+        return node;
+    }
+    var span = document.createElement("span");
+    span.setAttribute("style", "font-family: " +
+        node.getAttribute("face") + ";");
+    while (node.firstChild) span.appendChild(node.firstChild);
+    if (node.parentNode) node.parentNode.removeChild(node);
+    return span;
+}
+
+function _chrome_delete_insert_block_children_before(block, reference) {
+    var parent = reference ? reference.parentNode : null;
+    if (!block || !parent) return;
+    var blockStyle = _chrome_delete_inline_style_from_block(block);
+    if (blockStyle) {
+        var wrapper = document.createElement("span");
+        wrapper.setAttribute("style", blockStyle);
+        while (block.firstChild)
+            wrapper.appendChild(_chrome_delete_normalized_inline_node(
+                block.firstChild));
+        parent.insertBefore(wrapper, reference);
+        return;
+    }
+    while (block.firstChild) {
+        parent.insertBefore(_chrome_delete_normalized_inline_node(
+            block.firstChild), reference);
+    }
+}
+
+function _chrome_delete_append_block_children(block, target) {
+    if (!block || !target) return;
+    var blockStyle = _chrome_delete_inline_style_from_block(block);
+    if (blockStyle) {
+        var wrapper = document.createElement("span");
+        wrapper.setAttribute("style", blockStyle);
+        while (block.firstChild)
+            wrapper.appendChild(_chrome_delete_normalized_inline_node(
+                block.firstChild));
+        target.appendChild(wrapper);
+        return;
+    }
+    while (block.firstChild)
+        target.appendChild(_chrome_delete_normalized_inline_node(
+            block.firstChild));
+}
+
+function _chrome_delete_unwrap_block_at_boundary(selection, block) {
+    if (!block || !block.parentNode) return false;
+    var parent = block.parentNode;
+    var inserted = null;
+    while (block.firstChild) {
+        var child = _chrome_delete_normalized_inline_node(block.firstChild);
+        if (!inserted) inserted = child;
+        parent.insertBefore(child, block);
+    }
+    var offset = _chrome_node_child_index(block);
+    parent.removeChild(block);
+    if (inserted) {
+        if (inserted.nodeType === 3)
+            return _chrome_delete_collapse(selection, inserted, 0);
+        return _chrome_delete_collapse(selection, inserted, 0);
+    }
+    return _chrome_delete_collapse(selection, parent, offset);
+}
+
+function _chrome_delete_at_block_start(selection, node, offset) {
+    if (!selection || !node) return null;
+    if (node.nodeType === 1 && _chrome_dump_is_block_ce3(node) &&
+        (offset || 0) === 0) {
+        return node;
+    }
+    if (node.nodeType !== 3 || (offset || 0) !== 0) return null;
+    var host = _chrome_editing_host_for_node(node);
+    var block = _chrome_block_ancestor_for_range_delete(node, host);
+    if (!block || _chrome_first_text_descendant(block) !== node) return null;
+    return block;
+}
+
+function _chrome_delete_merge_block_into_previous(selection, block, previous) {
+    if (!block || !block.parentNode) return false;
+    previous = previous || _chrome_delete_previous_visible_sibling(block);
+    if (!previous) return false;
+    var boundary = null;
+    if (previous.nodeType === 3) {
+        boundary = { node: previous, offset: (previous.nodeValue || "").length };
+        _chrome_delete_insert_block_children_before(block, block);
+    } else if (previous.nodeType === 1) {
+        var target = _chrome_delete_merge_target_for_previous(previous);
+        if (!target && _chrome_node_name_is(previous, "table"))
+            return _chrome_delete_unwrap_block_at_boundary(selection, block);
+        if (!target) return false;
+        boundary = _chrome_delete_block_end_boundary(target);
+        _chrome_delete_append_block_children(block, target);
+    } else {
+        boundary = _chrome_selection_boundary_for_mouse_element(previous, true);
+        _chrome_delete_insert_block_children_before(block, block);
+    }
+    if (block.parentNode) block.parentNode.removeChild(block);
+    return boundary && _chrome_delete_collapse(selection, boundary.node,
+        boundary.offset);
+}
+
+function _chrome_delete_merge_block_before_selection(selection) {
+    if (!selection || _chrome_selection_has_content(selection)) return false;
+    var block = _chrome_delete_at_block_start(selection, selection.focusNode,
+        selection.focusOffset || 0);
+    return _chrome_delete_merge_block_into_previous(selection, block, null);
+}
+
+function _chrome_delete_merge_boundary_selection(selection, range, endBlock) {
+    if (!selection || !range || !endBlock || !endBlock.parentNode)
+        return false;
+    if (range.startContainer !== endBlock.parentNode ||
+        (range.startOffset || 0) !== _chrome_node_child_index(endBlock)) {
+        return false;
+    }
+    var endAtStart = _chrome_delete_at_block_start(selection,
+        range.endContainer, range.endOffset || 0) === endBlock;
+    if (!endAtStart) return false;
+    return _chrome_delete_merge_block_into_previous(selection, endBlock, null);
+}
+
+function _chrome_delete_merge_next_block_from_whitespace(selection) {
+    if (!selection || _chrome_selection_has_content(selection)) return false;
+    var node = selection.focusNode;
+    if (!node || node.nodeType !== 3 || (selection.focusOffset || 0) !== 0)
+        return false;
+    if (!/^[\t\r\n ]*$/.test(node.nodeValue || "")) return false;
+    var previous = _chrome_delete_previous_visible_sibling(node);
+    var next = _chrome_delete_next_visible_sibling(node);
+    if (!previous || !next || next.nodeType !== 1 ||
+        !_chrome_dump_is_block_ce3(next)) {
+        return false;
+    }
+    if (node.parentNode) node.parentNode.removeChild(node);
+    return _chrome_delete_merge_block_into_previous(selection, next, previous);
+}
+
+function _chrome_delete_leading_inline_break(selection) {
+    if (!selection || _chrome_selection_has_content(selection)) return false;
+    var node = selection.focusNode;
+    var offset = selection.focusOffset || 0;
+    if (!node || node.nodeType !== 1 || offset !== 0 ||
+        _chrome_dump_is_block_ce3(node)) {
+        return false;
+    }
+    var first = _chrome_delete_first_visible_child(node);
+    if (!_chrome_node_name_is(first, "br")) return false;
+    node.removeChild(first);
+    var text = _chrome_first_text_descendant(node);
+    if (text && (text.nodeValue || "").charAt(0) === "\u00A0")
+        text.data = " " + (text.nodeValue || "").slice(1);
+    if (text) return _chrome_delete_collapse(selection, text, 0);
+    return _chrome_delete_collapse(selection, node, 0);
+}
+
+function _chrome_delete_is_space_char(ch) {
+    return ch === " " || ch === "\t" || ch === "\n" || ch === "\r" ||
+        ch === "\u00A0";
+}
+
+function _chrome_collapse_whitespace_run_after_delete(node, offset) {
+    if (!node || node.nodeType !== 3) return -1;
+    var text = node.nodeValue || "";
+    offset = Math.max(0, Math.min(offset || 0, text.length));
+    var start = offset;
+    while (start > 0 && _chrome_delete_is_space_char(text.charAt(start - 1)))
+        start--;
+    var end = offset;
+    while (end < text.length && _chrome_delete_is_space_char(text.charAt(end)))
+        end++;
+    if (start === end) return -1;
+    var previousLeaf = _chrome_previous_leaf_before(node);
+    var atLineStart = start === 0 && previousLeaf &&
+        _chrome_node_name_is(previousLeaf, "br");
+    if (end - start < 2 && start > 0 && end < text.length && !atLineStart)
+        return -1;
+    var hasBefore = start > 0;
+    var hasAfter = end < text.length;
+    var replacement = hasBefore && hasAfter ? "\u00A0 " : "\u00A0";
+    node.data = text.slice(0, start) + replacement + text.slice(end);
+    return hasBefore ? start + 1 : start;
+}
+
+function _chrome_preserve_leading_space_after_removed_child(parent, offset) {
+    if (!parent || !parent.childNodes) return;
+    var next = parent.childNodes[offset || 0];
+    if (next && next.nodeType === 3 && (next.nodeValue || "").charAt(0) === " ")
+        next.data = "\u00A0" + (next.nodeValue || "").slice(1);
+}
+
+function _chrome_delete_collapse(selection, node, offset) {
+    if (!selection || !node) return false;
+    selection.removeAllRanges();
+    selection.collapse(node, offset || 0);
+    return true;
+}
+
+function _chrome_normalize_block_range_delete(selection, startBlock, endBlock) {
+    if (startBlock && !_chrome_node_is_live(startBlock)) startBlock = null;
+    if (endBlock && !_chrome_node_is_live(endBlock)) endBlock = null;
+
+    if (startBlock && endBlock && startBlock === endBlock) {
+        if (_chrome_ensure_empty_block_placeholder(startBlock))
+            return _chrome_delete_collapse(selection, startBlock, 0);
+        return false;
+    }
+
+    if (startBlock && endBlock) {
+        if (_chrome_delete_node_has_visible_content(startBlock)) {
+            var mergeBoundary = _chrome_delete_block_end_boundary(startBlock);
+            _chrome_delete_move_children(endBlock, startBlock);
+            if (endBlock.parentNode) endBlock.parentNode.removeChild(endBlock);
+            return _chrome_delete_collapse(selection, mergeBoundary.node,
+                mergeBoundary.offset);
+        }
+
+        var firstEndChild = _chrome_delete_first_visible_child(endBlock);
+        if (_chrome_node_name_is(firstEndChild, "br")) {
+            _chrome_delete_remove_empty_text_children(startBlock);
+            startBlock.appendChild(firstEndChild);
+            return _chrome_delete_collapse(selection, startBlock, 0);
+        }
+
+        if (_chrome_delete_node_has_visible_content(endBlock)) {
+            if (startBlock.parentNode) startBlock.parentNode.removeChild(startBlock);
+            return _chrome_delete_collapse(selection, endBlock, 0);
+        }
+
+        if (startBlock.parentNode && endBlock.parentNode) {
+            startBlock.parentNode.removeChild(startBlock);
+            return _chrome_delete_collapse(selection, endBlock, 0);
+        }
+    }
+
+    if (startBlock) {
+        var nextVisible = _chrome_delete_first_visible_sibling_after(startBlock);
+        if (_chrome_node_name_is(nextVisible, "br") &&
+            !_chrome_delete_node_has_visible_content(startBlock)) {
+            _chrome_delete_remove_empty_text_children(startBlock);
+            startBlock.appendChild(nextVisible);
+            return _chrome_delete_collapse(selection, startBlock, 0);
+        }
+        if (_chrome_ensure_empty_block_placeholder(startBlock))
+            return _chrome_delete_collapse(selection, startBlock, 0);
+    }
+
+    if (endBlock) return _chrome_delete_collapse(selection, endBlock, 0);
+    return false;
 }
 
 function _chrome_undo_last_manual_delete() {
@@ -3909,6 +4502,10 @@ function _chrome_delete_text_before_selection() {
         var endNode = range.endContainer;
         var crossedContainers = range.startContainer !== range.endContainer;
         var editableHost = _chrome_editing_host_for_node(collapseNode);
+        var startBlock = _chrome_block_ancestor_for_range_delete(collapseNode,
+            editableHost);
+        var endBlock = _chrome_block_ancestor_for_range_delete(endNode,
+            editableHost || _chrome_editing_host_for_node(endNode));
         var undoHost = editableHost ||
             _chrome_editing_host_for_node(endNode) ||
             _chrome_editing_host_for_node(range.commonAncestorContainer) ||
@@ -3922,9 +4519,20 @@ function _chrome_delete_text_before_selection() {
                     selection)
             };
         }
+        if (_chrome_delete_merge_boundary_selection(selection, range, endBlock))
+            return true;
         range.deleteContents();
-        _chrome_preserve_boundary_space_after_delete(collapseNode,
-            collapseOffset);
+        if (_chrome_normalize_block_range_delete(selection, startBlock,
+            endBlock)) {
+            return true;
+        }
+        var adjustedOffset = _chrome_collapse_whitespace_run_after_delete(
+            collapseNode, collapseOffset);
+        if (adjustedOffset >= 0)
+            collapseOffset = adjustedOffset;
+        else
+            _chrome_preserve_boundary_space_after_delete(collapseNode,
+                collapseOffset);
         if (crossedContainers &&
             !_chrome_preserve_leading_single_space_in(endNode)) {
             _chrome_preserve_leading_single_space_in(document.body);
@@ -3939,6 +4547,9 @@ function _chrome_delete_text_before_selection() {
     }
     var node = selection.focusNode;
     var offset = selection.focusOffset || 0;
+    if (_chrome_delete_merge_next_block_from_whitespace(selection)) return true;
+    if (_chrome_delete_leading_inline_break(selection)) return true;
+    if (_chrome_delete_merge_block_before_selection(selection)) return true;
     if (node && node.nodeType === 1 && offset > 0) {
         var previousChild = node.childNodes[offset - 1];
         if (previousChild && previousChild.nodeType === 1 &&
@@ -3964,6 +4575,8 @@ function _chrome_delete_text_before_selection() {
             }
         } else if (previousChild) {
             node.removeChild(previousChild);
+            _chrome_preserve_leading_space_after_removed_child(node,
+                offset - 1);
             selection.collapse(node, offset - 1);
             return true;
         }
@@ -4038,7 +4651,12 @@ function _chrome_delete_text_before_selection() {
             deletedText: text.slice(start, offset)
         };
         node.data = text.slice(0, start) + text.slice(offset);
-        _chrome_preserve_boundary_space_after_delete(node, start);
+        var collapsedOffset =
+            _chrome_collapse_whitespace_run_after_delete(node, start);
+        if (collapsedOffset >= 0)
+            start = collapsedOffset;
+        else
+            _chrome_preserve_boundary_space_after_delete(node, start);
         if (!(node.nodeValue || "") && node.parentNode &&
             node.parentNode.nodeType === 1 && node.parentNode.nodeName &&
             node.parentNode.nodeName.toLowerCase() === "li") {
@@ -4062,9 +4680,26 @@ function _chrome_delete_text_after_selection() {
         if (_chrome_delete_selected_child(selection, range)) return true;
         var collapseNode = range.startContainer;
         var collapseOffset = range.startOffset || 0;
+        var endNode = range.endContainer;
+        var editableHost = _chrome_editing_host_for_node(collapseNode);
+        var startBlock = _chrome_block_ancestor_for_range_delete(collapseNode,
+            editableHost);
+        var endBlock = _chrome_block_ancestor_for_range_delete(endNode,
+            editableHost || _chrome_editing_host_for_node(endNode));
+        if (_chrome_delete_merge_boundary_selection(selection, range, endBlock))
+            return true;
         range.deleteContents();
-        _chrome_preserve_boundary_space_after_delete(collapseNode,
-            collapseOffset);
+        if (_chrome_normalize_block_range_delete(selection, startBlock,
+            endBlock)) {
+            return true;
+        }
+        var adjustedOffset = _chrome_collapse_whitespace_run_after_delete(
+            collapseNode, collapseOffset);
+        if (adjustedOffset >= 0)
+            collapseOffset = adjustedOffset;
+        else
+            _chrome_preserve_boundary_space_after_delete(collapseNode,
+                collapseOffset);
         selection.removeAllRanges();
         selection.addRange(range);
         selection.collapse(collapseNode || range.startContainer,
@@ -4077,6 +4712,29 @@ function _chrome_delete_text_after_selection() {
         var text = node.nodeValue || "";
         if (offset < text.length) {
             node.data = text.slice(0, offset) + text.slice(offset + 1);
+            var collapsedOffset =
+                _chrome_collapse_whitespace_run_after_delete(node, offset);
+            selection.collapse(node,
+                collapsedOffset >= 0 ? collapsedOffset : offset);
+            return true;
+        }
+        if (offset === text.length && node.nextSibling &&
+            node.nextSibling.nodeType === 1) {
+            var nextElement = node.nextSibling;
+            var nextBoundary =
+                _chrome_selection_boundary_for_mouse_element(nextElement,
+                    false);
+            nextElement.parentNode.removeChild(nextElement);
+            if (nextBoundary)
+                selection.collapse(nextBoundary.node, nextBoundary.offset);
+            return true;
+        }
+    }
+    if (node && node.nodeType === 1 && node.childNodes &&
+        offset < node.childNodes.length) {
+        var nextChild = node.childNodes[offset];
+        if (nextChild && nextChild.nodeType === 1) {
+            node.removeChild(nextChild);
             selection.collapse(node, offset);
             return true;
         }
@@ -4383,6 +5041,817 @@ function _chrome_insert_html_at_selection(html) {
         }
     }
     return _chrome_insert_text_at_selection(source.replace(/<[^>]*>/g, ""));
+}
+
+function _chrome_create_anchor_with_text(href, text) {
+    var anchor = document.createElement("a");
+    anchor.setAttribute("href", String(href || ""));
+    anchor.appendChild(document.createTextNode(String(text || "")));
+    return anchor;
+}
+
+function _chrome_enclosing_anchor(node) {
+    for (var current = node; current && current !== document.body;
+         current = current.parentNode) {
+        if (current.nodeType === 1 && current.nodeName &&
+            current.nodeName.toLowerCase() === "a") {
+            return current;
+        }
+    }
+    return null;
+}
+
+function _chrome_anchor_fragment_from(source, text, copyAllAttrs) {
+    var anchor = document.createElement("a");
+    if (source && source.getAttribute) {
+        var names = copyAllAttrs ? ["href", "id", "name", "class", "style"] :
+            ["href"];
+        for (var i = 0; i < names.length; i++) {
+            var value = source.getAttribute(names[i]);
+            if (value !== null && value !== undefined)
+                anchor.setAttribute(names[i], String(value));
+        }
+    }
+    anchor.appendChild(document.createTextNode(String(text || "")));
+    return anchor;
+}
+
+function _chrome_replace_text_in_enclosing_anchor(node, start, end, href,
+        unlink) {
+    var oldAnchor = _chrome_enclosing_anchor(node);
+    if (!oldAnchor || !oldAnchor.parentNode || !node || node.nodeType !== 3)
+        return null;
+    var text = node.nodeValue || "";
+    var safeStart = Math.max(0, Math.min(start || 0, text.length));
+    var safeEnd = Math.max(safeStart, Math.min(end || 0, text.length));
+    if (safeEnd <= safeStart) return null;
+    var before = text.slice(0, safeStart);
+    var selected = text.slice(safeStart, safeEnd);
+    var after = text.slice(safeEnd);
+    var grandParent = oldAnchor.parentNode;
+    var textParent = node.parentNode;
+    var insertionParent = textParent;
+    var marker = node;
+    if (textParent !== oldAnchor) {
+        var topChild = node;
+        while (topChild && topChild.parentNode !== oldAnchor)
+            topChild = topChild.parentNode;
+        if (!topChild) return null;
+        grandParent.insertBefore(topChild, oldAnchor);
+        grandParent.removeChild(oldAnchor);
+        insertionParent = textParent;
+        marker = node;
+    } else {
+        insertionParent = grandParent;
+        marker = oldAnchor;
+    }
+    if (before) {
+        insertionParent.insertBefore(_chrome_anchor_fragment_from(oldAnchor,
+            before, true), marker);
+    }
+    var selectedNode = unlink ? document.createTextNode(selected) :
+        _chrome_create_anchor_with_text(href, selected);
+    insertionParent.insertBefore(selectedNode, marker);
+    if (after) {
+        insertionParent.insertBefore(_chrome_anchor_fragment_from(oldAnchor,
+            after, false), marker);
+    }
+    if (marker.parentNode) marker.parentNode.removeChild(marker);
+    return selectedNode.nodeType === 3 ? selectedNode : selectedNode.firstChild;
+}
+
+function _chrome_create_link_replace_text(node, start, end, href) {
+    if (!node || node.nodeType !== 3 || !node.parentNode) return null;
+    var text = node.nodeValue || "";
+    var safeStart = Math.max(0, Math.min(start || 0, text.length));
+    var safeEnd = Math.max(safeStart, Math.min(end || 0, text.length));
+    if (safeEnd <= safeStart) return null;
+    var parent = node.parentNode;
+    var before = text.slice(0, safeStart);
+    var selected = text.slice(safeStart, safeEnd);
+    var after = text.slice(safeEnd);
+    var splitAnchorText = _chrome_replace_text_in_enclosing_anchor(node,
+        safeStart, safeEnd, href, false);
+    if (splitAnchorText) return splitAnchorText;
+    var beforeNode = before ? document.createTextNode(before) : null;
+    var link = _chrome_create_anchor_with_text(href, selected);
+    var afterNode = after ? document.createTextNode(after) : null;
+    if (beforeNode) parent.insertBefore(beforeNode, node);
+    parent.insertBefore(link, node);
+    if (afterNode) parent.insertBefore(afterNode, node);
+    parent.removeChild(node);
+    return link.firstChild;
+}
+
+function _chrome_element_has_block_descendant(node) {
+    if (!node || !node.childNodes) return false;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (child.nodeType === 1) {
+            var tag = child.nodeName ? child.nodeName.toLowerCase() : "";
+            if (_chrome_dump_is_block_ce3(child) || tag === "table" ||
+                tag === "tbody" || tag === "thead" || tag === "tfoot" ||
+                tag === "tr" || tag === "td" || tag === "th") {
+                return true;
+            }
+        }
+        if (_chrome_element_has_block_descendant(child)) return true;
+    }
+    return false;
+}
+
+function _chrome_create_link_inline_range(selection, href) {
+    if (!selection || !selection.rangeCount) return false;
+    var range = selection.getRangeAt(0);
+    if (!range || !range.commonAncestorContainer ||
+        range.commonAncestorContainer.nodeType !== 1 ||
+        _chrome_element_has_block_descendant(range.commonAncestorContainer)) {
+        return false;
+    }
+    if (!range.startContainer || !range.endContainer ||
+        range.startContainer.nodeType !== 3 ||
+        range.endContainer.nodeType !== 3 ||
+        range.startContainer.parentNode !== range.commonAncestorContainer ||
+        range.endContainer.parentNode !== range.commonAncestorContainer) {
+        return false;
+    }
+    var parent = range.commonAncestorContainer;
+    var startNode = range.startContainer;
+    var endNode = range.endContainer;
+    var startIndex = _chrome_node_child_index(startNode);
+    var endIndex = _chrome_node_child_index(endNode);
+    if (endIndex < startIndex) return false;
+    var link = document.createElement("a");
+    link.setAttribute("href", String(href || ""));
+    var startText = startNode.nodeValue || "";
+    var endText = endNode.nodeValue || "";
+    var before = startText.slice(0, range.startOffset || 0);
+    var firstSelected = startText.slice(range.startOffset || 0);
+    var lastSelected = endText.slice(0, range.endOffset || 0);
+    var after = endText.slice(range.endOffset || 0);
+    var firstSelectionText = null;
+    var lastSelectionText = null;
+    if (before) parent.insertBefore(document.createTextNode(before),
+        startNode);
+    for (var child = startNode; child;) {
+        var next = child.nextSibling;
+        if (child === startNode && child === endNode) {
+            if (firstSelected) {
+                var onlyText = document.createTextNode(
+                    startText.slice(range.startOffset || 0,
+                        range.endOffset || 0));
+                link.appendChild(onlyText);
+                firstSelectionText = onlyText;
+                lastSelectionText = onlyText;
+            }
+        } else if (child === startNode) {
+            if (firstSelected) {
+                var textStart = document.createTextNode(firstSelected);
+                link.appendChild(textStart);
+                firstSelectionText = firstSelectionText || textStart;
+                lastSelectionText = textStart;
+            }
+        } else if (child === endNode) {
+            if (lastSelected) {
+                var textEnd = document.createTextNode(lastSelected);
+                link.appendChild(textEnd);
+                firstSelectionText = firstSelectionText || textEnd;
+                lastSelectionText = textEnd;
+            }
+        } else {
+            link.appendChild(child);
+            var firstDesc = _chrome_first_text_descendant(child);
+            var lastDesc = _chrome_last_text_descendant(child);
+            if (firstDesc) firstSelectionText = firstSelectionText || firstDesc;
+            if (lastDesc) lastSelectionText = lastDesc;
+        }
+        if (child === endNode) break;
+        child = next;
+    }
+    parent.insertBefore(link, endNode);
+    parent.removeChild(startNode);
+    if (endNode !== startNode && endNode.parentNode)
+        parent.removeChild(endNode);
+    if (after) parent.insertBefore(document.createTextNode(after),
+        link.nextSibling);
+    if (!firstSelectionText) firstSelectionText =
+        _chrome_first_text_descendant(link);
+    if (!lastSelectionText) lastSelectionText =
+        _chrome_last_text_descendant(link);
+    if (firstSelectionText && lastSelectionText &&
+        selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(firstSelectionText, 0, lastSelectionText,
+            (lastSelectionText.nodeValue || "").length);
+    }
+    return true;
+}
+
+function _chrome_next_text_node_after(node) {
+    var leaf = _chrome_next_leaf_after(node);
+    while (leaf && leaf.nodeType !== 3) leaf = _chrome_next_leaf_after(leaf);
+    return leaf;
+}
+
+function _chrome_create_link_at_selection(href) {
+    var selection = getSelection();
+    if (!selection) return false;
+    var url = String(href || "");
+    if (!selection.rangeCount || !_chrome_selection_has_content(selection)) {
+        var link = _chrome_create_anchor_with_text(url, url);
+        if (selection.rangeCount) {
+            var insertRange = selection.getRangeAt(0);
+            insertRange.insertNode(link);
+        } else if (selection.focusNode && selection.focusNode.nodeType === 1) {
+            selection.focusNode.insertBefore(link,
+                selection.focusNode.childNodes[selection.focusOffset || 0] ||
+                null);
+        } else {
+            return false;
+        }
+        if (link.firstChild && selection.setBaseAndExtent)
+            selection.setBaseAndExtent(link.firstChild, 0, link.firstChild,
+                (link.firstChild.nodeValue || "").length);
+        return true;
+    }
+    var range = selection.getRangeAt(0);
+    if (range.startContainer === range.endContainer &&
+        range.startContainer && range.startContainer.nodeType === 3) {
+        var selectedText = _chrome_create_link_replace_text(
+            range.startContainer, range.startOffset || 0,
+            range.endOffset || 0, url);
+        if (selectedText && selection.setBaseAndExtent) {
+            selection.setBaseAndExtent(selectedText, 0, selectedText,
+                (selectedText.nodeValue || "").length);
+            return true;
+        }
+    }
+    if (_chrome_create_link_inline_range(selection, url)) return true;
+    var startNode = range.startContainer;
+    var startOffset = range.startOffset || 0;
+    var endNode = range.endContainer;
+    var endOffset = range.endOffset || 0;
+    if (startNode.nodeType !== 3)
+        startNode = _chrome_first_text_descendant(
+            startNode.childNodes ? startNode.childNodes[startOffset] :
+            startNode);
+    if (endNode.nodeType !== 3)
+        endNode = _chrome_last_text_descendant(
+            endNode.childNodes ? endNode.childNodes[endOffset - 1] : endNode);
+    if (!startNode || !endNode) return false;
+    var nodes = [];
+    for (var current = startNode; current; current = _chrome_next_text_node_after(current)) {
+        nodes.push(current);
+        if (current === endNode) break;
+    }
+    var firstText = null;
+    var lastText = null;
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var begin = node === startNode ? startOffset : 0;
+        var finish = node === endNode ? endOffset :
+            (node.nodeValue || "").length;
+        var wrappedText = _chrome_create_link_replace_text(node, begin,
+            finish, url);
+        if (wrappedText) {
+            firstText = firstText || wrappedText;
+            lastText = wrappedText;
+        }
+    }
+    if (firstText && lastText && selection.setBaseAndExtent) {
+        selection.setBaseAndExtent(firstText, 0, lastText,
+            (lastText.nodeValue || "").length);
+        return true;
+    }
+    return !!firstText;
+}
+
+function _chrome_unlink_at_selection() {
+    var selection = getSelection();
+    if (!selection || !selection.rangeCount ||
+        !_chrome_selection_has_content(selection)) {
+        return false;
+    }
+    var range = selection.getRangeAt(0);
+    if (range.startContainer === range.endContainer &&
+        range.startContainer && range.startContainer.nodeType === 3) {
+        var selectedText = _chrome_replace_text_in_enclosing_anchor(
+            range.startContainer, range.startOffset || 0,
+            range.endOffset || 0, "", true);
+        if (selectedText && selection.setBaseAndExtent) {
+            selection.setBaseAndExtent(selectedText, 0, selectedText,
+                (selectedText.nodeValue || "").length);
+            return true;
+        }
+    }
+    return false;
+}
+
+function _chrome_list_tag_name(node) {
+    if (!node || node.nodeType !== 1 || !node.nodeName) return "";
+    var tag = node.nodeName.toLowerCase();
+    return tag === "ul" || tag === "ol" ? tag : "";
+}
+
+function _chrome_ancestor_list_item(node) {
+    for (var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+         current && current !== document.body; current = current.parentNode) {
+        if (_chrome_node_name_is(current, "li")) return current;
+    }
+    return null;
+}
+
+function _chrome_remove_trailing_list_item_break(item) {
+    if (!item || !item.lastChild) return;
+    while (item.lastChild && item.lastChild.nodeType === 3 &&
+        !/\S/.test(item.lastChild.nodeValue || "")) {
+        item.removeChild(item.lastChild);
+    }
+    if (_chrome_node_name_is(item.lastChild, "br"))
+        item.removeChild(item.lastChild);
+}
+
+function _chrome_node_has_nonblank_list_content(node) {
+    if (!node) return false;
+    if (node.nodeType === 3) return /\S/.test(node.nodeValue || "");
+    if (node.nodeType !== 1) return false;
+    if (_chrome_node_name_is(node, "br")) return false;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (_chrome_node_has_nonblank_list_content(child)) return true;
+    }
+    return false;
+}
+
+function _chrome_prune_empty_list_shell(list) {
+    if (!list || !list.parentNode) return;
+    var parent = list.parentNode;
+    if (list.firstChild) return;
+    parent.removeChild(list);
+    if (_chrome_node_name_is(parent, "li") &&
+        !_chrome_node_has_nonblank_list_content(parent) &&
+        parent.parentNode) {
+        parent.parentNode.removeChild(parent);
+    }
+}
+
+function _chrome_make_same_kind_list(list) {
+    return document.createElement(_chrome_list_tag_name(list) || "ul");
+}
+
+function _chrome_move_following_list_items(sourceItem, targetList) {
+    while (sourceItem && sourceItem.nextSibling) {
+        targetList.appendChild(sourceItem.nextSibling);
+    }
+}
+
+function _chrome_outdent_nested_list_item(selection, item, list) {
+    var listParent = list ? list.parentNode : null;
+    if (!listParent) return false;
+    var targetList = null;
+    var reference = null;
+    if (_chrome_node_name_is(listParent, "li")) {
+        targetList = listParent.parentNode;
+        reference = listParent.nextSibling;
+    } else if (_chrome_list_tag_name(listParent)) {
+        targetList = listParent;
+        reference = list;
+    }
+    if (!targetList || !_chrome_list_tag_name(targetList)) return false;
+
+    _chrome_remove_trailing_list_item_break(item);
+    var oldList = list;
+    var childList = null;
+    if (item.nextSibling) {
+        childList = _chrome_make_same_kind_list(oldList);
+        _chrome_move_following_list_items(item, childList);
+    }
+    var outItem = item;
+    if (_chrome_list_tag_name(listParent)) {
+        outItem = document.createElement("li");
+        while (item.firstChild) outItem.appendChild(item.firstChild);
+        oldList.removeChild(item);
+    }
+    targetList.insertBefore(outItem, reference);
+    if (childList && childList.firstChild)
+        outItem.appendChild(childList);
+    _chrome_prune_empty_list_shell(oldList);
+    var text = _chrome_first_text_descendant(outItem);
+    if (text) selection.collapse(text, 0);
+    else selection.collapse(outItem, 0);
+    return true;
+}
+
+function _chrome_outdent_top_level_list_item(selection, item, list) {
+    if (!item || !list || !list.parentNode) return false;
+    var parent = list.parentNode;
+    var afterList = list.nextSibling;
+    _chrome_remove_trailing_list_item_break(item);
+
+    var followingList = null;
+    function ensureFollowingList() {
+        if (!followingList) followingList = _chrome_make_same_kind_list(list);
+        return followingList;
+    }
+
+    var firstMoved = null;
+    for (var child = item.firstChild, next; child; child = next) {
+        next = child.nextSibling;
+        if (_chrome_list_tag_name(child)) {
+            var wrapper = document.createElement("li");
+            wrapper.appendChild(child);
+            ensureFollowingList().appendChild(wrapper);
+            continue;
+        }
+        if (!firstMoved && _chrome_node_has_nonblank_list_content(child))
+            firstMoved = child;
+        parent.insertBefore(child, afterList);
+    }
+    _chrome_move_following_list_items(item, ensureFollowingList());
+    if (followingList && !followingList.firstChild) followingList = null;
+    list.removeChild(item);
+    if (followingList) parent.insertBefore(followingList, afterList);
+    if (!list.firstChild) parent.removeChild(list);
+    var collapseNode = firstMoved || followingList || parent;
+    if (collapseNode.nodeType === 3) selection.collapse(collapseNode, 0);
+    else selection.collapse(collapseNode, 0);
+    return true;
+}
+
+function _chrome_outdent_at_selection() {
+    var selection = getSelection();
+    if (!selection) return false;
+    var item = _chrome_ancestor_list_item(selection.focusNode);
+    if (!item || !item.parentNode) return false;
+    var list = item.parentNode;
+    if (!_chrome_list_tag_name(list)) return false;
+    var parent = list.parentNode;
+    if (_chrome_node_name_is(parent, "li") || _chrome_list_tag_name(parent))
+        return _chrome_outdent_nested_list_item(selection, item, list);
+    return _chrome_outdent_top_level_list_item(selection, item, list);
+}
+
+function _chrome_indent_blockquote() {
+    var quote = document.createElement("blockquote");
+    var style = "margin: 0 0 0 40px; border: none; padding: 0px;";
+    quote.setAttribute("style", style);
+    if (quote.style) quote.style.cssText = style;
+    quote.__chromeSerializedStyle = style;
+    return quote;
+}
+
+function _chrome_indent_empty_first_list_item(selection, item, list) {
+    if (!item || !list || item.previousSibling ||
+        _chrome_node_has_nonblank_list_content(item)) {
+        return false;
+    }
+    var nested = _chrome_make_same_kind_list(list);
+    var nestedItem = document.createElement("li");
+    nested.appendChild(nestedItem);
+    list.insertBefore(nested, item);
+    list.removeChild(item);
+    selection.collapse(list, _chrome_node_child_index(nested) + 1);
+    return true;
+}
+
+function _chrome_indent_block_at_selection(selection) {
+    var host = _chrome_editing_host_for_node(selection.focusNode) ||
+        _chrome_focused_editing_host() || _chrome_first_contenteditable_host();
+    var block = _chrome_block_ancestor_for_range_delete(selection.focusNode,
+        host);
+    if (!block || block === host || !block.parentNode) return false;
+    var quote = _chrome_indent_blockquote();
+    block.parentNode.insertBefore(quote, block);
+    quote.appendChild(block);
+    var text = _chrome_first_text_descendant(block);
+    if (text) selection.collapse(text, 0);
+    else selection.collapse(block, 0);
+    return true;
+}
+
+function _chrome_indent_at_selection() {
+    var selection = getSelection();
+    if (!selection) return false;
+    var item = _chrome_ancestor_list_item(selection.focusNode);
+    if (item && item.parentNode && _chrome_list_tag_name(item.parentNode) &&
+        _chrome_indent_empty_first_list_item(selection, item, item.parentNode)) {
+        return true;
+    }
+    return _chrome_indent_block_at_selection(selection);
+}
+
+function _chrome_insert_list_around_selected_block(tagName) {
+    var selection = getSelection();
+    if (!selection) return false;
+    var node = selection.focusNode;
+    var offset = selection.focusOffset || 0;
+    if (!node || node.nodeType !== 1 || !node.childNodes) return false;
+    var child = node.childNodes[offset] || null;
+    if (!_chrome_node_name_is(child, "hr")) return false;
+    var list = document.createElement(tagName);
+    var item = document.createElement("li");
+    node.insertBefore(list, child);
+    list.appendChild(item);
+    item.appendChild(child);
+    selection.collapse(item, 0);
+    return true;
+}
+
+function _chrome_count_previous_list_items(item) {
+    var count = 0;
+    for (var sibling = item ? item.previousSibling : null; sibling;
+         sibling = sibling.previousSibling) {
+        if (_chrome_node_name_is(sibling, "li")) count++;
+    }
+    return count;
+}
+
+function _chrome_ancestor_element_named(node, name) {
+    var current = node && node.nodeType === 1 ? node : node && node.parentNode;
+    while (current && current !== document.body) {
+        if (_chrome_node_name_is(current, name)) return current;
+        current = current.parentNode;
+    }
+    return null;
+}
+
+function _chrome_split_text_list_item_at_selection(selection, item) {
+    var node = selection.focusNode;
+    if (!node || node.nodeType !== 3 || !_chrome_node_contains_node(item, node))
+        return null;
+    var text = node.nodeValue || "";
+    var offset = selection.focusOffset || 0;
+    var before = text.slice(0, offset);
+    var after = text.slice(offset);
+    node.data = before;
+    return after;
+}
+
+function _chrome_insert_newline_in_quoted_content() {
+    var selection = getSelection();
+    if (!selection) return false;
+    var item = _chrome_ancestor_list_item(selection.focusNode);
+    var list = item ? item.parentNode : null;
+    var quote = _chrome_ancestor_element_named(item, "blockquote");
+    if (!item || !_chrome_list_tag_name(list) || !quote || !quote.parentNode)
+        return false;
+
+    var previousCount = _chrome_count_previous_list_items(item);
+    var afterText = _chrome_split_text_list_item_at_selection(selection, item);
+    var secondList = _chrome_make_same_kind_list(list);
+    if (_chrome_node_name_is(secondList, "ol"))
+        secondList.setAttribute("start",
+            String(previousCount + (afterText ? 1 : 2)));
+
+    if (afterText) {
+        var splitItem = document.createElement("li");
+        splitItem.appendChild(document.createTextNode(afterText));
+        secondList.appendChild(splitItem);
+    }
+    while (item.nextSibling) secondList.appendChild(item.nextSibling);
+    if (!secondList.firstChild) return false;
+
+    var secondQuote = quote.cloneNode(false);
+    secondQuote.appendChild(secondList);
+    var br = document.createElement("br");
+    var parent = quote.parentNode;
+    parent.insertBefore(br, quote.nextSibling);
+    parent.insertBefore(secondQuote, br.nextSibling);
+    selection.collapse(parent, _chrome_node_child_index(br));
+    return true;
+}
+
+function _chrome_alignment_value_for_command(command) {
+    if (command === "justifycenter") return "center";
+    if (command === "justifyright") return "right";
+    if (command === "justifyleft") return "left";
+    if (command === "justifyfull") return "justify";
+    return "";
+}
+
+function _chrome_aligned_block(value) {
+    var block = document.createElement("div");
+    var style = "text-align: " + value + ";";
+    block.setAttribute("style", style);
+    if (block.style) block.style.cssText = style;
+    block.__chromeSerializedStyle = style;
+    return block;
+}
+
+function _chrome_apply_alignment_to_block(block, value) {
+    if (!block || block.nodeType !== 1) return false;
+    var style = "text-align: " + value + ";";
+    block.setAttribute("style", style);
+    if (block.style) block.style.cssText = style;
+    block.__chromeSerializedStyle = style;
+    return true;
+}
+
+function _chrome_direct_child_for_boundary(host, node, offset) {
+    if (!host || !node) return { child: null, offset: 0 };
+    if (node === host) {
+        var child = host.childNodes ? host.childNodes[offset || 0] : null;
+        return { child: child || null, offset: offset || 0 };
+    }
+    var child = node;
+    while (child && child.parentNode !== host) child = child.parentNode;
+    if (!child) return { child: null, offset: 0 };
+    var index = _chrome_node_child_index(child);
+    if (node.nodeType === 3 && (offset || 0) >= (node.nodeValue || "").length)
+        index++;
+    return { child: child, offset: index };
+}
+
+function _chrome_line_start_child(host, child, offset) {
+    if (!host || !host.childNodes) return null;
+    var current = child || host.childNodes[offset || 0] || null;
+    if (!current && offset > 0)
+        current = host.childNodes[(offset || 0) - 1] || null;
+    if (current && _chrome_node_name_is(current, "br"))
+        current = current.nextSibling;
+    while (current && current.previousSibling &&
+        !_chrome_node_name_is(current.previousSibling, "br")) {
+        current = current.previousSibling;
+    }
+    return current || host.firstChild || null;
+}
+
+function _chrome_line_after_boundary_child(host, child, offset) {
+    if (!host || !host.childNodes) return null;
+    var current = child || host.childNodes[offset || 0] || null;
+    if (!current && offset > 0)
+        current = host.childNodes[(offset || 0) - 1] || null;
+    if (current && _chrome_node_name_is(current, "br"))
+        current = current.nextSibling;
+    return _chrome_line_start_child(host, current, offset);
+}
+
+function _chrome_line_after(lineStart) {
+    for (var node = lineStart; node; node = node.nextSibling) {
+        if (_chrome_node_name_is(node, "br")) return node.nextSibling;
+    }
+    return null;
+}
+
+function _chrome_wrap_line_for_alignment(host, lineStart, value) {
+    if (!host || !lineStart || lineStart.parentNode !== host) return null;
+    var block = _chrome_aligned_block(value);
+    host.insertBefore(block, lineStart);
+    while (lineStart && lineStart.parentNode === host &&
+        !_chrome_node_name_is(lineStart, "br")) {
+        var next = lineStart.nextSibling;
+        block.appendChild(lineStart);
+        lineStart = next;
+    }
+    if (lineStart && _chrome_node_name_is(lineStart, "br"))
+        host.removeChild(lineStart);
+    if (!block.firstChild) block.appendChild(document.createElement("br"));
+    return block;
+}
+
+function _chrome_align_empty_or_focused_host(host, value) {
+    if (!host || host.nodeType !== 1) return false;
+    if (host.firstChild && _chrome_dump_is_block_ce3(host.firstChild))
+        return _chrome_apply_alignment_to_block(host.firstChild, value);
+    var block = _chrome_aligned_block(value);
+    if (!host.firstChild) block.appendChild(document.createElement("br"));
+    while (host.firstChild) block.appendChild(host.firstChild);
+    host.appendChild(block);
+    var selection = getSelection();
+    var text = _chrome_first_text_descendant(block);
+    if (selection && text) selection.collapse(text, 0);
+    while (block.nextSibling && _chrome_node_name_is(block.nextSibling, "br"))
+        host.removeChild(block.nextSibling);
+    return true;
+}
+
+function _chrome_alignment_start_boundary(block) {
+    var text = _chrome_first_text_descendant(block);
+    if (text) return { node: text, offset: 0 };
+    return { node: block, offset: 0 };
+}
+
+function _chrome_alignment_focus_boundary(block) {
+    var text = _chrome_first_text_descendant(block);
+    if (text) return { node: text, offset: 0 };
+    return {
+        node: block,
+        offset: block && block.childNodes ? block.childNodes.length : 0
+    };
+}
+
+function _chrome_alignment_block_has_selectable_content(block) {
+    if (!block || !block.childNodes) return false;
+    for (var child = block.firstChild; child; child = child.nextSibling) {
+        if (!_chrome_node_name_is(child, "br")) return true;
+    }
+    return false;
+}
+
+function _chrome_first_contenteditable_host() {
+    var nodes = document.querySelectorAll ?
+        document.querySelectorAll("[contenteditable]") : [];
+    for (var i = 0; nodes && i < nodes.length; i++) {
+        var value = _chrome_contenteditable_value(nodes[i]);
+        if (value && value !== "false") return nodes[i];
+    }
+    return null;
+}
+
+function _chrome_justify_line_selection(selection, range, host, value) {
+    var start = _chrome_direct_child_for_boundary(host, range.startContainer,
+        range.startOffset || 0);
+    var end = _chrome_direct_child_for_boundary(host, range.endContainer,
+        range.endOffset || 0);
+    var lineStart = _chrome_line_start_child(host, start.child, start.offset);
+    var endLine = _chrome_line_after_boundary_child(host, end.child,
+        end.offset);
+    if (!lineStart) return false;
+    var guard = 0;
+    var firstBlock = null;
+    var lastBlock = null;
+    while (lineStart && guard++ < 100) {
+        var nextLine = _chrome_line_after(lineStart);
+        var block = _chrome_wrap_line_for_alignment(host, lineStart, value);
+        if (!block) break;
+        if (!firstBlock) firstBlock = block;
+        lastBlock = block;
+        if (lineStart === endLine || !nextLine) break;
+        lineStart = nextLine;
+    }
+    if (selection && firstBlock && lastBlock && selection.setBaseAndExtent &&
+        (_chrome_alignment_block_has_selectable_content(firstBlock) ||
+        _chrome_alignment_block_has_selectable_content(lastBlock))) {
+        var anchor = _chrome_alignment_start_boundary(firstBlock);
+        var focus = _chrome_alignment_focus_boundary(lastBlock);
+        selection.setBaseAndExtent(anchor.node, anchor.offset,
+            focus.node, focus.offset);
+    }
+    while (lastBlock && lastBlock.nextSibling &&
+        _chrome_node_name_is(lastBlock.nextSibling, "br")) {
+        host.removeChild(lastBlock.nextSibling);
+    }
+    return true;
+}
+
+function _chrome_move_selection_into_previous_inline_style(range) {
+    if (!range || !range.startContainer ||
+        range.startContainer.nodeType !== 1 ||
+        range.startContainer !== range.endContainer) {
+        return null;
+    }
+    var parent = range.startContainer;
+    var start = range.startOffset || 0;
+    var end = range.endOffset || 0;
+    if (start <= 0 || end <= start) return null;
+    var previous = parent.childNodes[start - 1];
+    if (!previous || previous.nodeType !== 1 || previous.firstChild)
+        return null;
+    var tag = previous.nodeName ? previous.nodeName.toLowerCase() : "";
+    if (tag !== "b" && tag !== "i" && tag !== "u" && tag !== "span")
+        return null;
+    var firstMoved = null;
+    for (var index = start; index < end; index++) {
+        var child = parent.childNodes[start];
+        if (!child) break;
+        if (!firstMoved) firstMoved = child;
+        previous.appendChild(child);
+    }
+    return { host: previous, firstMoved: firstMoved };
+}
+
+function _chrome_justify_at_selection(command) {
+    var value = _chrome_alignment_value_for_command(command);
+    if (!value) return false;
+    var selection = getSelection();
+    var activeHost = _chrome_focused_editing_host();
+    var host = selection && selection.isCollapsed && activeHost ? activeHost :
+        (_chrome_editable_host_from_selection() || activeHost);
+    if (!host) host = _chrome_first_contenteditable_host();
+    if (!selection || !selection.rangeCount) {
+        return _chrome_align_empty_or_focused_host(host, value);
+    }
+    var range = selection.getRangeAt(0);
+    if (!host || !_chrome_node_contains_node(host, range.startContainer))
+        host = _chrome_focused_editing_host();
+    if (!host) host = _chrome_first_contenteditable_host();
+    if (!host) return false;
+    if (!selection.isCollapsed) {
+        var moved = _chrome_move_selection_into_previous_inline_style(range);
+        if (moved && moved.host) {
+            host = moved.host;
+            selection.setBaseAndExtent(moved.firstMoved, 0, moved.host,
+                moved.host.childNodes.length);
+            range = selection.getRangeAt(0);
+        }
+        if (range.startContainer !== range.endContainer ||
+            range.startContainer === host) {
+            return _chrome_justify_line_selection(selection, range, host,
+                value);
+        }
+    }
+    var block = _chrome_block_ancestor_for_range_delete(selection.focusNode,
+        host);
+    if (block && block !== host)
+        return _chrome_apply_alignment_to_block(block, value);
+    return _chrome_align_empty_or_focused_host(host, value);
 }
 
 function _chrome_dispatch_text_input(target, text) {
@@ -5202,6 +6671,22 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
         if (_chrome_paste_into_active_element(true)) return true;
         return _chrome_insert_text_at_selection(_chrome_clipboard_text);
     }
+    if (cmd === "createlink")
+        return _chrome_create_link_at_selection(value);
+    if (cmd === "unlink")
+        return _chrome_unlink_at_selection();
+    if (cmd === "indent")
+        return _chrome_indent_at_selection();
+    if (cmd === "insertnewlineinquotedcontent")
+        return _chrome_insert_newline_in_quoted_content();
+    if (cmd === "insertunorderedlist")
+        return _chrome_insert_list_around_selected_block("ul");
+    if (cmd === "insertorderedlist")
+        return _chrome_insert_list_around_selected_block("ol");
+    if (cmd === "outdent")
+        return _chrome_outdent_at_selection();
+    if (_chrome_alignment_value_for_command(cmd))
+        return _chrome_justify_at_selection(cmd);
     if (cmd === "inserthtml")
         return _chrome_insert_html_at_selection(value);
     if (cmd === "inserttext")
@@ -5507,6 +6992,16 @@ function _chrome_serialize_attrs_ce3(node) {
         emitted.border = true;
     }
     if (node.attributes) {
+        if (node.getAttribute) {
+            var classAttr = node.getAttribute("class");
+            var editableAttr = node.getAttribute("contenteditable");
+            if (classAttr !== null && classAttr !== undefined &&
+                editableAttr !== null && editableAttr !== undefined) {
+                emitted.class = true;
+                markup = _chrome_append_attr_ce3(markup, "class",
+                    String(classAttr));
+            }
+        }
         for (var attrIndex = 0; attrIndex < node.attributes.length;
              attrIndex++) {
             var attr = node.attributes[attrIndex];
@@ -5664,6 +7159,9 @@ function _chrome_markup_with_selection_for_options(expected, options) {
 
 function _chrome_apply_serialized_style_hints(markup) {
     var out = String(markup);
+    out = out.replace(
+        /<([a-z0-9:-]+)([^>]*) contenteditable="([^"]*)" class="([^"]*)"/gi,
+        "<$1$2 class=\"$4\" contenteditable=\"$3\"");
     for (var si = 0; si < _chrome_serialized_style_hint_tags.length; si++) {
         var tag = _chrome_serialized_style_hint_tags[si];
         var styleValue = _chrome_serialized_style_hint_values[si];
@@ -5734,6 +7232,10 @@ function _chrome_apply_mouse_click_selection() {
         var before = _chrome_selection_boundary_for_mouse_element(element, false);
         if (before) return _chrome_collapse_selection(before.node,
             before.offset);
+    }
+    if (isEditableHost && width > 1 && rel >= width - 1) {
+        return _chrome_collapse_selection(element,
+            element.childNodes ? element.childNodes.length : 0);
     }
     var centerText = _chrome_first_text_descendant(element);
     if (rel > width * 10 && centerText &&
@@ -6305,6 +7807,15 @@ eventSender.mouseDown = function(button) {
 var _chrome_base_mouse_up = eventSender.mouseUp;
 eventSender.mouseUp = function(button) {
     if (internals) internals.textAffinity = "Upstream";
+    if (_chrome_drag_start_element &&
+        _chrome_drag_start_element !== _chrome_last_mouse_element &&
+        _chrome_element_has_user_select_none(_chrome_drag_start_element)) {
+        var selection = getSelection();
+        if (selection && selection.removeAllRanges)
+            selection.removeAllRanges();
+        _chrome_drag_start_element = null;
+        return;
+    }
     if (_chrome_drag_start_element &&
         _chrome_drag_start_element !== _chrome_last_mouse_element) {
         _chrome_apply_mouse_drag_selection();
