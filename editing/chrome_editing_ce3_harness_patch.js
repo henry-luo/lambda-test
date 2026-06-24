@@ -194,11 +194,11 @@ function _chrome_editing_record(ok, name, message) {
 }
 
 var _chrome_known_attr_names = [
-    "contenteditable", "id", "class", "style", "slot", "href", "src", "alt",
-    "title", "name", "type", "value", "for", "dir", "lang", "draggable",
-    "spellcheck", "tabindex", "width", "height", "colspan", "rowspan",
-    "align", "color", "face", "size", "disabled", "readonly", "checked",
-    "selected", "hidden", "border", "start"
+    "contenteditable", "contenteditablele", "id", "class", "style", "slot",
+    "href", "src", "alt", "title", "name", "type", "value", "for", "dir",
+    "lang", "draggable", "spellcheck", "tabindex", "width", "height",
+    "colspan", "rowspan", "align", "color", "face", "size", "disabled",
+    "readonly", "checked", "selected", "hidden", "border", "start"
 ];
 
 var Sample = typeof Sample !== "undefined" ? Sample : null;
@@ -1231,10 +1231,13 @@ function _chrome_install_child_focus_on_element_ce3(element) {
 
 function _chrome_install_child_document_editing_ce3(doc) {
     if (!doc || doc.__chromeChildEditingCe3) return;
+    _chrome_install_child_selection_ce3(doc);
     var baseExecCommand = typeof doc.execCommand === "function" ?
         doc.execCommand : null;
     var execCommand = function(command, showUI, value) {
         var cmd = String(command || "").toLowerCase();
+        if (cmd === "selectall")
+            return _chrome_select_all_in_document_ce3(doc);
         if (cmd === "inserttext") {
             var target = _chrome_node_belongs_to_document_ce3(
                 _chrome_active_element, doc) ? _chrome_active_element : null;
@@ -1275,6 +1278,74 @@ function _chrome_install_child_document_editing_ce3(doc) {
         _chrome_install_child_focus_on_element_ce3(doc.body);
     }
     doc.__chromeChildEditingCe3 = true;
+}
+
+function _chrome_install_child_selection_ce3(doc) {
+    if (!doc || doc.__chromeChildSelectionInstalledCe3) return;
+    var selection = {
+        anchorNode: null,
+        anchorOffset: 0,
+        focusNode: null,
+        focusOffset: 0,
+        rangeCount: 0,
+        isCollapsed: true,
+        removeAllRanges: function() {
+            this.anchorNode = null;
+            this.anchorOffset = 0;
+            this.focusNode = null;
+            this.focusOffset = 0;
+            this.rangeCount = 0;
+            this.isCollapsed = true;
+        },
+        collapse: function(node, offset) {
+            this.anchorNode = node || null;
+            this.anchorOffset = offset || 0;
+            this.focusNode = node || null;
+            this.focusOffset = offset || 0;
+            this.rangeCount = node ? 1 : 0;
+            this.isCollapsed = true;
+        },
+        setBaseAndExtent: function(anchorNode, anchorOffset, focusNode,
+                focusOffset) {
+            this.anchorNode = anchorNode || null;
+            this.anchorOffset = anchorOffset || 0;
+            this.focusNode = focusNode || null;
+            this.focusOffset = focusOffset || 0;
+            this.rangeCount = anchorNode || focusNode ? 1 : 0;
+            this.isCollapsed = this.anchorNode === this.focusNode &&
+                this.anchorOffset === this.focusOffset;
+        },
+        toString: function() {
+            if (!this.anchorNode || !this.focusNode) return "";
+            if (this.anchorNode === this.focusNode &&
+                    this.anchorNode.nodeType === 3) {
+                return String(this.anchorNode.nodeValue || "").slice(
+                    this.anchorOffset || 0, this.focusOffset || 0);
+            }
+            return "";
+        }
+    };
+    doc.__chromeChildSelectionCe3 = selection;
+    var getter = function() { return doc.__chromeChildSelectionCe3; };
+    if (doc.defaultView) {
+        try {
+            Object.defineProperty(doc.defaultView, "getSelection", {
+                value: getter,
+                configurable: true
+            });
+        } catch (_) {
+            doc.defaultView.getSelection = getter;
+        }
+    }
+    try {
+        Object.defineProperty(doc, "getSelection", {
+            value: getter,
+            configurable: true
+        });
+    } catch (_) {
+        doc.getSelection = getter;
+    }
+    doc.__chromeChildSelectionInstalledCe3 = true;
 }
 
 function _chrome_apply_srcdoc_body_attrs_ce3(frame, resetBodyText) {
@@ -1365,8 +1436,10 @@ function _chrome_install_iframe_load_shims_ce3(root) {
     root = root || document;
     if (!root || !root.getElementsByTagName) return;
     var frames = root.getElementsByTagName("iframe");
-    for (var i = 0; frames && i < frames.length; i++)
+    for (var i = 0; frames && i < frames.length; i++) {
         _chrome_install_iframe_load_shim_on_ce3(frames[i]);
+        _chrome_prepare_iframe_document_ce3(frames[i], false);
+    }
 }
 
 _chrome_install_iframe_load_shims_ce3(document);
@@ -2242,6 +2315,93 @@ function _chrome_selection_to_string_ce3(selection, nativeToString) {
     return "";
 }
 
+function _chrome_canonical_visible_root_ce3(node) {
+    if (node && node.nodeType === 9)
+        return node.body || node.documentElement || document.body ||
+            document.documentElement;
+    return node;
+}
+
+function _chrome_first_visible_boundary_ce3(root) {
+    root = _chrome_canonical_visible_root_ce3(root);
+    var text = _chrome_first_nonempty_text_descendant_ce3(root);
+    if (text) return { node: text, offset: 0 };
+    return { node: root || null, offset: 0 };
+}
+
+function _chrome_first_nonempty_text_descendant_ce3(node) {
+    if (!node) return null;
+    if (node.nodeType === 3)
+        return /\S/.test(node.nodeValue || "") ? node : null;
+    if (node.nodeType !== 1 && node.nodeType !== 9 &&
+            node.nodeType !== 11) {
+        return null;
+    }
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        var found = _chrome_first_nonempty_text_descendant_ce3(child);
+        if (found) return found;
+    }
+    return null;
+}
+
+function _chrome_visible_boundary_ce3(node, offset) {
+    offset = Number(offset) || 0;
+    if (!node) return { node: null, offset: 0 };
+    if (node.nodeType === 9 || _chrome_node_name_is(node, "html") ||
+            _chrome_node_name_is(node, "body")) {
+        return offset === 0 ? _chrome_first_visible_boundary_ce3(node) :
+            { node: node, offset: offset };
+    }
+    if (node.nodeType === 1) {
+        var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+        if (tag === "select" || tag === "table" || tag === "input" ||
+                tag === "textarea" || tag === "iframe" || tag === "object" ||
+                tag === "hr") {
+            var parent = node.parentNode;
+            if (parent) {
+                return {
+                    node: parent,
+                    offset: _chrome_node_child_index(node) +
+                        (offset > 0 ? 1 : 0)
+                };
+            }
+        }
+    }
+    return { node: node, offset: offset };
+}
+
+function _chrome_visible_selection_boundary_ce3(useFocus) {
+    var selection = _chrome_current_selection_ce3();
+    if (!selection) return { node: null, offset: 0 };
+    var node = useFocus ? selection.focusNode : selection.anchorNode;
+    var offset = useFocus ? selection.focusOffset : selection.anchorOffset;
+    return _chrome_visible_boundary_ce3(node, offset);
+}
+
+function _chrome_current_cursor_info_ce3() {
+    var node = _chrome_last_mouse_element;
+    while (node && node.nodeType === 1) {
+        var cursor = "";
+        try {
+            if (typeof getComputedStyle === "function")
+                cursor = getComputedStyle(node).cursor || "";
+        } catch (_) {}
+        if (!cursor && node.getAttribute) {
+            var style = String(node.getAttribute("style") || "");
+            var match = /cursor\s*:\s*([^;]+)/i.exec(style);
+            if (match) cursor = match[1];
+        }
+        cursor = String(cursor || "").toLowerCase().replace(/^\s+|\s+$/g, "");
+        if (cursor === "progress") return "type=Progress";
+        if (cursor) {
+            return "type=" + cursor.charAt(0).toUpperCase() +
+                cursor.slice(1);
+        }
+        node = node.parentNode;
+    }
+    return "type=Pointer";
+}
+
 var internals = {
     textAffinity: "Downstream",
     settings: {
@@ -2278,6 +2438,18 @@ var internals = {
     getSelectionInFlatTree: function(win) {
         return win && win.getSelection ? win.getSelection() : getSelection();
     },
+    get visibleSelectionAnchorNode() {
+        return _chrome_visible_selection_boundary_ce3(false).node;
+    },
+    get visibleSelectionAnchorOffset() {
+        return _chrome_visible_selection_boundary_ce3(false).offset;
+    },
+    get visibleSelectionFocusNode() {
+        return _chrome_visible_selection_boundary_ce3(true).node;
+    },
+    get visibleSelectionFocusOffset() {
+        return _chrome_visible_selection_boundary_ce3(true).offset;
+    },
     markerCountForNode: function() { return 0; },
     markerRangeForNode: function() { return null; },
     markerDescriptionForNode: function() { return ""; },
@@ -2293,6 +2465,7 @@ var internals = {
     numberOfLiveNodes: function() { return 0; },
     layoutCountForTesting: function() { return 0; },
     hasLastEditCommand: function() { return true; },
+    getCurrentCursorInfo: function() { return _chrome_current_cursor_info_ce3(); },
     setSuggestedValue: function(element, value) {
         if (element) {
             _chrome_install_text_control_selection_api(element);
@@ -5749,6 +5922,34 @@ function _chrome_query_format_block_ce3() {
     return String(block.nodeName || "").toLowerCase();
 }
 
+function _chrome_select_all_has_text_ce3(node) {
+    if (!node) return false;
+    if (node.nodeType === 3) return !!(node.nodeValue || "").length;
+    if (node.nodeType !== 1 && node.nodeType !== 9 &&
+            node.nodeType !== 11) {
+        return false;
+    }
+    if (_chrome_is_text_control(node))
+        return !!_chrome_control_plain_value(node).length;
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+    if (tag === "script" || tag === "style" || tag === "noscript")
+        return false;
+    for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (_chrome_select_all_has_text_ce3(child)) return true;
+    }
+    return false;
+}
+
+function _chrome_select_all_enabled_ce3() {
+    var active = _chrome_meaningful_active_element();
+    if (_chrome_is_text_control(active))
+        return !!_chrome_control_plain_value(active).length;
+    var host = _chrome_focused_editing_host() ||
+        _chrome_select_all_host_from_selection();
+    if (host) return _chrome_select_all_has_text_ce3(host);
+    return false;
+}
+
 if (document) {
     var _chrome_native_query_command_value =
         typeof document.queryCommandValue === "function" ?
@@ -5764,6 +5965,7 @@ if (document) {
         if (cmd === "defaultparagraphseparator") return true;
         if (cmd === "copy" || cmd === "cut" || cmd === "paste")
             return document.queryCommandSupported(command);
+        if (cmd === "selectall") return _chrome_select_all_enabled_ce3();
         return _chrome_exec_command_supported_ce3(cmd);
     };
     var _chrome_query_command_state_api_ce3 = function(command) {
@@ -6228,6 +6430,7 @@ function _chrome_find_selected_text_control() {
 
 function _chrome_set_selection_from_markup(markup) {
     _chrome_forced_text_selection_element = null;
+    _chrome_select_all_text_node = null;
     markup = _chrome_sample_text(markup);
     _chrome_validate_sample_markers(markup, false);
     if (_chrome_should_use_legacy_marker_setup())
@@ -10954,6 +11157,11 @@ function _chrome_select_all_host_from_selection() {
         if (value && value !== "false") host = node;
         node = node.parentNode;
     }
+    var active = _chrome_meaningful_active_element();
+    if (host && active && !_chrome_node_contains_node(host, active) &&
+            _chrome_selection_collapsed(selection)) {
+        return null;
+    }
     return host || _chrome_first_contenteditable_host() || null;
 }
 
@@ -10983,6 +11191,16 @@ function _chrome_select_all_text_control_ce3(control) {
     _chrome_selection_override_range = null;
     if (control.setSelectionRange)
         control.setSelectionRange(0, value.length, "none");
+    var ownerDocument = control.ownerDocument || document;
+    var selection = ownerDocument && ownerDocument.defaultView &&
+        typeof ownerDocument.defaultView.getSelection === "function" ?
+        ownerDocument.defaultView.getSelection() :
+        (ownerDocument === document ? getSelection() : null);
+    if (selection && control.parentNode) {
+        var index = _chrome_node_child_index(control);
+        _chrome_set_command_selection_ce3(selection, control.parentNode,
+            index, control.parentNode, index);
+    }
     return true;
 }
 
@@ -11028,6 +11246,199 @@ function _chrome_node_contains_node(parent, child) {
     return false;
 }
 
+function _chrome_select_all_text_start_offset_ce3(text) {
+    var value = String(text && text.nodeValue || "");
+    for (var i = 0; i < value.length; i++) {
+        if (/\S/.test(value.charAt(i))) return i;
+    }
+    return -1;
+}
+
+function _chrome_select_all_text_end_offset_ce3(text) {
+    var value = String(text && text.nodeValue || "");
+    for (var i = value.length - 1; i >= 0; i--) {
+        if (/\S/.test(value.charAt(i))) return i + 1;
+    }
+    return -1;
+}
+
+function _chrome_select_all_skip_subtree_ce3(node) {
+    if (!node || node.nodeType !== 1) return false;
+    if (_chrome_is_user_select_none(node)) return true;
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+    return tag === "script" || tag === "style" || tag === "noscript";
+}
+
+function _chrome_select_all_atomic_node_ce3(node) {
+    if (!node || node.nodeType !== 1) return false;
+    var tag = node.nodeName ? node.nodeName.toLowerCase() : "";
+    return tag === "br" || tag === "hr" || tag === "table" ||
+        tag === "iframe" || tag === "object" || tag === "select";
+}
+
+function _chrome_select_all_visible_child_offset_ce3(node, after) {
+    var parent = node ? node.parentNode : null;
+    if (!parent) return 0;
+    var offset = 0;
+    for (var child = parent.firstChild; child && child !== node;
+         child = child.nextSibling) {
+        if (child.nodeType === 3 && !/\S/.test(child.nodeValue || ""))
+            continue;
+        offset++;
+    }
+    if (after) offset++;
+    return offset;
+}
+
+function _chrome_select_all_atomic_boundary_ce3(node, rawOffset) {
+    if (!node || !node.parentNode) return null;
+    return {
+        node: node.parentNode,
+        offset: rawOffset ? _chrome_node_child_index(node) + 1 :
+            _chrome_select_all_visible_child_offset_ce3(node, true)
+    };
+}
+
+function _chrome_select_all_atomic_end_boundary_ce3(node) {
+    if (_chrome_node_name_is(node, "br") || _chrome_node_name_is(node, "hr")) {
+        var boundary = _chrome_select_all_atomic_boundary_ce3(node, false);
+        if (boundary) boundary.offset++;
+        return boundary;
+    }
+    return _chrome_select_all_atomic_boundary_ce3(node, true);
+}
+
+function _chrome_first_select_all_boundary_ce3(root) {
+    root = _chrome_canonical_visible_root_ce3(root);
+    if (!root) return null;
+    if (root.nodeType === 3) {
+        var start = _chrome_select_all_text_start_offset_ce3(root);
+        return start >= 0 ? { node: root, offset: start } : null;
+    }
+    if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11)
+        return null;
+    for (var child = root.firstChild; child; child = child.nextSibling) {
+        if (child.nodeType === 3) {
+            var textStart = _chrome_select_all_text_start_offset_ce3(child);
+            if (textStart >= 0) return { node: child, offset: textStart };
+            continue;
+        }
+        if (child.nodeType !== 1 && child.nodeType !== 9 &&
+                child.nodeType !== 11) {
+            continue;
+        }
+        if (_chrome_select_all_skip_subtree_ce3(child)) continue;
+        if (_chrome_select_all_atomic_node_ce3(child))
+            return _chrome_select_all_atomic_boundary_ce3(child, false);
+        var found = _chrome_first_select_all_boundary_ce3(child);
+        if (found) return found;
+    }
+    return null;
+}
+
+function _chrome_last_select_all_boundary_ce3(root) {
+    root = _chrome_canonical_visible_root_ce3(root);
+    if (!root) return null;
+    if (root.nodeType === 3) {
+        var end = _chrome_select_all_text_end_offset_ce3(root);
+        return end >= 0 ? { node: root, offset: end } : null;
+    }
+    if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11)
+        return null;
+    for (var child = root.lastChild; child; child = child.previousSibling) {
+        if (child.nodeType === 3) {
+            var textEnd = _chrome_select_all_text_end_offset_ce3(child);
+            if (textEnd >= 0) return { node: child, offset: textEnd };
+            continue;
+        }
+        if (child.nodeType !== 1 && child.nodeType !== 9 &&
+                child.nodeType !== 11) {
+            continue;
+        }
+        if (_chrome_select_all_skip_subtree_ce3(child)) continue;
+        if (_chrome_select_all_atomic_node_ce3(child))
+            return _chrome_select_all_atomic_end_boundary_ce3(child);
+        var found = _chrome_last_select_all_boundary_ce3(child);
+        if (found) return found;
+    }
+    return null;
+}
+
+function _chrome_select_all_boundaries_ce3(host) {
+    var start = _chrome_first_select_all_boundary_ce3(host);
+    var end = _chrome_last_select_all_boundary_ce3(host);
+    if (start && end) return { start: start, end: end };
+    return {
+        start: { node: host, offset: 0 },
+        end: {
+            node: host,
+            offset: host && host.childNodes ? host.childNodes.length : 0
+        }
+    };
+}
+
+function _chrome_set_native_selection_only_ce3(selection, startNode,
+        startOffset, endNode, endOffset) {
+    if (!selection || !startNode) return false;
+    if (!endNode) endNode = startNode;
+    startOffset = startOffset || 0;
+    endOffset = endOffset || 0;
+    try {
+        if (startNode === endNode && startOffset === endOffset &&
+                typeof selection.collapse === "function") {
+            selection.collapse(startNode, startOffset);
+            return true;
+        }
+        if (typeof selection.setBaseAndExtent === "function") {
+            selection.setBaseAndExtent(startNode, startOffset, endNode,
+                endOffset);
+            return true;
+        }
+        if (typeof selection.collapse === "function" &&
+                typeof selection.extend === "function") {
+            selection.collapse(startNode, startOffset);
+            selection.extend(endNode, endOffset);
+            return true;
+        }
+    } catch (_) {}
+    return false;
+}
+
+function _chrome_select_all_in_document_ce3(doc) {
+    if (!doc) return false;
+    var host = doc.body || doc.documentElement;
+    if (!host) return false;
+    var selection = doc.defaultView &&
+        typeof doc.defaultView.getSelection === "function" ?
+        doc.defaultView.getSelection() : null;
+    var boundaries = _chrome_select_all_boundaries_ce3(host);
+    return _chrome_set_native_selection_only_ce3(selection,
+        boundaries.start.node, boundaries.start.offset,
+        boundaries.end.node, boundaries.end.offset);
+}
+
+function _chrome_clear_text_control_selection_marks_ce3(root) {
+    if (!root || !root.querySelectorAll) return;
+    var controls = root.querySelectorAll("input,textarea");
+    for (var i = 0; controls && i < controls.length; i++) {
+        var control = controls[i];
+        var value = _chrome_control_plain_value(control);
+        try {
+            Object.defineProperty(control, "__chromeHasTextSelection", {
+                configurable: true,
+                writable: true,
+                value: false
+            });
+        } catch (_) {
+            control.__chromeHasTextSelection = false;
+        }
+        control.__chromeSelectionValue = value;
+        control.selectionStart = value.length;
+        control.selectionEnd = value.length;
+        control.selectionDirection = "none";
+    }
+}
+
 function _chrome_editing_host_for_node(node) {
     var current = node && node.nodeType === 1 ? node : node && node.parentNode;
     while (current && current !== document.body) {
@@ -11062,18 +11473,15 @@ function _chrome_first_text_descendant(node) {
 function _chrome_select_all_in_host(host) {
     if (!host) return false;
     _chrome_forced_text_selection_element = null;
+    _chrome_active_text_control = null;
+    _chrome_clear_text_control_selection_marks_ce3(host);
     _chrome_select_all_text_node = host;
     var selection = getSelection();
     if (!selection) return false;
-    var first = _chrome_first_text_descendant(host);
-    var last = _chrome_last_text_descendant(host);
-    if (first && last) {
-        _chrome_set_command_selection_ce3(selection, first, 0, last,
-            (last.nodeValue || "").length);
-        return true;
-    }
-    _chrome_set_command_selection_ce3(selection, host, 0, host,
-        host.childNodes ? host.childNodes.length : 0);
+    var boundaries = _chrome_select_all_boundaries_ce3(host);
+    _chrome_set_command_selection_ce3(selection,
+        boundaries.start.node, boundaries.start.offset,
+        boundaries.end.node, boundaries.end.offset);
     return true;
 }
 
@@ -12115,9 +12523,7 @@ function _chrome_exec_command_for_sample(command, showUI, value) {
     if (cmd === "selectall") {
         var meaningfulActive = _chrome_meaningful_active_element();
         var activeControl = _chrome_is_text_control(meaningfulActive) ?
-            meaningfulActive :
-            (_chrome_active_text_control === meaningfulActive ?
-                _chrome_active_text_control : null);
+            meaningfulActive : null;
         if (!activeControl) activeControl = _chrome_autofocus_text_control_ce3();
         if (_chrome_is_text_control(activeControl) &&
                 _chrome_select_all_text_control_ce3(activeControl)) {
@@ -12376,6 +12782,7 @@ function _chrome_selection_api_ce3() {
         return nativeSelection.addRange(_chrome_unwrap_range_ce3(range));
     };
     api.collapse = function(node, offset) {
+        if (node === null) return nativeSelection.collapse(null);
         node = _chrome_resolve_named_element_candidate(node);
         if (_chrome_node_name_is(node, "br") && node.parentNode) {
             return nativeSelection.collapse(node.parentNode,
@@ -12427,7 +12834,24 @@ function _chrome_selection_api_ce3() {
     };
     api.setBaseAndExtent = function(anchorNode, anchorOffset, focusNode,
             focusOffset) {
+        if (anchorNode === null) {
+            _chrome_selection_override_range = null;
+            return nativeSelection.setBaseAndExtent(null, anchorOffset,
+                focusNode, focusOffset);
+        }
         anchorNode = _chrome_resolve_named_element_candidate(anchorNode);
+        if (focusNode === null) {
+            var collapseOffset = _chrome_clamp_text_selection_offset(
+                anchorNode, anchorOffset);
+            _chrome_selection_override_range = {
+                startContainer: anchorNode,
+                startOffset: collapseOffset,
+                endContainer: anchorNode,
+                endOffset: collapseOffset
+            };
+            return nativeSelection.setBaseAndExtent(anchorNode,
+                collapseOffset, null, focusOffset);
+        }
         focusNode = _chrome_resolve_named_element_candidate(focusNode);
         return nativeSelection.setBaseAndExtent(
             anchorNode,
@@ -12485,6 +12909,50 @@ if (typeof Selection !== "undefined" && Selection.prototype &&
             _chrome_base_selection_to_string_ce3);
     };
     Selection.prototype.__chromeToStringCe3 = true;
+}
+
+if (typeof Selection !== "undefined" && Selection.prototype &&
+    !Selection.prototype.__chromeTextControlCollapseCe3) {
+    var _chrome_base_selection_collapse_to_start_ce3 =
+        Selection.prototype.collapseToStart;
+    var _chrome_base_selection_collapse_to_end_ce3 =
+        Selection.prototype.collapseToEnd;
+    function _chrome_collapse_active_text_control_ce3(toStart) {
+        var active = _chrome_active_text_control ||
+            _chrome_meaningful_active_element();
+        if (!_chrome_is_text_control(active)) return false;
+        _chrome_install_text_control_selection_api(active);
+        var start = typeof active.selectionStart === "number" ?
+            active.selectionStart : 0;
+        var end = typeof active.selectionEnd === "number" ?
+            active.selectionEnd : start;
+        var pos = toStart ? Math.min(start, end) : Math.max(start, end);
+        active.setSelectionRange(pos, pos, "none");
+        return true;
+    }
+    Selection.prototype.collapseToStart = function() {
+        try {
+            if (_chrome_base_selection_collapse_to_start_ce3)
+                return _chrome_base_selection_collapse_to_start_ce3.call(this);
+        } catch (e) {
+            if (_chrome_collapse_active_text_control_ce3(true))
+                return undefined;
+            throw e;
+        }
+        return undefined;
+    };
+    Selection.prototype.collapseToEnd = function() {
+        try {
+            if (_chrome_base_selection_collapse_to_end_ce3)
+                return _chrome_base_selection_collapse_to_end_ce3.call(this);
+        } catch (e) {
+            if (_chrome_collapse_active_text_control_ce3(false))
+                return undefined;
+            throw e;
+        }
+        return undefined;
+    };
+    Selection.prototype.__chromeTextControlCollapseCe3 = true;
 }
 
 function _chrome_serialize_control_value(control) {
