@@ -2605,8 +2605,9 @@ class RadiantLayoutTester {
                 .map(entry => entry.name);
 
             // Also scan subdirectories for HTML files (e.g., css2.1 has html4/, xhtml1/)
-            // Skip 'support' directory — it contains frame/reference helper files, not standalone tests
-            const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'support');
+            // Skip WPT helper directories; they contain resources/templates, not standalone tests.
+            const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
+                entry.name !== 'support' && entry.name !== 'tools');
             for (const subDir of subDirs) {
                 const subDirPath = path.join(categoryDir, subDir.name);
                 try {
@@ -2797,8 +2798,9 @@ class RadiantLayoutTester {
                     .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')) && entry.name.includes(pattern))
                     .map(entry => entry.name);
 
-                // Also scan subdirectories for matching HTML files
-                const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.'));
+                // Also scan subdirectories for matching HTML files, excluding WPT helpers.
+                const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
+                    entry.name !== 'support' && entry.name !== 'tools');
                 for (const subDir of subDirs) {
                     const subDirPath = path.join(categoryDir, subDir.name);
                     try {

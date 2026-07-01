@@ -50,6 +50,53 @@ function findChromeHeadlessShell() {
     return null;
 }
 
+function contentTypeForPath(filePath) {
+    const ext = path.extname(filePath).toLowerCase();
+    if (ext === '.png') return 'image/png';
+    if (ext === '.jpg' || ext === '.jpeg') return 'image/jpeg';
+    if (ext === '.gif') return 'image/gif';
+    if (ext === '.svg') return 'image/svg+xml';
+    if (ext === '.css') return 'text/css';
+    if (ext === '.ttf') return 'font/ttf';
+    if (ext === '.woff') return 'font/woff';
+    if (ext === '.woff2') return 'font/woff2';
+    return 'application/octet-stream';
+}
+
+async function resolveWptAbsoluteCssResource(requestUrl, htmlFilePath, category) {
+    let parsed;
+    try {
+        parsed = new URL(requestUrl);
+    } catch {
+        return null;
+    }
+
+    if (parsed.protocol !== 'file:' || !parsed.pathname.startsWith('/css/')) {
+        return null;
+    }
+
+    const categoryDir = category ? path.join(__dirname, 'data', category) : path.dirname(htmlFilePath);
+    const afterCssRoot = decodeURIComponent(parsed.pathname.substring('/css/'.length));
+    const candidates = [];
+
+    if (category && category.startsWith('wpt-css-')) {
+        const cssSuiteName = category.substring('wpt-'.length);
+        if (afterCssRoot.startsWith(`${cssSuiteName}/`)) {
+            candidates.push(path.join(categoryDir, afterCssRoot.substring(cssSuiteName.length + 1)));
+        }
+    }
+    candidates.push(path.join(categoryDir, afterCssRoot));
+    candidates.push(path.join(__dirname, 'data', afterCssRoot));
+
+    for (const candidate of candidates) {
+        try {
+            await fs.access(candidate);
+            return candidate;
+        } catch {}
+    }
+    return null;
+}
+
 async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null) {
     console.log(`🔍 Checking layout extraction for: ${htmlFilePath}`);
 
@@ -196,6 +243,27 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }, 0);
         });
         console.log('✅ Browser ready');
+
+        // WPT CSS tests use root-relative /css/support URLs; file:// extraction has
+        // no web root, so map those requests back to the local category resources.
+        await page.setRequestInterception(true);
+        page.on('request', async (request) => {
+            try {
+                const resourcePath = await resolveWptAbsoluteCssResource(request.url(), htmlFilePath, category);
+                if (resourcePath) {
+                    const body = await fs.readFile(resourcePath);
+                    await request.respond({
+                        status: 200,
+                        contentType: contentTypeForPath(resourcePath),
+                        body
+                    });
+                    return;
+                }
+                await request.continue();
+            } catch {
+                await request.continue();
+            }
+        });
 
         // Load HTML file using file:// URL to preserve relative paths for @font-face
         console.log('📄 Loading HTML file...');
@@ -848,7 +916,9 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
             async function scanSubDirs(dir, relPath) {
                 const entries = await fs.readdir(dir, { withFileTypes: true });
                 for (const entry of entries) {
-                    if (!entry.isDirectory() || entry.name.startsWith('.') || entry.name === 'support') continue;
+                    // WPT support/tools directories hold resources and source templates, not runnable tests.
+                    if (!entry.isDirectory() || entry.name.startsWith('.') ||
+                        entry.name === 'support' || entry.name === 'tools') continue;
                     const subDirPath = path.join(dir, entry.name);
                     const subRelPath = relPath ? `${relPath}/${entry.name}` : entry.name;
                     try {
