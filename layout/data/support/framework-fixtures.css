@@ -1308,3 +1308,373 @@ body {
   background: #ffffff;
   border: 1px solid #f0f0f0;
 }
+
+.ant-app-shell {
+  width: 760px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.ant-app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.ant-app-body {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  min-height: 280px;
+}
+
+.ant-badge {
+  display: inline-block;
+  position: relative;
+  min-width: 32px;
+}
+
+.ant-badge-count {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ff4d4f;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.ant-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 18px;
+}
+
+.ant-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #52c41a;
+}
+
+.ant-badge-dot.warning {
+  background: #faad14;
+}
+
+.ant-badge-dot.error {
+  background: #ff4d4f;
+}
+
+.ant-divider {
+  width: 620px;
+  height: 1px;
+  margin: 18px 0;
+  background: #f0f0f0;
+}
+
+.ant-divider-vertical {
+  display: inline-block;
+  width: 1px;
+  height: 28px;
+  margin: 0 12px;
+  background: #f0f0f0;
+  vertical-align: middle;
+}
+
+.ant-space {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.ant-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  width: 620px;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ant-grid-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 700px;
+}
+
+.ant-grid-col {
+  min-height: 74px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #e6f4ff;
+  color: #0958d9;
+  text-align: center;
+}
+
+.ant-menu {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+  list-style: none;
+}
+
+.ant-menu.vertical {
+  flex-direction: column;
+  width: 260px;
+}
+
+.ant-menu li {
+  padding: 9px 14px;
+  border-radius: 6px;
+}
+
+.ant-menu .active {
+  color: #1677ff;
+  background: #e6f4ff;
+}
+
+.ant-page-header {
+  width: 720px;
+  padding: 18px 22px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ant-page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.ant-float-stack {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ant-float-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #1677ff;
+  color: #ffffff;
+  line-height: 44px;
+  text-align: center;
+}
+
+.ant-qrcode {
+  display: grid;
+  grid-template-columns: repeat(5, 18px);
+  gap: 5px;
+  width: 134px;
+  padding: 14px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ant-qrcode span {
+  width: 18px;
+  height: 18px;
+  background: #111827;
+}
+
+.ant-qrcode span.light {
+  background: #ffffff;
+}
+
+.ant-color-picker {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 360px;
+  padding: 14px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ant-color-swatch {
+  width: 76px;
+  height: 54px;
+  border-radius: 6px;
+  background: #1677ff;
+}
+
+.ant-carousel {
+  width: 520px;
+  padding: 18px;
+  border-radius: 8px;
+  background: #001529;
+  color: #ffffff;
+}
+
+.ant-carousel-slide {
+  min-height: 150px;
+  padding: 32px;
+  border-radius: 8px;
+  background: #1677ff;
+  text-align: center;
+}
+
+.ant-tour {
+  width: 330px;
+  padding: 18px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ant-watermark {
+  width: 620px;
+  min-height: 220px;
+  padding: 24px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: repeating-linear-gradient(-28deg, #ffffff 0, #ffffff 42px, #fafafa 42px, #fafafa 84px);
+}
+
+.ant-splitter {
+  display: grid;
+  grid-template-columns: 230px 8px 1fr;
+  width: 720px;
+  min-height: 260px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.ant-splitter-pane {
+  padding: 18px;
+}
+
+.ant-splitter-bar {
+  background: #f0f0f0;
+}
+
+.ant-picker-panel {
+  width: 360px;
+  padding: 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ant-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.ant-picker-grid span {
+  padding: 8px;
+  border-radius: 6px;
+  background: #fafafa;
+  text-align: center;
+}
+
+.ant-input-group {
+  display: flex;
+  width: 460px;
+}
+
+.ant-input-group .ant-input {
+  border-radius: 6px 0 0 6px;
+}
+
+.ant-input-group .ant-btn {
+  border-radius: 0 6px 6px 0;
+}
+
+.ant-textarea {
+  width: 460px;
+  min-height: 112px;
+  padding: 8px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.ant-otp {
+  display: flex;
+  gap: 10px;
+}
+
+.ant-otp span {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  background: #ffffff;
+  line-height: 42px;
+  text-align: center;
+}
+
+.ant-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid #f0f0f0;
+}
+
+.ant-card-grid div {
+  padding: 16px;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-list-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.ant-comment {
+  width: 520px;
+  padding: 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.ant-comment-body {
+  margin-left: 72px;
+}
+
+.ant-result.warning .ant-result-icon {
+  background: #fffbe6;
+}
+
+.ant-result.error .ant-result-icon {
+  background: #fff1f0;
+}
+
+.ant-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
