@@ -63,7 +63,7 @@ function contentTypeForPath(filePath) {
     return 'application/octet-stream';
 }
 
-async function resolveWptAbsoluteCssResource(requestUrl, htmlFilePath, category) {
+async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
     let parsed;
     try {
         parsed = new URL(requestUrl);
@@ -71,12 +71,17 @@ async function resolveWptAbsoluteCssResource(requestUrl, htmlFilePath, category)
         return null;
     }
 
-    if (parsed.protocol !== 'file:' || !parsed.pathname.startsWith('/css/')) {
+    if (parsed.protocol !== 'file:' ||
+        (!parsed.pathname.startsWith('/css/') && !parsed.pathname.startsWith('/fonts/'))) {
         return null;
     }
 
     const categoryDir = category ? path.join(__dirname, 'data', category) : path.dirname(htmlFilePath);
-    const afterCssRoot = decodeURIComponent(parsed.pathname.substring('/css/'.length));
+    const afterCssRoot = decodeURIComponent(
+        parsed.pathname.startsWith('/css/')
+            ? parsed.pathname.substring('/css/'.length)
+            : parsed.pathname.substring(1)
+    );
     const candidates = [];
 
     if (category && category.startsWith('wpt-css-')) {
@@ -87,6 +92,7 @@ async function resolveWptAbsoluteCssResource(requestUrl, htmlFilePath, category)
     }
     candidates.push(path.join(categoryDir, afterCssRoot));
     candidates.push(path.join(__dirname, 'data', afterCssRoot));
+    candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', afterCssRoot));
 
     for (const candidate of candidates) {
         try {
@@ -244,12 +250,12 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         });
         console.log('✅ Browser ready');
 
-        // WPT CSS tests use root-relative /css/support URLs; file:// extraction has
+        // WPT CSS tests use server-root URLs; file:// extraction has
         // no web root, so map those requests back to the local category resources.
         await page.setRequestInterception(true);
         page.on('request', async (request) => {
             try {
-                const resourcePath = await resolveWptAbsoluteCssResource(request.url(), htmlFilePath, category);
+                const resourcePath = await resolveWptAbsoluteResource(request.url(), htmlFilePath, category);
                 if (resourcePath) {
                     const body = await fs.readFile(resourcePath);
                     await request.respond({

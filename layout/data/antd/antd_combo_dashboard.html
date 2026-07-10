@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AntD Combo Dashboard Fixture</title>
+  <link rel="stylesheet" href="../support/framework-fixtures.css">
+  <script defer src="../support/framework-fixtures.js"></script>
+</head>
+<body>
+  <main class="fixture-page">
+    <h1 class="fixture-title">AntD Combo Dashboard</h1>
+    <section class="ant-layout" id="antd-combo">
+      <aside class="ant-sider">
+        <p class="fw-700">Lambda Console</p>
+        <div class="ant-menu-item active">Overview</div>
+        <div class="ant-menu-item">References</div>
+        <div class="ant-menu-item">Settings</div>
+      </aside>
+      <div class="ant-content">
+        <div class="fixture-row">
+          <article class="ant-card">
+            <div class="ant-card-head">Suite Health</div>
+            <div class="ant-card-body">
+              <p class="fw-600">All fixtures present</p>
+              <span class="ant-tag">ready</span>
+            </div>
+          </article>
+          <form class="ant-form">
+            <div class="ant-form-item">
+              <label class="ant-form-label" for="antd-combo-suite">Suite</label>
+              <input class="ant-input" id="antd-combo-suite" value="antd">
+            </div>
+            <div class="ant-form-item">
+              <span class="ant-form-label"></span>
+              <button class="ant-btn ant-btn-primary" type="button">Capture</button>
+            </div>
+          </form>
+        </div>
+        <table class="ant-table" style="margin-top: 18px">
+          <tbody>
+            <tr><td>Buttons</td><td><span class="ant-tag">simple</span></td></tr>
+            <tr><td>Modal</td><td><span class="ant-tag">combo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

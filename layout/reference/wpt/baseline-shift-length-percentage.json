@@ -1,5 +1,6 @@
 {
   "test_file": "baseline-shift-length-percentage.html",
+  "has_computed_properties": true,
   "browser_info": {
     "viewport": {
       "width": 1200,
@@ -16,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 56,
+      "height": 90,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -50,7 +51,7 @@
       "gap": "normal",
       "fontSize": 16,
       "lineHeight": "normal",
-      "fontFamily": "Times",
+      "fontFamily": "\"Times New Roman\"",
       "fontWeight": "400",
       "textAlign": "start",
       "verticalAlign": "baseline",
@@ -110,7 +111,7 @@
           "gap": "normal",
           "fontSize": 16,
           "lineHeight": "normal",
-          "fontFamily": "Times",
+          "fontFamily": "\"Times New Roman\"",
           "fontWeight": "400",
           "textAlign": "start",
           "verticalAlign": "baseline",
@@ -170,7 +171,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -188,7 +189,7 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda-test/layout/data/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
+                "text": "\n                            @font-face {\n                                font-family: 'Ahem';\n                                src: url('file:///Users/henryluo/Projects/lambda/test/layout/data/support/ahem3.ttf') format('truetype');\n                                font-weight: normal;\n                                font-style: normal;\n                            }\n                        ",
                 "length": 392,
                 "isWhitespaceOnly": false,
                 "layout": {
@@ -264,7 +265,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -341,7 +342,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -418,7 +419,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -495,7 +496,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -572,7 +573,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -617,11 +618,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 40,
+          "height": 74,
           "contentWidth": 1184,
-          "contentHeight": 40,
+          "contentHeight": 74,
           "scrollWidth": 1184,
-          "scrollHeight": 40
+          "scrollHeight": 74
         },
         "computed": {
           "display": "block",
@@ -651,7 +652,7 @@
           "gap": "normal",
           "fontSize": 16,
           "lineHeight": "normal",
-          "fontFamily": "Times",
+          "fontFamily": "\"Times New Roman\"",
           "fontWeight": "400",
           "textAlign": "start",
           "verticalAlign": "baseline",
@@ -675,8 +676,8 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 18,
-              "width": 136,
+              "y": 52,
+              "width": 180,
               "height": 20,
               "contentWidth": 0,
               "contentHeight": 0,
@@ -735,13 +736,13 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 18,
-                  "width": 16,
-                  "height": 16,
-                  "contentWidth": 16,
-                  "contentHeight": 16,
-                  "scrollWidth": 16,
-                  "scrollHeight": 16
+                  "y": 8,
+                  "width": 60,
+                  "height": 60,
+                  "contentWidth": 60,
+                  "contentHeight": 60,
+                  "scrollWidth": 60,
+                  "scrollHeight": 60
                 },
                 "computed": {
                   "display": "inline",
@@ -796,12 +797,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 24,
-                      "y": 18,
+                      "x": 68,
+                      "y": 52,
                       "width": 20,
                       "height": 20,
-                      "right": 44,
-                      "bottom": 38
+                      "right": 88,
+                      "bottom": 72
                     }
                   ],
                   "hasLayout": true,
@@ -820,8 +821,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 44,
-                  "y": 18,
+                  "x": 88,
+                  "y": 52,
                   "width": 20,
                   "height": 20,
                   "contentWidth": 0,
@@ -881,12 +882,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 44,
-                          "y": 18,
+                          "x": 88,
+                          "y": 52,
                           "width": 20,
                           "height": 20,
-                          "right": 64,
-                          "bottom": 38,
+                          "right": 108,
+                          "bottom": 72,
                           "text": "X",
                           "startIndex": 0,
                           "endIndex": 1
@@ -911,12 +912,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 64,
-                      "y": 18,
+                      "x": 108,
+                      "y": 52,
                       "width": 20,
                       "height": 20,
-                      "right": 84,
-                      "bottom": 38
+                      "right": 128,
+                      "bottom": 72
                     }
                   ],
                   "hasLayout": true,
@@ -935,8 +936,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 84,
-                  "y": 18,
+                  "x": 128,
+                  "y": 52,
                   "width": 20,
                   "height": 20,
                   "contentWidth": 0,
@@ -996,12 +997,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 84,
-                          "y": 18,
+                          "x": 128,
+                          "y": 52,
                           "width": 20,
                           "height": 20,
-                          "right": 104,
-                          "bottom": 38,
+                          "right": 148,
+                          "bottom": 72,
                           "text": "X",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1026,12 +1027,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 104,
-                      "y": 18,
+                      "x": 148,
+                      "y": 52,
                       "width": 20,
                       "height": 20,
-                      "right": 124,
-                      "bottom": 38
+                      "right": 168,
+                      "bottom": 72
                     }
                   ],
                   "hasLayout": true,
@@ -1050,8 +1051,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 124,
-                  "y": 18,
+                  "x": 168,
+                  "y": 52,
                   "width": 20,
                   "height": 20,
                   "contentWidth": 0,
@@ -1111,12 +1112,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 124,
-                          "y": 18,
+                          "x": 168,
+                          "y": 52,
                           "width": 20,
                           "height": 20,
-                          "right": 144,
-                          "bottom": 38,
+                          "right": 188,
+                          "bottom": 72,
                           "text": "X",
                           "startIndex": 0,
                           "endIndex": 1
