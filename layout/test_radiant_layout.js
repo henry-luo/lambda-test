@@ -1403,18 +1403,23 @@ class RadiantLayoutTester {
                         console.log(`${indent()}   ✅ TEXT MATCH (${maxDiff.toFixed(1)}px diff <= ${maxTolerance}px)`);
                     }
                 } else {
+                    const failedLayoutDiffs = layoutDiffs.filter(d => d.exceedsTolerance);
+                    const maxExceededDiff = failedLayoutDiffs.length > 0 ?
+                        Math.max(...failedLayoutDiffs.map(d => d.difference)) : 0;
                     results.differences.push({
                         type: 'text_layout_mismatch',
                         path: path,
                         radiant: { content: radiantNode.content, layout: radiantLayout },
                         browser: { content: browserNode.text, layout: browserLayout },
                         maxDifference: maxDiff,
+                        // Cumulative y drift may be inside its proportional tolerance;
+                        // relaxation should only consider properties that actually failed.
+                        maxExceededDifference: maxExceededDiff,
                         maxTolerance: maxTolerance,
                     });
                     if (this.verbose) {
                         // Show per-property comparison for failed text nodes
-                        const failedProps = layoutDiffs.filter(d => d.exceedsTolerance);
-                        for (const d of failedProps) {
+                        for (const d of failedLayoutDiffs) {
                             console.log(`${indent()}   ❌ ${d.property}: ${d.radiant.toFixed(1)} vs ${d.browser.toFixed(1)} (diff=${d.difference.toFixed(1)}px > tol=${d.tolerance.toFixed(1)}px)`);
                         }
                     }
@@ -1810,7 +1815,8 @@ class RadiantLayoutTester {
             let rematched = 0;
             for (const diff of (results.differences || [])) {
                 if (diff.type === 'text_layout_mismatch' && diff.maxDifference !== undefined) {
-                    if (diff.maxDifference <= relaxedTolerance) {
+                    const exceededDifference = diff.maxExceededDifference ?? diff.maxDifference;
+                    if (exceededDifference <= relaxedTolerance) {
                         rematched++;
                     }
                 }
@@ -1819,7 +1825,8 @@ class RadiantLayoutTester {
                 textMatched += rematched;
                 // Remove re-matched text diffs from the difference list
                 results.differences = (results.differences || []).filter(d => {
-                    return !(d.type === 'text_layout_mismatch' && d.maxDifference !== undefined && d.maxDifference <= relaxedTolerance);
+                    const exceededDifference = d.maxExceededDifference ?? d.maxDifference;
+                    return !(d.type === 'text_layout_mismatch' && d.maxDifference !== undefined && exceededDifference <= relaxedTolerance);
                 });
             }
 
