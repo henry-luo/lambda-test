@@ -36,6 +36,7 @@ class RadiantLayoutTester {
         this.verbose = options.verbose || false;
         this.json = options.json || false; // JSON output mode
         this.updateBaseline = options.updateBaseline || false;
+        this.baselineOnly = options.baselineOnly || false;
         this.projectRoot = options.projectRoot || process.cwd();
         this.maxConcurrency = options.maxConcurrency || DEFAULT_CONCURRENCY; // Max parallel tests (auto-detect: cores - 1)
         this.testIdCounter = 0; // Counter for unique test IDs
@@ -590,6 +591,7 @@ class RadiantLayoutTester {
                 const entry = this.parseBaselineLine(lines[i]);
                 if (!entry) continue;
                 entry.lineIndex = i;
+                entry.baselineIndex = entries.length;
                 entries.push(entry);
                 byName.set(entry.name, entry);
             }
@@ -610,49 +612,88 @@ class RadiantLayoutTester {
         };
     }
 
-    checkBaselineResults(baseline, results) {
+    classifyBaselineEntry(entry, result) {
+        if (!result) {
+            return { status: 'failed', reason: 'test missing from current run' };
+        }
+        if (result.error) {
+            return { status: 'failed', reason: `Error: ${result.error}` };
+        }
+
+        const current = this.getResultScores(result);
+        if (!entry.isPartial) {
+            return this.isFullyMatchedScores(current)
+                ? { status: 'successful' }
+                : { status: 'failed', reason: 'required pass missing or failed' };
+        }
+
+        const regressions = [];
+        for (const metric of ['elements', 'spans', 'text']) {
+            if (entry.scores[metric] == null) continue;
+            // baseline files record one decimal place, so compare the same value shown in reports.
+            const reportedScore = Number(current[metric].toFixed(1));
+            if (reportedScore < entry.scores[metric]) {
+                regressions.push(`${metric} ${entry.scores[metric].toFixed(1)}% → ${reportedScore.toFixed(1)}%`);
+            }
+        }
+        if (regressions.length > 0) {
+            return { status: 'failed', reason: regressions.join(', ') };
+        }
+        return this.isFullyMatchedScores(current)
+            ? { status: 'successful' }
+            : { status: 'partial' };
+    }
+
+    classifyBaselineResults(baseline, results) {
         const resultByName = new Map();
+        const resultByBaselineIndex = new Map();
         for (const result of results) {
-            resultByName.set(result.testName || result.testFile, result);
+            const name = result.testName || result.testFile;
+            if (!resultByName.has(name)) resultByName.set(name, []);
+            resultByName.get(name).push(result);
+            if (result.baselineEntry?.baselineIndex != null) {
+                resultByBaselineIndex.set(result.baselineEntry.baselineIndex, result);
+            }
         }
 
-        const baselineFailures = [];
-        const legacyPassedNames = new Set(results
-            .filter(r => !r.error && this.isFullyMatchedScores(this.getResultScores(r)))
-            .map(r => r.testName || r.testFile));
-
+        const outcomes = [];
+        const consumedByName = new Map();
         for (const entry of baseline.entries) {
-            const result = resultByName.get(entry.name);
-            if (!entry.isPartial) {
-                if (!legacyPassedNames.has(entry.name)) {
-                    baselineFailures.push({ name: entry.name, reason: 'required pass missing or failed' });
-                }
-                continue;
-            }
-
-            if (!result) {
-                baselineFailures.push({ name: entry.name, reason: 'test missing from current run' });
-                continue;
-            }
-            if (result.error) {
-                baselineFailures.push({ name: entry.name, reason: `Error: ${result.error}` });
-                continue;
-            }
-
-            const current = this.getResultScores(result);
-            const regressions = [];
-            for (const metric of ['elements', 'spans', 'text']) {
-                if (entry.scores[metric] == null) continue;
-                const floor = entry.scores[metric] - 10.0;
-                if (current[metric] < floor) {
-                    regressions.push(`${metric} ${entry.scores[metric].toFixed(1)}% → ${current[metric].toFixed(1)}%`);
-                }
-            }
-            if (regressions.length > 0) {
-                baselineFailures.push({ name: entry.name, reason: regressions.join(', ') });
-            }
+            const consumed = consumedByName.get(entry.name) || 0;
+            const result = resultByBaselineIndex.get(entry.baselineIndex) ||
+                resultByName.get(entry.name)?.[consumed];
+            consumedByName.set(entry.name, consumed + 1);
+            outcomes.push({ entry, result, ...this.classifyBaselineEntry(entry, result) });
         }
 
+        return {
+            outcomes,
+            successful: outcomes.filter(outcome => outcome.status === 'successful').length,
+            partial: outcomes.filter(outcome => outcome.status === 'partial').length,
+            failures: outcomes
+                .filter(outcome => outcome.status === 'failed')
+                .map(outcome => ({ name: outcome.entry.name, reason: outcome.reason }))
+        };
+    }
+
+    checkBaselineResults(baseline, results) {
+        return this.classifyBaselineResults(baseline, results).failures;
+    }
+
+    enforceBaselineResults(baseline, results, classification = null) {
+        if (!baseline || baseline.size === 0) return [];
+
+        const baselineFailures = (classification || this.classifyBaselineResults(baseline, results)).failures;
+        if (baselineFailures.length > 0) {
+            if (!this.json) {
+                console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
+                baselineFailures.forEach(failure => console.log(`   - ${failure.name}: ${failure.reason}`));
+            }
+            if (!this._baselineRegressions) this._baselineRegressions = [];
+            this._baselineRegressions.push(...baselineFailures);
+        } else if (!this.json) {
+            console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
+        }
         return baselineFailures;
     }
 
@@ -736,6 +777,33 @@ class RadiantLayoutTester {
         return false;
     }
 
+    getTestNameFromPath(htmlFile, category = null) {
+        const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
+        const name = path.basename(htmlFile, ext);
+        if (name === 'index' && (category === 'web-tmpl' || htmlFile.includes(`${path.sep}web-tmpl${path.sep}`))) {
+            return path.basename(path.dirname(htmlFile));
+        }
+        return name;
+    }
+
+    selectRecordedBaselineTasks(testTasks, baseline) {
+        const entriesByName = new Map();
+        for (const entry of baseline.entries) {
+            if (!entriesByName.has(entry.name)) entriesByName.set(entry.name, []);
+            entriesByName.get(entry.name).push(entry);
+        }
+
+        return testTasks.filter(task => {
+            const name = this.getTestNameFromPath(task.htmlFile, task.category);
+            const entries = entriesByName.get(name);
+            if (!entries || entries.length === 0) return false;
+            // duplicate baseline lines intentionally select the same number of
+            // same-named files and retain the matching score for later reporting.
+            task.baselineEntry = entries.shift();
+            return true;
+        });
+    }
+
     /**
      * Pre-filter test tasks: remove files without browser references, exceeding MAX_TEST_FILE_SIZE,
      * or listed in skip_list.txt.
@@ -751,8 +819,7 @@ class RadiantLayoutTester {
         const checks = await Promise.all(testTasks.map(async (task) => {
             // Check skip list
             const skipList = await this.loadSkipList(task.category);
-            const ext = task.htmlFile.endsWith('.htm') && !task.htmlFile.endsWith('.html') ? '.htm' : '.html';
-            const testName = path.basename(task.htmlFile, ext);
+            const testName = this.getTestNameFromPath(task.htmlFile, task.category);
             if (this.isSkipped(skipList, testName)) {
                 return { task, skip: 'skip-list' };
             }
@@ -1867,6 +1934,7 @@ class RadiantLayoutTester {
             htmlFile: metadata.htmlFile || null,
             resultFile: metadata.resultFile || null,
             viewFile: metadata.viewFile || null,
+            baselineEntry: metadata.baselineEntry || null,
             elementComparison: {
                 total: results.totalElements,
                 matched: results.matchedElements,
@@ -1905,14 +1973,28 @@ class RadiantLayoutTester {
     printReport(report) {
         if (this.json) return; // Skip console output in JSON mode
 
-        // Overall result - include span information in summary
-        const overallSuccess = report.elementComparison.passRate >= this.elementThreshold &&
-                              report.textComparison.passRate >= this.textThreshold;
-        const status = overallSuccess ? '✅ PASS' : '❌ FAIL';
+        const baselineOutcome = report.baselineEntry
+            ? this.classifyBaselineEntry(report.baselineEntry, report)
+            : null;
+        const overallSuccess = baselineOutcome
+            ? baselineOutcome.status !== 'failed'
+            : report.elementComparison.passRate >= this.elementThreshold &&
+              report.textComparison.passRate >= this.textThreshold;
+        const status = baselineOutcome?.status === 'partial'
+            ? '⚠️ PARTIALLY PASSING'
+            : overallSuccess ? '✅ PASS' : '❌ FAIL';
 
         // For single test mode with failure, print detailed sectioned report
         if (this.singleTestMode && !overallSuccess) {
             this.printDetailedFailureReport(report);
+            return;
+        }
+
+        // Quiet multi-test runs (e.g. `make layout suite=…`, no -v): suppress
+        // per-test output for clean passes so only failures/partials and the
+        // final summary are shown. Verbose and single-test modes still print all.
+        if (overallSuccess && baselineOutcome?.status !== 'partial'
+            && !this.verbose && !this.singleTestMode) {
             return;
         }
 
@@ -1953,6 +2035,9 @@ class RadiantLayoutTester {
             summaryText += `, Spans ${report.spanComparison.passRate.toFixed(1)}%`;
         }
         summaryText += `, Text ${report.textComparison.passRate.toFixed(1)}%`;
+        if (baselineOutcome?.status === 'failed') {
+            summaryText += `; Baseline: ${baselineOutcome.reason}`;
+        }
 
         console.log(summaryText);
     }
@@ -2149,14 +2234,8 @@ class RadiantLayoutTester {
      * @param {string} category - Test category name
      * @param {string} outputFile - Optional unique output file for parallel execution
      */
-    async testSingleFile(htmlFile, category, outputFile = null) {
-        // Handle both .html and .htm extensions
-        const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
-        let testName = path.basename(htmlFile, ext);
-        // web-tmpl templates all use index.html; derive test name from parent directory
-        if (testName === 'index' && (category === 'web-tmpl' || htmlFile.includes('/web-tmpl/'))) {
-            testName = path.basename(path.dirname(htmlFile));
-        }
+    async testSingleFile(htmlFile, category, outputFile = null, baselineEntry = null) {
+        const testName = this.getTestNameFromPath(htmlFile, category);
         const testFileName = path.basename(htmlFile);
         // console.log(`\n🧪 Testing: ${testName}`);
 
@@ -2198,6 +2277,7 @@ class RadiantLayoutTester {
                 return {
                     testName,
                     testFile: testFileName,
+                    baselineEntry,
                     error: `Comparison error: ${compareError.message}`,
                     timestamp: new Date().toISOString()
                 };
@@ -2207,7 +2287,8 @@ class RadiantLayoutTester {
             const metadata = {
                 htmlFile: htmlFile,
                 resultFile: actualOutputFile,
-                viewFile: actualOutputFile.replace('.json', '.txt')
+                viewFile: actualOutputFile.replace('.json', '.txt'),
+                baselineEntry
             };
             const report = this.generateReport(results, null, testName, metadata);
             this.printReport(report);
@@ -2256,6 +2337,7 @@ class RadiantLayoutTester {
             return {
                 testName,
                 testFile: testFileInfo,
+                baselineEntry,
                 error: error.message,
                 timestamp: new Date().toISOString()
             };
@@ -2268,13 +2350,8 @@ class RadiantLayoutTester {
      * @param {string} category - Test category name
      * @param {string} outputFile - Path to the layout output JSON file
      */
-    async compareTestResult(htmlFile, category, outputFile) {
-        const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
-        let testName = path.basename(htmlFile, ext);
-        // web-tmpl templates all use index.html; derive test name from parent directory
-        if (testName === 'index' && (category === 'web-tmpl' || htmlFile.includes('/web-tmpl/'))) {
-            testName = path.basename(path.dirname(htmlFile));
-        }
+    async compareTestResult(htmlFile, category, outputFile, baselineEntry = null) {
+        const testName = this.getTestNameFromPath(htmlFile, category);
         const testFileName = path.basename(htmlFile);
 
         try {
@@ -2302,6 +2379,7 @@ class RadiantLayoutTester {
                 return {
                     testName,
                     testFile: testFileName,
+                    baselineEntry,
                     error: `Comparison error: ${compareError.message}`,
                     timestamp: new Date().toISOString()
                 };
@@ -2311,7 +2389,8 @@ class RadiantLayoutTester {
             const metadata = {
                 htmlFile: htmlFile,
                 resultFile: outputFile,
-                viewFile: outputFile.replace('.json', '.txt')
+                viewFile: outputFile.replace('.json', '.txt'),
+                baselineEntry
             };
             const report = this.generateReport(results, null, testName, metadata);
             this.printReport(report);
@@ -2327,6 +2406,7 @@ class RadiantLayoutTester {
             return {
                 testName,
                 testFile: testFileInfo,
+                baselineEntry,
                 error: error.message,
                 timestamp: new Date().toISOString()
             };
@@ -2346,6 +2426,9 @@ class RadiantLayoutTester {
 
         const resultPasses = (result) => {
             if (!result || result.error) return false;
+            if (result.baselineEntry) {
+                return this.classifyBaselineEntry(result.baselineEntry, result).status !== 'failed';
+            }
             const elementPassRate = result.elementComparison ? result.elementComparison.passRate : 0;
             const textPassRate = result.textComparison ? result.textComparison.passRate : 100;
             return elementPassRate >= this.elementThreshold && textPassRate >= this.textThreshold;
@@ -2385,15 +2468,13 @@ class RadiantLayoutTester {
             }
 
             const makeLayoutFailure = (task, message) => {
-                let batchTestName = path.basename(task.htmlFile).replace(/\.(html|htm)$/i, '');
-                if (batchTestName === 'index' && (task.category === 'web-tmpl' || task.htmlFile.includes('/web-tmpl/'))) {
-                    batchTestName = path.basename(path.dirname(task.htmlFile));
-                }
+                const batchTestName = this.getTestNameFromPath(task.htmlFile, task.category);
                 return {
                     testName: batchTestName,
                     passed: false,
                     htmlFile: task.htmlFile,
                     category: task.category,
+                    baselineEntry: task.baselineEntry || null,
                     error: message,
                     failureDetails: [message],
                     timestamp: new Date().toISOString()
@@ -2455,7 +2536,7 @@ class RadiantLayoutTester {
             }
 
             const comparePromises = validTasks.map(async ({ task, outputFile }) => {
-                return this.compareTestResult(task.htmlFile, task.category, outputFile);
+                return this.compareTestResult(task.htmlFile, task.category, outputFile, task.baselineEntry);
             });
             const batchResults = await Promise.all(comparePromises);
             const finalResults = [];
@@ -2476,7 +2557,8 @@ class RadiantLayoutTester {
                 const retryOutput = this.getUniqueOutputFile();
                 try {
                     await this.runRadiantLayout(task.htmlFile, retryOutput);
-                    const retryResult = await this.compareTestResult(task.htmlFile, task.category, retryOutput);
+                    const retryResult = await this.compareTestResult(
+                        task.htmlFile, task.category, retryOutput, task.baselineEntry);
                     if (resultPasses(retryResult)) {
                         if (!this.json) {
                             console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
@@ -2558,7 +2640,8 @@ class RadiantLayoutTester {
             const testId = ++this.testIdCounter;
             const outputFile = this.getParallelOutputFile(task.htmlFile);
 
-            const testPromise = this.testSingleFile(task.htmlFile, task.category, outputFile)
+            const testPromise = this.testSingleFile(
+                task.htmlFile, task.category, outputFile, task.baselineEntry)
                 .then(result => ({ testId, result }))
                 .catch(error => ({ testId, result: { error: error.message } }));
 
@@ -2636,10 +2719,23 @@ class RadiantLayoutTester {
             }
 
             // Prepare test tasks
-            const rawTestTasks = htmlFiles.map(htmlFile => ({
+            let rawTestTasks = htmlFiles.map(htmlFile => ({
                 htmlFile: path.join(categoryDir, htmlFile),
                 category: category
             }));
+
+            const baseline = await this.loadBaseline(category);
+            if (this.baselineOnly) {
+                if (baseline && baseline.size > 0) {
+                    // a recorded baseline is the authoritative inventory for baseline gates.
+                    rawTestTasks = this.selectRecordedBaselineTasks(rawTestTasks, baseline);
+                    if (!this.json) {
+                        console.log(`   📌 Baseline-only: selected ${rawTestTasks.length}/${htmlFiles.length} recorded tests`);
+                    }
+                } else if (!this.json) {
+                    console.log('   ℹ️  No recorded baseline; running the full suite');
+                }
+            }
 
             // Pre-filter: skip tests without browser references or with file size > 100KB
             const { tasks: testTasks, skipped: skippedCount } = await this.filterTestTasks(rawTestTasks);
@@ -2647,7 +2743,13 @@ class RadiantLayoutTester {
             if (testTasks.length === 0) {
                 if (!this.json) {
                     console.log(`   No testable files after filtering (${skippedCount} skipped)`);
+                    console.log(`\n📋 Category Summary:`);
+                    console.log('   Total Tests: 0');
+                    console.log('   ✅ Successful: 0');
+                    if (skippedCount > 0) console.log(`   ⏭️  Skipped: ${skippedCount}`);
                 }
+                // an empty filtered run must not silently pass a non-empty baseline.
+                this.enforceBaselineResults(baseline, []);
                 return [];
             }
 
@@ -2684,24 +2786,61 @@ class RadiantLayoutTester {
                 return passed;
             }).length;
             const failed = results.length - successful;
+            const baselineClassification = baseline && baseline.size > 0
+                ? this.classifyBaselineResults(baseline, results)
+                : null;
+
+            if (this.baselineOnly && (!baseline || baseline.size === 0) && failed > 0) {
+                // without recorded scores, baseline-only falls back to the full
+                // suite, whose normal thresholds become the gate.
+                this._fullSuiteFailures = (this._fullSuiteFailures || 0) + failed;
+            }
 
             if (this.json) {
+                const reportedSuccessful = this.baselineOnly && baselineClassification
+                    ? baselineClassification.successful
+                    : successful;
+                const reportedPartial = this.baselineOnly && baselineClassification
+                    ? baselineClassification.partial
+                    : 0;
+                const reportedFailed = this.baselineOnly && baselineClassification
+                    ? baselineClassification.failures.length
+                    : failed;
                 // Output results as JSON for GTest integration
                 console.log(JSON.stringify({
-                    total: results.length,
-                    successful: successful,
-                    failed: failed,
+                    total: this.baselineOnly && baselineClassification ? baseline.size : results.length,
+                    successful: reportedSuccessful,
+                    partiallyPassing: reportedPartial,
+                    failed: reportedFailed,
                     skipped: skippedCount,
                     errors: errorCount,
                     results: results.map(r => ({
                         name: r.testName || r.testFile,
-                        passed: !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold && (r.textComparison?.passRate || 100) >= this.textThreshold,
+                        passed: r.baselineEntry
+                            ? this.classifyBaselineEntry(r.baselineEntry, r).status !== 'failed'
+                            : !r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
+                              (r.textComparison?.passRate || 100) >= this.textThreshold,
+                        status: r.baselineEntry
+                            ? this.classifyBaselineEntry(r.baselineEntry, r).status
+                            : (!r.error && (r.elementComparison?.passRate || 0) >= this.elementThreshold &&
+                               (r.textComparison?.passRate || 100) >= this.textThreshold ? 'successful' : 'failed'),
                         elementPassRate: r.elementComparison?.passRate || 0,
                         spanPassRate: r.spanComparison?.passRate ?? 100,
                         textPassRate: r.textComparison?.passRate || 100,
                         error: r.error || null
                     }))
                 }, null, 2));
+            } else if (this.baselineOnly && baselineClassification) {
+                console.log(`\n📋 Baseline Summary:`);
+                console.log(`   Total Tests: ${baseline.size}`);
+                console.log(`   ✅ Successful: ${baselineClassification.successful}`);
+                if (baselineClassification.partial > 0) {
+                    console.log(`   ⚠️  Partially Passing: ${baselineClassification.partial}`);
+                }
+                if (baselineClassification.failures.length > 0) {
+                    console.log(`   ❌ Failed: ${baselineClassification.failures.length}`);
+                }
+                if (skippedCount > 0) console.log(`   ⏭️  Skipped: ${skippedCount}`);
             } else {
                 console.log(`\n📋 Category Summary:`);
                 console.log(`   Total Tests: ${results.length}`);
@@ -2725,22 +2864,8 @@ class RadiantLayoutTester {
                 }
             }
 
-            // Baseline enforcement: old baseline lines must pass; scored lines may not regress by more than 10 percentage points.
-            const baseline = await this.loadBaseline(category);
-            if (baseline && baseline.size > 0) {
-                const baselineFailures = this.checkBaselineResults(baseline, results);
-                if (baselineFailures.length > 0) {
-                    if (!this.json) {
-                        console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
-                        baselineFailures.forEach(failure => console.log(`   - ${failure.name}: ${failure.reason}`));
-                    }
-                    // Signal failure for CI
-                    if (!this._baselineRegressions) this._baselineRegressions = [];
-                    this._baselineRegressions.push(...baselineFailures);
-                } else {
-                    if (!this.json) console.log(`\n✅ Baseline: all ${baseline.size} required tests passed`);
-                }
-            }
+            // baseline classification is shared with reporting so a displayed failure always fails the gate.
+            this.enforceBaselineResults(baseline, results, baselineClassification);
 
             if (this.updateBaseline) {
                 await this.updateBaselineScores(baseline || this.createEmptyBaseline(category), results);
@@ -3047,6 +3172,9 @@ async function main() {
             case '--update-baseline':
                 options.updateBaseline = true;
                 break;
+            case '--baseline-only':
+                options.baselineOnly = true;
+                break;
             case '--concurrency':
             case '-j':
                 options.maxConcurrency = parseInt(args[++i], 10);
@@ -3099,6 +3227,7 @@ Options:
   --retry-mismatches       Re-run failed batch comparisons individually to detect batch-only mismatches
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
+  --baseline-only          Run recorded baseline entries; run the full suite when no baseline exists
   --update-baseline        Update scored baseline entries, raising each metric only when current is better
   --radiant-exe <path>     Path to layout engine executable (default: ./lambda.exe)
   --help, -h               Show this help message
@@ -3125,6 +3254,7 @@ Examples:
   node test/layout/test_radiant_layout.js -j 10                        # Run 10 tests in parallel
   node test/layout/test_radiant_layout.js -b 50                        # Process layout in batches of 50
   node test/layout/test_radiant_layout.js --no-batch                   # Disable batch mode
+  node test/layout/test_radiant_layout.js -c wpt-css-text --baseline-only # Run only recorded suite baseline entries
   node test/layout/test_radiant_layout.js -c page --update-baseline    # Raise scored page baseline metrics only on improvement
   node test/layout/test_radiant_layout.js -v                           # Verbose output
 
@@ -3134,6 +3264,11 @@ Note: Run this script from the project root directory.
     }
 
     // Enable single test mode when testing a specific file (for detailed failure reports)
+    if (options.baselineOnly && options.updateBaseline) {
+        console.error('--baseline-only and --update-baseline cannot be used together');
+        process.exit(1);
+    }
+
     if (testFile) {
         options.singleTestMode = true;
     }
@@ -3202,7 +3337,8 @@ Note: Run this script from the project root directory.
         }
 
         // Exit with failure if any baseline regressions were detected
-        if (tester._baselineRegressions && tester._baselineRegressions.length > 0) {
+        if ((tester._baselineRegressions && tester._baselineRegressions.length > 0) ||
+            tester._fullSuiteFailures > 0) {
             process.exit(1);
         }
     } catch (error) {
