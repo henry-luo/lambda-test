@@ -1,0 +1,31 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Float-only inline alignment</title>
+<style>
+body { margin: 0; }
+.stage {
+  width: 400px;
+  height: 40px;
+  margin-bottom: 10px;
+  text-align: center;
+  background: #eee;
+}
+.stage.end { text-align: right; }
+.clearfix::before,
+.clearfix::after {
+  display: table;
+  content: " ";
+}
+.clearfix::after { clear: both; }
+.float {
+  width: 100px;
+  height: 40px;
+  background: #9cf;
+}
+.left { float: left; }
+.right { float: right; }
+</style>
+<div class="stage"><span id="center-right"><span class="float right"></span></span></div>
+<div class="stage"><span id="center-left"><span class="float left"></span></span></div>
+<div class="stage end"><span id="end-right"><span class="float right"></span></span></div>
+<div class="stage clearfix"><span id="clearfix-center-right"><span class="float right"></span></span></div>

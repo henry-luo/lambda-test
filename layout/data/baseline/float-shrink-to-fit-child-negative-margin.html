@@ -1,0 +1,16 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Float shrink-to-fit includes a child's negative margin</title>
+<style>
+  .outer {
+    float: left;
+  }
+
+  .child {
+    float: left;
+    width: 200px;
+    height: 20px;
+    margin-left: -15px;
+  }
+</style>
+<div class="outer"><div class="child"></div></div>

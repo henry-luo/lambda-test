@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Inline parents around floats honor text alignment</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        ul {
+            float: left;
+            width: 400px;
+            height: 20px;
+            list-style: none;
+            text-align: center;
+        }
+        li { display: inline; }
+        a {
+            float: left;
+            width: 50px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a></a></li>
+        <li><a></a></li>
+        <li><a></a></li>
+    </ul>
+</body>
+</html>

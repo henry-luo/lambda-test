@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bootstrap Combo Checkout Fixture</title>
+  <link rel="stylesheet" href="../support/framework-fixtures.css">
+  <script defer src="../support/framework-fixtures.js"></script>
+</head>
+<body>
+  <main class="fixture-page bs-container">
+    <h1 class="fixture-title">Bootstrap Combo Checkout</h1>
+    <ol class="bs-breadcrumb">
+      <li>Cart</li><li>/</li><li class="fw-700">Checkout</li>
+    </ol>
+    <section class="fixture-row" style="margin-top:16px" id="bootstrap-combo-checkout">
+      <form class="bs-form">
+        <label class="bs-label" for="bs-checkout-name">Name</label>
+        <input class="bs-input" id="bs-checkout-name" value="Lambda Tester">
+        <label class="bs-label" for="bs-checkout-plan">Plan</label>
+        <select class="bs-select" id="bs-checkout-plan"><option>Team</option></select>
+        <button class="bs-btn" type="button">Pay</button>
+      </form>
+      <article class="bs-card">
+        <div class="bs-card-header">Order summary</div>
+        <div class="bs-card-body">
+          <p>Framework fixtures</p>
+          <span class="bs-badge">20 pages</span>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

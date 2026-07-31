@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html><head><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.flex { display: flex; width: 360px; gap: 10px; }
+.grid { display: grid; grid-template-columns: 120px 160px; gap: 10px; margin-top: 12px; }
+input, select { min-width: 0; height: 32px; border: 2px solid green; }
+.flex input { flex: 2 1 80px; }
+.flex select { flex: 1 1 80px; }
+</style></head><body>
+<div class="flex"><input value="flex input"><select><option>flex select</option></select></div>
+<div class="grid"><input value="grid input"><select><option>grid select</option></select></div>
+</body></html>

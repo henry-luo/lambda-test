@@ -31,6 +31,10 @@ var internals = typeof internals !== "undefined" ? internals : {
         editingBehavior: "mac",
         setEditingBehavior: function(value) {
             this.editingBehavior = String(value || "mac");
+            try {
+                if (typeof __lambda_set_editing_behavior === "function")
+                    __lambda_set_editing_behavior(this.editingBehavior);
+            } catch (_) {}
         }
     },
     firstChildInFlatTree: function(node) { return node ? node.firstChild : null; },
@@ -149,6 +153,8 @@ function _chrome_normalize_dump(text) {
 }
 
 function description(text) {
+    if (typeof _chrome_append_js_test_description_ce3 === "function")
+        _chrome_append_js_test_description_ce3(text);
     console.log("DESCRIPTION: " + text);
 }
 
@@ -182,10 +188,14 @@ function promise_test(func, name) {
 }
 
 function testPassed(name) {
+    if (typeof _chrome_append_js_test_dump_line_ce3 === "function")
+        _chrome_append_js_test_dump_line_ce3("PASS " + String(name || ""));
     _chrome_editing_record(true, name || "testPassed", "");
 }
 
 function testFailed(name) {
+    if (typeof _chrome_append_js_test_dump_line_ce3 === "function")
+        _chrome_append_js_test_dump_line_ce3("FAIL " + String(name || ""));
     _chrome_editing_record(false, name || "testFailed", "");
 }
 
@@ -292,10 +302,22 @@ function shouldNotBe(expression, expectedExpression) {
 }
 
 function shouldBeTrue(expression) {
+    if (typeof _chrome_append_js_test_dump_line_ce3 === "function") {
+        var trueResult = false;
+        try { trueResult = !!_chrome_eval(expression); } catch (e) {}
+        _chrome_append_js_test_dump_line_ce3(
+            (trueResult ? "PASS " : "FAIL ") + String(expression) + " is true");
+    }
     shouldBe(expression, "true");
 }
 
 function shouldBeFalse(expression) {
+    if (typeof _chrome_append_js_test_dump_line_ce3 === "function") {
+        var falseResult = false;
+        try { falseResult = !_chrome_eval(expression); } catch (e) {}
+        _chrome_append_js_test_dump_line_ce3(
+            (falseResult ? "PASS " : "FAIL ") + String(expression) + " is false");
+    }
     shouldBe(expression, "false");
 }
 
@@ -970,6 +992,10 @@ var testRunner = {
     dumpChildFramesAsText: function() {},
     dumpEditingCallbacks: function() {},
     dumpSelectionRect: function() {},
+    setWindowFocus: function(value) { this._windowFocus = !!value; },
+    setMainFrameIsFirstResponder: function(value) {
+        this._mainFrameIsFirstResponder = !!value;
+    },
     waitUntilDone: function() { _chrome_editing_waiting = true; },
     notifyDone: function() {
         _chrome_editing_waiting = false;
