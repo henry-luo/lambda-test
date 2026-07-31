@@ -19,6 +19,31 @@ const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
 // Detect CPU cores for default concurrency
 const CPU_CORES = os.cpus().length;
 const DEFAULT_CONCURRENCY = Math.max(1, CPU_CORES - 1);
+const DEFAULT_GLOBAL_CONCURRENCY = Math.max(1, Math.ceil(CPU_CORES * 1.5));
+
+let TESTER_INSTANCE_ID = 0;
+
+class ProcessLimiter {
+    constructor(limit) {
+        this.limit = limit;
+        this.active = 0;
+        this.waiters = [];
+    }
+
+    async run(task) {
+        if (this.active >= this.limit) {
+            await new Promise(resolve => this.waiters.push(resolve));
+        }
+        this.active++;
+        try {
+            return await task();
+        } finally {
+            this.active--;
+            const next = this.waiters.shift();
+            if (next) next();
+        }
+    }
+}
 
 // Maximum HTML test file size (100KB) - larger files are skipped
 const MAX_TEST_FILE_SIZE = 350 * 1024;
@@ -36,8 +61,12 @@ class RadiantLayoutTester {
         this.verbose = options.verbose || false;
         this.json = options.json || false; // JSON output mode
         this.updateBaseline = options.updateBaseline || false;
+        this.baselineOnly = options.baselineOnly || false;
         this.projectRoot = options.projectRoot || process.cwd();
         this.maxConcurrency = options.maxConcurrency || DEFAULT_CONCURRENCY; // Max parallel tests (auto-detect: cores - 1)
+        this.globalConcurrency = options.globalConcurrency || DEFAULT_GLOBAL_CONCURRENCY;
+        this.processLimiter = options.processLimiter || null;
+        this.emitJson = options.emitJson !== false;
         this.testIdCounter = 0; // Counter for unique test IDs
         this.singleTestMode = options.singleTestMode || false; // Single test mode for detailed failure reports
         this.batchSize = options.batchSize || 0; // Batch size for layout (0 = disabled, use single file mode)
@@ -49,7 +78,7 @@ class RadiantLayoutTester {
         this.batchOutputDir = path.join(
             this.projectRoot,
             'temp',
-            `layout_batch_${process.pid}_${Date.now()}`
+            `layout_batch_${process.pid}_${Date.now()}_${++TESTER_INSTANCE_ID}`
         ); // Unique directory for this harness run's batch output files
     }
 
@@ -183,7 +212,7 @@ class RadiantLayoutTester {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
         }
         const includeAhem = await this.fileNeedsAhem(htmlFile);
-        return new Promise((resolve, reject) => {
+        const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
             const args = this.buildLayoutArgs(htmlFile, { includeAhem });
@@ -227,6 +256,7 @@ class RadiantLayoutTester {
                 reject(error);
             });
         });
+        return this.processLimiter ? this.processLimiter.run(launch) : launch();
     }
 
     /**
@@ -264,7 +294,7 @@ class RadiantLayoutTester {
     }
 
     async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
-        return new Promise((resolve, reject) => {
+        const launch = () => new Promise((resolve, reject) => {
             // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
             const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
 
@@ -333,6 +363,7 @@ class RadiantLayoutTester {
                 reject(error);
             });
         });
+        return this.processLimiter ? this.processLimiter.run(launch) : launch();
     }
 
     /**
@@ -2334,8 +2365,13 @@ class RadiantLayoutTester {
      * @returns {Array} - Array of test results
      */
     async runTestsInBatchMode(testTasks) {
-        const batchSize = this.batchSize;
         const maxConcurrency = this.maxConcurrency;
+        // A configured batch size is a ceiling. Small suites must still create
+        // enough independent batches to use every available worker.
+        const batchSize = Math.min(
+            this.batchSize,
+            Math.max(1, Math.ceil(testTasks.length / maxConcurrency))
+        );
 
         const resultPasses = (result) => {
             if (!result || result.error) return false;
@@ -2361,6 +2397,11 @@ class RadiantLayoutTester {
         for (let i = 0; i < testTasks.length; i += batchSize) {
             batches.push(testTasks.slice(i, i + batchSize));
         }
+        this._lastBatchInfo = {
+            taskCount: testTasks.length,
+            batchSize,
+            batchCount: batches.length
+        };
 
         if (!this.json) {
             console.log(`\n🚀 Batch mode: ${testTasks.length} files in ${batches.length} batch(es) of up to ${batchSize}, concurrency=${maxConcurrency}`);
@@ -2597,8 +2638,10 @@ class RadiantLayoutTester {
 
         const categoryDir = path.join(this.testDataDir, category);
         const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
+        let baselineRegressionCount = 0;
 
         try {
+            const baseline = await this.loadBaseline(category);
             const entries = await fs.readdir(categoryDir, { withFileTypes: true });
             let htmlFiles = entries
                 .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')))
@@ -2620,6 +2663,22 @@ class RadiantLayoutTester {
                 } catch (error) {
                     // Skip unreadable subdirectories
                 }
+            }
+
+            if (this.baselineOnly && baseline && baseline.size > 0) {
+                // The baseline gate must exclude known non-baselined WPT work;
+                // otherwise ordinary suite failures make the regression gate unusable.
+                const baselineNames = new Set(baseline.entries.map(entry => entry.name));
+                const beforeCount = htmlFiles.length;
+                htmlFiles = htmlFiles.filter(htmlFile => {
+                    const testName = path.basename(htmlFile, path.extname(htmlFile));
+                    return baselineNames.has(testName);
+                });
+                if (!this.json) {
+                    console.log(`   Baseline-only: ${htmlFiles.length}/${beforeCount} recorded entries`);
+                }
+            } else if (this.baselineOnly && !this.json) {
+                console.log(`   No recorded baseline; running full category`);
             }
 
             if (htmlFiles.length === 0) {
@@ -2677,7 +2736,7 @@ class RadiantLayoutTester {
             }).length;
             const failed = results.length - successful;
 
-            if (this.json) {
+            if (this.json && this.emitJson) {
                 // Output results as JSON for GTest integration
                 console.log(JSON.stringify({
                     total: results.length,
@@ -2718,10 +2777,10 @@ class RadiantLayoutTester {
             }
 
             // Baseline enforcement: old baseline lines must pass; scored lines may not regress by more than 10 percentage points.
-            const baseline = await this.loadBaseline(category);
             if (baseline && baseline.size > 0) {
                 const baselineFailures = this.checkBaselineResults(baseline, results);
                 if (baselineFailures.length > 0) {
+                    baselineRegressionCount = baselineFailures.length;
                     if (!this.json) {
                         console.log(`\n🚨 Baseline Regressions (${baselineFailures.length}):`);
                         baselineFailures.forEach(failure => console.log(`   - ${failure.name}: ${failure.reason}`));
@@ -2737,6 +2796,18 @@ class RadiantLayoutTester {
             if (this.updateBaseline) {
                 await this.updateBaselineScores(baseline || this.createEmptyBaseline(category), results);
             }
+
+            if (!this._categorySummaries) this._categorySummaries = {};
+            this._categorySummaries[category] = {
+                category,
+                total: results.length,
+                successful,
+                failed,
+                skipped: skippedCount,
+                errors: errorCount,
+                baselineRegressions: baselineRegressionCount,
+                batch: this._lastBatchInfo || null
+            };
 
             return results;
 
@@ -2893,6 +2964,80 @@ class RadiantLayoutTester {
     }
 
     /**
+     * Run independent categories concurrently while sharing one process budget.
+     * Per-category tester instances protect mutable config and output paths;
+     * the shared limiter is the only cross-category state.
+     */
+    async testCategories(categories) {
+        const limiter = new ProcessLimiter(this.globalConcurrency);
+        const runs = categories.map(async category => {
+            const child = new RadiantLayoutTester({
+                engine: this.engine,
+                radiantExe: this.radiantExe,
+                tolerance: this.tolerance,
+                elementThreshold: this.elementThreshold,
+                textThreshold: this.textThreshold,
+                updateBaseline: this.updateBaseline,
+                projectRoot: this.projectRoot,
+                maxConcurrency: this.maxConcurrency,
+                maxConcurrencyExplicit: this.maxConcurrencyExplicit,
+                globalConcurrency: this.globalConcurrency,
+                batchSize: this.batchSize,
+                batchSizeExplicit: this.batchSizeExplicit,
+                retryMismatches: this.retryMismatches,
+                retryMismatchesExplicit: this.retryMismatchesExplicit,
+                processLimiter: limiter,
+                json: true,
+                emitJson: false
+            });
+            const results = await child.testCategory(category);
+            return {
+                category,
+                results: results || [],
+                summary: child._categorySummaries?.[category] || null,
+                baselineRegressions: child._baselineRegressions || []
+            };
+        });
+
+        const completed = await Promise.all(runs);
+        const allResults = [];
+        this._categorySummaries = {};
+        for (const run of completed) {
+            allResults.push(...run.results);
+            if (run.summary) this._categorySummaries[run.category] = run.summary;
+            if (run.baselineRegressions.length > 0) {
+                if (!this._baselineRegressions) this._baselineRegressions = [];
+                this._baselineRegressions.push(...run.baselineRegressions);
+            }
+        }
+
+        if (this.json) {
+            console.log(JSON.stringify({
+                globalConcurrency: this.globalConcurrency,
+                categories: completed.map(run => run.summary),
+                total: allResults.length
+            }, null, 2));
+            return allResults;
+        }
+
+        console.log(`\n📦 Layout multi-category summary (global concurrency=${this.globalConcurrency}):`);
+        for (const category of categories) {
+            const summary = this._categorySummaries[category];
+            if (!summary) {
+                console.log(`LAYOUT_CATEGORY_RESULT|${category}|FAIL|0|1|0`);
+                continue;
+            }
+            const status = summary.baselineRegressions > 0 ? 'FAIL' : 'PASS';
+            const batchText = summary.batch
+                ? `${summary.batch.batchCount} batches of up to ${summary.batch.batchSize}`
+                : 'single-file mode';
+            console.log(`   ${category}: ${summary.successful} successful, ${summary.skipped} skipped, ${summary.baselineRegressions} baseline regression(s), ${batchText}`);
+            console.log(`LAYOUT_CATEGORY_RESULT|${category}|${status}|${summary.successful}|${summary.baselineRegressions}|${summary.skipped}`);
+        }
+        return allResults;
+    }
+
+    /**
      * Test all categories
      */
     async testAll() {
@@ -2980,11 +3125,13 @@ async function main() {
         engine: 'radiant', // default to radiant engine
         json: false, // JSON output mode
         maxConcurrency: DEFAULT_CONCURRENCY, // Max parallel tests (auto-detect: cores - 1)
+        globalConcurrency: DEFAULT_GLOBAL_CONCURRENCY,
         batchSize: 100, // Default batch size for layout (100 files at once)
         retryMismatches: false
     };
 
     let category = null;
+    let categories = null;
     let testFile = null;
     let pattern = null;
     let showHelp = false;
@@ -3007,6 +3154,9 @@ async function main() {
             case '--category':
             case '-c':
                 category = args[++i];
+                break;
+            case '--categories':
+                categories = args[++i].split(/[\s,]+/).filter(Boolean);
                 break;
             case '--test':
             case '-t':
@@ -3038,6 +3188,9 @@ async function main() {
             case '--update-baseline':
                 options.updateBaseline = true;
                 break;
+            case '--baseline-only':
+                options.baselineOnly = true;
+                break;
             case '--concurrency':
             case '-j':
                 options.maxConcurrency = parseInt(args[++i], 10);
@@ -3046,6 +3199,13 @@ async function main() {
                     process.exit(1);
                 }
                 options.maxConcurrencyExplicit = true;
+                break;
+            case '--global-concurrency':
+                options.globalConcurrency = parseInt(args[++i], 10);
+                if (isNaN(options.globalConcurrency) || options.globalConcurrency < 1) {
+                    console.error('Invalid global concurrency value. Must be a positive integer.');
+                    process.exit(1);
+                }
                 break;
             case '--batch-size':
             case '-b':
@@ -3079,17 +3239,20 @@ Usage: node test/layout/test_radiant_layout.js [options]
 Options:
   --engine, -e <name>      Layout engine to use: 'lambda-css' (default: lambda-css)
   --category, -c <name>    Test specific category (e.g., basic, flex, grid)
+  --categories <names>     Run comma/space-separated categories in one global process pool
   --test, -t <file>        Test specific HTML file
   --pattern, -p <text>     Test files containing pattern (runs in verbose mode)
   --tolerance <pixels>     Layout difference tolerance in pixels (default: 5.0)
   --element-threshold <pct> Element match threshold percentage (default: 80.0)
   --text-threshold <pct>   Text match threshold percentage (default: 70.0)
-  --concurrency, -j <n>    Number of parallel tests to run (default: 5)
+  --concurrency, -j <n>    Per-category queue concurrency (default: CPU cores - 1)
+  --global-concurrency <n> Maximum layout child processes across categories (default: ceil(1.5 × CPU cores))
   --batch-size, -b <n>     Batch size for layout processing (default: 100, 0 to disable)
   --no-batch               Disable batch mode (same as --batch-size 0)
   --retry-mismatches       Re-run failed batch comparisons individually to detect batch-only mismatches
   --verbose, -v            Show detailed output
   --json                   Output results in JSON format
+  --baseline-only          Run only entries recorded in a category baseline.txt
   --update-baseline        Update scored baseline entries, raising each metric only when current is better
   --radiant-exe <path>     Path to layout engine executable (default: ./lambda.exe)
   --help, -h               Show this help message
@@ -3186,6 +3349,8 @@ Note: Run this script from the project root directory.
             // Pass category filter if specified
             await tester.testByPattern(pattern, category || null);
 
+        } else if (categories) {
+            await tester.testCategories(categories);
         } else if (category) {
             await tester.testCategory(category);
         } else {
