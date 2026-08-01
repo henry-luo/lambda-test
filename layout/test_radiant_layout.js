@@ -804,6 +804,22 @@ class RadiantLayoutTester {
         });
     }
 
+    bindRecordedBaselineEntries(testTasks, baseline) {
+        const entriesByName = new Map();
+        for (const entry of baseline.entries) {
+            if (!entriesByName.has(entry.name)) entriesByName.set(entry.name, []);
+            entriesByName.get(entry.name).push(entry);
+        }
+        for (const task of testTasks) {
+            const name = this.getTestNameFromPath(task.htmlFile, task.category);
+            const entries = entriesByName.get(name);
+            if (!entries || entries.length === 0) continue;
+            // Baselines name some sibling fixtures identically; bind the
+            // recorded entry before parallel batches reorder their results.
+            task.baselineEntry = entries.shift();
+        }
+    }
+
     /**
      * Pre-filter test tasks: remove files without browser references, exceeding MAX_TEST_FILE_SIZE,
      * or listed in skip_list.txt.
@@ -2739,6 +2755,10 @@ class RadiantLayoutTester {
 
             // Pre-filter: skip tests without browser references or with file size > 100KB
             const { tasks: testTasks, skipped: skippedCount } = await this.filterTestTasks(rawTestTasks);
+
+            if (!this.baselineOnly && baseline && baseline.size > 0) {
+                this.bindRecordedBaselineEntries(testTasks, baseline);
+            }
 
             if (testTasks.length === 0) {
                 if (!this.json) {
