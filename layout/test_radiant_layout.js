@@ -81,6 +81,8 @@ class RadiantLayoutTester {
             'temp',
             `layout_batch_${process.pid}_${Date.now()}_${++TESTER_INSTANCE_ID}`
         ); // Unique directory for this harness run's batch output files
+        this.processRegistry = options.processRegistry || new Set();
+        this.processKillTimers = options.processKillTimers || new Map();
     }
 
     /**
@@ -100,6 +102,48 @@ class RadiantLayoutTester {
         const parentDir = path.basename(path.dirname(htmlFile));
         const outputName = parentDir ? `${parentDir}__${basename}` : basename;
         return path.join(outputDir, `${outputName}.json`);
+    }
+
+    spawnLayoutProcess(args) {
+        const proc = spawn(this.radiantExe, args, { cwd: this.projectRoot });
+        this.processRegistry.add(proc);
+        const forget = () => {
+            this.processRegistry.delete(proc);
+            const timer = this.processKillTimers.get(proc);
+            if (timer) clearTimeout(timer);
+            this.processKillTimers.delete(proc);
+        };
+        proc.once('close', forget);
+        proc.once('error', forget);
+        return proc;
+    }
+
+    terminateLayoutProcess(proc) {
+        if (!proc || proc.exitCode !== null || proc.signalCode !== null) return;
+        try {
+            proc.kill('SIGTERM');
+        } catch {
+            return;
+        }
+        if (this.processKillTimers.has(proc)) return;
+        const timer = setTimeout(() => {
+            this.processKillTimers.delete(proc);
+            if (proc.exitCode === null && proc.signalCode === null) {
+                try {
+                    proc.kill('SIGKILL');
+                } catch {
+                    // the close event will remove an already-exited child
+                }
+            }
+        }, 1000);
+        timer.unref?.();
+        this.processKillTimers.set(proc, timer);
+    }
+
+    terminateLayoutProcesses() {
+        for (const proc of this.processRegistry) {
+            this.terminateLayoutProcess(proc);
+        }
     }
 
     async loadCategoryConfig(category) {
@@ -203,6 +247,16 @@ class RadiantLayoutTester {
         return args;
     }
 
+    getBrowserReferenceNames(testName, category, htmlFile = null) {
+        const names = [];
+        if (htmlFile) {
+            const pathReferenceName = referenceNameForPath(htmlFile, category);
+            if (pathReferenceName !== testName) names.push(pathReferenceName);
+        }
+        if (!names.includes(testName)) names.push(testName);
+        return names;
+    }
+
     /**
      * Run layout engine on a test file
      * @param {string} htmlFile - Path to the HTML file to test
@@ -223,9 +277,7 @@ class RadiantLayoutTester {
                 args.push('--view-output', outputFile);
             }
 
-            const proc = spawn(this.radiantExe, args, {
-                cwd: this.projectRoot
-            });
+            const proc = this.spawnLayoutProcess(args);
 
             let stdout = '';
             let stderr = '';
@@ -238,23 +290,29 @@ class RadiantLayoutTester {
                 stderr += data.toString();
             });
 
-            const timeout = setTimeout(() => {
-                proc.kill();
-                reject(new Error(`${this.engine === 'lambda-css' ? 'Lambda CSS' : 'Radiant'} execution timeout (30s)`));
+            let settled = false;
+            let timeout;
+            const finish = (callback, value) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timeout);
+                callback(value);
+            };
+            timeout = setTimeout(() => {
+                this.terminateLayoutProcess(proc);
+                finish(reject, new Error(`${this.engine === 'lambda-css' ? 'Lambda CSS' : 'Radiant'} execution timeout (30s)`));
             }, 30000);
 
             proc.on('close', (code) => {
-                clearTimeout(timeout);
                 if (code === 0) {
-                    resolve({ stdout, stderr, outputFile });
+                    finish(resolve, { stdout, stderr, outputFile });
                 } else {
-                    reject(new Error(`${this.engine === 'lambda-css' ? 'Lambda CSS' : 'Radiant'} failed with exit code ${code}: ${stderr}`));
+                    finish(reject, new Error(`${this.engine === 'lambda-css' ? 'Lambda CSS' : 'Radiant'} failed with exit code ${code}: ${stderr}`));
                 }
             });
 
             proc.on('error', (error) => {
-                clearTimeout(timeout);
-                reject(error);
+                finish(reject, error);
             });
         });
         return this.processLimiter ? this.processLimiter.run(launch) : launch();
@@ -303,9 +361,7 @@ class RadiantLayoutTester {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
             }
 
-            const proc = spawn(this.radiantExe, args, {
-                cwd: this.projectRoot
-            });
+            const proc = this.spawnLayoutProcess(args);
 
             let stdout = '';
             let stderr = '';
@@ -336,15 +392,21 @@ class RadiantLayoutTester {
 
             // Longer timeout for batch processing — scale with file count
             const batchTimeout = Math.max(120000, htmlFiles.length * 15000);  // min 120s, or 15s per file
-            const timeout = setTimeout(() => {
+            let settled = false;
+            let timeout;
+            const finish = (callback, value) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timeout);
                 clearInterval(progressInterval);
-                proc.kill();
-                reject(new Error(`Batch layout timeout (${htmlFiles.length} files, ${Math.round(batchTimeout / 1000)}s limit)`));
+                callback(value);
+            };
+            timeout = setTimeout(() => {
+                this.terminateLayoutProcess(proc);
+                finish(reject, new Error(`Batch layout timeout (${htmlFiles.length} files, ${Math.round(batchTimeout / 1000)}s limit)`));
             }, batchTimeout);
 
             proc.on('close', (code) => {
-                clearTimeout(timeout);
-                clearInterval(progressInterval);
                 if (!this.json) {
                     // Clear the progress line
                     process.stdout.write('   \r');
@@ -356,12 +418,11 @@ class RadiantLayoutTester {
                     outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
                 }
                 // We continue even on non-zero exit code since --continue-on-error was used
-                resolve(outputMap);
+                finish(resolve, outputMap);
             });
 
             proc.on('error', (error) => {
-                clearTimeout(timeout);
-                reject(error);
+                finish(reject, error);
             });
         });
         return this.processLimiter ? this.processLimiter.run(launch) : launch();
@@ -452,15 +513,9 @@ class RadiantLayoutTester {
                 ? path.join(this.referenceDir, 'web-tmpl')
                 : this.referenceDir;
 
-        const referenceNames = [];
-        if (htmlFile) {
-            const pathReferenceName = referenceNameForPath(htmlFile, category);
-            if (pathReferenceName !== testName) referenceNames.push(pathReferenceName);
-        }
-        referenceNames.push(testName);
-
+        const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
+        // Try unique nested WPT identity before the legacy flat basename.
         for (const referenceName of referenceNames) {
-            // Try platform-specific reference first (e.g., test_name.linux.json)
             const platformRefFile = path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`);
             try {
                 const content = await fs.readFile(platformRefFile, 'utf8');
@@ -473,8 +528,10 @@ class RadiantLayoutTester {
                     throw new Error(`Failed to load platform reference: ${error.message}`);
                 }
             }
+        }
 
-            // Try reference directory (wpt/ subdir for WPT, flat for others)
+        // Try reference directory (wpt/ subdir for WPT, flat for others).
+        for (const referenceName of referenceNames) {
             const refFile = path.join(baseRefDir, `${referenceName}.json`);
             try {
                 const content = await fs.readFile(refFile, 'utf8');
@@ -522,17 +579,15 @@ class RadiantLayoutTester {
             : isWebTmpl
                 ? path.join(this.referenceDir, 'web-tmpl')
                 : this.referenceDir;
-        const referenceNames = [];
-        if (htmlFile) {
-            const pathReferenceName = referenceNameForPath(htmlFile, category);
-            if (pathReferenceName !== testName) referenceNames.push(pathReferenceName);
+        const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
+        const candidates = [];
+        for (const referenceName of referenceNames) {
+            candidates.push(path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`));
         }
-        referenceNames.push(testName);
-        const candidates = referenceNames.flatMap(referenceName => [
-            path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`),
-            path.join(baseRefDir, `${referenceName}.json`),
-            path.join(this.referenceDir, category, `${referenceName}.json`)
-        ]);
+        for (const referenceName of referenceNames) {
+            candidates.push(path.join(baseRefDir, `${referenceName}.json`));
+            candidates.push(path.join(this.referenceDir, category, `${referenceName}.json`));
+        }
         for (const file of candidates) {
             try {
                 await fs.access(file);
@@ -1486,6 +1541,21 @@ class RadiantLayoutTester {
             const browserHasLayout = browserNode.layout || (browserNode.rects && browserNode.rects.length > 0);
 
             if (contentMatch && radiantNode.layout && browserHasLayout) {
+                const collapsedWhitespace =
+                    (radiantNode.content || '').trim() === '' &&
+                    (browserNode.text || '').trim() === '';
+                if (collapsedWhitespace) {
+                    // Collapsed whitespace has no painted geometry; browser
+                    // Range rects for it are line-fragment artifacts, so only
+                    // compare its content and leave physical placement to the
+                    // surrounding layout boxes.
+                    results.matchedTextNodes++;
+                    if (this.verbose) {
+                        console.log(`${indent()}   ✅ TEXT MATCH (collapsed whitespace geometry ignored)`);
+                    }
+                    return results;
+                }
+
                 // Compare layout - browser may have multiple rects for wrapped text
                 const radiantLayout = radiantNode.layout;
                 let browserLayout;
@@ -3141,6 +3211,8 @@ class RadiantLayoutTester {
                 batchSizeExplicit: this.batchSizeExplicit,
                 retryMismatches: this.retryMismatches,
                 retryMismatchesExplicit: this.retryMismatchesExplicit,
+                processRegistry: this.processRegistry,
+                processKillTimers: this.processKillTimers,
                 processLimiter: limiter,
                 json: true,
                 emitJson: false
@@ -3526,6 +3598,9 @@ Note: Run this script from the project root directory.
     } catch (error) {
         console.error('Test execution failed:', error.message);
         process.exit(1);
+    } finally {
+        // reap any child left behind by an interrupted comparison or startup error.
+        tester.terminateLayoutProcesses();
     }
 }
 
