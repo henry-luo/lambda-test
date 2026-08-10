@@ -71,28 +71,37 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
         return null;
     }
 
-    if (parsed.protocol !== 'file:' ||
-        (!parsed.pathname.startsWith('/css/') && !parsed.pathname.startsWith('/fonts/'))) {
+    if (parsed.protocol !== 'file:') {
         return null;
     }
 
     const categoryDir = category ? path.join(__dirname, 'data', category) : path.dirname(htmlFilePath);
-    const afterCssRoot = decodeURIComponent(
-        parsed.pathname.startsWith('/css/')
-            ? parsed.pathname.substring('/css/'.length)
-            : parsed.pathname.substring(1)
-    );
+    const requestPath = decodeURIComponent(parsed.pathname);
     const candidates = [];
 
-    if (category && category.startsWith('wpt-css-')) {
+    if (requestPath.startsWith('/css/') || requestPath.startsWith('/fonts/') ||
+        requestPath.startsWith('/images/')) {
+        const afterCssRoot = requestPath.startsWith('/css/')
+            ? requestPath.substring('/css/'.length)
+            : requestPath.substring(1);
+        if (category && category.startsWith('wpt-css-')) {
+            const cssSuiteName = category.substring('wpt-'.length);
+            if (afterCssRoot.startsWith(`${cssSuiteName}/`)) {
+                candidates.push(path.join(categoryDir, afterCssRoot.substring(cssSuiteName.length + 1)));
+            }
+        }
+        candidates.push(path.join(categoryDir, afterCssRoot));
+        candidates.push(path.join(__dirname, 'data', afterCssRoot));
+        candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', afterCssRoot));
+    } else if (category && category.startsWith('wpt-css-')) {
+        // mirrored WPT fixtures may omit support files that remain in ref/wpt;
+        // map a missing file-relative request through the category mirror.
         const cssSuiteName = category.substring('wpt-'.length);
-        if (afterCssRoot.startsWith(`${cssSuiteName}/`)) {
-            candidates.push(path.join(categoryDir, afterCssRoot.substring(cssSuiteName.length + 1)));
+        const relativePath = path.relative(categoryDir, requestPath);
+        if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath)) {
+            candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', 'css', cssSuiteName, relativePath));
         }
     }
-    candidates.push(path.join(categoryDir, afterCssRoot));
-    candidates.push(path.join(__dirname, 'data', afterCssRoot));
-    candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', afterCssRoot));
 
     for (const candidate of candidates) {
         try {
@@ -119,6 +128,15 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                       (htmlFilePath && htmlFilePath.includes('/web-tmpl/'));
     if (isWebTmpl && baseName === 'index') {
         baseName = path.basename(path.dirname(htmlFilePath));
+    }
+    if (isWpt && category) {
+        const categoryDir = path.join(__dirname, 'data', category);
+        const relativePath = path.relative(categoryDir, htmlFilePath);
+        if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath) &&
+            relativePath.includes(path.sep)) {
+            // preserve nested WPT identities; basename-only references collide across suites.
+            baseName = relativePath.slice(0, -ext.length).split(path.sep).join('__');
+        }
     }
     const outputDir = isWpt
         ? path.join(__dirname, 'reference', 'wpt')
@@ -165,6 +183,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 '--disable-dev-shm-usage',
                 '--disable-gpu',
                 '--disable-features=VizDisplayCompositor',
+                '--enable-blink-features=CSSTextBoxTrim',
                 '--disable-extensions',
                 '--no-first-run',
                 '--disable-default-apps'
@@ -216,7 +235,20 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Set consistent viewport and disable animations (from extract_layout.js)
         await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
-        await page.evaluateOnNewDocument(() => {
+        const freezeReferenceAnimations = !/animation|interpolation/i.test(htmlFilePath);
+        await page.evaluateOnNewDocument((freezeAnimations) => {
+            // The standalone extractor intentionally does not load the full WPT
+            // harness: its cleanup would remove the DOM that Radiant compares.
+            // Supply only the callbacks needed by layout setup scripts.
+            window.test = window.test || ((callback) => {
+                if (typeof callback === 'function') callback();
+            });
+            window.async_test = window.async_test || (() => ({done() {}}));
+            window.promise_test = window.promise_test || (() => {});
+            window.assert_true = window.assert_true || (() => {});
+            window.assert_false = window.assert_false || (() => {});
+            window.assert_equals = window.assert_equals || (() => {});
+
             // Freeze timer-driven layout changes during reference capture. Some
             // CSS2.1 tests run a synchronous setup step, then schedule repeated
             // toggles with setTimeout(); keep the setup result and avoid racing
@@ -234,7 +266,10 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             };
             window.clearTimeout = () => {};
 
-            // Disable animations for consistent layout
+            if (!freezeAnimations) return;
+
+            // Disable animations for consistent layout. The document head does
+            // not exist yet when evaluateOnNewDocument runs.
             nativeSetTimeout(() => {
                 const style = document.createElement('style');
                 style.textContent = `
@@ -245,9 +280,16 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         transition-delay: 0s !important;
                     }
                 `;
-                document.head.appendChild(style);
+                const parent = document.head || document.documentElement;
+                if (parent) {
+                    parent.appendChild(style);
+                } else {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        (document.head || document.documentElement)?.appendChild(style);
+                    }, { once: true });
+                }
             }, 0);
-        });
+        }, freezeReferenceAnimations);
         console.log('✅ Browser ready');
 
         // WPT CSS tests use server-root URLs; file:// extraction has
@@ -255,9 +297,64 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         await page.setRequestInterception(true);
         page.on('request', async (request) => {
             try {
+                // let the file navigation proceed without an async resolver;
+                // delaying the document request makes Chromium report ERR_ABORTED.
+                if (request.resourceType() === 'document') {
+                    const documentSource = await fs.readFile(htmlFilePath, 'utf8');
+                    let normalizedSource = documentSource.replace(
+                        /(text-box-trim\s*:\s*)(both|start|end)(\s*[;}]?)/gi,
+                        (_, prefix, value, suffix) => `${prefix}trim-${value.toLowerCase()}${suffix}`
+                    );
+                    if (category === 'wpt-css-sizing') {
+                        // The bundled headless shell has no width:fit-content()
+                        // implementation; capture its spec-equivalent clamp so
+                        // the reference remains comparable to Radiant’s CSS
+                        // Sizing implementation instead of an invalid-declaration
+                        // fallback to auto.
+                        normalizedSource = normalizedSource.replace(
+                            /(\bwidth\s*:\s*)fit-content\(\s*([^()]+?)\s*\)/gi,
+                            (_, prefix, limit) =>
+                                `${prefix}max-content; min-width: min-content; max-width: ${limit}`
+                        );
+                    }
+                    if (normalizedSource !== documentSource) {
+                        await request.respond({
+                            status: 200,
+                            contentType: 'text/html',
+                            body: Buffer.from(normalizedSource)
+                        });
+                    } else {
+                        await request.continue();
+                    }
+                    return;
+                }
                 const resourcePath = await resolveWptAbsoluteResource(request.url(), htmlFilePath, category);
                 if (resourcePath) {
-                    const body = await fs.readFile(resourcePath);
+                    let body = await fs.readFile(resourcePath);
+                    if (path.basename(resourcePath) === 'interpolation-testcommon.js') {
+                        // Radiant's layout runner intentionally keeps one shared
+                        // interpolation root; stop later WPT registrations at the
+                        // same boundary instead of comparing a different DOM.
+                        let source = body.toString('utf8');
+                        source = source.replace(
+                            'function test_interpolation(options, expectations) {',
+                            'function test_interpolation(options, expectations) {\n' +
+                            '    if (window.__radiant_layout_interpolation_done) return;\n' +
+                            '    window.__radiant_layout_interpolation_done = true;'
+                        );
+                        source = source.replace(
+                            'function test_composition(options, expectations) {',
+                            'function test_composition(options, expectations) {\n' +
+                            '    if (window.__radiant_layout_interpolation_done) return;'
+                        );
+                        source = source.replace(
+                            '    container.remove();',
+                            '    // retain the first interpolation root for layout extraction;\n' +
+                            '    // other WPT cleanup, including temporary styles, must still run.\n' +
+                            '    if (!window.__radiant_layout_interpolation_done) container.remove();'
+                        );
+                        body = Buffer.from(source, 'utf8');
+                    }
                     await request.respond({
                         status: 200,
                         contentType: contentTypeForPath(resourcePath),
@@ -334,6 +431,28 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         }
 
         await page.goto(fileUrl, { waitUntil: 'networkidle0' });
+        await page.evaluate(() => {
+            // older mirrored WPT fixtures use the pre-rename trim keywords;
+            // Chromium's experimental implementation accepts the current names.
+            const aliases = {
+                both: 'trim-both',
+                start: 'trim-start',
+                end: 'trim-end'
+            };
+            for (const stylesheet of document.styleSheets) {
+                let rules;
+                try {
+                    rules = stylesheet.cssRules;
+                } catch {
+                    continue;
+                }
+                for (const rule of rules || []) {
+                    if (!rule.style) continue;
+                    const value = rule.style.getPropertyValue('text-box-trim').trim();
+                    if (aliases[value]) rule.style.setProperty('text-box-trim', aliases[value]);
+                }
+            }
+        });
         // Wait for fonts and layout to stabilize
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -420,20 +539,55 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                                 }
                             }
 
-                            // Group characters by Y position to determine lines (with tolerance for slight variations)
+                            // Group characters by their visual rect, not just Y;
+                            // multicolumn fragments in different columns can share Y.
                             const tolerance = 2;
                             const lines = [];
-                            charPositions.forEach(charData => {
-                                let foundLine = lines.find(line => Math.abs(line.y - charData.y) <= tolerance);
-                                if (!foundLine) {
-                                    foundLine = { y: charData.y, chars: [] };
-                                    lines.push(foundLine);
+                            rectArray.forEach((sourceRect, rectIndex) => {
+                                const right = sourceRect.right || (sourceRect.x + sourceRect.width);
+                                const foundLine = lines.find(line =>
+                                    Math.abs(line.y - sourceRect.y) <= tolerance &&
+                                    Math.max(line.x, sourceRect.x) <=
+                                        Math.min(line.right, right) + 3
+                                );
+                                if (foundLine) {
+                                    foundLine.x = Math.min(foundLine.x, sourceRect.x);
+                                    foundLine.right = Math.max(foundLine.right, right);
+                                    foundLine.rects.push(sourceRect);
+                                } else {
+                                    lines.push({
+                                        y: sourceRect.y,
+                                        x: sourceRect.x,
+                                        right,
+                                        rects: [sourceRect],
+                                        chars: [],
+                                        order: rectIndex
+                                    });
                                 }
-                                foundLine.chars.push(charData);
+                            });
+                            charPositions.forEach(charData => {
+                                let bestLine = null;
+                                let bestDistance = Infinity;
+                                lines.forEach(line => {
+                                    const yDistance = Math.abs(line.y - charData.y);
+                                    if (yDistance > tolerance) return;
+                                    const xDistance = charData.x < line.x
+                                        ? line.x - charData.x
+                                        : charData.x > line.right
+                                            ? charData.x - line.right
+                                            : 0;
+                                    const distance = yDistance * 10 + xDistance;
+                                    if (distance < bestDistance) {
+                                        bestDistance = distance;
+                                        bestLine = line;
+                                    }
+                                });
+                                if (bestLine) bestLine.chars.push(charData);
                             });
 
-                            // Sort lines by Y position
-                            lines.sort((a, b) => a.y - b.y);
+                            // Keep the browser's visual-rect order, which is DOM order
+                            // across columns, rather than sorting columns together by Y.
+                            lines.sort((a, b) => a.order - b.order);
 
                             // Return array of separate text nodes (one per line) to match Radiant's behavior
                             const lineTextNodes = [];
@@ -443,13 +597,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                                     const endIndex = line.chars[line.chars.length - 1].index + 1;
                                     const segmentText = text.substring(startIndex, endIndex);
 
-                                    // Collect ALL rects at this Y-line and compute bounding box.
                                     // getClientRects() may return separate rects for whitespace
-                                    // and non-whitespace segments on the same line (pre-wrap).
-                                    const lineTolerance = 3;
-                                    const lineRects = rectArray.filter(r =>
-                                        Math.abs(r.y - line.y) <= lineTolerance && r.width > 0
-                                    );
+                                    // and non-whitespace segments on the same visual line.
+                                    const lineRects = line.rects.filter(r => r.width > 0);
                                     let rect;
                                     if (lineRects.length > 1) {
                                         // Merge all same-line rects into a bounding box
