@@ -12,6 +12,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { spawn } = require('child_process');
 const os = require('os');
+const { referenceNameForPath } = require('./reference_paths');
 
 // Get current platform for loading platform-specific references
 const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
@@ -451,42 +452,53 @@ class RadiantLayoutTester {
                 ? path.join(this.referenceDir, 'web-tmpl')
                 : this.referenceDir;
 
-        // Try platform-specific reference first (e.g., test_name.linux.json)
-        const platformRefFile = path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`);
-        try {
-            const content = await fs.readFile(platformRefFile, 'utf8');
-            if (this.verbose) {
-                console.log(`   📦 Using platform-specific reference: ${testName}.${CURRENT_PLATFORM}.json`);
+        const referenceNames = [];
+        if (htmlFile) {
+            const pathReferenceName = referenceNameForPath(htmlFile, category);
+            if (pathReferenceName !== testName) referenceNames.push(pathReferenceName);
+        }
+        referenceNames.push(testName);
+
+        for (const referenceName of referenceNames) {
+            // Try platform-specific reference first (e.g., test_name.linux.json)
+            const platformRefFile = path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`);
+            try {
+                const content = await fs.readFile(platformRefFile, 'utf8');
+                if (this.verbose) {
+                    console.log(`   📦 Using platform-specific reference: ${referenceName}.${CURRENT_PLATFORM}.json`);
+                }
+                return JSON.parse(content);
+            } catch (error) {
+                if (error.code !== 'ENOENT') {
+                    throw new Error(`Failed to load platform reference: ${error.message}`);
+                }
             }
-            return JSON.parse(content);
-        } catch (error) {
-            if (error.code !== 'ENOENT') {
-                throw new Error(`Failed to load platform reference: ${error.message}`);
+
+            // Try reference directory (wpt/ subdir for WPT, flat for others)
+            const refFile = path.join(baseRefDir, `${referenceName}.json`);
+            try {
+                const content = await fs.readFile(refFile, 'utf8');
+                return JSON.parse(content);
+            } catch (error) {
+                if (error.code !== 'ENOENT') {
+                    throw new Error(`Failed to load browser reference: ${error.message}`);
+                }
             }
-            // Platform-specific reference not found, try generic reference
         }
 
-        // Try reference directory (wpt/ subdir for WPT, flat for others)
-        const refFile = path.join(baseRefDir, `${testName}.json`);
-        try {
-            const content = await fs.readFile(refFile, 'utf8');
-            return JSON.parse(content);
-        } catch (error) {
-            if (error.code !== 'ENOENT') {
-                throw new Error(`Failed to load browser reference: ${error.message}`);
-            }
-            // Fall back to category subdirectory for backwards compatibility
-            const categoryRefFile = path.join(this.referenceDir, category, `${testName}.json`);
+        // Fall back to category subdirectory for backwards compatibility.
+        for (const referenceName of referenceNames) {
+            const categoryRefFile = path.join(this.referenceDir, category, `${referenceName}.json`);
             try {
                 const content = await fs.readFile(categoryRefFile, 'utf8');
                 return JSON.parse(content);
             } catch (error) {
-                if (error.code === 'ENOENT') {
-                    return null; // Reference doesn't exist
+                if (error.code !== 'ENOENT') {
+                    throw new Error(`Failed to load browser reference: ${error.message}`);
                 }
-                throw new Error(`Failed to load browser reference: ${error.message}`);
             }
         }
+        return null; // Reference doesn't exist
     }
 
     /**
@@ -510,11 +522,17 @@ class RadiantLayoutTester {
             : isWebTmpl
                 ? path.join(this.referenceDir, 'web-tmpl')
                 : this.referenceDir;
-        const candidates = [
-            path.join(baseRefDir, `${testName}.${CURRENT_PLATFORM}.json`),
-            path.join(baseRefDir, `${testName}.json`),
-            path.join(this.referenceDir, category, `${testName}.json`)
-        ];
+        const referenceNames = [];
+        if (htmlFile) {
+            const pathReferenceName = referenceNameForPath(htmlFile, category);
+            if (pathReferenceName !== testName) referenceNames.push(pathReferenceName);
+        }
+        referenceNames.push(testName);
+        const candidates = referenceNames.flatMap(referenceName => [
+            path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`),
+            path.join(baseRefDir, `${referenceName}.json`),
+            path.join(this.referenceDir, category, `${referenceName}.json`)
+        ]);
         for (const file of candidates) {
             try {
                 await fs.access(file);

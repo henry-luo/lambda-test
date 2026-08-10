@@ -10,6 +10,7 @@ const fs = require('fs').promises;
 const fsSync = require('fs');
 const os = require('os');
 const path = require('path');
+const { referenceNameForPath } = require('./reference_paths');
 
 const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
 
@@ -71,8 +72,11 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
         return null;
     }
 
+    // WPT image URLs are server-rooted too; without interception Chrome records a 16px broken-image fallback.
     if (parsed.protocol !== 'file:' ||
-        (!parsed.pathname.startsWith('/css/') && !parsed.pathname.startsWith('/fonts/'))) {
+        (!parsed.pathname.startsWith('/css/') &&
+         !parsed.pathname.startsWith('/fonts/') &&
+         !parsed.pathname.startsWith('/images/'))) {
         return null;
     }
 
@@ -92,6 +96,11 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
     }
     candidates.push(path.join(categoryDir, afterCssRoot));
     candidates.push(path.join(__dirname, 'data', afterCssRoot));
+    // WPT's shared /fonts root is stored in the local support tree; missing this
+    // mapping silently makes browser references use fallback font metrics.
+    if (afterCssRoot.startsWith('fonts/')) {
+        candidates.push(path.join(__dirname, 'data', 'support', afterCssRoot));
+    }
     candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', afterCssRoot));
 
     for (const candidate of candidates) {
@@ -108,8 +117,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
     // Determine output file path first
     // Handle both .html and .htm extensions
-    const ext = htmlFilePath.endsWith('.htm') && !htmlFilePath.endsWith('.html') ? '.htm' : '.html';
-    let baseName = path.basename(htmlFilePath, ext);
+    let baseName = referenceNameForPath(htmlFilePath, category);
     // WPT categories store references under reference/wpt/ to avoid name collisions
     // Also detect wpt context from file path (e.g., baseline/wpt/test.html)
     const isWpt = (category && category.startsWith('wpt-')) ||
