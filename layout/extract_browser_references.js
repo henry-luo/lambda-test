@@ -140,7 +140,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath) &&
             relativePath.includes(path.sep)) {
             // preserve nested WPT identities; basename-only references collide across suites.
-            baseName = relativePath.slice(0, -ext.length).split(path.sep).join('__');
+            // derive the extension here; contentTypeForPath's local variable is out of scope.
+            const relativeExtension = path.extname(relativePath);
+            baseName = relativePath.slice(0, -relativeExtension.length).split(path.sep).join('__');
         }
     }
     const outputDir = isWpt
