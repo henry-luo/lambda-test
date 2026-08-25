@@ -557,34 +557,34 @@ class RadiantLayoutTester {
     /**
      * Load the skip list from test/layout/skip_list.txt.
      * Each line is a test name (without extension) to skip.
-     * Caches the result (single shared list for all categories).
+     * The in-flight promise is shared by the run-wide preflight.
      */
-    async loadSkipList(category) {
-        if (!this._skipListCache) this._skipListCache = {};
-        if (this._skipListCache['_global'] !== undefined) return this._skipListCache['_global'];
+    async loadSkipList() {
+        if (this._skipListPromise) return this._skipListPromise;
 
         const skipListPath = path.join(__dirname, 'skip_list.txt');
-        try {
-            const content = await fs.readFile(skipListPath, 'utf8');
-            const lines = content.split('\n')
-                .map(line => line.trim())
-                .filter(line => line && !line.startsWith('#'));
-            const exact = new Set();
-            const prefixes = [];
-            for (const line of lines) {
-                if (line.endsWith('*')) {
-                    prefixes.push(line.slice(0, -1));
-                } else {
-                    exact.add(line);
+        // share the in-flight read so parallel discovery cannot reread the same list.
+        this._skipListPromise = fs.readFile(skipListPath, 'utf8')
+            .then(content => {
+                const lines = content.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line && !line.startsWith('#'));
+                const exact = new Set();
+                const prefixes = [];
+                for (const line of lines) {
+                    if (line.endsWith('*')) {
+                        prefixes.push(line.slice(0, -1));
+                    } else {
+                        exact.add(line);
+                    }
                 }
-            }
-            this._skipListCache['_global'] = { exact, prefixes };
-            return this._skipListCache['_global'];
-        } catch (e) {
-            // No skip list file — nothing to skip
-            this._skipListCache['_global'] = { exact: new Set(), prefixes: [] };
-            return this._skipListCache['_global'];
-        }
+                return { exact, prefixes };
+            })
+            .catch(() => {
+                // No skip list file — nothing to skip
+                return { exact: new Set(), prefixes: [] };
+            });
+        return this._skipListPromise;
     }
 
     /**
@@ -878,70 +878,148 @@ class RadiantLayoutTester {
         }
     }
 
-    /**
-     * Pre-filter test tasks: remove files without browser references, exceeding MAX_TEST_FILE_SIZE,
-     * or listed in skip_list.txt.
-     * Returns { tasks, skipped } where skipped is the count of removed tasks.
-     */
-    async filterTestTasks(testTasks) {
-        const kept = [];
-        let skippedNoRef = 0;
-        let skippedTooLarge = 0;
-        let skippedByList = 0;
+    async discoverCategoryTasks(category, namePattern = null) {
+        const categoryDir = path.join(this.testDataDir, category);
+        const matches = file => (file.endsWith('.html') || file.endsWith('.htm')) &&
+            (!namePattern || file.includes(namePattern));
+        const entries = await fs.readdir(categoryDir, { withFileTypes: true });
+        let htmlFiles = entries
+            .filter(entry => entry.isFile() && matches(entry.name))
+            .map(entry => entry.name);
 
-        // Check all tasks in parallel for efficiency
-        const checks = await Promise.all(testTasks.map(async (task) => {
-            // Check skip list
-            const skipList = await this.loadSkipList(task.category);
+        // Scan one level of subdirectories while excluding WPT helper directories.
+        const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
+            entry.name !== 'support' && entry.name !== 'tools');
+        for (const subDir of subDirs) {
+            const subDirPath = path.join(categoryDir, subDir.name);
+            try {
+                const subFiles = await fs.readdir(subDirPath);
+                const subHtmlFiles = subFiles
+                    .filter(file => matches(file))
+                    .filter(file => category !== 'web-tmpl' || file === 'index.html');
+                htmlFiles = htmlFiles.concat(subHtmlFiles.map(file => path.join(subDir.name, file)));
+            } catch (error) {
+                // Skip unreadable subdirectories.
+            }
+        }
+
+        return {
+            category,
+            categoryDir,
+            htmlFiles,
+            tasks: htmlFiles.map(htmlFile => ({
+                htmlFile: path.join(categoryDir, htmlFile),
+                category
+            }))
+        };
+    }
+
+    async prepareCategoryPlanInput(category, namePattern = null, useBaseline = true) {
+        const discovered = await this.discoverCategoryTasks(category, namePattern);
+        const baseline = useBaseline ? await this.loadBaseline(category) : null;
+        let tasks = discovered.tasks;
+
+        if (useBaseline && this.baselineOnly) {
+            if (baseline && baseline.size > 0) {
+                // a recorded baseline is the authoritative inventory for baseline gates.
+                tasks = this.selectRecordedBaselineTasks(tasks, baseline);
+                if (!this.json) {
+                    console.log(`   📌 Baseline-only: selected ${tasks.length}/${discovered.htmlFiles.length} recorded tests`);
+                }
+            } else if (!this.json) {
+                console.log('   ℹ️  No recorded baseline; running the full suite');
+            }
+        }
+
+        return {
+            category,
+            htmlFiles: discovered.htmlFiles,
+            tasks,
+            baseline
+        };
+    }
+
+    /**
+     * Build the run-wide executable test plan before spawning layout processes.
+     * Skip-list, size, and browser-reference decisions happen only here.
+     */
+    async buildTestPlan(categoryInputs) {
+        const categoryPlans = new Map();
+        const allTasks = [];
+        for (const input of categoryInputs) {
+            const categoryPlan = {
+                category: input.category,
+                discoveredCount: input.htmlFiles.length,
+                baseline: input.baseline,
+                tasks: [],
+                skipped: 0,
+                skippedCounts: {
+                    noRef: 0,
+                    tooLarge: 0,
+                    skipList: 0
+                }
+            };
+            categoryPlans.set(input.category, categoryPlan);
+            allTasks.push(...input.tasks);
+        }
+
+        const skipList = await this.loadSkipList();
+        const checks = await Promise.all(allTasks.map(async task => {
             const testName = this.getTestNameFromPath(task.htmlFile, task.category);
             if (this.isSkipped(skipList, testName)) {
                 return { task, skip: 'skip-list' };
             }
 
-            // Check file size
             try {
                 const stats = await fs.stat(task.htmlFile);
                 if (stats.size > MAX_TEST_FILE_SIZE) {
                     return { task, skip: 'too-large', size: stats.size };
                 }
-            } catch (e) {
-                // If we can't stat the file, let it through and fail naturally later
+            } catch (error) {
+                // If the file cannot be stat'ed, let execution report the failure naturally.
             }
 
-            // Check browser reference existence
             const hasRef = await this.hasBrowserReference(testName, task.category, task.htmlFile);
-            if (!hasRef) {
-                return { task, skip: 'no-ref' };
-            }
-
+            if (!hasRef) return { task, skip: 'no-ref' };
             return { task, skip: null };
         }));
 
         for (const { task, skip, size } of checks) {
-            if (skip === 'no-ref') {
-                skippedNoRef++;
-            } else if (skip === 'too-large') {
-                skippedTooLarge++;
+            const categoryPlan = categoryPlans.get(task.category);
+            if (!categoryPlan) continue;
+            if (skip === null) {
+                categoryPlan.tasks.push(task);
+                continue;
+            }
+
+            categoryPlan.skipped++;
+            if (skip === 'no-ref') categoryPlan.skippedCounts.noRef++;
+            if (skip === 'too-large') {
+                categoryPlan.skippedCounts.tooLarge++;
                 if (this.verbose) {
                     console.log(`   ⏭️  Skipped ${path.basename(task.htmlFile)} (file size ${(size / 1024).toFixed(0)}KB > 100KB)`);
                 }
-            } else if (skip === 'skip-list') {
-                skippedByList++;
-            } else {
-                kept.push(task);
+            }
+            if (skip === 'skip-list') categoryPlan.skippedCounts.skipList++;
+        }
+
+        for (const input of categoryInputs) {
+            const categoryPlan = categoryPlans.get(input.category);
+            if (!this.baselineOnly && categoryPlan.baseline && categoryPlan.baseline.size > 0) {
+                this.bindRecordedBaselineEntries(categoryPlan.tasks, categoryPlan.baseline);
             }
         }
 
-        const skipped = skippedNoRef + skippedTooLarge + skippedByList;
-        if (skipped > 0 && !this.json) {
-            const parts = [];
-            if (skippedNoRef > 0) parts.push(`${skippedNoRef} no reference`);
-            if (skippedTooLarge > 0) parts.push(`${skippedTooLarge} too large`);
-            if (skippedByList > 0) parts.push(`${skippedByList} skip-listed`);
-            console.log(`   ⏭️  Skipped ${skipped} tests (${parts.join(', ')})`);
-        }
+        return { categories: categoryPlans };
+    }
 
-        return { tasks: kept, skipped };
+    reportSkippedTasks(categoryPlan) {
+        if (!categoryPlan || categoryPlan.skipped === 0 || this.json) return;
+        const parts = [];
+        if (categoryPlan.skippedCounts.noRef > 0) parts.push(`${categoryPlan.skippedCounts.noRef} no reference`);
+        if (categoryPlan.skippedCounts.tooLarge > 0) parts.push(`${categoryPlan.skippedCounts.tooLarge} too large`);
+        if (categoryPlan.skippedCounts.skipList > 0) parts.push(`${categoryPlan.skippedCounts.skipList} skip-listed`);
+        console.log(`   ⏭️  Skipped ${categoryPlan.skipped} tests (${parts.join(', ')})`);
     }
 
     /**
@@ -2778,71 +2856,25 @@ class RadiantLayoutTester {
     /**
      * Test all files in a category
      */
-    async testCategory(category) {
+    async testCategory(category, preparedPlan = null) {
         if (!this.json) {
             console.log(`\n📂 Testing category: ${category}`);
             console.log('=' .repeat(50));
         }
 
-        const categoryDir = path.join(this.testDataDir, category);
         const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
         let baselineRegressionCount = 0;
 
         try {
-            const entries = await fs.readdir(categoryDir, { withFileTypes: true });
-            let htmlFiles = entries
-                .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')))
-                .map(entry => entry.name);
-
-            // Also scan subdirectories for HTML files (e.g., css2.1 has html4/, xhtml1/)
-            // Skip WPT helper directories; they contain resources/templates, not standalone tests.
-            const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
-                entry.name !== 'support' && entry.name !== 'tools');
-            for (const subDir of subDirs) {
-                const subDirPath = path.join(categoryDir, subDir.name);
-                try {
-                    const subFiles = await fs.readdir(subDirPath);
-                    const subHtmlFiles = subFiles
-                        .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
-                        // web-tmpl: only test index.html from each template directory
-                        .filter(file => category !== 'web-tmpl' || file === 'index.html');
-                    // Include subdirectory HTML files with relative path for proper resolution
-                    htmlFiles = htmlFiles.concat(subHtmlFiles.map(f => path.join(subDir.name, f)));
-                } catch (error) {
-                    // Skip unreadable subdirectories
-                }
-            }
-
-            if (htmlFiles.length === 0) {
+            const categoryPlan = preparedPlan || (await this.buildTestPlan([
+                await this.prepareCategoryPlanInput(category)
+            ])).categories.get(category);
+            if (!categoryPlan || categoryPlan.discoveredCount === 0) {
                 console.log(`No HTML files found in ${category}/`);
-                return;
+                return [];
             }
-
-            // Prepare test tasks
-            let rawTestTasks = htmlFiles.map(htmlFile => ({
-                htmlFile: path.join(categoryDir, htmlFile),
-                category: category
-            }));
-
-            const baseline = await this.loadBaseline(category);
-            if (this.baselineOnly) {
-                if (baseline && baseline.size > 0) {
-                    // a recorded baseline is the authoritative inventory for baseline gates.
-                    rawTestTasks = this.selectRecordedBaselineTasks(rawTestTasks, baseline);
-                    if (!this.json) {
-                        console.log(`   📌 Baseline-only: selected ${rawTestTasks.length}/${htmlFiles.length} recorded tests`);
-                    }
-                } else if (!this.json) {
-                    console.log('   ℹ️  No recorded baseline; running the full suite');
-                }
-            }
-
-            // Pre-filter: skip tests without browser references or with file size > 100KB
-            const { tasks: testTasks, skipped: skippedCount } = await this.filterTestTasks(rawTestTasks);
-
-            if (!this.baselineOnly && baseline && baseline.size > 0) {
-                this.bindRecordedBaselineEntries(testTasks, baseline);
-            }
+            const { baseline, tasks: testTasks, skipped: skippedCount } = categoryPlan;
+            this.reportSkippedTasks(categoryPlan);
 
             if (testTasks.length === 0) {
                 if (!this.json) {
@@ -3034,65 +3066,47 @@ class RadiantLayoutTester {
                 return [];
             }
         }
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                const input = await this.prepareCategoryPlanInput(category, pattern, false);
+                categoryInputs.push(input);
+                if (input.htmlFiles.length > 0) {
+                    console.log(`\n📂 Found ${input.htmlFiles.length} matching files in ${category}:`);
+                    input.htmlFiles.forEach(file => console.log(`   🎯 ${file}`));
+                }
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ⚠️  Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
         const allResults = [];
         let totalMatches = 0;
 
         for (const category of categories) {
-            const categoryDir = path.join(this.testDataDir, category);
+            if (failedCategories.has(category)) continue;
+            const input = categoryInputs.find(entry => entry.category === category);
+            if (!input || input.htmlFiles.length === 0) continue;
+
+            const categoryPlan = testPlan.categories.get(category);
+            this.reportSkippedTasks(categoryPlan);
+            if (!categoryPlan || categoryPlan.tasks.length === 0) {
+                console.log(`   No testable files after filtering`);
+                continue;
+            }
+
             const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
-
             try {
-                const entries = await fs.readdir(categoryDir, { withFileTypes: true });
-                let matchingFiles = entries
-                    .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')) && entry.name.includes(pattern))
-                    .map(entry => entry.name);
-
-                // Also scan subdirectories for matching HTML files, excluding WPT helpers.
-                const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
-                    entry.name !== 'support' && entry.name !== 'tools');
-                for (const subDir of subDirs) {
-                    const subDirPath = path.join(categoryDir, subDir.name);
-                    try {
-                        const subFiles = await fs.readdir(subDirPath);
-                        const subMatching = subFiles
-                            .filter(file => (file.endsWith('.html') || file.endsWith('.htm')) && file.includes(pattern))
-                            // web-tmpl: only test index.html from each template directory
-                            .filter(file => category !== 'web-tmpl' || file === 'index.html');
-                        matchingFiles = matchingFiles.concat(subMatching.map(f => path.join(subDir.name, f)));
-                    } catch (error) {
-                        // Skip unreadable subdirectories
+                // Run only the already-filtered plan through the execution pool.
+                const categoryResults = await this.runTestsInPool(categoryPlan.tasks);
+                for (const result of categoryResults) {
+                    if (result) {
+                        allResults.push(result);
+                        totalMatches++;
                     }
                 }
-
-                if (matchingFiles.length > 0) {
-                    console.log(`\n📂 Found ${matchingFiles.length} matching files in ${category}:`);
-                    matchingFiles.forEach(f => console.log(`   🎯 ${f}`));
-
-                    // Prepare test tasks for this category
-                    const rawTestTasks = matchingFiles.map(htmlFile => ({
-                        htmlFile: path.join(categoryDir, htmlFile),
-                        category: category
-                    }));
-
-                    // Pre-filter: skip tests without browser references or with file size > 100KB
-                    const { tasks: testTasks } = await this.filterTestTasks(rawTestTasks);
-
-                    if (testTasks.length === 0) {
-                        console.log(`   No testable files after filtering`);
-                        continue;
-                    }
-
-                    // Run tests in parallel with pool management
-                    const categoryResults = await this.runTestsInPool(testTasks);
-                    for (const result of categoryResults) {
-                        if (result) {
-                            allResults.push(result);
-                            totalMatches++;
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log(`   ⚠️  Error reading category ${category}: ${error.message}`);
             } finally {
                 this.restoreCategoryConfig(previousConfig);
             }
@@ -3149,8 +3163,27 @@ class RadiantLayoutTester {
      * the shared limiter is the only cross-category state.
      */
     async testCategories(categories) {
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                categoryInputs.push(await this.prepareCategoryPlanInput(category));
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ❌ Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
         const limiter = new ProcessLimiter(this.globalConcurrency);
         const runs = categories.map(async category => {
+            if (failedCategories.has(category)) {
+                return {
+                    category,
+                    results: [],
+                    summary: null,
+                    baselineRegressions: []
+                };
+            }
             const child = new RadiantLayoutTester({
                 engine: this.engine,
                 radiantExe: this.radiantExe,
@@ -3166,13 +3199,14 @@ class RadiantLayoutTester {
                 batchSizeExplicit: this.batchSizeExplicit,
                 retryMismatches: this.retryMismatches,
                 retryMismatchesExplicit: this.retryMismatchesExplicit,
+                baselineOnly: this.baselineOnly,
                 processRegistry: this.processRegistry,
                 processKillTimers: this.processKillTimers,
                 processLimiter: limiter,
                 json: true,
                 emitJson: false
             });
-            const results = await child.testCategory(category);
+            const results = await child.testCategory(category, testPlan.categories.get(category));
             return {
                 category,
                 results: results || [],
@@ -3230,9 +3264,23 @@ class RadiantLayoutTester {
         const categories = await this.getAvailableCategories();
         console.log(`Found categories: ${categories.join(', ')}`);
 
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                categoryInputs.push(await this.prepareCategoryPlanInput(category));
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ❌ Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
+
         const allResults = [];
         for (const category of categories) {
-            const categoryResults = await this.testCategory(category);
+            if (failedCategories.has(category)) continue;
+            const categoryPlan = testPlan.categories.get(category);
+            const categoryResults = await this.testCategory(category, categoryPlan);
             allResults.push(...categoryResults);
         }
 
