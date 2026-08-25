@@ -216,20 +216,6 @@ class RadiantLayoutTester {
         this.retryMismatches = previous.retryMismatches;
     }
 
-    /**
-     * CSS 2.1/WPT Ahem tests expect the Ahem family to be installed. Browser
-     * references inject @font-face for those tests; mirror that only for files
-     * that mention Ahem so DOM/CSSOM tests using document.styleSheets[0] are not disturbed.
-     */
-    async fileNeedsAhem(htmlFile) {
-        try {
-            const htmlContent = await fs.readFile(htmlFile, 'utf8');
-            return /\bahem\b/i.test(htmlContent);
-        } catch {
-            return false;
-        }
-    }
-
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
         const args = ['layout', ...files];
@@ -239,9 +225,6 @@ class RadiantLayoutTester {
             args.push('-vw', '1200', '-vh', '800');
         }
         args.push('--font-dir', 'test/layout/data/font');
-        if (options.includeAhem) {
-            args.push('--css', 'test/layout/data/support/fonts/ahem.css');
-        }
         args.push('--auto-close');
         args.push('--no-log');
         return args;
@@ -266,11 +249,10 @@ class RadiantLayoutTester {
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
         }
-        const includeAhem = await this.fileNeedsAhem(htmlFile);
         const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = this.buildLayoutArgs(htmlFile, { includeAhem });
+            const args = this.buildLayoutArgs(htmlFile);
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -326,39 +308,12 @@ class RadiantLayoutTester {
      */
     async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
         await fs.mkdir(batchOutputDir, { recursive: true });
-        const ahemFiles = [];
-        const regularFiles = [];
-        for (const htmlFile of htmlFiles) {
-            if (await this.fileNeedsAhem(htmlFile)) {
-                ahemFiles.push(htmlFile);
-            } else {
-                regularFiles.push(htmlFile);
-            }
-        }
-
-        const outputMap = new Map();
-        const appendResults = (partial) => {
-            for (const [input, output] of partial.entries()) {
-                outputMap.set(input, output);
-            }
-        };
-
-        if (regularFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(regularFiles, false, batchOutputDir));
-        }
-        if (ahemFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(ahemFiles, true, batchOutputDir));
-        }
-        return outputMap;
-    }
-
-    async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
         const launch = () => new Promise((resolve, reject) => {
             // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
-            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
+            const args = this.buildLayoutArgs(htmlFiles, { batch: true, outputDir: batchOutputDir });
 
             if (this.verbose) {
-                console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
+                console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
             }
 
             const proc = this.spawnLayoutProcess(args);
