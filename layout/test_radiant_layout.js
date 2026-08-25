@@ -22,6 +22,10 @@ const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
 const CPU_CORES = os.cpus().length;
 const DEFAULT_CONCURRENCY = Math.max(1, CPU_CORES - 1);
 const DEFAULT_GLOBAL_CONCURRENCY = Math.max(1, Math.ceil(CPU_CORES * 1.5));
+const DEFAULT_BATCH_SIZE = 500;
+const MAX_LAYOUT_BATCH_FILES = 500;
+const LAYOUT_BATCH_ARG_BYTES = process.platform === 'win32' ? 24 * 1024 : 128 * 1024;
+const LAYOUT_BATCH_ARG_RESERVE = 4 * 1024;
 
 let TESTER_INSTANCE_ID = 0;
 
@@ -2572,12 +2576,26 @@ class RadiantLayoutTester {
      * @returns {Array} - Array of test results
      */
     async runTestsInBatchMode(testTasks) {
+        if (testTasks.length === 0) {
+            this._lastBatchInfo = {
+                taskCount: 0,
+                batchSize: 0,
+                batchCount: 0,
+                strategy: 'strided'
+            };
+            return [];
+        }
+
         const maxConcurrency = this.maxConcurrency;
-        // A configured batch size is a ceiling. Small suites must still create
-        // enough independent batches to use every available worker.
-        const batchSize = Math.min(
-            this.batchSize,
-            Math.max(1, Math.ceil(testTasks.length / maxConcurrency))
+        const maxBatchFiles = Math.max(1,
+            Math.min(this.batchSize, MAX_LAYOUT_BATCH_FILES));
+        const availableArgBytes = LAYOUT_BATCH_ARG_BYTES - LAYOUT_BATCH_ARG_RESERVE;
+        const totalArgBytes = testTasks.reduce((total, task) =>
+            total + Buffer.byteLength(task.htmlFile, 'utf8') + 1, 0);
+        let batchCount = Math.max(
+            Math.min(maxConcurrency, testTasks.length),
+            Math.ceil(testTasks.length / maxBatchFiles),
+            Math.ceil(totalArgBytes / availableArgBytes)
         );
 
         const resultPasses = (result) => {
@@ -2602,15 +2620,30 @@ class RadiantLayoutTester {
             // Directory may already exist
         }
 
-        // Split all tasks into batch chunks upfront
-        const batches = [];
-        for (let i = 0; i < testTasks.length; i += batchSize) {
-            batches.push(testTasks.slice(i, i + batchSize));
+        // Adjacent fixtures often share the same expensive shape (for example
+        // large JS libraries); striping prevents one process from becoming the suite tail.
+        let batches;
+        while (true) {
+            batches = Array.from({ length: batchCount }, () => []);
+            const argBytes = new Array(batchCount).fill(0);
+            for (let index = 0; index < testTasks.length; index++) {
+                const batchIndex = index % batchCount;
+                const task = testTasks[index];
+                batches[batchIndex].push(task);
+                argBytes[batchIndex] += Buffer.byteLength(task.htmlFile, 'utf8') + 1;
+            }
+            const exceedsLimit = batches.some((batch, index) =>
+                batch.length > maxBatchFiles || argBytes[index] > availableArgBytes);
+            if (!exceedsLimit || batchCount >= testTasks.length) break;
+            batchCount++;
         }
+        batches = batches.filter(batch => batch.length > 0);
+        const batchSize = Math.max(...batches.map(batch => batch.length));
         this._lastBatchInfo = {
             taskCount: testTasks.length,
             batchSize,
-            batchCount: batches.length
+            batchCount: batches.length,
+            strategy: 'strided'
         };
 
         if (!this.json) {
@@ -3343,7 +3376,7 @@ async function main() {
         json: false, // JSON output mode
         maxConcurrency: DEFAULT_CONCURRENCY, // Max parallel tests (auto-detect: cores - 1)
         globalConcurrency: DEFAULT_GLOBAL_CONCURRENCY,
-        batchSize: 100, // Default batch size for layout (100 files at once)
+        batchSize: DEFAULT_BATCH_SIZE,
         retryMismatches: false
     };
 
@@ -3464,7 +3497,7 @@ Options:
   --text-threshold <pct>   Text match threshold percentage (default: 70.0)
   --concurrency, -j <n>    Per-category queue concurrency (default: CPU cores - 1)
   --global-concurrency <n> Maximum layout child processes across categories (default: ceil(1.5 × CPU cores))
-  --batch-size, -b <n>     Batch size for layout processing (default: 100, 0 to disable)
+  --batch-size, -b <n>     Batch size for layout processing (default: ${DEFAULT_BATCH_SIZE}, max: ${MAX_LAYOUT_BATCH_FILES}, 0 to disable)
   --no-batch               Disable batch mode (same as --batch-size 0)
   --retry-mismatches       Re-run failed batch comparisons individually to detect batch-only mismatches
   --verbose, -v            Show detailed output
@@ -3475,7 +3508,7 @@ Options:
   --help, -h               Show this help message
 
 Batch Mode:
-  By default, tests are processed in batches of 100 files to improve performance.
+  By default, tests are striped across bounded batches of up to 500 files.
   The layout engine's UiContext is initialized once per batch, reducing overhead.
   Use --no-batch to disable batch mode and process files individually.
   Suite-specific config is read from test/layout/data/<suite>/config.json.
