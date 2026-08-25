@@ -13,6 +13,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const os = require('os');
 const { referenceNameForPath } = require('./reference_paths');
+const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
 
 // Get current platform for loading platform-specific references
 const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
@@ -83,6 +84,7 @@ class RadiantLayoutTester {
         ); // Unique directory for this harness run's batch output files
         this.processRegistry = options.processRegistry || new Set();
         this.processKillTimers = options.processKillTimers || new Map();
+        this._compactReferenceValidity = new Map();
     }
 
     /**
@@ -219,7 +221,9 @@ class RadiantLayoutTester {
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
         const args = ['layout', ...files];
-        if (options.batch) {
+        if (options.stream) {
+            args.push('--stream-layout-results', '--continue-on-error');
+        } else if (options.batch) {
             args.push('--output-dir', options.outputDir || this.batchOutputDir, '--continue-on-error');
         } else {
             args.push('-vw', '1200', '-vh', '800');
@@ -304,13 +308,11 @@ class RadiantLayoutTester {
      * Run layout engine on multiple files in batch mode.
      * This is much faster than running individual files as it reuses the UiContext.
      * @param {Array<string>} htmlFiles - Array of HTML file paths to process
-     * @returns {Promise<Map<string, string>>} - Map of input file -> output JSON file path
+     * @returns {Promise<Map<string, object>>} - resolved input path -> streamed result record
      */
-    async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
-        await fs.mkdir(batchOutputDir, { recursive: true });
+    async runBatchLayout(htmlFiles) {
         const launch = () => new Promise((resolve, reject) => {
-            // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
-            const args = this.buildLayoutArgs(htmlFiles, { batch: true, outputDir: batchOutputDir });
+            const args = this.buildLayoutArgs(htmlFiles, { stream: true });
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
@@ -318,17 +320,46 @@ class RadiantLayoutTester {
 
             const proc = this.spawnLayoutProcess(args);
 
-            let stdout = '';
             let stderr = '';
-            let filesCompleted = 0;
+            let frameBuffer = Buffer.alloc(0);
+            let protocolError = null;
+            const outputMap = new Map();
 
             proc.stdout.on('data', (data) => {
-                const chunk = data.toString();
-                stdout += chunk;
-                // Count per-file completions from layout summary lines
-                const matches = chunk.match(/Completed layout for:/g);
-                if (matches) {
-                    filesCompleted += matches.length;
+                if (protocolError) return;
+                frameBuffer = frameBuffer.length === 0
+                    ? data
+                    : Buffer.concat([frameBuffer, data]);
+                while (frameBuffer.length >= 16) {
+                    if (frameBuffer.toString('ascii', 0, 4) !== 'LYT2') {
+                        protocolError = new Error('Invalid layout result frame magic');
+                        return;
+                    }
+                    const pathLength = frameBuffer.readUInt32LE(4);
+                    const jsonLength = frameBuffer.readUInt32LE(8);
+                    const flags = frameBuffer.readUInt32LE(12);
+                    const frameLength = 16 + pathLength + jsonLength;
+                    if (frameBuffer.length < frameLength) return;
+
+                    const inputFile = frameBuffer.toString('utf8', 16, 16 + pathLength);
+                    let dataObject = null;
+                    if (jsonLength > 0) {
+                        const jsonStart = 16 + pathLength;
+                        try {
+                            dataObject = JSON.parse(
+                                frameBuffer.toString('utf8', jsonStart, jsonStart + jsonLength));
+                        } catch (error) {
+                            protocolError = new Error(
+                                `Invalid streamed layout JSON for ${inputFile}: ${error.message}`);
+                            return;
+                        }
+                    }
+                    outputMap.set(path.resolve(inputFile), {
+                        inputFile,
+                        success: (flags & 1) !== 0,
+                        data: dataObject
+                    });
+                    frameBuffer = frameBuffer.subarray(frameLength);
                 }
             });
 
@@ -366,13 +397,17 @@ class RadiantLayoutTester {
                     // Clear the progress line
                     process.stdout.write('   \r');
                 }
-                // Build map of input file -> output file
-                // Use parentdir__basename naming to match C++ generate_output_path
-                const outputMap = new Map();
-                for (const htmlFile of htmlFiles) {
-                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
+                if (protocolError) {
+                    finish(reject, protocolError);
+                    return;
                 }
-                // We continue even on non-zero exit code since --continue-on-error was used
+                if (frameBuffer.length !== 0) {
+                    finish(reject, new Error(
+                        `Truncated layout result frame (${frameBuffer.length} trailing bytes)`));
+                    return;
+                }
+                // Partial maps are intentional after a child crash; callers retry
+                // only records that did not arrive as complete frames.
                 finish(resolve, outputMap);
             });
 
@@ -445,12 +480,7 @@ class RadiantLayoutTester {
         return '';
     }
 
-    /**
-     * Load browser reference data
-     * First tries platform-specific reference (e.g., test_name.linux.json),
-     * then falls back to generic reference (test_name.json)
-     */
-    async loadBrowserReference(testName, category, htmlFile = null) {
+    getBrowserReferenceCandidates(testName, category, htmlFile = null) {
         // WPT categories use reference/wpt/ subdirectory to avoid name collisions
         // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
         const isWpt = (category && category.startsWith('wpt-')) ||
@@ -469,89 +499,97 @@ class RadiantLayoutTester {
                 : this.referenceDir;
 
         const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
-        // Try unique nested WPT identity before the legacy flat basename.
-        for (const referenceName of referenceNames) {
-            const platformRefFile = path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`);
-            try {
-                const content = await fs.readFile(platformRefFile, 'utf8');
-                if (this.verbose) {
-                    console.log(`   📦 Using platform-specific reference: ${referenceName}.${CURRENT_PLATFORM}.json`);
-                }
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load platform reference: ${error.message}`);
-                }
-            }
-        }
-
-        // Try reference directory (wpt/ subdir for WPT, flat for others).
-        for (const referenceName of referenceNames) {
-            const refFile = path.join(baseRefDir, `${referenceName}.json`);
-            try {
-                const content = await fs.readFile(refFile, 'utf8');
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load browser reference: ${error.message}`);
-                }
-            }
-        }
-
-        // Fall back to category subdirectory for backwards compatibility.
-        for (const referenceName of referenceNames) {
-            const categoryRefFile = path.join(this.referenceDir, category, `${referenceName}.json`);
-            try {
-                const content = await fs.readFile(categoryRefFile, 'utf8');
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load browser reference: ${error.message}`);
-                }
-            }
-        }
-        return null; // Reference doesn't exist
-    }
-
-    /**
-     * Check if a browser reference file exists for a given test (without loading it)
-     * Mirrors the lookup order in loadBrowserReference.
-     */
-    async hasBrowserReference(testName, category, htmlFile = null) {
-        // WPT categories use reference/wpt/ subdirectory
-        // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
-        const isWpt = (category && category.startsWith('wpt-')) ||
-                      (htmlFile && htmlFile.includes('/wpt/'));
-        // web-tmpl templates use reference/web-tmpl/ subdirectory
-        const isWebTmpl = category === 'web-tmpl' ||
-                          (htmlFile && htmlFile.includes('/web-tmpl/'));
-        // web-tmpl: all files are index.html; derive test name from parent directory
-        if (isWebTmpl && testName === 'index' && htmlFile) {
-            testName = path.basename(path.dirname(htmlFile));
-        }
-        const baseRefDir = isWpt
-            ? path.join(this.referenceDir, 'wpt')
-            : isWebTmpl
-                ? path.join(this.referenceDir, 'web-tmpl')
-                : this.referenceDir;
-        const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
         const candidates = [];
         for (const referenceName of referenceNames) {
             candidates.push(path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`));
         }
         for (const referenceName of referenceNames) {
             candidates.push(path.join(baseRefDir, `${referenceName}.json`));
+        }
+        for (const referenceName of referenceNames) {
             candidates.push(path.join(this.referenceDir, category, `${referenceName}.json`));
         }
-        for (const file of candidates) {
+        return candidates;
+    }
+
+    /**
+     * Resolve the final browser fixture once during run-wide planning.
+     * A schema-v2 sibling wins only within the same platform/name candidate,
+     * so compact fixtures cannot bypass the established fallback precedence.
+     */
+    async resolveBrowserReference(testName, category, htmlFile = null, options = {}) {
+        const preferCompact = options.preferCompact !== false;
+        for (const sourcePath of this.getBrowserReferenceCandidates(testName, category, htmlFile)) {
+            if (preferCompact) {
+                for (const compactPath of compactFixtureCandidates(sourcePath)) {
+                    if (await this.isCompactReference(compactPath)) {
+                        return {
+                            path: compactPath,
+                            sourcePath,
+                            schemaVersion: 2
+                        };
+                    }
+                }
+            }
             try {
-                await fs.access(file);
-                return true;
-            } catch (e) {
-                // not found, try next
+                await fs.access(sourcePath);
+                // A generated abc.min.json can also look like the v1 candidate
+                // for a different test; never route schema v2 as v1.
+                if (/\.min\.json$/i.test(sourcePath) &&
+                        await this.isCompactReference(sourcePath)) {
+                    continue;
+                }
+                return {
+                    path: sourcePath,
+                    sourcePath,
+                    schemaVersion: 1
+                };
+            } catch (error) {
+                if (error.code !== 'ENOENT') throw error;
             }
         }
-        return false;
+        return null;
+    }
+
+    async isCompactReference(referencePath) {
+        if (this._compactReferenceValidity.has(referencePath)) {
+            return this._compactReferenceValidity.get(referencePath);
+        }
+        let handle = null;
+        let valid = false;
+        try {
+            handle = await fs.open(referencePath, 'r');
+            const prefix = Buffer.alloc(64);
+            const { bytesRead } = await handle.read(prefix, 0, prefix.length, 0);
+            valid = /"schema_version"\s*:\s*2(?:\D|$)/.test(
+                prefix.toString('utf8', 0, bytesRead));
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error;
+        } finally {
+            if (handle) await handle.close();
+        }
+        this._compactReferenceValidity.set(referencePath, valid);
+        return valid;
+    }
+
+    async loadBrowserReference(testName, category, htmlFile = null, referencePath = null) {
+        const resolved = referencePath
+            ? { path: referencePath }
+            : await this.resolveBrowserReference(testName, category, htmlFile);
+        if (!resolved) return null;
+        try {
+            const content = await fs.readFile(resolved.path, 'utf8');
+            return JSON.parse(content);
+        } catch (error) {
+            if (error instanceof SyntaxError) {
+                throw new Error(`Failed to parse browser reference ${resolved.path}: ${error.message}`);
+            }
+            throw new Error(`Failed to load browser reference ${resolved.path}: ${error.message}`);
+        }
+    }
+
+    async hasBrowserReference(testName, category, htmlFile = null) {
+        return (await this.resolveBrowserReference(testName, category, htmlFile)) !== null;
     }
 
     /**
@@ -979,16 +1017,21 @@ class RadiantLayoutTester {
                 // If the file cannot be stat'ed, let execution report the failure naturally.
             }
 
-            const hasRef = await this.hasBrowserReference(testName, task.category, task.htmlFile);
-            if (!hasRef) return { task, skip: 'no-ref' };
-            return { task, skip: null };
+            const reference = await this.resolveBrowserReference(
+                testName, task.category, task.htmlFile);
+            if (!reference) return { task, skip: 'no-ref' };
+            return { task, skip: null, reference };
         }));
 
-        for (const { task, skip, size } of checks) {
+        for (const { task, skip, size, reference } of checks) {
             const categoryPlan = categoryPlans.get(task.category);
             if (!categoryPlan) continue;
             if (skip === null) {
-                categoryPlan.tasks.push(task);
+                categoryPlan.tasks.push({
+                    ...task,
+                    referencePath: reference.path,
+                    referenceSchemaVersion: reference.schemaVersion
+                });
                 continue;
             }
 
@@ -1253,77 +1296,15 @@ class RadiantLayoutTester {
                 });
             }
         } else {
-            // Browser format: elements in children array, text nodes may be
-            // inline (nodeType='text') or in a separate textNodes array (legacy format).
-            // When textNodes exists, interleave with element children in DOM order
-            // using the parent's textContent as the ordering reference.
-
-            // Collect element children from children array
-            const elemChildren = [];
-            if (node.children && Array.isArray(node.children)) {
-                node.children.forEach((child) => {
-                    elemChildren.push({
-                        type: child.nodeType === 'text' ? 'text' : 'element',
-                        node: child,
-                        matchText: child.nodeType === 'text' ? (child.text || '') : (child.textContent || '')
-                    });
+            // Normalize legacy textNodes/textContent through the same helper
+            // used to generate schema-v2 fixtures, so migration cannot reorder tests.
+            browserChildrenInOrder(node).forEach((child, index) => {
+                children.push({
+                    type: child.nodeType === 'text' ? 'text' : 'element',
+                    node: child,
+                    index
                 });
-            }
-
-            // If there are separate textNodes, interleave them with element children
-            if (node.textNodes && Array.isArray(node.textNodes) && node.textNodes.length > 0) {
-                const textChildren = node.textNodes.map(textNode => ({
-                    type: 'text',
-                    node: { ...textNode, nodeType: 'text' },
-                    matchText: textNode.text || ''
-                }));
-
-                // Use parent's textContent to determine DOM order
-                const fullText = node.textContent || '';
-                const allCandidates = [...elemChildren, ...textChildren];
-
-                // Find each candidate's position in the parent's textContent
-                // by scanning sequentially (handles duplicates correctly)
-                let scanPos = 0;
-                const positioned = [];
-                const remaining = [...allCandidates];
-
-                while (remaining.length > 0) {
-                    let bestIdx = -1;
-                    let bestPos = Infinity;
-
-                    for (let i = 0; i < remaining.length; i++) {
-                        const txt = remaining[i].matchText;
-                        if (txt && txt.length > 0) {
-                            const pos = fullText.indexOf(txt, scanPos);
-                            if (pos >= 0 && pos < bestPos) {
-                                bestPos = pos;
-                                bestIdx = i;
-                            }
-                        }
-                    }
-
-                    if (bestIdx >= 0) {
-                        const matched = remaining.splice(bestIdx, 1)[0];
-                        matched.foundPos = bestPos;
-                        positioned.push(matched);
-                        scanPos = bestPos + matched.matchText.length;
-                    } else {
-                        // Remaining candidates couldn't be matched; append them
-                        positioned.push(...remaining);
-                        break;
-                    }
-                }
-
-                positioned.forEach((c, i) => {
-                    children.push({ type: c.type, node: c.node, index: i });
-                });
-            } else {
-                // No separate textNodes — children are already in DOM order
-                elemChildren.forEach((c, i) => {
-                    children.push({ type: c.type, node: c.node, index: i });
-                });
-            }
+            });
         }
 
         return children;
@@ -2515,18 +2496,21 @@ class RadiantLayoutTester {
      * Compare a single test result against browser reference (used in batch mode)
      * @param {string} htmlFile - Path to the HTML file
      * @param {string} category - Test category name
-     * @param {string} outputFile - Path to the layout output JSON file
+     * @param {string|object} radiantOutput - Path or streamed schema-v2 result
      */
-    async compareTestResult(htmlFile, category, outputFile, baselineEntry = null) {
+    async compareTestResult(htmlFile, category, radiantOutput, baselineEntry = null,
+                            referencePath = null) {
         const testName = this.getTestNameFromPath(htmlFile, category);
         const testFileName = path.basename(htmlFile);
 
         try {
-            // Load the layout result
-            const radiantData = await this.loadRadiantOutput(testFileName, outputFile);
+            const outputFile = typeof radiantOutput === 'string' ? radiantOutput : null;
+            const radiantData = outputFile
+                ? await this.loadRadiantOutput(testFileName, outputFile)
+                : radiantOutput;
 
-            // Load browser reference
-            const browserData = await this.loadBrowserReference(testName, category, htmlFile);
+            const browserData = await this.loadBrowserReference(
+                testName, category, htmlFile, referencePath);
             if (!browserData) {
                 console.log(`   ⚠️  No browser reference found for ${testName}`);
                 return null;
@@ -2556,7 +2540,7 @@ class RadiantLayoutTester {
             const metadata = {
                 htmlFile: htmlFile,
                 resultFile: outputFile,
-                viewFile: outputFile.replace('.json', '.txt'),
+                viewFile: outputFile ? outputFile.replace('.json', '.txt') : null,
                 baselineEntry
             };
             const report = this.generateReport(results, null, testName, metadata);
@@ -2660,60 +2644,56 @@ class RadiantLayoutTester {
 
             let outputMap;
             try {
-                outputMap = await this.runBatchLayout(htmlFiles, batchOutputDir);
+                outputMap = await this.runBatchLayout(htmlFiles);
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
                 return batch.map(task => makeLayoutFailure(task, `Batch error: ${err.message}`));
             }
 
-            // Compare each result against reference in parallel within the batch.
-            // Detect missing output files (from batch process crashes) and retry individually.
+            // Complete frames survive a child crash; only absent/failed records
+            // need isolated retries, with no intermediate result files.
             const missingTasks = [];
             const validTasks = [];
             const retryFailures = [];
             for (const task of batch) {
-                const outputFile = outputMap.get(task.htmlFile);
-                try {
-                    await fs.access(outputFile);
-                    validTasks.push({ task, outputFile });
-                } catch {
+                const record = outputMap.get(path.resolve(task.htmlFile));
+                if (record && record.success && record.data) {
+                    validTasks.push({ task, radiantData: record.data });
+                } else {
                     missingTasks.push(task);
                 }
             }
 
-            // Retry missing files individually (they were likely killed by a crash in the same batch)
-            if (missingTasks.length > 0 && missingTasks.length < batch.length) {
+            if (missingTasks.length > 0) {
                 if (!this.json) {
                     console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
-                        await this.runRadiantLayout(task.htmlFile, retryOutput);
-                        validTasks.push({ task, outputFile: retryOutput });
-                    } catch (err) {
-                        // Still fails individually — mark as error
-                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
-                    }
-                }
-            } else if (missingTasks.length === batch.length) {
-                // Entire batch failed — retry all individually
-                if (!this.json) {
-                    console.log(`   🔄 Entire batch failed, retrying ${missingTasks.length} files individually`);
-                }
-                for (const task of missingTasks) {
-                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
-                    try {
-                        await this.runRadiantLayout(task.htmlFile, retryOutput);
-                        validTasks.push({ task, outputFile: retryOutput });
+                        const retryMap = await this.runBatchLayout([task.htmlFile]);
+                        const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                        if (!retryRecord || !retryRecord.success || !retryRecord.data) {
+                            throw new Error('isolated layout produced no successful result frame');
+                        }
+                        validTasks.push({ task, radiantData: retryRecord.data });
                     } catch (err) {
                         retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             }
 
-            const comparePromises = validTasks.map(async ({ task, outputFile }) => {
-                return this.compareTestResult(task.htmlFile, task.category, outputFile, task.baselineEntry);
+            const persistFailure = async (task, radiantData, result) => {
+                const outputFile = this.getParallelOutputFile(task.htmlFile, batchOutputDir);
+                await fs.mkdir(path.dirname(outputFile), { recursive: true });
+                await fs.writeFile(outputFile, JSON.stringify(radiantData));
+                result.resultFile = outputFile;
+                result.viewFile = outputFile.replace('.json', '.txt');
+            };
+
+            const comparePromises = validTasks.map(async ({ task, radiantData }) => {
+                return this.compareTestResult(
+                    task.htmlFile, task.category, radiantData, task.baselineEntry,
+                    task.referencePath);
             });
             const batchResults = await Promise.all(comparePromises);
             const finalResults = [];
@@ -2725,27 +2705,34 @@ class RadiantLayoutTester {
                     continue;
                 }
 
-                const { task } = validTasks[i];
+                const { task, radiantData } = validTasks[i];
                 if (!this.retryMismatches) {
+                    await persistFailure(task, radiantData, result);
                     finalResults.push(result);
                     continue;
                 }
 
-                const retryOutput = this.getUniqueOutputFile();
                 try {
-                    await this.runRadiantLayout(task.htmlFile, retryOutput);
+                    const retryMap = await this.runBatchLayout([task.htmlFile]);
+                    const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                    if (!retryRecord || !retryRecord.success || !retryRecord.data) {
+                        throw new Error('isolated retry produced no successful result frame');
+                    }
                     const retryResult = await this.compareTestResult(
-                        task.htmlFile, task.category, retryOutput, task.baselineEntry);
+                        task.htmlFile, task.category, retryRecord.data,
+                        task.baselineEntry, task.referencePath);
                     if (resultPasses(retryResult)) {
                         if (!this.json) {
                             console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
                         }
                         finalResults.push(retryResult);
                     } else {
-                        finalResults.push(result);
+                        await persistFailure(task, retryRecord.data, retryResult);
+                        finalResults.push(retryResult);
                     }
                 } catch (err) {
                     result.batchRetryError = err.message;
+                    await persistFailure(task, radiantData, result);
                     finalResults.push(result);
                 }
             }
