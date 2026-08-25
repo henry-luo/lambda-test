@@ -13,6 +13,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const os = require('os');
 const { referenceNameForPath } = require('./reference_paths');
+const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
 
 // Get current platform for loading platform-specific references
 const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
@@ -83,6 +84,7 @@ class RadiantLayoutTester {
         ); // Unique directory for this harness run's batch output files
         this.processRegistry = options.processRegistry || new Set();
         this.processKillTimers = options.processKillTimers || new Map();
+        this._compactReferenceValidity = new Map();
     }
 
     /**
@@ -216,32 +218,17 @@ class RadiantLayoutTester {
         this.retryMismatches = previous.retryMismatches;
     }
 
-    /**
-     * CSS 2.1/WPT Ahem tests expect the Ahem family to be installed. Browser
-     * references inject @font-face for those tests; mirror that only for files
-     * that mention Ahem so DOM/CSSOM tests using document.styleSheets[0] are not disturbed.
-     */
-    async fileNeedsAhem(htmlFile) {
-        try {
-            const htmlContent = await fs.readFile(htmlFile, 'utf8');
-            return /\bahem\b/i.test(htmlContent);
-        } catch {
-            return false;
-        }
-    }
-
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
         const args = ['layout', ...files];
-        if (options.batch) {
+        if (options.stream) {
+            args.push('--stream-layout-results', '--continue-on-error');
+        } else if (options.batch) {
             args.push('--output-dir', options.outputDir || this.batchOutputDir, '--continue-on-error');
         } else {
             args.push('-vw', '1200', '-vh', '800');
         }
         args.push('--font-dir', 'test/layout/data/font');
-        if (options.includeAhem) {
-            args.push('--css', 'test/layout/data/support/fonts/ahem.css');
-        }
         args.push('--auto-close');
         args.push('--no-log');
         return args;
@@ -266,11 +253,10 @@ class RadiantLayoutTester {
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
         }
-        const includeAhem = await this.fileNeedsAhem(htmlFile);
         const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = this.buildLayoutArgs(htmlFile, { includeAhem });
+            const args = this.buildLayoutArgs(htmlFile);
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -322,58 +308,58 @@ class RadiantLayoutTester {
      * Run layout engine on multiple files in batch mode.
      * This is much faster than running individual files as it reuses the UiContext.
      * @param {Array<string>} htmlFiles - Array of HTML file paths to process
-     * @returns {Promise<Map<string, string>>} - Map of input file -> output JSON file path
+     * @returns {Promise<Map<string, object>>} - resolved input path -> streamed result record
      */
-    async runBatchLayout(htmlFiles, batchOutputDir = this.batchOutputDir) {
-        await fs.mkdir(batchOutputDir, { recursive: true });
-        const ahemFiles = [];
-        const regularFiles = [];
-        for (const htmlFile of htmlFiles) {
-            if (await this.fileNeedsAhem(htmlFile)) {
-                ahemFiles.push(htmlFile);
-            } else {
-                regularFiles.push(htmlFile);
-            }
-        }
-
-        const outputMap = new Map();
-        const appendResults = (partial) => {
-            for (const [input, output] of partial.entries()) {
-                outputMap.set(input, output);
-            }
-        };
-
-        if (regularFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(regularFiles, false, batchOutputDir));
-        }
-        if (ahemFiles.length > 0) {
-            appendResults(await this.runBatchLayoutGroup(ahemFiles, true, batchOutputDir));
-        }
-        return outputMap;
-    }
-
-    async runBatchLayoutGroup(htmlFiles, includeAhem, batchOutputDir = this.batchOutputDir) {
+    async runBatchLayout(htmlFiles) {
         const launch = () => new Promise((resolve, reject) => {
-            // Build command: layout file1.html file2.html ... --output-dir temp/layout_batch/
-            const args = this.buildLayoutArgs(htmlFiles, { batch: true, includeAhem, outputDir: batchOutputDir });
+            const args = this.buildLayoutArgs(htmlFiles, { stream: true });
 
             if (this.verbose) {
-                console.log(`   🚀 Batch layout: ${htmlFiles.length} files${includeAhem ? ' (Ahem)' : ''}`);
+                console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
             }
 
             const proc = this.spawnLayoutProcess(args);
 
-            let stdout = '';
             let stderr = '';
-            let filesCompleted = 0;
+            let frameBuffer = Buffer.alloc(0);
+            let protocolError = null;
+            const outputMap = new Map();
 
             proc.stdout.on('data', (data) => {
-                const chunk = data.toString();
-                stdout += chunk;
-                // Count per-file completions from layout summary lines
-                const matches = chunk.match(/Completed layout for:/g);
-                if (matches) {
-                    filesCompleted += matches.length;
+                if (protocolError) return;
+                frameBuffer = frameBuffer.length === 0
+                    ? data
+                    : Buffer.concat([frameBuffer, data]);
+                while (frameBuffer.length >= 16) {
+                    if (frameBuffer.toString('ascii', 0, 4) !== 'LYT2') {
+                        protocolError = new Error('Invalid layout result frame magic');
+                        return;
+                    }
+                    const pathLength = frameBuffer.readUInt32LE(4);
+                    const jsonLength = frameBuffer.readUInt32LE(8);
+                    const flags = frameBuffer.readUInt32LE(12);
+                    const frameLength = 16 + pathLength + jsonLength;
+                    if (frameBuffer.length < frameLength) return;
+
+                    const inputFile = frameBuffer.toString('utf8', 16, 16 + pathLength);
+                    let dataObject = null;
+                    if (jsonLength > 0) {
+                        const jsonStart = 16 + pathLength;
+                        try {
+                            dataObject = JSON.parse(
+                                frameBuffer.toString('utf8', jsonStart, jsonStart + jsonLength));
+                        } catch (error) {
+                            protocolError = new Error(
+                                `Invalid streamed layout JSON for ${inputFile}: ${error.message}`);
+                            return;
+                        }
+                    }
+                    outputMap.set(path.resolve(inputFile), {
+                        inputFile,
+                        success: (flags & 1) !== 0,
+                        data: dataObject
+                    });
+                    frameBuffer = frameBuffer.subarray(frameLength);
                 }
             });
 
@@ -411,13 +397,17 @@ class RadiantLayoutTester {
                     // Clear the progress line
                     process.stdout.write('   \r');
                 }
-                // Build map of input file -> output file
-                // Use parentdir__basename naming to match C++ generate_output_path
-                const outputMap = new Map();
-                for (const htmlFile of htmlFiles) {
-                    outputMap.set(htmlFile, this.getParallelOutputFile(htmlFile, batchOutputDir));
+                if (protocolError) {
+                    finish(reject, protocolError);
+                    return;
                 }
-                // We continue even on non-zero exit code since --continue-on-error was used
+                if (frameBuffer.length !== 0) {
+                    finish(reject, new Error(
+                        `Truncated layout result frame (${frameBuffer.length} trailing bytes)`));
+                    return;
+                }
+                // Partial maps are intentional after a child crash; callers retry
+                // only records that did not arrive as complete frames.
                 finish(resolve, outputMap);
             });
 
@@ -490,12 +480,7 @@ class RadiantLayoutTester {
         return '';
     }
 
-    /**
-     * Load browser reference data
-     * First tries platform-specific reference (e.g., test_name.linux.json),
-     * then falls back to generic reference (test_name.json)
-     */
-    async loadBrowserReference(testName, category, htmlFile = null) {
+    getBrowserReferenceCandidates(testName, category, htmlFile = null) {
         // WPT categories use reference/wpt/ subdirectory to avoid name collisions
         // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
         const isWpt = (category && category.startsWith('wpt-')) ||
@@ -514,122 +499,130 @@ class RadiantLayoutTester {
                 : this.referenceDir;
 
         const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
-        // Try unique nested WPT identity before the legacy flat basename.
-        for (const referenceName of referenceNames) {
-            const platformRefFile = path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`);
-            try {
-                const content = await fs.readFile(platformRefFile, 'utf8');
-                if (this.verbose) {
-                    console.log(`   📦 Using platform-specific reference: ${referenceName}.${CURRENT_PLATFORM}.json`);
-                }
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load platform reference: ${error.message}`);
-                }
-            }
-        }
-
-        // Try reference directory (wpt/ subdir for WPT, flat for others).
-        for (const referenceName of referenceNames) {
-            const refFile = path.join(baseRefDir, `${referenceName}.json`);
-            try {
-                const content = await fs.readFile(refFile, 'utf8');
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load browser reference: ${error.message}`);
-                }
-            }
-        }
-
-        // Fall back to category subdirectory for backwards compatibility.
-        for (const referenceName of referenceNames) {
-            const categoryRefFile = path.join(this.referenceDir, category, `${referenceName}.json`);
-            try {
-                const content = await fs.readFile(categoryRefFile, 'utf8');
-                return JSON.parse(content);
-            } catch (error) {
-                if (error.code !== 'ENOENT') {
-                    throw new Error(`Failed to load browser reference: ${error.message}`);
-                }
-            }
-        }
-        return null; // Reference doesn't exist
-    }
-
-    /**
-     * Check if a browser reference file exists for a given test (without loading it)
-     * Mirrors the lookup order in loadBrowserReference.
-     */
-    async hasBrowserReference(testName, category, htmlFile = null) {
-        // WPT categories use reference/wpt/ subdirectory
-        // Also detect wpt context from htmlFile path (e.g., baseline/wpt/test.html)
-        const isWpt = (category && category.startsWith('wpt-')) ||
-                      (htmlFile && htmlFile.includes('/wpt/'));
-        // web-tmpl templates use reference/web-tmpl/ subdirectory
-        const isWebTmpl = category === 'web-tmpl' ||
-                          (htmlFile && htmlFile.includes('/web-tmpl/'));
-        // web-tmpl: all files are index.html; derive test name from parent directory
-        if (isWebTmpl && testName === 'index' && htmlFile) {
-            testName = path.basename(path.dirname(htmlFile));
-        }
-        const baseRefDir = isWpt
-            ? path.join(this.referenceDir, 'wpt')
-            : isWebTmpl
-                ? path.join(this.referenceDir, 'web-tmpl')
-                : this.referenceDir;
-        const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
         const candidates = [];
         for (const referenceName of referenceNames) {
             candidates.push(path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`));
         }
         for (const referenceName of referenceNames) {
             candidates.push(path.join(baseRefDir, `${referenceName}.json`));
+        }
+        for (const referenceName of referenceNames) {
             candidates.push(path.join(this.referenceDir, category, `${referenceName}.json`));
         }
-        for (const file of candidates) {
+        return candidates;
+    }
+
+    /**
+     * Resolve the final browser fixture once during run-wide planning.
+     * A schema-v2 sibling wins only within the same platform/name candidate,
+     * so compact fixtures cannot bypass the established fallback precedence.
+     */
+    async resolveBrowserReference(testName, category, htmlFile = null, options = {}) {
+        const preferCompact = options.preferCompact !== false;
+        for (const sourcePath of this.getBrowserReferenceCandidates(testName, category, htmlFile)) {
+            if (preferCompact) {
+                for (const compactPath of compactFixtureCandidates(sourcePath)) {
+                    if (await this.isCompactReference(compactPath)) {
+                        return {
+                            path: compactPath,
+                            sourcePath,
+                            schemaVersion: 2
+                        };
+                    }
+                }
+            }
             try {
-                await fs.access(file);
-                return true;
-            } catch (e) {
-                // not found, try next
+                await fs.access(sourcePath);
+                // A generated abc.min.json can also look like the v1 candidate
+                // for a different test; never route schema v2 as v1.
+                if (/\.min\.json$/i.test(sourcePath) &&
+                        await this.isCompactReference(sourcePath)) {
+                    continue;
+                }
+                return {
+                    path: sourcePath,
+                    sourcePath,
+                    schemaVersion: 1
+                };
+            } catch (error) {
+                if (error.code !== 'ENOENT') throw error;
             }
         }
-        return false;
+        return null;
+    }
+
+    async isCompactReference(referencePath) {
+        if (this._compactReferenceValidity.has(referencePath)) {
+            return this._compactReferenceValidity.get(referencePath);
+        }
+        let handle = null;
+        let valid = false;
+        try {
+            handle = await fs.open(referencePath, 'r');
+            const prefix = Buffer.alloc(64);
+            const { bytesRead } = await handle.read(prefix, 0, prefix.length, 0);
+            valid = /"schema_version"\s*:\s*2(?:\D|$)/.test(
+                prefix.toString('utf8', 0, bytesRead));
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error;
+        } finally {
+            if (handle) await handle.close();
+        }
+        this._compactReferenceValidity.set(referencePath, valid);
+        return valid;
+    }
+
+    async loadBrowserReference(testName, category, htmlFile = null, referencePath = null) {
+        const resolved = referencePath
+            ? { path: referencePath }
+            : await this.resolveBrowserReference(testName, category, htmlFile);
+        if (!resolved) return null;
+        try {
+            const content = await fs.readFile(resolved.path, 'utf8');
+            return JSON.parse(content);
+        } catch (error) {
+            if (error instanceof SyntaxError) {
+                throw new Error(`Failed to parse browser reference ${resolved.path}: ${error.message}`);
+            }
+            throw new Error(`Failed to load browser reference ${resolved.path}: ${error.message}`);
+        }
+    }
+
+    async hasBrowserReference(testName, category, htmlFile = null) {
+        return (await this.resolveBrowserReference(testName, category, htmlFile)) !== null;
     }
 
     /**
      * Load the skip list from test/layout/skip_list.txt.
      * Each line is a test name (without extension) to skip.
-     * Caches the result (single shared list for all categories).
+     * The in-flight promise is shared by the run-wide preflight.
      */
-    async loadSkipList(category) {
-        if (!this._skipListCache) this._skipListCache = {};
-        if (this._skipListCache['_global'] !== undefined) return this._skipListCache['_global'];
+    async loadSkipList() {
+        if (this._skipListPromise) return this._skipListPromise;
 
         const skipListPath = path.join(__dirname, 'skip_list.txt');
-        try {
-            const content = await fs.readFile(skipListPath, 'utf8');
-            const lines = content.split('\n')
-                .map(line => line.trim())
-                .filter(line => line && !line.startsWith('#'));
-            const exact = new Set();
-            const prefixes = [];
-            for (const line of lines) {
-                if (line.endsWith('*')) {
-                    prefixes.push(line.slice(0, -1));
-                } else {
-                    exact.add(line);
+        // share the in-flight read so parallel discovery cannot reread the same list.
+        this._skipListPromise = fs.readFile(skipListPath, 'utf8')
+            .then(content => {
+                const lines = content.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line && !line.startsWith('#'));
+                const exact = new Set();
+                const prefixes = [];
+                for (const line of lines) {
+                    if (line.endsWith('*')) {
+                        prefixes.push(line.slice(0, -1));
+                    } else {
+                        exact.add(line);
+                    }
                 }
-            }
-            this._skipListCache['_global'] = { exact, prefixes };
-            return this._skipListCache['_global'];
-        } catch (e) {
-            // No skip list file — nothing to skip
-            this._skipListCache['_global'] = { exact: new Set(), prefixes: [] };
-            return this._skipListCache['_global'];
-        }
+                return { exact, prefixes };
+            })
+            .catch(() => {
+                // No skip list file — nothing to skip
+                return { exact: new Set(), prefixes: [] };
+            });
+        return this._skipListPromise;
     }
 
     /**
@@ -923,70 +916,153 @@ class RadiantLayoutTester {
         }
     }
 
-    /**
-     * Pre-filter test tasks: remove files without browser references, exceeding MAX_TEST_FILE_SIZE,
-     * or listed in skip_list.txt.
-     * Returns { tasks, skipped } where skipped is the count of removed tasks.
-     */
-    async filterTestTasks(testTasks) {
-        const kept = [];
-        let skippedNoRef = 0;
-        let skippedTooLarge = 0;
-        let skippedByList = 0;
+    async discoverCategoryTasks(category, namePattern = null) {
+        const categoryDir = path.join(this.testDataDir, category);
+        const matches = file => (file.endsWith('.html') || file.endsWith('.htm')) &&
+            (!namePattern || file.includes(namePattern));
+        const entries = await fs.readdir(categoryDir, { withFileTypes: true });
+        let htmlFiles = entries
+            .filter(entry => entry.isFile() && matches(entry.name))
+            .map(entry => entry.name);
 
-        // Check all tasks in parallel for efficiency
-        const checks = await Promise.all(testTasks.map(async (task) => {
-            // Check skip list
-            const skipList = await this.loadSkipList(task.category);
+        // Scan one level of subdirectories while excluding WPT helper directories.
+        const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
+            entry.name !== 'support' && entry.name !== 'tools');
+        for (const subDir of subDirs) {
+            const subDirPath = path.join(categoryDir, subDir.name);
+            try {
+                const subFiles = await fs.readdir(subDirPath);
+                const subHtmlFiles = subFiles
+                    .filter(file => matches(file))
+                    .filter(file => category !== 'web-tmpl' || file === 'index.html');
+                htmlFiles = htmlFiles.concat(subHtmlFiles.map(file => path.join(subDir.name, file)));
+            } catch (error) {
+                // Skip unreadable subdirectories.
+            }
+        }
+
+        return {
+            category,
+            categoryDir,
+            htmlFiles,
+            tasks: htmlFiles.map(htmlFile => ({
+                htmlFile: path.join(categoryDir, htmlFile),
+                category
+            }))
+        };
+    }
+
+    async prepareCategoryPlanInput(category, namePattern = null, useBaseline = true) {
+        const discovered = await this.discoverCategoryTasks(category, namePattern);
+        const baseline = useBaseline ? await this.loadBaseline(category) : null;
+        let tasks = discovered.tasks;
+
+        if (useBaseline && this.baselineOnly) {
+            if (baseline && baseline.size > 0) {
+                // a recorded baseline is the authoritative inventory for baseline gates.
+                tasks = this.selectRecordedBaselineTasks(tasks, baseline);
+                if (!this.json) {
+                    console.log(`   📌 Baseline-only: selected ${tasks.length}/${discovered.htmlFiles.length} recorded tests`);
+                }
+            } else if (!this.json) {
+                console.log('   ℹ️  No recorded baseline; running the full suite');
+            }
+        }
+
+        return {
+            category,
+            htmlFiles: discovered.htmlFiles,
+            tasks,
+            baseline
+        };
+    }
+
+    /**
+     * Build the run-wide executable test plan before spawning layout processes.
+     * Skip-list, size, and browser-reference decisions happen only here.
+     */
+    async buildTestPlan(categoryInputs) {
+        const categoryPlans = new Map();
+        const allTasks = [];
+        for (const input of categoryInputs) {
+            const categoryPlan = {
+                category: input.category,
+                discoveredCount: input.htmlFiles.length,
+                baseline: input.baseline,
+                tasks: [],
+                skipped: 0,
+                skippedCounts: {
+                    noRef: 0,
+                    tooLarge: 0,
+                    skipList: 0
+                }
+            };
+            categoryPlans.set(input.category, categoryPlan);
+            allTasks.push(...input.tasks);
+        }
+
+        const skipList = await this.loadSkipList();
+        const checks = await Promise.all(allTasks.map(async task => {
             const testName = this.getTestNameFromPath(task.htmlFile, task.category);
             if (this.isSkipped(skipList, testName)) {
                 return { task, skip: 'skip-list' };
             }
 
-            // Check file size
             try {
                 const stats = await fs.stat(task.htmlFile);
                 if (stats.size > MAX_TEST_FILE_SIZE) {
                     return { task, skip: 'too-large', size: stats.size };
                 }
-            } catch (e) {
-                // If we can't stat the file, let it through and fail naturally later
+            } catch (error) {
+                // If the file cannot be stat'ed, let execution report the failure naturally.
             }
 
-            // Check browser reference existence
-            const hasRef = await this.hasBrowserReference(testName, task.category, task.htmlFile);
-            if (!hasRef) {
-                return { task, skip: 'no-ref' };
-            }
-
-            return { task, skip: null };
+            const reference = await this.resolveBrowserReference(
+                testName, task.category, task.htmlFile);
+            if (!reference) return { task, skip: 'no-ref' };
+            return { task, skip: null, reference };
         }));
 
-        for (const { task, skip, size } of checks) {
-            if (skip === 'no-ref') {
-                skippedNoRef++;
-            } else if (skip === 'too-large') {
-                skippedTooLarge++;
+        for (const { task, skip, size, reference } of checks) {
+            const categoryPlan = categoryPlans.get(task.category);
+            if (!categoryPlan) continue;
+            if (skip === null) {
+                categoryPlan.tasks.push({
+                    ...task,
+                    referencePath: reference.path,
+                    referenceSchemaVersion: reference.schemaVersion
+                });
+                continue;
+            }
+
+            categoryPlan.skipped++;
+            if (skip === 'no-ref') categoryPlan.skippedCounts.noRef++;
+            if (skip === 'too-large') {
+                categoryPlan.skippedCounts.tooLarge++;
                 if (this.verbose) {
                     console.log(`   ⏭️  Skipped ${path.basename(task.htmlFile)} (file size ${(size / 1024).toFixed(0)}KB > 100KB)`);
                 }
-            } else if (skip === 'skip-list') {
-                skippedByList++;
-            } else {
-                kept.push(task);
+            }
+            if (skip === 'skip-list') categoryPlan.skippedCounts.skipList++;
+        }
+
+        for (const input of categoryInputs) {
+            const categoryPlan = categoryPlans.get(input.category);
+            if (!this.baselineOnly && categoryPlan.baseline && categoryPlan.baseline.size > 0) {
+                this.bindRecordedBaselineEntries(categoryPlan.tasks, categoryPlan.baseline);
             }
         }
 
-        const skipped = skippedNoRef + skippedTooLarge + skippedByList;
-        if (skipped > 0 && !this.json) {
-            const parts = [];
-            if (skippedNoRef > 0) parts.push(`${skippedNoRef} no reference`);
-            if (skippedTooLarge > 0) parts.push(`${skippedTooLarge} too large`);
-            if (skippedByList > 0) parts.push(`${skippedByList} skip-listed`);
-            console.log(`   ⏭️  Skipped ${skipped} tests (${parts.join(', ')})`);
-        }
+        return { categories: categoryPlans };
+    }
 
-        return { tasks: kept, skipped };
+    reportSkippedTasks(categoryPlan) {
+        if (!categoryPlan || categoryPlan.skipped === 0 || this.json) return;
+        const parts = [];
+        if (categoryPlan.skippedCounts.noRef > 0) parts.push(`${categoryPlan.skippedCounts.noRef} no reference`);
+        if (categoryPlan.skippedCounts.tooLarge > 0) parts.push(`${categoryPlan.skippedCounts.tooLarge} too large`);
+        if (categoryPlan.skippedCounts.skipList > 0) parts.push(`${categoryPlan.skippedCounts.skipList} skip-listed`);
+        console.log(`   ⏭️  Skipped ${categoryPlan.skipped} tests (${parts.join(', ')})`);
     }
 
     /**
@@ -1220,77 +1296,15 @@ class RadiantLayoutTester {
                 });
             }
         } else {
-            // Browser format: elements in children array, text nodes may be
-            // inline (nodeType='text') or in a separate textNodes array (legacy format).
-            // When textNodes exists, interleave with element children in DOM order
-            // using the parent's textContent as the ordering reference.
-
-            // Collect element children from children array
-            const elemChildren = [];
-            if (node.children && Array.isArray(node.children)) {
-                node.children.forEach((child) => {
-                    elemChildren.push({
-                        type: child.nodeType === 'text' ? 'text' : 'element',
-                        node: child,
-                        matchText: child.nodeType === 'text' ? (child.text || '') : (child.textContent || '')
-                    });
+            // Normalize legacy textNodes/textContent through the same helper
+            // used to generate schema-v2 fixtures, so migration cannot reorder tests.
+            browserChildrenInOrder(node).forEach((child, index) => {
+                children.push({
+                    type: child.nodeType === 'text' ? 'text' : 'element',
+                    node: child,
+                    index
                 });
-            }
-
-            // If there are separate textNodes, interleave them with element children
-            if (node.textNodes && Array.isArray(node.textNodes) && node.textNodes.length > 0) {
-                const textChildren = node.textNodes.map(textNode => ({
-                    type: 'text',
-                    node: { ...textNode, nodeType: 'text' },
-                    matchText: textNode.text || ''
-                }));
-
-                // Use parent's textContent to determine DOM order
-                const fullText = node.textContent || '';
-                const allCandidates = [...elemChildren, ...textChildren];
-
-                // Find each candidate's position in the parent's textContent
-                // by scanning sequentially (handles duplicates correctly)
-                let scanPos = 0;
-                const positioned = [];
-                const remaining = [...allCandidates];
-
-                while (remaining.length > 0) {
-                    let bestIdx = -1;
-                    let bestPos = Infinity;
-
-                    for (let i = 0; i < remaining.length; i++) {
-                        const txt = remaining[i].matchText;
-                        if (txt && txt.length > 0) {
-                            const pos = fullText.indexOf(txt, scanPos);
-                            if (pos >= 0 && pos < bestPos) {
-                                bestPos = pos;
-                                bestIdx = i;
-                            }
-                        }
-                    }
-
-                    if (bestIdx >= 0) {
-                        const matched = remaining.splice(bestIdx, 1)[0];
-                        matched.foundPos = bestPos;
-                        positioned.push(matched);
-                        scanPos = bestPos + matched.matchText.length;
-                    } else {
-                        // Remaining candidates couldn't be matched; append them
-                        positioned.push(...remaining);
-                        break;
-                    }
-                }
-
-                positioned.forEach((c, i) => {
-                    children.push({ type: c.type, node: c.node, index: i });
-                });
-            } else {
-                // No separate textNodes — children are already in DOM order
-                elemChildren.forEach((c, i) => {
-                    children.push({ type: c.type, node: c.node, index: i });
-                });
-            }
+            });
         }
 
         return children;
@@ -2482,18 +2496,21 @@ class RadiantLayoutTester {
      * Compare a single test result against browser reference (used in batch mode)
      * @param {string} htmlFile - Path to the HTML file
      * @param {string} category - Test category name
-     * @param {string} outputFile - Path to the layout output JSON file
+     * @param {string|object} radiantOutput - Path or streamed schema-v2 result
      */
-    async compareTestResult(htmlFile, category, outputFile, baselineEntry = null) {
+    async compareTestResult(htmlFile, category, radiantOutput, baselineEntry = null,
+                            referencePath = null) {
         const testName = this.getTestNameFromPath(htmlFile, category);
         const testFileName = path.basename(htmlFile);
 
         try {
-            // Load the layout result
-            const radiantData = await this.loadRadiantOutput(testFileName, outputFile);
+            const outputFile = typeof radiantOutput === 'string' ? radiantOutput : null;
+            const radiantData = outputFile
+                ? await this.loadRadiantOutput(testFileName, outputFile)
+                : radiantOutput;
 
-            // Load browser reference
-            const browserData = await this.loadBrowserReference(testName, category, htmlFile);
+            const browserData = await this.loadBrowserReference(
+                testName, category, htmlFile, referencePath);
             if (!browserData) {
                 console.log(`   ⚠️  No browser reference found for ${testName}`);
                 return null;
@@ -2523,7 +2540,7 @@ class RadiantLayoutTester {
             const metadata = {
                 htmlFile: htmlFile,
                 resultFile: outputFile,
-                viewFile: outputFile.replace('.json', '.txt'),
+                viewFile: outputFile ? outputFile.replace('.json', '.txt') : null,
                 baselineEntry
             };
             const report = this.generateReport(results, null, testName, metadata);
@@ -2627,60 +2644,56 @@ class RadiantLayoutTester {
 
             let outputMap;
             try {
-                outputMap = await this.runBatchLayout(htmlFiles, batchOutputDir);
+                outputMap = await this.runBatchLayout(htmlFiles);
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
                 return batch.map(task => makeLayoutFailure(task, `Batch error: ${err.message}`));
             }
 
-            // Compare each result against reference in parallel within the batch.
-            // Detect missing output files (from batch process crashes) and retry individually.
+            // Complete frames survive a child crash; only absent/failed records
+            // need isolated retries, with no intermediate result files.
             const missingTasks = [];
             const validTasks = [];
             const retryFailures = [];
             for (const task of batch) {
-                const outputFile = outputMap.get(task.htmlFile);
-                try {
-                    await fs.access(outputFile);
-                    validTasks.push({ task, outputFile });
-                } catch {
+                const record = outputMap.get(path.resolve(task.htmlFile));
+                if (record && record.success && record.data) {
+                    validTasks.push({ task, radiantData: record.data });
+                } else {
                     missingTasks.push(task);
                 }
             }
 
-            // Retry missing files individually (they were likely killed by a crash in the same batch)
-            if (missingTasks.length > 0 && missingTasks.length < batch.length) {
+            if (missingTasks.length > 0) {
                 if (!this.json) {
                     console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
                 }
                 for (const task of missingTasks) {
-                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
                     try {
-                        await this.runRadiantLayout(task.htmlFile, retryOutput);
-                        validTasks.push({ task, outputFile: retryOutput });
-                    } catch (err) {
-                        // Still fails individually — mark as error
-                        retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
-                    }
-                }
-            } else if (missingTasks.length === batch.length) {
-                // Entire batch failed — retry all individually
-                if (!this.json) {
-                    console.log(`   🔄 Entire batch failed, retrying ${missingTasks.length} files individually`);
-                }
-                for (const task of missingTasks) {
-                    const retryOutput = this.getParallelOutputFile(task.htmlFile);
-                    try {
-                        await this.runRadiantLayout(task.htmlFile, retryOutput);
-                        validTasks.push({ task, outputFile: retryOutput });
+                        const retryMap = await this.runBatchLayout([task.htmlFile]);
+                        const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                        if (!retryRecord || !retryRecord.success || !retryRecord.data) {
+                            throw new Error('isolated layout produced no successful result frame');
+                        }
+                        validTasks.push({ task, radiantData: retryRecord.data });
                     } catch (err) {
                         retryFailures.push(makeLayoutFailure(task, `Retry layout failed after missing batch output: ${err.message}`));
                     }
                 }
             }
 
-            const comparePromises = validTasks.map(async ({ task, outputFile }) => {
-                return this.compareTestResult(task.htmlFile, task.category, outputFile, task.baselineEntry);
+            const persistFailure = async (task, radiantData, result) => {
+                const outputFile = this.getParallelOutputFile(task.htmlFile, batchOutputDir);
+                await fs.mkdir(path.dirname(outputFile), { recursive: true });
+                await fs.writeFile(outputFile, JSON.stringify(radiantData));
+                result.resultFile = outputFile;
+                result.viewFile = outputFile.replace('.json', '.txt');
+            };
+
+            const comparePromises = validTasks.map(async ({ task, radiantData }) => {
+                return this.compareTestResult(
+                    task.htmlFile, task.category, radiantData, task.baselineEntry,
+                    task.referencePath);
             });
             const batchResults = await Promise.all(comparePromises);
             const finalResults = [];
@@ -2692,27 +2705,34 @@ class RadiantLayoutTester {
                     continue;
                 }
 
-                const { task } = validTasks[i];
+                const { task, radiantData } = validTasks[i];
                 if (!this.retryMismatches) {
+                    await persistFailure(task, radiantData, result);
                     finalResults.push(result);
                     continue;
                 }
 
-                const retryOutput = this.getUniqueOutputFile();
                 try {
-                    await this.runRadiantLayout(task.htmlFile, retryOutput);
+                    const retryMap = await this.runBatchLayout([task.htmlFile]);
+                    const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                    if (!retryRecord || !retryRecord.success || !retryRecord.data) {
+                        throw new Error('isolated retry produced no successful result frame');
+                    }
                     const retryResult = await this.compareTestResult(
-                        task.htmlFile, task.category, retryOutput, task.baselineEntry);
+                        task.htmlFile, task.category, retryRecord.data,
+                        task.baselineEntry, task.referencePath);
                     if (resultPasses(retryResult)) {
                         if (!this.json) {
                             console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
                         }
                         finalResults.push(retryResult);
                     } else {
-                        finalResults.push(result);
+                        await persistFailure(task, retryRecord.data, retryResult);
+                        finalResults.push(retryResult);
                     }
                 } catch (err) {
                     result.batchRetryError = err.message;
+                    await persistFailure(task, radiantData, result);
                     finalResults.push(result);
                 }
             }
@@ -2823,71 +2843,25 @@ class RadiantLayoutTester {
     /**
      * Test all files in a category
      */
-    async testCategory(category) {
+    async testCategory(category, preparedPlan = null) {
         if (!this.json) {
             console.log(`\n📂 Testing category: ${category}`);
             console.log('=' .repeat(50));
         }
 
-        const categoryDir = path.join(this.testDataDir, category);
         const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
         let baselineRegressionCount = 0;
 
         try {
-            const entries = await fs.readdir(categoryDir, { withFileTypes: true });
-            let htmlFiles = entries
-                .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')))
-                .map(entry => entry.name);
-
-            // Also scan subdirectories for HTML files (e.g., css2.1 has html4/, xhtml1/)
-            // Skip WPT helper directories; they contain resources/templates, not standalone tests.
-            const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
-                entry.name !== 'support' && entry.name !== 'tools');
-            for (const subDir of subDirs) {
-                const subDirPath = path.join(categoryDir, subDir.name);
-                try {
-                    const subFiles = await fs.readdir(subDirPath);
-                    const subHtmlFiles = subFiles
-                        .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
-                        // web-tmpl: only test index.html from each template directory
-                        .filter(file => category !== 'web-tmpl' || file === 'index.html');
-                    // Include subdirectory HTML files with relative path for proper resolution
-                    htmlFiles = htmlFiles.concat(subHtmlFiles.map(f => path.join(subDir.name, f)));
-                } catch (error) {
-                    // Skip unreadable subdirectories
-                }
-            }
-
-            if (htmlFiles.length === 0) {
+            const categoryPlan = preparedPlan || (await this.buildTestPlan([
+                await this.prepareCategoryPlanInput(category)
+            ])).categories.get(category);
+            if (!categoryPlan || categoryPlan.discoveredCount === 0) {
                 console.log(`No HTML files found in ${category}/`);
-                return;
+                return [];
             }
-
-            // Prepare test tasks
-            let rawTestTasks = htmlFiles.map(htmlFile => ({
-                htmlFile: path.join(categoryDir, htmlFile),
-                category: category
-            }));
-
-            const baseline = await this.loadBaseline(category);
-            if (this.baselineOnly) {
-                if (baseline && baseline.size > 0) {
-                    // a recorded baseline is the authoritative inventory for baseline gates.
-                    rawTestTasks = this.selectRecordedBaselineTasks(rawTestTasks, baseline);
-                    if (!this.json) {
-                        console.log(`   📌 Baseline-only: selected ${rawTestTasks.length}/${htmlFiles.length} recorded tests`);
-                    }
-                } else if (!this.json) {
-                    console.log('   ℹ️  No recorded baseline; running the full suite');
-                }
-            }
-
-            // Pre-filter: skip tests without browser references or with file size > 100KB
-            const { tasks: testTasks, skipped: skippedCount } = await this.filterTestTasks(rawTestTasks);
-
-            if (!this.baselineOnly && baseline && baseline.size > 0) {
-                this.bindRecordedBaselineEntries(testTasks, baseline);
-            }
+            const { baseline, tasks: testTasks, skipped: skippedCount } = categoryPlan;
+            this.reportSkippedTasks(categoryPlan);
 
             if (testTasks.length === 0) {
                 if (!this.json) {
@@ -3079,65 +3053,47 @@ class RadiantLayoutTester {
                 return [];
             }
         }
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                const input = await this.prepareCategoryPlanInput(category, pattern, false);
+                categoryInputs.push(input);
+                if (input.htmlFiles.length > 0) {
+                    console.log(`\n📂 Found ${input.htmlFiles.length} matching files in ${category}:`);
+                    input.htmlFiles.forEach(file => console.log(`   🎯 ${file}`));
+                }
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ⚠️  Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
         const allResults = [];
         let totalMatches = 0;
 
         for (const category of categories) {
-            const categoryDir = path.join(this.testDataDir, category);
+            if (failedCategories.has(category)) continue;
+            const input = categoryInputs.find(entry => entry.category === category);
+            if (!input || input.htmlFiles.length === 0) continue;
+
+            const categoryPlan = testPlan.categories.get(category);
+            this.reportSkippedTasks(categoryPlan);
+            if (!categoryPlan || categoryPlan.tasks.length === 0) {
+                console.log(`   No testable files after filtering`);
+                continue;
+            }
+
             const previousConfig = this.applyCategoryConfig(category, await this.loadCategoryConfig(category));
-
             try {
-                const entries = await fs.readdir(categoryDir, { withFileTypes: true });
-                let matchingFiles = entries
-                    .filter(entry => entry.isFile() && (entry.name.endsWith('.html') || entry.name.endsWith('.htm')) && entry.name.includes(pattern))
-                    .map(entry => entry.name);
-
-                // Also scan subdirectories for matching HTML files, excluding WPT helpers.
-                const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
-                    entry.name !== 'support' && entry.name !== 'tools');
-                for (const subDir of subDirs) {
-                    const subDirPath = path.join(categoryDir, subDir.name);
-                    try {
-                        const subFiles = await fs.readdir(subDirPath);
-                        const subMatching = subFiles
-                            .filter(file => (file.endsWith('.html') || file.endsWith('.htm')) && file.includes(pattern))
-                            // web-tmpl: only test index.html from each template directory
-                            .filter(file => category !== 'web-tmpl' || file === 'index.html');
-                        matchingFiles = matchingFiles.concat(subMatching.map(f => path.join(subDir.name, f)));
-                    } catch (error) {
-                        // Skip unreadable subdirectories
+                // Run only the already-filtered plan through the execution pool.
+                const categoryResults = await this.runTestsInPool(categoryPlan.tasks);
+                for (const result of categoryResults) {
+                    if (result) {
+                        allResults.push(result);
+                        totalMatches++;
                     }
                 }
-
-                if (matchingFiles.length > 0) {
-                    console.log(`\n📂 Found ${matchingFiles.length} matching files in ${category}:`);
-                    matchingFiles.forEach(f => console.log(`   🎯 ${f}`));
-
-                    // Prepare test tasks for this category
-                    const rawTestTasks = matchingFiles.map(htmlFile => ({
-                        htmlFile: path.join(categoryDir, htmlFile),
-                        category: category
-                    }));
-
-                    // Pre-filter: skip tests without browser references or with file size > 100KB
-                    const { tasks: testTasks } = await this.filterTestTasks(rawTestTasks);
-
-                    if (testTasks.length === 0) {
-                        console.log(`   No testable files after filtering`);
-                        continue;
-                    }
-
-                    // Run tests in parallel with pool management
-                    const categoryResults = await this.runTestsInPool(testTasks);
-                    for (const result of categoryResults) {
-                        if (result) {
-                            allResults.push(result);
-                            totalMatches++;
-                        }
-                    }
-                }
-            } catch (error) {
-                console.log(`   ⚠️  Error reading category ${category}: ${error.message}`);
             } finally {
                 this.restoreCategoryConfig(previousConfig);
             }
@@ -3194,8 +3150,27 @@ class RadiantLayoutTester {
      * the shared limiter is the only cross-category state.
      */
     async testCategories(categories) {
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                categoryInputs.push(await this.prepareCategoryPlanInput(category));
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ❌ Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
         const limiter = new ProcessLimiter(this.globalConcurrency);
         const runs = categories.map(async category => {
+            if (failedCategories.has(category)) {
+                return {
+                    category,
+                    results: [],
+                    summary: null,
+                    baselineRegressions: []
+                };
+            }
             const child = new RadiantLayoutTester({
                 engine: this.engine,
                 radiantExe: this.radiantExe,
@@ -3211,13 +3186,14 @@ class RadiantLayoutTester {
                 batchSizeExplicit: this.batchSizeExplicit,
                 retryMismatches: this.retryMismatches,
                 retryMismatchesExplicit: this.retryMismatchesExplicit,
+                baselineOnly: this.baselineOnly,
                 processRegistry: this.processRegistry,
                 processKillTimers: this.processKillTimers,
                 processLimiter: limiter,
                 json: true,
                 emitJson: false
             });
-            const results = await child.testCategory(category);
+            const results = await child.testCategory(category, testPlan.categories.get(category));
             return {
                 category,
                 results: results || [],
@@ -3275,9 +3251,23 @@ class RadiantLayoutTester {
         const categories = await this.getAvailableCategories();
         console.log(`Found categories: ${categories.join(', ')}`);
 
+        const categoryInputs = [];
+        const failedCategories = new Set();
+        for (const category of categories) {
+            try {
+                categoryInputs.push(await this.prepareCategoryPlanInput(category));
+            } catch (error) {
+                failedCategories.add(category);
+                console.log(`   ❌ Error reading category ${category}: ${error.message}`);
+            }
+        }
+        const testPlan = await this.buildTestPlan(categoryInputs);
+
         const allResults = [];
         for (const category of categories) {
-            const categoryResults = await this.testCategory(category);
+            if (failedCategories.has(category)) continue;
+            const categoryPlan = testPlan.categories.get(category);
+            const categoryResults = await this.testCategory(category, categoryPlan);
             allResults.push(...categoryResults);
         }
 
