@@ -434,7 +434,7 @@
               "scrollHeight": 0
             },
             "computed": {
-              "display": "contents",
+              "display": "none",
               "position": "static",
               "marginTop": 0,
               "marginRight": 0,
@@ -483,22 +483,10 @@
                 "length": 316,
                 "isWhitespaceOnly": false,
                 "layout": {
-                  "rects": [
-                    {
-                      "x": 147.34,
-                      "y": 0,
-                      "width": 1012.03,
-                      "height": 17,
-                      "right": 1159.38,
-                      "bottom": 17,
-                      "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
-                      "startIndex": 0,
-                      "endIndex": 316
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "contents",
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
                   "parentVisibility": "visible"
                 },
                 "depth": 3,
@@ -637,11 +625,11 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 1159.38,
+                      "x": 147.34,
                       "y": 0,
                       "width": 36.78,
                       "height": 17,
-                      "right": 1196.16,
+                      "right": 184.13,
                       "bottom": 17,
                       "text": "\n  PASS\n",
                       "startIndex": 0,

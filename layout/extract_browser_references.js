@@ -279,6 +279,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             // not exist yet when evaluateOnNewDocument runs.
             nativeSetTimeout(() => {
                 const style = document.createElement('style');
+                // CSS Display: a test stylesheet can unbox every element, so
+                // keep this capture-only stylesheet out of the rendered stream.
+                style.style.setProperty('display', 'none', 'important');
                 style.textContent = `
                     *, *::before, *::after {
                         animation-duration: 0s !important;
