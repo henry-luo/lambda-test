@@ -36,16 +36,22 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 
 ## Test Infrastructure
 
-- **Baseline file**: `test/js262/test262_baseline.txt` (38,939 tests as
-  of release_run_004)
+- **Baseline file**: `test/js262/test262_baseline.txt` (40,261 passing tests
+  loaded by the latest mixed-mode run)
 - **Test runner**: `test/test_js_test262_gtest.cpp`
-- **Sync batch size**: 100 tests per `lambda.exe js-test-batch` subprocess by
-  default; override with `--batch-chunk-size=<n>` for timing experiments.
-- **Async batch size**: follows the sync batch size by default; override with
+- **Backend routing**: synchronous tests listed in `test/js262/mir_list.txt`
+  use MIR. Other synchronous, non-module tests use the JS AST interpreter;
+  async and module tests retain the JS-harness path.
+- **Sync batch size**: AST-backed sync batches use 600 tests per
+  `lambda.exe js-test-batch` subprocess. MIR-native and non-AST JS-harness
+  batches default to 100; `--batch-chunk-size=<n>` changes the latter sizes,
+  not the AST size.
+- **Async batch size**: defaults to the non-AST sync size; override with
   `--async-chunk-size=<n>` for isolation or acceptance testing.
 - **Parallel workers**: CPU count - 1 by default; override with `--jobs=<n>`.
-- **Default preamble**: `sta.js`, `assert.js`, and `nativeFunctionMatcher.js`
-  compiled once via MIR JIT for ordinary JS-harness batches.
+- **Default JS-harness preamble**: `sta.js` and `assert.js`. The expensive
+  `nativeFunctionMatcher.js` helper is compiled once only for a matching
+  special-preamble batch.
 - **Special preamble map**: `test/js262/special_premble.txt` lists expensive
   helper families, such as `testTypedArray.js` and `testAtomics.js`, that should
   be compiled once only for matching tests.
@@ -57,6 +63,47 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
   The `make test262-*` targets now rebuild release `lambda.exe` after
   `build-test` so the debug test executables do not overwrite the runtime used
   by `js-test-batch`.
+
+### Latest Verified Mixed-Mode Release Run (2026-08-29)
+
+The following release run used eight workers, a 30-second per-test timeout,
+and the standard mixed-mode routing:
+
+```bash
+/usr/bin/time -p ./test/test_js_test262_gtest.exe \
+  --batch-only --jobs=8 --js-timeout=30
+```
+
+| Measure | Result |
+|---------|--------|
+| Tests dispatched | 35,047 (34,336 AST-backed, 30 MIR-native, 681 MIR JS-harness; 2 slow singleton batches) |
+| Backend/harness split | 30 MIR-native, 16,641 AST-native, 18,376 JS-harness |
+| Special-preamble groups | 5 |
+| Fully passing | 35,047 / 35,047 (100%) |
+| Regressions / non-fully-passing / failures | 0 / 0 / 0 |
+| Wall time | 76.36s |
+
+This was one clean verification run: no batch crash and no Phase 2b or Phase 4
+retry was needed. Repeat the run two or three times before changing the
+baseline, per the stability rule below.
+
+### Mixed-Mode Tunings
+
+The current routing and harness behavior incorporate these focused tunings:
+
+1. **Small MIR allowlist, large AST batches.** `mir_list.txt` holds the sync
+   AST outliers; the remaining eligible sync tests run through the AST
+   interpreter in batches of 600, which reduces subprocess startup and harness
+   setup overhead.
+2. **Include-aware preambles.** `nativeFunctionMatcher.js` is promoted only
+   when a test declares it. Matching tests share a dedicated preamble group;
+   unrelated batches no longer compile that helper.
+3. **Immediate watchdog completion.** Batch workers signal their watchdog via
+   a pipe on POSIX or an event on Windows. Completion no longer waits for the
+   former one-second watchdog polling interval.
+4. **AST-native Test262 helpers.** Eligible AST tests install the Test262
+   helper objects directly in each fresh realm, avoiding compilation of the
+   JavaScript helper harness while preserving normal callable/object semantics.
 
 ### Batch Timing POC Notes
 
@@ -78,7 +125,7 @@ ASAN_OPTIONS=detect_container_overflow=0 ./test/test_js_test262_gtest.exe --diag
 | Phase | What it does |
 |-------|-------------|
 | **Phase 1** | Parse YAML metadata and prepare every non-skipped test for batching. Tests listed in `t262_partial.txt` are included; tests listed in `t262_slow.txt` remain CLEAN but are marked for isolated slow batches. |
-| **Phase 2** | Execute CLEAN tests: `--batch-chunk-size` tests/process, CPU-1 parallel workers by default. Main execution phase. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
+| **Phase 2** | Execute CLEAN tests with backend-specific chunks: 600 for AST-backed sync batches and `--batch-chunk-size` for MIR-native/non-AST JS-harness batches; CPU-1 parallel workers by default. With `--run-async`, allowlisted async tests are grouped into `js-async` batches. Slow-listed tests run as singleton `js-slow` batches. |
 | **Phase 2a** | **Removed.** Previously ran or skipped PARTIAL tests separately. Now `t262_partial.txt` is not a skip list; it is rewritten from fresh results at the end of each run. |
 | **Phase 2b** | Retry batch-lost tests individually. Tests that got no result because another test crashed their batch process. (Asymmetric to Phase 2a — these are innocent bystanders, not stale partials.) |
 | **Phase 3** | Evaluate results. Classify non-fully-passing. Compute regressions/improvements vs baseline. |
@@ -250,6 +297,10 @@ add a helper only when compiling it per matching test is measurably worse than
 compiling it once for that helper-specific batch.  Helpers not listed here still
 work because they remain prepended to individual tests from metadata includes.
 
+`nativeFunctionMatcher.js` follows the same grouping mechanism. It is not part
+of the ordinary default preamble: a test that includes it is placed into a
+dedicated preamble group, so the helper is compiled once for that group only.
+
 ## CLI Flags
 
 | Flag | Effect |
@@ -260,8 +311,8 @@ work because they remain prepended to individual tests from metadata includes.
 | `--batch-file=<path>` | Run only tests listed in the given file in a single batch, then exit. Useful for isolating failures. |
 | `--run-async` | Permit async-flagged tests that are also present in the async allowlist. Without an allowlist, async tests remain skipped. |
 | `--async-list=<path>` | Async allowlist, one test name per line. For full baseline runs, use `test/js262/test262_baseline.txt`. In `--batch-file` mode, defaults to the batch file when omitted. |
-| `--batch-chunk-size=<n>` | Tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, default `100`. Use for timing experiments; larger batches reduce process startup overhead but can increase peak RSS. |
-| `--async-chunk-size=<n>` | Async tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, defaults to the sync batch size and is capped by it. Use `1` for isolation; use the default for performance runs. |
+| `--batch-chunk-size=<n>` | MIR-native and non-AST JS-harness tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, default `100`. AST-backed sync batches stay at 600. |
+| `--async-chunk-size=<n>` | Async JS-harness tests per `lambda.exe js-test-batch` process. Clamped to `1..200`, defaults to the non-AST sync batch size and is capped by it. Use `1` for isolation; use the default for performance runs. |
 | `--diagnose` | Run `test/js262/diagnose_list.txt` in batch mode and pass `--diagnose` to `lambda.exe js-test-batch`, enabling extra fast-path diagnostics in `log.txt`. |
 | `--diagnose-list=<path>` | Override the diagnose list path. This also enables `--diagnose`. |
 | `--write-failures=<path>` | Write a TSV manifest for failed tests. The row count matches the reported Failed count, excluding skipped and non-fully-passing tests. |
@@ -397,10 +448,17 @@ source:<test_name>:<length>\n<test_blob>
 ...
 ```
 
+An AST-native batch also writes `native-harness:ast` before its sources. It
+does not send a JavaScript harness blob; the interpreter installs equivalent
+Test262 helper objects into the fresh realm for each test.
+
 ### Preamble compilation
-- Harness (sta.js + assert.js + nativeFunctionMatcher.js) compiled once via `transpile_js_to_mir_preamble()`
-- Each test compiled via `transpile_js_to_mir_with_preamble()`
-- After preamble compilation, `js_batch_reset_to(preamble_var_checkpoint)` resets cached globals/constructor prototypes
+- JS-harness preambles (`sta.js` + `assert.js`, plus any matching special
+  helpers) compile once for their backend-specific batch group.
+- AST-native batches install Test262 helpers natively and do not compile a
+  JavaScript helper preamble.
+- Each test compiles through the selected backend with its batch preamble.
+- For batches with a JavaScript preamble, `js_batch_reset_to(preamble_var_checkpoint)` resets cached globals/constructor prototypes after preamble compilation.
 
 ### State reset between tests
 - `js_batch_reset_to(checkpoint)` — resets module vars, cached globals, constructor prototypes while preserving preamble vars
