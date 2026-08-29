@@ -1553,7 +1553,10 @@ class RadiantLayoutTester {
                 console.log(`${indent()}📝 Comparing text: "${radiantContent}" vs. "${browserContent}"`);
             }
 
-            const contentMatch = (radiantNode.content || '').trim() === (browserNode.text || '').trim();
+            // Normalize both serializers; browser Range text retains collapsed
+            // edge whitespace that Radiant omits from visual text fragments.
+            const contentMatch = (radiantNode.content || '').trim() ===
+                (browserNode.text || '').trim();
 
             // Browser text nodes have rects at top level, not under layout
             const browserHasLayout = browserNode.layout || (browserNode.rects && browserNode.rects.length > 0);
@@ -3553,7 +3556,10 @@ Note: Run this script from the project root directory.
     try {
         if (testFile) {
             // Find the test file in available categories
-            const categories = await tester.getAvailableCategories();
+            // Preserve an explicit suite so focused runs resolve its fixture namespace.
+            const categories = category
+                ? [category]
+                : await tester.getAvailableCategories();
             let foundFile = null;
             let foundCategory = null;
 

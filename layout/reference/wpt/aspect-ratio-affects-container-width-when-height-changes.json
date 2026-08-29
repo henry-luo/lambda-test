@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 258,
+      "height": 158,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -280,6 +280,84 @@
             "depth": 2,
             "nodeIndex": 3,
             "children": []
+          },
+          {
+            "nodeType": "element",
+            "selector": "style",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 4,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -293,11 +371,11 @@
           "x": 8,
           "y": 16,
           "width": 1184,
-          "height": 234,
+          "height": 134,
           "contentWidth": 1184,
-          "contentHeight": 234,
+          "contentHeight": 134,
           "scrollWidth": 1184,
-          "scrollHeight": 234
+          "scrollHeight": 134
         },
         "computed": {
           "display": "block",
@@ -443,11 +521,11 @@
               "x": 8,
               "y": 50,
               "width": 1184,
-              "height": 200,
+              "height": 100,
               "contentWidth": 1184,
-              "contentHeight": 200,
+              "contentHeight": 100,
               "scrollWidth": 1184,
-              "scrollHeight": 200
+              "scrollHeight": 100
             },
             "computed": {
               "display": "block",
@@ -503,11 +581,11 @@
                   "x": 8,
                   "y": 50,
                   "width": 1184,
-                  "height": 200,
+                  "height": 100,
                   "contentWidth": 1184,
-                  "contentHeight": 200,
+                  "contentHeight": 100,
                   "scrollWidth": 1184,
-                  "scrollHeight": 200
+                  "scrollHeight": 100
                 },
                 "computed": {
                   "display": "block",
@@ -562,12 +640,12 @@
                     "layout": {
                       "x": 8,
                       "y": 50,
-                      "width": 200,
-                      "height": 200,
-                      "contentWidth": 200,
-                      "contentHeight": 200,
-                      "scrollWidth": 200,
-                      "scrollHeight": 200
+                      "width": 100,
+                      "height": 100,
+                      "contentWidth": 100,
+                      "contentHeight": 100,
+                      "scrollWidth": 100,
+                      "scrollHeight": 100
                     },
                     "computed": {
                       "display": "block",
@@ -622,12 +700,12 @@
                         "layout": {
                           "x": 8,
                           "y": 50,
-                          "width": 200,
-                          "height": 200,
-                          "contentWidth": 200,
-                          "contentHeight": 200,
-                          "scrollWidth": 200,
-                          "scrollHeight": 200
+                          "width": 100,
+                          "height": 100,
+                          "contentWidth": 100,
+                          "contentHeight": 100,
+                          "scrollWidth": 100,
+                          "scrollHeight": 100
                         },
                         "computed": {
                           "display": "block",

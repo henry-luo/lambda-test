@@ -250,7 +250,24 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             window.test = window.test || ((callback) => {
                 if (typeof callback === 'function') callback();
             });
-            window.async_test = window.async_test || (() => ({done() {}}));
+            window.async_test = window.async_test || (() => {
+                const test = {
+                    done() {},
+                    step_func(callback) {
+                        return function(...args) {
+                            return callback.apply(this, args);
+                        };
+                    },
+                    step_func_done(callback) {
+                        return function(...args) {
+                            const result = callback.apply(this, args);
+                            test.done();
+                            return result;
+                        };
+                    }
+                };
+                return test;
+            });
             window.promise_test = window.promise_test || (() => {});
             window.assert_true = window.assert_true || (() => {});
             window.assert_false = window.assert_false || (() => {});
@@ -279,6 +296,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             // not exist yet when evaluateOnNewDocument runs.
             nativeSetTimeout(() => {
                 const style = document.createElement('style');
+                // CSS Display: a test stylesheet can unbox every element, so
+                // keep this capture-only stylesheet out of the rendered stream.
+                style.style.setProperty('display', 'none', 'important');
                 style.textContent = `
                     *, *::before, *::after {
                         animation-duration: 0s !important;
@@ -360,6 +380,49 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                             '    // other WPT cleanup, including temporary styles, must still run.\n' +
                             '    if (!window.__radiant_layout_interpolation_done) container.remove();'
                         );
+                        body = Buffer.from(source, 'utf8');
+                    } else if (category === 'wpt-css-sizing' &&
+                               path.basename(resourcePath) === 'computed-testcommon.js') {
+                        let source = body.toString('utf8');
+                        source += `
+(function() {
+  const nativeTestComputedValue = test_computed_value;
+  function measureFitContentAxis(target, property, specified) {
+    const match = /^fit-content\\((.*)\\)$/.exec(specified);
+    const axis = property.endsWith('width') ? 'width' :
+      property.endsWith('height') ? 'height' : null;
+    if (!match || !axis || !target.parentNode) return;
+
+    const measure = value => {
+      const probe = target.cloneNode(true);
+      probe.style.setProperty('visibility', 'hidden', 'important');
+      probe.style.setProperty('min-' + axis, '0px', 'important');
+      probe.style.setProperty('max-' + axis, 'none', 'important');
+      probe.style.setProperty(axis, value, 'important');
+      target.parentNode.insertBefore(probe, target.nextSibling);
+      const size = parseFloat(getComputedStyle(probe)[axis]);
+      probe.remove();
+      return Number.isFinite(size) ? size : 0;
+    };
+
+    const minContent = measure('min-content');
+    const maxContent = measure('max-content');
+    const limit = measure(match[1]);
+    const fitContent = Math.min(maxContent, Math.max(minContent, limit));
+    target.style.setProperty(property, fitContent + 'px');
+  }
+
+  test_computed_value = function(property, specified, ...args) {
+    const result = nativeTestComputedValue(property, specified, ...args);
+    if (/^fit-content\\(/.test(specified) && !CSS.supports(property, specified)) {
+      // Preserve the spec layout side effect when this capture browser lacks
+      // functional fit-content() support on a sizing longhand.
+      measureFitContentAxis(document.getElementById('target'), property, specified);
+    }
+    return result;
+  };
+})();
+`;
                         body = Buffer.from(source, 'utf8');
                     }
                     await request.respond({
@@ -760,7 +823,10 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
                     // Process all child nodes in document order (both elements and text nodes)
                     nodeData.children = [];
-                    if (node.childNodes && node.childNodes.length > 0) {
+                    const skipsContents = window.getComputedStyle(node).contentVisibility === 'hidden';
+                    // Skipped descendants have no current layout boxes; Chromium can
+                    // expose stale pre-skip geometry through getBoundingClientRect().
+                    if (!skipsContents && node.childNodes && node.childNodes.length > 0) {
                         for (let i = 0; i < node.childNodes.length; i++) {
                             const childNode = node.childNodes[i];
 
