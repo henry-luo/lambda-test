@@ -10,6 +10,7 @@ const fs = require('fs').promises;
 const fsSync = require('fs');
 const os = require('os');
 const path = require('path');
+const { pathToFileURL } = require('url');
 const { referenceNameForPath } = require('./reference_paths');
 
 let sharedBrowser = null;
@@ -17,6 +18,89 @@ let sharedBrowserPageCount = 0;
 const MAX_SHARED_BROWSER_PAGES = 50;
 
 const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
+
+// The layout runner gives Radiant these fixture faces through --font-dir. Load
+// the same faces into Chromium so font-dependent references compare geometry,
+// rather than the host's unavailable-font fallback.
+const FIXTURE_FONT_FACES = [
+    ['Ahem', 'Ahem.ttf', 'normal', '400'],
+    ['Liberation Sans', 'LiberationSans-Regular.ttf', 'normal', '400'],
+    ['Liberation Sans', 'LiberationSans-Bold.ttf', 'normal', '700'],
+    ['Liberation Sans', 'LiberationSans-Italic.ttf', 'italic', '400'],
+    ['Liberation Sans', 'LiberationSans-BoldItalic.ttf', 'italic', '700'],
+    ['Liberation Serif', 'LiberationSerif-Regular.ttf', 'normal', '400'],
+    ['Liberation Serif', 'LiberationSerif-Bold.ttf', 'normal', '700'],
+    ['Liberation Serif', 'LiberationSerif-Italic.ttf', 'italic', '400'],
+    ['Liberation Serif', 'LiberationSerif-BoldItalic.ttf', 'italic', '700'],
+    ['Liberation Mono', 'LiberationMono-Regular.ttf', 'normal', '400'],
+    ['Liberation Mono', 'LiberationMono-Bold.ttf', 'normal', '700'],
+    ['Liberation Mono', 'LiberationMono-Italic.ttf', 'italic', '400'],
+    ['Liberation Mono', 'LiberationMono-BoldItalic.ttf', 'italic', '700'],
+    ['Open Sans', 'OpenSans-Regular.ttf', 'normal', '400'],
+    ['Open Sans', 'OpenSans-Bold.ttf', 'normal', '700'],
+    ['Roboto', 'Roboto-Regular.ttf', 'normal', '400'],
+    ['Roboto', 'Roboto-Bold.ttf', 'normal', '700']
+];
+
+const FIXTURE_FONT_ALIASES = [
+    ['Times New Roman', 'LiberationSerif'],
+    ['Times', 'LiberationSerif'],
+    ['Georgia', 'LiberationSerif'],
+    ['Arial', 'LiberationSans'],
+    ['Helvetica', 'LiberationSans'],
+    ['Helvetica Neue', 'LiberationSans'],
+    ['Verdana', 'LiberationSans'],
+    ['Trebuchet MS', 'LiberationSans'],
+    ['Tahoma', 'LiberationSans'],
+    ['Courier New', 'LiberationMono'],
+    ['Courier', 'LiberationMono'],
+    ['Lucida Console', 'LiberationMono']
+];
+
+const FIXTURE_CJK_FALLBACKS = [
+    ['NotoSansSC-Subset.otf', 'U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF'],
+    ['NotoSansKR-Subset.otf', 'U+1100-11FF, U+3130-318F, U+AC00-D7AF']
+];
+
+function fixtureFontCss() {
+    const fontDir = path.join(__dirname, 'data', 'font');
+    const faceCss = FIXTURE_FONT_FACES.map(([family, file, style, weight]) =>
+        `@font-face { font-family: "${family}"; src: url("${pathToFileURL(
+            path.join(fontDir, file)).href}") format("truetype"); font-style: ${style}; font-weight: ${weight}; }`
+    );
+    const aliasCss = FIXTURE_FONT_ALIASES.map(([family, fileBase]) =>
+        ['Regular', 'Bold', 'Italic', 'BoldItalic'].map(variant => {
+            const style = variant.includes('Italic') ? 'italic' : 'normal';
+            const weight = variant.includes('Bold') ? '700' : '400';
+            return `@font-face { font-family: "${family}"; src: url("${pathToFileURL(
+                path.join(fontDir, `${fileBase}-${variant}.ttf`)).href}") format("truetype"); font-style: ${style}; font-weight: ${weight}; }`;
+        }).join('\n')
+    );
+    const cjkFamilies = [...new Set([
+        ...FIXTURE_FONT_FACES.map(([family]) => family),
+        ...FIXTURE_FONT_ALIASES.map(([family]) => family)
+    ])];
+    const cjkFallbackCss = cjkFamilies.flatMap(family =>
+        FIXTURE_CJK_FALLBACKS.map(([file, unicodeRange]) =>
+            `@font-face { font-family: "${family}"; src: url("${pathToFileURL(
+                path.join(fontDir, file)).href}") format("opentype"); font-style: normal; font-weight: 400; unicode-range: ${unicodeRange}; }`
+        )
+    );
+    return `${faceCss.join('\n')}\n${aliasCss.join('\n')}\n${cjkFallbackCss.join('\n')}`;
+}
+
+function injectFixtureFonts(documentSource) {
+    const style = `<style data-radiant-fixture-fonts>${fixtureFontCss()}</style>`;
+    if (/<head(?:\s[^>]*)?>/i.test(documentSource)) {
+        // Keep fixture faces after authored @font-face rules so their scoped CJK
+        // ranges win over an unbounded fixture face such as Ahem.
+        return documentSource.replace(/<\/head>/i, match => `${style}${match}`);
+    }
+    if (/<html(?:\s[^>]*)?>/i.test(documentSource)) {
+        return documentSource.replace(/<html(?:\s[^>]*)?>/i, match => `${match}<head>${style}</head>`);
+    }
+    return `<!doctype html><head>${style}</head>${documentSource}`;
+}
 
 function localTempDir(name) {
     const tempRoot = path.join(LAMBDA_ROOT, 'temp');
@@ -377,6 +461,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                                 `${prefix}max-content; min-width: min-content; max-width: ${limit}`
                         );
                     }
+                    normalizedSource = injectFixtureFonts(normalizedSource);
                     if (normalizedSource !== documentSource) {
                         await request.respond({
                             status: 200,

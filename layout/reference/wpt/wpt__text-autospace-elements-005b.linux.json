@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 120,
+      "height": 144,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -129,6 +129,84 @@
         "children": [
           {
             "nodeType": "element",
+            "selector": "style:nth-of-type(1)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 0,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "@font-face { font-family: \"Ahem\"; src: url(\"file:///lambda/test/layout/data/font/Ahem.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///lambda/test/layout/data/font/OpenSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///lambda/test/layout/data/font/OpenSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///lambda/test/layout/data/font/Roboto-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///lambda/test/layout/data/font/Roboto-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///lambda/test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }",
+                "length": 19966,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
             "selector": "meta",
             "tag": "meta",
             "id": null,
@@ -185,23 +263,7 @@
               "overflowY": "visible"
             },
             "depth": 2,
-            "elementIndex": 0,
-            "children": []
-          },
-          {
-            "nodeType": "text",
-            "text": "\n",
-            "length": 1,
-            "isWhitespaceOnly": true,
-            "layout": {
-              "rects": [],
-              "hasLayout": false,
-              "parentVisible": false,
-              "parentDisplay": "none",
-              "parentVisibility": "visible"
-            },
-            "depth": 2,
-            "nodeIndex": 1,
+            "elementIndex": 1,
             "children": []
           },
           {
@@ -266,22 +328,6 @@
             "children": []
           },
           {
-            "nodeType": "text",
-            "text": "\n",
-            "length": 1,
-            "isWhitespaceOnly": true,
-            "layout": {
-              "rects": [],
-              "hasLayout": false,
-              "parentVisible": false,
-              "parentDisplay": "none",
-              "parentVisibility": "visible"
-            },
-            "depth": 2,
-            "nodeIndex": 3,
-            "children": []
-          },
-          {
             "nodeType": "element",
             "selector": "link:nth-of-type(2)",
             "tag": "link",
@@ -339,117 +385,7 @@
               "overflowY": "visible"
             },
             "depth": 2,
-            "elementIndex": 4,
-            "children": []
-          },
-          {
-            "nodeType": "text",
-            "text": "\n",
-            "length": 1,
-            "isWhitespaceOnly": true,
-            "layout": {
-              "rects": [],
-              "hasLayout": false,
-              "parentVisible": false,
-              "parentDisplay": "none",
-              "parentVisibility": "visible"
-            },
-            "depth": 2,
-            "nodeIndex": 5,
-            "children": []
-          },
-          {
-            "nodeType": "element",
-            "selector": "style:nth-of-type(1)",
-            "tag": "style",
-            "id": null,
-            "classes": [],
-            "layout": {
-              "x": 0,
-              "y": 0,
-              "width": 0,
-              "height": 0,
-              "contentWidth": 0,
-              "contentHeight": 0,
-              "scrollWidth": 0,
-              "scrollHeight": 0
-            },
-            "computed": {
-              "display": "none",
-              "position": "static",
-              "marginTop": 0,
-              "marginRight": 0,
-              "marginBottom": 0,
-              "marginLeft": 0,
-              "paddingTop": 0,
-              "paddingRight": 0,
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "borderTopWidth": 0,
-              "borderRightWidth": 0,
-              "borderBottomWidth": 0,
-              "borderLeftWidth": 0,
-              "flexDirection": "row",
-              "flexWrap": "nowrap",
-              "justifyContent": "normal",
-              "alignItems": "normal",
-              "alignContent": "normal",
-              "flexGrow": 0,
-              "flexShrink": 1,
-              "flexBasis": "auto",
-              "alignSelf": "auto",
-              "order": 0,
-              "gap": "normal",
-              "fontSize": 16,
-              "lineHeight": "normal",
-              "fontFamily": "\"Times New Roman\"",
-              "fontWeight": "400",
-              "textAlign": "start",
-              "verticalAlign": "baseline",
-              "top": "auto",
-              "right": "auto",
-              "bottom": "auto",
-              "left": "auto",
-              "zIndex": "auto",
-              "overflow": "visible",
-              "overflowX": "visible",
-              "overflowY": "visible"
-            },
-            "depth": 2,
-            "elementIndex": 6,
-            "children": [
-              {
-                "nodeType": "text",
-                "text": "\ndiv {\n  text-autospace: normal;\n  font-size: 22px;\n  font-family: sans-serif;\n  text-orientation: upright; /* should NOT affect auto-spacing in horizontal mode */\n}\n",
-                "length": 166,
-                "isWhitespaceOnly": false,
-                "layout": {
-                  "rects": [],
-                  "hasLayout": false,
-                  "parentVisible": false,
-                  "parentDisplay": "none",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 0,
-                "children": []
-              }
-            ]
-          },
-          {
-            "nodeType": "text",
-            "text": "\n",
-            "length": 1,
-            "isWhitespaceOnly": true,
-            "layout": {
-              "rects": [],
-              "hasLayout": false,
-              "parentVisible": false,
-              "parentDisplay": "none",
-              "parentVisibility": "visible"
-            },
-            "depth": 2,
-            "nodeIndex": 7,
+            "elementIndex": 3,
             "children": []
           },
           {
@@ -510,7 +446,85 @@
               "overflowY": "visible"
             },
             "depth": 2,
-            "elementIndex": 8,
+            "elementIndex": 4,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\ndiv {\n  text-autospace: normal;\n  font-size: 22px;\n  font-family: sans-serif;\n  text-orientation: upright; /* should NOT affect auto-spacing in horizontal mode */\n}\n",
+                "length": 166,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(3)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 5,
             "children": [
               {
                 "nodeType": "text",
@@ -542,11 +556,11 @@
           "x": 8,
           "y": 8,
           "width": 1184,
-          "height": 104,
+          "height": 128,
           "contentWidth": 1184,
-          "contentHeight": 104,
+          "contentHeight": 128,
           "scrollWidth": 1184,
-          "scrollHeight": 104
+          "scrollHeight": 128
         },
         "computed": {
           "display": "block",
@@ -590,7 +604,7 @@
           "overflowY": "visible"
         },
         "depth": 1,
-        "elementIndex": 1,
+        "elementIndex": 2,
         "children": [
           {
             "nodeType": "element",
@@ -602,11 +616,11 @@
               "x": 8,
               "y": 8,
               "width": 1184,
-              "height": 26,
+              "height": 32,
               "contentWidth": 1184,
-              "contentHeight": 26,
+              "contentHeight": 32,
               "scrollWidth": 1184,
-              "scrollHeight": 26
+              "scrollHeight": 32
             },
             "computed": {
               "display": "block",
@@ -660,8 +674,8 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 8,
-                  "width": 10.8,
+                  "y": 14,
+                  "width": 24.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -721,11 +735,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 8,
-                          "width": 10.8,
+                          "y": 14,
+                          "width": 24.77,
                           "height": 25,
-                          "right": 18.8,
-                          "bottom": 33,
+                          "right": 32.77,
+                          "bottom": 39,
                           "text": "永",
                           "startIndex": 0,
                           "endIndex": 1
@@ -750,12 +764,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 18.8,
-                      "y": 8,
+                      "x": 32.77,
+                      "y": 14,
                       "width": 35.48,
                       "height": 25,
-                      "right": 54.28,
-                      "bottom": 33,
+                      "right": 68.25,
+                      "bottom": 39,
                       "text": "abc",
                       "startIndex": 0,
                       "endIndex": 3
@@ -777,8 +791,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 54.28,
-                  "y": 8,
+                  "x": 68.25,
+                  "y": 14,
                   "width": 33,
                   "height": 25,
                   "contentWidth": 0,
@@ -838,12 +852,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.28,
-                          "y": 8,
+                          "x": 68.25,
+                          "y": 14,
                           "width": 33,
                           "height": 25,
-                          "right": 87.28,
-                          "bottom": 33,
+                          "right": 101.25,
+                          "bottom": 39,
                           "text": "def",
                           "startIndex": 0,
                           "endIndex": 3
@@ -868,12 +882,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 87.28,
-                      "y": 8,
-                      "width": 10.8,
+                      "x": 101.25,
+                      "y": 14,
+                      "width": 24.77,
                       "height": 25,
-                      "right": 98.08,
-                      "bottom": 33,
+                      "right": 126.02,
+                      "bottom": 39,
                       "text": "永",
                       "startIndex": 0,
                       "endIndex": 1
@@ -898,13 +912,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 34,
+              "y": 40,
               "width": 1184,
-              "height": 26,
+              "height": 32,
               "contentWidth": 1184,
-              "contentHeight": 26,
+              "contentHeight": 32,
               "scrollWidth": 1184,
-              "scrollHeight": 26
+              "scrollHeight": 32
             },
             "computed": {
               "display": "block",
@@ -958,8 +972,8 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 34,
-                  "width": 10.8,
+                  "y": 46,
+                  "width": 24.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1018,8 +1032,8 @@
                     "classes": [],
                     "layout": {
                       "x": 8,
-                      "y": 34,
-                      "width": 10.8,
+                      "y": 46,
+                      "width": 24.77,
                       "height": 25,
                       "contentWidth": 0,
                       "contentHeight": 0,
@@ -1078,8 +1092,8 @@
                         "classes": [],
                         "layout": {
                           "x": 8,
-                          "y": 34,
-                          "width": 10.8,
+                          "y": 46,
+                          "width": 24.77,
                           "height": 25,
                           "contentWidth": 0,
                           "contentHeight": 0,
@@ -1139,11 +1153,11 @@
                               "rects": [
                                 {
                                   "x": 8,
-                                  "y": 34,
-                                  "width": 10.8,
+                                  "y": 46,
+                                  "width": 24.77,
                                   "height": 25,
-                                  "right": 18.8,
-                                  "bottom": 59,
+                                  "right": 32.77,
+                                  "bottom": 71,
                                   "text": "永",
                                   "startIndex": 0,
                                   "endIndex": 1
@@ -1172,12 +1186,12 @@
                 "layout": {
                   "rects": [
                     {
-                      "x": 18.8,
-                      "y": 34,
+                      "x": 32.77,
+                      "y": 46,
                       "width": 35.48,
                       "height": 25,
-                      "right": 54.28,
-                      "bottom": 59,
+                      "right": 68.25,
+                      "bottom": 71,
                       "text": "abc",
                       "startIndex": 0,
                       "endIndex": 3
@@ -1199,9 +1213,9 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 54.28,
-                  "y": 34,
-                  "width": 43.8,
+                  "x": 68.25,
+                  "y": 46,
+                  "width": 57.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1260,12 +1274,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.28,
-                          "y": 34,
+                          "x": 68.25,
+                          "y": 46,
                           "width": 33,
                           "height": 25,
-                          "right": 87.28,
-                          "bottom": 59,
+                          "right": 101.25,
+                          "bottom": 71,
                           "text": "def",
                           "startIndex": 0,
                           "endIndex": 3
@@ -1287,9 +1301,9 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 87.28,
-                      "y": 34,
-                      "width": 10.8,
+                      "x": 101.25,
+                      "y": 46,
+                      "width": 24.77,
                       "height": 25,
                       "contentWidth": 0,
                       "contentHeight": 0,
@@ -1348,12 +1362,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 87.28,
-                              "y": 34,
-                              "width": 10.8,
+                              "x": 101.25,
+                              "y": 46,
+                              "width": 24.77,
                               "height": 25,
-                              "right": 98.08,
-                              "bottom": 59,
+                              "right": 126.02,
+                              "bottom": 71,
                               "text": "永",
                               "startIndex": 0,
                               "endIndex": 1
@@ -1382,13 +1396,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 60,
+              "y": 72,
               "width": 1184,
-              "height": 26,
+              "height": 32,
               "contentWidth": 1184,
-              "contentHeight": 26,
+              "contentHeight": 32,
               "scrollWidth": 1184,
-              "scrollHeight": 26
+              "scrollHeight": 32
             },
             "computed": {
               "display": "block",
@@ -1442,8 +1456,8 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 60,
-                  "width": 10.8,
+                  "y": 78,
+                  "width": 24.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1503,11 +1517,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 60,
-                          "width": 10.8,
+                          "y": 78,
+                          "width": 24.77,
                           "height": 25,
-                          "right": 18.8,
-                          "bottom": 85,
+                          "right": 32.77,
+                          "bottom": 103,
                           "text": "永",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1531,8 +1545,8 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 18.8,
-                  "y": 60,
+                  "x": 32.77,
+                  "y": 78,
                   "width": 68.48,
                   "height": 25,
                   "contentWidth": 0,
@@ -1591,8 +1605,8 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 18.8,
-                      "y": 60,
+                      "x": 32.77,
+                      "y": 78,
                       "width": 35.48,
                       "height": 25,
                       "contentWidth": 0,
@@ -1652,12 +1666,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 18.8,
-                              "y": 60,
+                              "x": 32.77,
+                              "y": 78,
                               "width": 35.48,
                               "height": 25,
-                              "right": 54.28,
-                              "bottom": 85,
+                              "right": 68.25,
+                              "bottom": 103,
                               "text": "abc",
                               "startIndex": 0,
                               "endIndex": 3
@@ -1681,8 +1695,8 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 54.28,
-                      "y": 60,
+                      "x": 68.25,
+                      "y": 78,
                       "width": 33,
                       "height": 25,
                       "contentWidth": 0,
@@ -1742,12 +1756,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 54.28,
-                              "y": 60,
+                              "x": 68.25,
+                              "y": 78,
                               "width": 33,
                               "height": 25,
-                              "right": 87.28,
-                              "bottom": 85,
+                              "right": 101.25,
+                              "bottom": 103,
                               "text": "def",
                               "startIndex": 0,
                               "endIndex": 3
@@ -1773,9 +1787,9 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 87.28,
-                  "y": 60,
-                  "width": 10.8,
+                  "x": 101.25,
+                  "y": 78,
+                  "width": 24.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1834,12 +1848,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 87.28,
-                          "y": 60,
-                          "width": 10.8,
+                          "x": 101.25,
+                          "y": 78,
+                          "width": 24.77,
                           "height": 25,
-                          "right": 98.08,
-                          "bottom": 85,
+                          "right": 126.02,
+                          "bottom": 103,
                           "text": "永",
                           "startIndex": 0,
                           "endIndex": 1
@@ -1866,13 +1880,13 @@
             "classes": [],
             "layout": {
               "x": 8,
-              "y": 86,
+              "y": 104,
               "width": 1184,
-              "height": 26,
+              "height": 32,
               "contentWidth": 1184,
-              "contentHeight": 26,
+              "contentHeight": 32,
               "scrollWidth": 1184,
-              "scrollHeight": 26
+              "scrollHeight": 32
             },
             "computed": {
               "display": "block",
@@ -1926,8 +1940,8 @@
                 "classes": [],
                 "layout": {
                   "x": 8,
-                  "y": 86,
-                  "width": 79.28,
+                  "y": 110,
+                  "width": 93.25,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -1987,11 +2001,11 @@
                       "rects": [
                         {
                           "x": 8,
-                          "y": 86,
-                          "width": 10.8,
+                          "y": 110,
+                          "width": 24.77,
                           "height": 25,
-                          "right": 18.8,
-                          "bottom": 111,
+                          "right": 32.77,
+                          "bottom": 135,
                           "text": "永",
                           "startIndex": 0,
                           "endIndex": 1
@@ -2013,8 +2027,8 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 18.8,
-                      "y": 86,
+                      "x": 32.77,
+                      "y": 110,
                       "width": 35.48,
                       "height": 25,
                       "contentWidth": 0,
@@ -2073,8 +2087,8 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 18.8,
-                          "y": 86,
+                          "x": 32.77,
+                          "y": 110,
                           "width": 35.48,
                           "height": 25,
                           "contentWidth": 0,
@@ -2134,12 +2148,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 18.8,
-                                  "y": 86,
+                                  "x": 32.77,
+                                  "y": 110,
                                   "width": 35.48,
                                   "height": 25,
-                                  "right": 54.28,
-                                  "bottom": 111,
+                                  "right": 68.25,
+                                  "bottom": 135,
                                   "text": "abc",
                                   "startIndex": 0,
                                   "endIndex": 3
@@ -2166,12 +2180,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 54.28,
-                          "y": 86,
+                          "x": 68.25,
+                          "y": 110,
                           "width": 33,
                           "height": 25,
-                          "right": 87.28,
-                          "bottom": 111,
+                          "right": 101.25,
+                          "bottom": 135,
                           "text": "def",
                           "startIndex": 0,
                           "endIndex": 3
@@ -2195,9 +2209,9 @@
                 "id": null,
                 "classes": [],
                 "layout": {
-                  "x": 87.28,
-                  "y": 86,
-                  "width": 10.8,
+                  "x": 101.25,
+                  "y": 110,
+                  "width": 24.77,
                   "height": 25,
                   "contentWidth": 0,
                   "contentHeight": 0,
@@ -2256,12 +2270,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 87.28,
-                          "y": 86,
-                          "width": 10.8,
+                          "x": 101.25,
+                          "y": 110,
+                          "width": 24.77,
                           "height": 25,
-                          "right": 98.08,
-                          "bottom": 111,
+                          "right": 126.02,
+                          "bottom": 135,
                           "text": "永",
                           "startIndex": 0,
                           "endIndex": 1
