@@ -27,8 +27,7 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const pixelmatchModule = require('pixelmatch');
-const pixelmatch = pixelmatchModule.default || pixelmatchModule;
+let pixelmatch;
 const { PNG } = require('pngjs');
 
 // ─── Directories ────────────────────────────────────────────────────────────
@@ -991,6 +990,10 @@ function checkBaselineRegressions(results, baselineMap, opts) {
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
+    // pixelmatch v6 is ESM-only; load it asynchronously from this CommonJS runner.
+    const pixelmatchModule = await import('pixelmatch');
+    pixelmatch = pixelmatchModule.default || pixelmatchModule;
+
     const opts = parseArgs();
 
     // ensure output directories exist

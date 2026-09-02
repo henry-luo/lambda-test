@@ -1,0 +1,934 @@
+{
+  "test_file": "resize-with-text-after-paint-ref.html",
+  "has_computed_properties": true,
+  "browser_info": {
+    "viewport": {
+      "width": 1200,
+      "height": 800
+    }
+  },
+  "layout_tree": {
+    "nodeType": "element",
+    "selector": "html",
+    "tag": "html",
+    "id": null,
+    "classes": [],
+    "layout": {
+      "x": 0,
+      "y": 0,
+      "width": 1200,
+      "height": 174,
+      "contentWidth": 1200,
+      "contentHeight": 800,
+      "scrollWidth": 1200,
+      "scrollHeight": 800
+    },
+    "computed": {
+      "display": "block",
+      "position": "static",
+      "marginTop": 0,
+      "marginRight": 0,
+      "marginBottom": 0,
+      "marginLeft": 0,
+      "paddingTop": 0,
+      "paddingRight": 0,
+      "paddingBottom": 0,
+      "paddingLeft": 0,
+      "borderTopWidth": 0,
+      "borderRightWidth": 0,
+      "borderBottomWidth": 0,
+      "borderLeftWidth": 0,
+      "flexDirection": "row",
+      "flexWrap": "nowrap",
+      "justifyContent": "normal",
+      "alignItems": "normal",
+      "alignContent": "normal",
+      "flexGrow": 0,
+      "flexShrink": 1,
+      "flexBasis": "auto",
+      "alignSelf": "auto",
+      "order": 0,
+      "gap": "normal",
+      "fontSize": 16,
+      "lineHeight": "normal",
+      "fontFamily": "\"Times New Roman\"",
+      "fontWeight": "400",
+      "textAlign": "start",
+      "verticalAlign": "baseline",
+      "top": "auto",
+      "right": "auto",
+      "bottom": "auto",
+      "left": "auto",
+      "zIndex": "auto",
+      "overflow": "visible",
+      "overflowX": "visible",
+      "overflowY": "visible"
+    },
+    "depth": 0,
+    "elementIndex": 0,
+    "children": [
+      {
+        "nodeType": "element",
+        "selector": "head",
+        "tag": "head",
+        "id": null,
+        "classes": [],
+        "layout": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "contentWidth": 0,
+          "contentHeight": 0,
+          "scrollWidth": 0,
+          "scrollHeight": 0
+        },
+        "computed": {
+          "display": "none",
+          "position": "static",
+          "marginTop": 0,
+          "marginRight": 0,
+          "marginBottom": 0,
+          "marginLeft": 0,
+          "paddingTop": 0,
+          "paddingRight": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "flexDirection": "row",
+          "flexWrap": "nowrap",
+          "justifyContent": "normal",
+          "alignItems": "normal",
+          "alignContent": "normal",
+          "flexGrow": 0,
+          "flexShrink": 1,
+          "flexBasis": "auto",
+          "alignSelf": "auto",
+          "order": 0,
+          "gap": "normal",
+          "fontSize": 16,
+          "lineHeight": "normal",
+          "fontFamily": "\"Times New Roman\"",
+          "fontWeight": "400",
+          "textAlign": "start",
+          "verticalAlign": "baseline",
+          "top": "auto",
+          "right": "auto",
+          "bottom": "auto",
+          "left": "auto",
+          "zIndex": "auto",
+          "overflow": "visible",
+          "overflowX": "visible",
+          "overflowY": "visible"
+        },
+        "depth": 1,
+        "elementIndex": 0,
+        "children": [
+          {
+            "nodeType": "element",
+            "selector": "style",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 0,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeType": "element",
+        "selector": "body",
+        "tag": "body",
+        "id": null,
+        "classes": [],
+        "layout": {
+          "x": 8,
+          "y": 16,
+          "width": 1184,
+          "height": 142,
+          "contentWidth": 1184,
+          "contentHeight": 142,
+          "scrollWidth": 1184,
+          "scrollHeight": 142
+        },
+        "computed": {
+          "display": "block",
+          "position": "static",
+          "marginTop": 8,
+          "marginRight": 8,
+          "marginBottom": 8,
+          "marginLeft": 8,
+          "paddingTop": 0,
+          "paddingRight": 0,
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "borderTopWidth": 0,
+          "borderRightWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "flexDirection": "row",
+          "flexWrap": "nowrap",
+          "justifyContent": "normal",
+          "alignItems": "normal",
+          "alignContent": "normal",
+          "flexGrow": 0,
+          "flexShrink": 1,
+          "flexBasis": "auto",
+          "alignSelf": "auto",
+          "order": 0,
+          "gap": "normal",
+          "fontSize": 16,
+          "lineHeight": "normal",
+          "fontFamily": "\"Times New Roman\"",
+          "fontWeight": "400",
+          "textAlign": "start",
+          "verticalAlign": "baseline",
+          "top": "auto",
+          "right": "auto",
+          "bottom": "auto",
+          "left": "auto",
+          "zIndex": "auto",
+          "overflow": "visible",
+          "overflowX": "visible",
+          "overflowY": "visible"
+        },
+        "depth": 1,
+        "elementIndex": 1,
+        "children": [
+          {
+            "nodeType": "element",
+            "selector": "p:nth-of-type(1)",
+            "tag": "p",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 8,
+              "y": 16,
+              "width": 1184,
+              "height": 54,
+              "contentWidth": 1184,
+              "contentHeight": 54,
+              "scrollWidth": 1184,
+              "scrollHeight": 54
+            },
+            "computed": {
+              "display": "block",
+              "position": "static",
+              "marginTop": 16,
+              "marginRight": 0,
+              "marginBottom": 16,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 0,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n    Short loin tri-tip pork belly, tail venison capicola turducken ",
+                "length": 68,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 16,
+                      "width": 379.77,
+                      "height": 17,
+                      "right": 387.77,
+                      "bottom": 33,
+                      "text": "\n    Short loin tri-tip pork belly, tail venison capicola turducken ",
+                      "startIndex": 0,
+                      "endIndex": 68
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "sausage\n    pork. Turkey ribeye pork belly chicken chuck, ",
+                "length": 58,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 34,
+                      "width": 349.69,
+                      "height": 17,
+                      "right": 357.69,
+                      "bottom": 51,
+                      "text": "sausage\n    pork. Turkey ribeye pork belly chicken chuck, ",
+                      "startIndex": 0,
+                      "endIndex": 58
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "speck shank tail short loin\n    bacon tongue prosciutto. ",
+                "length": 57,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 52,
+                      "width": 328.83,
+                      "height": 17,
+                      "right": 336.83,
+                      "bottom": 69,
+                      "text": "speck shank tail short loin\n    bacon tongue prosciutto. ",
+                      "startIndex": 0,
+                      "endIndex": 57
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "Tenderloin pastrami turkey, rump ball tip\n    frankfurter ham ",
+                "length": 62,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 16,
+                      "width": 367.5,
+                      "height": 17,
+                      "right": 775.5,
+                      "bottom": 33,
+                      "text": "Tenderloin pastrami turkey, rump ball tip\n    frankfurter ham ",
+                      "startIndex": 0,
+                      "endIndex": 62
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "hock pork chop sausage filet mignon beef hamburger pork\n",
+                "length": 56,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 34,
+                      "width": 373.83,
+                      "height": 17,
+                      "right": 781.83,
+                      "bottom": 51,
+                      "text": "hock pork chop sausage filet mignon beef hamburger pork\n",
+                      "startIndex": 0,
+                      "endIndex": 56
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "    sirloin speck. Meatball pig pork chop, short loin shankle ",
+                "length": 62,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 52,
+                      "width": 360.83,
+                      "height": 17,
+                      "right": 768.83,
+                      "bottom": 69,
+                      "text": "    sirloin speck. Meatball pig pork chop, short loin shankle ",
+                      "startIndex": 0,
+                      "endIndex": 62
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "pork loin flank\n    ball tip capicola ham hock pork shank ",
+                "length": 58,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 808,
+                      "y": 16,
+                      "width": 342.58,
+                      "height": 17,
+                      "right": 1150.58,
+                      "bottom": 33,
+                      "text": "pork loin flank\n    ball tip capicola ham hock pork shank ",
+                      "startIndex": 0,
+                      "endIndex": 58
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "turkey pastrami. Corned beef capicola\n    ribeye turkey ",
+                "length": 56,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 808,
+                      "y": 34,
+                      "width": 332.75,
+                      "height": 17,
+                      "right": 1140.75,
+                      "bottom": 51,
+                      "text": "turkey pastrami. Corned beef capicola\n    ribeye turkey ",
+                      "startIndex": 0,
+                      "endIndex": 56
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "bresaola, ground round fatback turducken.\n  ",
+                "length": 44,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 808,
+                      "y": 52,
+                      "width": 271.02,
+                      "height": 17,
+                      "right": 1079.02,
+                      "bottom": 69,
+                      "text": "bresaola, ground round fatback turducken.\n  ",
+                      "startIndex": 0,
+                      "endIndex": 44
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "p:nth-of-type(2)",
+            "tag": "p",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 8,
+              "y": 86,
+              "width": 1184,
+              "height": 72,
+              "contentWidth": 1184,
+              "contentHeight": 72,
+              "scrollWidth": 1184,
+              "scrollHeight": 72
+            },
+            "computed": {
+              "display": "block",
+              "position": "static",
+              "marginTop": 16,
+              "marginRight": 0,
+              "marginBottom": 16,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 2,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n    Tenderloin ham boudin tongue sausage venison short ribs ",
+                "length": 61,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 86,
+                      "width": 368.16,
+                      "height": 17,
+                      "right": 376.16,
+                      "bottom": 103,
+                      "text": "\n    Tenderloin ham boudin tongue sausage venison short ribs ",
+                      "startIndex": 0,
+                      "endIndex": 61
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "sirloin, kielbasa\n    beef ribs. Strip steak shank bresaola salami ",
+                "length": 67,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 104,
+                      "width": 381.23,
+                      "height": 17,
+                      "right": 389.23,
+                      "bottom": 121,
+                      "text": "sirloin, kielbasa\n    beef ribs. Strip steak shank bresaola salami ",
+                      "startIndex": 0,
+                      "endIndex": 67
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "spare ribs kielbasa fatback,\n    cow t-bone flank leberkas ",
+                "length": 59,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 122,
+                      "width": 342.97,
+                      "height": 17,
+                      "right": 350.97,
+                      "bottom": 139,
+                      "text": "spare ribs kielbasa fatback,\n    cow t-bone flank leberkas ",
+                      "startIndex": 0,
+                      "endIndex": 59
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "sirloin. Jowl pork belly ribeye, corned beef\n    sirloin chicken ",
+                "length": 65,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 8,
+                      "y": 140,
+                      "width": 374.13,
+                      "height": 17,
+                      "right": 382.13,
+                      "bottom": 157,
+                      "text": "sirloin. Jowl pork belly ribeye, corned beef\n    sirloin chicken ",
+                      "startIndex": 0,
+                      "endIndex": 65
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "salami tail. Rump swine ham shank corned beef short loin,\n",
+                "length": 58,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 86,
+                      "width": 375.48,
+                      "height": 17,
+                      "right": 783.48,
+                      "bottom": 103,
+                      "text": "salami tail. Rump swine ham shank corned beef short loin,\n",
+                      "startIndex": 0,
+                      "endIndex": 58
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "    speck turkey pancetta shankle frankfurter. Pancetta tail ",
+                "length": 61,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 104,
+                      "width": 350.52,
+                      "height": 17,
+                      "right": 758.52,
+                      "bottom": 121,
+                      "text": "    speck turkey pancetta shankle frankfurter. Pancetta tail ",
+                      "startIndex": 0,
+                      "endIndex": 61
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "fatback, ground\n    round brisket biltong frankfurter turkey. ",
+                "length": 62,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 122,
+                      "width": 359.75,
+                      "height": 17,
+                      "right": 767.75,
+                      "bottom": 139,
+                      "text": "fatback, ground\n    round brisket biltong frankfurter turkey. ",
+                      "startIndex": 0,
+                      "endIndex": 62
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "Ham hock chicken strip steak,\n    salami short ribs beef ribs ",
+                "length": 62,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 408,
+                      "y": 140,
+                      "width": 362.58,
+                      "height": 17,
+                      "right": 770.58,
+                      "bottom": 157,
+                      "text": "Ham hock chicken strip steak,\n    salami short ribs beef ribs ",
+                      "startIndex": 0,
+                      "endIndex": 62
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "pork sirloin pastrami pork loin turducken rump\n    brisket ",
+                "length": 59,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 808,
+                      "y": 86,
+                      "width": 348.83,
+                      "height": 17,
+                      "right": 1156.83,
+                      "bottom": 103,
+                      "text": "pork sirloin pastrami pork loin turducken rump\n    brisket ",
+                      "startIndex": 0,
+                      "endIndex": 59
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "andouille.\n  ",
+                "length": 13,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 808,
+                      "y": 104,
+                      "width": 63.55,
+                      "height": 17,
+                      "right": 871.55,
+                      "bottom": 121,
+                      "text": "andouille.\n  ",
+                      "startIndex": 0,
+                      "endIndex": 13
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "viewport": {
+      "width": 1200,
+      "height": 800
+    }
+  }
+}

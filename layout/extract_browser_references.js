@@ -12,6 +12,10 @@ const os = require('os');
 const path = require('path');
 const { referenceNameForPath } = require('./reference_paths');
 
+let sharedBrowser = null;
+let sharedBrowserPageCount = 0;
+const MAX_SHARED_BROWSER_PAGES = 50;
+
 const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
 
 function localTempDir(name) {
@@ -64,6 +68,27 @@ function contentTypeForPath(filePath) {
     return 'application/octet-stream';
 }
 
+async function getSharedBrowser(launchOptions) {
+    if (sharedBrowser && sharedBrowserPageCount >= MAX_SHARED_BROWSER_PAGES) {
+        await closeSharedBrowser();
+    }
+    if (!sharedBrowser) {
+        sharedBrowser = await puppeteer.launch(launchOptions);
+        sharedBrowserPageCount = 0;
+    }
+    sharedBrowserPageCount++;
+    return sharedBrowser;
+}
+
+async function closeSharedBrowser() {
+    if (sharedBrowser) {
+        const browser = sharedBrowser;
+        sharedBrowser = null;
+        sharedBrowserPageCount = 0;
+        await browser.close();
+    }
+}
+
 async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
     let parsed;
     try {
@@ -107,6 +132,12 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
         if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath)) {
             candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', 'css', cssSuiteName, relativePath));
         }
+    }
+
+    // non-CSS WPT mirrors retain server-root URLs such as /common and /html;
+    // resolve them from the checked-out WPT tree so iframe/form fixtures settle.
+    if (requestPath.startsWith('/') && !requestPath.startsWith('/css/')) {
+        candidates.push(path.join(LAMBDA_ROOT, 'ref', 'wpt', requestPath.substring(1)));
     }
 
     for (const candidate of candidates) {
@@ -178,6 +209,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
     console.log(`🔍 Extracting layout from: ${htmlFilePath}`);
 
     let browser = null;
+    let page = null;
     try {
         // Launch browser - use system Chromium on ARM Linux if available
         console.log('🚀 Launching browser...');
@@ -236,9 +268,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             }
         }
 
-        browser = await puppeteer.launch(launchOptions);
+        browser = await getSharedBrowser(launchOptions);
 
-        const page = await browser.newPage();
+        page = await browser.newPage();
 
         // Set consistent viewport and disable animations (from extract_layout.js)
         await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
@@ -326,7 +358,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             try {
                 // let the file navigation proceed without an async resolver;
                 // delaying the document request makes Chromium report ERR_ABORTED.
-                if (request.resourceType() === 'document') {
+                if (request.resourceType() === 'document' &&
+                    request.isNavigationRequest() && request.frame() === page.mainFrame()) {
                     const documentSource = await fs.readFile(htmlFilePath, 'utf8');
                     let normalizedSource = documentSource.replace(
                         /(text-box-trim\s*:\s*)(both|start|end)(\s*[;}]?)/gi,
@@ -1025,8 +1058,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         console.error('❌ Error during extraction:', error.message);
         throw error;
     } finally {
-        if (browser) {
-            await browser.close();
+        if (page) {
+            await page.close();
         }
     }
 }
@@ -1204,6 +1237,8 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
         }
     }
 
+    await closeSharedBrowser();
+
     // Generate summary
     console.log('\n📊 Extraction Summary');
     console.log('=====================');
@@ -1353,6 +1388,8 @@ Note: By default, existing reference files are skipped. Use --force to regenerat
 
             const nodeCount = result.layout_tree ? countTreeNodes(result.layout_tree) : 0;
 
+            await closeSharedBrowser();
+
             console.log(`\n🎉 Extraction completed successfully!`);
             console.log(`✅ Reference JSON created with ${nodeCount} nodes in tree structure`);
         } else {
@@ -1367,6 +1404,7 @@ Note: By default, existing reference files are skipped. Use --force to regenerat
         } else {
             console.error('❌ Extraction failed:', error.message);
         }
+        await closeSharedBrowser();
         process.exit(1);
     }
 }
@@ -1376,4 +1414,4 @@ if (require.main === module) {
     main().catch(console.error);
 }
 
-module.exports = { extractLayoutFromFile, extractAllTestFiles };
+module.exports = { extractLayoutFromFile, extractAllTestFiles, closeSharedBrowser };
