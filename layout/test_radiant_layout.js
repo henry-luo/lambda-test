@@ -111,7 +111,11 @@ class RadiantLayoutTester {
     }
 
     spawnLayoutProcess(args) {
-        const proc = spawn(this.radiantExe, args, { cwd: this.projectRoot });
+        // run every layout fixture's document scripts through the AST backend.
+        const proc = spawn(this.radiantExe, args, {
+            cwd: this.projectRoot,
+            env: { ...process.env, JS_EXECUTION_BACKEND: 'ast' }
+        });
         this.processRegistry.add(proc);
         const forget = () => {
             this.processRegistry.delete(proc);
