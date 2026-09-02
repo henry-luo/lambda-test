@@ -10,7 +10,8 @@
  *
  * Commands:
  *   --save <suite>    Save current results as the reference snapshot
- *   --check <suite>   Check current results against saved snapshot (exit 1 on regression)
+ *   --check <suite>   Check current results against saved snapshot (exit 1 on runner failure,
+ *                     inventory drift, or average regression)
  *   --diff <suite>    Show per-file differences against saved snapshot
  *
  * Output is saved to: test/layout/snapshot/<suite>.json
@@ -37,7 +38,7 @@ function usage() {
     console.error(`Usage: <test_runner --json> | node ${path.basename(process.argv[1])} --save|--check|--diff <suite>`);
     console.error('');
     console.error('  --save <suite>    Save stdin results as reference snapshot');
-    console.error('  --check <suite>   Compare stdin results against saved snapshot (exit 1 on avg regression)');
+    console.error('  --check <suite>   Compare stdin results against saved snapshot (fail closed)');
     console.error('  --diff <suite>    Show per-file differences against saved snapshot');
     process.exit(1);
 }
@@ -99,6 +100,73 @@ function buildSnapshot(suite, rawResults) {
     };
 }
 
+function readRunnerCount(rawResults, field, fallback) {
+    const value = rawResults[field];
+    if (value == null) return fallback;
+    if (!Number.isInteger(value) || value < 0) {
+        throw new Error(`Invalid runner ${field} count: ${value}`);
+    }
+    return value;
+}
+
+function validateRunnerResults(rawResults) {
+    const results = Array.isArray(rawResults.results) ? rawResults.results : [];
+    const validationErrors = [];
+    const names = new Set();
+    const resultErrors = [];
+
+    if (results.length === 0) validationErrors.push('runner returned no results');
+    for (const [index, result] of results.entries()) {
+        if (!result || typeof result !== 'object') {
+            validationErrors.push(`result ${index} is not an object`);
+            continue;
+        }
+        if (typeof result.name !== 'string' || result.name.length === 0) {
+            validationErrors.push(`result ${index} has no name`);
+        } else if (names.has(result.name)) {
+            validationErrors.push(`duplicate result name: ${result.name}`);
+        } else {
+            names.add(result.name);
+        }
+        for (const field of ['elementPassRate', 'textPassRate']) {
+            if (!Number.isFinite(result[field])) {
+                validationErrors.push(`${result.name || `result ${index}`} has invalid ${field}`);
+            }
+        }
+        if (result.error) resultErrors.push(result);
+    }
+
+    const total = readRunnerCount(rawResults, 'total', results.length);
+    const errors = readRunnerCount(rawResults, 'errors', resultErrors.length);
+    const successful = readRunnerCount(rawResults, 'successful', 0);
+    const failed = readRunnerCount(rawResults, 'failed', 0);
+    const partial = readRunnerCount(rawResults, 'partiallyPassing', 0);
+    if (total !== results.length) {
+        validationErrors.push(`runner total ${total} does not match ${results.length} results`);
+    }
+    if (errors !== resultErrors.length) {
+        validationErrors.push(`runner error count ${errors} does not match ${resultErrors.length} result errors`);
+    }
+    if (successful + failed + partial !== total) {
+        validationErrors.push(`runner classifications ${successful}+${partial}+${failed} do not match total ${total}`);
+    }
+
+    console.log(`Runner: ${results.length} measured, ${errors} errors`);
+    console.log(`Fidelity: ${successful} successful, ${partial} partial, ${failed} below threshold`);
+
+    if (errors === 0 && validationErrors.length === 0) return true;
+
+    console.log(`\n❌ Runner integrity failure:`);
+    for (const detail of validationErrors.slice(0, 10)) console.log(`   ${detail}`);
+    const remaining = Math.max(0, 10 - validationErrors.length);
+    for (const result of resultErrors.slice(0, remaining)) {
+        console.log(`   ${result.name || '<unnamed>'}: ${result.error}`);
+    }
+    const omitted = validationErrors.length + resultErrors.length - 10;
+    if (omitted > 0) console.log(`   ... and ${omitted} more`);
+    return false;
+}
+
 function saveSnapshot(suite, snapshot) {
     if (!fs.existsSync(SNAPSHOT_DIR)) {
         fs.mkdirSync(SNAPSHOT_DIR, { recursive: true });
@@ -121,17 +189,18 @@ function loadSnapshot(suite) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-function compareSnapshots(saved, current, showDiff) {
+function compareSnapshots(saved, current, showDiff, runnerOk) {
     const regressions = [];
     const improvements = [];
+    const savedNames = Object.keys(saved.tests);
+    const currentNames = Object.keys(current.tests);
+    const missingTests = savedNames.filter(name => !(name in current.tests));
+    const newTests = currentNames.filter(name => !(name in saved.tests));
 
     // Compare each test present in the saved snapshot
     for (const [name, savedScores] of Object.entries(saved.tests)) {
         const curScores = current.tests[name];
-        if (!curScores) {
-            regressions.push({ name, reason: 'test missing from current run' });
-            continue;
-        }
+        if (!curScores) continue;
 
         const elemDelta = curScores.elements - savedScores.elements;
         const textDelta = curScores.text - savedScores.text;
@@ -154,9 +223,6 @@ function compareSnapshots(saved, current, showDiff) {
             });
         }
     }
-
-    // Check for new tests not in saved snapshot
-    const newTests = Object.keys(current.tests).filter(n => !(n in saved.tests));
 
     // Summary averages
     const savedAvgElem = saved.summary.averageElements;
@@ -206,8 +272,15 @@ function compareSnapshots(saved, current, showDiff) {
             console.log(`   ${imp.name}: ${imp.detail}`);
         }
     }
-    if (newTests.length > 0) {
-        console.log(`\n🆕 New tests (${newTests.length}): ${newTests.join(', ')}`);
+    const hasInventoryDrift = missingTests.length > 0 || newTests.length > 0;
+    if (hasInventoryDrift) {
+        console.log(`\n❌ Snapshot inventory drift detected:`);
+        if (missingTests.length > 0) {
+            console.log(`   Missing tests (${missingTests.length}): ${missingTests.join(', ')}`);
+        }
+        if (newTests.length > 0) {
+            console.log(`   New tests (${newTests.length}): ${newTests.join(', ')}`);
+        }
     }
 
     // Check for regression in TOTAL AVERAGES (not per-file)
@@ -218,7 +291,6 @@ function compareSnapshots(saved, current, showDiff) {
             console.log(`   Avg elements: ${savedAvgElem}% → ${curAvgElem}% (${avgElemDelta.toFixed(1)}%)`);
         if (avgTextDelta < -0.1)
             console.log(`   Avg text: ${savedAvgText}% → ${curAvgText}% (${avgTextDelta.toFixed(1)}%)`);
-        return false;
     }
 
     if (regressions.length > 0) {
@@ -228,7 +300,9 @@ function compareSnapshots(saved, current, showDiff) {
         }
     }
 
-    console.log(`\n✅ No average regression. Avg elements: ${savedAvgElem}% → ${curAvgElem}% (${avgElemDelta >= 0 ? '+' : ''}${avgElemDelta.toFixed(1)}%), avg text: ${savedAvgText}% → ${curAvgText}% (${avgTextDelta >= 0 ? '+' : ''}${avgTextDelta.toFixed(1)}%)`);
+    if (!runnerOk || hasAvgRegression || hasInventoryDrift) return false;
+
+    console.log(`\n✅ Snapshot check passed. Avg elements: ${savedAvgElem}% → ${curAvgElem}% (${avgElemDelta >= 0 ? '+' : ''}${avgElemDelta.toFixed(1)}%), avg text: ${savedAvgText}% → ${curAvgText}% (${avgTextDelta >= 0 ? '+' : ''}${avgTextDelta.toFixed(1)}%)`);
     return true;
 }
 
@@ -254,13 +328,15 @@ async function main() {
     // Read JSON from stdin
     const raw = await readStdin();
     const rawResults = parseJsonOutput(raw);
+    const runnerOk = validateRunnerResults(rawResults);
     const current = buildSnapshot(suite, rawResults);
 
     if (checkMode || diffMode) {
         const saved = loadSnapshot(suite);
-        const ok = compareSnapshots(saved, current, diffMode);
+        const ok = compareSnapshots(saved, current, diffMode, runnerOk);
         if (!ok) process.exit(1);
     } else {
+        if (!runnerOk) process.exit(1);
         saveSnapshot(suite, current);
     }
 }
