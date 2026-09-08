@@ -12,6 +12,7 @@ const os = require('os');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { referenceNameForPath } = require('./reference_paths');
+const { referenceCaptureFreezesAnimations } = require('./reference_capture_policy');
 
 let sharedBrowser = null;
 let sharedBrowserPageCount = 0;
@@ -358,7 +359,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Set consistent viewport and disable animations (from extract_layout.js)
         await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
-        const freezeReferenceAnimations = !/animation|interpolation/i.test(htmlFilePath);
+        const freezeReferenceAnimations = referenceCaptureFreezesAnimations(htmlFilePath);
         await page.evaluateOnNewDocument((freezeAnimations) => {
             // The standalone extractor intentionally does not load the full WPT
             // harness: its cleanup would remove the DOM that Radiant compares.

@@ -1210,7 +1210,7 @@
           },
           {
             "nodeType": "element",
-            "selector": "style",
+            "selector": "style:nth-of-type(1)",
             "tag": "style",
             "id": null,
             "classes": [],
@@ -1267,6 +1267,162 @@
             },
             "depth": 2,
             "elementIndex": 35,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Ahem.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }",
+                "length": 22087,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(2)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 10,
+              "lineHeight": "normal",
+              "fontFamily": "\"Open Sans\", sans-serif",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 36,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(3)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 10,
+              "lineHeight": "normal",
+              "fontFamily": "\"Open Sans\", sans-serif",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 37,
             "children": [
               {
                 "nodeType": "text",
@@ -2974,11 +3130,11 @@
                           "x": 126.91,
                           "y": 207.55,
                           "width": 946.19,
-                          "height": 141,
+                          "height": 150,
                           "contentWidth": 946,
-                          "contentHeight": 141,
+                          "contentHeight": 150,
                           "scrollWidth": 946,
-                          "scrollHeight": 141
+                          "scrollHeight": 150
                         },
                         "computed": {
                           "display": "block",
@@ -3036,11 +3192,11 @@
                               "x": 126.91,
                               "y": 207.55,
                               "width": 946.19,
-                              "height": 51,
+                              "height": 60,
                               "contentWidth": 946,
-                              "contentHeight": 51,
+                              "contentHeight": 60,
                               "scrollWidth": 946,
-                              "scrollHeight": 51
+                              "scrollHeight": 60
                             },
                             "computed": {
                               "display": "block",
@@ -3068,8 +3224,8 @@
                               "alignSelf": "auto",
                               "order": 0,
                               "gap": "normal",
-                              "fontSize": 34,
-                              "lineHeight": "51px",
+                              "fontSize": 40,
+                              "lineHeight": "60px",
                               "fontFamily": "\"PT Sans Narrow\", sans-serif",
                               "fontWeight": "400",
                               "textAlign": "center",
@@ -3094,12 +3250,12 @@
                                 "layout": {
                                   "rects": [
                                     {
-                                      "x": 213.02,
-                                      "y": 210.55,
-                                      "width": 773.95,
-                                      "height": 44,
-                                      "right": 986.97,
-                                      "bottom": 254.55,
+                                      "x": 144.73,
+                                      "y": 211.55,
+                                      "width": 910.53,
+                                      "height": 52,
+                                      "right": 1055.27,
+                                      "bottom": 263.55,
                                       "text": "Landing Page is the best way to present your amazing mobile app.",
                                       "startIndex": 0,
                                       "endIndex": 64
@@ -3124,7 +3280,7 @@
                             "classes": [],
                             "layout": {
                               "x": 126.91,
-                              "y": 271.55,
+                              "y": 280.55,
                               "width": 946.19,
                               "height": 77,
                               "contentWidth": 946,
@@ -3188,7 +3344,7 @@
                                 ],
                                 "layout": {
                                   "x": 423.25,
-                                  "y": 271.55,
+                                  "y": 280.55,
                                   "width": 159.06,
                                   "height": 62,
                                   "contentWidth": 157,
@@ -3249,11 +3405,11 @@
                                       "rects": [
                                         {
                                           "x": 454.25,
-                                          "y": 288.55,
+                                          "y": 297.55,
                                           "width": 97.06,
                                           "height": 24,
                                           "right": 551.31,
-                                          "bottom": 312.55,
+                                          "bottom": 321.55,
                                           "text": "Learn More",
                                           "startIndex": 0,
                                           "endIndex": 10
@@ -3279,11 +3435,11 @@
                                   "rects": [
                                     {
                                       "x": 582.31,
-                                      "y": 297.33,
+                                      "y": 306.33,
                                       "width": 4.16,
                                       "height": 22,
                                       "right": 586.47,
-                                      "bottom": 319.33
+                                      "bottom": 328.33
                                     }
                                   ],
                                   "hasLayout": true,
@@ -3307,7 +3463,7 @@
                                 ],
                                 "layout": {
                                   "x": 586.47,
-                                  "y": 271.55,
+                                  "y": 280.55,
                                   "width": 190.28,
                                   "height": 62,
                                   "contentWidth": 188,
@@ -3368,11 +3524,11 @@
                                       "rects": [
                                         {
                                           "x": 617.47,
-                                          "y": 288.55,
+                                          "y": 297.55,
                                           "width": 128.28,
                                           "height": 24,
                                           "right": 745.75,
-                                          "bottom": 312.55,
+                                          "bottom": 321.55,
                                           "text": "Download Now",
                                           "startIndex": 0,
                                           "endIndex": 12
