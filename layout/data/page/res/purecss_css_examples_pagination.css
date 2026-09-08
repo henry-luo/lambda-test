@@ -1,0 +1,317 @@
+/*
+ * PureCSS.com
+ * https://purecss.com/examples/pagination/
+ * Numbered page buttons with an active state driven by radio inputs and :checked.
+ */
+
+.demo-pagination .pg-radio {
+		display: none;
+	}
+
+.demo-pagination .pg-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		align-items: center;
+	}
+
+.demo-pagination .pg-bar {
+		display: flex;
+		align-items: center;
+		gap: .3rem;
+	}
+
+:is(.demo-pagination .pg-bar) label {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 36px;
+			height: 36px;
+			border-radius: var(--radius);
+			border: 1px solid var(--border);
+			color: var(--text-muted);
+			font-size: .9rem;
+			font-weight: 500;
+			cursor: pointer;
+			transition: background .15s, color .15s, border-color .15s;
+			user-select: none;
+		}
+
+:is(:is(.demo-pagination .pg-bar) label):hover {
+				background: var(--surface-2);
+				color: var(--text);
+				border-color: var(--text-muted);
+			}
+
+.demo-pagination .pg-bar .pg-prev,.demo-pagination .pg-bar .pg-next {
+		width: auto;
+		padding: 0 .75rem;
+		gap: .3rem;
+		font-size: .85rem;
+		cursor: default;
+		opacity: .45;
+	}
+
+.demo-pagination .pg-bar .pg-prev:hover,.demo-pagination .pg-bar .pg-next:hover {
+		background: none;
+		color: var(--text-muted);
+		border-color: var(--border);
+	}
+
+.demo-pagination .pg-content {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: .75rem 1.25rem;
+		font-size: .85rem;
+		color: var(--text-muted);
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		max-width: 320px;
+		justify-content: center;
+	}
+
+.demo-pagination .pg-page {
+		display: none;
+	}
+
+/* Active page button */
+#pg1:checked ~ .pg-wrap .pg-bar label[for="pg1"],
+#pg2:checked ~ .pg-wrap .pg-bar label[for="pg2"],
+#pg3:checked ~ .pg-wrap .pg-bar label[for="pg3"],
+#pg4:checked ~ .pg-wrap .pg-bar label[for="pg4"],
+#pg5:checked ~ .pg-wrap .pg-bar label[for="pg5"] {
+	background: var(--accent);
+	color: var(--bg);
+	border-color: var(--accent);
+}
+
+/* Show active page content */
+#pg1:checked ~ .pg-wrap .pg-content .pg-page-1,
+#pg2:checked ~ .pg-wrap .pg-content .pg-page-2,
+#pg3:checked ~ .pg-wrap .pg-content .pg-page-3,
+#pg4:checked ~ .pg-wrap .pg-content .pg-page-4,
+#pg5:checked ~ .pg-wrap .pg-content .pg-page-5 {
+	display: block;
+	color: var(--text);
+}
+
+/* ── Variant: prev and next that really move between pages ── */
+
+/* opacity rather than display, so the radios keep their place in the
+   tab order and the arrow keys page through the bar */
+.demo-pagination .pgn-radio {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	pointer-events: none;
+}
+
+.demo-pagination .pgn-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.25rem;
+}
+
+.demo-pagination .pgn-bar {
+	display: flex;
+	align-items: center;
+	gap: .3rem;
+}
+
+.demo-pagination .pgn-nums {
+	display: flex;
+	gap: .3rem;
+}
+
+.demo-pagination .pgn-bar label,
+.demo-pagination .pgn-off {
+	align-items: center;
+	justify-content: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 .5rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--border);
+	color: var(--text-muted);
+	font-size: .9rem;
+	font-weight: 500;
+	cursor: pointer;
+	user-select: none;
+	transition: background .15s, color .15s, border-color .15s;
+}
+
+.demo-pagination .pgn-nums label:hover {
+	background: var(--surface-2);
+	color: var(--text);
+	border-color: var(--text-muted);
+}
+
+/* every prev and next the bar could need lives in the same slot,
+   hidden, and exactly one of them is revealed per page */
+.demo-pagination .pgn-end > * {
+	display: none;
+	min-width: 0;
+	padding: 0 .75rem;
+	font-size: .85rem;
+}
+
+#pagination-n1:checked ~ .pgn-wrap .pgn-prev .pgn-off,
+#pagination-n2:checked ~ .pgn-wrap .pgn-prev label[for="pagination-n1"],
+#pagination-n3:checked ~ .pgn-wrap .pgn-prev label[for="pagination-n2"],
+#pagination-n4:checked ~ .pgn-wrap .pgn-prev label[for="pagination-n3"] {
+	display: flex;
+}
+
+#pagination-n1:checked ~ .pgn-wrap .pgn-next label[for="pagination-n2"],
+#pagination-n2:checked ~ .pgn-wrap .pgn-next label[for="pagination-n3"],
+#pagination-n3:checked ~ .pgn-wrap .pgn-next label[for="pagination-n4"],
+#pagination-n4:checked ~ .pgn-wrap .pgn-next .pgn-off {
+	display: flex;
+}
+
+/* the stand-in at each end looks like a button and does nothing */
+.demo-pagination .pgn-off {
+	opacity: .35;
+	cursor: default;
+}
+
+.demo-pagination .pgn-end label:hover {
+	background: var(--surface-2);
+	color: var(--text);
+	border-color: var(--text-muted);
+}
+
+#pagination-n1:checked ~ .pgn-wrap .pgn-nums label[for="pagination-n1"],
+#pagination-n2:checked ~ .pgn-wrap .pgn-nums label[for="pagination-n2"],
+#pagination-n3:checked ~ .pgn-wrap .pgn-nums label[for="pagination-n3"],
+#pagination-n4:checked ~ .pgn-wrap .pgn-nums label[for="pagination-n4"] {
+	background: var(--accent);
+	color: var(--bg);
+	border-color: var(--accent);
+}
+
+/* the input is invisible, so the ring has to be drawn on its label */
+#pagination-n1:focus-visible ~ .pgn-wrap .pgn-nums label[for="pagination-n1"],
+#pagination-n2:focus-visible ~ .pgn-wrap .pgn-nums label[for="pagination-n2"],
+#pagination-n3:focus-visible ~ .pgn-wrap .pgn-nums label[for="pagination-n3"],
+#pagination-n4:focus-visible ~ .pgn-wrap .pgn-nums label[for="pagination-n4"] {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.demo-pagination .pgn-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 380px;
+	min-height: 44px;
+	padding: .75rem 1.25rem;
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	font-size: .85rem;
+	line-height: 1.5;
+	text-align: center;
+	color: var(--text-muted);
+}
+
+.demo-pagination .pgn-page {
+	display: none;
+}
+
+#pagination-n1:checked ~ .pgn-wrap .pgn-content #pagination-c1,
+#pagination-n2:checked ~ .pgn-wrap .pgn-content #pagination-c2,
+#pagination-n3:checked ~ .pgn-wrap .pgn-content #pagination-c3,
+#pagination-n4:checked ~ .pgn-wrap .pgn-content #pagination-c4 {
+	display: block;
+	color: var(--text);
+}
+
+/* ── Variant: dots, for when the count matters and the index does not ── */
+
+.demo-pagination .pgd-radio {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+	pointer-events: none;
+}
+
+.demo-pagination .pgd-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.demo-pagination .pgd-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 260px;
+	height: 92px;
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	font-size: .95rem;
+	font-weight: 600;
+	color: var(--text);
+}
+
+.demo-pagination .pgd-panel {
+	display: none;
+}
+
+#pagination-d1:checked ~ .pgd-wrap .pgd-slide #pagination-s1,
+#pagination-d2:checked ~ .pgd-wrap .pgd-slide #pagination-s2,
+#pagination-d3:checked ~ .pgd-wrap .pgd-slide #pagination-s3,
+#pagination-d4:checked ~ .pgd-wrap .pgd-slide #pagination-s4 {
+	display: block;
+}
+
+.demo-pagination .pgd-dots {
+	display: flex;
+	align-items: center;
+	gap: .4rem;
+}
+
+.demo-pagination .pgd-dots label {
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 99px;
+	background: var(--border);
+	cursor: pointer;
+	transition: width .25s, background .25s;
+}
+
+/* the active dot changes shape as well as color, so position is
+   still readable without relying on hue */
+#pagination-d1:checked ~ .pgd-wrap .pgd-dots label[for="pagination-d1"],
+#pagination-d2:checked ~ .pgd-wrap .pgd-dots label[for="pagination-d2"],
+#pagination-d3:checked ~ .pgd-wrap .pgd-dots label[for="pagination-d3"],
+#pagination-d4:checked ~ .pgd-wrap .pgd-dots label[for="pagination-d4"] {
+	width: 22px;
+	background: var(--accent);
+}
+
+#pagination-d1:focus-visible ~ .pgd-wrap .pgd-dots label[for="pagination-d1"],
+#pagination-d2:focus-visible ~ .pgd-wrap .pgd-dots label[for="pagination-d2"],
+#pagination-d3:focus-visible ~ .pgd-wrap .pgd-dots label[for="pagination-d3"],
+#pagination-d4:focus-visible ~ .pgd-wrap .pgd-dots label[for="pagination-d4"] {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.demo-pagination .pgd-dots label,
+	.demo-pagination .pgn-bar label {
+		transition: none;
+	}
+}

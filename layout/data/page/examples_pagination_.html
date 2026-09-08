@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	
+		
+	
+	
+	
+
+	<title>CSS Pagination Component, No JavaScript | Pure CSS</title>
+	<meta name="description" content="Numbered page buttons with an active state driven by radio inputs and :checked.">
+	<meta name="author" content="Adam Culpepper">
+	<link rel="canonical" href="https://purecss.com/examples/pagination/">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="CSS Pagination Component, No JavaScript | Pure CSS">
+	<meta property="og:description" content="Numbered page buttons with an active state driven by radio inputs and :checked.">
+	<meta property="og:url" content="https://purecss.com/examples/pagination/">
+	<meta property="og:site_name" content="Pure CSS">
+	<meta property="og:image" content="https://purecss.com/og-image.png"><meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="Pure CSS. Interactive UI patterns built with no JavaScript.">
+	<meta property="article:published_time" content="2026-06-07">
+	<meta property="article:modified_time" content="2026-08-29">
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@adamculpepper">
+	<meta name="twitter:creator" content="@adamculpepper">
+	<meta name="twitter:title" content="CSS Pagination Component, No JavaScript | Pure CSS">
+	<meta name="twitter:description" content="Numbered page buttons with an active state driven by radio inputs and :checked.">
+	<meta name="twitter:image" content="https://purecss.com/og-image.png">
+
+	<!-- Structured Data -->
+	
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "TechArticle",
+		"headline": "CSS Pagination Component, No JavaScript | Pure CSS",
+		"description": "Numbered page buttons with an active state driven by radio inputs and :checked.",
+		"url": "https://purecss.com/examples/pagination/",
+		"author": {
+			"@type": "Person",
+			"name": "Adam Culpepper",
+			"url": "https://x.com/adamculpepper"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Pure CSS",
+			"url": "https://purecss.com"
+		},
+		"datePublished": "2026-06-07","dateModified": "2026-08-29"
+	}
+	</script>
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		"itemListElement": [
+			{ "@type": "ListItem", "position": 1, "name": "Pure CSS", "item": "https://purecss.com/" },
+			{ "@type": "ListItem", "position": 2, "name": "CSS Navigation", "item": "https://purecss.com/navigation/" },
+			{ "@type": "ListItem", "position": 3, "name": "Pagination Component" }
+		]
+	}
+	</script>
+	
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": [{
+			"@type": "Question",
+			"name": "How do I build pagination with CSS only?",
+			"acceptedAnswer": { "@type": "Answer", "text": "One hidden radio per page, all sharing a `name`, placed before the bar and the content. A `` per page points at its radio, and a rule per page highlights the label and shows the matching content block through the `~` combinator. The first radio carries `checked` so the component has a starting state." }
+		},{
+			"@type": "Question",
+			"name": "Can CSS pagination have working prev and next buttons?",
+			"acceptedAnswer": { "@type": "Answer", "text": "Yes, but not by arithmetic. CSS cannot step from the current page to the next one, so you include a prev and a next button for every position and reveal only the pair that matches the checked radio. The variant on this page does exactly that for four pages." }
+		},{
+			"@type": "Question",
+			"name": "Is CSS-only pagination bad for SEO?",
+			"acceptedAnswer": { "@type": "Answer", "text": "For paginating real content, yes. Everything lives on one URL, so there is nothing for a crawler to follow and nothing for anyone to link to. Use ordinary links to real pages and style them with the same CSS. Keep the radio version for content that is already in the document." }
+		},{
+			"@type": "Question",
+			"name": "How do I mark the current page for a screen reader?",
+			"acceptedAnswer": { "@type": "Answer", "text": "`aria-current=&#92;&quot;page&#92;&quot;` on the element representing the active page, inside a `` with an accessible name such as `aria-label=&#92;&quot;Pagination&#92;&quot;`. The color change is for sighted readers only and carries nothing on its own." }
+		},{
+			"@type": "Question",
+			"name": "How many pages is this technique good for?",
+			"acceptedAnswer": { "@type": "Answer", "text": "Up to about ten before the selector lists get unwieldy, and fewer than that if you want working prev and next, since those add two rules and two hidden buttons per page. Past that point, generate the stylesheet or move the state out of CSS." }
+		}]
+	}
+	</script>
+	
+	
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="res/purecss_css2_family_Bricolage_Grotesque_opsz_wght_12..96_400_12..96_600_12..css" rel="stylesheet">
+	<link rel="icon" type="image/svg+xml" href="res/purecss_favicon.svg">
+	<link rel="icon" type="image/png" href="res/purecss_favicon.png">
+	<link rel="icon" href="res/purecss_favicon.ico">
+	<link rel="stylesheet" href="res/purecss_css_global.css">
+	<link rel="stylesheet" href="res/purecss_css_examples_pagination.css">
+	
+
+	
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXJYYP5NE6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-XXJYYP5NE6');
+	</script>
+	
+</head>
+<body>
+	<a class="skip-link" href="#main">Skip to content</a>
+	<input type="checkbox" id="theme-toggle" class="theme-toggle-input">
+	<div class="progress-bar"></div>
+
+	<header class="site-header"><a href="/" class="site-logo"><img src="res/purecss_logo.svg" alt="purecss" width="118" height="26"></a>
+		<nav class="site-nav" aria-label="Main"><div class="site-nav-links">
+			<a href="/">Examples</a>
+			
+			<a href="/about/">About</a>
+			</div>
+			<label for="theme-toggle" class="theme-toggle-btn" title="Toggle light/dark theme">
+				<span class="icon-dark">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+				</span>
+				<span class="icon-light">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+				</span>
+			</label>
+		</nav>
+	</header>
+
+	<main id="main">
+		
+<article class="example-page">
+
+	<header class="example-header">
+		<nav class="breadcrumb-trail" aria-label="Breadcrumb">
+			<ol>
+				<li><a href="/">All Examples</a></li>
+				<li><a href="/navigation/">CSS Navigation</a></li>
+				<li><span aria-current="page">Pagination Component</span></li>
+			</ol>
+		</nav>
+		<h1>CSS Pagination Component</h1>
+		<p class="example-description">Numbered page buttons with an active state driven by radio inputs and <code>:checked</code>.</p>
+		<p class="example-meta">
+			<span>Published June 7, 2026</span>
+			<span>Intermediate</span>
+			<span>8 min read</span>
+		</p>
+	</header>
+
+	
+	<section class="intro-section">
+		<p>A CSS pagination bar is a row of numbered buttons where exactly one is active at a time, which is the same job a radio group already does. One hidden radio per page, a <code>&lt;label&gt;</code> for each pointing at its radio, and <code>:checked</code> plus the <code>~</code> combinator to highlight the active number and reveal the matching content. No script holds the current page, because the form control does.</p><p>Three versions are here. The first is the numbered bar with decorative prev and next ends. The second makes prev and next actually work, which takes more markup than people expect and is worth seeing spelled out. The third is a row of dots for a small number of pages, where the count matters more than the numbering.</p>
+	</section>
+	
+
+	<section class="demo-section">
+		<h2>Click a page number</h2>
+		<div class="demo-wrapper demo-pagination">
+			
+<input type="radio" name="page" id="pg1" class="pg-radio" checked>
+<input type="radio" name="page" id="pg2" class="pg-radio">
+<input type="radio" name="page" id="pg3" class="pg-radio">
+<input type="radio" name="page" id="pg4" class="pg-radio">
+<input type="radio" name="page" id="pg5" class="pg-radio">
+
+<div class="pg-wrap">
+	<div class="pg-bar">
+		<label class="pg-prev" aria-hidden="true">← Prev</label>
+		<label for="pg1">1</label>
+		<label for="pg2">2</label>
+		<label for="pg3">3</label>
+		<label for="pg4">4</label>
+		<label for="pg5">5</label>
+		<label class="pg-next" aria-hidden="true">Next →</label>
+	</div>
+	<div class="pg-content">
+		<span class="pg-page pg-page-1">Showing results 1-10 of 48</span>
+		<span class="pg-page pg-page-2">Showing results 11-20 of 48</span>
+		<span class="pg-page pg-page-3">Showing results 21-30 of 48</span>
+		<span class="pg-page pg-page-4">Showing results 31-40 of 48</span>
+		<span class="pg-page pg-page-5">Showing results 41-48 of 48</span>
+	</div>
+</div>
+
+		</div>
+	</section>
+
+	<section class="code-section">
+		<div class="code-block">
+			<h2>HTML</h2>
+			<div class="code-pre-wrap">
+				<button class="copy-btn" title="Copy code">
+					<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+					<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				</button>
+				<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-radio<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg3<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg4<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg5<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-bar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!-- Prev/Next are decorative: pure CSS cannot do relative steps --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-prev<span class="token punctuation">"</span></span> <span class="token attr-name">aria-hidden</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>← Prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>4<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg5<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>5<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-next<span class="token punctuation">"</span></span> <span class="token attr-name">aria-hidden</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next →<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-page pg-page-1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Showing results 1-10 of 48<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-page pg-page-2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Showing results 11-20 of 48<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-page pg-page-3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Showing results 21-30 of 48<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-page pg-page-4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Showing results 31-40 of 48<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pg-page pg-page-5<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Showing results 41-48 of 48<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+
+			</div>
+		</div>
+		<div class="code-block">
+			<h2>CSS</h2>
+			<div class="code-pre-wrap">
+				<button class="copy-btn" title="Copy code">
+					<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+					<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				</button>
+				<pre class="language-css"><code class="language-css"><span class="token selector">.pg-radio</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-wrap</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> 1.25rem<span class="token punctuation">;</span>
+  <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-bar</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> .3rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-bar label</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 36px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 36px<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .9rem<span class="token punctuation">;</span>
+  <span class="token property">font-weight</span><span class="token punctuation">:</span> 500<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> background .15s<span class="token punctuation">,</span> color .15s<span class="token punctuation">,</span> border-color .15s<span class="token punctuation">;</span>
+  <span class="token property">user-select</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-bar label:hover</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #1c1c1e<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #f0f0f0<span class="token punctuation">;</span>
+  <span class="token property">border-color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Wider than the numbers, and inert: they only label the ends */</span>
+<span class="token selector">.pg-bar .pg-prev,
+.pg-bar .pg-next</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 0 .75rem<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> .3rem<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .85rem<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> default<span class="token punctuation">;</span>
+  <span class="token property">opacity</span><span class="token punctuation">:</span> .45<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-bar .pg-prev:hover,
+.pg-bar .pg-next:hover</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+  <span class="token property">border-color</span><span class="token punctuation">:</span> #2a2a2d<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-content</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #141415<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> .75rem 1.25rem<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .85rem<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+  <span class="token property">min-height</span><span class="token punctuation">:</span> 44px<span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">max-width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">;</span>
+  <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.pg-page</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Active page button */</span>
+<span class="token selector">#pg1:checked ~ .pg-wrap .pg-bar label[for="pg1"],
+#pg2:checked ~ .pg-wrap .pg-bar label[for="pg2"],
+#pg3:checked ~ .pg-wrap .pg-bar label[for="pg3"],
+#pg4:checked ~ .pg-wrap .pg-bar label[for="pg4"],
+#pg5:checked ~ .pg-wrap .pg-bar label[for="pg5"]</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #0c0c0d<span class="token punctuation">;</span>
+  <span class="token property">border-color</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Show the matching page content */</span>
+<span class="token selector">#pg1:checked ~ .pg-wrap .pg-content .pg-page-1,
+#pg2:checked ~ .pg-wrap .pg-content .pg-page-2,
+#pg3:checked ~ .pg-wrap .pg-content .pg-page-3,
+#pg4:checked ~ .pg-wrap .pg-content .pg-page-4,
+#pg5:checked ~ .pg-wrap .pg-content .pg-page-5</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #f0f0f0<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+			</div>
+		</div>
+	</section>
+
+	
+<section class="variant-section">
+	<h2>Other ways to build it</h2>
+
+	<div class="variant">
+		<h3>Prev and next that actually move</h3>
+		<p>CSS cannot add one to the current page, so this version includes every prev and next button it could ever need and shows only the pair that fits the checked radio. Four pages means three real prev labels, three real next labels, and a disabled stand-in at each end. The rule count grows with the page count, which is the honest limit of the technique. The radios stay focusable here, so the arrow keys page through as well.</p>
+		<div class="demo-wrapper demo-pagination">
+			<input class="pgn-radio" type="radio" name="pagination-nav" id="pagination-n1" checked>
+			<input class="pgn-radio" type="radio" name="pagination-nav" id="pagination-n2">
+			<input class="pgn-radio" type="radio" name="pagination-nav" id="pagination-n3">
+			<input class="pgn-radio" type="radio" name="pagination-nav" id="pagination-n4">
+			<div class="pgn-wrap">
+				<div class="pgn-bar">
+					<span class="pgn-end pgn-prev">
+						<span class="pgn-off">Prev</span>
+						<label for="pagination-n1">Prev</label>
+						<label for="pagination-n2">Prev</label>
+						<label for="pagination-n3">Prev</label>
+					</span>
+					<span class="pgn-nums">
+						<label for="pagination-n1">1</label>
+						<label for="pagination-n2">2</label>
+						<label for="pagination-n3">3</label>
+						<label for="pagination-n4">4</label>
+					</span>
+					<span class="pgn-end pgn-next">
+						<label for="pagination-n2">Next</label>
+						<label for="pagination-n3">Next</label>
+						<label for="pagination-n4">Next</label>
+						<span class="pgn-off">Next</span>
+					</span>
+				</div>
+				<div class="pgn-content">
+					<span class="pgn-page" id="pagination-c1">Page 1 of 4. Prev is disabled here, because there is a rule for that too.</span>
+					<span class="pgn-page" id="pagination-c2">Page 2 of 4. The visible Prev button points at page 1.</span>
+					<span class="pgn-page" id="pagination-c3">Page 3 of 4. A different Prev and Next label pair is showing now.</span>
+					<span class="pgn-page" id="pagination-c4">Page 4 of 4. Next is the disabled stand-in at this end.</span>
+				</div>
+			</div>
+		</div>
+		<div class="code-section">
+			<div class="code-block">
+				<h2>HTML</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-nav<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n1<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-nav<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-nav<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-nav<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-bar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-end pgn-prev<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Prev<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-nums<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>4<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-end pgn-next<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>n4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-off<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Page 1 of 4. Prev is disabled here, because there is a rule for that too.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Page 2 of 4. The visible Prev button points at page 1.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Page 3 of 4. A different Prev and Next label pair is showing now.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgn-page<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>c4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Page 4 of 4. Next is the disabled stand-in at this end.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+			</div>
+			<div class="code-block">
+				<h2>CSS</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-css"><code class="language-css"><span class="token comment">/* all of them hidden, then one revealed per page */</span>
+<span class="token selector">.pgn-end > *</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#n1:checked ~ .pgn-wrap .pgn-prev .pgn-off,
+#n2:checked ~ .pgn-wrap .pgn-prev label[for="n1"],
+#n3:checked ~ .pgn-wrap .pgn-prev label[for="n2"],
+#n4:checked ~ .pgn-wrap .pgn-prev label[for="n3"]</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#n1:checked ~ .pgn-wrap .pgn-next label[for="n2"],
+#n2:checked ~ .pgn-wrap .pgn-next label[for="n3"],
+#n3:checked ~ .pgn-wrap .pgn-next label[for="n4"],
+#n4:checked ~ .pgn-wrap .pgn-next .pgn-off</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* the stand-in at each end looks like a button and does nothing */</span>
+<span class="token selector">.pgn-off</span> <span class="token punctuation">{</span>
+  <span class="token property">opacity</span><span class="token punctuation">:</span> .35<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> default<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="variant">
+		<h3>Dots instead of numbers</h3>
+		<p>When the reader needs to know how many items there are and which one is showing, but has no reason to jump to a specific index, the numbers are noise. The active dot stretches into a short bar so the current position is readable without relying on color alone. Everything else is the same radio group, with the labels sized down to circles.</p>
+		<div class="demo-wrapper demo-pagination">
+			<input class="pgd-radio" type="radio" name="pagination-dots" id="pagination-d1" aria-label="Slide 1" checked>
+			<input class="pgd-radio" type="radio" name="pagination-dots" id="pagination-d2" aria-label="Slide 2">
+			<input class="pgd-radio" type="radio" name="pagination-dots" id="pagination-d3" aria-label="Slide 3">
+			<input class="pgd-radio" type="radio" name="pagination-dots" id="pagination-d4" aria-label="Slide 4">
+			<div class="pgd-wrap">
+				<div class="pgd-slide">
+					<span class="pgd-panel" id="pagination-s1">Slide one</span>
+					<span class="pgd-panel" id="pagination-s2">Slide two</span>
+					<span class="pgd-panel" id="pagination-s3">Slide three</span>
+					<span class="pgd-panel" id="pagination-s4">Slide four</span>
+				</div>
+				<div class="pgd-dots">
+					<label for="pagination-d1"></label>
+					<label for="pagination-d2"></label>
+					<label for="pagination-d3"></label>
+					<label for="pagination-d4"></label>
+				</div>
+			</div>
+		</div>
+		<div class="code-section">
+			<div class="code-block">
+				<h2>HTML</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-dots<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d1<span class="token punctuation">"</span></span> <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Slide 1<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-dots<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d2<span class="token punctuation">"</span></span> <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Slide 2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-dots<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d3<span class="token punctuation">"</span></span> <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Slide 3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-radio<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pagination-dots<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d4<span class="token punctuation">"</span></span> <span class="token attr-name">aria-label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Slide 4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-slide<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-panel<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>s1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Slide one<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-panel<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>s2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Slide two<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-panel<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>s3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Slide three<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-panel<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>s4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Slide four<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>pgd-dots<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>d4<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+			</div>
+			<div class="code-block">
+				<h2>CSS</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-css"><code class="language-css"><span class="token selector">.pgd-dots label</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 99px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> width .25s<span class="token punctuation">,</span> background .25s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* the active dot changes shape as well as color, so the
+   position reads without depending on hue */</span>
+<span class="token selector">#d1:checked ~ .pgd-wrap .pgd-dots label[for="d1"],
+#d2:checked ~ .pgd-wrap .pgd-dots label[for="d2"],
+#d3:checked ~ .pgd-wrap .pgd-dots label[for="d3"],
+#d4:checked ~ .pgd-wrap .pgd-dots label[for="d4"]</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 22px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+	
+	<section class="explanation-section">
+		<h2>How it works</h2>
+		<p>Hidden radio inputs track which page is selected. Each numbered <code>&lt;label&gt;</code> targets one radio input. When a label is clicked, its radio becomes <code>:checked</code>. CSS then highlights that label and shows the corresponding content block using the <code>~</code> sibling combinator. The active page gets the accent background while unselected pages remain neutral.</p>
+		<p>Prev and next are the hard part, and the reason the first demo marks them <code>aria-hidden</code> rather than wiring them up. CSS has no arithmetic on state. There is no way to express "check the radio one higher than the one currently checked", because a selector can only match what is already true. What it can do is have one prev button per page and show only the correct one. On four pages that is three prev labels and three next labels stacked in the same slot, with <code>display: none</code> on all of them and one rule per page to reveal the pair that applies.</p><p>That trick scales badly and honestly. The number of rules grows with the page count, and the markup carries a hidden button for every possible position. At four or five pages it is a reasonable component. At fifty it is generated CSS, and at that point the state belongs somewhere other than a stylesheet.</p><p>For real pagination on a content site, none of this is the right tool. Radios keep the current page inside the document, so the URL never changes, the browser's back button does nothing, and a crawler following links finds one page where there should be twelve. Production pagination is a list of ordinary <code>&lt;a href="/blog/page/2/"&gt;</code> links to real URLs, styled with the same CSS as here. Google stopped treating <code>rel="prev"</code> and <code>rel="next"</code> as an indexing signal, so what matters is that each page is reachable by a normal link.</p><p>Where the radio version does fit is anywhere the pages are already in the document: a set of results rendered at build time, a short image gallery, a form split into steps. In those cases nothing is being fetched, and holding the position in a radio group saves both a script and a round trip.</p><p>The dot version is the same mechanism with the numbers taken away. It works when the reader needs to know how many items there are and which one they are on, but does not need to jump to a specific index. That makes it a companion to a <a href="/examples/scroll-carousel/">scroll carousel</a> rather than a replacement for numbered pages.</p>
+	</section>
+	
+
+	
+	<section class="properties-section">
+		<h2>CSS properties used</h2>
+		<dl class="property-list">
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/:checked" target="_blank" rel="noopener"><code>:checked</code></a></dt>
+				<dd>Matches the radio for the current page. Every other rule in the component is written against it.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Subsequent-sibling_combinator" target="_blank" rel="noopener"><code>~</code></a></dt>
+				<dd>The general sibling combinator, which carries the checked state forward to the button bar and the content area.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener"><code>display</code></a></dt>
+				<dd><code>none</code> and <code>flex</code> switch which page content shows, and which prev and next buttons are the right ones for the current position.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex" target="_blank" rel="noopener"><code>flex</code></a></dt>
+				<dd>Lays the row out and keeps the numbers evenly spaced. The prev and next slots are <code>width: auto</code> so they can hold a word rather than a digit.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition" target="_blank" rel="noopener"><code>transition</code></a></dt>
+				<dd>Smooths the background, color and border changes when the active page moves. Without it the bar flickers between states.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible" target="_blank" rel="noopener"><code>:focus-visible</code></a></dt>
+				<dd>Draws the focus ring on the label, because the radio behind it is hidden and paints nothing of its own.</dd>
+			</div>
+			
+		</dl>
+	</section>
+	
+
+	
+	<section class="support-section">
+		<h2>Browser support</h2>
+		<div class="table-scroll">
+			<table class="support-table">
+				<thead><tr><th>Feature</th><th>Chrome</th><th>Firefox</th><th>Safari</th><th>Edge</th></tr></thead>
+				<tbody>
+					
+					<tr><th scope="row"><code>:checked and ~</code></th><td>4</td><td>3.5</td><td>3.2</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>flexbox</code></th><td>21</td><td>28</td><td>6.1</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>transition</code></th><td>4</td><td>5</td><td>5.1</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>:focus-visible</code></th><td>86</td><td>4</td><td>15.4</td><td>86</td></tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<p class="support-note">Figures come from Can I Use for CSS3 selectors, the Flexible Box Layout module, CSS transitions, and the <code>:focus-visible</code> pseudo-class. Everything except <code>:focus-visible</code> predates any browser still in use, and <code>:focus-visible</code> degrades to <code>:focus</code> behavior rather than to nothing, so no fallback is needed. If the same bar is used for real link based pagination, none of these floors apply at all, since links need no selector work to be operable.</p>
+	</section>
+	
+
+	
+	<section class="a11y-section">
+		<h2>Accessibility notes</h2>
+		<p>Pagination that changes the URL should be built from links, not from labels. A link announces as a link, works with a middle click, appears in the browser's history, and can be opened in a new tab. A label announces as a form control and does none of those things. The radio version on this page is correct only when the pages genuinely never leave the document.</p><p>Wrap the bar in <code>&lt;nav aria-label="Pagination"&gt;</code> so a screen reader can find it and skip it. Mark the current page with <code>aria-current="page"</code> on whichever element carries the active state. Neither of those is styling: they are what tells a reader which of a dozen numbers they are standing on, since color alone does not carry that.</p><p>Hiding the radios with <code>display: none</code> removes them from the tab order and makes the bar unusable without a mouse. Hidden with <code>position: absolute; opacity: 0</code> instead, they stay focusable, and arrow keys move between pages the way they do in any radio group. Put the focus ring on the label with <code>:focus-visible</code>, since the input itself is invisible.</p><p>Keep the buttons large enough to hit. A 36 by 36 pixel target is the floor for a pointer, and a page bar is often the densest row of small controls on a page, so a couple of extra pixels of gap between them prevents mis-taps on a phone.</p>
+	</section>
+	
+
+	
+	<section class="usecase-section">
+		<h2>What you can build with it</h2>
+		<ul class="usecase-list">
+			<li><strong>Search results built at compile time.</strong> A static site that renders all its results up front can page through them without a request, which is where this technique costs nothing.</li><li><strong>Image galleries.</strong> A small set of photos with a dot row underneath, where the reader wants to know how many are left rather than jump to number seven.</li><li><strong>Onboarding and tours.</strong> A short sequence of panels with working prev and next, which is the variant below rather than the numbered one.</li><li><strong>Comparison tables split by category.</strong> Rows grouped into pages so a wide table never scrolls sideways on a laptop.</li><li><strong>Documentation examples.</strong> Numbered steps that stay on one URL, paired with a <a href="/examples/breadcrumb/">breadcrumb trail</a> so the reader still knows where the page sits in the site.</li>
+		</ul>
+	</section>
+	
+
+	
+	<section class="pitfall-section">
+		<h2>Mistakes worth avoiding</h2>
+		<ul class="pitfall-list">
+			<li>Shipping decorative prev and next buttons that look enabled. A control that reacts to hover but does nothing on click reads as a bug. Either wire them up with the per page rules below, or style them as disabled and mark them <code>aria-hidden</code>.</li><li>Using this pattern for content pagination on a public site. The URL never changes, so a reader cannot link to page three, the back button does nothing, and a crawler sees only the first page.</li><li>Hiding the radios with <code>display: none</code>. The bar stops working for anyone using a keyboard, and nothing about the rendered page reveals the problem.</li><li>Forgetting the <code>checked</code> attribute on the first radio. The bar loads with no page highlighted and no content visible, which looks like a failed render.</li><li>Reusing one <code>name</code> across two paginated lists on the same page. They merge into a single radio group, so paging the first list resets the second.</li>
+		</ul>
+	</section>
+	
+
+	
+	<section class="faq-section">
+		<h2>Frequently asked questions</h2>
+		
+		<details class="faq-item">
+			<summary>How do I build pagination with CSS only?</summary>
+			<div class="faq-answer">One hidden radio per page, all sharing a <code>name</code>, placed before the bar and the content. A <code>&lt;label&gt;</code> per page points at its radio, and a rule per page highlights the label and shows the matching content block through the <code>~</code> combinator. The first radio carries <code>checked</code> so the component has a starting state.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>Can CSS pagination have working prev and next buttons?</summary>
+			<div class="faq-answer">Yes, but not by arithmetic. CSS cannot step from the current page to the next one, so you include a prev and a next button for every position and reveal only the pair that matches the checked radio. The variant on this page does exactly that for four pages.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>Is CSS-only pagination bad for SEO?</summary>
+			<div class="faq-answer">For paginating real content, yes. Everything lives on one URL, so there is nothing for a crawler to follow and nothing for anyone to link to. Use ordinary links to real pages and style them with the same CSS. Keep the radio version for content that is already in the document.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>How do I mark the current page for a screen reader?</summary>
+			<div class="faq-answer"><code>aria-current="page"</code> on the element representing the active page, inside a <code>&lt;nav&gt;</code> with an accessible name such as <code>aria-label="Pagination"</code>. The color change is for sighted readers only and carries nothing on its own.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>How many pages is this technique good for?</summary>
+			<div class="faq-answer">Up to about ten before the selector lists get unwieldy, and fewer than that if you want working prev and next, since those add two rules and two hidden buttons per page. Past that point, generate the stylesheet or move the state out of CSS.</div>
+		</details>
+		
+	</section>
+	
+
+	
+	<section class="related-section">
+		<h2>Related CSS examples</h2>
+		<ul class="related-list">
+			
+			<li>
+				<a href="/examples/hover-dropdown/">Hover Dropdown Menu</a>
+				<span>A navigation dropdown that opens on hover using <code>:hover</code> and <code>visibility</code>.</span>
+			</li>
+			
+			<li>
+				<a href="/examples/offcanvas-nav/">Off-Canvas Navigation</a>
+				<span>A slide-in navigation panel using a checkbox and CSS translate.</span>
+			</li>
+			
+			<li>
+				<a href="/examples/tab-navigation/">Tab Navigation</a>
+				<span>Tabbed interface using radio inputs and the <code>:checked</code> pseudo-class.</span>
+			</li>
+			
+		</ul>
+	</section>
+	
+
+	
+
+</article>
+
+	</main>
+
+	<script>
+		// you know JavaScript is required for copying code
+		// Two snippets side by side should end on the same line, at the height of
+		// the SHORTER one, so the longer scrolls instead of leaving the other half
+		// empty. CSS cannot express that: a grid row always grows to its tallest
+		// child, never its shortest. The CSS fallback matches them to the taller,
+		// and this trims the pair down to the shorter.
+		const matchCodeHeights = () => {
+			document.querySelectorAll('.code-section').forEach(section => {
+				const panes = [...section.querySelectorAll('pre[class*="language-"]')];
+				if (panes.length !== 2) return;
+				panes.forEach(p => { p.style.height = ''; });
+				if (!section.offsetParent && section.offsetHeight === 0) return;
+				// stacked rather than side by side, so leave them alone
+				if (Math.abs(panes[0].getBoundingClientRect().top - panes[1].getBoundingClientRect().top) > 4) return;
+				const shortest = Math.min(...panes.map(p => p.scrollHeight));
+				// a floor, so three lines of markup cannot crush a long stylesheet,
+				// and the same ceiling the stylesheet already applies
+				const h = Math.min(Math.max(shortest, 200), 448);
+				panes.forEach(p => { p.style.height = h + 'px'; });
+			});
+		};
+		matchCodeHeights();
+		window.addEventListener('resize', () => {
+			clearTimeout(window.__codeFit);
+			window.__codeFit = setTimeout(matchCodeHeights, 150);
+		});
+
+		document.querySelectorAll('.copy-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const pre = btn.nextElementSibling;
+				navigator.clipboard.writeText(pre.textContent.trimEnd()).then(() => {
+					btn.classList.add('copied');
+					setTimeout(() => btn.classList.remove('copied'), 1500);
+				});
+			});
+		});
+	</script>
+
+	<footer class="site-footer"><nav class="footer-cats" aria-label="Browse examples by category">
+			<a href="/form/">CSS Form</a>
+			<a href="/navigation/">CSS Navigation</a>
+			<a href="/layout/">CSS Layout</a>
+			<a href="/feedback/">CSS Feedback</a>
+		</nav>
+		<p class="footer-bio">
+			Written and maintained by <a href="https://x.com/adamculpepper" target="_blank" rel="noopener">Adam Culpepper</a>.
+			Every example is a working demo on its own page, with the code that produces it printed underneath.
+		</p>
+		<p>Pure CSS. Zero JavaScript. Built with <a href="https://www.11ty.dev" target="_blank" rel="noopener">Eleventy</a>. <a href="/privacy/">Privacy</a>.</p>
+	</footer>
+</body>
+</html>

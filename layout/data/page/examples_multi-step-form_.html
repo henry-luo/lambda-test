@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	
+		
+	
+	
+	
+
+	<title>CSS Multi-Step Form, No JavaScript | Pure CSS</title>
+	<meta name="description" content="Radio inputs control which step panel is visible, with no JavaScript and no page reload.">
+	<meta name="author" content="Adam Culpepper">
+	<link rel="canonical" href="https://purecss.com/examples/multi-step-form/">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="CSS Multi-Step Form, No JavaScript | Pure CSS">
+	<meta property="og:description" content="Radio inputs control which step panel is visible, with no JavaScript and no page reload.">
+	<meta property="og:url" content="https://purecss.com/examples/multi-step-form/">
+	<meta property="og:site_name" content="Pure CSS">
+	<meta property="og:image" content="https://purecss.com/og-image.png"><meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="Pure CSS. Interactive UI patterns built with no JavaScript.">
+	<meta property="article:published_time" content="2026-05-22">
+	<meta property="article:modified_time" content="2026-08-29">
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@adamculpepper">
+	<meta name="twitter:creator" content="@adamculpepper">
+	<meta name="twitter:title" content="CSS Multi-Step Form, No JavaScript | Pure CSS">
+	<meta name="twitter:description" content="Radio inputs control which step panel is visible, with no JavaScript and no page reload.">
+	<meta name="twitter:image" content="https://purecss.com/og-image.png">
+
+	<!-- Structured Data -->
+	
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "TechArticle",
+		"headline": "CSS Multi-Step Form, No JavaScript | Pure CSS",
+		"description": "Radio inputs control which step panel is visible, with no JavaScript and no page reload.",
+		"url": "https://purecss.com/examples/multi-step-form/",
+		"author": {
+			"@type": "Person",
+			"name": "Adam Culpepper",
+			"url": "https://x.com/adamculpepper"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Pure CSS",
+			"url": "https://purecss.com"
+		},
+		"datePublished": "2026-05-22","dateModified": "2026-08-29"
+	}
+	</script>
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		"itemListElement": [
+			{ "@type": "ListItem", "position": 1, "name": "Pure CSS", "item": "https://purecss.com/" },
+			{ "@type": "ListItem", "position": 2, "name": "CSS Form", "item": "https://purecss.com/form/" },
+			{ "@type": "ListItem", "position": 3, "name": "Multi-Step Form" }
+		]
+	}
+	</script>
+	
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": [{
+			"@type": "Question",
+			"name": "Does a CSS multi step form actually submit?",
+			"acceptedAnswer": { "@type": "Answer", "text": "Yes, as one form. The panels are only visual, so every field in every step is part of the same submission whether or not the reader can see it at the time. Put the `` around the wrapper and give each input a `name`." }
+		},{
+			"@type": "Question",
+			"name": "Can I validate each step before moving on?",
+			"acceptedAnswer": { "@type": "Answer", "text": "Not with CSS alone. `form:has(:invalid)` can gray out the Next button in the same way described on input validation, but it cannot stop the label from switching the radio, because a label click is not something a stylesheet can cancel. Real per step gating needs script." }
+		},{
+			"@type": "Question",
+			"name": "Why will my step panels not animate?",
+			"acceptedAnswer": { "@type": "Answer", "text": "Because `display` cannot be transitioned. The property has no intermediate values for the browser to interpolate. Lay every panel out side by side in a track and move the track with `transform: translateX()` instead, which is what the sliding variant on this page does." }
+		},{
+			"@type": "Question",
+			"name": "How do I remember which step someone was on?",
+			"acceptedAnswer": { "@type": "Answer", "text": "You cannot, in CSS. The state lives in the DOM and resets on every page load to whichever radio has the `checked` attribute. Persisting it means storing the step and restoring it with script, or giving each step its own URL." }
+		},{
+			"@type": "Question",
+			"name": "Is a multi step form better than one long form?",
+			"acceptedAnswer": { "@type": "Answer", "text": "It depends on the form. Splitting reduces how much a reader sees at once, which helps on a phone and on anything over about ten fields. It also hides the total length, which some people find worse rather than better, so keep the progress indicator visible." }
+		}]
+	}
+	</script>
+	
+	
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="res/purecss_css2_family_Bricolage_Grotesque_opsz_wght_12..96_400_12..96_600_12..css" rel="stylesheet">
+	<link rel="icon" type="image/svg+xml" href="res/purecss_favicon.svg">
+	<link rel="icon" type="image/png" href="res/purecss_favicon.png">
+	<link rel="icon" href="res/purecss_favicon.ico">
+	<link rel="stylesheet" href="res/purecss_css_global.css">
+	<link rel="stylesheet" href="res/purecss_css_examples_multi-step-form.css">
+	
+
+	
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXJYYP5NE6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-XXJYYP5NE6');
+	</script>
+	
+</head>
+<body>
+	<a class="skip-link" href="#main">Skip to content</a>
+	<input type="checkbox" id="theme-toggle" class="theme-toggle-input">
+	<div class="progress-bar"></div>
+
+	<header class="site-header"><a href="/" class="site-logo"><img src="res/purecss_logo.svg" alt="purecss" width="118" height="26"></a>
+		<nav class="site-nav" aria-label="Main"><div class="site-nav-links">
+			<a href="/">Examples</a>
+			
+			<a href="/about/">About</a>
+			</div>
+			<label for="theme-toggle" class="theme-toggle-btn" title="Toggle light/dark theme">
+				<span class="icon-dark">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+				</span>
+				<span class="icon-light">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+				</span>
+			</label>
+		</nav>
+	</header>
+
+	<main id="main">
+		
+<article class="example-page">
+
+	<header class="example-header">
+		<nav class="breadcrumb-trail" aria-label="Breadcrumb">
+			<ol>
+				<li><a href="/">All Examples</a></li>
+				<li><a href="/form/">CSS Form</a></li>
+				<li><span aria-current="page">Multi-Step Form</span></li>
+			</ol>
+		</nav>
+		<h1>CSS Multi Step Form</h1>
+		<p class="example-description">Radio inputs control which step panel is visible, with no JavaScript and no page reload.</p>
+		<p class="example-meta">
+			<span>Published May 22, 2026</span>
+			<span>Intermediate</span>
+			<span>7 min read</span>
+		</p>
+	</header>
+
+	
+	<section class="intro-section">
+		<p>A CSS multi step form splits a long form across several panels and moves between them without a script or a page load. Three radio inputs sitting outside the form hold the current step, and <code>:checked</code> combined with the general sibling combinator decides which panel is displayed. The Next and Back buttons are <code>&lt;label&gt;</code> elements pointing at the radio for the step they lead to, so a click on one changes the checked radio and the stylesheet does the rest.</p><p>It is the same state holding trick behind <a href="/examples/custom-radio/">custom radio buttons</a> and a <a href="/examples/star-rating/">star rating</a>, scaled up to whole sections of a page. Two more versions follow: panels that slide sideways rather than swapping instantly, and a version where the steps are reachable from the keyboard, which the first one is not.</p>
+	</section>
+	
+
+	<section class="demo-section">
+		<h2>Move between steps</h2>
+		<div class="demo-wrapper demo-multi-step-form">
+			
+<input type="radio" name="step" id="msf-step1" class="msf-radio" checked>
+<input type="radio" name="step" id="msf-step2" class="msf-radio">
+<input type="radio" name="step" id="msf-step3" class="msf-radio">
+
+<div class="msf-wrap">
+	<div class="msf-progress">
+		<span class="msf-step-label">1. Your Info</span>
+		<span class="msf-step-label">2. Details</span>
+		<span class="msf-step-label">3. Done</span>
+	</div>
+	<div class="msf-body">
+		<div class="msf-panel msf-panel-1">
+			<h3>Your Info</h3>
+			<input type="text" placeholder="Full name">
+			<input type="email" placeholder="Email address">
+			<div class="msf-actions">
+				<label for="msf-step2" class="msf-btn">Next →</label>
+			</div>
+		</div>
+		<div class="msf-panel msf-panel-2">
+			<h3>Details</h3>
+			<input type="text" placeholder="Company (optional)">
+			<input type="tel" placeholder="Phone number">
+			<div class="msf-actions">
+				<label for="msf-step1" class="msf-btn msf-btn-back">← Back</label>
+				<label for="msf-step3" class="msf-btn">Next →</label>
+			</div>
+		</div>
+		<div class="msf-panel msf-panel-3">
+			<h3>All done!</h3>
+			<p class="msf-success">✓ Form submitted, zero JavaScript used!</p>
+			<div class="msf-actions">
+				<label for="msf-step1" class="msf-btn">Start Over</label>
+			</div>
+		</div>
+	</div>
+</div>
+
+		</div>
+	</section>
+
+	<section class="code-section">
+		<div class="code-block">
+			<h2>HTML</h2>
+			<div class="code-pre-wrap">
+				<button class="copy-btn" title="Copy code">
+					<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+					<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				</button>
+				<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-radio<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step3<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-progress<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-step-label<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1. Your Info<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-step-label<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2. Details<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-step-label<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>3. Done<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-body<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-panel msf-panel-1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Your Info<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Full name<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Email address<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-actions<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-btn<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next →<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-panel msf-panel-2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Details<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Company (optional)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tel<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Phone number<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-actions<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-btn msf-btn-back<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>← Back<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step3<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-btn<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next →<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-panel msf-panel-3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>All done!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-success<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>✓ Form submitted, zero JavaScript used!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-actions<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>step1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-btn<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Start Over<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+
+			</div>
+		</div>
+		<div class="code-block">
+			<h2>CSS</h2>
+			<div class="code-pre-wrap">
+				<button class="copy-btn" title="Copy code">
+					<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+					<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				</button>
+				<pre class="language-css"><code class="language-css"><span class="token selector">.msf-radio</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-wrap</span> <span class="token punctuation">{</span>
+  <span class="token property">max-width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 0 auto<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #141415<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+  <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-progress</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #1c1c1e<span class="token punctuation">;</span>
+  <span class="token property">border-bottom</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-step-label</span> <span class="token punctuation">{</span>
+  <span class="token property">flex</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> .6rem<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .75rem<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+  <span class="token property">font-weight</span><span class="token punctuation">:</span> 500<span class="token punctuation">;</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-body</span> <span class="token punctuation">{</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 1.5rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-panel</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> .75rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-panel h3</span> <span class="token punctuation">{</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 1.1rem<span class="token punctuation">;</span>
+  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> .25rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-panel input[type="text"],
+.msf-panel input[type="email"],
+.msf-panel input[type="tel"]</span> <span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> .65rem .9rem<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #1c1c1e<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #f0f0f0<span class="token punctuation">;</span>
+  <span class="token property">font-family</span><span class="token punctuation">:</span> system-ui<span class="token punctuation">,</span> sans-serif<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .95rem<span class="token punctuation">;</span>
+  <span class="token property">outline</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> border-color .2s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-panel input:focus</span> <span class="token punctuation">{</span>
+  <span class="token property">border-color</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-actions</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> .5rem<span class="token punctuation">;</span>
+  <span class="token property">margin-top</span><span class="token punctuation">:</span> .5rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-btn</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> .6rem 1.2rem<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #0c0c0d<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 8px<span class="token punctuation">;</span>
+  <span class="token property">font-weight</span><span class="token punctuation">:</span> 600<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .9rem<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">user-select</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> opacity .15s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-btn:hover</span> <span class="token punctuation">{</span>
+  <span class="token property">opacity</span><span class="token punctuation">:</span> .85<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-btn-back</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #1c1c1e<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #f0f0f0<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf-success</span> <span class="token punctuation">{</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 1rem 0<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #57d9a3<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 1rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Show only the panel whose radio is checked */</span>
+<span class="token selector">#step1:checked ~ .msf-wrap .msf-panel-1</span> <span class="token punctuation">{</span> <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token selector">#step2:checked ~ .msf-wrap .msf-panel-2</span> <span class="token punctuation">{</span> <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token selector">#step3:checked ~ .msf-wrap .msf-panel-3</span> <span class="token punctuation">{</span> <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+<span class="token comment">/* Highlight the matching step label */</span>
+<span class="token selector">#step1:checked ~ .msf-wrap .msf-step-label:nth-child(1),
+#step2:checked ~ .msf-wrap .msf-step-label:nth-child(2),
+#step3:checked ~ .msf-wrap .msf-step-label:nth-child(3)</span> <span class="token punctuation">{</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">border-bottom</span><span class="token punctuation">:</span> 2px solid #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> -1px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+			</div>
+		</div>
+	</section>
+
+	
+<section class="variant-section">
+	<h2>Other ways to build it</h2>
+
+	<div class="variant">
+		<h3>Panels that slide instead of swapping</h3>
+		<p><code>display</code> has no intermediate values, so a transition on it does nothing and the panels change instantly. Laying every panel out side by side inside a track and moving the track with <code>transform: translateX()</code> gives the browser something it can interpolate. The catch is that a panel moved off screen is still laid out and still focusable, so Tab walks into fields nobody can see. <code>visibility: hidden</code> on the inactive panels fixes that, with a transition delay so the outgoing panel stays visible for the length of the slide.</p>
+		<div class="demo-wrapper demo-multi-step-form">
+			<div class="msf2">
+				<input type="radio" name="multi-step-form-slide" id="multi-step-form-slide-1" class="msf2-radio" checked>
+				<input type="radio" name="multi-step-form-slide" id="multi-step-form-slide-2" class="msf2-radio">
+				<div class="msf2-wrap">
+					<div class="msf2-track">
+						<div class="msf2-panel">
+							<h3>Shipping</h3>
+							<input type="text" placeholder="Street address">
+							<div class="msf-actions">
+								<label for="multi-step-form-slide-2" class="msf-btn">Next</label>
+							</div>
+						</div>
+						<div class="msf2-panel">
+							<h3>Payment</h3>
+							<input type="text" placeholder="Card number">
+							<div class="msf-actions">
+								<label for="multi-step-form-slide-1" class="msf-btn msf-btn-back">Back</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="code-section">
+			<div class="code-block">
+				<h2>HTML</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide-1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-radio<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide-2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-track<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-panel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>... <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide-2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Next<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf2-panel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>... <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>slide-1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Back<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+			</div>
+			<div class="code-block">
+				<h2>CSS</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-css"><code class="language-css"><span class="token selector">.msf2-wrap</span> <span class="token punctuation">{</span>
+  <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #2a2a2d<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> #141415<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf2-track</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 200%<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> transform .35s ease<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf2-panel</span> <span class="token punctuation">{</span>
+  <span class="token property">flex</span><span class="token punctuation">:</span> 0 0 50%<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 1.5rem<span class="token punctuation">;</span>
+  <span class="token comment">/* off-screen panels must leave the tab order, and the delay keeps
+     the outgoing one visible for the length of the slide */</span>
+  <span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+  <span class="token property">transition</span><span class="token punctuation">:</span> visibility 0s linear .35s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#slide-2:checked ~ .msf2-wrap .msf2-track</span> <span class="token punctuation">{</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#slide-1:checked ~ .msf2-wrap .msf2-panel:nth-child(1),
+#slide-2:checked ~ .msf2-wrap .msf2-panel:nth-child(2)</span> <span class="token punctuation">{</span>
+  <span class="token property">visibility</span><span class="token punctuation">:</span> visible<span class="token punctuation">;</span>
+  <span class="token property">transition-delay</span><span class="token punctuation">:</span> 0s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">prefers-reduced-motion</span><span class="token punctuation">:</span> reduce<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+  <span class="token selector">.msf2-track</span> <span class="token punctuation">{</span> <span class="token property">transition</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="variant">
+		<h3>Steps reachable from the keyboard</h3>
+		<p>The version at the top of this page cannot be operated without a mouse. The radios are removed with <code>display: none</code>, and a <code>&lt;label&gt;</code> is not focusable, so Tab reaches the text fields and then stops. Clipping the radios instead leaves them in the tab order as an ordinary radio group: Tab moves into it once, the arrow keys move between steps, and the panel changes as they go. The progress bar entries are the labels here, and the focus ring is forwarded onto the current one. Tab into the strip and press the arrow keys.</p>
+		<div class="demo-wrapper demo-multi-step-form">
+			<div class="msf3">
+				<input type="radio" name="multi-step-form-kb" id="multi-step-form-kb-1" class="msf3-radio" checked>
+				<input type="radio" name="multi-step-form-kb" id="multi-step-form-kb-2" class="msf3-radio">
+				<input type="radio" name="multi-step-form-kb" id="multi-step-form-kb-3" class="msf3-radio">
+				<div class="msf3-wrap">
+					<div class="msf3-progress">
+						<label for="multi-step-form-kb-1" class="msf3-step">1. Account</label>
+						<label for="multi-step-form-kb-2" class="msf3-step">2. Address</label>
+						<label for="multi-step-form-kb-3" class="msf3-step">3. Review</label>
+					</div>
+					<div class="msf3-body">
+						<div class="msf3-panel">
+							<h3>Account</h3>
+							<input type="email" placeholder="Email address">
+						</div>
+						<div class="msf3-panel">
+							<h3>Address</h3>
+							<input type="text" placeholder="Postcode">
+						</div>
+						<div class="msf3-panel">
+							<h3>Review</h3>
+							<p class="msf-success">Everything looks right</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="code-section">
+			<div class="code-block">
+				<h2>HTML</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>multi-step-form-kb<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-radio<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>multi-step-form-kb<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>multi-step-form-kb<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-3<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-radio<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-wrap<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-progress<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-1<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-step<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1. Account<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-2<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-step<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2. Address<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>kb-3<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-step<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>3. Review<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-body<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-panel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Account<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Email address<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-panel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Address<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Postcode<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf3-panel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">></span></span>Review<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>msf-success<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Everything looks right<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+				</div>
+			</div>
+			<div class="code-block">
+				<h2>CSS</h2>
+				<div class="code-pre-wrap">
+					<button class="copy-btn" title="Copy code">
+						<svg class="icon-copy" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+						<svg class="icon-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					</button><pre class="language-css"><code class="language-css"><span class="token comment">/* clipped, not display:none, so the group keeps its tab stop */</span>
+<span class="token selector">.msf3-radio</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+  <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+  <span class="token property">clip-path</span><span class="token punctuation">:</span> <span class="token function">inset</span><span class="token punctuation">(</span>50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf3-step</span> <span class="token punctuation">{</span>
+  <span class="token property">flex</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> .6rem<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> .75rem<span class="token punctuation">;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #88888f<span class="token punctuation">;</span>
+  <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">.msf3-panel</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#kb-1:checked ~ .msf3-wrap .msf3-panel:nth-child(1),
+#kb-2:checked ~ .msf3-wrap .msf3-panel:nth-child(2),
+#kb-3:checked ~ .msf3-wrap .msf3-panel:nth-child(3)</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+  <span class="token property">gap</span><span class="token punctuation">:</span> .75rem<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">#kb-1:checked ~ .msf3-wrap .msf3-step:nth-child(1),
+#kb-2:checked ~ .msf3-wrap .msf3-step:nth-child(2),
+#kb-3:checked ~ .msf3-wrap .msf3-step:nth-child(3)</span> <span class="token punctuation">{</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">border-bottom</span><span class="token punctuation">:</span> 2px solid #b8ff57<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* the ring goes on the step label, because the radio is 1px wide */</span>
+<span class="token selector">#kb-1:focus-visible ~ .msf3-wrap .msf3-step:nth-child(1),
+#kb-2:focus-visible ~ .msf3-wrap .msf3-step:nth-child(2),
+#kb-3:focus-visible ~ .msf3-wrap .msf3-step:nth-child(3)</span> <span class="token punctuation">{</span>
+  <span class="token property">outline</span><span class="token punctuation">:</span> 2px solid #b8ff57<span class="token punctuation">;</span>
+  <span class="token property">outline-offset</span><span class="token punctuation">:</span> -2px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+	
+	<section class="explanation-section">
+		<h2>How it works</h2>
+		<p>Hidden radio inputs act as state holders. Each radio's <code>id</code> corresponds to a step. CSS uses the <code>:checked</code> pseudo-class combined with the general sibling combinator <code>~</code> to show only the matching <code>.msf-panel</code>. Navigation buttons are <code>&lt;label&gt;</code> elements pointing to the next step's radio input, so clicking one changes the checked state and CSS handles the rest.</p>
+		<p>The three radios have to be written before <code>.msf-wrap</code> and at the same level as it. <code>#step2:checked ~ .msf-wrap .msf-panel-2</code> reads as: find a checked radio with that id, look forward through its siblings for <code>.msf-wrap</code>, then descend to the panel. Sibling combinators never look backwards, so a radio placed inside the wrapper, or after it, breaks the whole thing and every panel stays hidden.</p><p>Radios rather than checkboxes, because they share a <code>name</code> and the browser guarantees only one is checked. That means no rule has to unset the previous step. Checking step three automatically unchecks step two, which is what makes the panel swap a single state change rather than a pair of them.</p><p>A <code>&lt;label&gt;</code> is what makes a button out of a plain element here. Clicking a label toggles the input it points at with <code>for</code>, and the target does not have to be anywhere near it in the document. That is how a button drawn at the bottom of panel one can change a radio sitting above the entire wrapper. The label needs <code>cursor: pointer</code> to read as a button, since it is not one.</p><p>Panels are hidden with <code>display: none</code> and shown with <code>display: flex</code>, which is a hard swap that cannot animate. <code>display</code> is not an interpolatable property, so a transition on it does nothing. Sliding between steps means keeping every panel laid out and moving a track with <code>transform</code> instead, which is what the first variant below does.</p><p>The step indicator is driven by <code>:nth-child()</code> rather than by a class on each label. <code>#step2:checked ~ .msf-wrap .msf-step-label:nth-child(2)</code> picks the second label in the progress bar. It keeps the markup free of state classes, and it is the reason the labels have to stay in the same order as the radios.</p>
+	</section>
+	
+
+	
+	<section class="properties-section">
+		<h2>CSS properties used</h2>
+		<dl class="property-list">
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/:checked" target="_blank" rel="noopener"><code>:checked</code></a></dt>
+				<dd>Reads the current step from whichever radio is selected. The browser keeps exactly one checked per <code>name</code>.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Subsequent-sibling_combinator" target="_blank" rel="noopener"><code>~ (general sibling)</code></a></dt>
+				<dd>Reaches forward from the checked radio to the wrapper. This is why the radios must be written before the wrapper.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/display" target="_blank" rel="noopener"><code>display</code></a></dt>
+				<dd><code>none</code> and <code>flex</code> swap the panels. Not animatable, which is why the sliding variant uses a transform instead.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child" target="_blank" rel="noopener"><code>:nth-child()</code></a></dt>
+				<dd>Selects the matching step in the progress bar by position, so no state class has to be written into the markup.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform" target="_blank" rel="noopener"><code>transform</code></a></dt>
+				<dd><code>translateX</code> moves a track holding all the panels side by side, which is the animatable alternative to swapping <code>display</code>.</dd>
+			</div>
+			
+			<div class="property-row"><dt><a class="property-link" href="https://developer.mozilla.org/en-US/docs/Web/CSS/visibility" target="_blank" rel="noopener"><code>visibility</code></a></dt>
+				<dd><code>hidden</code> takes a slid-away panel out of the tab order, which <code>transform</code> alone does not do.</dd>
+			</div>
+			
+		</dl>
+	</section>
+	
+
+	
+	<section class="support-section">
+		<h2>Browser support</h2>
+		<div class="table-scroll">
+			<table class="support-table">
+				<thead><tr><th>Feature</th><th>Chrome</th><th>Firefox</th><th>Safari</th><th>Edge</th></tr></thead>
+				<tbody>
+					
+					<tr><th scope="row"><code>:checked</code></th><td>4</td><td>3.5</td><td>3.2</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>flexbox</code></th><td>21</td><td>28</td><td>6.1</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>transition</code></th><td>4</td><td>5</td><td>5.1</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>transform</code></th><td>4</td><td>3.5</td><td>3.1</td><td>12</td></tr>
+					
+					<tr><th scope="row"><code>:focus-visible</code></th><td>86</td><td>4</td><td>15.4</td><td>86</td></tr>
+					
+				</tbody>
+			</table>
+		</div>
+		<p class="support-note">Figures come from Can I Use, with <code>:checked</code>, the general sibling combinator and <code>:nth-child()</code> all covered by the CSS3 selectors entry. Nothing on this page needs a recent browser. The one caveat is not support but persistence: the current step lives in the DOM, so a refresh or a back button returns to whichever radio carries the <code>checked</code> attribute in the markup.</p>
+	</section>
+	
+
+	
+	<section class="a11y-section">
+		<h2>Accessibility notes</h2>
+		<p>The main demo has a real problem: <code>display: none</code> on the radios takes them out of the tab order, and a <code>&lt;label&gt;</code> is not focusable on its own. That leaves the Next and Back buttons reachable by mouse only. A keyboard user can Tab into the text fields of the current step and then has no way to advance. The third demo on this page fixes it by clipping the radios instead of removing them, which puts the step control back in the tab order as an ordinary radio group with arrow key navigation.</p><p>Hidden panels behave differently depending on how they are hidden. <code>display: none</code> removes their fields from the tab order, which is what you want. A panel moved off screen with <code>transform</code> is still laid out and still focusable, so Tab walks into fields nobody can see. The sliding variant handles that with <code>visibility: hidden</code> on the inactive panels and a transition delay so the panel stays visible while it is sliding away.</p><p>Nothing announces that the step changed. A screen reader user clicking Next gets no notification, because CSS cannot move focus or fire a live region update. The honest position is that this pattern suits short, low stakes flows. For a checkout or an application form, moving focus to the new panel's heading is necessary, and that needs a line of script.</p><p>Give each step a heading and keep the progress indicator visible. The demo shows all three step names at once with the current one marked, which is what tells somebody how much is left. A form that shows only the current step number leaves the reader guessing.</p><p>Label buttons need a visible focus state once they are made focusable. In the keyboard version the ring is forwarded from the clipped radio to the step label with <code>#id:focus-visible ~ .msf3-wrap .msf3-step</code>, because the input carrying focus is a single pixel and its own outline would be invisible.</p>
+	</section>
+	
+
+	
+	<section class="usecase-section">
+		<h2>What you can build with it</h2>
+		<ul class="usecase-list">
+			<li><strong>Short sign up flows.</strong> Two or three steps where splitting the fields makes the form look shorter than it is.</li><li><strong>Onboarding walkthroughs.</strong> A sequence of explanatory panels with Next and Back, where nothing is being submitted at all.</li><li><strong>Surveys and quizzes.</strong> One question per panel, with the radios doing double duty as both the answer and the step tracker.</li><li><strong>Product configurators.</strong> Size, then color, then quantity, with a review panel at the end summarising the choices.</li><li><strong>Checkout stages on a static site.</strong> Shipping, payment and review as separate panels of one form, so a single submission still posts everything.</li>
+		</ul>
+	</section>
+	
+
+	
+	<section class="pitfall-section">
+		<h2>Mistakes worth avoiding</h2>
+		<ul class="pitfall-list">
+			<li>Putting the radios inside the wrapper. The sibling combinator cannot reach them from there, so every panel stays hidden and the form looks empty.</li><li>Hiding the radios with <code>display: none</code>. Nothing in the step navigation is focusable afterwards, and the form becomes unusable without a mouse.</li><li>Transitioning <code>display</code>. It is not an animatable property, so the panels still swap instantly no matter what duration is set.</li><li>Using checkboxes instead of radios. Two steps can then be checked at once and both panels show, stacked on top of each other.</li><li>Sliding panels with <code>transform</code> and leaving them focusable. Tab moves into fields that are off screen, and the page scrolls sideways chasing a field nobody can see.</li>
+		</ul>
+	</section>
+	
+
+	
+	<section class="faq-section">
+		<h2>Frequently asked questions</h2>
+		
+		<details class="faq-item">
+			<summary>Does a CSS multi step form actually submit?</summary>
+			<div class="faq-answer">Yes, as one form. The panels are only visual, so every field in every step is part of the same submission whether or not the reader can see it at the time. Put the <code>&lt;form&gt;</code> around the wrapper and give each input a <code>name</code>.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>Can I validate each step before moving on?</summary>
+			<div class="faq-answer">Not with CSS alone. <code>form:has(:invalid)</code> can gray out the Next button in the same way described on <a href="/examples/input-validation/">input validation</a>, but it cannot stop the label from switching the radio, because a label click is not something a stylesheet can cancel. Real per step gating needs script.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>Why will my step panels not animate?</summary>
+			<div class="faq-answer">Because <code>display</code> cannot be transitioned. The property has no intermediate values for the browser to interpolate. Lay every panel out side by side in a track and move the track with <code>transform: translateX()</code> instead, which is what the sliding variant on this page does.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>How do I remember which step someone was on?</summary>
+			<div class="faq-answer">You cannot, in CSS. The state lives in the DOM and resets on every page load to whichever radio has the <code>checked</code> attribute. Persisting it means storing the step and restoring it with script, or giving each step its own URL.</div>
+		</details>
+		
+		<details class="faq-item">
+			<summary>Is a multi step form better than one long form?</summary>
+			<div class="faq-answer">It depends on the form. Splitting reduces how much a reader sees at once, which helps on a phone and on anything over about ten fields. It also hides the total length, which some people find worse rather than better, so keep the progress indicator visible.</div>
+		</details>
+		
+	</section>
+	
+
+	
+	<section class="related-section">
+		<h2>Related CSS examples</h2>
+		<ul class="related-list">
+			
+			<li>
+				<a href="/examples/character-count/">Character Count Indicator</a>
+				<span>Input border changes color based on validity using <code>:user-invalid</code> and <code>:user-valid</code> with <code>minlength</code>/<code>maxlength</code>.</span>
+			</li>
+			
+			<li>
+				<a href="/examples/color-swatch/">Color Swatch Picker</a>
+				<span>Radio buttons styled as color circles with a <code>:checked</code> ring indicator, and no JavaScript.</span>
+			</li>
+			
+			<li>
+				<a href="/examples/numeric-stepper/">Numeric Stepper</a>
+				<span>A styled <code>&lt;input type="number"&gt;</code> with custom spin button appearance using CSS pseudo-elements.</span>
+			</li>
+			
+		</ul>
+	</section>
+	
+
+	
+
+</article>
+
+	</main>
+
+	<script>
+		// you know JavaScript is required for copying code
+		// Two snippets side by side should end on the same line, at the height of
+		// the SHORTER one, so the longer scrolls instead of leaving the other half
+		// empty. CSS cannot express that: a grid row always grows to its tallest
+		// child, never its shortest. The CSS fallback matches them to the taller,
+		// and this trims the pair down to the shorter.
+		const matchCodeHeights = () => {
+			document.querySelectorAll('.code-section').forEach(section => {
+				const panes = [...section.querySelectorAll('pre[class*="language-"]')];
+				if (panes.length !== 2) return;
+				panes.forEach(p => { p.style.height = ''; });
+				if (!section.offsetParent && section.offsetHeight === 0) return;
+				// stacked rather than side by side, so leave them alone
+				if (Math.abs(panes[0].getBoundingClientRect().top - panes[1].getBoundingClientRect().top) > 4) return;
+				const shortest = Math.min(...panes.map(p => p.scrollHeight));
+				// a floor, so three lines of markup cannot crush a long stylesheet,
+				// and the same ceiling the stylesheet already applies
+				const h = Math.min(Math.max(shortest, 200), 448);
+				panes.forEach(p => { p.style.height = h + 'px'; });
+			});
+		};
+		matchCodeHeights();
+		window.addEventListener('resize', () => {
+			clearTimeout(window.__codeFit);
+			window.__codeFit = setTimeout(matchCodeHeights, 150);
+		});
+
+		document.querySelectorAll('.copy-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const pre = btn.nextElementSibling;
+				navigator.clipboard.writeText(pre.textContent.trimEnd()).then(() => {
+					btn.classList.add('copied');
+					setTimeout(() => btn.classList.remove('copied'), 1500);
+				});
+			});
+		});
+	</script>
+
+	<footer class="site-footer"><nav class="footer-cats" aria-label="Browse examples by category">
+			<a href="/form/">CSS Form</a>
+			<a href="/navigation/">CSS Navigation</a>
+			<a href="/layout/">CSS Layout</a>
+			<a href="/feedback/">CSS Feedback</a>
+		</nav>
+		<p class="footer-bio">
+			Written and maintained by <a href="https://x.com/adamculpepper" target="_blank" rel="noopener">Adam Culpepper</a>.
+			Every example is a working demo on its own page, with the code that produces it printed underneath.
+		</p>
+		<p>Pure CSS. Zero JavaScript. Built with <a href="https://www.11ty.dev" target="_blank" rel="noopener">Eleventy</a>. <a href="/privacy/">Privacy</a>.</p>
+	</footer>
+</body>
+</html>
