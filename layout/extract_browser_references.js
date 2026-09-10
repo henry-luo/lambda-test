@@ -12,7 +12,11 @@ const os = require('os');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { referenceNameForPath } = require('./reference_paths');
-const { referenceCaptureFreezesAnimations } = require('./reference_capture_policy');
+const {
+    referenceCaptureFreezesAnimations,
+    referenceCaptureFreezesTimers,
+    referenceCaptureBlocksRemoteResources
+} = require('./reference_capture_policy');
 
 let sharedBrowser = null;
 let sharedBrowserPageCount = 0;
@@ -90,17 +94,11 @@ function fixtureFontCss() {
     return `${faceCss.join('\n')}\n${aliasCss.join('\n')}\n${cjkFallbackCss.join('\n')}`;
 }
 
-function injectFixtureFonts(documentSource) {
-    const style = `<style data-radiant-fixture-fonts>${fixtureFontCss()}</style>`;
-    if (/<head(?:\s[^>]*)?>/i.test(documentSource)) {
-        // Keep fixture faces after authored @font-face rules so their scoped CJK
-        // ranges win over an unbounded fixture face such as Ahem.
-        return documentSource.replace(/<\/head>/i, match => `${style}${match}`);
-    }
-    if (/<html(?:\s[^>]*)?>/i.test(documentSource)) {
-        return documentSource.replace(/<html(?:\s[^>]*)?>/i, match => `${match}<head>${style}</head>`);
-    }
-    return `<!doctype html><head>${style}</head>${documentSource}`;
+function referenceUsesFixtureFontCss(referenceSource) {
+    // These three resources identify the complete capture-only fixture sheet.
+    return referenceSource.includes('data/font/Ahem.ttf') &&
+        referenceSource.includes('data/font/LiberationSans-Regular.ttf') &&
+        referenceSource.includes('data/font/NotoSansSC-Subset.otf');
 }
 
 function localTempDir(name) {
@@ -360,7 +358,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         // Set consistent viewport and disable animations (from extract_layout.js)
         await page.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1 });
         const freezeReferenceAnimations = referenceCaptureFreezesAnimations(htmlFilePath);
-        await page.evaluateOnNewDocument((freezeAnimations) => {
+        const freezeReferenceTimers = referenceCaptureFreezesTimers(htmlFilePath);
+        const blockRemoteResources = referenceCaptureBlocksRemoteResources(htmlFilePath);
+        await page.evaluateOnNewDocument((freezeAnimations, freezeTimers) => {
             // The standalone extractor intentionally does not load the full WPT
             // harness: its cleanup would remove the DOM that Radiant compares.
             // Supply only the callbacks needed by layout setup scripts.
@@ -390,22 +390,22 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             window.assert_false = window.assert_false || (() => {});
             window.assert_equals = window.assert_equals || (() => {});
 
-            // Freeze timer-driven layout changes during reference capture. Some
-            // CSS2.1 tests run a synchronous setup step, then schedule repeated
-            // toggles with setTimeout(); keep the setup result and avoid racing
-            // the later event-loop ticks.
+            // Conformance fixtures schedule recurring layout mutations after
+            // their synchronous setup; retain that initial snapshot only there.
             const nativeSetTimeout = window.setTimeout.bind(window);
-            window.setTimeout = (handler, delay = 0, ...args) => {
-                if (Number(delay) <= 0) {
-                    if (typeof handler === 'function') {
-                        handler(...args);
-                    } else if (typeof handler === 'string') {
-                        window.eval(handler);
+            if (freezeTimers) {
+                window.setTimeout = (handler, delay = 0, ...args) => {
+                    if (Number(delay) <= 0) {
+                        if (typeof handler === 'function') {
+                            handler(...args);
+                        } else if (typeof handler === 'string') {
+                            window.eval(handler);
+                        }
                     }
-                }
-                return 0;
-            };
-            window.clearTimeout = () => {};
+                    return 0;
+                };
+                window.clearTimeout = () => {};
+            }
 
             if (!freezeAnimations) return;
 
@@ -433,7 +433,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     }, { once: true });
                 }
             }, 0);
-        }, freezeReferenceAnimations);
+        }, freezeReferenceAnimations, freezeReferenceTimers);
         console.log('✅ Browser ready');
 
         // WPT CSS tests use server-root URLs; file:// extraction has
@@ -462,7 +462,6 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                                 `${prefix}max-content; min-width: min-content; max-width: ${limit}`
                         );
                     }
-                    normalizedSource = injectFixtureFonts(normalizedSource);
                     if (normalizedSource !== documentSource) {
                         await request.respond({
                             status: 200,
@@ -551,6 +550,13 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     });
                     return;
                 }
+                if (blockRemoteResources &&
+                    (request.url().startsWith('http:') || request.url().startsWith('https:'))) {
+                    // Keep browser snapshots constrained to resources vendored
+                    // with the fixture, matching the deterministic layout input.
+                    await request.abort('blockedbyclient');
+                    return;
+                }
                 await request.continue();
             } catch {
                 await request.continue();
@@ -569,6 +575,9 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         }
 
         await page.goto(fileUrl, { waitUntil: 'networkidle0' });
+        // Apply fixture faces after scripts so their font availability cannot
+        // change application code that reads geometry during initialization.
+        await page.addStyleTag({ content: fixtureFontCss() });
         await page.evaluate(() => {
             // older mirrored WPT fixtures use the pre-rename trim keywords;
             // Chromium's experimental implementation accepts the current names.
@@ -1500,4 +1509,10 @@ if (require.main === module) {
     main().catch(console.error);
 }
 
-module.exports = { extractLayoutFromFile, extractAllTestFiles, closeSharedBrowser };
+module.exports = {
+    extractLayoutFromFile,
+    extractAllTestFiles,
+    closeSharedBrowser,
+    fixtureFontCss,
+    referenceUsesFixtureFontCss
+};
