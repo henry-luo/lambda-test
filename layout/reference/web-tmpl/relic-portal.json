@@ -17,7 +17,7 @@
       "x": 0,
       "y": 0,
       "width": 1200,
-      "height": 743.31,
+      "height": 675.69,
       "contentWidth": 1200,
       "contentHeight": 800,
       "scrollWidth": 1200,
@@ -51,7 +51,7 @@
       "gap": "normal",
       "fontSize": 16,
       "lineHeight": "normal",
-      "fontFamily": "Times",
+      "fontFamily": "\"Times New Roman\"",
       "fontWeight": "400",
       "textAlign": "start",
       "verticalAlign": "baseline",
@@ -111,7 +111,7 @@
           "gap": "normal",
           "fontSize": 16,
           "lineHeight": "normal",
-          "fontFamily": "Times",
+          "fontFamily": "\"Times New Roman\"",
           "fontWeight": "400",
           "textAlign": "start",
           "verticalAlign": "baseline",
@@ -187,7 +187,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -281,7 +281,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -358,7 +358,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -390,6 +390,162 @@
             "depth": 2,
             "nodeIndex": 6,
             "children": []
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(1)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 7,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Ahem.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }",
+                "length": 22087,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(2)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 8,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -403,11 +559,11 @@
           "x": 0,
           "y": 0,
           "width": 1200,
-          "height": 732.31,
+          "height": 664.69,
           "contentWidth": 1200,
-          "contentHeight": 732,
+          "contentHeight": 665,
           "scrollWidth": 1200,
-          "scrollHeight": 732
+          "scrollHeight": 665
         },
         "computed": {
           "display": "block",
@@ -583,10 +739,10 @@
                         {
                           "x": 64.31,
                           "y": 30,
-                          "width": 104.67,
-                          "height": 40,
-                          "right": 168.98,
-                          "bottom": 70,
+                          "width": 101.11,
+                          "height": 39,
+                          "right": 165.42,
+                          "bottom": 69,
                           "text": "Relic",
                           "startIndex": 0,
                           "endIndex": 5
@@ -619,7 +775,7 @@
               "contentWidth": 1080,
               "contentHeight": 0,
               "scrollWidth": 1080,
-              "scrollHeight": 599
+              "scrollHeight": 535
             },
             "computed": {
               "display": "block",
@@ -675,11 +831,11 @@
                   "x": 60,
                   "y": 90,
                   "width": 257.59,
-                  "height": 360.28,
+                  "height": 334.28,
                   "contentWidth": 258,
-                  "contentHeight": 360,
+                  "contentHeight": 334,
                   "scrollWidth": 258,
-                  "scrollHeight": 360
+                  "scrollHeight": 334
                 },
                 "computed": {
                   "display": "block",
@@ -825,11 +981,11 @@
                       "x": 70,
                       "y": 140.09,
                       "width": 237.59,
-                      "height": 58,
+                      "height": 54,
                       "contentWidth": 238,
-                      "contentHeight": 58,
+                      "contentHeight": 54,
                       "scrollWidth": 238,
-                      "scrollHeight": 58
+                      "scrollHeight": 54
                     },
                     "computed": {
                       "display": "block",
@@ -877,21 +1033,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": " You could use this column as some sort of ",
-                        "length": 43,
+                        "text": " You could use this column as some sort of \nnews box, ",
+                        "length": 54,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
                               "y": 140.09,
-                              "width": 212,
-                              "height": 12,
-                              "right": 282,
-                              "bottom": 152.09,
-                              "text": " You could use this column as some sort of ",
+                              "width": 234.77,
+                              "height": 11,
+                              "right": 304.77,
+                              "bottom": 151.09,
+                              "text": " You could use this column as some sort of \nnews box, ",
                               "startIndex": 0,
-                              "endIndex": 43
+                              "endIndex": 54
                             }
                           ],
                           "hasLayout": true,
@@ -905,21 +1061,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "\nnews box, link list, or a second navigation. It ",
-                        "length": 49,
+                        "text": "link list, or a second navigation. It would also\nbe quite ",
+                        "length": 58,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 152.09,
-                              "width": 226.95,
-                              "height": 12,
-                              "right": 296.95,
-                              "bottom": 164.09,
-                              "text": "\nnews box, link list, or a second navigation. It ",
+                              "y": 151.09,
+                              "width": 235.7,
+                              "height": 11,
+                              "right": 305.7,
+                              "bottom": 162.09,
+                              "text": "link list, or a second navigation. It would also\nbe quite ",
                               "startIndex": 0,
-                              "endIndex": 49
+                              "endIndex": 58
                             }
                           ],
                           "hasLayout": true,
@@ -933,21 +1089,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "would also\nbe quite feasable to move this to ",
-                        "length": 45,
+                        "text": "feasable to move this to the right and have the\n",
+                        "length": 48,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 164.09,
-                              "width": 222.48,
-                              "height": 12,
-                              "right": 292.48,
-                              "bottom": 176.09,
-                              "text": "would also\nbe quite feasable to move this to ",
+                              "y": 162.09,
+                              "width": 205.14,
+                              "height": 11,
+                              "right": 275.14,
+                              "bottom": 173.09,
+                              "text": "feasable to move this to the right and have the\n",
                               "startIndex": 0,
-                              "endIndex": 45
+                              "endIndex": 48
                             }
                           ],
                           "hasLayout": true,
@@ -961,21 +1117,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "the right and have the\nnavigation here.",
-                        "length": 39,
+                        "text": "navigation here.",
+                        "length": 16,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 176.09,
-                              "width": 198.05,
-                              "height": 12,
-                              "right": 268.05,
-                              "bottom": 188.09,
-                              "text": "the right and have the\nnavigation here.",
+                              "y": 173.09,
+                              "width": 71.17,
+                              "height": 11,
+                              "right": 141.17,
+                              "bottom": 184.09,
+                              "text": "navigation here.",
                               "startIndex": 0,
-                              "endIndex": 39
+                              "endIndex": 16
                             }
                           ],
                           "hasLayout": true,
@@ -997,7 +1153,7 @@
                     "classes": [],
                     "layout": {
                       "x": 70,
-                      "y": 208.14,
+                      "y": 204.14,
                       "width": 237.59,
                       "height": 23,
                       "contentWidth": 238,
@@ -1058,11 +1214,11 @@
                           "rects": [
                             {
                               "x": 70,
-                              "y": 213.14,
+                              "y": 209.14,
                               "width": 116.69,
                               "height": 17,
                               "right": 186.69,
-                              "bottom": 230.14,
+                              "bottom": 226.14,
                               "text": "Custom designs",
                               "startIndex": 0,
                               "endIndex": 14
@@ -1087,13 +1243,13 @@
                     "classes": [],
                     "layout": {
                       "x": 70,
-                      "y": 238.19,
+                      "y": 234.19,
                       "width": 237.59,
-                      "height": 58,
+                      "height": 54,
                       "contentWidth": 238,
-                      "contentHeight": 58,
+                      "contentHeight": 54,
                       "scrollWidth": 238,
-                      "scrollHeight": 58
+                      "scrollHeight": 54
                     },
                     "computed": {
                       "display": "block",
@@ -1141,21 +1297,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "Schools out, and I don't have too much on the ",
-                        "length": 46,
+                        "text": "Schools out, and I don't have too much on the go ",
+                        "length": 49,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 238.19,
-                              "width": 234.45,
-                              "height": 12,
-                              "right": 304.45,
-                              "bottom": 250.19,
-                              "text": "Schools out, and I don't have too much on the ",
+                              "y": 234.19,
+                              "width": 217.06,
+                              "height": 11,
+                              "right": 287.06,
+                              "bottom": 245.19,
+                              "text": "Schools out, and I don't have too much on the go ",
                               "startIndex": 0,
-                              "endIndex": 46
+                              "endIndex": 49
                             }
                           ],
                           "hasLayout": true,
@@ -1169,21 +1325,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "go right now,\nso if you want a custom design ",
-                        "length": 45,
+                        "text": "right now,\nso if you want a custom design made, give ",
+                        "length": 53,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 250.19,
-                              "width": 226.66,
-                              "height": 12,
-                              "right": 296.66,
-                              "bottom": 262.19,
-                              "text": "go right now,\nso if you want a custom design ",
+                              "y": 245.19,
+                              "width": 234.02,
+                              "height": 11,
+                              "right": 304.02,
+                              "bottom": 256.19,
+                              "text": "right now,\nso if you want a custom design made, give ",
                               "startIndex": 0,
-                              "endIndex": 45
+                              "endIndex": 53
                             }
                           ],
                           "hasLayout": true,
@@ -1197,21 +1353,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "made, give me a shout, and I'll \nmake you a ",
-                        "length": 44,
+                        "text": "me a shout, and I'll \nmake you a template for a very ",
+                        "length": 53,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 262.19,
-                              "width": 219.86,
-                              "height": 12,
-                              "right": 289.86,
-                              "bottom": 274.19,
-                              "text": "made, give me a shout, and I'll \nmake you a ",
+                              "y": 256.19,
+                              "width": 223.69,
+                              "height": 11,
+                              "right": 293.69,
+                              "bottom": 267.19,
+                              "text": "me a shout, and I'll \nmake you a template for a very ",
                               "startIndex": 0,
-                              "endIndex": 44
+                              "endIndex": 53
                             }
                           ],
                           "hasLayout": true,
@@ -1225,21 +1381,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "template for a very fair price.\n",
-                        "length": 32,
+                        "text": "fair price.\n",
+                        "length": 12,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 274.19,
-                              "width": 148.5,
-                              "height": 12,
-                              "right": 218.5,
-                              "bottom": 286.19,
-                              "text": "template for a very fair price.\n",
+                              "y": 267.19,
+                              "width": 41.13,
+                              "height": 11,
+                              "right": 111.13,
+                              "bottom": 278.19,
+                              "text": "fair price.\n",
                               "startIndex": 0,
-                              "endIndex": 32
+                              "endIndex": 12
                             }
                           ],
                           "hasLayout": true,
@@ -1261,7 +1417,7 @@
                     "classes": [],
                     "layout": {
                       "x": 70,
-                      "y": 306.23,
+                      "y": 298.23,
                       "width": 237.59,
                       "height": 23,
                       "contentWidth": 238,
@@ -1322,11 +1478,11 @@
                           "rects": [
                             {
                               "x": 70,
-                              "y": 311.23,
-                              "width": 122.77,
+                              "y": 303.23,
+                              "width": 122.75,
                               "height": 17,
-                              "right": 192.77,
-                              "bottom": 328.23,
+                              "right": 192.75,
+                              "bottom": 320.23,
                               "text": "About the Author",
                               "startIndex": 0,
                               "endIndex": 16
@@ -1351,13 +1507,13 @@
                     "classes": [],
                     "layout": {
                       "x": 70,
-                      "y": 336.28,
+                      "y": 328.28,
                       "width": 237.59,
-                      "height": 94,
+                      "height": 76,
                       "contentWidth": 238,
-                      "contentHeight": 94,
+                      "contentHeight": 76,
                       "scrollWidth": 238,
-                      "scrollHeight": 94
+                      "scrollHeight": 76
                     },
                     "computed": {
                       "display": "block",
@@ -1405,21 +1561,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "My name is Kevin Cannon. I live just outside ",
-                        "length": 45,
+                        "text": "My name is Kevin Cannon. I live just outside of ",
+                        "length": 48,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 336.28,
-                              "width": 224.55,
-                              "height": 12,
-                              "right": 294.55,
-                              "bottom": 348.28,
-                              "text": "My name is Kevin Cannon. I live just outside ",
+                              "y": 328.28,
+                              "width": 207.33,
+                              "height": 11,
+                              "right": 277.33,
+                              "bottom": 339.28,
+                              "text": "My name is Kevin Cannon. I live just outside of ",
                               "startIndex": 0,
-                              "endIndex": 45
+                              "endIndex": 48
                             }
                           ],
                           "hasLayout": true,
@@ -1433,21 +1589,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "of Vancouver,\nCanada. I've been dabbling in ",
-                        "length": 44,
+                        "text": "Vancouver,\nCanada. I've been dabbling in web design ",
+                        "length": 52,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 348.28,
-                              "width": 221.42,
-                              "height": 12,
-                              "right": 291.42,
-                              "bottom": 360.28,
-                              "text": "of Vancouver,\nCanada. I've been dabbling in ",
+                              "y": 339.28,
+                              "width": 237.45,
+                              "height": 11,
+                              "right": 307.45,
+                              "bottom": 350.28,
+                              "text": "Vancouver,\nCanada. I've been dabbling in web design ",
                               "startIndex": 0,
-                              "endIndex": 44
+                              "endIndex": 52
                             }
                           ],
                           "hasLayout": true,
@@ -1461,77 +1617,49 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "web design for a while, and this is\nmy fourth ",
-                        "length": 46,
+                        "text": "for a while, and this is\nmy fourth template submitted ",
+                        "length": 54,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 360.28,
-                              "width": 224.91,
-                              "height": 12,
-                              "right": 294.91,
+                              "y": 350.28,
+                              "width": 227.89,
+                              "height": 11,
+                              "right": 297.89,
+                              "bottom": 361.28,
+                              "text": "for a while, and this is\nmy fourth template submitted ",
+                              "startIndex": 0,
+                              "endIndex": 54
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "to OSWD. Most of my work, no wait ...\n",
+                        "length": 38,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 70,
+                              "y": 361.28,
+                              "width": 171.72,
+                              "height": 11,
+                              "right": 241.72,
                               "bottom": 372.28,
-                              "text": "web design for a while, and this is\nmy fourth ",
+                              "text": "to OSWD. Most of my work, no wait ...\n",
                               "startIndex": 0,
-                              "endIndex": 46
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "template submitted to OSWD. Most of my ",
-                        "length": 39,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 70,
-                              "y": 372.28,
-                              "width": 210.39,
-                              "height": 12,
-                              "right": 280.39,
-                              "bottom": 384.28,
-                              "text": "template submitted to OSWD. Most of my ",
-                              "startIndex": 0,
-                              "endIndex": 39
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "work, no wait ...\n",
-                        "length": 18,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 70,
-                              "y": 384.28,
-                              "width": 86.23,
-                              "height": 12,
-                              "right": 156.23,
-                              "bottom": 396.28,
-                              "text": "work, no wait ...\n",
-                              "startIndex": 0,
-                              "endIndex": 18
+                              "endIndex": 38
                             }
                           ],
                           "hasLayout": true,
@@ -1550,10 +1678,10 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 156.23,
-                          "y": 384.28,
-                          "width": 13.52,
-                          "height": 12,
+                          "x": 241.72,
+                          "y": 361.28,
+                          "width": 11.13,
+                          "height": 11,
                           "contentWidth": 0,
                           "contentHeight": 0,
                           "scrollWidth": 0,
@@ -1611,12 +1739,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 156.23,
-                                  "y": 384.28,
-                                  "width": 13.52,
-                                  "height": 12,
-                                  "right": 169.75,
-                                  "bottom": 396.28,
+                                  "x": 241.72,
+                                  "y": 361.28,
+                                  "width": 11.13,
+                                  "height": 11,
+                                  "right": 252.84,
+                                  "bottom": 372.28,
                                   "text": "all",
                                   "startIndex": 0,
                                   "endIndex": 3
@@ -1635,21 +1763,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": " of my work has been done ",
-                        "length": 26,
+                        "text": " of my work ",
+                        "length": 12,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
-                              "x": 169.75,
-                              "y": 384.28,
-                              "width": 137.27,
-                              "height": 12,
-                              "right": 307.02,
-                              "bottom": 396.28,
-                              "text": " of my work has been done ",
+                              "x": 252.84,
+                              "y": 361.28,
+                              "width": 51.13,
+                              "height": 11,
+                              "right": 303.97,
+                              "bottom": 372.28,
+                              "text": " of my work ",
                               "startIndex": 0,
-                              "endIndex": 26
+                              "endIndex": 12
                             }
                           ],
                           "hasLayout": true,
@@ -1663,21 +1791,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "for free so far. Maybe I will do \nweb design for ",
-                        "length": 49,
+                        "text": "has been done for free so far. Maybe I will do \nweb ",
+                        "length": 52,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 396.28,
-                              "width": 228.31,
-                              "height": 12,
-                              "right": 298.31,
-                              "bottom": 408.28,
-                              "text": "for free so far. Maybe I will do \nweb design for ",
+                              "y": 372.28,
+                              "width": 220.69,
+                              "height": 11,
+                              "right": 290.69,
+                              "bottom": 383.28,
+                              "text": "has been done for free so far. Maybe I will do \nweb ",
                               "startIndex": 0,
-                              "endIndex": 49
+                              "endIndex": 52
                             }
                           ],
                           "hasLayout": true,
@@ -1691,21 +1819,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "a living, but probably not.",
-                        "length": 27,
+                        "text": "design for a living, but probably not.",
+                        "length": 38,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 70,
-                              "y": 408.28,
-                              "width": 130.59,
-                              "height": 12,
-                              "right": 200.59,
-                              "bottom": 420.28,
-                              "text": "a living, but probably not.",
+                              "y": 383.28,
+                              "width": 157.89,
+                              "height": 11,
+                              "right": 227.89,
+                              "bottom": 394.28,
+                              "text": "design for a living, but probably not.",
                               "startIndex": 0,
-                              "endIndex": 27
+                              "endIndex": 38
                             }
                           ],
                           "hasLayout": true,
@@ -1731,11 +1859,11 @@
                   "x": 317.59,
                   "y": 90,
                   "width": 572.39,
-                  "height": 599.31,
+                  "height": 534.69,
                   "contentWidth": 572,
-                  "contentHeight": 599,
+                  "contentHeight": 535,
                   "scrollWidth": 572,
-                  "scrollHeight": 599
+                  "scrollHeight": 535
                 },
                 "computed": {
                   "display": "block",
@@ -1795,7 +1923,7 @@
                       "contentWidth": 497,
                       "contentHeight": 19,
                       "scrollWidth": 497,
-                      "scrollHeight": 20
+                      "scrollHeight": 19
                     },
                     "computed": {
                       "display": "block",
@@ -1850,11 +1978,11 @@
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 109,
-                              "width": 49.08,
-                              "height": 25,
-                              "right": 404.47,
-                              "bottom": 134,
+                              "y": 110,
+                              "width": 46.69,
+                              "height": 23,
+                              "right": 402.08,
+                              "bottom": 133,
                               "text": "Relic",
                               "startIndex": 0,
                               "endIndex": 5
@@ -1881,11 +2009,11 @@
                       "x": 355.39,
                       "y": 148.22,
                       "width": 496.8,
-                      "height": 96.94,
+                      "height": 80.78,
                       "contentWidth": 497,
-                      "contentHeight": 97,
+                      "contentHeight": 81,
                       "scrollWidth": 497,
-                      "scrollHeight": 97
+                      "scrollHeight": 81
                     },
                     "computed": {
                       "display": "block",
@@ -1933,21 +2061,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "Welcome to Relic, my most ambitious template yet.\nThis is a fluid, 3-column design. No ",
-                        "length": 87,
+                        "text": "Welcome to Relic, my most ambitious template yet.\nThis is a fluid, 3-column design. No matter which ",
+                        "length": 100,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 149.22,
-                              "width": 485.61,
-                              "height": 13,
-                              "right": 841,
+                              "y": 150.22,
+                              "width": 488.67,
+                              "height": 12,
+                              "right": 844.06,
                               "bottom": 162.22,
-                              "text": "Welcome to Relic, my most ambitious template yet.\nThis is a fluid, 3-column design. No ",
+                              "text": "Welcome to Relic, my most ambitious template yet.\nThis is a fluid, 3-column design. No matter which ",
                               "startIndex": 0,
-                              "endIndex": 87
+                              "endIndex": 100
                             }
                           ],
                           "hasLayout": true,
@@ -1961,21 +2089,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "matter which column is tallest, the design\nwill not fail, and the footer will always stay at ",
-                        "length": 93,
+                        "text": "column is tallest, the design\nwill not fail, and the footer will always stay at the bottom of the page. The ",
+                        "length": 108,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 165.38,
-                              "width": 487.98,
-                              "height": 13,
-                              "right": 843.38,
+                              "y": 166.38,
+                              "width": 491.41,
+                              "height": 12,
+                              "right": 846.8,
                               "bottom": 178.38,
-                              "text": "matter which column is tallest, the design\nwill not fail, and the footer will always stay at ",
+                              "text": "column is tallest, the design\nwill not fail, and the footer will always stay at the bottom of the page. The ",
                               "startIndex": 0,
-                              "endIndex": 93
+                              "endIndex": 108
                             }
                           ],
                           "hasLayout": true,
@@ -1989,21 +2117,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "the bottom of the page. The columns \nhave widths based in percentages, so the template ",
-                        "length": 87,
+                        "text": "columns \nhave widths based in percentages, so the template will smoothly transfer to different \nscreen ",
+                        "length": 103,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 181.53,
-                              "width": 492.45,
-                              "height": 13,
-                              "right": 847.84,
+                              "y": 182.53,
+                              "width": 488.34,
+                              "height": 12,
+                              "right": 843.73,
                               "bottom": 194.53,
-                              "text": "the bottom of the page. The columns \nhave widths based in percentages, so the template ",
+                              "text": "columns \nhave widths based in percentages, so the template will smoothly transfer to different \nscreen ",
                               "startIndex": 0,
-                              "endIndex": 87
+                              "endIndex": 103
                             }
                           ],
                           "hasLayout": true,
@@ -2017,21 +2145,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "will smoothly transfer to different \nscreen resolutions. This is all achieved through pure ",
-                        "length": 91,
+                        "text": "resolutions. This is all achieved through pure Css, no javascript at all. Sorry for all that \ntech-talk, its ",
+                        "length": 109,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 197.69,
-                              "width": 477.69,
-                              "height": 13,
-                              "right": 833.08,
+                              "y": 198.69,
+                              "width": 479.13,
+                              "height": 12,
+                              "right": 834.52,
                               "bottom": 210.69,
-                              "text": "will smoothly transfer to different \nscreen resolutions. This is all achieved through pure ",
+                              "text": "resolutions. This is all achieved through pure Css, no javascript at all. Sorry for all that \ntech-talk, its ",
                               "startIndex": 0,
-                              "endIndex": 91
+                              "endIndex": 109
                             }
                           ],
                           "hasLayout": true,
@@ -2045,49 +2173,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "Css, no javascript at all. Sorry for all that \ntech-talk, its really much simpler than it ",
-                        "length": 90,
+                        "text": "really much simpler than it sounds",
+                        "length": 34,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 213.84,
-                              "width": 455.83,
-                              "height": 13,
-                              "right": 811.22,
+                              "y": 214.84,
+                              "width": 166.3,
+                              "height": 12,
+                              "right": 521.69,
                               "bottom": 226.84,
-                              "text": "Css, no javascript at all. Sorry for all that \ntech-talk, its really much simpler than it ",
+                              "text": "really much simpler than it sounds",
                               "startIndex": 0,
-                              "endIndex": 90
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "sounds",
-                        "length": 6,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 230,
-                              "width": 38.92,
-                              "height": 13,
-                              "right": 394.31,
-                              "bottom": 243,
-                              "text": "sounds",
-                              "startIndex": 0,
-                              "endIndex": 6
+                              "endIndex": 34
                             }
                           ],
                           "hasLayout": true,
@@ -2109,13 +2209,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 269.16,
+                      "y": 253,
                       "width": 496.8,
                       "height": 20.16,
                       "contentWidth": 497,
                       "contentHeight": 19,
                       "scrollWidth": 497,
-                      "scrollHeight": 20
+                      "scrollHeight": 19
                     },
                     "computed": {
                       "display": "block",
@@ -2170,11 +2270,11 @@
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 264.16,
-                              "width": 102.47,
-                              "height": 25,
-                              "right": 457.86,
-                              "bottom": 289.16,
+                              "y": 249,
+                              "width": 88.69,
+                              "height": 23,
+                              "right": 444.08,
+                              "bottom": 272,
                               "text": "Simplicity",
                               "startIndex": 0,
                               "endIndex": 10
@@ -2199,13 +2299,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 303.38,
+                      "y": 287.22,
                       "width": 496.8,
-                      "height": 48.47,
+                      "height": 32.31,
                       "contentWidth": 497,
-                      "contentHeight": 48,
+                      "contentHeight": 32,
                       "scrollWidth": 497,
-                      "scrollHeight": 48
+                      "scrollHeight": 32
                     },
                     "computed": {
                       "display": "block",
@@ -2253,77 +2353,49 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "Because of the use of CSS and Xhtml in place of tables, you will find\nthis template ",
-                        "length": 84,
+                        "text": "Because of the use of CSS and Xhtml in place of tables, you will find\nthis template incredibly easy to ",
+                        "length": 103,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 304.38,
-                              "width": 455.5,
-                              "height": 13,
-                              "right": 810.89,
+                              "y": 289.22,
+                              "width": 486.72,
+                              "height": 12,
+                              "right": 842.11,
+                              "bottom": 301.22,
+                              "text": "Because of the use of CSS and Xhtml in place of tables, you will find\nthis template incredibly easy to ",
+                              "startIndex": 0,
+                              "endIndex": 103
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "modify. To help you out even more, the \nCss and Xhtml is clearly labeled with comments throughout.",
+                        "length": 98,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 355.39,
+                              "y": 305.38,
+                              "width": 482.63,
+                              "height": 12,
+                              "right": 838.02,
                               "bottom": 317.38,
-                              "text": "Because of the use of CSS and Xhtml in place of tables, you will find\nthis template ",
+                              "text": "modify. To help you out even more, the \nCss and Xhtml is clearly labeled with comments throughout.",
                               "startIndex": 0,
-                              "endIndex": 84
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "incredibly easy to modify. To help you out even more, the \nCss and Xhtml is clearly ",
-                        "length": 84,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 320.53,
-                              "width": 455.81,
-                              "height": 13,
-                              "right": 811.2,
-                              "bottom": 333.53,
-                              "text": "incredibly easy to modify. To help you out even more, the \nCss and Xhtml is clearly ",
-                              "startIndex": 0,
-                              "endIndex": 84
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "labeled with comments throughout.",
-                        "length": 33,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 336.69,
-                              "width": 197.19,
-                              "height": 13,
-                              "right": 552.58,
-                              "bottom": 349.69,
-                              "text": "labeled with comments throughout.",
-                              "startIndex": 0,
-                              "endIndex": 33
+                              "endIndex": 98
                             }
                           ],
                           "hasLayout": true,
@@ -2345,13 +2417,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 375.84,
+                      "y": 343.53,
                       "width": 496.8,
                       "height": 20.16,
                       "contentWidth": 497,
                       "contentHeight": 19,
                       "scrollWidth": 497,
-                      "scrollHeight": 20
+                      "scrollHeight": 19
                     },
                     "computed": {
                       "display": "block",
@@ -2406,11 +2478,11 @@
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 370.84,
-                              "width": 114.8,
-                              "height": 25,
-                              "right": 470.19,
-                              "bottom": 395.84,
+                              "y": 339.53,
+                              "width": 103.91,
+                              "height": 23,
+                              "right": 459.3,
+                              "bottom": 362.53,
                               "text": "The design",
                               "startIndex": 0,
                               "endIndex": 10
@@ -2435,13 +2507,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 410.06,
+                      "y": 377.75,
                       "width": 496.8,
-                      "height": 96.94,
+                      "height": 80.78,
                       "contentWidth": 497,
-                      "contentHeight": 97,
+                      "contentHeight": 81,
                       "scrollWidth": 497,
-                      "scrollHeight": 97
+                      "scrollHeight": 81
                     },
                     "computed": {
                       "display": "block",
@@ -2489,21 +2561,77 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": " Its July, so I chose a light summer\ncolour scheme with greens and blues. The header is ",
-                        "length": 88,
+                        "text": " Its July, so I chose a light summer\ncolour scheme with greens and blues. The header is off of the ",
+                        "length": 99,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 411.06,
-                              "width": 483.31,
-                              "height": 13,
-                              "right": 838.7,
+                              "y": 379.75,
+                              "width": 468.36,
+                              "height": 12,
+                              "right": 823.75,
+                              "bottom": 391.75,
+                              "text": " Its July, so I chose a light summer\ncolour scheme with greens and blues. The header is off of the ",
+                              "startIndex": 0,
+                              "endIndex": 99
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "stock x-change,\nand is not included in the zip file, otherwise it would be over 100kb. Instead\nI've ",
+                        "length": 100,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 355.39,
+                              "y": 395.91,
+                              "width": 464.38,
+                              "height": 12,
+                              "right": 819.77,
+                              "bottom": 407.91,
+                              "text": "stock x-change,\nand is not included in the zip file, otherwise it would be over 100kb. Instead\nI've ",
+                              "startIndex": 0,
+                              "endIndex": 100
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "hosted it externally. You will probably want to use your own header,\nbut if you really like this one it can ",
+                        "length": 108,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 355.39,
+                              "y": 412.06,
+                              "width": 493.25,
+                              "height": 12,
+                              "right": 848.64,
                               "bottom": 424.06,
-                              "text": " Its July, so I chose a light summer\ncolour scheme with greens and blues. The header is ",
+                              "text": "hosted it externally. You will probably want to use your own header,\nbut if you really like this one it can ",
                               "startIndex": 0,
-                              "endIndex": 88
+                              "endIndex": 108
                             }
                           ],
                           "hasLayout": true,
@@ -2517,77 +2645,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "off of the stock x-change,\nand is not included in the zip file, otherwise it would be over ",
-                        "length": 91,
+                        "text": "be found ",
+                        "length": 9,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 427.22,
-                              "width": 480.52,
-                              "height": 13,
-                              "right": 835.91,
+                              "y": 428.22,
+                              "width": 45.88,
+                              "height": 12,
+                              "right": 401.27,
                               "bottom": 440.22,
-                              "text": "off of the stock x-change,\nand is not included in the zip file, otherwise it would be over ",
+                              "text": "be found ",
                               "startIndex": 0,
-                              "endIndex": 91
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "100kb. Instead\nI've hosted it externally. You will probably want to use your own header,\n",
-                        "length": 89,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 443.38,
-                              "width": 487.73,
-                              "height": 13,
-                              "right": 843.13,
-                              "bottom": 456.38,
-                              "text": "100kb. Instead\nI've hosted it externally. You will probably want to use your own header,\n",
-                              "startIndex": 0,
-                              "endIndex": 89
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "but if you really like this one it can be found ",
-                        "length": 48,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 459.53,
-                              "width": 248.64,
-                              "height": 13,
-                              "right": 604.03,
-                              "bottom": 472.53,
-                              "text": "but if you really like this one it can be found ",
-                              "startIndex": 0,
-                              "endIndex": 48
+                              "endIndex": 9
                             }
                           ],
                           "hasLayout": true,
@@ -2606,10 +2678,10 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 604.03,
-                          "y": 459.53,
-                          "width": 24.77,
-                          "height": 13,
+                          "x": 401.27,
+                          "y": 428.22,
+                          "width": 22.03,
+                          "height": 12,
                           "contentWidth": 0,
                           "contentHeight": 0,
                           "scrollWidth": 0,
@@ -2667,12 +2739,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 604.03,
-                                  "y": 459.53,
-                                  "width": 24.77,
-                                  "height": 13,
-                                  "right": 628.8,
-                                  "bottom": 472.53,
+                                  "x": 401.27,
+                                  "y": 428.22,
+                                  "width": 22.03,
+                                  "height": 12,
+                                  "right": 423.3,
+                                  "bottom": 440.22,
                                   "text": "here",
                                   "startIndex": 0,
                                   "endIndex": 4
@@ -2691,21 +2763,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": ". If you need\nany help at all with this ",
-                        "length": 40,
+                        "text": ". If you need\nany help at all with this template, don't hesitate to contact me through ",
+                        "length": 87,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
-                              "x": 628.8,
-                              "y": 459.53,
-                              "width": 204.58,
-                              "height": 13,
-                              "right": 833.38,
-                              "bottom": 472.53,
-                              "text": ". If you need\nany help at all with this ",
+                              "x": 423.3,
+                              "y": 428.22,
+                              "width": 400.19,
+                              "height": 12,
+                              "right": 823.48,
+                              "bottom": 440.22,
+                              "text": ". If you need\nany help at all with this template, don't hesitate to contact me through ",
                               "startIndex": 0,
-                              "endIndex": 40
+                              "endIndex": 87
                             }
                           ],
                           "hasLayout": true,
@@ -2719,49 +2791,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "template, don't hesitate to contact me through OSWD, \nor email - kmcannon [at] telus ",
-                        "length": 85,
+                        "text": "OSWD, \nor email - kmcannon [at] telus [dot] net.",
+                        "length": 48,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 475.69,
-                              "width": 477.34,
-                              "height": 13,
-                              "right": 832.73,
-                              "bottom": 488.69,
-                              "text": "template, don't hesitate to contact me through OSWD, \nor email - kmcannon [at] telus ",
+                              "y": 444.38,
+                              "width": 230.48,
+                              "height": 12,
+                              "right": 585.88,
+                              "bottom": 456.38,
+                              "text": "OSWD, \nor email - kmcannon [at] telus [dot] net.",
                               "startIndex": 0,
-                              "endIndex": 85
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 2,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "[dot] net.",
-                        "length": 10,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 355.39,
-                              "y": 491.84,
-                              "width": 53.58,
-                              "height": 13,
-                              "right": 408.97,
-                              "bottom": 504.84,
-                              "text": "[dot] net.",
-                              "startIndex": 0,
-                              "endIndex": 10
+                              "endIndex": 48
                             }
                           ],
                           "hasLayout": true,
@@ -2783,13 +2827,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 531,
+                      "y": 482.53,
                       "width": 496.8,
                       "height": 20.16,
                       "contentWidth": 497,
                       "contentHeight": 19,
                       "scrollWidth": 497,
-                      "scrollHeight": 20
+                      "scrollHeight": 19
                     },
                     "computed": {
                       "display": "block",
@@ -2844,11 +2888,11 @@
                           "rects": [
                             {
                               "x": 355.39,
-                              "y": 526,
-                              "width": 78.42,
-                              "height": 25,
-                              "right": 433.81,
-                              "bottom": 551,
+                              "y": 478.53,
+                              "width": 68.88,
+                              "height": 23,
+                              "right": 424.27,
+                              "bottom": 501.53,
                               "text": "Images",
                               "startIndex": 0,
                               "endIndex": 6
@@ -2873,7 +2917,7 @@
                     "classes": [],
                     "layout": {
                       "x": 464.39,
-                      "y": 565.22,
+                      "y": 516.75,
                       "width": 0,
                       "height": 0,
                       "contentWidth": 0,
@@ -2935,7 +2979,7 @@
                         ],
                         "layout": {
                           "x": 355.39,
-                          "y": 565.22,
+                          "y": 516.75,
                           "width": 103,
                           "height": 98,
                           "contentWidth": 101,
@@ -2998,13 +3042,13 @@
                     "classes": [],
                     "layout": {
                       "x": 355.39,
-                      "y": 565.22,
+                      "y": 516.75,
                       "width": 496.8,
-                      "height": 113.09,
+                      "height": 96.94,
                       "contentWidth": 497,
-                      "contentHeight": 113,
+                      "contentHeight": 97,
                       "scrollWidth": 497,
-                      "scrollHeight": 113
+                      "scrollHeight": 97
                     },
                     "computed": {
                       "display": "block",
@@ -3052,21 +3096,105 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "This template is very image-friendly, and through the use of classes, ",
-                        "length": 70,
+                        "text": "This template is very image-friendly, and through the use of classes, \nyou can ",
+                        "length": 79,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 464.39,
-                              "y": 566.22,
-                              "width": 380.83,
-                              "height": 13,
-                              "right": 845.22,
+                              "y": 518.75,
+                              "width": 372.77,
+                              "height": 12,
+                              "right": 837.16,
+                              "bottom": 530.75,
+                              "text": "This template is very image-friendly, and through the use of classes, \nyou can ",
+                              "startIndex": 0,
+                              "endIndex": 79
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "have your images floating in either side of the text. The images are controlled\n",
+                        "length": 80,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 464.39,
+                              "y": 534.91,
+                              "width": 375.23,
+                              "height": 12,
+                              "right": 839.63,
+                              "bottom": 546.91,
+                              "text": "have your images floating in either side of the text. The images are controlled\n",
+                              "startIndex": 0,
+                              "endIndex": 80
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "externally with CSS.\nYou can also have images as links, like the firefox logo in ",
+                        "length": 81,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 464.39,
+                              "y": 551.06,
+                              "width": 378.48,
+                              "height": 12,
+                              "right": 842.88,
+                              "bottom": 563.06,
+                              "text": "externally with CSS.\nYou can also have images as links, like the firefox logo in ",
+                              "startIndex": 0,
+                              "endIndex": 81
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "block",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "the corner. \nAnd, again through CSS, you can have mouseover effects. If you're ",
+                        "length": 79,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 464.39,
+                              "y": 567.22,
+                              "width": 382.25,
+                              "height": 12,
+                              "right": 846.64,
                               "bottom": 579.22,
-                              "text": "This template is very image-friendly, and through the use of classes, ",
+                              "text": "the corner. \nAnd, again through CSS, you can have mouseover effects. If you're ",
                               "startIndex": 0,
-                              "endIndex": 70
+                              "endIndex": 79
                             }
                           ],
                           "hasLayout": true,
@@ -3080,21 +3208,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "\nyou can have your images floating in either side of the text. The ",
-                        "length": 67,
+                        "text": "using\nfirefox, put your cursor over the logo. But for some reason IE doesn't like\n",
+                        "length": 82,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 464.39,
-                              "y": 582.38,
-                              "width": 356.42,
-                              "height": 13,
-                              "right": 820.81,
+                              "y": 583.38,
+                              "width": 381.8,
+                              "height": 12,
+                              "right": 846.19,
                               "bottom": 595.38,
-                              "text": "\nyou can have your images floating in either side of the text. The ",
+                              "text": "using\nfirefox, put your cursor over the logo. But for some reason IE doesn't like\n",
                               "startIndex": 0,
-                              "endIndex": 67
+                              "endIndex": 82
                             }
                           ],
                           "hasLayout": true,
@@ -3108,133 +3236,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "images are controlled\nexternally with CSS.\nYou can also have images ",
-                        "length": 68,
+                        "text": "image rollover effects. Its not that big of a deal.",
+                        "length": 51,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 464.39,
-                              "y": 598.53,
-                              "width": 382.03,
-                              "height": 13,
-                              "right": 846.42,
+                              "y": 599.53,
+                              "width": 227.88,
+                              "height": 12,
+                              "right": 692.27,
                               "bottom": 611.53,
-                              "text": "images are controlled\nexternally with CSS.\nYou can also have images ",
+                              "text": "image rollover effects. Its not that big of a deal.",
                               "startIndex": 0,
-                              "endIndex": 68
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "as links, like the firefox logo in the corner. \nAnd, again through CSS, ",
-                        "length": 72,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 464.39,
-                              "y": 614.69,
-                              "width": 374.03,
-                              "height": 13,
-                              "right": 838.42,
-                              "bottom": 627.69,
-                              "text": "as links, like the firefox logo in the corner. \nAnd, again through CSS, ",
-                              "startIndex": 0,
-                              "endIndex": 72
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "you can have mouseover effects. If you're using\nfirefox, put your ",
-                        "length": 66,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 464.39,
-                              "y": 630.84,
-                              "width": 360.23,
-                              "height": 13,
-                              "right": 824.63,
-                              "bottom": 643.84,
-                              "text": "you can have mouseover effects. If you're using\nfirefox, put your ",
-                              "startIndex": 0,
-                              "endIndex": 66
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "cursor over the logo. But for some reason IE doesn't like\nimage ",
-                        "length": 64,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 464.39,
-                              "y": 647,
-                              "width": 351.58,
-                              "height": 13,
-                              "right": 815.97,
-                              "bottom": 660,
-                              "text": "cursor over the logo. But for some reason IE doesn't like\nimage ",
-                              "startIndex": 0,
-                              "endIndex": 64
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "block",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "rollover effects. Its not that big of a deal.",
-                        "length": 45,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 464.39,
-                              "y": 663.16,
-                              "width": 229.06,
-                              "height": 13,
-                              "right": 693.45,
-                              "bottom": 676.16,
-                              "text": "rollover effects. Its not that big of a deal.",
-                              "startIndex": 0,
-                              "endIndex": 45
+                              "endIndex": 51
                             }
                           ],
                           "hasLayout": true,
@@ -3408,9 +3424,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 147.69,
-                      "width": 159.3,
-                      "height": 13,
+                      "y": 148.69,
+                      "width": 141.84,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -3469,10 +3485,10 @@
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 147.69,
-                              "width": 159.3,
-                              "height": 13,
-                              "right": 1049.28,
+                              "y": 148.69,
+                              "width": 141.84,
+                              "height": 12,
+                              "right": 1031.83,
                               "bottom": 160.69,
                               "text": "Deep impact smashes comet",
                               "startIndex": 0,
@@ -3498,11 +3514,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 1049.28,
-                          "y": 147.69,
-                          "width": 3.88,
-                          "height": 13,
-                          "right": 1053.16,
+                          "x": 1031.83,
+                          "y": 148.69,
+                          "width": 3.06,
+                          "height": 12,
+                          "right": 1034.89,
                           "bottom": 160.69
                         }
                       ],
@@ -3523,9 +3539,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 147.69,
-                      "width": 211.23,
-                      "height": 35,
+                      "y": 148.69,
+                      "width": 217.67,
+                      "height": 34,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -3577,21 +3593,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "3 Florida ",
-                        "length": 10,
+                        "text": "3 Florida shark ",
+                        "length": 16,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
-                              "x": 1053.16,
-                              "y": 147.69,
-                              "width": 48.06,
-                              "height": 13,
-                              "right": 1101.22,
+                              "x": 1034.89,
+                              "y": 148.69,
+                              "width": 72.77,
+                              "height": 12,
+                              "right": 1107.66,
                               "bottom": 160.69,
-                              "text": "3 Florida ",
+                              "text": "3 Florida shark ",
                               "startIndex": 0,
-                              "endIndex": 10
+                              "endIndex": 16
                             }
                           ],
                           "hasLayout": true,
@@ -3605,21 +3621,21 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "shark attacks in a week",
-                        "length": 23,
+                        "text": "attacks in a week",
+                        "length": 17,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 169.69,
-                              "width": 131.03,
-                              "height": 13,
-                              "right": 1021.02,
+                              "y": 170.69,
+                              "width": 84.38,
+                              "height": 12,
+                              "right": 974.36,
                               "bottom": 182.69,
-                              "text": "shark attacks in a week",
+                              "text": "attacks in a week",
                               "startIndex": 0,
-                              "endIndex": 23
+                              "endIndex": 17
                             }
                           ],
                           "hasLayout": true,
@@ -3641,11 +3657,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 1021.02,
-                          "y": 169.69,
-                          "width": 3.88,
-                          "height": 13,
-                          "right": 1024.89,
+                          "x": 974.36,
+                          "y": 170.69,
+                          "width": 3.06,
+                          "height": 12,
+                          "right": 977.42,
                           "bottom": 182.69
                         }
                       ],
@@ -3665,10 +3681,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 889.98,
-                      "y": 169.69,
-                      "width": 184.88,
-                      "height": 35,
+                      "x": 977.42,
+                      "y": 170.69,
+                      "width": 141.05,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -3720,49 +3736,21 @@
                     "children": [
                       {
                         "nodeType": "text",
-                        "text": "Mad Cow ",
-                        "length": 8,
+                        "text": "Mad Cow originated in Texas",
+                        "length": 27,
                         "isWhitespaceOnly": false,
                         "layout": {
                           "rects": [
                             {
-                              "x": 1024.89,
-                              "y": 169.69,
-                              "width": 49.97,
-                              "height": 13,
-                              "right": 1074.86,
+                              "x": 977.42,
+                              "y": 170.69,
+                              "width": 141.05,
+                              "height": 12,
+                              "right": 1118.47,
                               "bottom": 182.69,
-                              "text": "Mad Cow ",
+                              "text": "Mad Cow originated in Texas",
                               "startIndex": 0,
-                              "endIndex": 8
-                            }
-                          ],
-                          "hasLayout": true,
-                          "parentVisible": true,
-                          "parentDisplay": "inline",
-                          "parentVisibility": "visible"
-                        },
-                        "depth": 5,
-                        "nodeIndex": 0,
-                        "children": []
-                      },
-                      {
-                        "nodeType": "text",
-                        "text": "originated in Texas",
-                        "length": 19,
-                        "isWhitespaceOnly": false,
-                        "layout": {
-                          "rects": [
-                            {
-                              "x": 889.98,
-                              "y": 191.69,
-                              "width": 104.28,
-                              "height": 13,
-                              "right": 994.27,
-                              "bottom": 204.69,
-                              "text": "originated in Texas",
-                              "startIndex": 0,
-                              "endIndex": 19
+                              "endIndex": 27
                             }
                           ],
                           "hasLayout": true,
@@ -3777,41 +3765,16 @@
                     ]
                   },
                   {
-                    "nodeType": "text",
-                    "text": "\n\n",
-                    "length": 2,
-                    "isWhitespaceOnly": true,
-                    "layout": {
-                      "rects": [
-                        {
-                          "x": 994.27,
-                          "y": 191.69,
-                          "width": 3.88,
-                          "height": 13,
-                          "right": 998.14,
-                          "bottom": 204.69
-                        }
-                      ],
-                      "hasLayout": true,
-                      "parentVisible": true,
-                      "parentDisplay": "block",
-                      "parentVisibility": "visible"
-                    },
-                    "depth": 4,
-                    "nodeIndex": 8,
-                    "children": []
-                  },
-                  {
                     "nodeType": "element",
                     "selector": "a:nth-of-type(4)",
                     "tag": "a",
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 998.14,
-                      "y": 191.69,
-                      "width": 126.25,
-                      "height": 13,
+                      "x": 889.98,
+                      "y": 192.69,
+                      "width": 110.66,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -3869,11 +3832,11 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 998.14,
-                              "y": 191.69,
-                              "width": 126.25,
-                              "height": 13,
-                              "right": 1124.39,
+                              "x": 889.98,
+                              "y": 192.69,
+                              "width": 110.66,
+                              "height": 12,
+                              "right": 1000.64,
                               "bottom": 204.69,
                               "text": "G8 summit in Scotland",
                               "startIndex": 0,
@@ -3989,9 +3952,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 257.38,
-                      "width": 25.7,
-                      "height": 13,
+                      "y": 258.38,
+                      "width": 24.45,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4050,10 +4013,10 @@
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 257.38,
-                              "width": 25.7,
-                              "height": 13,
-                              "right": 915.69,
+                              "y": 258.38,
+                              "width": 24.45,
+                              "height": 12,
+                              "right": 914.44,
                               "bottom": 270.38,
                               "text": "Relic",
                               "startIndex": 0,
@@ -4079,11 +4042,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 915.69,
-                          "y": 257.38,
-                          "width": 64.69,
-                          "height": 13,
-                          "right": 980.38,
+                          "x": 914.44,
+                          "y": 258.38,
+                          "width": 52.59,
+                          "height": 12,
+                          "right": 967.03,
                           "bottom": 270.38,
                           "text": " - 07/04/05",
                           "startIndex": 0,
@@ -4106,10 +4069,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 980.38,
-                      "y": 257.38,
+                      "x": 967.03,
+                      "y": 258.38,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4168,9 +4131,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 279.38,
-                      "width": 53.67,
-                      "height": 13,
+                      "y": 280.38,
+                      "width": 46.45,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4229,10 +4192,10 @@
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 279.38,
-                              "width": 53.67,
-                              "height": 13,
-                              "right": 943.66,
+                              "y": 280.38,
+                              "width": 46.45,
+                              "height": 12,
+                              "right": 936.44,
                               "bottom": 292.38,
                               "text": "Simplicity",
                               "startIndex": 0,
@@ -4258,11 +4221,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 943.66,
-                          "y": 279.38,
-                          "width": 64.69,
-                          "height": 13,
-                          "right": 1008.34,
+                          "x": 936.44,
+                          "y": 280.38,
+                          "width": 52.59,
+                          "height": 12,
+                          "right": 989.03,
                           "bottom": 292.38,
                           "text": " - 07/03/05",
                           "startIndex": 0,
@@ -4285,10 +4248,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 1008.34,
-                      "y": 279.38,
+                      "x": 989.03,
+                      "y": 280.38,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4347,9 +4310,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 301.38,
-                      "width": 61.77,
-                      "height": 13,
+                      "y": 302.38,
+                      "width": 56.27,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4408,10 +4371,10 @@
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 301.38,
-                              "width": 61.77,
-                              "height": 13,
-                              "right": 951.75,
+                              "y": 302.38,
+                              "width": 56.27,
+                              "height": 12,
+                              "right": 946.25,
                               "bottom": 314.38,
                               "text": "The Design",
                               "startIndex": 0,
@@ -4437,11 +4400,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 951.75,
-                          "y": 301.38,
-                          "width": 64.69,
-                          "height": 13,
-                          "right": 1016.44,
+                          "x": 946.25,
+                          "y": 302.38,
+                          "width": 52.59,
+                          "height": 12,
+                          "right": 998.84,
                           "bottom": 314.38,
                           "text": " - 07/02/05",
                           "startIndex": 0,
@@ -4464,10 +4427,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 1016.44,
-                      "y": 301.38,
+                      "x": 998.84,
+                      "y": 302.38,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4526,9 +4489,9 @@
                     "classes": [],
                     "layout": {
                       "x": 889.98,
-                      "y": 323.38,
-                      "width": 41.08,
-                      "height": 13,
+                      "y": 324.38,
+                      "width": 36.08,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4587,10 +4550,10 @@
                           "rects": [
                             {
                               "x": 889.98,
-                              "y": 323.38,
-                              "width": 41.08,
-                              "height": 13,
-                              "right": 931.06,
+                              "y": 324.38,
+                              "width": 36.08,
+                              "height": 12,
+                              "right": 926.06,
                               "bottom": 336.38,
                               "text": "Images",
                               "startIndex": 0,
@@ -4616,11 +4579,11 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 931.06,
-                          "y": 323.38,
-                          "width": 64.69,
-                          "height": 13,
-                          "right": 995.75,
+                          "x": 926.06,
+                          "y": 324.38,
+                          "width": 52.59,
+                          "height": 12,
+                          "right": 978.66,
                           "bottom": 336.38,
                           "text": " - 07/01/05",
                           "startIndex": 0,
@@ -4643,10 +4606,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 995.75,
-                      "y": 323.38,
+                      "x": 978.66,
+                      "y": 324.38,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -4859,10 +4822,10 @@
                       "rects": [
                         {
                           "x": 1007.98,
-                          "y": 389.06,
-                          "width": 3.88,
-                          "height": 13,
-                          "right": 1011.86,
+                          "y": 390.06,
+                          "width": 3.06,
+                          "height": 12,
+                          "right": 1011.05,
                           "bottom": 402.06
                         }
                       ],
@@ -4884,7 +4847,7 @@
                       "go"
                     ],
                     "layout": {
-                      "x": 1011.86,
+                      "x": 1011.05,
                       "y": 385.06,
                       "width": 34.52,
                       "height": 21,
@@ -4950,13 +4913,13 @@
             "classes": [],
             "layout": {
               "x": 60,
-              "y": 689.31,
+              "y": 624.69,
               "width": 1080,
-              "height": 43,
+              "height": 40,
               "contentWidth": 1080,
-              "contentHeight": 42,
+              "contentHeight": 39,
               "scrollWidth": 1080,
-              "scrollHeight": 42
+              "scrollHeight": 39
             },
             "computed": {
               "display": "block",
@@ -5012,13 +4975,13 @@
                 ],
                 "layout": {
                   "x": 60,
-                  "y": 693.31,
+                  "y": 628.69,
                   "width": 1080,
-                  "height": 39,
+                  "height": 36,
                   "contentWidth": 1080,
-                  "contentHeight": 39,
+                  "contentHeight": 36,
                   "scrollWidth": 1080,
-                  "scrollHeight": 39
+                  "scrollHeight": 36
                 },
                 "computed": {
                   "display": "block",
@@ -5071,10 +5034,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 476.27,
-                      "y": 693.31,
-                      "width": 62.91,
-                      "height": 13,
+                      "x": 493.61,
+                      "y": 628.69,
+                      "width": 54.83,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5132,12 +5095,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 476.27,
-                              "y": 693.31,
-                              "width": 62.91,
-                              "height": 13,
-                              "right": 539.17,
-                              "bottom": 706.31,
+                              "x": 493.61,
+                              "y": 628.69,
+                              "width": 54.83,
+                              "height": 12,
+                              "right": 548.44,
+                              "bottom": 640.69,
                               "text": "Xhtml Valid",
                               "startIndex": 0,
                               "endIndex": 11
@@ -5162,12 +5125,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 539.17,
-                          "y": 693.31,
-                          "width": 12.73,
-                          "height": 13,
-                          "right": 551.91,
-                          "bottom": 706.31,
+                          "x": 548.44,
+                          "y": 628.69,
+                          "width": 8.98,
+                          "height": 12,
+                          "right": 557.42,
+                          "bottom": 640.69,
                           "text": " | \n",
                           "startIndex": 0,
                           "endIndex": 4
@@ -5189,10 +5152,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 551.91,
-                      "y": 693.31,
-                      "width": 52.95,
-                      "height": 13,
+                      "x": 557.42,
+                      "y": 628.69,
+                      "width": 49.33,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5250,12 +5213,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 551.91,
-                              "y": 693.31,
-                              "width": 52.95,
-                              "height": 13,
-                              "right": 604.86,
-                              "bottom": 706.31,
+                              "x": 557.42,
+                              "y": 628.69,
+                              "width": 49.33,
+                              "height": 12,
+                              "right": 606.75,
+                              "bottom": 640.69,
                               "text": "CSS Valid",
                               "startIndex": 0,
                               "endIndex": 9
@@ -5280,12 +5243,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 604.86,
-                          "y": 693.31,
-                          "width": 118.88,
-                          "height": 13,
-                          "right": 723.73,
-                          "bottom": 706.31,
+                          "x": 606.75,
+                          "y": 628.69,
+                          "width": 99.64,
+                          "height": 12,
+                          "right": 706.39,
+                          "bottom": 640.69,
                           "text": " | \n© 2005 your name\n",
                           "startIndex": 0,
                           "endIndex": 21
@@ -5307,10 +5270,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 723.73,
-                      "y": 693.31,
+                      "x": 706.39,
+                      "y": 628.69,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5369,12 +5332,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 532.66,
-                          "y": 706.31,
-                          "width": 134.67,
-                          "height": 13,
-                          "right": 667.33,
-                          "bottom": 719.31,
+                          "x": 539.45,
+                          "y": 640.69,
+                          "width": 121.08,
+                          "height": 12,
+                          "right": 660.53,
+                          "bottom": 652.69,
                           "text": "\nDesign by Kevin Cannon",
                           "startIndex": 0,
                           "endIndex": 23
@@ -5396,10 +5359,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 667.33,
-                      "y": 706.31,
+                      "x": 660.53,
+                      "y": 640.69,
                       "width": 0,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5458,12 +5421,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 425.97,
-                          "y": 719.31,
-                          "width": 53.02,
-                          "height": 13,
-                          "right": 478.98,
-                          "bottom": 732.31,
+                          "x": 443.72,
+                          "y": 652.69,
+                          "width": 47.08,
+                          "height": 12,
+                          "right": 490.8,
+                          "bottom": 664.69,
                           "text": "\nCourtesy  ",
                           "startIndex": 0,
                           "endIndex": 11
@@ -5485,10 +5448,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 478.98,
-                      "y": 719.31,
-                      "width": 98.11,
-                      "height": 13,
+                      "x": 490.8,
+                      "y": 652.69,
+                      "width": 89.69,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5546,12 +5509,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 478.98,
-                              "y": 719.31,
-                              "width": 98.11,
-                              "height": 13,
-                              "right": 577.09,
-                              "bottom": 732.31,
+                              "x": 490.8,
+                              "y": 652.69,
+                              "width": 89.69,
+                              "height": 12,
+                              "right": 580.48,
+                              "bottom": 664.69,
                               "text": "Open Web Design",
                               "startIndex": 0,
                               "endIndex": 15
@@ -5575,10 +5538,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 577.09,
-                      "y": 719.31,
+                      "x": 580.48,
+                      "y": 652.69,
                       "width": 5,
-                      "height": 13,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5635,8 +5598,8 @@
                         "id": null,
                         "classes": [],
                         "layout": {
-                          "x": 577.09,
-                          "y": 725.31,
+                          "x": 580.48,
+                          "y": 657.69,
                           "width": 5,
                           "height": 5,
                           "contentWidth": 5,
@@ -5699,12 +5662,12 @@
                     "layout": {
                       "rects": [
                         {
-                          "x": 582.09,
-                          "y": 719.31,
-                          "width": 62.17,
-                          "height": 13,
-                          "right": 644.27,
-                          "bottom": 732.31,
+                          "x": 585.48,
+                          "y": 652.69,
+                          "width": 54.22,
+                          "height": 12,
+                          "right": 639.7,
+                          "bottom": 664.69,
                           "text": " Thanks\nto ",
                           "startIndex": 0,
                           "endIndex": 11
@@ -5726,10 +5689,10 @@
                     "id": null,
                     "classes": [],
                     "layout": {
-                      "x": 644.27,
-                      "y": 719.31,
-                      "width": 129.77,
-                      "height": 13,
+                      "x": 639.7,
+                      "y": 652.69,
+                      "width": 116.58,
+                      "height": 12,
                       "contentWidth": 0,
                       "contentHeight": 0,
                       "scrollWidth": 0,
@@ -5787,12 +5750,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 644.27,
-                              "y": 719.31,
-                              "width": 129.77,
-                              "height": 13,
-                              "right": 774.03,
-                              "bottom": 732.31,
+                              "x": 639.7,
+                              "y": 652.69,
+                              "width": 116.58,
+                              "height": 12,
+                              "right": 756.28,
+                              "bottom": 664.69,
                               "text": "Florida Vacation Homes",
                               "startIndex": 0,
                               "endIndex": 22

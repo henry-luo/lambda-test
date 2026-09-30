@@ -14,6 +14,11 @@ const { spawn } = require('child_process');
 const os = require('os');
 const { referenceNameForPath } = require('./reference_paths');
 const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
+const {
+    referenceCaptureFreezesAnimations,
+    referenceCapturePostLoadSettleMs
+} = require('./reference_capture_policy');
+const { fixtureFontCss, referenceUsesFixtureFontCss } = require('./extract_browser_references');
 
 // Get current platform for loading platform-specific references
 const CURRENT_PLATFORM = os.platform(); // 'linux', 'darwin', or 'win32'
@@ -51,6 +56,11 @@ class ProcessLimiter {
     }
 }
 
+function formatBatchExitStatus(batchResult) {
+    if (batchResult.signal) return `signal ${batchResult.signal}`;
+    return `exit code ${batchResult.exitCode}`;
+}
+
 // Maximum HTML test file size (100KB) - larger files are skipped
 const MAX_TEST_FILE_SIZE = 350 * 1024;
 
@@ -86,9 +96,14 @@ class RadiantLayoutTester {
             'temp',
             `layout_batch_${process.pid}_${Date.now()}_${++TESTER_INSTANCE_ID}`
         ); // Unique directory for this harness run's batch output files
+        this.fixtureFontCssPath = path.join(
+            this.projectRoot, 'temp', `layout_fixture_fonts_${process.pid}.css`
+        );
+        this.fixtureFontCssWrite = null;
         this.processRegistry = options.processRegistry || new Set();
         this.processKillTimers = options.processKillTimers || new Map();
         this._compactReferenceValidity = new Map();
+        this._fixtureFontReferenceCache = new Map();
     }
 
     /**
@@ -226,8 +241,41 @@ class RadiantLayoutTester {
         this.retryMismatches = previous.retryMismatches;
     }
 
+    async ensureFixtureFontStylesheet() {
+        if (!this.fixtureFontCssWrite) {
+            this.fixtureFontCssWrite = fs.writeFile(this.fixtureFontCssPath, fixtureFontCss());
+        }
+        await this.fixtureFontCssWrite;
+    }
+
+    async referenceRequiresFixtureFonts(referencePath, fallbackPath = null) {
+        if (this._fixtureFontReferenceCache.has(referencePath)) {
+            return this._fixtureFontReferenceCache.get(referencePath);
+        }
+        let source;
+        try {
+            source = await fs.readFile(referencePath, 'utf8');
+        } catch (error) {
+            if (error.code !== 'ENOENT' || !fallbackPath || fallbackPath === referencePath) {
+                throw error;
+            }
+            source = await fs.readFile(fallbackPath, 'utf8');
+        }
+        const required = referenceUsesFixtureFontCss(source);
+        this._fixtureFontReferenceCache.set(referencePath, required);
+        return required;
+    }
+
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
+        const freezeAnimations = referenceCaptureFreezesAnimations(files[0]);
+        const postLoadSettleMs = referenceCapturePostLoadSettleMs(files[0]);
+        if (!files.every(file => referenceCaptureFreezesAnimations(file) === freezeAnimations)) {
+            throw new Error('mixed animation capture policies in one layout batch');
+        }
+        if (!files.every(file => referenceCapturePostLoadSettleMs(file) === postLoadSettleMs)) {
+            throw new Error('mixed timer capture policies in one layout batch');
+        }
         const args = ['layout', ...files];
         if (options.stream) {
             args.push('--stream-layout-results', '--continue-on-error');
@@ -237,7 +285,17 @@ class RadiantLayoutTester {
             args.push('-vw', '1200', '-vh', '800');
         }
         args.push('--font-dir', 'test/layout/data/font');
+        if (options.fixtureFonts) {
+            // Match the fixture sheet's end-of-head position in browser capture.
+            args.push('-c', this.fixtureFontCssPath, '--css-at-head-end');
+        }
         args.push('--auto-close');
+        if (postLoadSettleMs > 0) {
+            args.push('--post-load-settle-ms', String(postLoadSettleMs));
+        }
+        if (freezeAnimations) {
+            args.push('--disable-animations');
+        }
         args.push('--no-log');
         return args;
     }
@@ -257,14 +315,15 @@ class RadiantLayoutTester {
      * @param {string} htmlFile - Path to the HTML file to test
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
-    async runRadiantLayout(htmlFile, outputFile = null) {
+    async runRadiantLayout(htmlFile, outputFile = null, options = {}) {
+        if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
         }
         const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = this.buildLayoutArgs(htmlFile);
+            const args = this.buildLayoutArgs(htmlFile, options);
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -316,11 +375,15 @@ class RadiantLayoutTester {
      * Run layout engine on multiple files in batch mode.
      * This is much faster than running individual files as it reuses the UiContext.
      * @param {Array<string>} htmlFiles - Array of HTML file paths to process
-     * @returns {Promise<Map<string, object>>} - resolved input path -> streamed result record
+     * @returns {Promise<{outputMap: Map<string, object>, exitCode: number|null,
+     *                    signal: string|null, stderr: string}>}
+     *   Streamed records are retained after a child failure so callers can retry
+     *   only inputs that did not produce a successful frame.
      */
-    async runBatchLayout(htmlFiles) {
+    async runBatchLayout(htmlFiles, options = {}) {
+        if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         const launch = () => new Promise((resolve, reject) => {
-            const args = this.buildLayoutArgs(htmlFiles, { stream: true });
+            const args = this.buildLayoutArgs(htmlFiles, { ...options, stream: true });
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
@@ -400,7 +463,7 @@ class RadiantLayoutTester {
                 finish(reject, new Error(`Batch layout timeout (${htmlFiles.length} files, ${Math.round(batchTimeout / 1000)}s limit)`));
             }, batchTimeout);
 
-            proc.on('close', (code) => {
+            proc.on('close', (code, signal) => {
                 if (!this.json) {
                     // Clear the progress line
                     process.stdout.write('   \r');
@@ -416,7 +479,7 @@ class RadiantLayoutTester {
                 }
                 // Partial maps are intentional after a child crash; callers retry
                 // only records that did not arrive as complete frames.
-                finish(resolve, outputMap);
+                finish(resolve, { outputMap, exitCode: code, signal, stderr });
             });
 
             proc.on('error', (error) => {
@@ -1028,17 +1091,20 @@ class RadiantLayoutTester {
             const reference = await this.resolveBrowserReference(
                 testName, task.category, task.htmlFile);
             if (!reference) return { task, skip: 'no-ref' };
-            return { task, skip: null, reference };
+            const fixtureFonts = await this.referenceRequiresFixtureFonts(
+                reference.sourcePath || reference.path, reference.path);
+            return { task, skip: null, reference, fixtureFonts };
         }));
 
-        for (const { task, skip, size, reference } of checks) {
+        for (const { task, skip, size, reference, fixtureFonts } of checks) {
             const categoryPlan = categoryPlans.get(task.category);
             if (!categoryPlan) continue;
             if (skip === null) {
                 categoryPlan.tasks.push({
                     ...task,
                     referencePath: reference.path,
-                    referenceSchemaVersion: reference.schemaVersion
+                    referenceSchemaVersion: reference.schemaVersion,
+                    fixtureFonts: fixtureFonts
                 });
                 continue;
             }
@@ -2399,13 +2465,23 @@ class RadiantLayoutTester {
         // console.log(`\n🧪 Testing: ${testName}`);
 
         try {
+            const reference = await this.resolveBrowserReference(testName, category, htmlFile);
+            if (!reference) {
+                console.log(`   ⚠️  No browser reference found for ${testName}`);
+                return null;
+            }
+            const fixtureFonts = await this.referenceRequiresFixtureFonts(
+                reference.sourcePath || reference.path, reference.path);
+
             // Run Radiant layout with optional unique output file
-            const layoutResult = await this.runRadiantLayout(htmlFile, outputFile);
+            const layoutResult = await this.runRadiantLayout(
+                htmlFile, outputFile, { fixtureFonts });
             const actualOutputFile = layoutResult.outputFile || this.outputFile;
             const radiantData = await this.loadRadiantOutput(testFileName, actualOutputFile);
 
             // Load browser reference
-            const browserData = await this.loadBrowserReference(testName, category, htmlFile);
+            const browserData = await this.loadBrowserReference(
+                testName, category, htmlFile, reference.path);
             if (!browserData) {
                 console.log(`   ⚠️  No browser reference found for ${testName}`);
                 return null;
@@ -2645,12 +2721,25 @@ class RadiantLayoutTester {
             batchCount++;
         }
         batches = batches.filter(batch => batch.length > 0);
+        // Each process needs one capture environment because CLI flags are process-wide.
+        batches = batches.flatMap(batch => {
+            const policyBatches = new Map();
+            for (const task of batch) {
+                const animationPolicy = referenceCaptureFreezesAnimations(task.htmlFile)
+                    ? 'frozen' : 'live';
+                const fontPolicy = task.fixtureFonts ? 'fixture-fonts' : 'document-fonts';
+                const policy = `${animationPolicy}:${fontPolicy}`;
+                if (!policyBatches.has(policy)) policyBatches.set(policy, []);
+                policyBatches.get(policy).push(task);
+            }
+            return [...policyBatches.values()];
+        });
         const batchSize = Math.max(...batches.map(batch => batch.length));
         this._lastBatchInfo = {
             taskCount: testTasks.length,
             batchSize,
             batchCount: batches.length,
-            strategy: 'strided'
+            strategy: 'strided+reference-capture-policy'
         };
 
         if (!this.json) {
@@ -2663,6 +2752,7 @@ class RadiantLayoutTester {
          */
         const processBatch = async (batch, batchIndex) => {
             const htmlFiles = batch.map(task => task.htmlFile);
+            const fixtureFonts = batch[0].fixtureFonts === true;
             const batchOutputDir = path.join(this.batchOutputDir, `batch_${batchIndex + 1}`);
             if (this.verbose) {
                 console.log(`\n📦 Batch ${batchIndex + 1}/${batches.length}: ${batch.length} files`);
@@ -2682,13 +2772,14 @@ class RadiantLayoutTester {
                 };
             };
 
-            let outputMap;
+            let batchResult;
             try {
-                outputMap = await this.runBatchLayout(htmlFiles);
+                batchResult = await this.runBatchLayout(htmlFiles, { fixtureFonts });
             } catch (err) {
                 console.log(`   ⚠️  Batch ${batchIndex + 1} error: ${err.message} — skipping ${batch.length} tests`);
                 return batch.map(task => makeLayoutFailure(task, `Batch error: ${err.message}`));
             }
+            const outputMap = batchResult.outputMap;
 
             // Complete frames survive a child crash; only absent/failed records
             // need isolated retries, with no intermediate result files.
@@ -2707,13 +2798,28 @@ class RadiantLayoutTester {
             if (missingTasks.length > 0) {
                 if (!this.json) {
                     console.log(`   🔄 Retrying ${missingTasks.length} files individually (batch process crash recovery)`);
+                    console.log(`      batch ${batchIndex + 1}: ${formatBatchExitStatus(batchResult)}, ` +
+                        `${outputMap.size}/${batch.length} streamed result frames`);
+                    for (const task of missingTasks) {
+                        const record = outputMap.get(path.resolve(task.htmlFile));
+                        const state = !record ? 'no result frame'
+                            : !record.success ? 'failed result frame'
+                                : 'empty result frame';
+                        console.log(`      ${task.htmlFile} (${state})`);
+                    }
+                    const stderr = batchResult.stderr.trim();
+                    console.log(stderr
+                        ? `      child stderr:\n${stderr.replace(/\n/g, '\n      ')}`
+                        : '      child stderr: (empty)');
                 }
                 for (const task of missingTasks) {
                     try {
-                        const retryMap = await this.runBatchLayout([task.htmlFile]);
-                        const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                        const retryResult = await this.runBatchLayout(
+                            [task.htmlFile], { fixtureFonts });
+                        const retryRecord = retryResult.outputMap.get(path.resolve(task.htmlFile));
                         if (!retryRecord || !retryRecord.success || !retryRecord.data) {
-                            throw new Error('isolated layout produced no successful result frame');
+                            throw new Error(
+                                `isolated layout produced no successful result frame (${formatBatchExitStatus(retryResult)})`);
                         }
                         validTasks.push({ task, radiantData: retryRecord.data });
                     } catch (err) {
@@ -2753,10 +2859,12 @@ class RadiantLayoutTester {
                 }
 
                 try {
-                    const retryMap = await this.runBatchLayout([task.htmlFile]);
-                    const retryRecord = retryMap.get(path.resolve(task.htmlFile));
+                    const retryBatchResult = await this.runBatchLayout(
+                        [task.htmlFile], { fixtureFonts });
+                    const retryRecord = retryBatchResult.outputMap.get(path.resolve(task.htmlFile));
                     if (!retryRecord || !retryRecord.success || !retryRecord.data) {
-                        throw new Error('isolated retry produced no successful result frame');
+                        throw new Error(
+                            `isolated retry produced no successful result frame (${formatBatchExitStatus(retryBatchResult)})`);
                     }
                     const retryResult = await this.compareTestResult(
                         task.htmlFile, task.category, retryRecord.data,

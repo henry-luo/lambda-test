@@ -1352,7 +1352,7 @@
           },
           {
             "nodeType": "element",
-            "selector": "style",
+            "selector": "style:nth-of-type(1)",
             "tag": "style",
             "id": null,
             "classes": [],
@@ -1409,6 +1409,162 @@
             },
             "depth": 2,
             "elementIndex": 35,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Ahem.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }",
+                "length": 22087,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(2)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Open Sans\", sans-serif",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 36,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(3)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Open Sans\", sans-serif",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 37,
             "children": [
               {
                 "nodeType": "text",
@@ -12995,7 +13151,7 @@
                   "contentWidth": 1170,
                   "contentHeight": 803,
                   "scrollWidth": 1170,
-                  "scrollHeight": 808
+                  "scrollHeight": 803
                 },
                 "computed": {
                   "display": "block",
@@ -13057,7 +13213,7 @@
                       "contentWidth": 1170,
                       "contentHeight": 803,
                       "scrollWidth": 1170,
-                      "scrollHeight": 808
+                      "scrollHeight": 803
                     },
                     "computed": {
                       "display": "block",
@@ -14801,7 +14957,7 @@
                         ],
                         "layout": {
                           "x": 405,
-                          "y": 3216.39,
+                          "y": 3216.19,
                           "width": 390,
                           "height": 604.13,
                           "contentWidth": 390,
@@ -14865,7 +15021,7 @@
                             ],
                             "layout": {
                               "x": 420,
-                              "y": 3216.39,
+                              "y": 3216.19,
                               "width": 360,
                               "height": 604.13,
                               "contentWidth": 358,
@@ -14925,7 +15081,7 @@
                                 "classes": [],
                                 "layout": {
                                   "x": 421,
-                                  "y": 3217.39,
+                                  "y": 3217.19,
                                   "width": 358,
                                   "height": 94.28,
                                   "contentWidth": 358,
@@ -14986,11 +15142,11 @@
                                       "rects": [
                                         {
                                           "x": 566.97,
-                                          "y": 3247.39,
+                                          "y": 3247.19,
                                           "width": 66.06,
                                           "height": 33,
                                           "right": 633.03,
-                                          "bottom": 3280.39,
+                                          "bottom": 3280.19,
                                           "text": "Gold",
                                           "startIndex": 0,
                                           "endIndex": 4
@@ -15017,7 +15173,7 @@
                                 ],
                                 "layout": {
                                   "x": 421,
-                                  "y": 3311.67,
+                                  "y": 3311.47,
                                   "width": 358,
                                   "height": 152.84,
                                   "contentWidth": 358,
@@ -15077,7 +15233,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 506.28,
-                                      "y": 3360.67,
+                                      "y": 3360.47,
                                       "width": 18.3,
                                       "height": 32,
                                       "contentWidth": 18,
@@ -15138,11 +15294,11 @@
                                           "rects": [
                                             {
                                               "x": 506.28,
-                                              "y": 3354.67,
+                                              "y": 3354.47,
                                               "width": 18.3,
                                               "height": 43,
                                               "right": 524.58,
-                                              "bottom": 3397.67,
+                                              "bottom": 3397.47,
                                               "text": "$",
                                               "startIndex": 0,
                                               "endIndex": 1
@@ -15168,11 +15324,11 @@
                                       "rects": [
                                         {
                                           "x": 524.58,
-                                          "y": 3373.67,
+                                          "y": 3373.47,
                                           "width": 3.64,
                                           "height": 19,
                                           "right": 528.22,
-                                          "bottom": 3392.67
+                                          "bottom": 3392.47
                                         }
                                       ],
                                       "hasLayout": true,
@@ -15192,7 +15348,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 528.22,
-                                      "y": 3331.67,
+                                      "y": 3331.47,
                                       "width": 165.48,
                                       "height": 65,
                                       "contentWidth": 165,
@@ -15253,11 +15409,11 @@
                                           "rects": [
                                             {
                                               "x": 528.22,
-                                              "y": 3319.67,
+                                              "y": 3319.47,
                                               "width": 165.48,
                                               "height": 88,
                                               "right": 693.7,
-                                              "bottom": 3407.67,
+                                              "bottom": 3407.47,
                                               "text": "50,00",
                                               "startIndex": 0,
                                               "endIndex": 5
@@ -15282,7 +15438,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 693.7,
-                                      "y": 3373.67,
+                                      "y": 3373.47,
                                       "width": 0,
                                       "height": 19,
                                       "contentWidth": 0,
@@ -15343,7 +15499,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 575.11,
-                                      "y": 3421.67,
+                                      "y": 3421.47,
                                       "width": 49.77,
                                       "height": 22.84,
                                       "contentWidth": 50,
@@ -15404,11 +15560,11 @@
                                           "rects": [
                                             {
                                               "x": 575.11,
-                                              "y": 3421.67,
+                                              "y": 3421.47,
                                               "width": 49.77,
                                               "height": 22,
                                               "right": 624.88,
-                                              "bottom": 3443.67,
+                                              "bottom": 3443.47,
                                               "text": "month",
                                               "startIndex": 0,
                                               "endIndex": 5
@@ -15435,7 +15591,7 @@
                                 "classes": [],
                                 "layout": {
                                   "x": 421,
-                                  "y": 3464.52,
+                                  "y": 3464.31,
                                   "width": 358,
                                   "height": 355,
                                   "contentWidth": 358,
@@ -15495,7 +15651,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 421,
-                                      "y": 3464.52,
+                                      "y": 3464.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -15556,11 +15712,11 @@
                                           "rects": [
                                             {
                                               "x": 569.7,
-                                              "y": 3490.52,
+                                              "y": 3490.31,
                                               "width": 60.59,
                                               "height": 19,
                                               "right": 630.3,
-                                              "bottom": 3509.52,
+                                              "bottom": 3509.31,
                                               "text": "Free Trial",
                                               "startIndex": 0,
                                               "endIndex": 10
@@ -15585,7 +15741,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 421,
-                                      "y": 3535.52,
+                                      "y": 3535.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -15646,11 +15802,11 @@
                                           "rects": [
                                             {
                                               "x": 569.7,
-                                              "y": 3561.52,
+                                              "y": 3561.31,
                                               "width": 60.59,
                                               "height": 19,
                                               "right": 630.3,
-                                              "bottom": 3580.52,
+                                              "bottom": 3580.31,
                                               "text": "Free Trial",
                                               "startIndex": 0,
                                               "endIndex": 10
@@ -15675,7 +15831,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 421,
-                                      "y": 3606.52,
+                                      "y": 3606.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -15736,11 +15892,11 @@
                                           "rects": [
                                             {
                                               "x": 569.7,
-                                              "y": 3632.52,
+                                              "y": 3632.31,
                                               "width": 60.59,
                                               "height": 19,
                                               "right": 630.3,
-                                              "bottom": 3651.52,
+                                              "bottom": 3651.31,
                                               "text": "Free Trial",
                                               "startIndex": 0,
                                               "endIndex": 10
@@ -15765,7 +15921,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 421,
-                                      "y": 3677.52,
+                                      "y": 3677.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -15826,11 +15982,11 @@
                                           "rects": [
                                             {
                                               "x": 569.7,
-                                              "y": 3703.52,
+                                              "y": 3703.31,
                                               "width": 60.59,
                                               "height": 19,
                                               "right": 630.3,
-                                              "bottom": 3722.52,
+                                              "bottom": 3722.31,
                                               "text": "Free Trial",
                                               "startIndex": 0,
                                               "endIndex": 10
@@ -15855,7 +16011,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 421,
-                                      "y": 3748.52,
+                                      "y": 3748.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -15915,7 +16071,7 @@
                                         "classes": [],
                                         "layout": {
                                           "x": 421,
-                                          "y": 3774.52,
+                                          "y": 3774.31,
                                           "width": 358,
                                           "height": 20,
                                           "contentWidth": 358,
@@ -15976,11 +16132,11 @@
                                               "rects": [
                                                 {
                                                   "x": 572.7,
-                                                  "y": 3774.52,
+                                                  "y": 3774.31,
                                                   "width": 54.58,
                                                   "height": 19,
                                                   "right": 627.28,
-                                                  "bottom": 3793.52,
+                                                  "bottom": 3793.31,
                                                   "text": "sign up",
                                                   "startIndex": 0,
                                                   "endIndex": 7
@@ -16019,7 +16175,7 @@
                         ],
                         "layout": {
                           "x": 795,
-                          "y": 3220.83,
+                          "y": 3216.19,
                           "width": 390,
                           "height": 604.13,
                           "contentWidth": 390,
@@ -16082,7 +16238,7 @@
                             ],
                             "layout": {
                               "x": 810,
-                              "y": 3220.83,
+                              "y": 3216.19,
                               "width": 360,
                               "height": 604.13,
                               "contentWidth": 358,
@@ -16142,7 +16298,7 @@
                                 "classes": [],
                                 "layout": {
                                   "x": 811,
-                                  "y": 3221.83,
+                                  "y": 3217.19,
                                   "width": 358,
                                   "height": 94.28,
                                   "contentWidth": 358,
@@ -16203,11 +16359,11 @@
                                       "rects": [
                                         {
                                           "x": 932.48,
-                                          "y": 3251.83,
+                                          "y": 3247.19,
                                           "width": 115.03,
                                           "height": 33,
                                           "right": 1047.52,
-                                          "bottom": 3284.83,
+                                          "bottom": 3280.19,
                                           "text": "Diamond",
                                           "startIndex": 0,
                                           "endIndex": 7
@@ -16234,7 +16390,7 @@
                                 ],
                                 "layout": {
                                   "x": 811,
-                                  "y": 3316.11,
+                                  "y": 3311.47,
                                   "width": 358,
                                   "height": 152.84,
                                   "contentWidth": 358,
@@ -16294,7 +16450,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 877.7,
-                                      "y": 3365.11,
+                                      "y": 3360.47,
                                       "width": 18.3,
                                       "height": 32,
                                       "contentWidth": 18,
@@ -16355,11 +16511,11 @@
                                           "rects": [
                                             {
                                               "x": 877.7,
-                                              "y": 3359.11,
+                                              "y": 3354.47,
                                               "width": 18.3,
                                               "height": 43,
                                               "right": 896,
-                                              "bottom": 3402.11,
+                                              "bottom": 3397.47,
                                               "text": "$",
                                               "startIndex": 0,
                                               "endIndex": 1
@@ -16385,11 +16541,11 @@
                                       "rects": [
                                         {
                                           "x": 896,
-                                          "y": 3378.11,
+                                          "y": 3373.47,
                                           "width": 3.64,
                                           "height": 19,
                                           "right": 899.64,
-                                          "bottom": 3397.11
+                                          "bottom": 3392.47
                                         }
                                       ],
                                       "hasLayout": true,
@@ -16409,7 +16565,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 899.64,
-                                      "y": 3336.11,
+                                      "y": 3331.47,
                                       "width": 202.66,
                                       "height": 65,
                                       "contentWidth": 203,
@@ -16470,11 +16626,11 @@
                                           "rects": [
                                             {
                                               "x": 899.64,
-                                              "y": 3324.11,
+                                              "y": 3319.47,
                                               "width": 202.66,
                                               "height": 88,
                                               "right": 1102.3,
-                                              "bottom": 3412.11,
+                                              "bottom": 3407.47,
                                               "text": "123,12",
                                               "startIndex": 0,
                                               "endIndex": 6
@@ -16499,7 +16655,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 1102.3,
-                                      "y": 3378.11,
+                                      "y": 3373.47,
                                       "width": 0,
                                       "height": 19,
                                       "contentWidth": 0,
@@ -16560,7 +16716,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 965.11,
-                                      "y": 3426.11,
+                                      "y": 3421.47,
                                       "width": 49.77,
                                       "height": 22.84,
                                       "contentWidth": 50,
@@ -16621,11 +16777,11 @@
                                           "rects": [
                                             {
                                               "x": 965.11,
-                                              "y": 3426.11,
+                                              "y": 3421.47,
                                               "width": 49.77,
                                               "height": 22,
                                               "right": 1014.88,
-                                              "bottom": 3448.11,
+                                              "bottom": 3443.47,
                                               "text": "month",
                                               "startIndex": 0,
                                               "endIndex": 5
@@ -16652,7 +16808,7 @@
                                 "classes": [],
                                 "layout": {
                                   "x": 811,
-                                  "y": 3468.95,
+                                  "y": 3464.31,
                                   "width": 358,
                                   "height": 355,
                                   "contentWidth": 358,
@@ -16712,7 +16868,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 811,
-                                      "y": 3468.95,
+                                      "y": 3464.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -16773,11 +16929,11 @@
                                           "rects": [
                                             {
                                               "x": 937.42,
-                                              "y": 3494.95,
+                                              "y": 3490.31,
                                               "width": 105.14,
                                               "height": 19,
                                               "right": 1042.56,
-                                              "bottom": 3513.95,
+                                              "bottom": 3509.31,
                                               "text": "All Bonus Points",
                                               "startIndex": 0,
                                               "endIndex": 16
@@ -16802,7 +16958,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 811,
-                                      "y": 3539.95,
+                                      "y": 3535.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -16863,11 +17019,11 @@
                                           "rects": [
                                             {
                                               "x": 937.42,
-                                              "y": 3565.95,
+                                              "y": 3561.31,
                                               "width": 105.14,
                                               "height": 19,
                                               "right": 1042.56,
-                                              "bottom": 3584.95,
+                                              "bottom": 3580.31,
                                               "text": "All Bonus Points",
                                               "startIndex": 0,
                                               "endIndex": 16
@@ -16892,7 +17048,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 811,
-                                      "y": 3610.95,
+                                      "y": 3606.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -16953,11 +17109,11 @@
                                           "rects": [
                                             {
                                               "x": 937.42,
-                                              "y": 3636.95,
+                                              "y": 3632.31,
                                               "width": 105.14,
                                               "height": 19,
                                               "right": 1042.56,
-                                              "bottom": 3655.95,
+                                              "bottom": 3651.31,
                                               "text": "All Bonus Points",
                                               "startIndex": 0,
                                               "endIndex": 16
@@ -16982,7 +17138,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 811,
-                                      "y": 3681.95,
+                                      "y": 3677.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -17043,11 +17199,11 @@
                                           "rects": [
                                             {
                                               "x": 937.42,
-                                              "y": 3707.95,
+                                              "y": 3703.31,
                                               "width": 105.14,
                                               "height": 19,
                                               "right": 1042.56,
-                                              "bottom": 3726.95,
+                                              "bottom": 3722.31,
                                               "text": "All Bonus Points",
                                               "startIndex": 0,
                                               "endIndex": 16
@@ -17072,7 +17228,7 @@
                                     "classes": [],
                                     "layout": {
                                       "x": 811,
-                                      "y": 3752.95,
+                                      "y": 3748.31,
                                       "width": 358,
                                       "height": 71,
                                       "contentWidth": 358,
@@ -17132,7 +17288,7 @@
                                         "classes": [],
                                         "layout": {
                                           "x": 811,
-                                          "y": 3778.95,
+                                          "y": 3774.31,
                                           "width": 358,
                                           "height": 20,
                                           "contentWidth": 358,
@@ -17193,11 +17349,11 @@
                                               "rects": [
                                                 {
                                                   "x": 962.7,
-                                                  "y": 3778.95,
+                                                  "y": 3774.31,
                                                   "width": 54.58,
                                                   "height": 19,
                                                   "right": 1017.28,
-                                                  "bottom": 3797.95,
+                                                  "bottom": 3793.31,
                                                   "text": "sign up",
                                                   "startIndex": 0,
                                                   "endIndex": 7

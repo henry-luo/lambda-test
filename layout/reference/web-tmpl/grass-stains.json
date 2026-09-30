@@ -51,7 +51,7 @@
       "gap": "normal",
       "fontSize": 16,
       "lineHeight": "normal",
-      "fontFamily": "Times",
+      "fontFamily": "\"Times New Roman\"",
       "fontWeight": "400",
       "textAlign": "start",
       "verticalAlign": "baseline",
@@ -111,7 +111,7 @@
           "gap": "normal",
           "fontSize": 16,
           "lineHeight": "normal",
-          "fontFamily": "Times",
+          "fontFamily": "\"Times New Roman\"",
           "fontWeight": "400",
           "textAlign": "start",
           "verticalAlign": "baseline",
@@ -187,7 +187,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -264,7 +264,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -341,7 +341,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -418,7 +418,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -495,7 +495,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -572,7 +572,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -649,7 +649,7 @@
               "gap": "normal",
               "fontSize": 16,
               "lineHeight": "normal",
-              "fontFamily": "Times",
+              "fontFamily": "\"Times New Roman\"",
               "fontWeight": "400",
               "textAlign": "start",
               "verticalAlign": "baseline",
@@ -698,6 +698,162 @@
             "depth": 2,
             "nodeIndex": 14,
             "children": []
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(1)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 15,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Ahem.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/OpenSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/Roboto-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSerif-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationSans-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Regular.ttf\") format(\"truetype\"); font-style: normal; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Bold.ttf\") format(\"truetype\"); font-style: normal; font-weight: 700; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-Italic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 400; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/LiberationMono-BoldItalic.ttf\") format(\"truetype\"); font-style: italic; font-weight: 700; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Ahem\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Serif\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Liberation Mono\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Open Sans\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Roboto\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times New Roman\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Times\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Georgia\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Arial\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Helvetica Neue\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Verdana\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Trebuchet MS\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Tahoma\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier New\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Courier\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansSC-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF; }\n@font-face { font-family: \"Lucida Console\"; src: url(\"file:///Users/henry/Projects/lambda-test/layout/data/font/NotoSansKR-Subset.otf\") format(\"opentype\"); font-style: normal; font-weight: 400; unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF; }",
+                "length": 22087,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodeType": "element",
+            "selector": "style:nth-of-type(2)",
+            "tag": "style",
+            "id": null,
+            "classes": [],
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0,
+              "contentWidth": 0,
+              "contentHeight": 0,
+              "scrollWidth": 0,
+              "scrollHeight": 0
+            },
+            "computed": {
+              "display": "none",
+              "position": "static",
+              "marginTop": 0,
+              "marginRight": 0,
+              "marginBottom": 0,
+              "marginLeft": 0,
+              "paddingTop": 0,
+              "paddingRight": 0,
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "borderTopWidth": 0,
+              "borderRightWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+              "justifyContent": "normal",
+              "alignItems": "normal",
+              "alignContent": "normal",
+              "flexGrow": 0,
+              "flexShrink": 1,
+              "flexBasis": "auto",
+              "alignSelf": "auto",
+              "order": 0,
+              "gap": "normal",
+              "fontSize": 16,
+              "lineHeight": "normal",
+              "fontFamily": "\"Times New Roman\"",
+              "fontWeight": "400",
+              "textAlign": "start",
+              "verticalAlign": "baseline",
+              "top": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "left": "auto",
+              "zIndex": "auto",
+              "overflow": "visible",
+              "overflowX": "visible",
+              "overflowY": "visible"
+            },
+            "depth": 2,
+            "elementIndex": 16,
+            "children": [
+              {
+                "nodeType": "text",
+                "text": "\n                    *, *::before, *::after {\n                        animation-duration: 0s !important;\n                        animation-delay: 0s !important;\n                        transition-duration: 0s !important;\n                        transition-delay: 0s !important;\n                    }\n                ",
+                "length": 316,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [],
+                  "hasLayout": false,
+                  "parentVisible": false,
+                  "parentDisplay": "none",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              }
+            ]
           }
         ]
       },
@@ -840,7 +996,7 @@
                   "contentWidth": 770,
                   "contentHeight": 22,
                   "scrollWidth": 770,
-                  "scrollHeight": 31
+                  "scrollHeight": 29
                 },
                 "computed": {
                   "display": "block",
@@ -896,11 +1052,11 @@
                       "x": 210,
                       "y": 81,
                       "width": 770,
-                      "height": 31,
+                      "height": 29,
                       "contentWidth": 770,
-                      "contentHeight": 31,
+                      "contentHeight": 29,
                       "scrollWidth": 770,
-                      "scrollHeight": 31
+                      "scrollHeight": 29
                     },
                     "computed": {
                       "display": "block",
@@ -954,12 +1110,12 @@
                         "layout": {
                           "rects": [
                             {
-                              "x": 619.94,
+                              "x": 647.14,
                               "y": 81,
-                              "width": 360.06,
-                              "height": 31,
+                              "width": 332.86,
+                              "height": 28,
                               "right": 980,
-                              "bottom": 112,
+                              "bottom": 109,
                               "text": "culture shock",
                               "startIndex": 0,
                               "endIndex": 13
@@ -2092,11 +2248,11 @@
                       "x": 760,
                       "y": 155,
                       "width": 220,
-                      "height": 168.72,
+                      "height": 157.72,
                       "contentWidth": 220,
-                      "contentHeight": 169,
+                      "contentHeight": 158,
                       "scrollWidth": 220,
-                      "scrollHeight": 180
+                      "scrollHeight": 168
                     },
                     "computed": {
                       "display": "block",
@@ -2124,7 +2280,7 @@
                       "alignSelf": "auto",
                       "order": 0,
                       "gap": "normal",
-                      "fontSize": 9,
+                      "fontSize": 8.96,
                       "lineHeight": "normal",
                       "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                       "fontWeight": "400",
@@ -2186,7 +2342,7 @@
                           "alignSelf": "auto",
                           "order": 0,
                           "gap": "normal",
-                          "fontSize": 9,
+                          "fontSize": 8.96,
                           "lineHeight": "normal",
                           "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                           "fontWeight": "400",
@@ -2248,7 +2404,7 @@
                               "alignSelf": "auto",
                               "order": 0,
                               "gap": "normal",
-                              "fontSize": 9,
+                              "fontSize": 8.96,
                               "lineHeight": "normal",
                               "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                               "fontWeight": "400",
@@ -2403,7 +2559,7 @@
                           "alignSelf": "auto",
                           "order": 0,
                           "gap": "normal",
-                          "fontSize": 9,
+                          "fontSize": 8.96,
                           "lineHeight": "normal",
                           "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                           "fontWeight": "400",
@@ -2463,7 +2619,7 @@
                               "alignSelf": "auto",
                               "order": 0,
                               "gap": "normal",
-                              "fontSize": 9,
+                              "fontSize": 8.96,
                               "lineHeight": "normal",
                               "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                               "fontWeight": "400",
@@ -2494,11 +2650,11 @@
                           "x": 775,
                           "y": 184.72,
                           "width": 190,
-                          "height": 77,
+                          "height": 60,
                           "contentWidth": 190,
-                          "contentHeight": 77,
+                          "contentHeight": 60,
                           "scrollWidth": 190,
-                          "scrollHeight": 77
+                          "scrollHeight": 60
                         },
                         "computed": {
                           "display": "block",
@@ -2526,7 +2682,7 @@
                           "alignSelf": "auto",
                           "order": 0,
                           "gap": "normal",
-                          "fontSize": 9,
+                          "fontSize": 8.96,
                           "lineHeight": "normal",
                           "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                           "fontWeight": "400",
@@ -2546,21 +2702,21 @@
                         "children": [
                           {
                             "nodeType": "text",
-                            "text": "A handy right-side ",
-                            "length": 19,
+                            "text": "A handy right-side text ",
+                            "length": 24,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
                                   "y": 184.72,
-                                  "width": 83.42,
-                                  "height": 11,
-                                  "right": 958.42,
-                                  "bottom": 195.72,
-                                  "text": "A handy right-side ",
+                                  "width": 88.66,
+                                  "height": 10,
+                                  "right": 963.66,
+                                  "bottom": 194.72,
+                                  "text": "A handy right-side text ",
                                   "startIndex": 0,
-                                  "endIndex": 19
+                                  "endIndex": 24
                                 }
                               ],
                               "hasLayout": true,
@@ -2574,103 +2730,19 @@
                           },
                           {
                             "nodeType": "text",
-                            "text": "text box for news, ",
-                            "length": 19,
-                            "isWhitespaceOnly": false,
-                            "layout": {
-                              "rects": [
-                                {
-                                  "x": 875,
-                                  "y": 195.72,
-                                  "width": 82.44,
-                                  "height": 11,
-                                  "right": 957.44,
-                                  "bottom": 206.72,
-                                  "text": "text box for news, ",
-                                  "startIndex": 0,
-                                  "endIndex": 19
-                                }
-                              ],
-                              "hasLayout": true,
-                              "parentVisible": true,
-                              "parentDisplay": "block",
-                              "parentVisibility": "visible"
-                            },
-                            "depth": 6,
-                            "nodeIndex": 0,
-                            "children": []
-                          },
-                          {
-                            "nodeType": "text",
-                            "text": "updates or maybe ",
-                            "length": 17,
-                            "isWhitespaceOnly": false,
-                            "layout": {
-                              "rects": [
-                                {
-                                  "x": 875,
-                                  "y": 206.72,
-                                  "width": 81.94,
-                                  "height": 11,
-                                  "right": 956.94,
-                                  "bottom": 217.72,
-                                  "text": "updates or maybe ",
-                                  "startIndex": 0,
-                                  "endIndex": 17
-                                }
-                              ],
-                              "hasLayout": true,
-                              "parentVisible": true,
-                              "parentDisplay": "block",
-                              "parentVisibility": "visible"
-                            },
-                            "depth": 6,
-                            "nodeIndex": 0,
-                            "children": []
-                          },
-                          {
-                            "nodeType": "text",
-                            "text": "a profile. The\n",
-                            "length": 15,
-                            "isWhitespaceOnly": false,
-                            "layout": {
-                              "rects": [
-                                {
-                                  "x": 875,
-                                  "y": 217.72,
-                                  "width": 60,
-                                  "height": 11,
-                                  "right": 935,
-                                  "bottom": 228.72,
-                                  "text": "a profile. The\n",
-                                  "startIndex": 0,
-                                  "endIndex": 15
-                                }
-                              ],
-                              "hasLayout": true,
-                              "parentVisible": true,
-                              "parentDisplay": "block",
-                              "parentVisibility": "visible"
-                            },
-                            "depth": 6,
-                            "nodeIndex": 0,
-                            "children": []
-                          },
-                          {
-                            "nodeType": "text",
-                            "text": "          choices are ",
+                            "text": "box for news, updates ",
                             "length": 22,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 228.72,
-                                  "width": 50.83,
-                                  "height": 11,
-                                  "right": 925.83,
-                                  "bottom": 239.72,
-                                  "text": "          choices are ",
+                                  "y": 194.72,
+                                  "width": 87.67,
+                                  "height": 10,
+                                  "right": 962.67,
+                                  "bottom": 204.72,
+                                  "text": "box for news, updates ",
                                   "startIndex": 0,
                                   "endIndex": 22
                                 }
@@ -2686,21 +2758,21 @@
                           },
                           {
                             "nodeType": "text",
-                            "text": "practically limitless ",
-                            "length": 22,
+                            "text": "or maybe a profile. ",
+                            "length": 20,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 239.72,
-                                  "width": 85.84,
-                                  "height": 11,
-                                  "right": 960.84,
-                                  "bottom": 250.72,
-                                  "text": "practically limitless ",
+                                  "y": 204.72,
+                                  "width": 74.22,
+                                  "height": 10,
+                                  "right": 949.22,
+                                  "bottom": 214.72,
+                                  "text": "or maybe a profile. ",
                                   "startIndex": 0,
-                                  "endIndex": 22
+                                  "endIndex": 20
                                 }
                               ],
                               "hasLayout": true,
@@ -2714,21 +2786,77 @@
                           },
                           {
                             "nodeType": "text",
-                            "text": "for this blue box!",
-                            "length": 18,
+                            "text": "The\n          choices are ",
+                            "length": 26,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 250.72,
-                                  "width": 77.34,
-                                  "height": 11,
-                                  "right": 952.34,
-                                  "bottom": 261.72,
-                                  "text": "for this blue box!",
+                                  "y": 214.72,
+                                  "width": 63.75,
+                                  "height": 10,
+                                  "right": 938.75,
+                                  "bottom": 224.72,
+                                  "text": "The\n          choices are ",
                                   "startIndex": 0,
-                                  "endIndex": 18
+                                  "endIndex": 26
+                                }
+                              ],
+                              "hasLayout": true,
+                              "parentVisible": true,
+                              "parentDisplay": "block",
+                              "parentVisibility": "visible"
+                            },
+                            "depth": 6,
+                            "nodeIndex": 0,
+                            "children": []
+                          },
+                          {
+                            "nodeType": "text",
+                            "text": "practically limitless for ",
+                            "length": 26,
+                            "isWhitespaceOnly": false,
+                            "layout": {
+                              "rects": [
+                                {
+                                  "x": 875,
+                                  "y": 224.72,
+                                  "width": 87.14,
+                                  "height": 10,
+                                  "right": 962.14,
+                                  "bottom": 234.72,
+                                  "text": "practically limitless for ",
+                                  "startIndex": 0,
+                                  "endIndex": 26
+                                }
+                              ],
+                              "hasLayout": true,
+                              "parentVisible": true,
+                              "parentDisplay": "block",
+                              "parentVisibility": "visible"
+                            },
+                            "depth": 6,
+                            "nodeIndex": 0,
+                            "children": []
+                          },
+                          {
+                            "nodeType": "text",
+                            "text": "this blue box!",
+                            "length": 14,
+                            "isWhitespaceOnly": false,
+                            "layout": {
+                              "rects": [
+                                {
+                                  "x": 875,
+                                  "y": 234.72,
+                                  "width": 52.81,
+                                  "height": 10,
+                                  "right": 927.81,
+                                  "bottom": 244.72,
+                                  "text": "this blue box!",
+                                  "startIndex": 0,
+                                  "endIndex": 14
                                 }
                               ],
                               "hasLayout": true,
@@ -2750,13 +2878,13 @@
                         "classes": [],
                         "layout": {
                           "x": 775,
-                          "y": 266.72,
+                          "y": 249.72,
                           "width": 190,
-                          "height": 44,
+                          "height": 50,
                           "contentWidth": 190,
-                          "contentHeight": 44,
+                          "contentHeight": 50,
                           "scrollWidth": 190,
-                          "scrollHeight": 44
+                          "scrollHeight": 50
                         },
                         "computed": {
                           "display": "block",
@@ -2784,7 +2912,7 @@
                           "alignSelf": "auto",
                           "order": 0,
                           "gap": "normal",
-                          "fontSize": 9,
+                          "fontSize": 8.96,
                           "lineHeight": "normal",
                           "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                           "fontWeight": "400",
@@ -2804,21 +2932,21 @@
                         "children": [
                           {
                             "nodeType": "text",
-                            "text": "The rounded ",
-                            "length": 12,
+                            "text": "The rounded corners ",
+                            "length": 20,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 266.72,
-                                  "width": 57.05,
-                                  "height": 11,
-                                  "right": 932.05,
-                                  "bottom": 277.72,
-                                  "text": "The rounded ",
+                                  "y": 249.72,
+                                  "width": 83.19,
+                                  "height": 10,
+                                  "right": 958.19,
+                                  "bottom": 259.72,
+                                  "text": "The rounded corners ",
                                   "startIndex": 0,
-                                  "endIndex": 12
+                                  "endIndex": 20
                                 }
                               ],
                               "hasLayout": true,
@@ -2832,21 +2960,21 @@
                           },
                           {
                             "nodeType": "text",
-                            "text": "corners on this text ",
-                            "length": 21,
+                            "text": "on this text box is ",
+                            "length": 20,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 277.72,
-                                  "width": 88.42,
-                                  "height": 11,
-                                  "right": 963.42,
-                                  "bottom": 288.72,
-                                  "text": "corners on this text ",
+                                  "y": 259.72,
+                                  "width": 69.23,
+                                  "height": 10,
+                                  "right": 944.23,
+                                  "bottom": 269.72,
+                                  "text": "on this text box is ",
                                   "startIndex": 0,
-                                  "endIndex": 21
+                                  "endIndex": 20
                                 }
                               ],
                               "hasLayout": true,
@@ -2860,49 +2988,49 @@
                           },
                           {
                             "nodeType": "text",
-                            "text": "box is done with ",
+                            "text": "done with CSS that ",
+                            "length": 19,
+                            "isWhitespaceOnly": false,
+                            "layout": {
+                              "rects": [
+                                {
+                                  "x": 875,
+                                  "y": 269.72,
+                                  "width": 76.7,
+                                  "height": 10,
+                                  "right": 951.7,
+                                  "bottom": 279.72,
+                                  "text": "done with CSS that ",
+                                  "startIndex": 0,
+                                  "endIndex": 19
+                                }
+                              ],
+                              "hasLayout": true,
+                              "parentVisible": true,
+                              "parentDisplay": "block",
+                              "parentVisibility": "visible"
+                            },
+                            "depth": 6,
+                            "nodeIndex": 0,
+                            "children": []
+                          },
+                          {
+                            "nodeType": "text",
+                            "text": "was developed by ",
                             "length": 17,
                             "isWhitespaceOnly": false,
                             "layout": {
                               "rects": [
                                 {
                                   "x": 875,
-                                  "y": 288.72,
-                                  "width": 74.17,
-                                  "height": 11,
-                                  "right": 949.17,
-                                  "bottom": 299.72,
-                                  "text": "box is done with ",
+                                  "y": 279.72,
+                                  "width": 71.73,
+                                  "height": 10,
+                                  "right": 946.73,
+                                  "bottom": 289.72,
+                                  "text": "was developed by ",
                                   "startIndex": 0,
                                   "endIndex": 17
-                                }
-                              ],
-                              "hasLayout": true,
-                              "parentVisible": true,
-                              "parentDisplay": "block",
-                              "parentVisibility": "visible"
-                            },
-                            "depth": 6,
-                            "nodeIndex": 0,
-                            "children": []
-                          },
-                          {
-                            "nodeType": "text",
-                            "text": "CSS that was developed by ",
-                            "length": 26,
-                            "isWhitespaceOnly": false,
-                            "layout": {
-                              "rects": [
-                                {
-                                  "x": 775,
-                                  "y": 299.72,
-                                  "width": 126.88,
-                                  "height": 11,
-                                  "right": 901.88,
-                                  "bottom": 310.72,
-                                  "text": "CSS that was developed by ",
-                                  "startIndex": 0,
-                                  "endIndex": 26
                                 }
                               ],
                               "hasLayout": true,
@@ -2921,10 +3049,10 @@
                             "id": null,
                             "classes": [],
                             "layout": {
-                              "x": 901.88,
-                              "y": 299.72,
-                              "width": 57.89,
-                              "height": 11,
+                              "x": 875,
+                              "y": 289.72,
+                              "width": 52.13,
+                              "height": 10,
                               "contentWidth": 0,
                               "contentHeight": 0,
                               "scrollWidth": 0,
@@ -2956,7 +3084,7 @@
                               "alignSelf": "auto",
                               "order": 0,
                               "gap": "normal",
-                              "fontSize": 9,
+                              "fontSize": 8.96,
                               "lineHeight": "normal",
                               "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                               "fontWeight": "400",
@@ -2982,12 +3110,12 @@
                                 "layout": {
                                   "rects": [
                                     {
-                                      "x": 901.88,
-                                      "y": 299.72,
-                                      "width": 57.89,
-                                      "height": 11,
-                                      "right": 959.77,
-                                      "bottom": 310.72,
+                                      "x": 875,
+                                      "y": 289.72,
+                                      "width": 52.13,
+                                      "height": 10,
+                                      "right": 927.13,
+                                      "bottom": 299.72,
                                       "text": "Adam Kalsey",
                                       "startIndex": 0,
                                       "endIndex": 11
@@ -3012,12 +3140,12 @@
                             "layout": {
                               "rects": [
                                 {
-                                  "x": 959.77,
-                                  "y": 299.72,
-                                  "width": 2.86,
-                                  "height": 11,
-                                  "right": 962.63,
-                                  "bottom": 310.72,
+                                  "x": 927.13,
+                                  "y": 289.72,
+                                  "width": 2.5,
+                                  "height": 10,
+                                  "right": 929.63,
+                                  "bottom": 299.72,
                                   "text": ".",
                                   "startIndex": 0,
                                   "endIndex": 1
@@ -3044,7 +3172,7 @@
                         ],
                         "layout": {
                           "x": 760,
-                          "y": 315.72,
+                          "y": 304.72,
                           "width": 220,
                           "height": 8,
                           "contentWidth": 220,
@@ -3078,7 +3206,7 @@
                           "alignSelf": "auto",
                           "order": 0,
                           "gap": "normal",
-                          "fontSize": 9,
+                          "fontSize": 8.96,
                           "lineHeight": "normal",
                           "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                           "fontWeight": "400",
@@ -3106,7 +3234,7 @@
                             ],
                             "layout": {
                               "x": 760,
-                              "y": 315.72,
+                              "y": 304.72,
                               "width": 8,
                               "height": 8,
                               "contentWidth": 8,
@@ -3140,7 +3268,7 @@
                               "alignSelf": "auto",
                               "order": 0,
                               "gap": "normal",
-                              "fontSize": 9,
+                              "fontSize": 8.96,
                               "lineHeight": "normal",
                               "fontFamily": "Verdana, Arial, Helvetica, sans-serif",
                               "fontWeight": "400",
