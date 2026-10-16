@@ -11,7 +11,9 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { spawn } = require('child_process');
+const { layoutFixtureUrl } = require('./wpt_http_fixture');
 const os = require('os');
+const { createHash } = require('crypto');
 const { referenceNameForPath } = require('./reference_paths');
 const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
 const {
@@ -316,6 +318,7 @@ class RadiantLayoutTester {
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
     async runRadiantLayout(htmlFile, outputFile = null, options = {}) {
+        const runtimeInput = await layoutFixtureUrl(htmlFile, this.projectRoot) || htmlFile;
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
@@ -323,7 +326,7 @@ class RadiantLayoutTester {
         const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = this.buildLayoutArgs(htmlFile, options);
+            const args = this.buildLayoutArgs(runtimeInput, options);
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -381,9 +384,12 @@ class RadiantLayoutTester {
      *   only inputs that did not produce a successful frame.
      */
     async runBatchLayout(htmlFiles, options = {}) {
+        const runtimeInputs = await Promise.all(htmlFiles.map(async file =>
+            await layoutFixtureUrl(file, this.projectRoot) || file));
+        const originalInputs = new Map(runtimeInputs.map((input, index) => [input, path.resolve(htmlFiles[index])]));
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         const launch = () => new Promise((resolve, reject) => {
-            const args = this.buildLayoutArgs(htmlFiles, { ...options, stream: true });
+            const args = this.buildLayoutArgs(runtimeInputs, { ...options, stream: true });
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
@@ -425,7 +431,7 @@ class RadiantLayoutTester {
                             return;
                         }
                     }
-                    outputMap.set(path.resolve(inputFile), {
+                    outputMap.set(originalInputs.get(inputFile) || path.resolve(inputFile), {
                         inputFile,
                         success: (flags & 1) !== 0,
                         data: dataObject
@@ -571,6 +577,13 @@ class RadiantLayoutTester {
 
         const referenceNames = this.getBrowserReferenceNames(testName, category, htmlFile);
         const candidates = [];
+        // Explicit standards controls retain the ordinary strict comparison.
+        for (const referenceName of referenceNames) {
+            candidates.push(path.join(baseRefDir, `${referenceName}.standards.${CURRENT_PLATFORM}.json`));
+        }
+        for (const referenceName of referenceNames) {
+            candidates.push(path.join(baseRefDir, `${referenceName}.standards.json`));
+        }
         for (const referenceName of referenceNames) {
             candidates.push(path.join(baseRefDir, `${referenceName}.${CURRENT_PLATFORM}.json`));
         }
@@ -650,7 +663,20 @@ class RadiantLayoutTester {
         if (!resolved) return null;
         try {
             const content = await fs.readFile(resolved.path, 'utf8');
-            return JSON.parse(content);
+            const reference = JSON.parse(content);
+            const control = reference.reference_control;
+            if (resolved.path.includes('.standards.') || control) {
+                // A changed fixture must be requalified instead of silently using an old control.
+                if (!htmlFile || !control?.stylesheet || !control.specification || !control.reason ||
+                        !/^[a-f0-9]{64}$/.test(control.fixture_sha256 || '')) {
+                    throw new Error('Standards reference is missing its source or control provenance');
+                }
+                const fingerprint = createHash('sha256').update(await fs.readFile(htmlFile)).digest('hex');
+                if (fingerprint !== control.fixture_sha256) {
+                    throw new Error(`Stale standards reference for ${htmlFile}`);
+                }
+            }
+            return reference;
         } catch (error) {
             if (error instanceof SyntaxError) {
                 throw new Error(`Failed to parse browser reference ${resolved.path}: ${error.message}`);
@@ -730,6 +756,14 @@ class RadiantLayoutTester {
             spans: result?.spanComparison?.passRate ?? 100,
             text: result?.textComparison?.passRate ?? 100
         };
+    }
+
+    resultPasses(result) {
+        if (!result || result.error) return false;
+        if (result.baselineEntry)
+            return this.classifyBaselineEntry(result.baselineEntry, result).status !== 'failed';
+        const scores = this.getResultScores(result);
+        return scores.elements >= this.elementThreshold && scores.text >= this.textThreshold;
     }
 
     isFullyMatchedScores(scores) {
@@ -2681,16 +2715,6 @@ class RadiantLayoutTester {
             Math.ceil(totalArgBytes / availableArgBytes)
         );
 
-        const resultPasses = (result) => {
-            if (!result || result.error) return false;
-            if (result.baselineEntry) {
-                return this.classifyBaselineEntry(result.baselineEntry, result).status !== 'failed';
-            }
-            const elementPassRate = result.elementComparison ? result.elementComparison.passRate : 0;
-            const textPassRate = result.textComparison ? result.textComparison.passRate : 100;
-            return elementPassRate >= this.elementThreshold && textPassRate >= this.textThreshold;
-        };
-
         // Clean and recreate batch output directory to avoid stale files from previous runs
         try {
             await fs.rm(this.batchOutputDir, { recursive: true, force: true });
@@ -2846,7 +2870,7 @@ class RadiantLayoutTester {
             for (let i = 0; i < batchResults.length; i++) {
                 const result = batchResults[i];
                 if (!result) continue;
-                if (resultPasses(result)) {
+                if (this.resultPasses(result)) {
                     finalResults.push(result);
                     continue;
                 }
@@ -2869,7 +2893,7 @@ class RadiantLayoutTester {
                     const retryResult = await this.compareTestResult(
                         task.htmlFile, task.category, retryRecord.data,
                         task.baselineEntry, task.referencePath);
-                    if (resultPasses(retryResult)) {
+                    if (this.resultPasses(retryResult)) {
                         if (!this.json) {
                             console.log(`   🔄 Batch mismatch passed on isolated retry: ${retryResult.testName}`);
                         }
@@ -3711,7 +3735,9 @@ Note: Run this script from the project root directory.
 
             if (foundFile) {
                 const outputFile = tester.getParallelOutputFile(foundFile);
-                await tester.testSingleFile(foundFile, foundCategory, outputFile);
+                const result = await tester.testSingleFile(foundFile, foundCategory, outputFile);
+                // focused failures must reach the shell just like pooled comparisons.
+                if (!tester.resultPasses(result)) process.exitCode = 1;
             } else {
                 console.error(`Test file '${testFile}' not found in any category`);
                 process.exit(1);
