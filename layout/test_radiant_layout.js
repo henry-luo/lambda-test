@@ -16,7 +16,8 @@ const { referenceNameForPath } = require('./reference_paths');
 const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
 const {
     referenceCaptureFreezesAnimations,
-    referenceCapturePostLoadSettleMs
+    referenceCapturePostLoadSettleMs,
+    referenceCaptureBlocksRemoteResources
 } = require('./reference_capture_policy');
 const { fixtureFontCss, referenceUsesFixtureFontCss } = require('./extract_browser_references');
 
@@ -268,6 +269,7 @@ class RadiantLayoutTester {
 
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
+        const blockRemoteResources = referenceCaptureBlocksRemoteResources(files[0]);
         const freezeAnimations = referenceCaptureFreezesAnimations(files[0]);
         const postLoadSettleMs = referenceCapturePostLoadSettleMs(files[0]);
         if (!files.every(file => referenceCaptureFreezesAnimations(file) === freezeAnimations)) {
@@ -275,6 +277,9 @@ class RadiantLayoutTester {
         }
         if (!files.every(file => referenceCapturePostLoadSettleMs(file) === postLoadSettleMs)) {
             throw new Error('mixed timer capture policies in one layout batch');
+        }
+        if (!files.every(file => referenceCaptureBlocksRemoteResources(file) === blockRemoteResources)) {
+            throw new Error('mixed resource capture policies in one layout batch');
         }
         const args = ['layout', ...files];
         if (options.stream) {
@@ -289,10 +294,10 @@ class RadiantLayoutTester {
             // Match the fixture sheet's end-of-head position in browser capture.
             args.push('-c', this.fixtureFontCssPath, '--css-at-head-end');
         }
+        if (blockRemoteResources) args.push('--block-remote-resources');
         args.push('--auto-close');
-        if (postLoadSettleMs > 0) {
-            args.push('--post-load-settle-ms', String(postLoadSettleMs));
-        }
+        // preserve the reference timer policy over a baseline host's environment default, including zero.
+        args.push('--post-load-settle-ms', String(postLoadSettleMs));
         if (freezeAnimations) {
             args.push('--disable-animations');
         }
