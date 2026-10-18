@@ -11,7 +11,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { spawn } = require('child_process');
-const { layoutFixtureUrl } = require('./wpt_http_fixture');
+const { layoutFixtureUrl, ownsFixtureUrl } = require('./wpt_http_fixture');
 const os = require('os');
 const { createHash } = require('crypto');
 const { referenceNameForPath } = require('./reference_paths');
@@ -66,6 +66,11 @@ function formatBatchExitStatus(batchResult) {
 
 // Maximum HTML test file size (100KB) - larger files are skipped
 const MAX_TEST_FILE_SIZE = 350 * 1024;
+
+function captureBlocksNetwork(file) {
+    // HTTP fixtures depend on the runner-owned WPT server for scripts and images.
+    return !ownsFixtureUrl(file) && referenceCaptureBlocksRemoteResources(file);
+}
 
 class RadiantLayoutTester {
     constructor(options = {}) {
@@ -271,7 +276,7 @@ class RadiantLayoutTester {
 
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
-        const blockRemoteResources = referenceCaptureBlocksRemoteResources(files[0]);
+        const blockRemoteResources = captureBlocksNetwork(files[0]);
         const freezeAnimations = referenceCaptureFreezesAnimations(files[0]);
         const postLoadSettleMs = referenceCapturePostLoadSettleMs(files[0]);
         if (!files.every(file => referenceCaptureFreezesAnimations(file) === freezeAnimations)) {
@@ -280,7 +285,7 @@ class RadiantLayoutTester {
         if (!files.every(file => referenceCapturePostLoadSettleMs(file) === postLoadSettleMs)) {
             throw new Error('mixed timer capture policies in one layout batch');
         }
-        if (!files.every(file => referenceCaptureBlocksRemoteResources(file) === blockRemoteResources)) {
+        if (!files.every(file => captureBlocksNetwork(file) === blockRemoteResources)) {
             throw new Error('mixed resource capture policies in one layout batch');
         }
         const args = ['layout', ...files];
@@ -317,13 +322,17 @@ class RadiantLayoutTester {
         return names;
     }
 
+    async resolveLayoutInput(htmlFile) {
+        return await layoutFixtureUrl(htmlFile, this.projectRoot) || htmlFile;
+    }
+
     /**
      * Run layout engine on a test file
      * @param {string} htmlFile - Path to the HTML file to test
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
     async runRadiantLayout(htmlFile, outputFile = null, options = {}) {
-        const runtimeInput = await layoutFixtureUrl(htmlFile, this.projectRoot) || htmlFile;
+        const runtimeInput = await this.resolveLayoutInput(htmlFile);
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
@@ -390,7 +399,7 @@ class RadiantLayoutTester {
      */
     async runBatchLayout(htmlFiles, options = {}) {
         const runtimeInputs = await Promise.all(htmlFiles.map(async file =>
-            await layoutFixtureUrl(file, this.projectRoot) || file));
+            await this.resolveLayoutInput(file)));
         const originalInputs = new Map(runtimeInputs.map((input, index) => [input, path.resolve(htmlFiles[index])]));
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         const launch = () => new Promise((resolve, reject) => {
@@ -1132,10 +1141,11 @@ class RadiantLayoutTester {
             if (!reference) return { task, skip: 'no-ref' };
             const fixtureFonts = await this.referenceRequiresFixtureFonts(
                 reference.sourcePath || reference.path, reference.path);
-            return { task, skip: null, reference, fixtureFonts };
+            return { task, skip: null, reference, fixtureFonts,
+                blockNetwork: captureBlocksNetwork(await this.resolveLayoutInput(task.htmlFile)) };
         }));
 
-        for (const { task, skip, size, reference, fixtureFonts } of checks) {
+        for (const { task, skip, size, reference, fixtureFonts, blockNetwork } of checks) {
             const categoryPlan = categoryPlans.get(task.category);
             if (!categoryPlan) continue;
             if (skip === null) {
@@ -1143,7 +1153,8 @@ class RadiantLayoutTester {
                     ...task,
                     referencePath: reference.path,
                     referenceSchemaVersion: reference.schemaVersion,
-                    fixtureFonts: fixtureFonts
+                    fixtureFonts: fixtureFonts,
+                    blockNetwork
                 });
                 continue;
             }
@@ -2757,7 +2768,7 @@ class RadiantLayoutTester {
                 const animationPolicy = referenceCaptureFreezesAnimations(task.htmlFile)
                     ? 'frozen' : 'live';
                 const fontPolicy = task.fixtureFonts ? 'fixture-fonts' : 'document-fonts';
-                const policy = `${animationPolicy}:${fontPolicy}`;
+                const policy = `${animationPolicy}:${fontPolicy}:${task.blockNetwork}`;
                 if (!policyBatches.has(policy)) policyBatches.set(policy, []);
                 policyBatches.get(policy).push(task);
             }
