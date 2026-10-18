@@ -9,8 +9,10 @@ const puppeteer = require('puppeteer');
 const fs = require('fs').promises;
 const fsSync = require('fs');
 const os = require('os');
+const { createHash } = require('crypto');
 const path = require('path');
 const { pathToFileURL } = require('url');
+const { layoutFixtureUrl, ownsFixtureUrl } = require('./wpt_http_fixture');
 const { referenceNameForPath } = require('./reference_paths');
 const {
     referenceCaptureFreezesAnimations,
@@ -22,7 +24,10 @@ let sharedBrowser = null;
 let sharedBrowserPageCount = 0;
 const MAX_SHARED_BROWSER_PAGES = 50;
 
-const LAMBDA_ROOT = process.env.LAMBDA_ROOT || path.resolve(__dirname, '..', '..');
+// the companion corpus can be symlinked outside the Lambda checkout; callers run from its root.
+const LAMBDA_ROOT = process.env.LAMBDA_ROOT ||
+    (fsSync.existsSync(path.join(process.cwd(), 'radiant'))
+        ? process.cwd() : path.resolve(__dirname, '..', '..'));
 
 // The layout runner gives Radiant these fixture faces through --font-dir. Load
 // the same faces into Chromium so font-dependent references compare geometry,
@@ -184,7 +189,7 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
         return null;
     }
 
-    const categoryDir = category ? path.join(__dirname, 'data', category) : path.dirname(htmlFilePath);
+    const categoryDir = await fs.realpath(category ? path.join(__dirname, 'data', category) : path.dirname(htmlFilePath));
     const requestPath = decodeURIComponent(parsed.pathname);
     const candidates = [];
 
@@ -232,8 +237,14 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
     return null;
 }
 
-async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null) {
+async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null, options = {}) {
+    const control = options.referenceControl;
+    if (control && (!control.stylesheet || !control.specification || !control.reason)) {
+        throw new Error('A standards reference requires its stylesheet, specification and reason');
+    }
     console.log(`🔍 Checking layout extraction for: ${htmlFilePath}`);
+    // compare canonical paths when locating support files through a corpus symlink.
+    htmlFilePath = await fs.realpath(htmlFilePath);
 
     // Determine output file path first
     // Handle both .html and .htm extensions
@@ -248,22 +259,13 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
     if (isWebTmpl && baseName === 'index') {
         baseName = path.basename(path.dirname(htmlFilePath));
     }
-    if (isWpt && category) {
-        const categoryDir = path.join(__dirname, 'data', category);
-        const relativePath = path.relative(categoryDir, htmlFilePath);
-        if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath) &&
-            relativePath.includes(path.sep)) {
-            // preserve nested WPT identities; basename-only references collide across suites.
-            // derive the extension here; contentTypeForPath's local variable is out of scope.
-            const relativeExtension = path.extname(relativePath);
-            baseName = relativePath.slice(0, -relativeExtension.length).split(path.sep).join('__');
-        }
-    }
-    const outputDir = isWpt
+    const outputDir = options.outputDir || (isWpt
         ? path.join(__dirname, 'reference', 'wpt')
         : isWebTmpl
             ? path.join(__dirname, 'reference', 'web-tmpl')
-            : path.join(__dirname, 'reference');
+            : path.join(__dirname, 'reference'));
+    // Keep standards controls distinct from unmodified browser captures.
+    if (control) baseName += '.standards';
     // If platform is specified, add platform suffix to filename (e.g., test_name.linux.json)
     const outputFile = platform
         ? path.join(outputDir, `${baseName}.${platform}.json`)
@@ -360,6 +362,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         const freezeReferenceAnimations = referenceCaptureFreezesAnimations(htmlFilePath);
         const freezeReferenceTimers = referenceCaptureFreezesTimers(htmlFilePath);
         const blockRemoteResources = referenceCaptureBlocksRemoteResources(htmlFilePath);
+        const fixtureUrl = await layoutFixtureUrl(htmlFilePath, LAMBDA_ROOT);
         await page.evaluateOnNewDocument((freezeAnimations, freezeTimers) => {
             // The standalone extractor intentionally does not load the full WPT
             // harness: its cleanup would remove the DOM that Radiant compares.
@@ -473,6 +476,12 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     }
                     return;
                 }
+                if (fixtureUrl && request.url().startsWith(pathToFileURL(path.join(__dirname, 'data', 'font') + path.sep).href)) {
+                    // HTTP documents cannot fetch file fonts; serve the same pinned fixture faces.
+                    await request.respond({status: 200, headers: {'Access-Control-Allow-Origin': '*'},
+                        body: await fs.readFile(new URL(request.url()))});
+                    return;
+                }
                 const resourcePath = await resolveWptAbsoluteResource(request.url(), htmlFilePath, category);
                 if (resourcePath) {
                     let body = await fs.readFile(resourcePath);
@@ -550,7 +559,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     });
                     return;
                 }
-                if (blockRemoteResources &&
+                if (blockRemoteResources && !ownsFixtureUrl(request.url()) &&
                     (request.url().startsWith('http:') || request.url().startsWith('https:'))) {
                     // Keep browser snapshots constrained to resources vendored
                     // with the fixture, matching the deterministic layout input.
@@ -565,7 +574,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Load HTML file using file:// URL to preserve relative paths for @font-face
         console.log('📄 Loading HTML file...');
-        const fileUrl = `file://${htmlFilePath}`;
+        const fileUrl = fixtureUrl || pathToFileURL(htmlFilePath).href;
 
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
         const htmlFileSize = Buffer.byteLength(htmlContent, 'utf8');
@@ -600,9 +609,18 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 }
             }
         });
+        if (control) await page.addStyleTag({ content: control.stylesheet });
         // Wait for fonts and layout to stabilize
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 200));
+        // explicit reftests capture their committed mutation, including TestRendered listeners.
+        await page.evaluate(() => {
+            const root = document.documentElement;
+            if (root.classList.contains('reftest-wait') || root.classList.contains('test-wait'))
+                root.dispatchEvent(new Event('TestRendered', { bubbles: true }));
+        });
+        await page.waitForFunction(() => !document.documentElement.classList.contains('reftest-wait') &&
+            !document.documentElement.classList.contains('test-wait'), { timeout: 5000 });
         console.log('✅ HTML loaded and rendered');
 
         // Extract layout data
@@ -1102,6 +1120,14 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             _fullViewport: viewport  // Internal use for summary only
         };
 
+        if (control) {
+            reference.reference_control = {
+                ...control,
+                fixture_sha256: createHash('sha256').update(htmlContent).digest('hex'),
+                browser: userAgent
+            };
+        }
+
         // Save to reference directory (outputFile path already determined)
         // Ensure output directory exists
         await fs.mkdir(outputDir, { recursive: true });
@@ -1446,7 +1472,7 @@ Note: By default, existing reference files are skipped. Use --force to regenerat
 
             // If path starts with 'test/', it's relative to project root, so adjust for current directory
             if (singleFile.startsWith('test/')) {
-                resolvedPath = path.join(__dirname, '..', '..', singleFile);
+                resolvedPath = path.join(LAMBDA_ROOT, singleFile);
             }
             // If path starts with '../', it's already relative to layout directory
             else if (!path.isAbsolute(singleFile)) {
@@ -1514,5 +1540,6 @@ module.exports = {
     extractAllTestFiles,
     closeSharedBrowser,
     fixtureFontCss,
-    referenceUsesFixtureFontCss
+    referenceUsesFixtureFontCss,
+    resolveWptAbsoluteResource
 };
