@@ -98,6 +98,7 @@ function compactBrowserNode(node) {
 function compactBrowserReference(reference) {
     return {
         schema_version: COMPARISON_SCHEMA_VERSION,
+        ...(reference.reference_control ? { reference_control: reference.reference_control } : {}),
         layout_tree: compactBrowserNode(reference.layout_tree)
     };
 }

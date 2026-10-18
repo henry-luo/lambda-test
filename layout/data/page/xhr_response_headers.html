@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<body data-xhr-state="waiting">
+<script>
+var xhr = new XMLHttpRequest();
+var reopened = false;
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === xhr.HEADERS_RECEIVED && !reopened) {
+        reopened = true;
+        xhr.open("GET", "xhr_response_headers.html", true);
+        document.body.setAttribute("data-xhr-state", "reopened");
+    }
+};
+xhr.open("GET", "xhr_response_headers.html", true);
+xhr.send();
+</script>
+</body>
+</html>
