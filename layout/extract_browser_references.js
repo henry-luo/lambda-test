@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { referenceControlIsValid, applyReferenceTextCodepoints } = require('./reference_controls');
 
 /**
  * Simple Browser Layout Extractor
@@ -239,8 +240,8 @@ async function resolveWptAbsoluteResource(requestUrl, htmlFilePath, category) {
 
 async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, platform = null, category = null, options = {}) {
     const control = options.referenceControl;
-    if (control && (!control.stylesheet || !control.specification || !control.reason)) {
-        throw new Error('A standards reference requires its stylesheet, specification and reason');
+    if (control && !referenceControlIsValid(control)) {
+        throw new Error('A standards reference requires its transformation, specification and reason');
     }
     console.log(`🔍 Checking layout extraction for: ${htmlFilePath}`);
     // compare canonical paths when locating support files through a corpus symlink.
@@ -609,7 +610,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 }
             }
         });
-        if (control) await page.addStyleTag({ content: control.stylesheet });
+        if (control?.stylesheet) await page.addStyleTag({ content: control.stylesheet });
+        if (control?.text_codepoints) await page.evaluate(applyReferenceTextCodepoints, control.text_codepoints);
         // Wait for fonts and layout to stabilize
         await page.evaluate(() => document.fonts.ready);
         await new Promise(resolve => setTimeout(resolve, 200));
