@@ -3773,10 +3773,12 @@ Note: Run this script from the project root directory.
             await tester.testAll();
         }
 
-        // Exit with failure if any baseline regressions were detected
+        // Exit with failure if any baseline regressions were detected. Set the
+        // code rather than exiting: process.exit() cuts a piped --json report at
+        // the 8 KiB pipe buffer, which the snapshot checker then cannot parse.
         if ((tester._baselineRegressions && tester._baselineRegressions.length > 0) ||
             tester._fullSuiteFailures > 0) {
-            process.exit(1);
+            process.exitCode = 1;
         }
     } catch (error) {
         console.error('Test execution failed:', error.message);
