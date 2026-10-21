@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { referenceControlIsValid } = require('./reference_controls');
 
 /**
  * Automated Radiant Layout Test Script
@@ -667,7 +668,7 @@ class RadiantLayoutTester {
             const control = reference.reference_control;
             if (resolved.path.includes('.standards.') || control) {
                 // A changed fixture must be requalified instead of silently using an old control.
-                if (!htmlFile || !control?.stylesheet || !control.specification || !control.reason ||
+                if (!htmlFile || !referenceControlIsValid(control) ||
                         !/^[a-f0-9]{64}$/.test(control.fixture_sha256 || '')) {
                     throw new Error('Standards reference is missing its source or control provenance');
                 }
