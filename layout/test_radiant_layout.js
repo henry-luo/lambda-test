@@ -11,7 +11,6 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { spawn } = require('child_process');
-const { layoutFixtureUrl, ownsFixtureUrl } = require('./wpt_http_fixture');
 const os = require('os');
 const { createHash } = require('crypto');
 const { referenceNameForPath } = require('./reference_paths');
@@ -66,11 +65,6 @@ function formatBatchExitStatus(batchResult) {
 
 // Maximum HTML test file size (100KB) - larger files are skipped
 const MAX_TEST_FILE_SIZE = 350 * 1024;
-
-function captureBlocksNetwork(file) {
-    // HTTP fixtures depend on the runner-owned WPT server for scripts and images.
-    return !ownsFixtureUrl(file) && referenceCaptureBlocksRemoteResources(file);
-}
 
 class RadiantLayoutTester {
     constructor(options = {}) {
@@ -276,7 +270,7 @@ class RadiantLayoutTester {
 
     buildLayoutArgs(htmlFiles, options = {}) {
         const files = Array.isArray(htmlFiles) ? htmlFiles : [htmlFiles];
-        const blockRemoteResources = captureBlocksNetwork(files[0]);
+        const blockRemoteResources = referenceCaptureBlocksRemoteResources(files[0]);
         const freezeAnimations = referenceCaptureFreezesAnimations(files[0]);
         const postLoadSettleMs = referenceCapturePostLoadSettleMs(files[0]);
         if (!files.every(file => referenceCaptureFreezesAnimations(file) === freezeAnimations)) {
@@ -285,7 +279,7 @@ class RadiantLayoutTester {
         if (!files.every(file => referenceCapturePostLoadSettleMs(file) === postLoadSettleMs)) {
             throw new Error('mixed timer capture policies in one layout batch');
         }
-        if (!files.every(file => captureBlocksNetwork(file) === blockRemoteResources)) {
+        if (!files.every(file => referenceCaptureBlocksRemoteResources(file) === blockRemoteResources)) {
             throw new Error('mixed resource capture policies in one layout batch');
         }
         const args = ['layout', ...files];
@@ -322,17 +316,12 @@ class RadiantLayoutTester {
         return names;
     }
 
-    async resolveLayoutInput(htmlFile) {
-        return await layoutFixtureUrl(htmlFile, this.projectRoot) || htmlFile;
-    }
-
     /**
      * Run layout engine on a test file
      * @param {string} htmlFile - Path to the HTML file to test
      * @param {string} outputFile - Optional unique output file path for parallel execution
      */
     async runRadiantLayout(htmlFile, outputFile = null, options = {}) {
-        const runtimeInput = await this.resolveLayoutInput(htmlFile);
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         if (outputFile) {
             await fs.mkdir(path.dirname(outputFile), { recursive: true });
@@ -340,7 +329,7 @@ class RadiantLayoutTester {
         const launch = () => new Promise((resolve, reject) => {
             // Always use standard viewport size (1200x800) to match browser reference
             // Note: Lambda defaults to 1200x800, but we pass args explicitly for clarity
-            const args = this.buildLayoutArgs(runtimeInput, options);
+            const args = this.buildLayoutArgs(htmlFile, options);
 
             // Add view output file argument if specified (for parallel execution)
             if (outputFile) {
@@ -398,12 +387,9 @@ class RadiantLayoutTester {
      *   only inputs that did not produce a successful frame.
      */
     async runBatchLayout(htmlFiles, options = {}) {
-        const runtimeInputs = await Promise.all(htmlFiles.map(async file =>
-            await this.resolveLayoutInput(file)));
-        const originalInputs = new Map(runtimeInputs.map((input, index) => [input, path.resolve(htmlFiles[index])]));
         if (options.fixtureFonts) await this.ensureFixtureFontStylesheet();
         const launch = () => new Promise((resolve, reject) => {
-            const args = this.buildLayoutArgs(runtimeInputs, { ...options, stream: true });
+            const args = this.buildLayoutArgs(htmlFiles, { ...options, stream: true });
 
             if (this.verbose) {
                 console.log(`   🚀 Batch layout: ${htmlFiles.length} files`);
@@ -445,7 +431,7 @@ class RadiantLayoutTester {
                             return;
                         }
                     }
-                    outputMap.set(originalInputs.get(inputFile) || path.resolve(inputFile), {
+                    outputMap.set(path.resolve(inputFile), {
                         inputFile,
                         success: (flags & 1) !== 0,
                         data: dataObject
@@ -1142,7 +1128,7 @@ class RadiantLayoutTester {
             const fixtureFonts = await this.referenceRequiresFixtureFonts(
                 reference.sourcePath || reference.path, reference.path);
             return { task, skip: null, reference, fixtureFonts,
-                blockNetwork: captureBlocksNetwork(await this.resolveLayoutInput(task.htmlFile)) };
+                blockNetwork: referenceCaptureBlocksRemoteResources(task.htmlFile) };
         }));
 
         for (const { task, skip, size, reference, fixtureFonts, blockNetwork } of checks) {

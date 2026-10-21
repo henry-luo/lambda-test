@@ -12,7 +12,6 @@ const os = require('os');
 const { createHash } = require('crypto');
 const path = require('path');
 const { pathToFileURL } = require('url');
-const { layoutFixtureUrl, ownsFixtureUrl } = require('./wpt_http_fixture');
 const { referenceNameForPath } = require('./reference_paths');
 const {
     referenceCaptureFreezesAnimations,
@@ -362,7 +361,6 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         const freezeReferenceAnimations = referenceCaptureFreezesAnimations(htmlFilePath);
         const freezeReferenceTimers = referenceCaptureFreezesTimers(htmlFilePath);
         const blockRemoteResources = referenceCaptureBlocksRemoteResources(htmlFilePath);
-        const fixtureUrl = await layoutFixtureUrl(htmlFilePath, LAMBDA_ROOT);
         await page.evaluateOnNewDocument((freezeAnimations, freezeTimers) => {
             // The standalone extractor intentionally does not load the full WPT
             // harness: its cleanup would remove the DOM that Radiant compares.
@@ -476,12 +474,6 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     }
                     return;
                 }
-                if (fixtureUrl && request.url().startsWith(pathToFileURL(path.join(__dirname, 'data', 'font') + path.sep).href)) {
-                    // HTTP documents cannot fetch file fonts; serve the same pinned fixture faces.
-                    await request.respond({status: 200, headers: {'Access-Control-Allow-Origin': '*'},
-                        body: await fs.readFile(new URL(request.url()))});
-                    return;
-                }
                 const resourcePath = await resolveWptAbsoluteResource(request.url(), htmlFilePath, category);
                 if (resourcePath) {
                     let body = await fs.readFile(resourcePath);
@@ -559,7 +551,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                     });
                     return;
                 }
-                if (blockRemoteResources && !ownsFixtureUrl(request.url()) &&
+                if (blockRemoteResources &&
                     (request.url().startsWith('http:') || request.url().startsWith('https:'))) {
                     // Keep browser snapshots constrained to resources vendored
                     // with the fixture, matching the deterministic layout input.
@@ -574,7 +566,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
 
         // Load HTML file using file:// URL to preserve relative paths for @font-face
         console.log('📄 Loading HTML file...');
-        const fileUrl = fixtureUrl || pathToFileURL(htmlFilePath).href;
+        const fileUrl = pathToFileURL(htmlFilePath).href;
 
         const htmlContent = await fs.readFile(htmlFilePath, 'utf8');
         const htmlFileSize = Buffer.byteLength(htmlContent, 'utf8');
