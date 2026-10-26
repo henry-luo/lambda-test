@@ -13,7 +13,7 @@ const os = require('os');
 const { createHash } = require('crypto');
 const path = require('path');
 const { pathToFileURL } = require('url');
-const { referenceNameForPath } = require('./reference_paths');
+const { isLayoutFile, referenceNameForPath } = require('./reference_paths');
 const {
     referenceCaptureFreezesAnimations,
     referenceCaptureFreezesTimers,
@@ -1226,7 +1226,7 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
         try {
             const files = await fs.readdir(categoryDir, { withFileTypes: true });
             const htmlFiles = files
-                .filter(entry => (typeof entry === 'string' ? entry : entry.name).endsWith('.html') || (typeof entry === 'string' ? entry : entry.name).endsWith('.htm'))
+                .filter(entry => isLayoutFile(typeof entry === 'string' ? entry : entry.name))
                 .filter(entry => typeof entry === 'string' || entry.isFile())
                 .map(entry => {
                     const name = typeof entry === 'string' ? entry : entry.name;
@@ -1250,7 +1250,7 @@ async function extractAllTestFiles(category = null, forceRegenerate = false, inc
                     try {
                         const subFiles = await fs.readdir(subDirPath);
                         const subHtmlFiles = subFiles
-                            .filter(file => file.endsWith('.html') || file.endsWith('.htm'))
+                            .filter(file => isLayoutFile(file))
                             // web-tmpl: only capture index.html from each template directory
                             .filter(file => cat !== 'web-tmpl' || file === 'index.html')
                             .map(file => ({
@@ -1415,7 +1415,7 @@ async function main() {
                 console.error(`❌ Invalid platform: ${platform}. Valid values: ${validPlatforms.join(', ')}`);
                 process.exit(1);
             }
-        } else if (arg.endsWith('.html') || arg.endsWith('.htm')) {
+        } else if (isLayoutFile(arg)) {
             singleFile = arg;
         } else {
             console.error(`❌ Unknown argument: ${arg}`);
@@ -1436,7 +1436,7 @@ Options:
   --help, -h              Show this help message
 
 Arguments:
-  html_file               Path to a single HTML or HTM file to extract (optional)
+  html_file               Path to a single HTML, HTM or XHT file to extract (optional)
 
 Examples:
   node extract_browser_references.js                                    # Extract all test files (excludes css2.1)
@@ -1454,7 +1454,7 @@ Generated files:
 
 Note: By default, existing reference files are skipped. Use --force to regenerate them.
       The css2.1 test suite is excluded by default due to its size. Use --include-css21 to include it.
-      Both .html and .htm file extensions are supported.
+      The .html, .htm and .xht file extensions are supported.
 `);
         process.exit(0);
     }
