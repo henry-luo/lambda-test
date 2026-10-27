@@ -14,7 +14,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const os = require('os');
 const { createHash } = require('crypto');
-const { referenceNameForPath } = require('./reference_paths');
+const { isLayoutFile, layoutFileExtension, referenceNameForPath } = require('./reference_paths');
 const { browserChildrenInOrder, compactFixtureCandidates } = require('./comparison_schema');
 const {
     referenceCaptureFreezesAnimations,
@@ -122,7 +122,7 @@ class RadiantLayoutTester {
      * Matches C++ generate_output_path(): <parentdir>__<basename>.json.
      */
     getParallelOutputFile(htmlFile, outputDir = this.parallelOutputDir) {
-        const basename = path.basename(htmlFile).replace(/\.(html|htm)$/i, '');
+        const basename = path.basename(htmlFile).replace(/\.(html|htm|xht)$/i, '');
         const parentDir = path.basename(path.dirname(htmlFile));
         const outputName = parentDir ? `${parentDir}__${basename}` : basename;
         return path.join(outputDir, `${outputName}.json`);
@@ -980,8 +980,9 @@ class RadiantLayoutTester {
     }
 
     getTestNameFromPath(htmlFile, category = null) {
-        const ext = htmlFile.endsWith('.htm') && !htmlFile.endsWith('.html') ? '.htm' : '.html';
-        const name = path.basename(htmlFile, ext);
+        const fileName = path.basename(htmlFile);
+        const extension = layoutFileExtension(fileName);
+        const name = extension ? fileName.slice(0, -extension.length) : fileName;
         if (name === 'index' && (category === 'web-tmpl' || htmlFile.includes(`${path.sep}web-tmpl${path.sep}`))) {
             return path.basename(path.dirname(htmlFile));
         }
@@ -1024,29 +1025,34 @@ class RadiantLayoutTester {
 
     async discoverCategoryTasks(category, namePattern = null) {
         const categoryDir = path.join(this.testDataDir, category);
-        const matches = file => (file.endsWith('.html') || file.endsWith('.htm')) &&
+        const matches = file => isLayoutFile(file) &&
             (!namePattern || file.includes(namePattern));
-        const entries = await fs.readdir(categoryDir, { withFileTypes: true });
-        let htmlFiles = entries
-            .filter(entry => entry.isFile() && matches(entry.name))
-            .map(entry => entry.name);
+        const htmlFiles = [];
 
-        // Scan one level of subdirectories while excluding WPT helper directories.
-        const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
-            entry.name !== 'support' && entry.name !== 'tools');
-        for (const subDir of subDirs) {
-            const subDirPath = path.join(categoryDir, subDir.name);
-            try {
-                const subFiles = await fs.readdir(subDirPath);
-                const subHtmlFiles = subFiles
-                    .filter(file => matches(file))
-                    .filter(file => category !== 'web-tmpl' || file === 'index.html');
-                htmlFiles = htmlFiles.concat(subHtmlFiles.map(file => path.join(subDir.name, file)));
-            } catch (error) {
-                // Skip unreadable subdirectories.
+        async function scanDirectory(directory, relativeDir = '', depth = 0) {
+            const entries = await fs.readdir(directory, { withFileTypes: true });
+            for (const entry of entries) {
+                if (!entry.isFile() || !matches(entry.name)) continue;
+                if (category === 'web-tmpl' && depth > 0 && entry.name !== 'index.html') continue;
+                htmlFiles.push(path.join(relativeDir, entry.name));
+            }
+
+            const subDirs = entries.filter(entry => entry.isDirectory() && !entry.name.startsWith('.') &&
+                entry.name !== 'support' && entry.name !== 'tools');
+            for (const subDir of subDirs) {
+                if (category === 'web-tmpl' && depth > 0) continue;
+                // WPT reference capture is recursive, so execution must discover the same nested fixtures.
+                if (!category.startsWith('wpt-') && depth > 0) continue;
+                const subDirPath = path.join(directory, subDir.name);
+                try {
+                    await scanDirectory(subDirPath, path.join(relativeDir, subDir.name), depth + 1);
+                } catch (error) {
+                    // Skip unreadable subdirectories.
+                }
             }
         }
 
+        await scanDirectory(categoryDir);
         return {
             category,
             categoryDir,
@@ -3032,7 +3038,7 @@ class RadiantLayoutTester {
                 await this.prepareCategoryPlanInput(category)
             ])).categories.get(category);
             if (!categoryPlan || categoryPlan.discoveredCount === 0) {
-                console.log(`No HTML files found in ${category}/`);
+                console.log(`No layout documents found in ${category}/`);
                 return [];
             }
             const { baseline, tasks: testTasks, skipped: skippedCount } = categoryPlan;
