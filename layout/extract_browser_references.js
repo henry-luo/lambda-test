@@ -14,6 +14,7 @@ const { createHash } = require('crypto');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { isLayoutFile, referenceNameForPath } = require('./reference_paths');
+const { installReferenceTextFragments } = require('./reference_text_fragments');
 const {
     referenceCaptureFreezesAnimations,
     referenceCaptureFreezesTimers,
@@ -617,6 +618,8 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
             !document.documentElement.classList.contains('test-wait'), { timeout: 5000 });
         console.log('✅ HTML loaded and rendered');
 
+        await page.evaluate(installReferenceTextFragments);
+
         // Extract layout data
         console.log('📊 Extracting layout data...');
         const layoutData = await page.evaluate((skipComputed) => {
@@ -678,137 +681,28 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                         (parentComputed.display !== 'none' && parentComputed.visibility !== 'hidden') :
                         false;
 
-                    // Enhanced: For multi-line text, return multiple text nodes (one per line) to match Radiant's behavior
+                    // Split by source offsets, projecting line detection onto the
+                    // writing mode's block/inline axes rather than physical Y/X.
                     if (rectArray.length > 1 && text.trim().length > 0) {
-                        try {
-                            // Use character-by-character analysis to determine line breaks
-                            const charPositions = [];
-                            for (let i = 0; i < text.length; i++) {
-                                range.setStart(textNode, i);
-                                range.setEnd(textNode, i + 1);
-                                const charRects = range.getClientRects();
-                                if (charRects.length > 0) {
-                                    const rect = charRects[0];
-                                    charPositions.push({
-                                        char: text[i],
-                                        index: i,
-                                        y: Math.round(rect.top * 100) / 100,
-                                        x: Math.round(rect.left * 100) / 100
-                                    });
-                                }
-                            }
-
-                            // Group characters by their visual rect, not just Y;
-                            // multicolumn fragments in different columns can share Y.
-                            const tolerance = 2;
-                            const lines = [];
-                            rectArray.forEach((sourceRect, rectIndex) => {
-                                const right = sourceRect.right || (sourceRect.x + sourceRect.width);
-                                const foundLine = lines.find(line =>
-                                    Math.abs(line.y - sourceRect.y) <= tolerance &&
-                                    Math.max(line.x, sourceRect.x) <=
-                                        Math.min(line.right, right) + 3
-                                );
-                                if (foundLine) {
-                                    foundLine.x = Math.min(foundLine.x, sourceRect.x);
-                                    foundLine.right = Math.max(foundLine.right, right);
-                                    foundLine.rects.push(sourceRect);
-                                } else {
-                                    lines.push({
-                                        y: sourceRect.y,
-                                        x: sourceRect.x,
-                                        right,
-                                        rects: [sourceRect],
-                                        chars: [],
-                                        order: rectIndex
-                                    });
-                                }
-                            });
-                            charPositions.forEach(charData => {
-                                let bestLine = null;
-                                let bestDistance = Infinity;
-                                lines.forEach(line => {
-                                    const yDistance = Math.abs(line.y - charData.y);
-                                    if (yDistance > tolerance) return;
-                                    const xDistance = charData.x < line.x
-                                        ? line.x - charData.x
-                                        : charData.x > line.right
-                                            ? charData.x - line.right
-                                            : 0;
-                                    const distance = yDistance * 10 + xDistance;
-                                    if (distance < bestDistance) {
-                                        bestDistance = distance;
-                                        bestLine = line;
-                                    }
-                                });
-                                if (bestLine) bestLine.chars.push(charData);
-                            });
-
-                            // Keep the browser's visual-rect order, which is DOM order
-                            // across columns, rather than sorting columns together by Y.
-                            lines.sort((a, b) => a.order - b.order);
-
-                            // Return array of separate text nodes (one per line) to match Radiant's behavior
-                            const lineTextNodes = [];
-                            lines.forEach((line, lineIndex) => {
-                                if (line.chars.length > 0) {
-                                    const startIndex = line.chars[0].index;
-                                    const endIndex = line.chars[line.chars.length - 1].index + 1;
-                                    const segmentText = text.substring(startIndex, endIndex);
-
-                                    // getClientRects() may return separate rects for whitespace
-                                    // and non-whitespace segments on the same visual line.
-                                    const lineRects = line.rects.filter(r => r.width > 0);
-                                    let rect;
-                                    if (lineRects.length > 1) {
-                                        // Merge all same-line rects into a bounding box
-                                        const minX = Math.min(...lineRects.map(r => r.x));
-                                        const maxRight = Math.max(...lineRects.map(r => r.right || (r.x + r.width)));
-                                        const minY = Math.min(...lineRects.map(r => r.y));
-                                        const maxBottom = Math.max(...lineRects.map(r => r.bottom || (r.y + r.height)));
-                                        rect = {
-                                            x: minX,
-                                            y: minY,
-                                            width: Math.round((maxRight - minX) * 100) / 100,
-                                            height: Math.round((maxBottom - minY) * 100) / 100,
-                                            right: maxRight,
-                                            bottom: maxBottom
-                                        };
-                                    } else if (lineRects.length === 1) {
-                                        rect = lineRects[0];
-                                    } else if (lineIndex < rectArray.length) {
-                                        rect = rectArray[lineIndex]; // fallback to index
-                                    }
-                                    if (!rect) return;
-
-                                    lineTextNodes.push({
-                                        nodeType: 'text',
-                                        text: segmentText,
-                                        length: segmentText.length,
-                                        isWhitespaceOnly: !segmentText.trim(),
-                                        layout: {
-                                            rects: [{
-                                                ...rect,
-                                                text: segmentText,
-                                                startIndex: 0, // Relative to this text segment
-                                                endIndex: segmentText.length
-                                            }],
-                                            hasLayout: true,
-                                            parentVisible: isParentVisible,
-                                            parentDisplay: parentComputed?.display || 'unknown',
-                                            parentVisibility: parentComputed?.visibility || 'unknown'
-                                        },
-                                        depth: 0, // Will be set by parent
-                                        nodeIndex: nodeIndex
-                                    });
-                                }
-                            });
-
-                            range.detach();
-                            return lineTextNodes; // Return array instead of single node
-                        } catch (mappingError) {
-                            // If detailed mapping fails, fall through to single node approach
-                            console.warn('Line-based text mapping failed:', mappingError.message);
+                        const fragments = window.__layoutReferenceTextFragments(
+                            textNode, Array.from(rects), parentComputed?.writingMode || 'horizontal-tb');
+                        if (fragments) {
+                            return fragments.map(fragment => ({
+                                nodeType: 'text',
+                                text: fragment.text,
+                                length: fragment.text.length,
+                                isWhitespaceOnly: !fragment.text.trim(),
+                                layout: {
+                                    rects: [{...fragment.rect, text: fragment.text,
+                                        startIndex: 0, endIndex: fragment.text.length}],
+                                    hasLayout: true,
+                                    parentVisible: isParentVisible,
+                                    parentDisplay: parentComputed?.display || 'unknown',
+                                    parentVisibility: parentComputed?.visibility || 'unknown'
+                                },
+                                depth: 0,
+                                nodeIndex
+                            }));
                         }
                     }
 

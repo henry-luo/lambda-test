@@ -1223,21 +1223,21 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "a bc\nd e fg\nhi\nj klm\nn oq r\ns",
-                "length": 29,
+                "text": "a bc\n",
+                "length": 5,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 18,
                       "y": 50,
-                      "width": 120,
-                      "height": 120,
-                      "right": 138,
-                      "bottom": 170,
-                      "text": "a bc\nd e fg\nhi\nj klm\nn oq r\ns",
+                      "width": 20,
+                      "height": 80,
+                      "right": 38,
+                      "bottom": 130,
+                      "text": "a bc\n",
                       "startIndex": 0,
-                      "endIndex": 29
+                      "endIndex": 5
                     }
                   ],
                   "hasLayout": true,
@@ -1251,49 +1251,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "\nd e fg\nhi\nj klm\nn oq r\nst uv",
-                "length": 29,
+                "text": "d e fg\n",
+                "length": 7,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
-                      "x": 18,
-                      "y": 130,
-                      "width": 20,
-                      "height": 0,
-                      "right": 38,
-                      "bottom": 130,
-                      "text": "\nd e fg\nhi\nj klm\nn oq r\nst uv",
-                      "startIndex": 0,
-                      "endIndex": 29
-                    }
-                  ],
-                  "hasLayout": true,
-                  "parentVisible": true,
-                  "parentDisplay": "block",
-                  "parentVisibility": "visible"
-                },
-                "depth": 3,
-                "nodeIndex": 0,
-                "children": []
-              },
-              {
-                "nodeType": "text",
-                "text": "\n",
-                "length": 1,
-                "isWhitespaceOnly": true,
-                "layout": {
-                  "rects": [
-                    {
                       "x": 38,
-                      "y": 170,
+                      "y": 50,
                       "width": 20,
-                      "height": 0,
+                      "height": 120,
                       "right": 58,
                       "bottom": 170,
-                      "text": "\n",
+                      "text": "d e fg\n",
                       "startIndex": 0,
-                      "endIndex": 1
+                      "endIndex": 7
                     }
                   ],
                   "hasLayout": true,
@@ -1307,21 +1279,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "bc\nd e fg\nhi\nj klm\nn oq r\nst ",
-                "length": 29,
+                "text": "hi\n",
+                "length": 3,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 58,
-                      "y": 90,
+                      "y": 50,
                       "width": 20,
-                      "height": 0,
+                      "height": 40,
                       "right": 78,
                       "bottom": 90,
-                      "text": "bc\nd e fg\nhi\nj klm\nn oq r\nst ",
+                      "text": "hi\n",
                       "startIndex": 0,
-                      "endIndex": 29
+                      "endIndex": 3
                     }
                   ],
                   "hasLayout": true,
@@ -1335,21 +1307,21 @@
               },
               {
                 "nodeType": "text",
-                "text": "g\nhi\nj klm\nn oq r",
-                "length": 17,
+                "text": "j klm\n",
+                "length": 6,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 78,
-                      "y": 150,
+                      "y": 50,
                       "width": 20,
-                      "height": 0,
+                      "height": 100,
                       "right": 98,
                       "bottom": 150,
-                      "text": "g\nhi\nj klm\nn oq r",
+                      "text": "j klm\n",
                       "startIndex": 0,
-                      "endIndex": 17
+                      "endIndex": 6
                     }
                   ],
                   "hasLayout": true,
@@ -1363,21 +1335,49 @@
               },
               {
                 "nodeType": "text",
-                "text": "\n",
-                "length": 1,
-                "isWhitespaceOnly": true,
+                "text": "n oq r\n",
+                "length": 7,
+                "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 98,
-                      "y": 170,
+                      "y": 50,
                       "width": 20,
-                      "height": 0,
+                      "height": 120,
                       "right": 118,
                       "bottom": 170,
-                      "text": "\n",
+                      "text": "n oq r\n",
                       "startIndex": 0,
-                      "endIndex": 1
+                      "endIndex": 7
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "st uv",
+                "length": 5,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 118,
+                      "y": 50,
+                      "width": 20,
+                      "height": 100,
+                      "right": 138,
+                      "bottom": 150,
+                      "text": "st uv",
+                      "startIndex": 0,
+                      "endIndex": 5
                     }
                   ],
                   "hasLayout": true,

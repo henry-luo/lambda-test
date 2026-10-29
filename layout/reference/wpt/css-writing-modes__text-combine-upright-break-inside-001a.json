@@ -1343,21 +1343,49 @@
                       },
                       {
                         "nodeType": "text",
-                        "text": "\nX",
-                        "length": 2,
-                        "isWhitespaceOnly": false,
+                        "text": "\n",
+                        "length": 1,
+                        "isWhitespaceOnly": true,
                         "layout": {
                           "rects": [
                             {
                               "x": 198.27,
                               "y": 107.78,
-                              "width": 11.5,
+                              "width": 2.59,
+                              "height": 16,
+                              "right": 200.86,
+                              "bottom": 123.78,
+                              "text": "\n",
+                              "startIndex": 0,
+                              "endIndex": 1
+                            }
+                          ],
+                          "hasLayout": true,
+                          "parentVisible": true,
+                          "parentDisplay": "inline",
+                          "parentVisibility": "visible"
+                        },
+                        "depth": 5,
+                        "nodeIndex": 0,
+                        "children": []
+                      },
+                      {
+                        "nodeType": "text",
+                        "text": "X",
+                        "length": 1,
+                        "isWhitespaceOnly": false,
+                        "layout": {
+                          "rects": [
+                            {
+                              "x": 202.27,
+                              "y": 107.78,
+                              "width": 7.5,
                               "height": 16,
                               "right": 209.77,
                               "bottom": 123.78,
-                              "text": "\nX",
+                              "text": "X",
                               "startIndex": 0,
-                              "endIndex": 2
+                              "endIndex": 1
                             }
                           ],
                           "hasLayout": true,

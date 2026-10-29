@@ -1420,21 +1420,21 @@
                 "children": [
                   {
                     "nodeType": "text",
-                    "text": "123\n 56\n7",
-                    "length": 9,
+                    "text": "123\n",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
-                          "x": 19,
+                          "x": 59,
                           "y": 51,
-                          "width": 60,
+                          "width": 20,
                           "height": 60,
                           "right": 79,
                           "bottom": 111,
-                          "text": "123\n 56\n7",
+                          "text": "123\n",
                           "startIndex": 0,
-                          "endIndex": 9
+                          "endIndex": 4
                         }
                       ],
                       "hasLayout": true,
@@ -1448,21 +1448,49 @@
                   },
                   {
                     "nodeType": "text",
-                    "text": "\n 56\n",
-                    "length": 5,
+                    "text": " 56\n",
+                    "length": 4,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 39,
-                          "y": 111,
-                          "width": 40,
-                          "height": 0,
-                          "right": 79,
+                          "y": 51,
+                          "width": 20,
+                          "height": 60,
+                          "right": 59,
                           "bottom": 111,
-                          "text": "\n 56\n",
+                          "text": " 56\n",
                           "startIndex": 0,
-                          "endIndex": 5
+                          "endIndex": 4
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "inline-block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "7  ",
+                    "length": 3,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 19,
+                          "y": 51,
+                          "width": 20,
+                          "height": 60,
+                          "right": 39,
+                          "bottom": 111,
+                          "text": "7  ",
+                          "startIndex": 0,
+                          "endIndex": 3
                         }
                       ],
                       "hasLayout": true,

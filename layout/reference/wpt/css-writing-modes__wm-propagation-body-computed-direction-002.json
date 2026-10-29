@@ -2132,49 +2132,21 @@
                               },
                               {
                                 "nodeType": "text",
-                                "text": " ",
-                                "length": 1,
-                                "isWhitespaceOnly": true,
+                                "text": "1 ",
+                                "length": 2,
+                                "isWhitespaceOnly": false,
                                 "layout": {
                                   "rects": [
                                     {
                                       "x": 175.31,
                                       "y": 743.64,
                                       "width": 17,
-                                      "height": 4.45,
-                                      "right": 192.31,
-                                      "bottom": 748.09,
-                                      "text": " ",
-                                      "startIndex": 0,
-                                      "endIndex": 1
-                                    }
-                                  ],
-                                  "hasLayout": true,
-                                  "parentVisible": true,
-                                  "parentDisplay": "inline",
-                                  "parentVisibility": "visible"
-                                },
-                                "depth": 7,
-                                "nodeIndex": 1,
-                                "children": []
-                              },
-                              {
-                                "nodeType": "text",
-                                "text": "1",
-                                "length": 1,
-                                "isWhitespaceOnly": false,
-                                "layout": {
-                                  "rects": [
-                                    {
-                                      "x": 175.31,
-                                      "y": 748.09,
-                                      "width": 17,
-                                      "height": 8.91,
+                                      "height": 13.36,
                                       "right": 192.31,
                                       "bottom": 757,
-                                      "text": "1",
+                                      "text": "1 ",
                                       "startIndex": 0,
-                                      "endIndex": 1
+                                      "endIndex": 2
                                     }
                                   ],
                                   "hasLayout": true,
@@ -3166,8 +3138,8 @@
                                 "children": [
                                   {
                                     "nodeType": "text",
-                                    "text": ".",
-                                    "length": 1,
+                                    "text": "Second test on computed value of 'direction' of root element.",
+                                    "length": 61,
                                     "isWhitespaceOnly": false,
                                     "layout": {
                                       "rects": [
@@ -3175,40 +3147,12 @@
                                           "x": 460.63,
                                           "y": 293.5,
                                           "width": 17,
-                                          "height": 4.45,
-                                          "right": 477.63,
-                                          "bottom": 297.95,
-                                          "text": ".",
-                                          "startIndex": 0,
-                                          "endIndex": 1
-                                        }
-                                      ],
-                                      "hasLayout": true,
-                                      "parentVisible": true,
-                                      "parentDisplay": "table-cell",
-                                      "parentVisibility": "visible"
-                                    },
-                                    "depth": 8,
-                                    "nodeIndex": 0,
-                                    "children": []
-                                  },
-                                  {
-                                    "nodeType": "text",
-                                    "text": "S",
-                                    "length": 1,
-                                    "isWhitespaceOnly": false,
-                                    "layout": {
-                                      "rects": [
-                                        {
-                                          "x": 460.63,
-                                          "y": 297.95,
-                                          "width": 17,
-                                          "height": 424.14,
+                                          "height": 428.59,
                                           "right": 477.63,
                                           "bottom": 722.09,
-                                          "text": "S",
+                                          "text": "Second test on computed value of 'direction' of root element.",
                                           "startIndex": 0,
-                                          "endIndex": 1
+                                          "endIndex": 61
                                         }
                                       ],
                                       "hasLayout": true,
@@ -3919,36 +3863,8 @@
                                                       },
                                                       {
                                                         "nodeType": "text",
-                                                        "text": "\n    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-di",
-                                                        "length": 150,
-                                                        "isWhitespaceOnly": false,
-                                                        "layout": {
-                                                          "rects": [
-                                                            {
-                                                              "x": 500.13,
-                                                              "y": 17.48,
-                                                              "width": 15,
-                                                              "height": 0,
-                                                              "right": 515.13,
-                                                              "bottom": 17.48,
-                                                              "text": "\n    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-di",
-                                                              "startIndex": 0,
-                                                              "endIndex": 150
-                                                            }
-                                                          ],
-                                                          "hasLayout": true,
-                                                          "parentVisible": true,
-                                                          "parentDisplay": "block",
-                                                          "parentVisibility": "visible"
-                                                        },
-                                                        "depth": 13,
-                                                        "nodeIndex": 1,
-                                                        "children": []
-                                                      },
-                                                      {
-                                                        "nodeType": "text",
-                                                        "text": "(\"ltr\", \"ltr\")\n    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-direction-002.h",
-                                                        "length": 177,
+                                                        "text": "(\"ltr\", \"ltr\")",
+                                                        "length": 14,
                                                         "isWhitespaceOnly": false,
                                                         "layout": {
                                                           "rects": [
@@ -3959,9 +3875,9 @@
                                                               "height": 109.58,
                                                               "right": 515.13,
                                                               "bottom": 228.81,
-                                                              "text": "(\"ltr\", \"ltr\")\n    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-direction-002.h",
+                                                              "text": "(\"ltr\", \"ltr\")",
                                                               "startIndex": 0,
-                                                              "endIndex": 177
+                                                              "endIndex": 14
                                                             }
                                                           ],
                                                           "hasLayout": true,
@@ -3975,19 +3891,19 @@
                                                       },
                                                       {
                                                         "nodeType": "text",
-                                                        "text": "a",
+                                                        "text": "\n",
                                                         "length": 1,
-                                                        "isWhitespaceOnly": false,
+                                                        "isWhitespaceOnly": true,
                                                         "layout": {
                                                           "rects": [
                                                             {
-                                                              "x": 515.13,
-                                                              "y": -1109.56,
+                                                              "x": 500.13,
+                                                              "y": 17.48,
                                                               "width": 15,
-                                                              "height": 1307.06,
-                                                              "right": 530.13,
-                                                              "bottom": 197.5,
-                                                              "text": "a",
+                                                              "height": 0,
+                                                              "right": 515.13,
+                                                              "bottom": 17.48,
+                                                              "text": "\n",
                                                               "startIndex": 0,
                                                               "endIndex": 1
                                                             }
@@ -4003,21 +3919,21 @@
                                                       },
                                                       {
                                                         "nodeType": "text",
-                                                        "text": "tr\")\n    ",
-                                                        "length": 9,
+                                                        "text": "    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-direction-002.html:50:7)",
+                                                        "length": 171,
                                                         "isWhitespaceOnly": false,
                                                         "layout": {
                                                           "rects": [
                                                             {
                                                               "x": 515.13,
-                                                              "y": 197.5,
+                                                              "y": -1109.56,
                                                               "width": 15,
-                                                              "height": 31.31,
+                                                              "height": 1338.38,
                                                               "right": 530.13,
                                                               "bottom": 228.81,
-                                                              "text": "tr\")\n    ",
+                                                              "text": "    at Test.<anonymous> (file:///Users/henry/Projects/lambda-test/layout/data/wpt-css-writing-modes/css-writing-modes/wm-propagation-body-computed-direction-002.html:50:7)",
                                                               "startIndex": 0,
-                                                              "endIndex": 9
+                                                              "endIndex": 171
                                                             }
                                                           ],
                                                           "hasLayout": true,

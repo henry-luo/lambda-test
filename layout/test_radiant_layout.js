@@ -1494,7 +1494,7 @@ class RadiantLayoutTester {
 
     /**
      * Merge consecutive Radiant text children to match browser text node count.
-     * Radiant outputs one text entry per visual line (TextRect), while browser
+     * Radiant outputs one text entry per visual line or bidi region (TextRect), while browser
      * references may have one text node per DOM text node. This merges consecutive
      * Radiant text children when the browser side has fewer text children in the
      * corresponding run, so the comparison aligns correctly.
@@ -1552,9 +1552,19 @@ class RadiantLayoutTester {
                         }
                     }
 
-                    // Create merged text node with combined content, keep first node's layout
                     const mergedNode = { ...radiantChildren[startCursor].node };
                     mergedNode.content = accumulated;
+                    const browserNode = browserChildren[b].node;
+                    const browserRects = browserNode.rects || browserNode.layout?.rects;
+                    const boxes = radiantChildren.slice(startCursor, rCursor).map(child => child.node.layout);
+                    // A legacy single-rect source query covers every visual piece on its line.
+                    // Retain the first-line convention for wrapped/multi-rect references.
+                    if ((!browserRects || browserRects.length === 1) && boxes.length > 1 &&
+                        boxes.every(box => box && box.y === boxes[0].y && box.height === boxes[0].height)) {
+                        const left = Math.min(...boxes.map(box => box.x));
+                        const right = Math.max(...boxes.map(box => box.x + box.width));
+                        mergedNode.layout = { ...boxes[0], x: left, width: right - left };
+                    }
                     merged.push({ type: 'text', node: mergedNode, index: startCursor });
                 }
             } else {

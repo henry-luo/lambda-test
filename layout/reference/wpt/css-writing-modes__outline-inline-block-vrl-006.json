@@ -1561,21 +1561,49 @@
                 "children": [
                   {
                     "nodeType": "text",
-                    "text": "12345 6",
-                    "length": 7,
+                    "text": "12345 ",
+                    "length": 6,
+                    "isWhitespaceOnly": false,
+                    "layout": {
+                      "rects": [
+                        {
+                          "x": 208,
+                          "y": 50,
+                          "width": 50,
+                          "height": 250,
+                          "right": 258,
+                          "bottom": 300,
+                          "text": "12345 ",
+                          "startIndex": 0,
+                          "endIndex": 6
+                        }
+                      ],
+                      "hasLayout": true,
+                      "parentVisible": true,
+                      "parentDisplay": "block",
+                      "parentVisibility": "visible"
+                    },
+                    "depth": 4,
+                    "nodeIndex": 0,
+                    "children": []
+                  },
+                  {
+                    "nodeType": "text",
+                    "text": "6",
+                    "length": 1,
                     "isWhitespaceOnly": false,
                     "layout": {
                       "rects": [
                         {
                           "x": 158,
                           "y": 50,
-                          "width": 100,
-                          "height": 250,
-                          "right": 258,
-                          "bottom": 300,
-                          "text": "12345 6",
+                          "width": 50,
+                          "height": 50,
+                          "right": 208,
+                          "bottom": 100,
+                          "text": "6",
                           "startIndex": 0,
-                          "endIndex": 7
+                          "endIndex": 1
                         }
                       ],
                       "hasLayout": true,

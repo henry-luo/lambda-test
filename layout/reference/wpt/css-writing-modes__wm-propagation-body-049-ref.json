@@ -933,21 +933,49 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "This text must be vertical, with letters u",
-                "length": 42,
+                "text": "This text must be vertical, with letters ",
+                "length": 41,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 684,
+                      "y": 0,
+                      "width": 17,
+                      "height": 680,
+                      "right": 701,
+                      "bottom": 680,
+                      "text": "This text must be vertical, with letters ",
+                      "startIndex": 0,
+                      "endIndex": 41
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "upright.\n",
+                "length": 9,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 666,
                       "y": 0,
-                      "width": 35,
-                      "height": 680,
-                      "right": 701,
-                      "bottom": 680,
-                      "text": "This text must be vertical, with letters u",
+                      "width": 17,
+                      "height": 136,
+                      "right": 683,
+                      "bottom": 136,
+                      "text": "upright.\n",
                       "startIndex": 0,
-                      "endIndex": 42
+                      "endIndex": 9
                     }
                   ],
                   "hasLayout": true,

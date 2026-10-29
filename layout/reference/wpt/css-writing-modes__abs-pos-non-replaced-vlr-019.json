@@ -1256,21 +1256,49 @@
             "children": [
               {
                 "nodeType": "text",
-                "text": "1 2 3",
-                "length": 5,
+                "text": "1 2 ",
+                "length": 4,
                 "isWhitespaceOnly": false,
                 "layout": {
                   "rects": [
                     {
                       "x": 278,
                       "y": 8,
-                      "width": 160,
+                      "width": 80,
                       "height": 240,
-                      "right": 438,
+                      "right": 358,
                       "bottom": 248,
-                      "text": "1 2 3",
+                      "text": "1 2 ",
                       "startIndex": 0,
-                      "endIndex": 5
+                      "endIndex": 4
+                    }
+                  ],
+                  "hasLayout": true,
+                  "parentVisible": true,
+                  "parentDisplay": "block",
+                  "parentVisibility": "visible"
+                },
+                "depth": 3,
+                "nodeIndex": 0,
+                "children": []
+              },
+              {
+                "nodeType": "text",
+                "text": "34",
+                "length": 2,
+                "isWhitespaceOnly": false,
+                "layout": {
+                  "rects": [
+                    {
+                      "x": 358,
+                      "y": 8,
+                      "width": 80,
+                      "height": 160,
+                      "right": 438,
+                      "bottom": 168,
+                      "text": "34",
+                      "startIndex": 0,
+                      "endIndex": 2
                     }
                   ],
                   "hasLayout": true,

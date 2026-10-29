@@ -1,0 +1,2226 @@
+# WPT writing modes baseline — 2026-10-29 (qualified M59).
+# All discovered fixtures are recorded; scored entries retain per-metric floors.
+# Full matches: 1689. Recorded partials: 291. Execution errors: 0.
+# Repeated basenames follow harness discovery order and each keep their own entry.
+# lambda.exe SHA-256: a360773d45bd2927eb30be43bc77c45aa8b3d17091f1b5265a6f6e1382748460
+
+
+# CSS2/bidi-text
+bidi-001-ref
+bidi-001
+bidi-002-ref
+bidi-002
+bidi-003-ref
+bidi-003 Elements 83.3%, Spans 66.7%, Text 63.6%.
+bidi-004-ref
+bidi-004 Elements 64.3%, Spans 83.3%, Text 54.5%.
+bidi-005a-ref
+bidi-005a
+bidi-005b-ref
+bidi-005b
+bidi-006a
+bidi-006b
+bidi-007a-ref
+bidi-007a
+bidi-007b-ref
+bidi-007b
+bidi-008a-ref
+bidi-008a
+bidi-008b-ref
+bidi-008b
+bidi-009a
+bidi-009b
+bidi-010a
+bidi-010b
+bidi-011-ref
+bidi-011 Elements 100.0%, Spans 100.0%, Text 83.3%.
+bidi-alt-001 Elements 63.6%, Spans 0.0%, Text 66.7%.
+bidi-box-model-001-ref
+bidi-box-model-001
+bidi-box-model-002
+bidi-box-model-003
+bidi-box-model-004
+bidi-box-model-005
+bidi-box-model-006
+bidi-box-model-007-ref
+bidi-box-model-007
+bidi-box-model-008
+bidi-box-model-009
+bidi-box-model-010-ref
+bidi-box-model-010
+bidi-box-model-011
+bidi-box-model-012
+bidi-box-model-013
+bidi-box-model-014
+bidi-box-model-015
+bidi-box-model-016-ref
+bidi-box-model-016
+bidi-box-model-017
+bidi-box-model-018
+bidi-box-model-019-ref
+bidi-box-model-019
+bidi-box-model-020
+bidi-box-model-021
+bidi-box-model-022
+bidi-box-model-023
+bidi-box-model-024
+bidi-box-model-025-ref
+bidi-box-model-025
+bidi-box-model-026
+bidi-box-model-027
+bidi-box-model-028
+bidi-box-model-029
+bidi-box-model-030
+bidi-box-model-031
+bidi-box-model-032
+bidi-box-model-033
+bidi-box-model-034-ref
+bidi-box-model-034
+bidi-box-model-035
+bidi-box-model-036
+bidi-box-model-037
+bidi-box-model-038
+bidi-box-model-039
+bidi-box-model-040
+bidi-box-model-041
+bidi-box-model-042
+bidi-box-model-043-ref
+bidi-box-model-043
+bidi-box-model-044
+bidi-box-model-045
+bidi-breaking-001-ref
+bidi-breaking-001
+bidi-breaking-002-ref
+bidi-breaking-002 Elements 60.0%, Spans 100.0%, Text 55.6%.
+bidi-breaking-003-ref
+bidi-breaking-003
+bidi-glyph-mirroring-001-ref
+bidi-glyph-mirroring-001
+bidi-glyph-mirroring-002-ref
+bidi-glyph-mirroring-002
+bidi-inline-001-ref
+bidi-inline-001
+bidi-inline-002
+direction-001-ref
+direction-001
+direction-002-ref
+direction-002
+direction-003
+direction-applies-to-001-ref
+direction-applies-to-001
+direction-applies-to-002
+direction-applies-to-003
+direction-applies-to-004
+direction-applies-to-005
+direction-applies-to-006
+direction-applies-to-007-ref
+direction-applies-to-007
+direction-applies-to-008-ref
+direction-applies-to-008
+direction-applies-to-009
+direction-applies-to-010
+direction-applies-to-012
+direction-applies-to-013
+direction-applies-to-014
+direction-applies-to-015
+line-breaking-bidi-001-ref
+line-breaking-bidi-001
+line-breaking-bidi-002-ref
+line-breaking-bidi-002
+line-breaking-bidi-003-ref
+line-breaking-bidi-003
+unicode-bidi-001
+unicode-bidi-002-ref
+unicode-bidi-002
+unicode-bidi-003
+unicode-bidi-004
+unicode-bidi-applies-to-001
+unicode-bidi-applies-to-002
+unicode-bidi-applies-to-003
+unicode-bidi-applies-to-004
+unicode-bidi-applies-to-005
+unicode-bidi-applies-to-006
+unicode-bidi-applies-to-007
+unicode-bidi-applies-to-008
+unicode-bidi-applies-to-009-ref
+unicode-bidi-applies-to-009
+unicode-bidi-applies-to-010
+unicode-bidi-applies-to-012
+unicode-bidi-applies-to-013
+unicode-bidi-applies-to-014
+unicode-bidi-applies-to-015
+
+# css-text/bidi
+bidi-lines-001 Elements 25.0%, Spans 100.0%, Text 28.6%.
+bidi-lines-002 Elements 64.3%, Spans 80.0%, Text 87.5%.
+bidi-tab-001
+empty-span-001-ref
+empty-span-001
+
+# css-text/bidi/reference
+bidi-lines-001-ref Elements 20.0%, Spans 100.0%, Text 28.6%.
+bidi-lines-002-ref Elements 64.3%, Spans 80.0%, Text 87.5%.
+bidi-tab-001-ref
+
+# css-writing-modes
+abs-pos-border-offset-001-ref
+abs-pos-border-offset-001
+abs-pos-border-offset-002-ref
+abs-pos-border-offset-002
+abs-pos-border-offset-003-ref
+abs-pos-border-offset-003
+abs-pos-non-replaced-icb-vlr-003
+abs-pos-non-replaced-icb-vlr-005
+abs-pos-non-replaced-icb-vlr-007
+abs-pos-non-replaced-icb-vlr-009
+abs-pos-non-replaced-icb-vlr-011
+abs-pos-non-replaced-icb-vlr-013
+abs-pos-non-replaced-icb-vlr-015
+abs-pos-non-replaced-icb-vlr-017
+abs-pos-non-replaced-icb-vlr-019
+abs-pos-non-replaced-icb-vlr-021
+abs-pos-non-replaced-icb-vlr-023
+abs-pos-non-replaced-icb-vlr-025
+abs-pos-non-replaced-icb-vlr-027
+abs-pos-non-replaced-icb-vlr-029
+abs-pos-non-replaced-icb-vlr-031
+abs-pos-non-replaced-icb-vlr-033
+abs-pos-non-replaced-icb-vrl-002
+abs-pos-non-replaced-icb-vrl-004-ref
+abs-pos-non-replaced-icb-vrl-004
+abs-pos-non-replaced-icb-vrl-006
+abs-pos-non-replaced-icb-vrl-008-ref
+abs-pos-non-replaced-icb-vrl-008
+abs-pos-non-replaced-icb-vrl-010
+abs-pos-non-replaced-icb-vrl-012
+abs-pos-non-replaced-icb-vrl-014
+abs-pos-non-replaced-icb-vrl-016
+abs-pos-non-replaced-icb-vrl-018
+abs-pos-non-replaced-icb-vrl-020
+abs-pos-non-replaced-icb-vrl-022
+abs-pos-non-replaced-icb-vrl-024
+abs-pos-non-replaced-icb-vrl-026
+abs-pos-non-replaced-icb-vrl-028
+abs-pos-non-replaced-icb-vrl-030
+abs-pos-non-replaced-icb-vrl-032
+abs-pos-non-replaced-vlr-003-ref
+abs-pos-non-replaced-vlr-003
+abs-pos-non-replaced-vlr-005
+abs-pos-non-replaced-vlr-007-ref
+abs-pos-non-replaced-vlr-007
+abs-pos-non-replaced-vlr-009-ref
+abs-pos-non-replaced-vlr-009
+abs-pos-non-replaced-vlr-011
+abs-pos-non-replaced-vlr-013-ref
+abs-pos-non-replaced-vlr-013
+abs-pos-non-replaced-vlr-015
+abs-pos-non-replaced-vlr-017
+abs-pos-non-replaced-vlr-019
+abs-pos-non-replaced-vlr-021
+abs-pos-non-replaced-vlr-023
+abs-pos-non-replaced-vlr-025
+abs-pos-non-replaced-vlr-027
+abs-pos-non-replaced-vlr-029
+abs-pos-non-replaced-vlr-031
+abs-pos-non-replaced-vlr-033
+abs-pos-non-replaced-vlr-035
+abs-pos-non-replaced-vlr-037
+abs-pos-non-replaced-vlr-039
+abs-pos-non-replaced-vlr-041
+abs-pos-non-replaced-vlr-043
+abs-pos-non-replaced-vlr-045
+abs-pos-non-replaced-vlr-047
+abs-pos-non-replaced-vlr-049
+abs-pos-non-replaced-vlr-051
+abs-pos-non-replaced-vlr-053
+abs-pos-non-replaced-vlr-055
+abs-pos-non-replaced-vlr-057
+abs-pos-non-replaced-vlr-059
+abs-pos-non-replaced-vlr-061
+abs-pos-non-replaced-vlr-063
+abs-pos-non-replaced-vlr-065
+abs-pos-non-replaced-vlr-067
+abs-pos-non-replaced-vlr-069
+abs-pos-non-replaced-vlr-071
+abs-pos-non-replaced-vlr-073
+abs-pos-non-replaced-vlr-075
+abs-pos-non-replaced-vlr-077
+abs-pos-non-replaced-vlr-079
+abs-pos-non-replaced-vlr-081
+abs-pos-non-replaced-vlr-083
+abs-pos-non-replaced-vlr-085
+abs-pos-non-replaced-vlr-087
+abs-pos-non-replaced-vlr-089
+abs-pos-non-replaced-vlr-091
+abs-pos-non-replaced-vlr-093
+abs-pos-non-replaced-vlr-095
+abs-pos-non-replaced-vlr-097
+abs-pos-non-replaced-vlr-103
+abs-pos-non-replaced-vlr-105
+abs-pos-non-replaced-vlr-107
+abs-pos-non-replaced-vlr-109
+abs-pos-non-replaced-vlr-111
+abs-pos-non-replaced-vlr-113
+abs-pos-non-replaced-vlr-115
+abs-pos-non-replaced-vlr-117
+abs-pos-non-replaced-vlr-119
+abs-pos-non-replaced-vlr-121
+abs-pos-non-replaced-vlr-123
+abs-pos-non-replaced-vlr-125
+abs-pos-non-replaced-vlr-127
+abs-pos-non-replaced-vlr-129
+abs-pos-non-replaced-vlr-131
+abs-pos-non-replaced-vlr-133
+abs-pos-non-replaced-vlr-135
+abs-pos-non-replaced-vlr-137
+abs-pos-non-replaced-vlr-139
+abs-pos-non-replaced-vlr-141
+abs-pos-non-replaced-vlr-143
+abs-pos-non-replaced-vlr-145
+abs-pos-non-replaced-vlr-147
+abs-pos-non-replaced-vlr-149
+abs-pos-non-replaced-vlr-151
+abs-pos-non-replaced-vlr-153
+abs-pos-non-replaced-vlr-155-ref
+abs-pos-non-replaced-vlr-155
+abs-pos-non-replaced-vlr-157
+abs-pos-non-replaced-vlr-159
+abs-pos-non-replaced-vlr-161
+abs-pos-non-replaced-vlr-163-ref
+abs-pos-non-replaced-vlr-163
+abs-pos-non-replaced-vlr-165
+abs-pos-non-replaced-vlr-167
+abs-pos-non-replaced-vlr-169
+abs-pos-non-replaced-vlr-171
+abs-pos-non-replaced-vlr-173
+abs-pos-non-replaced-vlr-175
+abs-pos-non-replaced-vlr-177
+abs-pos-non-replaced-vlr-179
+abs-pos-non-replaced-vlr-181
+abs-pos-non-replaced-vlr-183
+abs-pos-non-replaced-vlr-185
+abs-pos-non-replaced-vlr-187
+abs-pos-non-replaced-vlr-189
+abs-pos-non-replaced-vlr-191
+abs-pos-non-replaced-vlr-193
+abs-pos-non-replaced-vlr-195
+abs-pos-non-replaced-vlr-197
+abs-pos-non-replaced-vlr-199
+abs-pos-non-replaced-vlr-201
+abs-pos-non-replaced-vlr-203
+abs-pos-non-replaced-vlr-205
+abs-pos-non-replaced-vlr-207
+abs-pos-non-replaced-vlr-209
+abs-pos-non-replaced-vlr-211
+abs-pos-non-replaced-vlr-213
+abs-pos-non-replaced-vlr-215
+abs-pos-non-replaced-vlr-217
+abs-pos-non-replaced-vlr-219
+abs-pos-non-replaced-vlr-221
+abs-pos-non-replaced-vlr-223
+abs-pos-non-replaced-vlr-225
+abs-pos-non-replaced-vlr-227
+abs-pos-non-replaced-vlr-229
+abs-pos-non-replaced-vrl-002-ref
+abs-pos-non-replaced-vrl-002
+abs-pos-non-replaced-vrl-004-ref
+abs-pos-non-replaced-vrl-004
+abs-pos-non-replaced-vrl-006-ref
+abs-pos-non-replaced-vrl-006
+abs-pos-non-replaced-vrl-008
+abs-pos-non-replaced-vrl-010
+abs-pos-non-replaced-vrl-012-ref
+abs-pos-non-replaced-vrl-012
+abs-pos-non-replaced-vrl-014
+abs-pos-non-replaced-vrl-016
+abs-pos-non-replaced-vrl-018
+abs-pos-non-replaced-vrl-020
+abs-pos-non-replaced-vrl-022
+abs-pos-non-replaced-vrl-024
+abs-pos-non-replaced-vrl-026
+abs-pos-non-replaced-vrl-028
+abs-pos-non-replaced-vrl-030
+abs-pos-non-replaced-vrl-032
+abs-pos-non-replaced-vrl-034
+abs-pos-non-replaced-vrl-036
+abs-pos-non-replaced-vrl-038
+abs-pos-non-replaced-vrl-040
+abs-pos-non-replaced-vrl-042
+abs-pos-non-replaced-vrl-044
+abs-pos-non-replaced-vrl-046
+abs-pos-non-replaced-vrl-048
+abs-pos-non-replaced-vrl-050
+abs-pos-non-replaced-vrl-052
+abs-pos-non-replaced-vrl-054
+abs-pos-non-replaced-vrl-056
+abs-pos-non-replaced-vrl-058
+abs-pos-non-replaced-vrl-060
+abs-pos-non-replaced-vrl-062
+abs-pos-non-replaced-vrl-064
+abs-pos-non-replaced-vrl-066
+abs-pos-non-replaced-vrl-068
+abs-pos-non-replaced-vrl-070
+abs-pos-non-replaced-vrl-072
+abs-pos-non-replaced-vrl-074
+abs-pos-non-replaced-vrl-076
+abs-pos-non-replaced-vrl-078
+abs-pos-non-replaced-vrl-080
+abs-pos-non-replaced-vrl-082
+abs-pos-non-replaced-vrl-084
+abs-pos-non-replaced-vrl-086
+abs-pos-non-replaced-vrl-088
+abs-pos-non-replaced-vrl-090
+abs-pos-non-replaced-vrl-092
+abs-pos-non-replaced-vrl-094
+abs-pos-non-replaced-vrl-096
+abs-pos-non-replaced-vrl-102
+abs-pos-non-replaced-vrl-104
+abs-pos-non-replaced-vrl-106
+abs-pos-non-replaced-vrl-108
+abs-pos-non-replaced-vrl-110
+abs-pos-non-replaced-vrl-112
+abs-pos-non-replaced-vrl-114
+abs-pos-non-replaced-vrl-116
+abs-pos-non-replaced-vrl-118
+abs-pos-non-replaced-vrl-120
+abs-pos-non-replaced-vrl-122-ref
+abs-pos-non-replaced-vrl-122
+abs-pos-non-replaced-vrl-124
+abs-pos-non-replaced-vrl-126
+abs-pos-non-replaced-vrl-128
+abs-pos-non-replaced-vrl-130-ref
+abs-pos-non-replaced-vrl-130
+abs-pos-non-replaced-vrl-132
+abs-pos-non-replaced-vrl-134
+abs-pos-non-replaced-vrl-136
+abs-pos-non-replaced-vrl-138
+abs-pos-non-replaced-vrl-140
+abs-pos-non-replaced-vrl-142
+abs-pos-non-replaced-vrl-144
+abs-pos-non-replaced-vrl-146
+abs-pos-non-replaced-vrl-148
+abs-pos-non-replaced-vrl-150
+abs-pos-non-replaced-vrl-152
+abs-pos-non-replaced-vrl-154
+abs-pos-non-replaced-vrl-156
+abs-pos-non-replaced-vrl-158
+abs-pos-non-replaced-vrl-160
+abs-pos-non-replaced-vrl-162
+abs-pos-non-replaced-vrl-164
+abs-pos-non-replaced-vrl-166
+abs-pos-non-replaced-vrl-168
+abs-pos-non-replaced-vrl-170
+abs-pos-non-replaced-vrl-172
+abs-pos-non-replaced-vrl-174
+abs-pos-non-replaced-vrl-176
+abs-pos-non-replaced-vrl-178
+abs-pos-non-replaced-vrl-180
+abs-pos-non-replaced-vrl-182
+abs-pos-non-replaced-vrl-184
+abs-pos-non-replaced-vrl-186
+abs-pos-non-replaced-vrl-188
+abs-pos-non-replaced-vrl-190
+abs-pos-non-replaced-vrl-192
+abs-pos-non-replaced-vrl-194
+abs-pos-non-replaced-vrl-196
+abs-pos-non-replaced-vrl-198
+abs-pos-non-replaced-vrl-200
+abs-pos-non-replaced-vrl-202
+abs-pos-non-replaced-vrl-204
+abs-pos-non-replaced-vrl-206
+abs-pos-non-replaced-vrl-208
+abs-pos-non-replaced-vrl-210
+abs-pos-non-replaced-vrl-212
+abs-pos-non-replaced-vrl-214
+abs-pos-non-replaced-vrl-216
+abs-pos-non-replaced-vrl-218
+abs-pos-non-replaced-vrl-220
+abs-pos-non-replaced-vrl-222
+abs-pos-non-replaced-vrl-224
+abs-pos-non-replaced-vrl-226
+abs-pos-non-replaced-vrl-228
+abs-pos-replaced-vrl-001-ref
+abs-pos-replaced-vrl-001
+abs-pos-vlr-border-001-ref
+abs-pos-vlr-border-001
+abs-pos-vlr-padding-001-ref
+abs-pos-vlr-padding-001
+abs-pos-with-replaced-child
+alt-display-vertical-001-manual Elements 30.0%, Spans 100.0%, Text 100.0%.
+available-size-001
+available-size-002
+available-size-003
+available-size-004
+available-size-005
+available-size-006
+available-size-007
+available-size-008
+available-size-009
+available-size-010
+available-size-011
+available-size-012
+available-size-013
+available-size-014
+available-size-015
+available-size-016
+available-size-017
+available-size-018
+available-size-019
+available-size-020 Elements 90.0%, Spans 100.0%, Text 100.0%.
+available-size-021 Elements 6.7%, Spans 100.0%, Text 18.9%.
+available-size-022 Elements 12.5%, Spans 100.0%, Text 100.0%.
+available-size-023 Elements 68.8%, Spans 100.0%, Text 100.0%.
+background-position-vlr-003
+background-position-vlr-005
+background-position-vlr-007
+background-position-vlr-009
+background-position-vlr-011
+background-position-vlr-013
+background-position-vlr-015
+background-position-vlr-017
+background-position-vrl-002
+background-position-vrl-004
+background-position-vrl-006
+background-position-vrl-008
+background-position-vrl-010
+background-position-vrl-012
+background-position-vrl-014
+background-position-vrl-016
+background-position-vrl-018-ref
+background-position-vrl-018
+background-position-vrl-020
+background-position-vrl-022
+background-size-document-root-vrl-002-ref
+background-size-document-root-vrl-002
+background-size-document-root-vrl-004
+background-size-document-root-vrl-006
+background-size-document-root-vrl-008
+baseline-inline-non-replaced-002
+baseline-inline-non-replaced-003
+baseline-inline-non-replaced-004
+baseline-inline-non-replaced-005
+baseline-inline-replaced-002-ref
+baseline-inline-replaced-002
+baseline-inline-replaced-003
+baseline-with-orthogonal-flow-001 Elements 62.5%, Spans 100.0%, Text 57.1%.
+bidi-dynamic-iframe-001-ref
+bidi-dynamic-iframe-001
+# fixture: css-writing-modes/bidi-embed-001.html
+bidi-embed-001
+# fixture: css-writing-modes/bidi-embed-002.html
+bidi-embed-002
+# fixture: css-writing-modes/bidi-embed-003.html
+bidi-embed-003
+# fixture: css-writing-modes/bidi-embed-004.html
+bidi-embed-004
+# fixture: css-writing-modes/bidi-embed-005.html
+bidi-embed-005
+# fixture: css-writing-modes/bidi-embed-006.html
+bidi-embed-006
+# fixture: css-writing-modes/bidi-embed-007.html
+bidi-embed-007
+# fixture: css-writing-modes/bidi-embed-008.html
+bidi-embed-008
+# fixture: css-writing-modes/bidi-embed-009.html
+bidi-embed-009
+# fixture: css-writing-modes/bidi-embed-010.html
+bidi-embed-010
+# fixture: css-writing-modes/bidi-embed-011.html
+bidi-embed-011
+bidi-inline-fragment-crash Elements 12.5%, Spans 0.0%, Text 28.6%.
+# fixture: css-writing-modes/bidi-isolate-001.html
+bidi-isolate-001
+# fixture: css-writing-modes/bidi-isolate-002.html
+bidi-isolate-002
+# fixture: css-writing-modes/bidi-isolate-003.html
+bidi-isolate-003
+# fixture: css-writing-modes/bidi-isolate-004.html
+bidi-isolate-004
+# fixture: css-writing-modes/bidi-isolate-005.html
+bidi-isolate-005
+# fixture: css-writing-modes/bidi-isolate-006.html
+bidi-isolate-006
+# fixture: css-writing-modes/bidi-isolate-007.html
+bidi-isolate-007
+# fixture: css-writing-modes/bidi-isolate-008.html
+bidi-isolate-008
+# fixture: css-writing-modes/bidi-isolate-009.html
+bidi-isolate-009
+# fixture: css-writing-modes/bidi-isolate-010.html
+bidi-isolate-010
+# fixture: css-writing-modes/bidi-isolate-011.html
+bidi-isolate-011
+# fixture: css-writing-modes/bidi-isolate-override-001.html
+bidi-isolate-override-001
+# fixture: css-writing-modes/bidi-isolate-override-002.html
+bidi-isolate-override-002
+# fixture: css-writing-modes/bidi-isolate-override-003.html
+bidi-isolate-override-003
+# fixture: css-writing-modes/bidi-isolate-override-004.html
+bidi-isolate-override-004
+# fixture: css-writing-modes/bidi-isolate-override-005.html
+bidi-isolate-override-005
+# fixture: css-writing-modes/bidi-isolate-override-006.html
+bidi-isolate-override-006
+# fixture: css-writing-modes/bidi-isolate-override-007.html
+bidi-isolate-override-007
+# fixture: css-writing-modes/bidi-isolate-override-008.html
+bidi-isolate-override-008
+# fixture: css-writing-modes/bidi-isolate-override-009.html
+bidi-isolate-override-009
+# fixture: css-writing-modes/bidi-isolate-override-010.html
+bidi-isolate-override-010
+# fixture: css-writing-modes/bidi-isolate-override-011.html
+bidi-isolate-override-011
+# fixture: css-writing-modes/bidi-isolate-override-012.html
+bidi-isolate-override-012
+bidi-line-break-001 Elements 0.0%, Spans 0.0%, Text 0.0%.
+# fixture: css-writing-modes/bidi-normal-001.html
+bidi-normal-001
+# fixture: css-writing-modes/bidi-normal-002.html
+bidi-normal-002
+# fixture: css-writing-modes/bidi-normal-003.html
+bidi-normal-003
+# fixture: css-writing-modes/bidi-normal-004.html
+bidi-normal-004
+# fixture: css-writing-modes/bidi-normal-005.html
+bidi-normal-005
+# fixture: css-writing-modes/bidi-normal-006.html
+bidi-normal-006
+# fixture: css-writing-modes/bidi-normal-007.html
+bidi-normal-007
+# fixture: css-writing-modes/bidi-normal-008.html
+bidi-normal-008
+# fixture: css-writing-modes/bidi-normal-009.html
+bidi-normal-009
+# fixture: css-writing-modes/bidi-normal-010.html
+bidi-normal-010
+# fixture: css-writing-modes/bidi-normal-011.html
+bidi-normal-011
+# fixture: css-writing-modes/bidi-override-001.html
+bidi-override-001
+# fixture: css-writing-modes/bidi-override-002.html
+bidi-override-002
+# fixture: css-writing-modes/bidi-override-003.html
+bidi-override-003
+# fixture: css-writing-modes/bidi-override-004.html
+bidi-override-004
+# fixture: css-writing-modes/bidi-override-005.html
+bidi-override-005
+# fixture: css-writing-modes/bidi-override-006.html
+bidi-override-006
+# fixture: css-writing-modes/bidi-override-007.html
+bidi-override-007
+# fixture: css-writing-modes/bidi-override-008.html
+bidi-override-008
+# fixture: css-writing-modes/bidi-override-009.html
+bidi-override-009
+# fixture: css-writing-modes/bidi-override-010.html
+bidi-override-010
+# fixture: css-writing-modes/bidi-override-011.html
+bidi-override-011
+# fixture: css-writing-modes/bidi-override-012.html
+bidi-override-012
+# fixture: css-writing-modes/bidi-plaintext-001.html
+bidi-plaintext-001
+# fixture: css-writing-modes/bidi-plaintext-002.html
+bidi-plaintext-002
+# fixture: css-writing-modes/bidi-plaintext-003.html
+bidi-plaintext-003
+# fixture: css-writing-modes/bidi-plaintext-004.html
+bidi-plaintext-004
+# fixture: css-writing-modes/bidi-plaintext-005.html
+bidi-plaintext-005
+# fixture: css-writing-modes/bidi-plaintext-006.html
+bidi-plaintext-006
+# fixture: css-writing-modes/bidi-plaintext-007.html
+bidi-plaintext-007
+# fixture: css-writing-modes/bidi-plaintext-008.html
+bidi-plaintext-008
+# fixture: css-writing-modes/bidi-plaintext-009.html
+bidi-plaintext-009
+# fixture: css-writing-modes/bidi-plaintext-010.html
+bidi-plaintext-010
+# fixture: css-writing-modes/bidi-plaintext-011.html
+bidi-plaintext-011
+bidi-plaintext-br-001
+# fixture: css-writing-modes/bidi-table-001.html
+bidi-table-001
+# fixture: css-writing-modes/bidi-unset-001.html
+bidi-unset-001
+# fixture: css-writing-modes/bidi-unset-002.html
+bidi-unset-002
+# fixture: css-writing-modes/bidi-unset-003.html
+bidi-unset-003
+# fixture: css-writing-modes/bidi-unset-004.html
+bidi-unset-004
+# fixture: css-writing-modes/bidi-unset-005.html
+bidi-unset-005
+# fixture: css-writing-modes/bidi-unset-006.html
+bidi-unset-006
+# fixture: css-writing-modes/bidi-unset-007.html
+bidi-unset-007
+# fixture: css-writing-modes/bidi-unset-008.html
+bidi-unset-008
+# fixture: css-writing-modes/bidi-unset-009.html
+bidi-unset-009
+# fixture: css-writing-modes/bidi-unset-010.html
+bidi-unset-010
+# fixture: css-writing-modes/block-embed-001.html
+block-embed-001
+# fixture: css-writing-modes/block-embed-002.html
+block-embed-002
+# fixture: css-writing-modes/block-embed-003.html
+block-embed-003
+block-flow-direction-001-ref
+block-flow-direction-002-ref
+block-flow-direction-004
+block-flow-direction-025-ref
+block-flow-direction-043-ref
+block-flow-direction-066-ref
+block-flow-direction-htb-001
+block-flow-direction-slr-043
+block-flow-direction-slr-047
+block-flow-direction-slr-048
+block-flow-direction-slr-050
+block-flow-direction-slr-054
+block-flow-direction-slr-055
+block-flow-direction-slr-056
+block-flow-direction-slr-058
+block-flow-direction-slr-060
+block-flow-direction-slr-062
+block-flow-direction-slr-063
+block-flow-direction-slr-066
+block-flow-direction-srl-042
+block-flow-direction-srl-045
+block-flow-direction-srl-046
+block-flow-direction-srl-049
+block-flow-direction-srl-051
+block-flow-direction-srl-052
+block-flow-direction-srl-053
+block-flow-direction-srl-057
+block-flow-direction-srl-059
+block-flow-direction-srl-061
+block-flow-direction-srl-064
+block-flow-direction-srl-065
+block-flow-direction-vlr-003
+block-flow-direction-vlr-007
+block-flow-direction-vlr-008
+block-flow-direction-vlr-010
+block-flow-direction-vlr-014
+block-flow-direction-vlr-015
+block-flow-direction-vlr-016
+block-flow-direction-vlr-018
+block-flow-direction-vlr-020
+block-flow-direction-vlr-022
+block-flow-direction-vlr-023
+block-flow-direction-vrl-002
+block-flow-direction-vrl-005
+block-flow-direction-vrl-006
+block-flow-direction-vrl-009
+block-flow-direction-vrl-011
+block-flow-direction-vrl-012
+block-flow-direction-vrl-013
+block-flow-direction-vrl-017
+block-flow-direction-vrl-019
+block-flow-direction-vrl-021
+block-flow-direction-vrl-024
+block-flow-direction-vrl-025
+block-flow-direction-vrl-026-ref
+block-flow-direction-vrl-026
+# fixture: css-writing-modes/block-override-001.html
+block-override-001
+# fixture: css-writing-modes/block-override-002.html
+block-override-002
+# fixture: css-writing-modes/block-override-003.html
+block-override-003
+# fixture: css-writing-modes/block-override-004.html
+block-override-004
+# fixture: css-writing-modes/block-override-isolate-001.html
+block-override-isolate-001
+# fixture: css-writing-modes/block-override-isolate-002.html
+block-override-isolate-002
+# fixture: css-writing-modes/block-override-isolate-003.html
+block-override-isolate-003
+# fixture: css-writing-modes/block-override-isolate-004.html
+block-override-isolate-004
+# fixture: css-writing-modes/block-plaintext-001.html
+block-plaintext-001
+# fixture: css-writing-modes/block-plaintext-002.html
+block-plaintext-002
+# fixture: css-writing-modes/block-plaintext-003.html
+block-plaintext-003
+# fixture: css-writing-modes/block-plaintext-004.html
+block-plaintext-004
+# fixture: css-writing-modes/block-plaintext-005.html
+block-plaintext-005
+# fixture: css-writing-modes/block-plaintext-006.html
+block-plaintext-006
+border-conflict-element-vlr-003 Elements 29.4%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-005 Elements 11.8%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-007
+border-conflict-element-vlr-009 Elements 8.0%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-011
+border-conflict-element-vlr-013 Elements 4.4%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-002 Elements 29.4%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-004 Elements 11.8%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-006
+border-conflict-element-vrl-008 Elements 8.0%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-010
+border-conflict-element-vrl-012 Elements 4.4%, Spans 100.0%, Text 100.0%.
+border-spacing-vlr-003
+border-spacing-vlr-005
+border-spacing-vrl-002-ref
+border-spacing-vrl-002
+border-spacing-vrl-004
+border-vlr-007
+border-vrl-006
+box-offsets-rel-pos-vlr-003
+box-offsets-rel-pos-vlr-005-ref
+box-offsets-rel-pos-vlr-005
+box-offsets-rel-pos-vrl-002
+box-offsets-rel-pos-vrl-004-ref
+box-offsets-rel-pos-vrl-004
+caption-side-vlr-003
+caption-side-vlr-005
+caption-side-vrl-002
+caption-side-vrl-004
+central-baseline-alignment-002-ref
+central-baseline-alignment-002
+central-baseline-alignment-003
+ch-units-vrl-001 Elements 33.3%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-002 Elements 33.3%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-003 Elements 28.6%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-004 Elements 30.8%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-005 Elements 75.0%, Spans 100.0%, Text 88.9%.
+ch-units-vrl-006 Elements 75.0%, Spans 100.0%, Text 88.9%.
+ch-units-vrl-007 Elements 28.6%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-008 Elements 30.8%, Spans 100.0%, Text 77.8%.
+clearance-calculations-vrl-002-ref
+clearance-calculations-vrl-002
+clearance-calculations-vrl-004-ref
+clearance-calculations-vrl-004
+clearance-calculations-vrl-006-ref
+clearance-calculations-vrl-006
+clearance-calculations-vrl-008-ref
+clearance-calculations-vrl-008
+clip-rect-vlr-003
+clip-rect-vlr-005
+clip-rect-vlr-007
+clip-rect-vlr-009
+clip-rect-vlr-011-ref
+clip-rect-vlr-011
+clip-rect-vlr-013-ref
+clip-rect-vlr-013
+clip-rect-vlr-015-ref
+clip-rect-vlr-015
+clip-rect-vlr-017-ref
+clip-rect-vlr-017
+clip-rect-vrl-002-ref
+clip-rect-vrl-002
+clip-rect-vrl-004-ref
+clip-rect-vrl-004
+clip-rect-vrl-006-ref
+clip-rect-vrl-006
+clip-rect-vrl-008-ref
+clip-rect-vrl-008
+clip-rect-vrl-010-ref
+clip-rect-vrl-010
+clip-rect-vrl-012-ref
+clip-rect-vrl-012
+clip-rect-vrl-014-ref
+clip-rect-vrl-014
+clip-rect-vrl-016-ref
+clip-rect-vrl-016
+contiguous-floated-table-vlr-003 Elements 33.3%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vlr-005 Elements 33.3%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vlr-007 Elements 29.4%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vlr-009 Elements 29.4%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vrl-002 Elements 33.3%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vrl-004 Elements 33.3%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vrl-006 Elements 29.4%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vrl-008 Elements 29.4%, Spans 100.0%, Text 100.0%.
+different-block-flow-dir-001
+different-block-flow-dir-002
+direction-propagation-body-contain-root-ref
+direction-propagation-body-contain-root Elements 0.0%, Spans 100.0%, Text 100.0%.
+# fixture: css-writing-modes/direction-upright-001.html
+direction-upright-001 Elements 13.0%, Spans 14.3%, Text 39.0%.
+# fixture: css-writing-modes/direction-upright-002.html
+direction-upright-002 Elements 0.4%, Spans 0.0%, Text 0.6%.
+direction-vlr-003-ref
+direction-vlr-003
+direction-vlr-005
+direction-vrl-002-ref
+direction-vrl-002
+direction-vrl-004-ref
+direction-vrl-004
+dynamic-offset-rtl-001-ref
+dynamic-offset-rtl-001
+dynamic-offset-rtl-002
+dynamic-offset-vrl-001
+dynamic-offset-vrl-002
+dynamic-offset-vrl-rtl-001
+dynamic-offset-vrl-rtl-002
+first-page-vlr-003
+first-page-vrl-002
+flexbox_align-items-stretch-writing-modes-ref
+flexbox_align-items-stretch-writing-modes
+float-clear-vlr-003
+float-clear-vlr-005
+float-clear-vlr-007
+float-clear-vlr-009
+float-clear-vrl-002
+float-clear-vrl-004
+float-clear-vrl-006
+float-clear-vrl-008
+float-contiguous-vlr-003
+float-contiguous-vlr-005
+float-contiguous-vlr-007-ref
+float-contiguous-vlr-007
+float-contiguous-vlr-009-ref
+float-contiguous-vlr-009
+float-contiguous-vlr-011
+float-contiguous-vlr-013
+float-contiguous-vrl-002
+float-contiguous-vrl-004
+float-contiguous-vrl-006-ref Elements 77.8%, Spans 100.0%, Text 100.0%.
+float-contiguous-vrl-006
+float-contiguous-vrl-008-ref
+float-contiguous-vrl-008
+float-contiguous-vrl-010
+float-contiguous-vrl-012-ref
+float-contiguous-vrl-012
+float-in-htb-in-vrl
+float-lft-orthog-htb-in-vlr-002-ref
+float-lft-orthog-htb-in-vlr-002
+float-lft-orthog-htb-in-vrl-002-ref
+float-lft-orthog-htb-in-vrl-002
+float-lft-orthog-vlr-in-htb-002-ref Elements 80.0%, Spans 100.0%, Text 50.0%.
+float-lft-orthog-vlr-in-htb-002
+float-lft-orthog-vrl-in-htb-002-ref Elements 80.0%, Spans 100.0%, Text 50.0%.
+float-lft-orthog-vrl-in-htb-002
+float-rgt-orthog-htb-in-vlr-003-ref
+float-rgt-orthog-htb-in-vlr-003
+float-rgt-orthog-htb-in-vrl-003-ref
+float-rgt-orthog-htb-in-vrl-003
+float-rgt-orthog-vlr-in-htb-003-ref Elements 75.0%, Spans 100.0%, Text 50.0%.
+float-rgt-orthog-vlr-in-htb-003
+float-rgt-orthog-vrl-in-htb-003-ref Elements 75.0%, Spans 100.0%, Text 50.0%.
+float-rgt-orthog-vrl-in-htb-003
+float-shrink-to-fit-vlr-003
+float-shrink-to-fit-vlr-005
+float-shrink-to-fit-vlr-007
+float-shrink-to-fit-vlr-009
+float-shrink-to-fit-vrl-002
+float-shrink-to-fit-vrl-004
+float-shrink-to-fit-vrl-006
+float-shrink-to-fit-vrl-008
+float-shrink-to-fit-vrl-vlr-016
+float-vlr-003
+float-vlr-005
+float-vlr-007
+float-vlr-009
+float-vlr-011
+float-vlr-013 Elements 85.7%, Spans 100.0%, Text 85.7%.
+float-vlr-014
+float-vrl-002
+float-vrl-004
+float-vrl-006
+float-vrl-008
+float-vrl-010
+float-vrl-012 Elements 85.7%, Spans 100.0%, Text 85.7%.
+full-width-001 Elements 100.0%, Spans 100.0%, Text 91.7%.
+full-width-002
+full-width-003
+height-width-inline-non-replaced-vlr-003
+height-width-inline-non-replaced-vrl-002
+horizontal-rule-vlr-003-ref
+horizontal-rule-vlr-003
+horizontal-rule-vlr-005
+horizontal-rule-vrl-002-ref
+horizontal-rule-vrl-002
+horizontal-rule-vrl-004-ref
+horizontal-rule-vrl-004
+img-intrinsic-size-contribution-001
+img-intrinsic-size-contribution-002
+img-intrinsic-size-contribution-ref
+inheritance Elements 0.0%, Spans 100.0%, Text 100.0%.
+inline-block-alignment-002-ref
+inline-block-alignment-002
+inline-block-alignment-003-ref
+inline-block-alignment-003
+inline-block-alignment-004
+inline-block-alignment-005
+inline-block-alignment-006-ref
+inline-block-alignment-006
+inline-block-alignment-007-ref
+inline-block-alignment-007
+inline-block-alignment-orthogonal-vlr-003
+inline-block-alignment-orthogonal-vlr-005
+inline-block-alignment-orthogonal-vrl-002-ref
+inline-block-alignment-orthogonal-vrl-002
+inline-block-alignment-orthogonal-vrl-004
+inline-block-alignment-slr-009-ref
+inline-block-alignment-slr-009
+inline-block-alignment-srl-008
+# fixture: css-writing-modes/inline-box-border-vlr-001.html
+inline-box-border-vlr-001
+inline-box-orthogonal-child-with-margins-ref
+inline-box-orthogonal-child-with-margins
+inline-replaced-vlr-003
+inline-replaced-vlr-005
+inline-replaced-vrl-002-ref
+inline-replaced-vrl-002
+inline-replaced-vrl-004-ref
+inline-replaced-vrl-004
+inline-table-alignment-002-ref
+inline-table-alignment-002
+inline-table-alignment-003-ref
+inline-table-alignment-003
+inline-table-alignment-004
+inline-table-alignment-005
+line-box-direction-htb-001
+line-box-direction-slr-043
+line-box-direction-slr-047
+line-box-direction-slr-048
+line-box-direction-slr-050
+line-box-direction-slr-053
+line-box-direction-slr-054
+line-box-direction-slr-056 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-slr-058 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-slr-060
+line-box-direction-srl-042
+line-box-direction-srl-045
+line-box-direction-srl-046
+line-box-direction-srl-049
+line-box-direction-srl-051
+line-box-direction-srl-052
+line-box-direction-srl-055 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-srl-057 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-srl-059
+line-box-direction-vlr-003
+line-box-direction-vlr-007
+line-box-direction-vlr-008
+line-box-direction-vlr-010
+line-box-direction-vlr-013
+line-box-direction-vlr-014
+line-box-direction-vlr-016 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vlr-018 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vlr-020
+line-box-direction-vrl-002
+line-box-direction-vrl-005
+line-box-direction-vrl-006
+line-box-direction-vrl-009
+line-box-direction-vrl-011
+line-box-direction-vrl-012
+line-box-direction-vrl-015 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vrl-017 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vrl-019
+line-box-height-vlr-003-ref
+line-box-height-vlr-003
+line-box-height-vlr-005
+line-box-height-vlr-007-ref
+line-box-height-vlr-007
+line-box-height-vlr-009
+line-box-height-vlr-011-ref Elements 20.0%, Spans 100.0%, Text 50.0%.
+line-box-height-vlr-011 Elements 14.3%, Spans 0.0%, Text 33.3%.
+line-box-height-vlr-013 Elements 14.3%, Spans 0.0%, Text 33.3%.
+line-box-height-vlr-021-ref
+line-box-height-vlr-021
+line-box-height-vlr-023-ref
+line-box-height-vlr-023
+line-box-height-vrl-002-ref
+line-box-height-vrl-002
+line-box-height-vrl-004
+line-box-height-vrl-006-ref
+line-box-height-vrl-006
+line-box-height-vrl-008
+line-box-height-vrl-010-ref Elements 20.0%, Spans 100.0%, Text 50.0%.
+line-box-height-vrl-010 Elements 14.3%, Spans 0.0%, Text 33.3%.
+line-box-height-vrl-012 Elements 14.3%, Spans 0.0%, Text 33.3%.
+link-writing-mode-dependency-crash
+logical-physical-mapping-001-ref
+logical-physical-mapping-001
+logical-props-001
+logical-props-002
+logical-props-003
+logical-props-004
+margin-collapse-vlr-003
+margin-collapse-vlr-009
+margin-collapse-vlr-011
+margin-collapse-vlr-015
+margin-collapse-vlr-017
+margin-collapse-vlr-023
+margin-collapse-vlr-025
+margin-collapse-vlr-031
+margin-collapse-vlr-035
+margin-collapse-vlr-037
+margin-collapse-vrl-002
+margin-collapse-vrl-008
+margin-collapse-vrl-010
+margin-collapse-vrl-014
+margin-collapse-vrl-016
+margin-collapse-vrl-022
+margin-collapse-vrl-024
+margin-collapse-vrl-030
+margin-collapse-vrl-034
+margin-collapse-vrl-036
+margin-vlr-003
+margin-vrl-002-ref
+margin-vrl-002
+mongolian-orientation-001 Elements 60.0%, Spans 100.0%, Text 66.7%.
+mongolian-orientation-002
+mongolian-span-001
+nested-orthogonal-001
+normal-flow-overconstrained-vlr-003
+normal-flow-overconstrained-vlr-005
+normal-flow-overconstrained-vrl-002
+normal-flow-overconstrained-vrl-004
+ortho-htb-alongside-vrl-floats-002-ref Elements 24.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-002
+ortho-htb-alongside-vrl-floats-006-ref Elements 17.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-006
+ortho-htb-alongside-vrl-floats-010-ref Elements 20.0%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-010
+ortho-htb-alongside-vrl-floats-014-ref Elements 24.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-014
+orthogonal-cell-001-ref
+orthogonal-cell-001
+orthogonal-child-with-border
+orthogonal-child-with-padding
+orthogonal-containing-block-height-changes-ref
+orthogonal-containing-block-height-changes
+orthogonal-dynamic-size-001
+orthogonal-parent-shrink-to-fit-001 Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001a Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001b Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001c Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001d Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001e Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001f Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001g Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001h Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001i Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001j Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001k Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001l Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001m Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001n Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001o Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001p Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001q Elements 0.0%, Spans 100.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001r Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001s Elements 0.0%, Spans 100.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001t Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001u Elements 0.0%, Spans 100.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001v Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001w Elements 0.0%, Spans 100.0%, Text 0.0%.
+orthogonal-parent-shrink-to-fit-001x Elements 0.0%, Spans 0.0%, Text 0.0%.
+orthogonal-root-resize-icb-001
+orthogonal-root-resize-icb-002
+orthogonal-root-resize-icb-003
+orthogonal-root-resize-icb-004
+orthogonal-root-resize-icb-005
+orthogonal-root-resize-icb-006
+orthogonal-root-resize-icb-007
+# fixture: css-writing-modes/outline-inline-block-vrl-006.html
+outline-inline-block-vrl-006
+outline-inline-slr-005
+outline-inline-srl-004
+outline-inline-vlr-003
+# fixture: css-writing-modes/outline-inline-vlr-006.html
+outline-inline-vlr-006
+outline-inline-vlr-013
+outline-inline-vrl-002
+# fixture: css-writing-modes/outline-inline-vrl-006.html
+outline-inline-vrl-006
+outline-inline-vrl-012
+overconstrained-rel-pos-ltr-left-right-vlr-005-ref
+overconstrained-rel-pos-ltr-left-right-vlr-005
+overconstrained-rel-pos-ltr-left-right-vrl-004-ref
+overconstrained-rel-pos-ltr-left-right-vrl-004
+overconstrained-rel-pos-ltr-top-bottom-vlr-003-ref
+overconstrained-rel-pos-ltr-top-bottom-vlr-003
+overconstrained-rel-pos-ltr-top-bottom-vrl-002-ref
+overconstrained-rel-pos-ltr-top-bottom-vrl-002
+overconstrained-rel-pos-rtl-left-right-vlr-009-ref
+overconstrained-rel-pos-rtl-left-right-vlr-009
+overconstrained-rel-pos-rtl-left-right-vrl-008-ref
+overconstrained-rel-pos-rtl-left-right-vrl-008
+overconstrained-rel-pos-rtl-top-bottom-vlr-007-ref
+overconstrained-rel-pos-rtl-top-bottom-vlr-007
+overconstrained-rel-pos-rtl-top-bottom-vrl-006-ref
+overconstrained-rel-pos-rtl-top-bottom-vrl-006
+padding-percent-orthogonal-dynamic Elements 25.0%, Spans 100.0%, Text 100.0%.
+padding-vlr-005
+padding-vrl-004
+page-flow-direction-002
+page-flow-direction-003
+page-flow-direction-slr-005
+page-flow-direction-srl-004
+percent-margin-vlr-003
+percent-margin-vlr-005
+percent-margin-vlr-007
+percent-margin-vrl-002
+percent-margin-vrl-004
+percent-margin-vrl-006
+percent-padding-vlr-003
+percent-padding-vlr-005
+percent-padding-vlr-007
+percent-padding-vrl-002
+percent-padding-vrl-004
+percent-padding-vrl-006
+percentage-padding-in-shrink-to-fit
+placeholder-sideways-crash Elements 57.1%, Spans 100.0%, Text 50.0%.
+relpos-inline-overflowing-block-vrl
+replaced-content-image-002 Elements 33.3%, Spans 100.0%, Text 100.0%.
+replaced-content-image-003 Elements 33.3%, Spans 100.0%, Text 100.0%.
+replaced-content-image-004-ref
+replaced-content-image-004
+row-progression-slr-023
+row-progression-slr-029
+row-progression-srl-022
+row-progression-srl-028
+row-progression-vlr-003
+row-progression-vlr-005 Elements 35.3%, Spans 100.0%, Text 35.0%.
+row-progression-vlr-007
+row-progression-vlr-009
+row-progression-vrl-002
+row-progression-vrl-004 Elements 52.9%, Spans 100.0%, Text 30.0%.
+row-progression-vrl-006
+row-progression-vrl-008
+scrollbar-vertical-rl
+sideways-lr-main-axis Elements 76.5%, Spans 100.0%, Text 100.0%.
+sizing-orthog-htb-in-vlr-001-ref
+sizing-orthog-htb-in-vlr-001
+sizing-orthog-htb-in-vlr-003-ref
+sizing-orthog-htb-in-vlr-003
+sizing-orthog-htb-in-vlr-004-ref
+sizing-orthog-htb-in-vlr-004
+sizing-orthog-htb-in-vlr-006-ref
+sizing-orthog-htb-in-vlr-006
+sizing-orthog-htb-in-vlr-007-ref
+sizing-orthog-htb-in-vlr-007
+sizing-orthog-htb-in-vlr-008-ref
+sizing-orthog-htb-in-vlr-008
+sizing-orthog-htb-in-vlr-009
+sizing-orthog-htb-in-vlr-010-ref
+sizing-orthog-htb-in-vlr-010
+sizing-orthog-htb-in-vlr-011-ref
+sizing-orthog-htb-in-vlr-011
+sizing-orthog-htb-in-vlr-012
+sizing-orthog-htb-in-vlr-013-ref
+sizing-orthog-htb-in-vlr-013
+sizing-orthog-htb-in-vlr-015-ref
+sizing-orthog-htb-in-vlr-015
+sizing-orthog-htb-in-vlr-016-ref
+sizing-orthog-htb-in-vlr-016
+sizing-orthog-htb-in-vlr-018-ref
+sizing-orthog-htb-in-vlr-018
+sizing-orthog-htb-in-vlr-019-ref
+sizing-orthog-htb-in-vlr-019
+sizing-orthog-htb-in-vlr-020-ref
+sizing-orthog-htb-in-vlr-020
+sizing-orthog-htb-in-vlr-021
+sizing-orthog-htb-in-vlr-022-ref
+sizing-orthog-htb-in-vlr-022
+sizing-orthog-htb-in-vlr-023-ref
+sizing-orthog-htb-in-vlr-023
+sizing-orthog-htb-in-vlr-024
+sizing-orthog-htb-in-vrl-001-ref
+sizing-orthog-htb-in-vrl-001
+sizing-orthog-htb-in-vrl-003-ref
+sizing-orthog-htb-in-vrl-003
+sizing-orthog-htb-in-vrl-004
+sizing-orthog-htb-in-vrl-006-ref
+sizing-orthog-htb-in-vrl-006
+sizing-orthog-htb-in-vrl-007-ref
+sizing-orthog-htb-in-vrl-007
+sizing-orthog-htb-in-vrl-008-ref
+sizing-orthog-htb-in-vrl-008
+sizing-orthog-htb-in-vrl-009
+sizing-orthog-htb-in-vrl-010-ref
+sizing-orthog-htb-in-vrl-010
+sizing-orthog-htb-in-vrl-011-ref
+sizing-orthog-htb-in-vrl-011
+sizing-orthog-htb-in-vrl-012
+sizing-orthog-htb-in-vrl-013-ref
+sizing-orthog-htb-in-vrl-013
+sizing-orthog-htb-in-vrl-015-ref
+sizing-orthog-htb-in-vrl-015
+sizing-orthog-htb-in-vrl-016
+sizing-orthog-htb-in-vrl-018-ref
+sizing-orthog-htb-in-vrl-018
+sizing-orthog-htb-in-vrl-019-ref
+sizing-orthog-htb-in-vrl-019
+sizing-orthog-htb-in-vrl-020-ref
+sizing-orthog-htb-in-vrl-020
+sizing-orthog-htb-in-vrl-021
+sizing-orthog-htb-in-vrl-022-ref
+sizing-orthog-htb-in-vrl-022
+sizing-orthog-htb-in-vrl-023-ref
+sizing-orthog-htb-in-vrl-023
+sizing-orthog-htb-in-vrl-024
+sizing-orthog-prct-htb-in-vlr-001-ref
+sizing-orthog-prct-htb-in-vlr-001
+sizing-orthog-prct-htb-in-vlr-002-ref
+sizing-orthog-prct-htb-in-vlr-002
+sizing-orthog-prct-htb-in-vlr-003-ref Elements 11.1%, Spans 100.0%, Text 8.3%.
+sizing-orthog-prct-htb-in-vlr-003
+sizing-orthog-prct-htb-in-vlr-004-ref
+sizing-orthog-prct-htb-in-vlr-004
+sizing-orthog-prct-htb-in-vlr-005-ref
+sizing-orthog-prct-htb-in-vlr-005
+sizing-orthog-prct-htb-in-vlr-006-ref
+sizing-orthog-prct-htb-in-vlr-006
+sizing-orthog-prct-htb-in-vlr-007-ref Elements 11.1%, Spans 100.0%, Text 8.3%.
+sizing-orthog-prct-htb-in-vlr-007
+sizing-orthog-prct-htb-in-vlr-008-ref
+sizing-orthog-prct-htb-in-vlr-008
+sizing-orthog-prct-htb-in-vrl-001-ref
+sizing-orthog-prct-htb-in-vrl-001
+sizing-orthog-prct-htb-in-vrl-002-ref
+sizing-orthog-prct-htb-in-vrl-002
+sizing-orthog-prct-htb-in-vrl-003-ref
+sizing-orthog-prct-htb-in-vrl-003
+sizing-orthog-prct-htb-in-vrl-004-ref
+sizing-orthog-prct-htb-in-vrl-004
+sizing-orthog-prct-htb-in-vrl-005-ref
+sizing-orthog-prct-htb-in-vrl-005
+sizing-orthog-prct-htb-in-vrl-006-ref
+sizing-orthog-prct-htb-in-vrl-006
+sizing-orthog-prct-htb-in-vrl-007-ref
+sizing-orthog-prct-htb-in-vrl-007
+sizing-orthog-prct-htb-in-vrl-008-ref
+sizing-orthog-prct-htb-in-vrl-008
+sizing-orthog-prct-vlr-in-htb-001-ref
+sizing-orthog-prct-vlr-in-htb-001
+sizing-orthog-prct-vlr-in-htb-002-ref
+sizing-orthog-prct-vlr-in-htb-002
+sizing-orthog-prct-vlr-in-htb-003-ref
+sizing-orthog-prct-vlr-in-htb-003
+sizing-orthog-prct-vlr-in-htb-004-ref
+sizing-orthog-prct-vlr-in-htb-004
+sizing-orthog-prct-vlr-in-htb-005-ref
+sizing-orthog-prct-vlr-in-htb-005
+sizing-orthog-prct-vlr-in-htb-006-ref
+sizing-orthog-prct-vlr-in-htb-006
+sizing-orthog-prct-vlr-in-htb-007-ref
+sizing-orthog-prct-vlr-in-htb-007
+sizing-orthog-prct-vlr-in-htb-008-ref
+sizing-orthog-prct-vlr-in-htb-008
+sizing-orthog-prct-vrl-in-htb-001-ref
+sizing-orthog-prct-vrl-in-htb-001
+sizing-orthog-prct-vrl-in-htb-002-ref
+sizing-orthog-prct-vrl-in-htb-002
+sizing-orthog-prct-vrl-in-htb-003-ref
+sizing-orthog-prct-vrl-in-htb-003
+sizing-orthog-prct-vrl-in-htb-004-ref
+sizing-orthog-prct-vrl-in-htb-004
+sizing-orthog-prct-vrl-in-htb-005-ref
+sizing-orthog-prct-vrl-in-htb-005
+sizing-orthog-prct-vrl-in-htb-006-ref
+sizing-orthog-prct-vrl-in-htb-006
+sizing-orthog-prct-vrl-in-htb-007-ref
+sizing-orthog-prct-vrl-in-htb-007
+sizing-orthog-prct-vrl-in-htb-008-ref
+sizing-orthog-prct-vrl-in-htb-008
+sizing-orthog-vlr-in-htb-001-ref
+sizing-orthog-vlr-in-htb-001
+sizing-orthog-vlr-in-htb-003-ref
+sizing-orthog-vlr-in-htb-003
+sizing-orthog-vlr-in-htb-004-ref
+sizing-orthog-vlr-in-htb-004
+sizing-orthog-vlr-in-htb-006-ref
+sizing-orthog-vlr-in-htb-006
+sizing-orthog-vlr-in-htb-007-ref
+sizing-orthog-vlr-in-htb-007
+sizing-orthog-vlr-in-htb-008-ref
+sizing-orthog-vlr-in-htb-008
+sizing-orthog-vlr-in-htb-009-ref
+sizing-orthog-vlr-in-htb-009
+sizing-orthog-vlr-in-htb-010-ref
+sizing-orthog-vlr-in-htb-010
+sizing-orthog-vlr-in-htb-011-ref
+sizing-orthog-vlr-in-htb-011
+sizing-orthog-vlr-in-htb-012-ref
+sizing-orthog-vlr-in-htb-012
+sizing-orthog-vlr-in-htb-013-ref
+sizing-orthog-vlr-in-htb-013
+sizing-orthog-vlr-in-htb-015-ref
+sizing-orthog-vlr-in-htb-015
+sizing-orthog-vlr-in-htb-016-ref
+sizing-orthog-vlr-in-htb-016
+sizing-orthog-vlr-in-htb-018-ref
+sizing-orthog-vlr-in-htb-018
+sizing-orthog-vlr-in-htb-019-ref
+sizing-orthog-vlr-in-htb-019
+sizing-orthog-vlr-in-htb-020-ref
+sizing-orthog-vlr-in-htb-020
+sizing-orthog-vlr-in-htb-021
+sizing-orthog-vlr-in-htb-022-ref
+sizing-orthog-vlr-in-htb-022
+sizing-orthog-vlr-in-htb-023-ref
+sizing-orthog-vlr-in-htb-023
+sizing-orthog-vlr-in-htb-024
+sizing-orthog-vrl-in-htb-001-ref
+sizing-orthog-vrl-in-htb-001
+sizing-orthog-vrl-in-htb-003-ref
+sizing-orthog-vrl-in-htb-003
+sizing-orthog-vrl-in-htb-004-ref
+sizing-orthog-vrl-in-htb-004
+sizing-orthog-vrl-in-htb-006-ref
+sizing-orthog-vrl-in-htb-006
+sizing-orthog-vrl-in-htb-007-ref
+sizing-orthog-vrl-in-htb-007
+sizing-orthog-vrl-in-htb-008-ref
+sizing-orthog-vrl-in-htb-008
+sizing-orthog-vrl-in-htb-009-ref
+sizing-orthog-vrl-in-htb-009
+sizing-orthog-vrl-in-htb-010-ref
+sizing-orthog-vrl-in-htb-010
+sizing-orthog-vrl-in-htb-011-ref
+sizing-orthog-vrl-in-htb-011
+sizing-orthog-vrl-in-htb-012-ref
+sizing-orthog-vrl-in-htb-012
+sizing-orthog-vrl-in-htb-013-ref
+sizing-orthog-vrl-in-htb-013
+sizing-orthog-vrl-in-htb-015-ref
+sizing-orthog-vrl-in-htb-015
+sizing-orthog-vrl-in-htb-016-ref
+sizing-orthog-vrl-in-htb-016
+sizing-orthog-vrl-in-htb-018-ref
+sizing-orthog-vrl-in-htb-018
+sizing-orthog-vrl-in-htb-019-ref
+sizing-orthog-vrl-in-htb-019
+sizing-orthog-vrl-in-htb-020-ref
+sizing-orthog-vrl-in-htb-020
+sizing-orthog-vrl-in-htb-021
+sizing-orthog-vrl-in-htb-022-ref
+sizing-orthog-vrl-in-htb-022
+sizing-orthog-vrl-in-htb-023-ref
+sizing-orthog-vrl-in-htb-023
+sizing-orthog-vrl-in-htb-024
+sizing-orthogonal-percentage-margin-001-ref
+sizing-orthogonal-percentage-margin-001
+sizing-orthogonal-percentage-margin-002-ref
+sizing-orthogonal-percentage-margin-002
+sizing-orthogonal-percentage-margin-003-ref
+sizing-orthogonal-percentage-margin-003
+sizing-orthogonal-percentage-margin-004
+sizing-orthogonal-percentage-margin-005-ref
+sizing-orthogonal-percentage-margin-005
+sizing-orthogonal-percentage-margin-006-ref
+sizing-orthogonal-percentage-margin-006
+sizing-orthogonal-percentage-margin-007-ref
+sizing-orthogonal-percentage-margin-007
+sizing-orthogonal-percentage-margin-008
+sizing-percentages-replaced-orthogonal-001-ref
+sizing-percentages-replaced-orthogonal-001
+slr-alongside-vlr-floats-ref
+slr-alongside-vlr-floats
+srl-alongside-vrl-floats-ref
+srl-alongside-vrl-floats
+svg-aliasing-001
+svg-aliasing-002
+table-cell-001 Elements 36.4%, Spans 100.0%, Text 100.0%.
+table-cell-002 Elements 33.3%, Spans 100.0%, Text 71.4%.
+table-cell-align-001
+table-cell-align-002
+table-cell-align-003
+table-cell-align-004
+table-cell-align-005
+table-cell-align-006 Elements 0.0%, Spans 100.0%, Text 6.7%.
+table-cell-valign-001
+table-cell-valign-002
+table-cell-valign-003 Elements 0.0%, Spans 100.0%, Text 0.0%.
+table-cell-valign-004 Elements 0.0%, Spans 100.0%, Text 0.0%.
+table-column-order-002 Elements 52.6%, Spans 100.0%, Text 29.2%.
+table-column-order-003 Elements 52.6%, Spans 100.0%, Text 29.2%.
+table-column-order-004 Elements 35.3%, Spans 100.0%, Text 35.0%.
+table-column-order-005 Elements 52.9%, Spans 100.0%, Text 30.0%.
+table-column-order-slr-007 Elements 21.1%, Spans 100.0%, Text 10.4%.
+table-column-order-srl-006 Elements 52.6%, Spans 100.0%, Text 29.2%.
+table-progression-001-ref
+table-progression-002-ref
+table-progression-htb-001-ref
+table-progression-htb-001
+table-progression-htb-002-ref
+table-progression-htb-002 Elements 83.1%, Spans 100.0%, Text 100.0%.
+table-progression-slr-001-ref
+table-progression-slr-001
+table-progression-slr-002 Elements 74.6%, Spans 100.0%, Text 100.0%.
+table-progression-srl-001
+table-progression-srl-002 Elements 84.1%, Spans 100.0%, Text 100.0%.
+table-progression-vlr-001
+table-progression-vlr-002 Elements 84.1%, Spans 100.0%, Text 100.0%.
+table-progression-vlr-003
+table-progression-vlr-004
+table-progression-vrl-001
+table-progression-vrl-002 Elements 84.1%, Spans 100.0%, Text 100.0%.
+table-progression-vrl-003
+table-progression-vrl-004
+tcy-white-space-processing-001
+tcy-white-space-processing-002
+tcy-white-space-processing-003 Elements 13.3%, Spans 16.7%, Text 44.4%.
+text-align-vlr-003
+text-align-vlr-005
+text-align-vlr-007
+text-align-vlr-009-ref
+text-align-vlr-009
+text-align-vlr-011
+text-align-vlr-013
+text-align-vlr-015
+text-align-vlr-017
+text-align-vlr-019
+text-align-vrl-002
+text-align-vrl-004
+text-align-vrl-006
+text-align-vrl-008-ref
+text-align-vrl-008
+text-align-vrl-010
+text-align-vrl-012
+text-align-vrl-014
+text-align-vrl-016
+text-align-vrl-018
+text-baseline-slr-009-ref
+text-baseline-slr-009
+text-baseline-srl-008
+text-baseline-vlr-003
+text-baseline-vlr-005
+text-baseline-vlr-007
+text-baseline-vrl-002-ref
+text-baseline-vrl-002
+text-baseline-vrl-004
+text-baseline-vrl-006-ref
+text-baseline-vrl-006
+text-combine-upright-all-001-manual Elements 100.0%, Spans 100.0%, Text 87.5%.
+text-combine-upright-all-002-manual Elements 72.7%, Spans 75.0%, Text 46.2%.
+text-combine-upright-break-inside-001-ref
+text-combine-upright-break-inside-001
+text-combine-upright-break-inside-001a Elements 62.5%, Spans 50.0%, Text 44.4%.
+text-combine-upright-compression-001-ref
+text-combine-upright-compression-001 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-002-ref
+text-combine-upright-compression-002 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-003-ref
+text-combine-upright-compression-003 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-004-ref
+text-combine-upright-compression-004 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-005-ref
+text-combine-upright-compression-005 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-005a Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-006-ref
+text-combine-upright-compression-006 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-006a Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-007-ref
+text-combine-upright-compression-007 Elements 62.5%, Spans 50.0%, Text 50.0%.
+# fixture: css-writing-modes/text-combine-upright-decorations-001.html
+text-combine-upright-decorations-001 Elements 51.7%, Spans 50.0%, Text 65.4%.
+text-combine-upright-digits-001-manual
+text-combine-upright-digits-002-manual
+text-combine-upright-digits-004-manual
+text-combine-upright-gen-con-001-ref Elements 100.0%, Spans 100.0%, Text 88.2%.
+text-combine-upright-gen-con-001 Elements 100.0%, Spans 100.0%, Text 92.3%.
+# fixture: css-writing-modes/text-combine-upright-inherit-all-001.html
+text-combine-upright-inherit-all-001
+# fixture: css-writing-modes/text-combine-upright-inherit-all-002.html
+text-combine-upright-inherit-all-002 Elements 47.1%, Spans 100.0%, Text 81.8%.
+text-combine-upright-layout-rules-001 Elements 66.7%, Spans 100.0%, Text 63.6%.
+text-combine-upright-letter-spacing-001-ref
+text-combine-upright-letter-spacing-001
+text-combine-upright-line-breaking-rules-001-ref Elements 45.5%, Spans 0.0%, Text 11.1%.
+text-combine-upright-line-breaking-rules-001 Elements 44.4%, Spans 0.0%, Text 11.1%.
+text-combine-upright-parsing-digits-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-parsing-digits-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-parsing-invalid-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-parsing-invalid-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-parsing-valid-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-rtl-001-ref Elements 100.0%, Spans 100.0%, Text 92.0%.
+text-combine-upright-rtl-001 Elements 100.0%, Spans 100.0%, Text 84.0%.
+text-combine-upright-rtl-002-ref Elements 100.0%, Spans 100.0%, Text 84.0%.
+text-combine-upright-rtl-002 Elements 100.0%, Spans 100.0%, Text 88.0%.
+text-combine-upright-shadow-ref
+text-combine-upright-shadow
+text-combine-upright-sideways-001
+text-combine-upright-sideways-002
+text-combine-upright-sideways-crash
+text-combine-upright-value-all-001
+text-combine-upright-value-all-002 Elements 100.0%, Spans 100.0%, Text 80.0%.
+text-combine-upright-value-all-003 Elements 100.0%, Spans 100.0%, Text 80.0%.
+text-combine-upright-value-digits2-001
+text-combine-upright-value-digits2-002 Elements 25.0%, Spans 0.0%, Text 80.0%.
+text-combine-upright-value-digits2-003
+text-combine-upright-value-digits3-001 Elements 25.0%, Spans 0.0%, Text 80.0%.
+text-combine-upright-value-digits3-002 Elements 25.0%, Spans 0.0%, Text 80.0%.
+text-combine-upright-value-digits3-003
+text-combine-upright-value-digits4-001 Elements 25.0%, Spans 0.0%, Text 80.0%.
+text-combine-upright-value-digits4-002 Elements 25.0%, Spans 0.0%, Text 80.0%.
+text-combine-upright-value-digits4-003
+text-combine-upright-value-none-001
+text-combine-webkit-crash
+text-decoration-sideways-vlr-003
+text-decoration-sideways-vlr-005
+text-decoration-sideways-vlr-007
+text-decoration-sideways-vrl-002
+text-decoration-sideways-vrl-004
+text-decoration-sideways-vrl-006
+text-decoration-upright-vlr-003 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-decoration-upright-vlr-005 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-decoration-upright-vlr-007 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-decoration-upright-vrl-002 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-decoration-upright-vrl-004 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-decoration-upright-vrl-006 Elements 33.3%, Spans 0.0%, Text 75.0%.
+text-indent-vlr-003-ref
+text-indent-vlr-003
+text-indent-vlr-005-ref
+text-indent-vlr-005
+text-indent-vlr-007
+text-indent-vlr-009
+text-indent-vlr-011-ref
+text-indent-vlr-011
+text-indent-vlr-013-ref
+text-indent-vlr-013
+text-indent-vlr-015
+text-indent-vlr-017
+text-indent-vrl-002-ref
+text-indent-vrl-002
+text-indent-vrl-004-ref
+text-indent-vrl-004
+text-indent-vrl-006
+text-indent-vrl-008-ref
+text-indent-vrl-008
+text-indent-vrl-010-ref
+text-indent-vrl-010
+text-indent-vrl-012-ref
+text-indent-vrl-012
+text-indent-vrl-014
+text-indent-vrl-016
+text-orientation-010 Elements 36.4%, Spans 0.0%, Text 77.8%.
+text-orientation-011 Elements 33.3%, Spans 0.0%, Text 60.0%.
+text-orientation-012 Elements 80.0%, Spans 100.0%, Text 77.8%.
+text-orientation-016-ref
+text-orientation-016
+text-orientation-020
+text-orientation-021 Elements 50.0%, Spans 100.0%, Text 33.3%.
+text-orientation-initial-ref
+text-orientation-initial
+text-orientation-mixed-slr-015
+text-orientation-mixed-srl-016-ref
+text-orientation-mixed-srl-016
+text-orientation-mixed-vlr-100-ref Elements 100.0%, Spans 100.0%, Text 36.8%.
+text-orientation-mixed-vlr-100 Elements 100.0%, Spans 100.0%, Text 36.8%.
+text-orientation-mixed-vrl-002 Elements 88.9%, Spans 100.0%, Text 88.9%.
+text-orientation-mixed-vrl-100-ref Elements 100.0%, Spans 100.0%, Text 36.8%.
+text-orientation-mixed-vrl-100 Elements 100.0%, Spans 100.0%, Text 36.8%.
+text-orientation-parsing-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-orientation-parsing-sideways-right-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-orientation-sideways-001
+text-orientation-sideways-slr-019
+text-orientation-sideways-vlr-100-ref
+text-orientation-sideways-vlr-100
+text-orientation-sideways-vrl-100-ref
+text-orientation-sideways-vrl-100
+text-orientation-upright-directionality-001-ref Elements 10.0%, Spans 100.0%, Text 33.3%.
+text-orientation-upright-directionality-001 Elements 10.0%, Spans 100.0%, Text 33.3%.
+text-orientation-upright-slr-017
+text-orientation-upright-srl-018
+text-orientation-upright-vlr-100-ref Elements 100.0%, Spans 100.0%, Text 21.1%.
+text-orientation-upright-vlr-100 Elements 100.0%, Spans 100.0%, Text 21.1%.
+text-orientation-upright-vrl-002 Elements 87.5%, Spans 100.0%, Text 85.7%.
+text-orientation-upright-vrl-100-ref Elements 100.0%, Spans 100.0%, Text 21.1%.
+text-orientation-upright-vrl-100 Elements 100.0%, Spans 100.0%, Text 21.1%.
+text-shadow-orientation-upright-001
+text-shadow-sideways-001-ref
+text-shadow-sideways-001
+text-underline-position-alphabetic-001
+text-underline-position-auto-001
+text-underline-position-left-001
+text-underline-position-left-002
+text-underline-position-right-001
+text-underline-position-right-002
+text-underline-position-under-001
+# fixture: css-writing-modes/three-levels-of-orthogonal-flows.html
+three-levels-of-orthogonal-flows Elements 36.4%, Spans 100.0%, Text 20.0%.
+tooltip-display-vertical-001-manual
+# fixture: css-writing-modes/two-levels-of-orthogonal-flows-fixed.html
+two-levels-of-orthogonal-flows-fixed
+# fixture: css-writing-modes/two-levels-of-orthogonal-flows-percentage.html
+two-levels-of-orthogonal-flows-percentage
+# fixture: css-writing-modes/two-levels-of-orthogonal-flows.html
+two-levels-of-orthogonal-flows
+underline-font-size-vlr-003 Elements 75.0%, Spans 33.3%, Text 100.0%.
+underline-font-size-vlr-005 Elements 75.0%, Spans 33.3%, Text 100.0%.
+underline-font-size-vrl-002 Elements 75.0%, Spans 33.3%, Text 100.0%.
+underline-font-size-vrl-004 Elements 75.0%, Spans 33.3%, Text 100.0%.
+underline-mixed-vlr-003
+underline-mixed-vrl-002
+unicode-bidi-parsing-001 Elements 0.0%, Spans 0.0%, Text 100.0%.
+unicode-bidi-parsing-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
+vertical-alignment-002-ref
+vertical-alignment-002
+vertical-alignment-003
+vertical-alignment-004-ref
+vertical-alignment-004
+vertical-alignment-005
+vertical-alignment-006-ref
+vertical-alignment-006
+vertical-alignment-007
+vertical-alignment-008-ref
+vertical-alignment-008
+vertical-alignment-009
+vertical-alignment-slr-029-ref
+vertical-alignment-slr-029
+vertical-alignment-slr-031-ref
+vertical-alignment-slr-031
+vertical-alignment-slr-033-ref
+vertical-alignment-slr-033
+vertical-alignment-slr-035-ref
+vertical-alignment-slr-035
+vertical-alignment-slr-037
+vertical-alignment-slr-039
+vertical-alignment-slr-041
+vertical-alignment-slr-049-ref
+vertical-alignment-srl-028
+vertical-alignment-srl-030
+vertical-alignment-srl-032
+vertical-alignment-srl-034
+vertical-alignment-srl-036
+vertical-alignment-srl-038
+vertical-alignment-srl-040
+vertical-alignment-vlr-011
+vertical-alignment-vlr-013
+vertical-alignment-vlr-015
+vertical-alignment-vlr-017
+vertical-alignment-vlr-019
+vertical-alignment-vlr-021
+vertical-alignment-vlr-023
+vertical-alignment-vlr-025
+vertical-alignment-vlr-027
+vertical-alignment-vrl-010
+vertical-alignment-vrl-012
+vertical-alignment-vrl-014
+vertical-alignment-vrl-016
+vertical-alignment-vrl-018
+vertical-alignment-vrl-020
+vertical-alignment-vrl-022-ref
+vertical-alignment-vrl-022
+vertical-alignment-vrl-024
+vertical-alignment-vrl-026-ref
+vertical-alignment-vrl-026
+vlr-text-orientation-sideways-alongside-vlr-floats-ref
+vlr-text-orientation-sideways-alongside-vlr-floats
+vrl-inline-paint-invalidation
+vrl-text-orientation-sideways-alongside-vrl-floats-ref
+vrl-text-orientation-sideways-alongside-vrl-floats
+wm-propagation-001-ref Elements 50.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-001 Elements 0.0%, Spans 100.0%, Text 0.0%.
+wm-propagation-002-ref Elements 50.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-002 Elements 50.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-032
+wm-propagation-body-033-ref
+wm-propagation-body-033
+wm-propagation-body-034
+wm-propagation-body-035-ref
+wm-propagation-body-035
+wm-propagation-body-036
+wm-propagation-body-037
+wm-propagation-body-038
+wm-propagation-body-039
+wm-propagation-body-040
+wm-propagation-body-041
+wm-propagation-body-042-ref
+wm-propagation-body-042 Elements 80.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-043
+wm-propagation-body-044-ref
+wm-propagation-body-044
+wm-propagation-body-045
+wm-propagation-body-046
+wm-propagation-body-047-ref
+wm-propagation-body-047 Elements 75.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-048
+wm-propagation-body-049-ref Elements 50.0%, Spans 100.0%, Text 0.0%.
+wm-propagation-body-049
+wm-propagation-body-050
+wm-propagation-body-051
+wm-propagation-body-052
+wm-propagation-body-053
+wm-propagation-body-054-ref Elements 50.0%, Spans 100.0%, Text 0.0%.
+wm-propagation-body-054
+wm-propagation-body-055
+wm-propagation-body-computed-direction-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-computed-direction-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-computed-root Elements 0.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-computed-writing-mode Elements 0.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-contain-root-ref
+wm-propagation-body-contain-root
+wm-propagation-body-dynamic-change-001
+wm-propagation-body-dynamic-change-002-ref
+wm-propagation-body-dynamic-change-002
+wm-propagation-body-dynamic-change-003-ref
+wm-propagation-body-dynamic-change-003
+wm-propagation-body-scroll-offset-vertical-lr Elements 0.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-scroll-offset-vertical-rl Elements 0.0%, Spans 100.0%, Text 100.0%.
+writing-mode-horizontal-001l
+writing-mode-horizontal-001r
+writing-mode-initial-ref
+writing-mode-initial
+writing-mode-parsing-001 Elements 76.9%, Spans 100.0%, Text 100.0%.
+writing-mode-parsing-sideways-lr-001 Elements 25.0%, Spans 100.0%, Text 100.0%.
+writing-mode-parsing-sideways-rl-001 Elements 25.0%, Spans 100.0%, Text 100.0%.
+writing-mode-parsing-svg1-001 Elements 44.4%, Spans 100.0%, Text 100.0%.
+writing-mode-vertical-lr-002
+writing-mode-vertical-rl-001
+writing-mode-vertical-rl-002
+writing-mode-vertical-rl-003-ref Elements 63.6%, Spans 100.0%, Text 67.6%.
+writing-mode-vertical-rl-003 Elements 63.6%, Spans 100.0%, Text 70.3%.
+writing-mode-vlr-001-manual
+writing-mode-vlr-002-manual
+writing-mode-vlr-003-manual
+writing-mode-vlr-005-manual
+writing-mode-vlr-006-manual
+writing-mode-vlr-007-manual
+writing-mode-vlr-008-manual Elements 57.1%, Spans 0.0%, Text 75.0%.
+writing-mode-vlr-009-manual Elements 57.1%, Spans 0.0%, Text 75.0%.
+writing-mode-vlr-010-manual Elements 57.1%, Spans 0.0%, Text 75.0%.
+writing-mode-vlr-012-manual
+writing-mode-vlr-014-manual Elements 66.7%, Spans 0.0%, Text 71.4%.
+writing-mode-vlr-015-manual
+writing-mode-vlr-table-001-manual Elements 37.5%, Spans 50.0%, Text 60.0%.
+writing-mode-vlr-table-002-manual
+writing-mode-vrl-001-manual Elements 80.0%, Spans 0.0%, Text 50.0%.
+writing-mode-vrl-002-manual Elements 83.3%, Spans 50.0%, Text 25.0%.
+writing-mode-vrl-003-manual Elements 80.0%, Spans 0.0%, Text 50.0%.
+writing-mode-vrl-005-manual
+writing-mode-vrl-007-manual
+writing-mode-vrl-008-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
+writing-mode-vrl-009-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
+writing-mode-vrl-010-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
+writing-mode-vrl-012-manual
+writing-mode-vrl-014-manual Elements 88.9%, Spans 0.0%, Text 85.7%.
+writing-mode-vrl-015-manual Elements 40.0%, Spans 100.0%, Text 33.3%.
+writing-mode-vrl-forms-001-manual
+writing-mode-vrl-forms-002-manual
+writing-mode-vrl-forms-003-manual Elements 80.0%, Spans 100.0%, Text 100.0%.
+writing-mode-vrl-forms-004-manual Elements 80.0%, Spans 100.0%, Text 100.0%.
+writing-mode-vrl-forms-005-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+writing-mode-vrl-forms-006-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+writing-mode-vrl-table-001-manual Elements 25.0%, Spans 0.0%, Text 20.0%.
+writing-mode-vrl-table-002-manual
+
+# css-writing-modes/astral-bidi
+adlam-anti-ref Elements 100.0%, Spans 100.0%, Text 50.0%.
+adlam-ref Elements 100.0%, Spans 100.0%, Text 50.0%.
+adlam Elements 100.0%, Spans 100.0%, Text 50.0%.
+cypriot-anti-ref Elements 100.0%, Spans 100.0%, Text 50.0%.
+cypriot-ref Elements 100.0%, Spans 100.0%, Text 50.0%.
+cypriot Elements 100.0%, Spans 100.0%, Text 50.0%.
+
+# css-writing-modes/crashtests
+chrome-bug-1512988 Elements 0.0%, Spans 100.0%, Text 100.0%.
+orthogonal-percent-height-multicol-crash Elements 16.7%, Spans 100.0%, Text 0.0%.
+orthogonal-scroll-percent-height-crash Elements 75.0%, Spans 100.0%, Text 100.0%.
+orthogonal-table-in-flex-crash
+table-root-direction-propagation-crash
+unicode-bidi-select-crash
+wm-body-propagation-crash Elements 0.0%, Spans 100.0%, Text 100.0%.
+
+# css-writing-modes/forms
+button-appearance-native-computed-style Elements 83.3%, Spans 100.0%, Text 100.0%.
+button-appearance-native-horizontal.optional
+button-appearance-native-vertical.optional
+button-appearance-none-horizontal.optional
+button-appearance-none-vertical.optional
+checkbox-appearance-native-vertical-lr-baseline.optional-ref
+checkbox-appearance-native-vertical-lr-baseline.optional
+checkbox-appearance-native-vertical-rl-baseline.optional-ref
+checkbox-appearance-native-vertical-rl-baseline.optional
+checkbox-switch-input-computed-style.tentative Elements 50.0%, Spans 100.0%, Text 100.0%.
+color-input-appearance-native-computed-style Elements 50.0%, Spans 100.0%, Text 100.0%.
+color-input-appearance-native-horizontal.optional
+color-input-appearance-native-vertical.optional
+color-input-appearance-none-horizontal.optional
+color-input-appearance-none-vertical.optional
+date-input-appearance-native-computed-style Elements 66.7%, Spans 100.0%, Text 100.0%.
+date-input-appearance-native-horizontal.optional
+date-input-appearance-native-vertical.optional
+date-input-appearance-none-horizontal.optional
+date-input-appearance-none-vertical.optional
+file-input-computed-style Elements 11.1%, Spans 100.0%, Text 100.0%.
+file-input-horizontal.optional
+file-input-vertical-rtl.optional Elements 25.0%, Spans 100.0%, Text 100.0%.
+file-input-vertical.optional Elements 25.0%, Spans 100.0%, Text 100.0%.
+input-range-block-size Elements 25.0%, Spans 100.0%, Text 100.0%.
+input-range-inline-size Elements 25.0%, Spans 100.0%, Text 100.0%.
+input-range-zero-inline-size-ref
+input-range-zero-inline-size
+meter-appearance-native-computed-style.optional Elements 50.0%, Spans 100.0%, Text 100.0%.
+meter-appearance-native-horizontal-rtl.optional
+meter-appearance-native-horizontal.optional
+meter-appearance-native-vertical-rtl.optional
+meter-appearance-native-vertical.optional
+number-input-vertical-overflow-ref
+number-input-vertical-overflow
+progress-appearance-native-computed-style.optional Elements 50.0%, Spans 100.0%, Text 100.0%.
+progress-appearance-native-horizontal-rtl.optional
+progress-appearance-native-horizontal.optional
+progress-appearance-native-vertical-rtl.optional
+progress-appearance-native-vertical.optional
+progress-appearance-none-horizontal-rtl.optional
+progress-appearance-none-horizontal.optional
+progress-appearance-none-vertical-rtl.optional
+progress-appearance-none-vertical.optional
+radio-appearance-native-vertical-lr-baseline.optional-ref
+radio-appearance-native-vertical-lr-baseline.optional
+radio-appearance-native-vertical-rl-baseline.optional-ref
+radio-appearance-native-vertical-rl-baseline.optional
+range-input-appearance-native-horizontal-rtl.optional
+range-input-appearance-native-horizontal.optional
+range-input-appearance-native-vertical-rtl.optional
+range-input-appearance-native-vertical.optional
+range-input-appearance-none-horizontal-rtl.optional
+range-input-appearance-none-horizontal.optional
+range-input-appearance-none-vertical-rtl.optional
+range-input-appearance-none-vertical.optional
+range-input-painting-ref
+range-input-vertical-ltr-painting
+range-input-vertical-rtl-painting
+select-appearance-native-computed-style Elements 50.0%, Spans 100.0%, Text 100.0%.
+select-appearance-native-horizontal.optional
+select-appearance-native-vertical.optional
+select-appearance-none-horizontal.optional
+select-appearance-none-vertical-lr.optional
+select-appearance-none-vertical-rl.optional
+select-multiple-appearance-native-horizontal.optional
+select-multiple-appearance-native-vlr.optional
+select-multiple-appearance-native-vrl.optional
+select-multiple-appearance-none-horizontal.optional
+select-multiple-appearance-none-vlr.optional
+select-multiple-appearance-none-vrl.optional
+select-multiple-keyboard-selection.optional
+select-multiple-options-visual-order Elements 25.0%, Spans 100.0%, Text 100.0%.
+select-multiple-scrolling.optional Elements 25.0%, Spans 100.0%, Text 100.0%.
+select-size-scrolling-and-sizing.optional Elements 25.0%, Spans 100.0%, Text 100.0%.
+text-input-baseline Elements 50.0%, Spans 100.0%, Text 100.0%.
+text-input-block-size.optional Elements 40.0%, Spans 100.0%, Text 100.0%.
+text-input-vertical-overflow-no-scroll Elements 0.0%, Spans 100.0%, Text 100.0%.
+textarea-appearance-native-horizontal.optional
+textarea-appearance-native-vlr.optional
+textarea-appearance-native-vrl.optional
+textarea-appearance-none-horizontal.optional
+textarea-appearance-none-vlr.optional
+textarea-appearance-none-vrl.optional
+textarea-rows-cols-sizing Elements 25.0%, Spans 100.0%, Text 100.0%.
+
+# css-writing-modes/forms/manual
+form-controls-slr-007-manual Elements 80.0%, Spans 100.0%, Text 88.9%.
+form-controls-slr-008-manual Elements 28.6%, Spans 100.0%, Text 66.7%.
+form-controls-srl-007-manual
+form-controls-srl-008-manual Elements 71.4%, Spans 100.0%, Text 66.7%.
+form-controls-vlr-001-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-002-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-003-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-004-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-005-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-006-manual Elements 20.0%, Spans 100.0%, Text 100.0%.
+form-controls-vlr-007-manual
+form-controls-vlr-008-manual Elements 42.9%, Spans 100.0%, Text 66.7%.
+form-controls-vrl-007-manual
+form-controls-vrl-008-manual Elements 71.4%, Spans 100.0%, Text 100.0%.
+
+# css-writing-modes/parsing
+direction-computed Elements 0.0%, Spans 100.0%, Text 100.0%.
+direction-invalid Elements 0.0%, Spans 100.0%, Text 100.0%.
+direction-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-computed Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-invalid Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-combine-upright-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-orientation-computed Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-orientation-invalid Elements 0.0%, Spans 100.0%, Text 100.0%.
+text-orientation-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
+unicode-bidi-computed Elements 0.0%, Spans 100.0%, Text 100.0%.
+unicode-bidi-invalid Elements 0.0%, Spans 100.0%, Text 100.0%.
+unicode-bidi-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
+writing-mode-computed Elements 0.0%, Spans 100.0%, Text 100.0%.
+writing-mode-invalid Elements 0.0%, Spans 100.0%, Text 100.0%.
+writing-mode-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
+
+# css-writing-modes/reference
+available-size-001-ref
+available-size-002-ref
+available-size-011-ref
+available-size-020-ref Elements 96.7%, Spans 100.0%, Text 100.0%.
+available-size-022-ref
+baseline-with-orthogonal-flow-001-ref
+# fixture: css-writing-modes/reference/bidi-embed-001.html
+bidi-embed-001
+# fixture: css-writing-modes/reference/bidi-embed-002.html
+bidi-embed-002
+# fixture: css-writing-modes/reference/bidi-embed-003.html
+bidi-embed-003
+# fixture: css-writing-modes/reference/bidi-embed-004.html
+bidi-embed-004
+# fixture: css-writing-modes/reference/bidi-embed-005.html
+bidi-embed-005
+# fixture: css-writing-modes/reference/bidi-embed-006.html
+bidi-embed-006
+# fixture: css-writing-modes/reference/bidi-embed-007.html
+bidi-embed-007
+# fixture: css-writing-modes/reference/bidi-embed-008.html
+bidi-embed-008
+# fixture: css-writing-modes/reference/bidi-embed-009.html
+bidi-embed-009
+# fixture: css-writing-modes/reference/bidi-embed-010.html
+bidi-embed-010
+# fixture: css-writing-modes/reference/bidi-embed-011.html
+bidi-embed-011
+# fixture: css-writing-modes/reference/bidi-isolate-001.html
+bidi-isolate-001
+# fixture: css-writing-modes/reference/bidi-isolate-002.html
+bidi-isolate-002
+# fixture: css-writing-modes/reference/bidi-isolate-003.html
+bidi-isolate-003
+# fixture: css-writing-modes/reference/bidi-isolate-004.html
+bidi-isolate-004
+# fixture: css-writing-modes/reference/bidi-isolate-005.html
+bidi-isolate-005
+# fixture: css-writing-modes/reference/bidi-isolate-006.html
+bidi-isolate-006
+# fixture: css-writing-modes/reference/bidi-isolate-007.html
+bidi-isolate-007
+# fixture: css-writing-modes/reference/bidi-isolate-008.html
+bidi-isolate-008
+# fixture: css-writing-modes/reference/bidi-isolate-009.html
+bidi-isolate-009
+# fixture: css-writing-modes/reference/bidi-isolate-010.html
+bidi-isolate-010
+# fixture: css-writing-modes/reference/bidi-isolate-011.html
+bidi-isolate-011
+# fixture: css-writing-modes/reference/bidi-isolate-override-001.html
+bidi-isolate-override-001
+# fixture: css-writing-modes/reference/bidi-isolate-override-002.html
+bidi-isolate-override-002
+# fixture: css-writing-modes/reference/bidi-isolate-override-003.html
+bidi-isolate-override-003
+# fixture: css-writing-modes/reference/bidi-isolate-override-004.html
+bidi-isolate-override-004
+# fixture: css-writing-modes/reference/bidi-isolate-override-005.html
+bidi-isolate-override-005
+# fixture: css-writing-modes/reference/bidi-isolate-override-006.html
+bidi-isolate-override-006
+# fixture: css-writing-modes/reference/bidi-isolate-override-007.html
+bidi-isolate-override-007
+# fixture: css-writing-modes/reference/bidi-isolate-override-008.html
+bidi-isolate-override-008
+# fixture: css-writing-modes/reference/bidi-isolate-override-009.html
+bidi-isolate-override-009
+# fixture: css-writing-modes/reference/bidi-isolate-override-010.html
+bidi-isolate-override-010
+# fixture: css-writing-modes/reference/bidi-isolate-override-011.html
+bidi-isolate-override-011
+# fixture: css-writing-modes/reference/bidi-isolate-override-012.html
+bidi-isolate-override-012
+# fixture: css-writing-modes/reference/bidi-normal-001.html
+bidi-normal-001
+# fixture: css-writing-modes/reference/bidi-normal-002.html
+bidi-normal-002
+# fixture: css-writing-modes/reference/bidi-normal-003.html
+bidi-normal-003
+# fixture: css-writing-modes/reference/bidi-normal-004.html
+bidi-normal-004
+# fixture: css-writing-modes/reference/bidi-normal-005.html
+bidi-normal-005
+# fixture: css-writing-modes/reference/bidi-normal-006.html
+bidi-normal-006
+# fixture: css-writing-modes/reference/bidi-normal-007.html
+bidi-normal-007
+# fixture: css-writing-modes/reference/bidi-normal-008.html
+bidi-normal-008
+# fixture: css-writing-modes/reference/bidi-normal-009.html
+bidi-normal-009
+# fixture: css-writing-modes/reference/bidi-normal-010.html
+bidi-normal-010
+# fixture: css-writing-modes/reference/bidi-normal-011.html
+bidi-normal-011
+# fixture: css-writing-modes/reference/bidi-override-001.html
+bidi-override-001
+# fixture: css-writing-modes/reference/bidi-override-002.html
+bidi-override-002
+# fixture: css-writing-modes/reference/bidi-override-003.html
+bidi-override-003
+# fixture: css-writing-modes/reference/bidi-override-004.html
+bidi-override-004
+# fixture: css-writing-modes/reference/bidi-override-005.html
+bidi-override-005
+# fixture: css-writing-modes/reference/bidi-override-006.html
+bidi-override-006
+# fixture: css-writing-modes/reference/bidi-override-007.html
+bidi-override-007
+# fixture: css-writing-modes/reference/bidi-override-008.html
+bidi-override-008
+# fixture: css-writing-modes/reference/bidi-override-009.html
+bidi-override-009
+# fixture: css-writing-modes/reference/bidi-override-010.html
+bidi-override-010
+# fixture: css-writing-modes/reference/bidi-override-011.html
+bidi-override-011
+# fixture: css-writing-modes/reference/bidi-override-012.html
+bidi-override-012
+# fixture: css-writing-modes/reference/bidi-plaintext-001.html
+bidi-plaintext-001
+# fixture: css-writing-modes/reference/bidi-plaintext-002.html
+bidi-plaintext-002
+# fixture: css-writing-modes/reference/bidi-plaintext-003.html
+bidi-plaintext-003
+# fixture: css-writing-modes/reference/bidi-plaintext-004.html
+bidi-plaintext-004
+# fixture: css-writing-modes/reference/bidi-plaintext-005.html
+bidi-plaintext-005
+# fixture: css-writing-modes/reference/bidi-plaintext-006.html
+bidi-plaintext-006
+# fixture: css-writing-modes/reference/bidi-plaintext-007.html
+bidi-plaintext-007
+# fixture: css-writing-modes/reference/bidi-plaintext-008.html
+bidi-plaintext-008
+# fixture: css-writing-modes/reference/bidi-plaintext-009.html
+bidi-plaintext-009
+# fixture: css-writing-modes/reference/bidi-plaintext-010.html
+bidi-plaintext-010
+# fixture: css-writing-modes/reference/bidi-plaintext-011.html
+bidi-plaintext-011
+bidi-plaintext-br-001-ref
+# fixture: css-writing-modes/reference/bidi-table-001.html
+bidi-table-001
+# fixture: css-writing-modes/reference/bidi-unset-001.html
+bidi-unset-001
+# fixture: css-writing-modes/reference/bidi-unset-002.html
+bidi-unset-002
+# fixture: css-writing-modes/reference/bidi-unset-003.html
+bidi-unset-003
+# fixture: css-writing-modes/reference/bidi-unset-004.html
+bidi-unset-004
+# fixture: css-writing-modes/reference/bidi-unset-005.html
+bidi-unset-005
+# fixture: css-writing-modes/reference/bidi-unset-006.html
+bidi-unset-006
+# fixture: css-writing-modes/reference/bidi-unset-007.html
+bidi-unset-007
+# fixture: css-writing-modes/reference/bidi-unset-008.html
+bidi-unset-008
+# fixture: css-writing-modes/reference/bidi-unset-009.html
+bidi-unset-009
+# fixture: css-writing-modes/reference/bidi-unset-010.html
+bidi-unset-010
+# fixture: css-writing-modes/reference/block-embed-001.html
+block-embed-001
+# fixture: css-writing-modes/reference/block-embed-002.html
+block-embed-002
+# fixture: css-writing-modes/reference/block-embed-003.html
+block-embed-003
+# fixture: css-writing-modes/reference/block-override-001.html
+block-override-001
+# fixture: css-writing-modes/reference/block-override-002.html
+block-override-002
+# fixture: css-writing-modes/reference/block-override-003.html
+block-override-003
+# fixture: css-writing-modes/reference/block-override-004.html
+block-override-004
+# fixture: css-writing-modes/reference/block-override-isolate-001.html
+block-override-isolate-001
+# fixture: css-writing-modes/reference/block-override-isolate-002.html
+block-override-isolate-002
+# fixture: css-writing-modes/reference/block-override-isolate-003.html
+block-override-isolate-003
+# fixture: css-writing-modes/reference/block-override-isolate-004.html
+block-override-isolate-004
+# fixture: css-writing-modes/reference/block-plaintext-001.html
+block-plaintext-001
+# fixture: css-writing-modes/reference/block-plaintext-002.html
+block-plaintext-002
+# fixture: css-writing-modes/reference/block-plaintext-003.html
+block-plaintext-003
+# fixture: css-writing-modes/reference/block-plaintext-004.html
+block-plaintext-004
+# fixture: css-writing-modes/reference/block-plaintext-005.html
+block-plaintext-005
+# fixture: css-writing-modes/reference/block-plaintext-006.html
+block-plaintext-006
+ch-units-vrl-001-ref Elements 44.4%, Spans 100.0%, Text 100.0%.
+ch-units-vrl-005-ref Elements 66.7%, Spans 100.0%, Text 100.0%.
+# fixture: css-writing-modes/reference/direction-upright-001.html
+direction-upright-001 Elements 13.6%, Spans 0.0%, Text 35.8%.
+# fixture: css-writing-modes/reference/direction-upright-002.html
+direction-upright-002 Elements 0.4%, Spans 0.0%, Text 0.6%.
+full-width-001-horizontal-notref
+full-width-001-nofullwidth-notref
+full-width-002-horizontal-notref
+full-width-002-notcu-notref
+full-width-notcu-notref
+full-width-ref
+horizontal-ahem-1x1-notref
+horizontal-ahem-1x3-notref
+horizontal-ahem-1x4-notref
+horizontal-ahem-1x5-notref
+# fixture: css-writing-modes/reference/inline-box-border-vlr-001.html
+inline-box-border-vlr-001
+logical-props-001-ref
+margin-collapse-022-023-1
+margin-collapse-022-023-2
+mongolian-orientation-001-ref
+mongolian-span-001-ref
+# fixture: css-writing-modes/reference/outline-inline-block-vrl-006.html
+outline-inline-block-vrl-006
+# fixture: css-writing-modes/reference/outline-inline-vlr-006.html
+outline-inline-vlr-006
+# fixture: css-writing-modes/reference/outline-inline-vrl-006.html
+outline-inline-vrl-006
+scrollbar-vertical-rl-ref
+sideways-lr-main-axis-ref
+svg-aliasing-001-ref
+svg-aliasing-002-ref
+table-cell-001-ref
+table-cell-002-ref
+table-cell-align-001-ref
+table-cell-align-002-ref
+table-cell-align-005-ref
+table-cell-align-006-ref
+table-cell-valign-001-ref
+table-cell-valign-003-ref
+tcy-white-space-processing-001-ref
+tcy-white-space-processing-002-ref
+tcy-white-space-processing-003-ref
+# fixture: css-writing-modes/reference/text-combine-upright-decorations-001.html
+text-combine-upright-decorations-001 Elements 52.2%, Spans 100.0%, Text 64.3%.
+# fixture: css-writing-modes/reference/text-combine-upright-inherit-all-001.html
+text-combine-upright-inherit-all-001
+# fixture: css-writing-modes/reference/text-combine-upright-inherit-all-002.html
+text-combine-upright-inherit-all-002 Elements 41.2%, Spans 100.0%, Text 81.8%.
+text-combine-upright-layout-rules-001-ref Elements 63.6%, Spans 100.0%, Text 66.7%.
+text-combine-upright-sideways-001-ref
+text-combine-upright-sideways-002-ref
+text-combine-upright-value-single-character
+text-orientation-020-ref
+text-orientation-021-ref Elements 40.0%, Spans 100.0%, Text 33.3%.
+text-shadow-orientation-upright-001-ref
+# fixture: css-writing-modes/reference/three-levels-of-orthogonal-flows.html
+three-levels-of-orthogonal-flows
+# fixture: css-writing-modes/reference/two-levels-of-orthogonal-flows-fixed.html
+two-levels-of-orthogonal-flows-fixed
+# fixture: css-writing-modes/reference/two-levels-of-orthogonal-flows-percentage.html
+two-levels-of-orthogonal-flows-percentage
+# fixture: css-writing-modes/reference/two-levels-of-orthogonal-flows.html
+two-levels-of-orthogonal-flows
+vertical-ahem-1x1-ref
+vertical-ahem-1x3-ref
+vertical-ahem-1x4-ref
+vertical-ahem-1x5-ref
+writing-mode-horizontal-001l-ref
+writing-mode-horizontal-001r-ref
+writing-mode-vertical-lr-002-ref
+writing-mode-vertical-rl-001-ref
+writing-mode-vertical-rl-002-ref
+
+# css-writing-modes/test-plan
+index
+req-tcu-font
