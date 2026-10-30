@@ -1,8 +1,9 @@
-# WPT writing modes baseline — 2026-10-29 (qualified M59).
-# All discovered fixtures are recorded; scored entries retain per-metric floors.
-# Full matches: 1689. Recorded partials: 291. Execution errors: 0.
+# WPT writing modes baseline — 2026-10-30 (verified passing-case refresh).
+# All discovered fixtures are recorded; existing per-metric floors are retained.
+# Current full matches: 1812. Required full entries: 1812. Scored entries: 168. Execution errors: 0.
+# Baseline requirements failing: 0; all existing case requirements are retained.
 # Repeated basenames follow harness discovery order and each keep their own entry.
-# lambda.exe SHA-256: a360773d45bd2927eb30be43bc77c45aa8b3d17091f1b5265a6f6e1382748460
+# lambda.exe SHA-256: 5b6d1f109da77a121d3056757ef956baf4bf21cc6603b1a22a8598a630b463a9
 
 
 # CSS2/bidi-text
@@ -11,9 +12,9 @@ bidi-001
 bidi-002-ref
 bidi-002
 bidi-003-ref
-bidi-003 Elements 83.3%, Spans 66.7%, Text 63.6%.
+bidi-003
 bidi-004-ref
-bidi-004 Elements 64.3%, Spans 83.3%, Text 54.5%.
+bidi-004
 bidi-005a-ref
 bidi-005a
 bidi-005b-ref
@@ -91,7 +92,7 @@ bidi-box-model-045
 bidi-breaking-001-ref
 bidi-breaking-001
 bidi-breaking-002-ref
-bidi-breaking-002 Elements 60.0%, Spans 100.0%, Text 55.6%.
+bidi-breaking-002
 bidi-breaking-003-ref
 bidi-breaking-003
 bidi-glyph-mirroring-001-ref
@@ -467,7 +468,7 @@ available-size-017
 available-size-018
 available-size-019
 available-size-020 Elements 90.0%, Spans 100.0%, Text 100.0%.
-available-size-021 Elements 6.7%, Spans 100.0%, Text 18.9%.
+available-size-021
 available-size-022 Elements 12.5%, Spans 100.0%, Text 100.0%.
 available-size-023 Elements 68.8%, Spans 100.0%, Text 100.0%.
 background-position-vlr-003
@@ -502,7 +503,7 @@ baseline-inline-non-replaced-005
 baseline-inline-replaced-002-ref
 baseline-inline-replaced-002
 baseline-inline-replaced-003
-baseline-with-orthogonal-flow-001 Elements 62.5%, Spans 100.0%, Text 57.1%.
+baseline-with-orthogonal-flow-001
 bidi-dynamic-iframe-001-ref
 bidi-dynamic-iframe-001
 # fixture: css-writing-modes/bidi-embed-001.html
@@ -756,18 +757,18 @@ block-plaintext-004
 block-plaintext-005
 # fixture: css-writing-modes/block-plaintext-006.html
 block-plaintext-006
-border-conflict-element-vlr-003 Elements 29.4%, Spans 100.0%, Text 100.0%.
-border-conflict-element-vlr-005 Elements 11.8%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-003
+border-conflict-element-vlr-005
 border-conflict-element-vlr-007
-border-conflict-element-vlr-009 Elements 8.0%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-009
 border-conflict-element-vlr-011
-border-conflict-element-vlr-013 Elements 4.4%, Spans 100.0%, Text 100.0%.
-border-conflict-element-vrl-002 Elements 29.4%, Spans 100.0%, Text 100.0%.
-border-conflict-element-vrl-004 Elements 11.8%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vlr-013
+border-conflict-element-vrl-002
+border-conflict-element-vrl-004
 border-conflict-element-vrl-006
-border-conflict-element-vrl-008 Elements 8.0%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-008
 border-conflict-element-vrl-010
-border-conflict-element-vrl-012 Elements 4.4%, Spans 100.0%, Text 100.0%.
+border-conflict-element-vrl-012
 border-spacing-vlr-003
 border-spacing-vlr-005
 border-spacing-vrl-002-ref
@@ -788,14 +789,14 @@ caption-side-vrl-004
 central-baseline-alignment-002-ref
 central-baseline-alignment-002
 central-baseline-alignment-003
-ch-units-vrl-001 Elements 33.3%, Spans 100.0%, Text 77.8%.
-ch-units-vrl-002 Elements 33.3%, Spans 100.0%, Text 77.8%.
-ch-units-vrl-003 Elements 28.6%, Spans 100.0%, Text 77.8%.
-ch-units-vrl-004 Elements 30.8%, Spans 100.0%, Text 77.8%.
-ch-units-vrl-005 Elements 75.0%, Spans 100.0%, Text 88.9%.
-ch-units-vrl-006 Elements 75.0%, Spans 100.0%, Text 88.9%.
-ch-units-vrl-007 Elements 28.6%, Spans 100.0%, Text 77.8%.
-ch-units-vrl-008 Elements 30.8%, Spans 100.0%, Text 77.8%.
+ch-units-vrl-001
+ch-units-vrl-002
+ch-units-vrl-003
+ch-units-vrl-004
+ch-units-vrl-005
+ch-units-vrl-006
+ch-units-vrl-007
+ch-units-vrl-008
 clearance-calculations-vrl-002-ref
 clearance-calculations-vrl-002
 clearance-calculations-vrl-004-ref
@@ -832,14 +833,14 @@ clip-rect-vrl-014-ref
 clip-rect-vrl-014
 clip-rect-vrl-016-ref
 clip-rect-vrl-016
-contiguous-floated-table-vlr-003 Elements 33.3%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vlr-005 Elements 33.3%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vlr-007 Elements 29.4%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vlr-009 Elements 29.4%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vrl-002 Elements 33.3%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vrl-004 Elements 33.3%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vrl-006 Elements 29.4%, Spans 100.0%, Text 100.0%.
-contiguous-floated-table-vrl-008 Elements 29.4%, Spans 100.0%, Text 100.0%.
+contiguous-floated-table-vlr-003
+contiguous-floated-table-vlr-005
+contiguous-floated-table-vlr-007
+contiguous-floated-table-vlr-009
+contiguous-floated-table-vrl-002
+contiguous-floated-table-vrl-004
+contiguous-floated-table-vrl-006
+contiguous-floated-table-vrl-008
 different-block-flow-dir-001
 different-block-flow-dir-002
 direction-propagation-body-contain-root-ref
@@ -884,7 +885,7 @@ float-contiguous-vlr-011
 float-contiguous-vlr-013
 float-contiguous-vrl-002
 float-contiguous-vrl-004
-float-contiguous-vrl-006-ref Elements 77.8%, Spans 100.0%, Text 100.0%.
+float-contiguous-vrl-006-ref
 float-contiguous-vrl-006
 float-contiguous-vrl-008-ref
 float-contiguous-vrl-008
@@ -896,17 +897,17 @@ float-lft-orthog-htb-in-vlr-002-ref
 float-lft-orthog-htb-in-vlr-002
 float-lft-orthog-htb-in-vrl-002-ref
 float-lft-orthog-htb-in-vrl-002
-float-lft-orthog-vlr-in-htb-002-ref Elements 80.0%, Spans 100.0%, Text 50.0%.
+float-lft-orthog-vlr-in-htb-002-ref
 float-lft-orthog-vlr-in-htb-002
-float-lft-orthog-vrl-in-htb-002-ref Elements 80.0%, Spans 100.0%, Text 50.0%.
+float-lft-orthog-vrl-in-htb-002-ref
 float-lft-orthog-vrl-in-htb-002
 float-rgt-orthog-htb-in-vlr-003-ref
 float-rgt-orthog-htb-in-vlr-003
 float-rgt-orthog-htb-in-vrl-003-ref
 float-rgt-orthog-htb-in-vrl-003
-float-rgt-orthog-vlr-in-htb-003-ref Elements 75.0%, Spans 100.0%, Text 50.0%.
+float-rgt-orthog-vlr-in-htb-003-ref
 float-rgt-orthog-vlr-in-htb-003
-float-rgt-orthog-vrl-in-htb-003-ref Elements 75.0%, Spans 100.0%, Text 50.0%.
+float-rgt-orthog-vrl-in-htb-003-ref
 float-rgt-orthog-vrl-in-htb-003
 float-shrink-to-fit-vlr-003
 float-shrink-to-fit-vlr-005
@@ -922,15 +923,15 @@ float-vlr-005
 float-vlr-007
 float-vlr-009
 float-vlr-011
-float-vlr-013 Elements 85.7%, Spans 100.0%, Text 85.7%.
+float-vlr-013
 float-vlr-014
 float-vrl-002
 float-vrl-004
 float-vrl-006
 float-vrl-008
 float-vrl-010
-float-vrl-012 Elements 85.7%, Spans 100.0%, Text 85.7%.
-full-width-001 Elements 100.0%, Spans 100.0%, Text 91.7%.
+float-vrl-012
+full-width-001
 full-width-002
 full-width-003
 height-width-inline-non-replaced-vlr-003
@@ -987,8 +988,8 @@ line-box-direction-slr-048
 line-box-direction-slr-050
 line-box-direction-slr-053
 line-box-direction-slr-054
-line-box-direction-slr-056 Elements 66.7%, Spans 100.0%, Text 0.0%.
-line-box-direction-slr-058 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-slr-056
+line-box-direction-slr-058
 line-box-direction-slr-060
 line-box-direction-srl-042
 line-box-direction-srl-045
@@ -996,8 +997,8 @@ line-box-direction-srl-046
 line-box-direction-srl-049
 line-box-direction-srl-051
 line-box-direction-srl-052
-line-box-direction-srl-055 Elements 66.7%, Spans 100.0%, Text 0.0%.
-line-box-direction-srl-057 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-srl-055
+line-box-direction-srl-057
 line-box-direction-srl-059
 line-box-direction-vlr-003
 line-box-direction-vlr-007
@@ -1005,8 +1006,8 @@ line-box-direction-vlr-008
 line-box-direction-vlr-010
 line-box-direction-vlr-013
 line-box-direction-vlr-014
-line-box-direction-vlr-016 Elements 66.7%, Spans 100.0%, Text 0.0%.
-line-box-direction-vlr-018 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vlr-016
+line-box-direction-vlr-018
 line-box-direction-vlr-020
 line-box-direction-vrl-002
 line-box-direction-vrl-005
@@ -1014,8 +1015,8 @@ line-box-direction-vrl-006
 line-box-direction-vrl-009
 line-box-direction-vrl-011
 line-box-direction-vrl-012
-line-box-direction-vrl-015 Elements 66.7%, Spans 100.0%, Text 0.0%.
-line-box-direction-vrl-017 Elements 66.7%, Spans 100.0%, Text 0.0%.
+line-box-direction-vrl-015
+line-box-direction-vrl-017
 line-box-direction-vrl-019
 line-box-height-vlr-003-ref
 line-box-height-vlr-003
@@ -1023,9 +1024,9 @@ line-box-height-vlr-005
 line-box-height-vlr-007-ref
 line-box-height-vlr-007
 line-box-height-vlr-009
-line-box-height-vlr-011-ref Elements 20.0%, Spans 100.0%, Text 50.0%.
-line-box-height-vlr-011 Elements 14.3%, Spans 0.0%, Text 33.3%.
-line-box-height-vlr-013 Elements 14.3%, Spans 0.0%, Text 33.3%.
+line-box-height-vlr-011-ref
+line-box-height-vlr-011
+line-box-height-vlr-013
 line-box-height-vlr-021-ref
 line-box-height-vlr-021
 line-box-height-vlr-023-ref
@@ -1036,9 +1037,9 @@ line-box-height-vrl-004
 line-box-height-vrl-006-ref
 line-box-height-vrl-006
 line-box-height-vrl-008
-line-box-height-vrl-010-ref Elements 20.0%, Spans 100.0%, Text 50.0%.
-line-box-height-vrl-010 Elements 14.3%, Spans 0.0%, Text 33.3%.
-line-box-height-vrl-012 Elements 14.3%, Spans 0.0%, Text 33.3%.
+line-box-height-vrl-010-ref
+line-box-height-vrl-010
+line-box-height-vrl-012
 link-writing-mode-dependency-crash
 logical-physical-mapping-001-ref
 logical-physical-mapping-001
@@ -1069,7 +1070,7 @@ margin-collapse-vrl-036
 margin-vlr-003
 margin-vrl-002-ref
 margin-vrl-002
-mongolian-orientation-001 Elements 60.0%, Spans 100.0%, Text 66.7%.
+mongolian-orientation-001
 mongolian-orientation-002
 mongolian-span-001
 nested-orthogonal-001
@@ -1077,13 +1078,13 @@ normal-flow-overconstrained-vlr-003
 normal-flow-overconstrained-vlr-005
 normal-flow-overconstrained-vrl-002
 normal-flow-overconstrained-vrl-004
-ortho-htb-alongside-vrl-floats-002-ref Elements 24.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-002-ref
 ortho-htb-alongside-vrl-floats-002
-ortho-htb-alongside-vrl-floats-006-ref Elements 17.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-006-ref
 ortho-htb-alongside-vrl-floats-006
-ortho-htb-alongside-vrl-floats-010-ref Elements 20.0%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-010-ref
 ortho-htb-alongside-vrl-floats-010
-ortho-htb-alongside-vrl-floats-014-ref Elements 24.2%, Spans 100.0%, Text 100.0%.
+ortho-htb-alongside-vrl-floats-014-ref
 ortho-htb-alongside-vrl-floats-014
 orthogonal-cell-001-ref
 orthogonal-cell-001
@@ -1174,8 +1175,8 @@ percent-padding-vrl-006
 percentage-padding-in-shrink-to-fit
 placeholder-sideways-crash Elements 57.1%, Spans 100.0%, Text 50.0%.
 relpos-inline-overflowing-block-vrl
-replaced-content-image-002 Elements 33.3%, Spans 100.0%, Text 100.0%.
-replaced-content-image-003 Elements 33.3%, Spans 100.0%, Text 100.0%.
+replaced-content-image-002
+replaced-content-image-003
 replaced-content-image-004-ref
 replaced-content-image-004
 row-progression-slr-023
@@ -1183,15 +1184,15 @@ row-progression-slr-029
 row-progression-srl-022
 row-progression-srl-028
 row-progression-vlr-003
-row-progression-vlr-005 Elements 35.3%, Spans 100.0%, Text 35.0%.
+row-progression-vlr-005
 row-progression-vlr-007
 row-progression-vlr-009
 row-progression-vrl-002
-row-progression-vrl-004 Elements 52.9%, Spans 100.0%, Text 30.0%.
+row-progression-vrl-004
 row-progression-vrl-006
 row-progression-vrl-008
 scrollbar-vertical-rl
-sideways-lr-main-axis Elements 76.5%, Spans 100.0%, Text 100.0%.
+sideways-lr-main-axis
 sizing-orthog-htb-in-vlr-001-ref
 sizing-orthog-htb-in-vlr-001
 sizing-orthog-htb-in-vlr-003-ref
@@ -1266,7 +1267,7 @@ sizing-orthog-prct-htb-in-vlr-001-ref
 sizing-orthog-prct-htb-in-vlr-001
 sizing-orthog-prct-htb-in-vlr-002-ref
 sizing-orthog-prct-htb-in-vlr-002
-sizing-orthog-prct-htb-in-vlr-003-ref Elements 11.1%, Spans 100.0%, Text 8.3%.
+sizing-orthog-prct-htb-in-vlr-003-ref
 sizing-orthog-prct-htb-in-vlr-003
 sizing-orthog-prct-htb-in-vlr-004-ref
 sizing-orthog-prct-htb-in-vlr-004
@@ -1274,7 +1275,7 @@ sizing-orthog-prct-htb-in-vlr-005-ref
 sizing-orthog-prct-htb-in-vlr-005
 sizing-orthog-prct-htb-in-vlr-006-ref
 sizing-orthog-prct-htb-in-vlr-006
-sizing-orthog-prct-htb-in-vlr-007-ref Elements 11.1%, Spans 100.0%, Text 8.3%.
+sizing-orthog-prct-htb-in-vlr-007-ref
 sizing-orthog-prct-htb-in-vlr-007
 sizing-orthog-prct-htb-in-vlr-008-ref
 sizing-orthog-prct-htb-in-vlr-008
@@ -1424,24 +1425,24 @@ srl-alongside-vrl-floats-ref
 srl-alongside-vrl-floats
 svg-aliasing-001
 svg-aliasing-002
-table-cell-001 Elements 36.4%, Spans 100.0%, Text 100.0%.
-table-cell-002 Elements 33.3%, Spans 100.0%, Text 71.4%.
+table-cell-001
+table-cell-002
 table-cell-align-001
 table-cell-align-002
 table-cell-align-003
 table-cell-align-004
 table-cell-align-005
-table-cell-align-006 Elements 0.0%, Spans 100.0%, Text 6.7%.
+table-cell-align-006
 table-cell-valign-001
 table-cell-valign-002
-table-cell-valign-003 Elements 0.0%, Spans 100.0%, Text 0.0%.
-table-cell-valign-004 Elements 0.0%, Spans 100.0%, Text 0.0%.
-table-column-order-002 Elements 52.6%, Spans 100.0%, Text 29.2%.
-table-column-order-003 Elements 52.6%, Spans 100.0%, Text 29.2%.
-table-column-order-004 Elements 35.3%, Spans 100.0%, Text 35.0%.
-table-column-order-005 Elements 52.9%, Spans 100.0%, Text 30.0%.
-table-column-order-slr-007 Elements 21.1%, Spans 100.0%, Text 10.4%.
-table-column-order-srl-006 Elements 52.6%, Spans 100.0%, Text 29.2%.
+table-cell-valign-003
+table-cell-valign-004
+table-column-order-002
+table-column-order-003
+table-column-order-004
+table-column-order-005
+table-column-order-slr-007
+table-column-order-srl-006
 table-progression-001-ref
 table-progression-002-ref
 table-progression-htb-001-ref
@@ -1463,7 +1464,7 @@ table-progression-vrl-003
 table-progression-vrl-004
 tcy-white-space-processing-001
 tcy-white-space-processing-002
-tcy-white-space-processing-003 Elements 13.3%, Spans 16.7%, Text 44.4%.
+tcy-white-space-processing-003
 text-align-vlr-003
 text-align-vlr-005
 text-align-vlr-007
@@ -1495,49 +1496,49 @@ text-baseline-vrl-002
 text-baseline-vrl-004
 text-baseline-vrl-006-ref
 text-baseline-vrl-006
-text-combine-upright-all-001-manual Elements 100.0%, Spans 100.0%, Text 87.5%.
+text-combine-upright-all-001-manual
 text-combine-upright-all-002-manual Elements 72.7%, Spans 75.0%, Text 46.2%.
 text-combine-upright-break-inside-001-ref
 text-combine-upright-break-inside-001
-text-combine-upright-break-inside-001a Elements 62.5%, Spans 50.0%, Text 44.4%.
+text-combine-upright-break-inside-001a
 text-combine-upright-compression-001-ref
-text-combine-upright-compression-001 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-001
 text-combine-upright-compression-002-ref
-text-combine-upright-compression-002 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-002
 text-combine-upright-compression-003-ref
-text-combine-upright-compression-003 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-003
 text-combine-upright-compression-004-ref
-text-combine-upright-compression-004 Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-004
 text-combine-upright-compression-005-ref
-text-combine-upright-compression-005 Elements 100.0%, Spans 100.0%, Text 66.7%.
-text-combine-upright-compression-005a Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-005
+text-combine-upright-compression-005a
 text-combine-upright-compression-006-ref
-text-combine-upright-compression-006 Elements 100.0%, Spans 100.0%, Text 66.7%.
-text-combine-upright-compression-006a Elements 100.0%, Spans 100.0%, Text 66.7%.
+text-combine-upright-compression-006
+text-combine-upright-compression-006a
 text-combine-upright-compression-007-ref
-text-combine-upright-compression-007 Elements 62.5%, Spans 50.0%, Text 50.0%.
+text-combine-upright-compression-007
 # fixture: css-writing-modes/text-combine-upright-decorations-001.html
 text-combine-upright-decorations-001 Elements 51.7%, Spans 50.0%, Text 65.4%.
 text-combine-upright-digits-001-manual
 text-combine-upright-digits-002-manual
 text-combine-upright-digits-004-manual
-text-combine-upright-gen-con-001-ref Elements 100.0%, Spans 100.0%, Text 88.2%.
-text-combine-upright-gen-con-001 Elements 100.0%, Spans 100.0%, Text 92.3%.
+text-combine-upright-gen-con-001-ref
+text-combine-upright-gen-con-001
 # fixture: css-writing-modes/text-combine-upright-inherit-all-001.html
 text-combine-upright-inherit-all-001
 # fixture: css-writing-modes/text-combine-upright-inherit-all-002.html
 text-combine-upright-inherit-all-002 Elements 47.1%, Spans 100.0%, Text 81.8%.
-text-combine-upright-layout-rules-001 Elements 66.7%, Spans 100.0%, Text 63.6%.
+text-combine-upright-layout-rules-001
 text-combine-upright-letter-spacing-001-ref
 text-combine-upright-letter-spacing-001
-text-combine-upright-line-breaking-rules-001-ref Elements 45.5%, Spans 0.0%, Text 11.1%.
-text-combine-upright-line-breaking-rules-001 Elements 44.4%, Spans 0.0%, Text 11.1%.
+text-combine-upright-line-breaking-rules-001-ref
+text-combine-upright-line-breaking-rules-001
 text-combine-upright-parsing-digits-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-combine-upright-parsing-digits-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-combine-upright-parsing-invalid-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-combine-upright-parsing-invalid-002 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-combine-upright-parsing-valid-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
-text-combine-upright-rtl-001-ref Elements 100.0%, Spans 100.0%, Text 92.0%.
+text-combine-upright-rtl-001-ref
 text-combine-upright-rtl-001 Elements 100.0%, Spans 100.0%, Text 84.0%.
 text-combine-upright-rtl-002-ref Elements 100.0%, Spans 100.0%, Text 84.0%.
 text-combine-upright-rtl-002 Elements 100.0%, Spans 100.0%, Text 88.0%.
@@ -1597,23 +1598,23 @@ text-indent-vrl-012-ref
 text-indent-vrl-012
 text-indent-vrl-014
 text-indent-vrl-016
-text-orientation-010 Elements 36.4%, Spans 0.0%, Text 77.8%.
-text-orientation-011 Elements 33.3%, Spans 0.0%, Text 60.0%.
-text-orientation-012 Elements 80.0%, Spans 100.0%, Text 77.8%.
+text-orientation-010
+text-orientation-011
+text-orientation-012
 text-orientation-016-ref
 text-orientation-016
 text-orientation-020
-text-orientation-021 Elements 50.0%, Spans 100.0%, Text 33.3%.
+text-orientation-021
 text-orientation-initial-ref
 text-orientation-initial
 text-orientation-mixed-slr-015
 text-orientation-mixed-srl-016-ref
 text-orientation-mixed-srl-016
-text-orientation-mixed-vlr-100-ref Elements 100.0%, Spans 100.0%, Text 36.8%.
-text-orientation-mixed-vlr-100 Elements 100.0%, Spans 100.0%, Text 36.8%.
-text-orientation-mixed-vrl-002 Elements 88.9%, Spans 100.0%, Text 88.9%.
-text-orientation-mixed-vrl-100-ref Elements 100.0%, Spans 100.0%, Text 36.8%.
-text-orientation-mixed-vrl-100 Elements 100.0%, Spans 100.0%, Text 36.8%.
+text-orientation-mixed-vlr-100-ref
+text-orientation-mixed-vlr-100
+text-orientation-mixed-vrl-002
+text-orientation-mixed-vrl-100-ref
+text-orientation-mixed-vrl-100
 text-orientation-parsing-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-orientation-parsing-sideways-right-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
 text-orientation-sideways-001
@@ -1626,11 +1627,11 @@ text-orientation-upright-directionality-001-ref Elements 10.0%, Spans 100.0%, Te
 text-orientation-upright-directionality-001 Elements 10.0%, Spans 100.0%, Text 33.3%.
 text-orientation-upright-slr-017
 text-orientation-upright-srl-018
-text-orientation-upright-vlr-100-ref Elements 100.0%, Spans 100.0%, Text 21.1%.
-text-orientation-upright-vlr-100 Elements 100.0%, Spans 100.0%, Text 21.1%.
-text-orientation-upright-vrl-002 Elements 87.5%, Spans 100.0%, Text 85.7%.
-text-orientation-upright-vrl-100-ref Elements 100.0%, Spans 100.0%, Text 21.1%.
-text-orientation-upright-vrl-100 Elements 100.0%, Spans 100.0%, Text 21.1%.
+text-orientation-upright-vlr-100-ref
+text-orientation-upright-vlr-100
+text-orientation-upright-vrl-002
+text-orientation-upright-vrl-100-ref
+text-orientation-upright-vrl-100
 text-shadow-orientation-upright-001
 text-shadow-sideways-001-ref
 text-shadow-sideways-001
@@ -1642,7 +1643,7 @@ text-underline-position-right-001
 text-underline-position-right-002
 text-underline-position-under-001
 # fixture: css-writing-modes/three-levels-of-orthogonal-flows.html
-three-levels-of-orthogonal-flows Elements 36.4%, Spans 100.0%, Text 20.0%.
+three-levels-of-orthogonal-flows
 tooltip-display-vertical-001-manual
 # fixture: css-writing-modes/two-levels-of-orthogonal-flows-fixed.html
 two-levels-of-orthogonal-flows-fixed
@@ -1731,22 +1732,22 @@ wm-propagation-body-039
 wm-propagation-body-040
 wm-propagation-body-041
 wm-propagation-body-042-ref
-wm-propagation-body-042 Elements 80.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-042
 wm-propagation-body-043
 wm-propagation-body-044-ref
 wm-propagation-body-044
 wm-propagation-body-045
 wm-propagation-body-046
 wm-propagation-body-047-ref
-wm-propagation-body-047 Elements 75.0%, Spans 100.0%, Text 100.0%.
+wm-propagation-body-047
 wm-propagation-body-048
-wm-propagation-body-049-ref Elements 50.0%, Spans 100.0%, Text 0.0%.
+wm-propagation-body-049-ref
 wm-propagation-body-049
 wm-propagation-body-050
 wm-propagation-body-051
 wm-propagation-body-052
 wm-propagation-body-053
-wm-propagation-body-054-ref Elements 50.0%, Spans 100.0%, Text 0.0%.
+wm-propagation-body-054-ref
 wm-propagation-body-054
 wm-propagation-body-055
 wm-propagation-body-computed-direction-001 Elements 0.0%, Spans 100.0%, Text 100.0%.
@@ -1773,8 +1774,8 @@ writing-mode-parsing-svg1-001 Elements 44.4%, Spans 100.0%, Text 100.0%.
 writing-mode-vertical-lr-002
 writing-mode-vertical-rl-001
 writing-mode-vertical-rl-002
-writing-mode-vertical-rl-003-ref Elements 63.6%, Spans 100.0%, Text 67.6%.
-writing-mode-vertical-rl-003 Elements 63.6%, Spans 100.0%, Text 70.3%.
+writing-mode-vertical-rl-003-ref
+writing-mode-vertical-rl-003
 writing-mode-vlr-001-manual
 writing-mode-vlr-002-manual
 writing-mode-vlr-003-manual
@@ -1789,9 +1790,9 @@ writing-mode-vlr-014-manual Elements 66.7%, Spans 0.0%, Text 71.4%.
 writing-mode-vlr-015-manual
 writing-mode-vlr-table-001-manual Elements 37.5%, Spans 50.0%, Text 60.0%.
 writing-mode-vlr-table-002-manual
-writing-mode-vrl-001-manual Elements 80.0%, Spans 0.0%, Text 50.0%.
-writing-mode-vrl-002-manual Elements 83.3%, Spans 50.0%, Text 25.0%.
-writing-mode-vrl-003-manual Elements 80.0%, Spans 0.0%, Text 50.0%.
+writing-mode-vrl-001-manual
+writing-mode-vrl-002-manual
+writing-mode-vrl-003-manual
 writing-mode-vrl-005-manual
 writing-mode-vrl-007-manual
 writing-mode-vrl-008-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
@@ -1799,7 +1800,7 @@ writing-mode-vrl-009-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
 writing-mode-vrl-010-manual Elements 71.4%, Spans 0.0%, Text 75.0%.
 writing-mode-vrl-012-manual
 writing-mode-vrl-014-manual Elements 88.9%, Spans 0.0%, Text 85.7%.
-writing-mode-vrl-015-manual Elements 40.0%, Spans 100.0%, Text 33.3%.
+writing-mode-vrl-015-manual
 writing-mode-vrl-forms-001-manual
 writing-mode-vrl-forms-002-manual
 writing-mode-vrl-forms-003-manual Elements 80.0%, Spans 100.0%, Text 100.0%.
@@ -1914,7 +1915,7 @@ textarea-appearance-none-vrl.optional
 textarea-rows-cols-sizing Elements 25.0%, Spans 100.0%, Text 100.0%.
 
 # css-writing-modes/forms/manual
-form-controls-slr-007-manual Elements 80.0%, Spans 100.0%, Text 88.9%.
+form-controls-slr-007-manual
 form-controls-slr-008-manual Elements 28.6%, Spans 100.0%, Text 66.7%.
 form-controls-srl-007-manual
 form-controls-srl-008-manual Elements 71.4%, Spans 100.0%, Text 66.7%.
@@ -1950,7 +1951,7 @@ writing-mode-valid Elements 0.0%, Spans 100.0%, Text 100.0%.
 available-size-001-ref
 available-size-002-ref
 available-size-011-ref
-available-size-020-ref Elements 96.7%, Spans 100.0%, Text 100.0%.
+available-size-020-ref
 available-size-022-ref
 baseline-with-orthogonal-flow-001-ref
 # fixture: css-writing-modes/reference/bidi-embed-001.html
@@ -2146,8 +2147,8 @@ block-plaintext-004
 block-plaintext-005
 # fixture: css-writing-modes/reference/block-plaintext-006.html
 block-plaintext-006
-ch-units-vrl-001-ref Elements 44.4%, Spans 100.0%, Text 100.0%.
-ch-units-vrl-005-ref Elements 66.7%, Spans 100.0%, Text 100.0%.
+ch-units-vrl-001-ref
+ch-units-vrl-005-ref
 # fixture: css-writing-modes/reference/direction-upright-001.html
 direction-upright-001 Elements 13.6%, Spans 0.0%, Text 35.8%.
 # fixture: css-writing-modes/reference/direction-upright-002.html
@@ -2196,12 +2197,12 @@ text-combine-upright-decorations-001 Elements 52.2%, Spans 100.0%, Text 64.3%.
 text-combine-upright-inherit-all-001
 # fixture: css-writing-modes/reference/text-combine-upright-inherit-all-002.html
 text-combine-upright-inherit-all-002 Elements 41.2%, Spans 100.0%, Text 81.8%.
-text-combine-upright-layout-rules-001-ref Elements 63.6%, Spans 100.0%, Text 66.7%.
+text-combine-upright-layout-rules-001-ref
 text-combine-upright-sideways-001-ref
 text-combine-upright-sideways-002-ref
 text-combine-upright-value-single-character
 text-orientation-020-ref
-text-orientation-021-ref Elements 40.0%, Spans 100.0%, Text 33.3%.
+text-orientation-021-ref
 text-shadow-orientation-upright-001-ref
 # fixture: css-writing-modes/reference/three-levels-of-orthogonal-flows.html
 three-levels-of-orthogonal-flows
