@@ -100,6 +100,21 @@ function fixtureFontCss() {
     return `${faceCss.join('\n')}\n${aliasCss.join('\n')}\n${cjkFallbackCss.join('\n')}`;
 }
 
+async function addCaptureStyle(page, content) {
+    const isXhtml = await page.evaluate(() => document.contentType === 'application/xhtml+xml');
+    if (!isXhtml) {
+        await page.addStyleTag({ content });
+        return;
+    }
+
+    // XHTML fixtures may omit <head>; adopted sheets apply capture CSS without changing the recorded DOM.
+    await page.evaluate(cssText => {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(cssText);
+        document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+    }, content);
+}
+
 function referenceUsesFixtureFontCss(referenceSource) {
     // These three resources identify the complete capture-only fixture sheet.
     return referenceSource.includes('data/font/Ahem.ttf') &&
@@ -580,7 +595,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         await page.goto(fileUrl, { waitUntil: 'networkidle0' });
         // Apply fixture faces after scripts so their font availability cannot
         // change application code that reads geometry during initialization.
-        await page.addStyleTag({ content: fixtureFontCss() });
+        await addCaptureStyle(page, fixtureFontCss());
         await page.evaluate(() => {
             // older mirrored WPT fixtures use the pre-rename trim keywords;
             // Chromium's experimental implementation accepts the current names.
@@ -603,7 +618,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 }
             }
         });
-        if (control?.stylesheet) await page.addStyleTag({ content: control.stylesheet });
+        if (control?.stylesheet) await addCaptureStyle(page, control.stylesheet);
         if (control?.text_codepoints) await page.evaluate(applyReferenceTextCodepoints, control.text_codepoints);
         // Wait for fonts and layout to stabilize
         await page.evaluate(() => document.fonts.ready);
@@ -1348,7 +1363,7 @@ Generated files:
 
 Note: By default, existing reference files are skipped. Use --force to regenerate them.
       The css2.1 test suite is excluded by default due to its size. Use --include-css21 to include it.
-      The .html, .htm and .xht file extensions are supported.
+      The .html, .htm, .xht and .xhtml file extensions are supported.
 `);
         process.exit(0);
     }

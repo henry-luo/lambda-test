@@ -122,7 +122,7 @@ class RadiantLayoutTester {
      * Matches C++ generate_output_path(): <parentdir>__<basename>.json.
      */
     getParallelOutputFile(htmlFile, outputDir = this.parallelOutputDir) {
-        const basename = path.basename(htmlFile).replace(/\.(html|htm|xht)$/i, '');
+        const basename = path.basename(htmlFile).replace(/\.(html|htm|xht|xhtml)$/i, '');
         const parentDir = path.basename(path.dirname(htmlFile));
         const outputName = parentDir ? `${parentDir}__${basename}` : basename;
         return path.join(outputDir, `${outputName}.json`);

@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const LAYOUT_FILE_EXTENSIONS = new Set(['.html', '.htm', '.xht']);
+const LAYOUT_FILE_EXTENSIONS = new Set(['.html', '.htm', '.xht', '.xhtml']);
 
 function layoutFileExtension(filePath) {
     const extension = path.extname(filePath).toLowerCase();
@@ -39,7 +39,7 @@ function referenceNameForPath(htmlFilePath, category = null) {
         if (relativePath && !relativePath.startsWith(`..${path.sep}`) &&
             relativePath !== '..' && path.dirname(relativePath) !== '.') {
             return relativePath
-                .replace(/\.(html|htm|xht)$/i, '')
+                .replace(/\.(html|htm|xht|xhtml)$/i, '')
                 .split(path.sep)
                 .join('__');
         }
