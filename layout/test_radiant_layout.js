@@ -1042,7 +1042,7 @@ class RadiantLayoutTester {
             for (const subDir of subDirs) {
                 if (category === 'web-tmpl' && depth > 0) continue;
                 // WPT reference capture is recursive, so execution must discover the same nested fixtures.
-                if (!category.startsWith('wpt-') && depth > 0) continue;
+                if (!category.startsWith('wpt-') && category !== 'baseline-js' && depth > 0) continue;
                 const subDirPath = path.join(directory, subDir.name);
                 try {
                     await scanDirectory(subDirPath, path.join(relativeDir, subDir.name), depth + 1);
