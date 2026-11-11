@@ -53,3 +53,9 @@ const sameLineMultiRect = [text('a', 10, 10), text('b', 40, 10)];
 assert.deepEqual(merge(sameLineMultiRect, [reference('ab', [rect(10, 10), rect(40, 10)])])[0].node.layout,
     sameLineMultiRect[0].node.layout, 'a multi-rect reference continues to select its first rect');
 console.log('Text fragment normalization: legacy unions, misplaced pieces, overlap, modern and wrapped references passed');
+
+const unmatched = [text('first', 0, 20), text('unmatched', 25, 40), text('tail', 70, 20)];
+const unpartitionable = merge(unmatched, [reference('different', [rect(0, 20)]),
+    reference('tail', [rect(70, 20)])]);
+assert.deepEqual(unpartitionable, unmatched,
+    'unpartitionable source runs retain every fragment and report differences without throwing');

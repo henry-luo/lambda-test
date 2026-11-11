@@ -123,7 +123,7 @@ function referenceUsesFixtureFontCss(referenceSource) {
 }
 
 function localTempDir(name) {
-    const tempRoot = path.join(LAMBDA_ROOT, 'temp');
+    const tempRoot = process.env.LAMBDA_TEMP_DIR || path.join(LAMBDA_ROOT, 'temp');
     fsSync.mkdirSync(tempRoot, { recursive: true });
     const dir = path.join(tempRoot, `${name}-${process.pid}`);
     fsSync.mkdirSync(dir, { recursive: true });

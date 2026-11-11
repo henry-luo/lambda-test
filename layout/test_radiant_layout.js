@@ -70,7 +70,7 @@ const MAX_TEST_FILE_SIZE = 350 * 1024;
 class RadiantLayoutTester {
     constructor(options = {}) {
         this.engine = options.engine || 'lambda-css'; // Default to 'lambda-css'
-        this.radiantExe = options.radiantExe || './lambda.exe'; // Default to lambda.exe
+        this.radiantExe = path.resolve(options.projectRoot || process.cwd(), options.radiantExe || './radiant.exe');
         this.tolerance = options.tolerance || 5; // 5px tolerance for layout differences
         this.elementThreshold = options.elementThreshold || 100.0; // 100% overall element match threshold
         this.textThreshold = options.textThreshold || 100.0; // 100% overall text match threshold
@@ -82,6 +82,8 @@ class RadiantLayoutTester {
         this.updateBaseline = options.updateBaseline || false;
         this.baselineOnly = options.baselineOnly || false;
         this.projectRoot = options.projectRoot || process.cwd();
+        this.hostWorkingDir = options.hostWorkingDir
+            ? path.resolve(options.hostWorkingDir) : this.projectRoot;
         this.maxConcurrency = options.maxConcurrency || DEFAULT_CONCURRENCY; // Max parallel tests (auto-detect: cores - 1)
         this.globalConcurrency = options.globalConcurrency || DEFAULT_GLOBAL_CONCURRENCY;
         this.processLimiter = options.processLimiter || null;
@@ -131,7 +133,8 @@ class RadiantLayoutTester {
     spawnLayoutProcess(args) {
         // run every layout fixture's document scripts through the AST backend.
         const proc = spawn(this.radiantExe, args, {
-            cwd: this.projectRoot,
+            // external hosts resolve package/WPT resources in their own checkout.
+            cwd: this.hostWorkingDir,
             env: { ...process.env, JS_EXECUTION_BACKEND: 'ast' }
         });
         this.processRegistry.add(proc);
@@ -1532,6 +1535,7 @@ class RadiantLayoutTester {
                 // Merge radiant text nodes to match browser count
                 // Distribute radiant nodes across browser slots using greedy content matching
                 let rCursor = ri;
+                const mergedRunStart = merged.length;
                 for (let b = bi; b < browserRunEnd; b++) {
                     const browserText = (browserChildren[b].node.text || browserChildren[b].node.content || '').trim();
                     let accumulated = '';
@@ -1542,6 +1546,14 @@ class RadiantLayoutTester {
                         accumulated += radiantChildren[rCursor].node.content || '';
                         rCursor++;
                         if (accumulated.trim() === browserText) break;
+                    }
+
+                    // Different physical breaks can make the source runs impossible
+                    // to partition. Preserve every captured fragment for comparison.
+                    if (startCursor === rCursor || accumulated.trim() !== browserText) {
+                        merged.splice(mergedRunStart, merged.length - mergedRunStart,
+                            ...radiantChildren.slice(ri, radiantRunEnd));
+                        break;
                     }
 
                     // If this is the last browser slot, consume all remaining radiant nodes in the run
@@ -2707,7 +2719,7 @@ class RadiantLayoutTester {
     /**
      * Run tests using batch layout mode with parallel batch dispatch.
      * Splits testTasks into batches and runs up to maxConcurrency batches in
-     * parallel, each as a separate lambda.exe process with shared UiContext.
+     * parallel, each as a separate executable process with shared UiContext.
      * @param {Array} testTasks - Array of {htmlFile, category} objects
      * @returns {Array} - Array of test results
      */
@@ -3370,6 +3382,7 @@ class RadiantLayoutTester {
                 textThreshold: this.textThreshold,
                 updateBaseline: this.updateBaseline,
                 projectRoot: this.projectRoot,
+                hostWorkingDir: this.hostWorkingDir,
                 maxConcurrency: this.maxConcurrency,
                 maxConcurrencyExplicit: this.maxConcurrencyExplicit,
                 globalConcurrency: this.globalConcurrency,
@@ -3389,7 +3402,8 @@ class RadiantLayoutTester {
                 category,
                 results: results || [],
                 summary: child._categorySummaries?.[category] || null,
-                baselineRegressions: child._baselineRegressions || []
+                baselineRegressions: child._baselineRegressions || [],
+                fullSuiteFailures: child._fullSuiteFailures || 0
             };
         });
 
@@ -3399,6 +3413,9 @@ class RadiantLayoutTester {
         for (const run of completed) {
             allResults.push(...run.results);
             if (run.summary) this._categorySummaries[run.category] = run.summary;
+            // unscored suites and missing categories must fail the parent CLI too.
+            this._fullSuiteFailures = (this._fullSuiteFailures || 0) +
+                (run.summary ? run.fullSuiteFailures : 1);
             if (run.baselineRegressions.length > 0) {
                 if (!this._baselineRegressions) this._baselineRegressions = [];
                 this._baselineRegressions.push(...run.baselineRegressions);
@@ -3421,12 +3438,14 @@ class RadiantLayoutTester {
                 console.log(`LAYOUT_CATEGORY_RESULT|${category}|FAIL|0|1|0`);
                 continue;
             }
-            const status = summary.baselineRegressions > 0 ? 'FAIL' : 'PASS';
+            const failures = summary.baselineRegressions +
+                (completed.find(run => run.category === category)?.fullSuiteFailures || 0);
+            const status = failures > 0 ? 'FAIL' : 'PASS';
             const batchText = summary.batch
                 ? `${summary.batch.batchCount} batches of up to ${summary.batch.batchSize}`
                 : 'single-file mode';
-            console.log(`   ${category}: ${summary.successful} successful, ${summary.skipped} skipped, ${summary.baselineRegressions} baseline regression(s), ${batchText}`);
-            console.log(`LAYOUT_CATEGORY_RESULT|${category}|${status}|${summary.successful}|${summary.baselineRegressions}|${summary.skipped}`);
+            console.log(`   ${category}: ${summary.successful} successful, ${summary.skipped} skipped, ${failures} failure(s), ${batchText}`);
+            console.log(`LAYOUT_CATEGORY_RESULT|${category}|${status}|${summary.successful}|${failures}|${summary.skipped}`);
         }
         return allResults;
     }
@@ -3581,8 +3600,20 @@ async function main() {
             case '-v':
                 options.verbose = true;
                 break;
+            case '--exe':
             case '--radiant-exe':
-                options.radiantExe = args[++i];
+                if (!args[i + 1] || args[i + 1].startsWith('-')) {
+                    console.error(`${arg} requires an executable path`);
+                    process.exit(1);
+                }
+                options.radiantExe = path.resolve(args[++i]);
+                break;
+            case '--host-cwd':
+                if (!args[i + 1] || args[i + 1].startsWith('-')) {
+                    console.error('--host-cwd requires a directory');
+                    process.exit(1);
+                }
+                options.hostWorkingDir = path.resolve(args[++i]);
                 break;
             case '--element-threshold':
                 options.elementThreshold = parseFloat(args[++i]);
@@ -3662,7 +3693,8 @@ Options:
   --json                   Output results in JSON format
   --baseline-only          Run recorded baseline entries; run the full suite when no baseline exists
   --update-baseline        Update scored baseline entries, raising each metric only when current is better
-  --radiant-exe <path>     Path to layout engine executable (default: ./lambda.exe)
+  --exe, --radiant-exe <path>  Layout executable (default: ./radiant.exe)
+  --host-cwd <directory>   Host resource working directory (scratch stays under ./temp)
   --help, -h               Show this help message
 
 Batch Mode:
