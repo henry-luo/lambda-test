@@ -3116,9 +3116,8 @@ class RadiantLayoutTester {
                 ? this.classifyBaselineResults(baseline, results)
                 : null;
 
-            if (this.baselineOnly && (!baseline || baseline.size === 0) && failed > 0) {
-                // without recorded scores, baseline-only falls back to the full
-                // suite, whose normal thresholds become the gate.
+            if ((!baseline || baseline.size === 0) && failed > 0) {
+                // an unscored suite uses its normal thresholds as the gate in every mode.
                 this._fullSuiteFailures = (this._fullSuiteFailures || 0) + failed;
             }
 
