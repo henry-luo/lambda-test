@@ -379,9 +379,7 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
         const freezeReferenceTimers = referenceCaptureFreezesTimers(htmlFilePath);
         const blockRemoteResources = referenceCaptureBlocksRemoteResources(htmlFilePath);
         await page.evaluateOnNewDocument((freezeAnimations, freezeTimers) => {
-            // The standalone extractor intentionally does not load the full WPT
-            // harness: its cleanup would remove the DOM that Radiant compares.
-            // Supply only the callbacks needed by layout setup scripts.
+            // Supply layout setup callbacks when the WPT harness is unavailable.
             window.test = window.test || ((callback) => {
                 if (typeof callback === 'function') callback();
             });
@@ -494,7 +492,10 @@ async function extractLayoutFromFile(htmlFilePath, forceRegenerate = false, plat
                 const resourcePath = await resolveWptAbsoluteResource(request.url(), htmlFilePath, category);
                 if (resourcePath) {
                     let body = await fs.readFile(resourcePath);
-                    if (path.basename(resourcePath) === 'interpolation-testcommon.js') {
+                    if (resourcePath === path.join(LAMBDA_ROOT, 'ref', 'wpt', 'resources', 'testharness.js')) {
+                        // Keep assertions and cleanup while excluding the report DOM and stylesheet.
+                        body = Buffer.concat([body, Buffer.from('\nsetup({ output: false });\n')]);
+                    } else if (path.basename(resourcePath) === 'interpolation-testcommon.js') {
                         // Radiant's layout runner intentionally keeps one shared
                         // interpolation root; stop later WPT registrations at the
                         // same boundary instead of comparing a different DOM.

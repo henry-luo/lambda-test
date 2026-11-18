@@ -1110,21 +1110,16 @@ async function main() {
         updateBaselineFile(results, opts);
     }
 
-    // exit code: in baseline mode, only baseline regressions cause failure
+    // let Node drain stdout and finish background compilation before shutdown.
     if (opts.baseline) {
         const baselineMap = loadBaseline();
         if (baselineMap) {
             const baselineRegressions = checkBaselineRegressions(results, baselineMap, opts);
-            process.exit(baselineRegressions > 0 ? 1 : 0);
-        } else {
-            // no baseline file — fall back to reporting all failures
-            const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
-            process.exit(failures.length > 0 ? 1 : 0);
+            process.exitCode = baselineRegressions > 0 ? 1 : 0;
+            return;
         }
-    } else {
-        const failures = results.filter(r => r.status === 'fail' || r.status === 'error');
-        process.exit(failures.length > 0 ? 1 : 0);
     }
+    process.exitCode = results.some(r => r.status === 'fail' || r.status === 'error') ? 1 : 0;
 }
 
 // ─── Output formatters ──────────────────────────────────────────────────────
